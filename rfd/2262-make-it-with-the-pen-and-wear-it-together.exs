@@ -41,6 +41,8 @@ V-Sekai client and server that host the loop"
     - RFD 2234 (dress-on pipeline), the loop the vehicles ride on.
     - RFD 1053 (OpenUSD as the internal format).
     - RFD 2229 (interchangeable parts), the rule new parts answer to.
+    - RFD 2267 (persona NPCs in ported scenes), a parked content idea behind
+      the vehicles, not one of them.
     """
 
     drafted_by :ai
