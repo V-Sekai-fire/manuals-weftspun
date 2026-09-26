@@ -59,6 +59,47 @@ reimplemented on compute-rd with Lean-authored kernels"
     program over each boundary.
     """
 
+    details "Frame budget and the async split", ~S"""
+    The 90Hz deadline is 11.1 milliseconds. The main thread holds to 6.5 to 7.5
+    of it and the GPU, compute plus render, to 8.5, which leaves about 3.5 for
+    the compositor and thermal headroom. The panel runs up to 144Hz, so the
+    stretch targets are 120Hz at 8.33 milliseconds, asking 4.5 to 5 on the main
+    thread and 6 on the GPU, and 144Hz at 6.94 milliseconds, which leaves almost
+    nothing to spare and is a headroom goal rather than a bar. Today the loop
+    spends 13.8 on the main thread, so even 90Hz is met only by taking the
+    curve-network off it.
+
+    Input and solve are decoupled. The pen renders a locally predicted polyline
+    on the main thread every frame, so drawing stays responsive inside a 12 to
+    18 millisecond motion-to-photon window. The curve-network solve runs on
+    compute-rd and is allowed one to two frames; its reconciled topology blends
+    into the stroke mesh when it returns.
+
+    The headset has unified memory, so the guest buffers back the compute
+    storage buffers with no host copy. Frame N samples input, draws the
+    predicted polyline and dispatches the kernel; frame N+1 or N+2 reads the
+    result back without a wait and blends it in. A timeline gate bounds the
+    dispatch: past about 18 milliseconds on a dense multi-stroke intersection
+    the frame drops it and reuses the predicted points, so the render thread
+    never blocks.
+    """
+
+    details "Derived spikes", ~S"""
+    Each is measured on the headset against the budget above.
+
+    - Dispatch parity: one Lean kernel on compute-rd, byte-parity against the
+      CPU oracle, curve_casteljau first.
+    - Zero-copy: a guest buffer bound as a storage buffer, measuring the host
+      copy removed on unified memory.
+    - Async pipeline: dispatch on frame N, non-blocking readback on N+1 or N+2,
+      measuring the main-thread stall near zero.
+    - Queue gate: bound the compute by a timeline, and confirm an over-budget
+      dispatch drops to the predicted points without blocking.
+    - Budget instrumentation: per-stage milliseconds, main thread, compute and
+      render, against 6.5 and 8.5 at 90Hz, 4.5 and 6 at 120Hz, and the 6.94
+      millisecond deadline at 144Hz.
+    """
+
     details "Dispatch and parity", ~S"""
     The rdc::Device driver follows the avbd shape: buffers carrying their
     contents, cached uniform sets, one compute list, a barrier between
