@@ -222,6 +222,7 @@ defmodule Serials.VSekaiFabric do
       serial 2264, "mesh-repair-by-voxel-remesh", flight_level: :l1
       serial 2265, "curvenet-on-compute-rd", flight_level: :l1
       serial 2266, "simulator-runtime-on-linux", flight_level: :l1
+      serial 2267, "persona-npcs-in-ported-scenes"
     end
 
     deleted do
