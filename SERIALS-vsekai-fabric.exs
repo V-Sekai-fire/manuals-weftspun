@@ -220,6 +220,7 @@ defmodule Serials.VSekaiFabric do
       serial 2262, "make-it-with-the-pen-and-wear-it-together", flight_level: :l3
       serial 2263, "the-skateboards-simulator-gate", flight_level: :l1
       serial 2264, "mesh-repair-by-voxel-remesh", flight_level: :l1
+      serial 2265, "curvenet-on-compute-rd", flight_level: :l1
     end
 
     deleted do
