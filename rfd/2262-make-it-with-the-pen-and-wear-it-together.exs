@@ -110,6 +110,14 @@ V-Sekai client and server that host the loop"
     loop, so it is sized to the loop. A checkpoint that needs a workstation to
     answer is too large; the target is a compact retrain that answers in the
     sandbox, not the biggest model available.
+
+    Measured 2026-09-27: stock EditScore (Qwen3-VL-8B with its LoRA) does
+    not judge segmentation masks. On 23 social-VR frames it agreed with a
+    MoGe-3 depth-edge check on 6. A readout of the score-slot logits, with
+    no reasoning generated and the frame prefix shared, answers about 12x
+    faster than generating the reasoning but ranks only 0.42 to 0.52
+    (Spearman) against it. Both point to the compact retrain, not the
+    stock model.
     """
 
     details "Moving in it: the mocap track, parked", ~S"""
@@ -136,6 +144,19 @@ V-Sekai client and server that host the loop"
       GitHub secrets engine and land PRs through the merge queue. Unpark to
       make that the standing path when multi-agent coordination is the card
       in motion.
+    """
+
+    details "Faces: the track behind the Car, parked", ~S"""
+    Faces belong to the Car, which waits on people asking. The work toward
+    them is recorded here so it is not lost and not scheduled.
+
+    - Shelved 2026-09-27: avatar-person segmentation for faces. RF-DETR
+      seg-nano runs on ggml-rd as a godot-sandbox guest
+      (interactor-dress-on PR #22; gate 9 passes against a CPU flat
+      control and a `GGML_RD_FAULT` negative control). A fine-tune loop
+      exists (interactor-rf-detr-ggml PR #25), and a 300-image CC0 VRM
+      pilot carries exact masks (datasource-anny-render-corpus PR #41).
+      Unpark when a vehicle needs avatar-person detection.
     """
   end
 end
