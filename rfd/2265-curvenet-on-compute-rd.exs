@@ -21,8 +21,9 @@ reimplemented on compute-rd with Lean-authored kernels"
     Reimplement the CASSIE curve-network on compute-rd, kernels authored in Lean
     and lowered through Slang to SPIR-V, dispatched by an rdc::Device driver
     shaped like the avbd one. The CPU curvenet.elf stays as the oracle and a
-    parity gate at `gates/4-curvenet` holds both paths to the same counts and
-    the same blake3 signature. Detail is in DETAILS.md.
+    parity gate at `gates/4-curvenet` holds both paths to the same integer
+    counts and brackets every float output in the interval oracle's bounds
+    (RFD 2269). Detail is in DETAILS.md.
     """
 
     problem ~S"""
@@ -105,13 +106,14 @@ reimplemented on compute-rd with Lean-authored kernels"
     contents, cached uniform sets, one compute list, a barrier between
     dependents, a submit without a wait, and a read a later tick.
 
-    The parity gate runs checks.cpp through the CPU and GPU paths and requires
-    the same integer counts and blake3 signature, with the negative controls
+    The parity gate runs checks.cpp through the CPU and GPU paths. It requires
+    the same integer counts, and it brackets every float output in the interval
+    oracle's proven bounds rather than requiring identical bits, because byte
+    identity does not hold across drivers (RFD 2269). The negative controls are
     kept. A parallel cycle finder that returns the right set in the wrong
     canonical order fails it, so the order is part of the contract, along with
-    the index tie-break on sorts, the fixed seeds, the lowest-index-wins weld,
-    and no summation reorder that moves a reduction by one unit in the last
-    place.
+    the index tie-break on sorts, the fixed seeds and the lowest-index-wins
+    weld.
     """
   end
 end
