@@ -550,6 +550,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   native binary from `entities-godot-sandbox`; Mitsuba 3 GPU variants.
 - **Inference:** ggml (RFD 2188) with the Vulkan backend; Gemma 4 (E2B, E4B); rf-detr keypoint
   and segmentation heads.
+- **Collision:** MuJoCo (Apache-2.0) as a godot-sandbox guest ELF from
+  `interactor-mujoco-sandbox-demo`, for stroke-crossing detection in the CASSIE curvenet pass —
+  capsule collision on host-supplied strokes through `mj_crossings`, no dynamics. A curve-geometry
+  role distinct from the RFD 2238 MuJoCo Warp physics and pose-training use.
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
 - **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA's
