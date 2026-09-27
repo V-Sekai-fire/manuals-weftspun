@@ -292,3 +292,29 @@ appear in one line, the line gets rewritten by hand. After the pass, grep for th
 things the old name was attached to — the standard numbers, the upstream URLs — and
 read what they say now, because a substitution that produced valid prose is exactly
 the one no tool will flag.
+
+## 14. A godot-sandbox guest reads its arguments and its physics by convention, not by name
+
+Two conventions crossed a guest boundary silently this session, each producing a
+plausible-looking wrong answer rather than an error.
+
+A Godot `float` argument crosses the godot-sandbox unboxed ABI as a C++ `double`,
+not a `float`. A guest entry declared `float proximity` read the argument register
+as a 32-bit value and got garbage: a capsule radius of `0.01` came through as
+`44564`, every capsule swelled to a sphere, and every stroke pair "crossed". The
+already-shipped `mjc_hold(double angle)`, registered as `"float angle"`, is the
+pattern — the C++ type is `double`. A multi-argument entry also has to mirror an
+entry known to work (two `PackedArray` plus one `double`, as `cg_cycles` does); a
+fourth argument tacked on garbled the earlier ones.
+
+MuJoCo filters a collision pair whose two geoms share a weld id. Two bodies with no
+joint are both welded to the world, share weld id 0, and never report a contact, so
+strokes encoded as jointless bodies returned zero crossings. A free joint per body
+makes each its own weld and the inter-body pairs collide. The failure reads as "the
+collision found nothing", not as "the model was filtered".
+
+**Guard:** at a guest boundary, take the argument types and the model conventions
+from an entry that already works, not from the host-side name. A Godot `float` is a
+C++ `double`; a new entry's signature copies a proven one before adding arguments.
+For a physics model, assert the contact count on a fixture with a known answer
+before trusting a zero — a filtered pair and an empty scene both report none.
