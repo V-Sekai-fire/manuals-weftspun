@@ -13,14 +13,14 @@ defmodule Plan.Pen66606 do
     string("category", "1")
     string("categoryName", "documents")
     string("holder", "iFire")
-    string("pen", "1.3.6.1.4.1.66606")
+    string("pen", "urn:oid:1.3.6.1.4.1.66606")
     string("rule", "rfd/1000-conventions/DETAILS.md")
     string("scope", "This layer resolves only in a repo workspace, because its sublayers are other repositories. check_pen_66606.py reads it there, at the manual stage. A single-repository checkout cannot, which is why .pre-commit-config.yaml excludes it from usd-valid by name.")
     string_list("sites", [
-      "1 weftspun request-for-discussion 1.3.6.1.4.1.66606.1.1 decommissioned",
-      "2 v-sekai-fabric request-for-discussion 1.3.6.1.4.1.66606.1.2",
-      "3 v-sekai manuals 1.3.6.1.4.1.66606.1.3",
-      "4 fire manuals 1.3.6.1.4.1.66606.1.4 decommissioned"
+      "1 weftspun request-for-discussion urn:oid:1.3.6.1.4.1.66606.1.1 decommissioned",
+      "2 v-sekai-fabric request-for-discussion urn:oid:1.3.6.1.4.1.66606.1.2",
+      "3 v-sekai manuals urn:oid:1.3.6.1.4.1.66606.1.3",
+      "4 fire manuals urn:oid:1.3.6.1.4.1.66606.1.4 decommissioned"
     ])
     string_list("sitesDecommissioned", [
       "4 decommissioned 2026-08-29. It allocated no serial, naming a decision by its date instead, so nothing freezes and nothing moves. Its 21 dated decisions stay in the archived repository.",

@@ -5,12 +5,12 @@ defmodule Serials.Weftspun do
   use RFD.Register
 
   register "Weftspun" do
-    layer arc: "1.3.6.1.4.1.66606.1.1",
+    layer arc: "urn:oid:1.3.6.1.4.1.66606.1.1",
           site: 1,
           site_name: "weftspun",
           category: 1,
           category_name: "documents",
-          pen: "1.3.6.1.4.1.66606",
+          pen: "urn:oid:1.3.6.1.4.1.66606",
           rule: "rfd/1000-conventions/DETAILS.md",
           note:
             {:decommissioned,

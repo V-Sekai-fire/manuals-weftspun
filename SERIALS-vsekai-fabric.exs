@@ -5,12 +5,12 @@ defmodule Serials.VSekaiFabric do
   use RFD.Register
 
   register "VSekaiFabric" do
-    layer arc: "1.3.6.1.4.1.66606.1.2",
+    layer arc: "urn:oid:1.3.6.1.4.1.66606.1.2",
           site: 2,
           site_name: "v-sekai-fabric",
           category: 1,
           category_name: "documents",
-          pen: "1.3.6.1.4.1.66606",
+          pen: "urn:oid:1.3.6.1.4.1.66606",
           rule: "rfd/2000-conventions/index.md",
           note:
             {:reactivated,
