@@ -1,0 +1,65 @@
+{
+  "plan": [
+    [
+      "a_curvenet"
+    ],
+    [
+      "a_mesh"
+    ],
+    [
+      "a_repair"
+    ],
+    [
+      "a_close"
+    ],
+    [
+      "a_drape"
+    ],
+    [
+      "a_deliver"
+    ]
+  ],
+  "temporal": {
+    "consistent": true,
+    "origin": "PT0S",
+    "steps": [
+      {
+        "action": "a_curvenet",
+        "duration": "PT2M",
+        "end": "PT2M",
+        "start": "PT0S"
+      },
+      {
+        "action": "a_mesh",
+        "duration": "PT5M",
+        "end": "PT7M",
+        "start": "PT2M"
+      },
+      {
+        "action": "a_repair",
+        "duration": "PT5M",
+        "end": "PT12M",
+        "start": "PT7M"
+      },
+      {
+        "action": "a_close",
+        "duration": "PT5M",
+        "end": "PT17M",
+        "start": "PT12M"
+      },
+      {
+        "action": "a_drape",
+        "duration": "PT20M",
+        "end": "PT37M",
+        "start": "PT17M"
+      },
+      {
+        "action": "a_deliver",
+        "duration": "PT5M",
+        "end": "PT42M",
+        "start": "PT37M"
+      }
+    ],
+    "total": "PT42M"
+  }
+}

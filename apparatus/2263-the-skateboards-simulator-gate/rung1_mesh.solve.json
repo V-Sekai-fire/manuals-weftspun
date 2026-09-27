@@ -1,0 +1,29 @@
+{
+  "plan": [
+    [
+      "a_curvenet"
+    ],
+    [
+      "a_mesh"
+    ]
+  ],
+  "temporal": {
+    "consistent": true,
+    "origin": "PT0S",
+    "steps": [
+      {
+        "action": "a_curvenet",
+        "duration": "PT2M",
+        "end": "PT2M",
+        "start": "PT0S"
+      },
+      {
+        "action": "a_mesh",
+        "duration": "PT5M",
+        "end": "PT7M",
+        "start": "PT2M"
+      }
+    ],
+    "total": "PT7M"
+  }
+}
