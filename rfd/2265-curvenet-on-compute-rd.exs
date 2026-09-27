@@ -42,6 +42,8 @@ reimplemented on compute-rd with Lean-authored kernels"
     - RFD 2264 (mesh repair by voxel remesh) is the pipeline step downstream.
     - RFD 2188 (ggml on compute-rd) is the precedent for a guest dispatching
       RenderingDevice compute.
+    - RFD 2274 (crossings via the MuJoCo guest) takes the segment-pair crossings
+      step, so it is not among the compute-rd kernels below.
     """
 
     drafted_by :ai
@@ -50,9 +52,10 @@ reimplemented on compute-rd with Lean-authored kernels"
 
     details "Two stages", ~S"""
     The geometric passes land first, because their per-curve kernels are already
-    Lean-authored and their SPIR-V already compiles: body snap, the segment-pair
-    crossings, per-edge curve fit, the Wahba solve per knot, the outward-sign
-    reduction, the weld and the nearest-patch test.
+    Lean-authored and their SPIR-V already compiles: body snap, per-edge curve
+    fit, the Wahba solve per knot, the outward-sign reduction, the weld and the
+    nearest-patch test. The segment-pair crossings are not among them; they run
+    on the MuJoCo guest's collision (RFD 2274).
 
     The combinatorial core follows as the harder work: find_cycles as parallel
     edge and face enumeration with a GPU cycle basis that keeps the canonical
