@@ -223,6 +223,7 @@ defmodule Serials.VSekaiFabric do
       serial 2265, "curvenet-on-compute-rd", flight_level: :l1
       serial 2266, "simulator-runtime-on-linux", flight_level: :l1
       serial 2267, "persona-npcs-in-ported-scenes"
+      serial 2268, "the-recommender-is-a-decision-model", flight_level: :l1
     end
 
     deleted do
