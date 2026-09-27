@@ -1,8 +1,9 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
 #
-# RFD 2271. `mix rfd.render` renders rfd/2271-headset-eye-tracking-to-social-vr-without-a-bridge/README.md
-# and DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
+# RFD 2271. `mix rfd.render` renders this file's README.md and DETAILS.md under
+# rfd/2271-headset-eye-tracking-to-social-vr-without-a-bridge/; the Markdown is a build
+# artifact (RFD 2232).
 defmodule RFD2271 do
   use RFD.DSL
 

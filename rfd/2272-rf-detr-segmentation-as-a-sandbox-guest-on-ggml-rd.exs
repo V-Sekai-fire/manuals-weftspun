@@ -1,8 +1,9 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
 #
-# RFD 2272. `mix rfd.render` renders rfd/2272-rf-detr-segmentation-as-a-sandbox-guest-on-ggml-rd/README.md
-# and DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
+# RFD 2272. `mix rfd.render` renders this file's README.md and DETAILS.md under
+# rfd/2272-rf-detr-segmentation-as-a-sandbox-guest-on-ggml-rd/; the Markdown is a build
+# artifact (RFD 2232).
 defmodule RFD2272 do
   use RFD.DSL
 

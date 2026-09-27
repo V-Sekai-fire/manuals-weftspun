@@ -1,8 +1,9 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
 #
-# RFD 2273. `mix rfd.render` renders rfd/2273-accepting-person-masks-depth-before-judge/README.md
-# and DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
+# RFD 2273. `mix rfd.render` renders this file's README.md and DETAILS.md under
+# rfd/2273-accepting-person-masks-depth-before-judge/; the Markdown is a build
+# artifact (RFD 2232).
 defmodule RFD2273 do
   use RFD.DSL
 
