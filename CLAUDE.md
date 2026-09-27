@@ -274,9 +274,10 @@ its one check, `skills`. It had no workflow at all until
 nothing; the gate came first and the queue followed.
 
 `contract-manifest-taskweft` runs it under ruleset 23147036, gating
-on its seven: bootstrap, manifest-comments, manifest-dupes,
-manifest-root, manifest-root-shepherd, manifest-xml and
-sync-preflight. The
+on its six: manifest-comments, manifest-dupes, manifest-root,
+manifest-root-shepherd, manifest-xml and sync-preflight. The
+`bootstrap` check moved out with the bootstrap files to
+`contract-bootstrap` and no longer gates this repository. The
 repository answers to its former name as well, which is a redirect
 and so somebody else's promise rather than a name to write down. It had the weakest guard of the three and the most
 expensive failure: a bad `default.xml` stops
