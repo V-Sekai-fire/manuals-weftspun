@@ -225,6 +225,9 @@ defmodule Serials.VSekaiFabric do
       serial 2267, "persona-npcs-in-ported-scenes"
       serial 2268, "the-recommender-is-a-decision-model", flight_level: :l1
       serial 2269, "curvenet-parity-gate-is-interval-arithmetic", flight_level: :l1
+      serial 2271, "headset-eye-tracking-to-social-vr-without-a-bridge"
+      serial 2272, "rf-detr-segmentation-as-a-sandbox-guest-on-ggml-rd", flight_level: :l1
+      serial 2273, "accepting-person-masks-depth-before-judge", flight_level: :l1
       serial 2274, "curvenet-crossings-via-mujoco-guest", flight_level: :l1
     end
 

@@ -554,6 +554,12 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   `interactor-mujoco-sandbox-demo`, for stroke-crossing detection in the CASSIE curvenet pass —
   capsule collision on host-supplied strokes through `mj_crossings`, no dynamics. A curve-geometry
   role distinct from the RFD 2238 MuJoCo Warp physics and pose-training use.
+- **Matting:** BiRefNet_HR-matting (MIT), weights `ZhengPeng7/BiRefNet_HR-matting` from Hugging
+  Face, draws the edge of a person mask over the RF-DETR instance; the MoGe-3 depth-edge check,
+  not the matte, accepts the mask (RFD 2273).
+- **Eye tracking:** `frame-eye-osc` (MIT), a Lean 4 program from `V-Sekai-fire/frame-eye-osc`
+  that runs on the headset, reads the eye-tracking service's shared memory and sends OSC to the
+  social-VR client (RFD 2271).
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
 - **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA's
