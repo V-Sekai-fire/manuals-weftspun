@@ -11,22 +11,22 @@ defmodule RFD2275 do
     state :prediscussion
 
     feature "a purchased anime avatar with no tracking shapes gains the
-unified-expression set from ANNY's facial actions, through one fitting core
-whose interop is a `.sigs` file"
+unified-expression set from ANNY's facial actions, fitted and carried
+across by the cage guest"
 
-    scope "`headfit.sigs` and the C-ABI core behind it; its hosts (the NDMF
-build pass in character-fox, a Godot import step, a native check runner);
-ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
+    scope "the head-fit entries of `cage.elf` (RFD 2277) and the deform
+table (RFD 2279); ANNY's CC0 source data; `unified_expressions.map`; the
+avatar's face mesh"
 
     decision ~S"""
-    Fit ANNY's head to the avatar's face and carry ANNY's 52 facial
-    actions across under unified-expression names. One C-ABI core does
-    both. `headfit.sigs` declares its surface and is drift-gated like
-    `idtx_core.sigs`, and every host binds it through the generated
-    table. The core reads ANNY's CC0 sources directly, with no Python
-    anywhere. Names come from a one-line-per-name catalog. Blinks, gaze
-    and the tongue start from the artist's sculpts; the core derives
-    the tongue and corrective shapes they lack. GNM Head is the control.
+    Fit ANNY's head to the avatar's face through a cage and carry ANNY's
+    52 facial actions across under unified-expression names. The work
+    runs in the `cage.elf` sandbox guest (RFD 2277) on the deform table
+    of RFD 2279, with no Python anywhere. Names come from a
+    one-line-per-name catalog. Blinks, gaze and the tongue start from the
+    artist's sculpts; the guest derives the tongue and corrective shapes
+    they lack, and ships jaw and tongue as bones and as shapes. GNM Head
+    is the control.
     """
 
     problem ~S"""
@@ -39,9 +39,9 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     related ~S"""
     - RFD 2271 (headset eye tracking to social VR), the sender of the
       unified-expression floats, and a `.sigs` boundary of its own.
-    - RFD 2253 (a character creator on ANNY), the 52 actions and the
-      non-Python port of ANNY's coefficient math.
-    - RFD 2239 (traits and one binary): nothing at runtime reaches Python.
+    - RFD 2277 (curvenet-cage refit and unified expressions in Modular Avatar), the host.
+    - RFD 2279 (one deform surface over curvenets), bones and shapes.
+    - RFD 2253 (a character creator on ANNY), the 52 actions.
     """
 
     drafted_by :ai
@@ -80,7 +80,8 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     local-change targets beside them, the 52 actions in
     `faceunits01/targets/faceunits/*.target` indexed on that same base
     mesh, and the head region in `segmentation/`. Each target is lines of
-    `index dx dy dz`, so the core parses them with no Python in between.
+    `index dx dy dz`. The guest has no filesystem, so the host uploads
+    these files as job data and the guest parses them.
 
     GNM Head (Apache-2.0) has 253 identity and 383 expression components,
     eyeballs, teeth and a 32-component tongue. Its expressions are a
@@ -90,27 +91,22 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     """
 
     details "The interop contract", ~S"""
-    `headfit.sigs` holds one C declaration per line, opaque handles and
-    primitives only, in the format of `iceoryx2.sigs` and
-    `eye_server.sigs`. `generate_stubs.py` drift-gates it against the
-    core's public header and emits the dlopen table each host binds, so
-    a host adds no link dependency. A change to the fitting method is a
-    change to this file, and the gate shows it to every host.
+    Three `.sigs` files carry the boundary, and this RFD points to them
+    rather than holding a copy:
 
-        hf_mesh *hf_mesh_create(const float *xyz, int32_t nv, const int32_t *tri, int32_t nt);
-        int32_t hf_mesh_add_shape(hf_mesh *mesh, const char *name, const float *deltas);
-        hf_model *hf_model_load(const char *anny_data_dir, int32_t region);
-        hf_marks *hf_marks_create(const int32_t *model, const int32_t *avatar, int32_t n);
-        hf_fit *hf_solve(const hf_model *m, const hf_mesh *t, const hf_marks *k, const float *w);
-        float hf_fit_residual_mm(const hf_fit *fit, int32_t region);
-        int32_t hf_transfer(const hf_fit *f, const char *shape, float *out_d, float *out_mm);
-        void hf_fit_destroy(hf_fit *fit);
-        void hf_marks_destroy(hf_marks *marks);
-        void hf_model_destroy(hf_model *model);
-        void hf_mesh_destroy(hf_mesh *mesh);
+    - `unity_sandbox.sigs` (RFD 2277): the sandbox host's C ABI, which
+      the second engine calls and a native check runner loads;
+    - `cage_guest.sigs` (RFD 2277): `cage.elf`'s vmcall table, the
+      head-fit entries (`hf_mesh_create`, `hf_model_load`,
+      `hf_marks_create`, `hf_solve`, `hf_fit_residual_mm`,
+      `hf_transfer`, `hf_destroy`) and the cage build, preview and dump;
+    - `deform_guest.sigs` (RFD 2279): nets, binds, deform, Jacobian, the
+      skin bake, the conversions between shapes and bones, correctives
+      and twist.
 
-    The file lives with the fitting core in character-fox, whose owner
-    implements it; this RFD fixes its shape.
+    Handles are guest integers with one destroy. A mix task drift-gates
+    each file against its implementation, and a change to the fitting
+    method is a change to one of them.
     """
 
     details "The name catalog", ~S"""
@@ -122,13 +118,15 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
         LipSuckUpperLeft <= mouthRollUpper * mask:left
         EyeClosedLeft    <= artist:eye_closed_left
         TongueUpLeftMorph <= artist:tongue_up + artist:tongue_left
-        TongueRoll       <= procedural:roll
+        TongueRoll       <= bone:tongue_chain
         EyeClosedSquintCorrectiveLeft <= corrective:EyeClosedLeft*EyeSquintLeft
 
     Six forms: direct, split by a smooth mask across the midline or the
     lip line, an artist sculpt named by role, a sum of other entries, a
-    procedural shape the core computes, and a corrective for a pair. The avatar's own sculpt names
-    stay in character-fox. An audit reports zero unmapped names against
+    procedural shape, and a corrective for a pair. Two more come from
+    RFD 2279: `bone:<name>` drives a bone, and `baked:<skin>` is a shape
+    baked from bone poses. The avatar's own sculpt names stay in
+    character-fox. An audit reports zero unmapped names against
     the template set and Godot's face modifier table, with no `absent`
     entries, and a split pair sums to its parent.
     """
@@ -139,9 +137,14 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     axes and the head and face local changes. The anchor rule that turns
     an axis value into target weights is ported with anny-creator's
     `anny_coeffs.gd` as the reference, and checked by that project's
-    Godot parity check. Loss: the core's own point-to-surface distance
-    to the avatar face, plus sparse landmarks (mouth corners, lip
-    midline, chin, brow ends) marked once. LBFGS in double precision.
+    Godot parity check. ANNY's head is bound to a coarse closed cage,
+    a net built from that mesh by RFD 2279's biharmonic method, and the
+    cage vertices join the unknowns. Loss: point-to-surface distance to
+    the avatar face, plus sparse landmarks (mouth corners, lip midline,
+    chin, brow ends) marked once. The solver is dress-on's gated
+    L-BFGS-B in single precision with double-single dot products, by the
+    operator's ruling, with the Jacobian from Lean vector-Jacobian
+    kernels.
 
     The eyes leave the loss, because a stylised eye is a large flat
     painted region with no anatomy behind it; the nose is weighted down.
@@ -179,11 +182,11 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     with a side sculpt.
 
     The sculpts do not cover TongueRoll, TongueTwistLeft/Right,
-    TongueFlat and TongueSquish, so the core computes them in a tongue
-    frame: tip, root and midline, marked as landmarks once. Roll lifts the
-    lateral edges about the midline, twist rotates about the root-to-tip
-    axis, flat widens and thins in height, and squish shortens and
-    widens, each with a smooth falloff to zero at the root. ANNY's one
+    TongueFlat and TongueSquish. Roll and twist come from the tongue
+    chain under "Bones and shapes". Flat and squish are computed in a
+    tongue frame (tip, root and midline, marked as landmarks once): flat
+    widens and thins in height, squish shortens and widens, each with a
+    smooth falloff to zero at the root. ANNY's one
     tongueOut action, transferred, is compared against the extend sculpt
     as a cross-check.
 
@@ -194,6 +197,18 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     rigid part is reported.
     """
 
+    details "Bones and shapes", ~S"""
+    Jaw and tongue ship both ways, through RFD 2279. `shapes_to_skin`
+    over jawOpen and the mouth interior gives a jaw bone. Over the
+    artist's tongue sculpts it gives a tongue chain, with a SkinTokens rig
+    as the starting point where that converges faster. Tongue roll and
+    twist are `twist_split` on that chain rather than procedural deltas.
+    `skin_to_shapes` then bakes every bone-driven name back to a blend
+    shape for hosts that drive shapes only, Godot's face modifier among
+    them, and the bones stay for hosts that drive bones. Where a baked
+    shape misses its sculpt, `pose_corrective` makes up the difference.
+    """
+
     details "Corrective shapes", ~S"""
     The template set drives seven correctives at the product of two
     weights: EyeClosed with BrowDown, BrowInnerUp, BrowOuterUp and
@@ -201,7 +216,7 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     shapes do wrong together: a closed upper lid pushed through the brow
     or past the lower lid.
 
-    The core derives each one. With both parents at weight 1, it finds
+    The guest derives each one. With both parents at weight 1, it finds
     the vertices that cross a surface they must stay behind: the upper
     lid against the brow and against the lower lid line, measured on the
     posed mesh. The corrective is the smallest displacement that clears
@@ -221,11 +236,11 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     hold its built result. Three outputs keep it measurable: the NDMF
     preview, a build report, and a dump of the would-be-built mesh. The
     dump must equal the check runner's output bit for bit, so the build
-    host cannot drift from the measured core.
+    host cannot drift from the measured guest.
     """
 
     details "What is measured before it ships", ~S"""
-    The native check runner binds the core through the same table, and
+    The native check runner loads `cage.elf` through the sandbox C ABI, and
     every check has a planted control that must fail, in the manner of
     anny-creator's `checks/run.sh`:
 
@@ -236,7 +251,7 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
       and the refusal list;
     - split pairs sum to their parent within float precision;
     - the catalog audit at zero unmapped;
-    - the tongue step pair sums to the extend sculpt; each procedural
+    - the tongue step pair sums to the extend sculpt; flat and squish
       tongue shape is zero at the root and changes volume by under 5%;
       with JawOpen at 1, no tongue or lower-teeth vertex is closer to the
       upper teeth than at rest;
@@ -251,9 +266,9 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     """
 
     details "What this RFD does not decide", ~S"""
-    Whether GNM's 32-component tongue should replace the procedural
-    tongue shapes once it is on the allowlist. The core's language
-    behind the C ABI, which its owner picks. Any second avatar: the
+    Whether GNM's 32-component tongue should replace the
+    tongue chain once it is on the allowlist. The guest's source language
+    behind the vmcall table, which its owner picks. Any second avatar: the
     catalog and landmarks are per avatar, and a second avatar is a second
     run.
     """
