@@ -39,7 +39,7 @@ avatar's face mesh"
     related ~S"""
     - RFD 2271 (headset eye tracking to social VR), the sender of the
       unified-expression floats, and a `.sigs` boundary of its own.
-    - RFD 2277 (cage fitting as a sandbox guest), the host and solver.
+    - RFD 2277 (curvenet-cage refit and unified expressions in Modular Avatar), the host.
     - RFD 2279 (one deform surface over curvenets), bones and shapes.
     - RFD 2253 (a character creator on ANNY), the 52 actions.
     """
