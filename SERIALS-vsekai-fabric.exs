@@ -229,6 +229,7 @@ defmodule Serials.VSekaiFabric do
       serial 2272, "rf-detr-segmentation-as-a-sandbox-guest-on-ggml-rd", flight_level: :l1
       serial 2273, "accepting-person-masks-depth-before-judge", flight_level: :l1
       serial 2274, "curvenet-crossings-via-mujoco-guest", flight_level: :l1
+      serial 2275, "unified-expressions-by-fitting-a-parametric-head"
     end
 
     deleted do
