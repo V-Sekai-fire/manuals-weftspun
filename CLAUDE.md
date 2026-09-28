@@ -204,7 +204,7 @@ Trope density does not rise. `scripts/check_tropes.py` scans `rfd/*/README.md`,
 `prose-detrope` subagent removes most often (em-dash joins, counting
 announcements, reasoning leaks, pompous copulas, `exact` intensifiers on
 soft nouns), and refuses a commit that raises a changed file's hits per
-non-blank line. Same diff-based shape as `check_comment_ladder.py`; the
+non-blank line. Same diff-based shape as `check_comment_ladder.exs`; the
 working agreements (`CLAUDE.md`, `BLOCKLIST.md`, `PITFALLS.md`,
 `KEYPOINTS.md`) stay off it because they carry named tells verbatim.
 
@@ -343,7 +343,7 @@ This covers code and the specifications that describe it. It does not cover the
 documents — an RFD, a logbook entry and this file carry the measurement and the
 retraction that produced them, and that is what they are for.
 
-`check_comment_ladder.py` measures it. The rungs are 3, 5, 10, 15, 20, 25, 30,
+`check_comment_ladder.exs` measures it. The rungs are 3, 5, 10, 15, 20, 25, 30,
 35 and 40 per cent, and a changed file may not leave the rung it sits on. The
 3% rung is the median comment density of `entities-godot-main` measured on
 2026-08-31 across 1341 files of 200+ non-blank lines with vendored trees
@@ -372,8 +372,8 @@ it at 25.1%. That is rule 1 above: the easy proxy understated by more than three
 times, and a gate counting `#` alone is satisfied by moving the paragraph into a
 docstring.
 
-    python scripts/check_comment_ladder.py --baseline
-    python scripts/check_comment_ladder.py --self-test
+    elixir scripts/check_comment_ladder.exs --baseline
+    elixir scripts/check_comment_ladder.exs --self-test
 
 ## How Other People's Codebases Are Edited
 
@@ -456,7 +456,7 @@ README.md or its DETAILS.md:
 
 The sentence is a compliance canary in the M&M's-clause sense. A session that
 read `CLAUDE.md` before drafting adds it; one that skipped `CLAUDE.md` will not,
-and `scripts/check_rfd_canary.py` fails the CI job on the omission. The gate
+and `scripts/check_rfd_canary.exs` fails the CI job on the omission. The gate
 scopes to RFD directories that did not exist on the base branch, so an existing
 RFD edited later is outside it.
 

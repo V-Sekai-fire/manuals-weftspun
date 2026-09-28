@@ -216,31 +216,31 @@ repos:
       # reason, the way `rfd-serials` already does.
       - id: comment-ladder
         name: no changed source file climbs the comment-density ladder
-        entry: python scripts/check_comment_ladder.py
+        entry: elixir scripts/check_comment_ladder.exs
         language: system
         files: \.(py|ex|exs)$
         pass_filenames: false
 
       - id: comment-ladder-self-test
         name: the ladder still rejects padding, a deletion past the rung, and a new file above entry
-        entry: python scripts/check_comment_ladder.py --self-test
+        entry: elixir scripts/check_comment_ladder.exs --self-test
         language: system
-        files: ^scripts/(check_comment_ladder|comment_density)\.py$
+        files: ^scripts/check_comment_ladder\.exs$
         pass_filenames: false
 
       # A line added to Elixir stays within .formatter.exs's line_length; --fix splits it.
       - id: line-length
         name: no added Elixir line runs past the formatter's line_length
-        entry: python scripts/check_line_length.py
+        entry: elixir scripts/check_line_length.exs
         language: system
         files: \.(ex|exs)$
         pass_filenames: false
 
       - id: line-length-self-test
         name: the line-length gate still rejects a long added line and fixes the splittable ones
-        entry: python scripts/check_line_length.py --self-test
+        entry: elixir scripts/check_line_length.exs --self-test
         language: system
-        files: ^scripts/check_line_length\.py$
+        files: ^scripts/check_line_length\.exs$
         pass_filenames: false
 
       # Trope density does not rise. The script's diff mode uses `base...HEAD`
@@ -269,16 +269,16 @@ repos:
       # base-branch diff has no useful meaning on a local commit.
       - id: rfd-canary
         name: every new RFD carries the drafting canary
-        entry: python scripts/check_rfd_canary.py
+        entry: elixir scripts/check_rfd_canary.exs
         language: system
         pass_filenames: false
         stages: [manual]
 
       - id: rfd-canary-self-test
         name: the canary gate still fails on a new RFD without the sentence
-        entry: python scripts/check_rfd_canary.py --self-test
+        entry: elixir scripts/check_rfd_canary.exs --self-test
         language: system
-        files: ^scripts/check_rfd_canary\.py$
+        files: ^scripts/check_rfd_canary\.exs$
         pass_filenames: false
 
   # THE RFD HOOKS, FROM THE OTHER HALF OF THIS REPOSITORY.
@@ -561,7 +561,7 @@ repos:
 
       - id: ci-comment-ladder
         name: no changed file climbs the comment ladder against the base
-        entry: bash -c 'python scripts/check_comment_ladder.py --base "${GATE_BASE:?GATE_BASE unset}"'
+        entry: bash -c 'elixir scripts/check_comment_ladder.exs --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
         always_run: true
@@ -569,7 +569,7 @@ repos:
 
       - id: ci-line-length
         name: no added Elixir line runs past the formatter's line_length against the base
-        entry: bash -c 'python scripts/check_line_length.py --base "${GATE_BASE:?GATE_BASE unset}"'
+        entry: bash -c 'elixir scripts/check_line_length.exs --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
         always_run: true
@@ -585,7 +585,7 @@ repos:
 
       - id: ci-rfd-canary
         name: every new RFD carries its attestation against the base
-        entry: bash -c 'python scripts/check_rfd_canary.py --base "${GATE_BASE:?GATE_BASE unset}"'
+        entry: bash -c 'elixir scripts/check_rfd_canary.exs --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
         always_run: true
