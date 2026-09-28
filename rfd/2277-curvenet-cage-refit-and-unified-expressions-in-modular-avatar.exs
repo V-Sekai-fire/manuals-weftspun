@@ -19,7 +19,7 @@ ANNY and a dress refitted by a curvenet cage so it does not clip in motion"
 components; Miroir-Re's dress and face"
 
     decision ~S"""
-    Ship it as a Skateboard: one NDMF build of Miroir-Re whose dress
+    The first testable release is one NDMF build of Miroir-Re whose dress
     clears the body in every frame of our own motion, and whose face
     carries every unified-expression name transferred from ANNY. A CASSIE
     curvenet becomes a closed cage, bound by (1,3) biharmonic coordinates
@@ -42,14 +42,14 @@ components; Miroir-Re's dress and face"
 
     related "RFD 2275 (unified expressions from ANNY, the method); RFD 2279
 (one deform surface over curvenets; this RFD owns bhc13); RFD 2262 (the
-vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
+releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
 
     drafted_by :ai
 
     details_title "curvenet-cage refit and unified expressions in Modular Avatar"
 
-    details "Skateboard to car", ~S"""
-    - **Skateboard** (earliest testable). Does one Modular Avatar build on
+    details "The release ladder", ~S"""
+    - **The first testable release.** Does one Modular Avatar build on
       the desk give Miroir-Re a dress that clears the body and a face with
       the whole unified-expression set?
       - A scripted pen draws the neckline and strap curves (a printed
@@ -63,16 +63,16 @@ vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
         under unified-expression names, through `unified_expressions.map`.
       - Everything runs on the CPU path, through the Unity sandbox, in one
         NDMF build, and is checked in the Editor.
-    - **Scooter.** Does it hold up when worn and seen? Uploaded to VRChat,
+    - **The shareable release.** Does it hold up when worn and seen? Uploaded to VRChat,
       with VRCFT driving the expressions live, and the tongue and corrective
       shapes from RFD 2275/2279.
-    - **Bicycle** (earliest usable). Does it work on the next garment and
+    - **The first usable release.** Does it work on the next garment and
       avatar? The cardigan's 22.5 mm at the upper arm and the drawers'
       31.6 mm at the thigh, then another purchased avatar.
-    - **Motorcycle** (earliest lovable). A person draws the curvenet in VR
+    - **The first lovable release.** A person draws the curvenet in VR
       with the pen, and the Unity sandbox's RD path makes the fit
       interactive in Unity too.
-    - **Car.** Remeshed cages (RFD 2278), only if people ask.
+    - **The full product.** Remeshed cages (RFD 2278), only if people ask.
     """
 
     details "How it was drafted", ~S"""
@@ -91,13 +91,13 @@ vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     - `.sigs` for the host;
     - no Python;
     - the curvenet builds the cage;
-    - the full ANNY transfer in the Skateboard;
+    - the full ANNY transfer in the first testable release;
     - refit means not clipping in motion;
     - motion from our own Kimodo and MotionBricks models, in the sandbox on
       ggml-rd (the VRChat SDK's clips are blocklisted).
 
     Renumbered from 2276 after a collision, split with RFD 2279, and
-    replanned as vehicles.
+    replanned as a release ladder.
     """
 
     details "The diagnosis", ~S"""
@@ -143,7 +143,7 @@ vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
         flexion carried about the avatar's own measured axes.
       - A clip-range report says which joint ranges each clip actually
         visits.
-      - The Skateboard samples 64 frames. Each frame gives bone matrices
+      - The first testable release samples 64 frames. Each frame gives bone matrices
         `M_p`.
     - **In-motion loss:**
       `Σ_p w_p Σ_i max(0, m − d_p(LBS_p(y_i)))² + w_L ‖Lu‖² + w_r ‖u‖²`,
@@ -225,11 +225,11 @@ vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     - Every vmcall has an instruction limit.
     - The plugin is Editor-only.
 
-    The Skateboard generates motion in `motion.elf` under Godot's sandbox,
+    The first testable release generates motion in `motion.elf` under Godot's sandbox,
     where ggml-rd already runs, and stores the clips as OpenUSD `.usda`,
     which `cage.elf` reads in either engine. The Unity sandbox's RD path
     (22 RenderingDevice methods, Slang built with `-target hlsl`) is the
-    Motorcycle's.
+    first lovable release's.
     """
 
     details "The components", ~S"""
@@ -265,12 +265,12 @@ vehicles); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     - **B.** The Unity sandbox. Stopped with partial work; validated on
       `drape.elf`, then on `cage.elf`.
     - **C.** The two components and the NDMF pass. Waits on A and B.
-    - **D.** The Skateboard build of Miroir-Re. Waits on C.
+    - **D.** The first testable release's build of Miroir-Re. Waits on C.
 
     Nothing is committed or pushed until the operator asks.
     """
 
-    details "The Skateboard's gates", ~S"""
+    details "The first testable release's gates", ~S"""
     Each passes before the next is built on.
 
     - **A, the guest in Godot:**
