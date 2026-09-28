@@ -42,6 +42,7 @@ here corresponds to an entry.
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
 - **See-Through checkpoints**: every one states no licence, and the depth one derives from OpenRAIL++-M — see below
 - **SMPL and every variant** as a body model: non-commercial without an MPG licence; SOMA-X to ANNY is the sanctioned bypass — see below
+- **MHR** (Meta Momentum Human Rig): its identity model and its face-expression basis, operator directive 2026-09-28; SOMA-X's pose correctives stay allowed — see below
 - **AMD XDNA NPU** as an execution target: a second accelerator toolchain, nothing measured and no runtime installed — see below
 - **the CPU** as a model execution target: orchestration and the **DFC runtime** are exempt; a silent DirectML fallback is the trap — see below
 - **Mermaid** as a published-figure format: the layout solver owns the picture and the house sheet cannot reach it — hand-authored inline SVG instead, see below
@@ -994,6 +995,25 @@ it is not: it is a SMPL-X checkpoint, SMPL-X is blocklisted by this row, and the
 does not pass through it. `Kimodo-SOMA-*` is under the NVIDIA Open Model Licence, permits
 commercial use, and matches the rig. `logbook-rfd1016-model-repos.md` reached the same
 conclusion and warned against swapping checkpoints without re-checking RFD 1028.
+
+### MHR is blocklisted, and SOMA-X's correctives are not
+
+Operator directive, 2026-09-28. MHR is SOMA-X's default identity model, and its
+`mhr_model_*.pt` also carries a face-expression basis (`face_expr_coeffs`). Both are out:
+**SOMA-X is used with ANNY selected, never with MHR as the identity**, and no face
+expression is taken from MHR's basis.
+
+**The corrective blendshapes stay allowed.** SOMA-X's `correctives_model.pt`, the
+pose-dependent corrections it applies on top of skinning for any identity model, is not
+MHR's, and the directive allows it explicitly. So are SOMA's topology, its template rig and
+the ANNY and GarmentMeasurements wraps. The one route this closes is the one RFD 2277 was
+about to try: filling the unified-expression names that ANNY's 52 actions and its MPFB2
+expression units leave absent (cheek suck, brow pinch, jaw clench and the rest) from
+MHR's expressions. Those names are derived by the fitting core instead, or stay absent.
+
+**The asset release still ships MHR.** `interactor-soma-x`'s `assets/fetch.sh` unpacks
+`MHR/` with everything else. Delete that folder after fetching, so a default code path
+cannot find a blocklisted model.
 
 ### See-Through's checkpoints are blocklisted, and the taxonomy is kept instead
 
