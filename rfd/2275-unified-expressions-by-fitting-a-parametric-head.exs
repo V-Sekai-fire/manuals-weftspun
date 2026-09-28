@@ -97,13 +97,15 @@ ANNY's CC0 source data; `unified_expressions.map`; the avatar's face mesh"
     a host adds no link dependency. A change to the fitting method is a
     change to this file, and the gate shows it to every host.
 
-        hf_mesh *hf_mesh_create(const float *positions, int32_t vertex_count, const int32_t *triangles, int32_t triangle_count);
+        hf_mesh *hf_mesh_create(const float *xyz, int32_t nv, const int32_t *tri, int32_t nt);
         int32_t hf_mesh_add_shape(hf_mesh *mesh, const char *name, const float *deltas);
         hf_model *hf_model_load(const char *anny_data_dir, int32_t region);
-        hf_fit *hf_fit_run(const hf_model *model, const hf_mesh *target, const int32_t *model_landmarks, const int32_t *target_landmarks, int32_t landmark_count, const float *target_weights);
+        hf_marks *hf_marks_create(const int32_t *model, const int32_t *avatar, int32_t n);
+        hf_fit *hf_solve(const hf_model *m, const hf_mesh *t, const hf_marks *k, const float *w);
         float hf_fit_residual_mm(const hf_fit *fit, int32_t region);
-        int32_t hf_transfer(const hf_fit *fit, const char *shape, float *out_deltas, float *out_error_mm);
+        int32_t hf_transfer(const hf_fit *f, const char *shape, float *out_d, float *out_mm);
         void hf_fit_destroy(hf_fit *fit);
+        void hf_marks_destroy(hf_marks *marks);
         void hf_model_destroy(hf_model *model);
         void hf_mesh_destroy(hf_mesh *mesh);
 
