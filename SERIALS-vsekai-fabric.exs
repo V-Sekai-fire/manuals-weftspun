@@ -236,6 +236,7 @@ defmodule Serials.VSekaiFabric do
         flight_level: :l2
 
       serial 2278, "voxel-remeshing-for-cages-and-solids", flight_level: :l1
+      serial 2279, "one-deform-surface-over-curvenets"
       serial 2280, "pixal3d-latents-as-mesh-tokens", flight_level: :l1
     end
 
