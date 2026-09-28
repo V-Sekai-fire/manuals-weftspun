@@ -230,6 +230,7 @@ defmodule Serials.VSekaiFabric do
       serial 2273, "accepting-person-masks-depth-before-judge", flight_level: :l1
       serial 2274, "curvenet-crossings-via-mujoco-guest", flight_level: :l1
       serial 2275, "unified-expressions-by-fitting-a-parametric-head"
+      serial 2276, "kusudama-governs-a-ggml-rd-persona-policy"
     end
 
     deleted do
