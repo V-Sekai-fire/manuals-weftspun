@@ -38,7 +38,7 @@ reimplemented on compute-rd with Lean-authored kernels"
 
     related ~S"""
     - RFD 2234 (the dress-on pipeline) is where curvenet runs today, on the CPU.
-    - RFD 2263 (the Skateboard's simulator gate) is the loop this keeps at 90Hz.
+    - RFD 2263 (the first testable release's simulator gate) is the loop this keeps at 90Hz.
     - RFD 2264 (mesh repair by voxel remesh) is the pipeline step downstream.
     - RFD 2188 (ggml on compute-rd) is the precedent for a guest dispatching
       RenderingDevice compute.

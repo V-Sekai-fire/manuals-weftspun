@@ -60,8 +60,8 @@ defmodule RFD2276 do
     and the cpp fallback emit and the RD0 gate run on the canonical slangc.
     """
 
-    details "Skateboard to car", ~S"""
-    The first vehicle is the policy graph on RD0 matched to the 5.6e-7 reference on one
+    details "The release ladder", ~S"""
+    The first working version is the policy graph on RD0 matched to the 5.6e-7 reference on one
     phenotype. It grows by conditioning the policy across the phenotype range, then by
     text control: kimodo (text to motion) is a scaffold on the SOMA-77 skeleton and
     stays an offline authoring tool until it is ported to ggml-rd. osquery records the

@@ -35,8 +35,8 @@ OSC ports"
     """
 
     related ~S"""
-    - RFD 2262 (make it with the pen), where faces belong to the Car. This
-      is standalone enabling work, not a vehicle.
+    - RFD 2262 (make it with the pen), where faces belong to the full product.
+      This is standalone enabling work, not a release.
     """
 
     drafted_by :ai

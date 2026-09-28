@@ -11,7 +11,7 @@ defmodule RFD2266 do
 
     flight_level :l1
 
-    feature "the Skateboard's simulator gate builds and runs on Linux, on
+    feature "the first testable release's simulator gate builds and runs on Linux, on
 hardware the operator owns, off the macOS runner"
 
     scope "the OXRSys runtime build and the transport-meshing-pen replay gate"
@@ -38,7 +38,7 @@ hardware the operator owns, off the macOS runner"
     """
 
     related ~S"""
-    - RFD 2263 (the Skateboard's simulator gate) is the gate this runtime serves.
+    - RFD 2263 (the first testable release's simulator gate) is the gate this runtime serves.
     - RFD 2265 (curvenet on compute-rd) holds the headset performance bed.
     - RFD 2188 (ggml on compute-rd) shares the Vulkan-on-Linux ground.
     """

@@ -6,7 +6,7 @@
 defmodule RFD2263 do
   use RFD.DSL
 
-  rfd 2263, "the Skateboard's simulator gate" do
+  rfd 2263, "the first testable release's simulator gate" do
     state :discussion
 
     flight_level :l1
@@ -28,20 +28,20 @@ tools/replay_oxrsys.py and CI workflows; the dress-on ELFs it carries"
     """
 
     problem ~S"""
-    The Skateboard (RFD 2262) asks whether a drawn outfit comes back as a
+    The first testable release (RFD 2262) asks whether a drawn outfit comes back as a
     garment that fits. A person in a headset is the real test, but slow
     and unrepeatable; the simulator is the test that runs on every change.
     """
 
     related ~S"""
-    - RFD 2262 (make it with the pen), whose Skateboard this gates.
+    - RFD 2262 (make it with the pen), whose first testable release this gates.
     - RFD 2234 (dress-on pipeline), the stages the strokes run through.
     - RFD 2255 and 2256, the Bao tunnel and the in-guest transport.
     """
 
     drafted_by :ai
 
-    details_title "the Skateboard's simulator gate"
+    details_title "the first testable release's simulator gate"
 
     details "State by platform", ~S"""
     | Platform | State |
