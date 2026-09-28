@@ -167,6 +167,23 @@ avatar's face mesh"
     the next.
     """
 
+    details "What ships in which stage", ~S"""
+    RFD 2277's ladder carries this RFD in two steps.
+
+    - **First stage.** The head fit and the transfer of all 52 actions
+      under their unified names through `unified_expressions.map`, each
+      with its error reported: the direct, split and artist forms of the
+      catalog. The eye shapes come from the artist's sculpts here.
+    - **Second stage.** Everything that is derived rather than
+      transferred: the tongue (sculpt roles, the lip-line steps, flat and
+      squish, the chain with its roll and twist), the jaw bone and the
+      rigid mouth interior, the seven correctives, the bone and baked
+      forms, and every conversion between shapes and bones from RFD 2279.
+
+    The catalog audit is scoped to the stage: zero unmapped names among
+    the first stage's forms, then zero unmapped names in all.
+    """
+
     details "The tongue and the mouth interior", ~S"""
     A surface fit cannot reach the tongue: it sits inside the mouth, and
     ray projection from it lands on nothing or on the lips. The tongue
