@@ -25,7 +25,9 @@ defmodule RFD2060 do
     """
 
     related ~S"""
-    See `DETAILS.md` for the full argument.
+    - RFD 2146 (Bao is the secret store), where the App key lives.
+    - RFD 2260 (credentials shared by path in Bao), the policy model.
+    - RFD 2255 (an SSH tunnel to Bao), one way to reach it.
     """
 
     details_title "Org scoped github app token for gh access"
@@ -65,20 +67,25 @@ defmodule RFD2060 do
     """
 
     details "Decision outcome", ~S"""
-    Chosen option: "a GitHub App installed on the org". The App is
-    installed on `v-sekai-multiplayer-fabric`; a helper
-    (`~/bin/gh-fabric-token.sh`) reads the App id and private key from
-    1Password, signs an RS256 JWT, exchanges it for an installation access
-    token, and exports it as `GH_TOKEN`. `gh` then uses that token with no
-    `gh auth login`.
+    Chosen option: "a GitHub App installed on the org". Bao mints the
+    token. Its image carries the GitHub App secrets engine
+    (`vault-plugin-secrets-github`, `service-openbao/Dockerfile.fdb`),
+    configured once with the App id and private key. An enrolled agent
+    whose policy reaches `github/token` reads
+
+        bao read -field=token github/token org_name=<org>
+
+    and gets an installation access token. The engine signs the RS256 JWT
+    and exchanges it, so the private key never leaves Bao. The token goes
+    to `gh` as `GH_TOKEN` and to git through a credential helper, with no
+    `gh auth login` and nothing written to disk.
 
     An installation token is org-scoped by construction, expires ~1 hour
     after minting, and acts as the App rather than the personal account —
     covering all three of the top drivers in one mechanism, where a
     fine-grained PAT covers org-scoping but stays long-lived and a
-    human-account secret. The cost is a token-minting step (JWT →
-    installation token) and guarding the App private key, which 1Password
-    holds.
+    human-account secret. The cost is a reachable Bao at minting time and
+    guarding the App private key, which Bao holds.
 
     The everyday installation is granted `administration: write`,
     `contents: write`, `workflows: write`, `actions: read`, `metadata:
@@ -94,11 +101,13 @@ defmodule RFD2060 do
       revocation step.
     - Good: the App is its own identity, so audit-log entries and access
       are decoupled from the personal account's lifecycle.
-    - Bad: minting needs a JWT-exchange helper rather than a single static
-      secret.
+    - Good: a session that loses its `gh` login keeps working, since the
+      token comes from Bao and not from a shared login on the desk.
+    - Bad: minting needs Bao reachable, over the tailnet or the SSH
+      tunnel (RFD 2255).
     - Bad: the App private key is itself high-value (it can mint tokens
-      for every install of the App) and must be guarded as carefully as
-      the token it replaces.
+      for every install of the App); Bao's policy on `github/token` is
+      what guards it.
     - Bad: `administration: write` on all repos means the token can still
       archive / rename / delete / transfer any repo _within_ the org, the
       in-org fat-finger case is not mitigated by scoping alone.
@@ -113,6 +122,10 @@ defmodule RFD2060 do
     stay readable, which is public-is-public and not a private exposure.
     The minted token's permissions read back as
     `administration/contents/workflows: write, actions/metadata: read`.
+
+    Minted through Bao on 2026-09-28 for `V-Sekai-fire`: the token is a
+    `ghs_` installation token, `git ls-remote` and `gh api` both work with
+    it, and `GET /installation/repositories` reports 796 repositories.
     """
 
     details "More information", ~S"""
