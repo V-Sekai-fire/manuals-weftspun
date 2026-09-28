@@ -44,7 +44,7 @@ RFD 2248 and the winding-number contact of RFD 2249 have an answer"
     - RFD 2234 (the dress-on pipeline) produces the mesh this repairs.
     - RFD 2248 (the body is a closed solid) is the contract this establishes.
     - RFD 2249 (cloth by vertex block descent) is the drape downstream of it.
-    - RFD 2263 (the Skateboard's simulator gate) is the loop all four ride.
+    - RFD 2263 (the first testable release's simulator gate) is the loop all four ride.
     """
 
     drafted_by :ai

@@ -47,7 +47,7 @@ Lean-authored curvenet kernel meets"
     - RFD 2265 (curvenet on compute-rd) states the gate as byte-parity; this RFD
       replaces that premise. The staging, the dispatch shape and the canonical
       ordering it describes are unchanged.
-    - RFD 2263 (the Skateboard's simulator gate) is the loop the port keeps at 90Hz.
+    - RFD 2263 (the first testable release's simulator gate) is the loop the port keeps at 90Hz.
     """
 
     details_title "The curvenet parity gate is interval arithmetic"

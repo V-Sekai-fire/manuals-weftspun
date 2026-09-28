@@ -19,10 +19,10 @@ see it, and gets a grade that teaches them to draw better"
 V-Sekai client and server that host the loop"
 
     decision ~S"""
-    The strategy is a board of vehicles: each is a whole product put in
-    front of real people to test one assumption, never a car missing a
-    wheel. One card moves at a time; later cards change with what the
-    one in motion teaches. The loop is godot-sandbox guest ELFs a host
+    The strategy is a release ladder: each release is a whole product put
+    in front of real people to test one assumption, never a half-built
+    release. One release advances at a time; later releases change with
+    what the active one teaches. The loop is godot-sandbox guest ELFs a host
     loads, with no engine module of its own. The scoring it relies on
     runs the same shape: EditScore and MaskScore are decision models,
     godot-sandbox guests on ggml-rd and compute-rd, not a second
@@ -37,44 +37,44 @@ V-Sekai client and server that host the loop"
     """
 
     related ~S"""
-    - RFD 2263 (the Skateboard's simulator gate), the card in motion.
-    - RFD 2234 (dress-on pipeline), the loop the vehicles ride on.
+    - RFD 2263 (the first testable release's simulator gate), the active release.
+    - RFD 2234 (dress-on pipeline), the loop the releases ride on.
     - RFD 1053 (OpenUSD as the internal format).
     - RFD 2229 (interchangeable parts), the rule new parts answer to.
     - RFD 2267 (persona NPCs in ported scenes), a parked content idea behind
-      the vehicles, not one of them.
+      the releases, not one of them.
     """
 
     drafted_by :ai
 
     details_title "make it with the pen and wear it together"
 
-    details "The vehicles", ~S"""
-    Each vehicle names what it tests, who tries it and where it stands.
+    details "The releases", ~S"""
+    Each release names what it tests, who tries it and where it stands.
 
-    - **Bus ticket.** Do people want to make 3D things with a pen in VR,
+    - **Demand test.** Do people want to make 3D things with a pen in VR,
       and what do they make? The public tried the published CASSIE sketch
       study. Done: people liked it, and wearables exist in what they drew
       (36 study shoes, a dress, two hats).
-    - **Skateboard** (earliest testable). Can a person draw an outfit on
+    - **First testable release.** Can a person draw an outfit on
       an avatar and get back a garment that fits and drapes? The simulator
       first, a replayed sketch; then one person at a time on a standalone
-      VR headset. In motion (RFD 2263).
-    - **Scooter.** Will people save, share and wear what they made where
-      others see it? The same creators and whoever they share with, phones
-      included. Next: save as OpenUSD, export VRM, wear it in the world.
-    - **Bicycle** (earliest usable). Will creators use it for their own
+      VR headset. Active (RFD 2263).
+    - **Shareable release.** Will people save, share and wear what they made
+      where others see it? The same creators and whoever they share with,
+      phones included. Next: save as OpenUSD, export VRM, wear it in the world.
+    - **First usable release.** Will creators use it for their own
       avatar? Early adopters from the survey. Later: their own body (ANNY
       fitted in a guest, or their own mesh), rigged, delivered as VRM.
-    - **Motorcycle** (earliest lovable). Will people show it to friends?
+    - **First lovable release.** Will people show it to friends?
       Anyone. Later: the character in parts (body, head, hair), and more
       emotes and dances.
-    - **Car.** Only if people ask for it. Later: faces and hair motion;
-      nobody in the survey asked.
+    - **Full product.** Only if people ask for it. Later: faces and hair
+      motion; nobody in the survey asked.
 
     Enabling work (CI, the drape's precision, comfort settings against
-    motion sickness, the org's rules) is not a vehicle; it runs as the
-    card in motion needs it.
+    motion sickness, the org's rules) is not a release; it runs as the
+    active release needs it.
     """
 
     details "Where it runs", ~S"""
@@ -123,7 +123,7 @@ V-Sekai client and server that host the loop"
     details "Moving in it: the mocap track, parked", ~S"""
     Wearing it and moving together needs body motion to drive the avatar.
     That track is Sinew, inertial motion capture from a worn suit. It sits
-    behind the vehicles above, recorded here so it is not lost and not
+    behind the releases above, recorded here so it is not lost and not
     scheduled.
 
     - Shelved 2026-09-26: the mount-drift calibrator's training corpus
@@ -146,8 +146,8 @@ V-Sekai client and server that host the loop"
       in motion.
     """
 
-    details "Faces: the track behind the Car, parked", ~S"""
-    Faces belong to the Car, which waits on people asking. The work toward
+    details "Faces: the track behind the full product, deferred", ~S"""
+    Faces belong to the full product, which waits on people asking. The work toward
     them is recorded here so it is not lost and not scheduled.
 
     - Shelved 2026-09-27: avatar-person segmentation for faces. RF-DETR
@@ -156,7 +156,7 @@ V-Sekai client and server that host the loop"
       control and a `GGML_RD_FAULT` negative control). A fine-tune loop
       exists (interactor-rf-detr-ggml PR #25), and a 300-image CC0 VRM
       pilot carries exact masks (datasource-anny-render-corpus PR #41).
-      Unpark when a vehicle needs avatar-person detection.
+      Unpark when a release needs avatar-person detection.
     """
   end
 end

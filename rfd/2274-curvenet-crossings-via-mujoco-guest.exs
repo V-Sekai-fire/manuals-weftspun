@@ -45,7 +45,7 @@ hand-written one"
     related ~S"""
     - RFD 2265 (curvenet on compute-rd) lists crossings as a compute-rd kernel;
       this RFD moves that one step to the MuJoCo guest, and the rest stands.
-    - RFD 2263 (the Skateboard's simulator gate) is the loop this feeds.
+    - RFD 2263 (the first testable release's simulator gate) is the loop this feeds.
     - RFD 2269 (the interval parity gate) governs the GPU kernels. It does not
       govern this pass, which is a single CPU engine.
     """
