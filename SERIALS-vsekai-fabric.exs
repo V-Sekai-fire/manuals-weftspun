@@ -233,6 +233,8 @@ defmodule Serials.VSekaiFabric do
 
       serial 2277, "curvenet-cage-refit-and-unified-expressions-in-modular-avatar",
         flight_level: :l2
+
+      serial 2278, "voxel-remeshing-for-cages-and-solids", flight_level: :l1
     end
 
     deleted do
