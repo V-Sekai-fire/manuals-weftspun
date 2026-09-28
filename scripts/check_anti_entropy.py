@@ -171,8 +171,10 @@ out.append("")
 out.append(f"  shuffled full pass, {len(order)} of {len(EXPENSIVE)} (every item, random order):")
 for item in order:
     name, extra = item if isinstance(item, tuple) else (item, ())
-    r = subprocess.run([sys.executable, str(RFD/"scripts"/f"{name}.py"), *extra],
-                       capture_output=True, text=True, cwd=RFD)
+    exs = RFD/"scripts"/f"{name}.exs"
+    py = RFD/"scripts"/f"{name}.py"
+    cmd = ["elixir", str(exs)] if exs.exists() else [sys.executable, str(py)]
+    r = subprocess.run([*cmd, *extra], capture_output=True, text=True, cwd=RFD)
     tail = (r.stdout.strip().splitlines() or [""])[-1][:58]
     check(f"  {name}", r.returncode == 0, tail)
 seen = set(order)
