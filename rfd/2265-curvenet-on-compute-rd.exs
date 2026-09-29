@@ -18,8 +18,9 @@ headset, by moving the curve-network off the main thread onto the GPU"
 reimplemented on compute-rd with Lean-authored kernels"
 
     decision ~S"""
-    Reimplement the CASSIE curve-network on compute-rd, kernels authored in Lean
-    and lowered through Slang to SPIR-V, dispatched by an rdc::Device driver
+    Reimplement the CASSIE curve-network (Yu et al., doi
+    10.1145/3411764.3445158) on compute-rd, kernels authored in Lean and
+    lowered through Slang to SPIR-V, dispatched by an rdc::Device driver
     shaped like the avbd one. The CPU curvenet.elf stays as the oracle and a
     parity gate at `gates/4-curvenet` holds both paths to the same integer
     counts and brackets every float output in the interval oracle's bounds

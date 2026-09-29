@@ -54,8 +54,9 @@ V-Sekai client and server that host the loop"
 
     - **Demand test.** Do people want to make 3D things with a pen in VR,
       and what do they make? The public tried the published CASSIE sketch
-      study. Done: people liked it, and wearables exist in what they drew
-      (36 study shoes, a dress, two hats).
+      study (Yu et al., doi 10.1145/3411764.3445158). Done: people liked
+      it, and wearables exist in what they drew (36 study shoes, a dress,
+      two hats).
     - **First testable release.** Can a person draw an outfit on
       an avatar and get back a garment that fits and drapes? The simulator
       first, a replayed sketch; then one person at a time on a standalone
