@@ -7,7 +7,7 @@ defmodule RFD1002 do
   use RFD.DSL
 
   rfd 1002, "Studio pipeline graph" do
-    state :published
+    state :abandoned
 
     feature "Studio pipeline"
 
@@ -39,16 +39,6 @@ defmodule RFD1002 do
     RFD 1003 defines the job lifecycle. RFD 1006 defines layer
     decomposition. RFD 1007 defines motion validation. RFD 1008 defines
     appearance remix.
-    """
-
-    details_title "Studio pipeline graph"
-
-    details_preamble ~S"""
-    - Data model: `src/library/studioGraph.js`
-    - Executor: `src/library/studioGraphExecutor.js`
-    - Page: `src/pages/StudioPage.jsx`
-    - Views: `src/components/studio/StudioGraphView.jsx`
-    - Views: `src/components/studio/StudioKanbanView.jsx`
     """
 
     drafted_by :ai
