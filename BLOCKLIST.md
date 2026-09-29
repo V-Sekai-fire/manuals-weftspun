@@ -62,6 +62,7 @@ here corresponds to an entry.
 - **CorridorKey** as a matte generator: green/blue screen unmixer needing an alpha hint the matting model already makes, and CC BY-NC-SA 4.0 plus terms, which is both the share-alike row and the generator row — see below
 - **FFmpeg** as a codec dependency: LGPL-2.1-or-later, and a Godot export links into one binary, which is relinking the licence asks for and we cannot offer; the CineForm SDK is Apache-2.0 OR MIT and does both directions — see below
 - **Mitsuba 3's CPU variants** as a render target: `llvm_ad_*` and `scalar_*`: measured at 78 s a frame against 0.34 s on the card, a factor of 230, and the fallback that reached them was silent; measurement and a card-less desk are exempt — see below
+- **Eigen** and **libigl** as dependencies: operator directive 2026-09-28; both MPL-2.0, and the robust skin weights transfer port replaces them with pmp-subset and compute-rd — see below
 
 ### Abliteration is blocked, and the model's own card is the argument
 
@@ -1848,3 +1849,21 @@ On 2026-09-25 the 1Password CLI answered from the Windows side (`op.exe`) and
 not from the WSL side (`op`, not signed in), and `bao` existed only in WSL. A
 session reaching for whichever side happens to work is running on two hosts
 with two credential stores.
+
+### Eigen and libigl are blocked, and the skin-weight port is where it bites
+
+Operator directive, 2026-09-28. Eigen and libigl's core are both MPL-2.0, file-level
+copyleft, which the rest of this list keeps out of code meant to stay
+dual-licensable.
+
+They arrived with the robust skin weights transfer sandbox program
+(`libriscv/godot-sandbox-programs`, `programs/robust_skin_weight_transfer`),
+which RFD 2284 needs to carry skin weights and blendshapes onto a remeshed body.
+That program uses libigl for closest-point queries, the cotangent Laplacian, the
+mass matrix and the constrained quadratic solve, and Eigen for every matrix.
+
+**The substitute.** The Laplacian and mass matrix are assembled on dress-on's
+`pmp-subset` (MIT); the closest-point match and the conjugate-gradient inpaint
+solve run on compute-rd. The upstream program is a reference to read, not a
+dependency to build, so it is not a CPU control either: the control is the
+guest's own CPU path, written without either library.
