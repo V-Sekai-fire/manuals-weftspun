@@ -12,8 +12,8 @@ defmodule RFD2262 do
     flight_level :l3
 
     feature "Pen meshing in a shared world with graded annotations: a person
-draws their character and outfit with the meshing pen, wears it where others
-see it, and gets a grade that teaches them to draw better"
+draws their character and outfit with the meshing pen, wears it and moves in
+it where others see it, and gets a grade that teaches them to draw better"
 
     scope "interactor-dress-on, transport-meshing-pen, and the
 V-Sekai client and server that host the loop"
@@ -63,7 +63,8 @@ V-Sekai client and server that host the loop"
       VR headset. Active (RFD 2263).
     - **Shareable release.** Will people save, share and wear what they made
       where others see it? The same creators and whoever they share with,
-      phones included. Next: save as OpenUSD, export VRM, wear it in the world.
+      phones included. Next: save as OpenUSD, export VRM, wear it and move
+      in it in the world.
     - **First usable release.** Will creators use it for their own
       avatar? Early adopters from the survey. Later: their own body (ANNY
       fitted in a guest, or their own mesh), rigged, delivered as VRM.
@@ -119,6 +120,25 @@ V-Sekai client and server that host the loop"
     faster than generating the reasoning but ranks only 0.42 to 0.52
     (Spearman) against it. Both point to the compact retrain, not the
     stock model.
+    """
+
+    details "Shared means moving", ~S"""
+    Shared means the person locomotes: they walk, turn and sit in the world
+    wearing what they drew, and others see the outfit move with them. The
+    shared world's client animates locomotion by sliding the avatar in its
+    T-pose, and that is not acceptable: nothing bends, drapes or plants a
+    foot, so a wearable seen there is seen standing still.
+
+    Shared also means voice: people talk to each other while they move,
+    over voice chat from the `modules/speech` module on entities-godot's
+    `feat/module-speech` branch.
+
+    The loop's locomotion is its own: a generated clip retargeted onto the
+    avatar (interactor-dress-on gate 10), with the body grounded on the GPU
+    as one rigid move per frame, so a foot stays where it lands and a seat
+    holds a sitting body. Every contact is held to a penny (1.52 mm), within
+    100 ms end to end and 1.0 ms of GPU time per frame on the standalone
+    headset.
     """
 
     details "Moving in it: the mocap track, parked", ~S"""
