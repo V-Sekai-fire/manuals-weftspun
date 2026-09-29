@@ -238,6 +238,9 @@ defmodule Serials.VSekaiFabric do
       serial 2278, "voxel-remeshing-for-cages-and-solids", flight_level: :l1
       serial 2279, "one-deform-surface-over-curvenets"
       serial 2280, "pixal3d-latents-as-mesh-tokens", flight_level: :l1
+      serial 2281, "face-shapes-from-three-sources", flight_level: :l1
+      serial 2282, "pose-correctives-as-bones", flight_level: :l1
+      serial 2283, "play-mode-verification-by-recording", flight_level: :l1
       serial 2284, "a-quest-variant-by-sandbox-guests", flight_level: :l1
       serial 2285, "unship-the-web-demo-and-xr-paths"
       serial 2286, "a-phone-face-bridge-to-social-vr"
