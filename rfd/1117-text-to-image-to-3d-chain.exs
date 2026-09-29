@@ -7,7 +7,7 @@ defmodule RFD1117 do
   use RFD.DSL
 
   rfd 1117, "Text-to-image chains into Image-to-3D, one URL resolver" do
-    state :committed
+    state :abandoned
 
     scope "the Krea 2 Turbo completed row, the Image-to-3D form,\n`3DAIGC-API`'s DINOv3 adapter"
 
