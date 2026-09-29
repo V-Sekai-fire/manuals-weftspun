@@ -1867,4 +1867,3 @@ mass matrix and the constrained quadratic solve, and Eigen for every matrix.
 solve run on compute-rd. The upstream program is a reference to read, not a
 dependency to build, so it is not a CPU control either: the control is the
 guest's own CPU path, written without either library.
-
