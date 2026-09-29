@@ -572,6 +572,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Quantization:** QAT with a quantized forward during training.
 - **Environments and dependencies:** `pixi`, or an embedded interpreter pinning its deps in
   source; `default.xml` for dependencies.
+- **Mesh processing:** meshoptimizer (MIT, `zeux/meshoptimizer`) for simplification and its
+  voxel remesher; xatlas (MIT, `jpcy/xatlas`) for UV unwrapping. Together they run remesh,
+  simplify, unwrap and retexture on avatar meshes at build time, to cut polygon, skinned-mesh
+  and material counts.
 - **Formats and figures:** `.usda`, ZStandard parquet, usdz as a delivery container, PSD,
   pure-data glTF, the CineForm SDK as the codec, hand-authored inline SVG for figures.
 - **Test assets:** procedurally generated geometry with analytic ground truth.
