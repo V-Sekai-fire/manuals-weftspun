@@ -7,15 +7,15 @@ defmodule RFD2256 do
   use RFD.DSL
 
   rfd 2256, "WebTransport inside a sandbox guest" do
-    state :ideation
+    state :discussion
 
     feature "A godot-sandbox guest carries bulk game traffic over QUIC,
 HTTP/3 and WebTransport at binary-translated speed, and the first
 channel it carries mints tokens from a key the host never sees"
 
     scope "a godot-sandbox guest ELF running the QUIC stack, the zone
-server and clients that host it, and a token-minting channel as
-its first user; nothing is built yet"
+server and clients that host it, and a token-minting channel;
+`interactor-fabric-zone`'s ELFs (RFD 2287) are its first user"
 
     decision ~S"""
     QUIC, HTTP/3 and WebTransport run inside a RISC-V guest ELF that
@@ -37,6 +37,7 @@ its first user; nothing is built yet"
       identity can use to reach Bao.
     - RFD 2060 (org-scoped app token), the token this mints.
     - RFD 2200 (ReBAC agent roles as tuples), the authorization.
+    - RFD 2287 (the first rung), its first user.
     """
 
     drafted_by :ai
