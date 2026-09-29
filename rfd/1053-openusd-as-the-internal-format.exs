@@ -24,8 +24,8 @@ defmodule RFD1053 do
     file, and it never reaches a browser.
 
     See `DETAILS.md` for why layers beat a flat mesh format, the
-    internal/transmission boundary, the shared runtime, and what every
-    model image must return.
+    internal/transmission boundary, worlds, the shared runtime, and what
+    every model image must return.
 
     Committed 2026-09-02: CLAUDE.md ratifies the choice as a hard
     constraint (OpenUSD `.usda` for text-editable, ZStandard parquet for
@@ -78,6 +78,13 @@ defmodule RFD1053 do
 
     Convert at the boundary only. A stage that converts in the middle
     throws away the composition this RFD exists to keep.
+    """
+
+    details "Worlds", ~S"""
+    A world is a USD stage as well. Its root layer names a spawn point and
+    sublayers the environment and the props; each prop is a prim with its
+    mesh, transform and interaction type. The avatar, the world and its
+    props stay in separate layers, so loading one never replaces another.
     """
 
     details "The runtime", ~S"""
