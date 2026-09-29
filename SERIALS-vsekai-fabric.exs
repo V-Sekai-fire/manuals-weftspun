@@ -240,6 +240,7 @@ defmodule Serials.VSekaiFabric do
       serial 2280, "pixal3d-latents-as-mesh-tokens", flight_level: :l1
       serial 2284, "a-quest-variant-by-sandbox-guests", flight_level: :l1
       serial 2285, "unship-the-web-demo-and-xr-paths"
+      serial 2286, "a-phone-face-bridge-to-social-vr"
     end
 
     deleted do
