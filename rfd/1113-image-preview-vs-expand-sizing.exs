@@ -7,7 +7,7 @@ defmodule RFD1113 do
   use RFD.DSL
 
   rfd 1113, "Image preview stays 250px, the expand modal stays separate" do
-    state :committed
+    state :abandoned
 
     scope "`src/components/expandedImagePreview.css`,
 `ImagePanelPreview.{css,jsx}`, `TextureExtractor.css`"

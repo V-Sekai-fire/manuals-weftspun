@@ -8,7 +8,7 @@ defmodule RFD2285 do
   use RFD.DSL
 
   rfd 2285, "Unship the web demo and the XR paths" do
-    state :published
+    state :abandoned
 
     feature "documentation retraction"
 

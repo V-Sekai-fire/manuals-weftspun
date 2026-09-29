@@ -7,7 +7,7 @@ defmodule RFD1116 do
   use RFD.DSL
 
   rfd 1116, "Tasks panel, Clear unloads the model, done stays separate" do
-    state :committed
+    state :abandoned
 
     scope "Tasks panel toolbar, the completed-task list"
 
