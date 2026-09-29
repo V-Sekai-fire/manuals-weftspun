@@ -34,7 +34,7 @@ defmodule RFD1102 do
     consumed by per-model GDScript adapter files loaded under Godot's
     script sandbox.
 
-    `DETAILS.md` carries the current per-task table (with per-model
+    `DETAILS.md` carries the backend API, the current per-task table (with per-model
     GGUF sizes and port-needed flags), the six-step migration recipe,
     the two pipeline diagrams, and the packaging pointer.
     """
@@ -171,6 +171,18 @@ defmodule RFD1102 do
     Godot binary from `entities-godot-sandbox` (RFD 2210) with the
     per-model adapter mounted; the runtime is ggml with the Vulkan
     backend per RFD 2231's substitute (Vulkan on native).
+    """
+
+    details "The backend API", ~S"""
+    This catalog is the backend API. The native shell (RFD 2215) calls
+    each module's `/health` and `/predict` over plain HTTP, or
+    `Ggml.run_inference()` in process for an adapter loaded in the
+    binary. The per-task table above is the endpoint reference.
+
+    The backend does not depend on one GPU vendor. Inference runs on
+    ggml-rd and other kernels on compute-rd, both dispatched through
+    Godot's RenderingDevice, so a module runs on any GPU the
+    RenderingDevice drives (RFD 2272, RFD 2265).
     """
 
     details "Related", ~S"""

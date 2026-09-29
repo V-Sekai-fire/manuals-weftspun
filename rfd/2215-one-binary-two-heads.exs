@@ -30,7 +30,7 @@ capture head) and the game (interactive head)"
       RFD 1123 (ffmpeg blocklisted, see memory `ffmpeg-blocklisted`).
 
     Same `.tscn` / `.tres` assets, same binary, different invocation
-    flag.
+    flag. `DETAILS.md` gives the job flow both heads share.
     """
 
     related ~S"""
@@ -42,5 +42,16 @@ capture head) and the game (interactive head)"
     """
 
     drafted_by :ai
+
+    details_title "one binary, two heads"
+
+    details "Jobs", ~S"""
+    Both heads run work as jobs. A job is created in the binary, handed
+    to a model through `Ggml.run_inference()` (RFD 2230) or to a module
+    of the task catalog (RFD 1102), followed until it is done or failed,
+    and stored with its result. A batch is a list of jobs read from one
+    manifest and run in turn. Head A shows the jobs in a panel; Head B
+    runs them without one.
+    """
   end
 end

@@ -45,6 +45,14 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
 
     details_title "a character creator on ANNY"
 
+    details "Three ways to start a body", ~S"""
+    A body starts one of three ways: from the sliders; from an image,
+    through RFD 2251's chain; or from a photo, whose detected keypoints
+    fit ANNY's shape by RFD 1143's loop (the keypoints-to-ANNY loop)
+    before the sliders take over. All three end in the same baked ANNY
+    asset and the same export.
+    """
+
     details "This RFD was drafted by an AI and read by a human before it shipped.", ~S"""
     Drafted 2026-09-15 from a survey of the RFD corpus and the tree,
     after the operator asked for work whose payoff lands with people
