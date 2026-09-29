@@ -6,17 +6,18 @@
 defmodule RFD2153 do
   use RFD.DSL
 
-  rfd 2153, "PLCopen FBD to VRChat Udon assembly" do
+  rfd 2153, "PLCopen FBD to a social VR world-scripting assembly" do
     compact_head true
 
     state :prediscussion
 
-    feature "convert taskweft's PLCopen FBD (RFD 2150) directly into\nUdon assembly for VRChat"
+    feature "convert taskweft's PLCopen FBD (RFD 2150) directly into
+the assembly of a social VR platform's world-scripting VM"
 
-    scope "taskweft (`Taskweft.OpenPLC.Udon`)"
+    scope "taskweft (`Taskweft.OpenPLC.WorldVm`)"
 
     decision ~S"""
-    Udon is the only target.
+    The world-scripting VM is the only node-graph target.
 
     `DETAILS.md` carries the full text of this RFD.
     """
@@ -24,54 +25,58 @@ defmodule RFD2153 do
     problem ~S"""
     RFD 2150 makes PLCopen FBD the one runtime target. The two platforms
     taskweft ships to are **godot-sandbox** (RFD 2154, C++ + Rust ELFs
-    via RFD 2159) and **VRChat Udon**. Udon has its own native
-    assembly language; FBD needs a direct compiler into it.
+    via RFD 2159) and a **social VR platform's world-scripting VM**. The
+    VM has its own native assembly language; FBD needs a direct compiler
+    into it.
     """
 
     references ~S"""
-    1. `sigs/vrchat_udon_asm.sigs`; the target instruction set
+    1. `sigs/world_vm_asm.sigs`; the target instruction set
     2. RFD 2150 FBD target, RFD 2160 USD intermediate
-    3. UdonSharp (source of truth for opcode set): vrchat-community/UdonSharp
+    3. The platform's MIT-licensed C#-to-VM compiler, the source of truth
+       for the opcode set
     """
 
-    details_title "PLCopen FBD to VRChat Udon assembly"
+    details_title "PLCopen FBD to a social VR world-scripting assembly"
 
     details "Decision", ~S"""
-    Udon is the only target.
+    The world-scripting VM is the only node-graph target.
 
-    **Ship FBD -> Udon assembly, direct.** **C# as an intermediate is
-    blocklisted**; UdonSharp adds Roslyn as a dep for one output format
-    and duplicates verification outside RFD 2159's C++/Rust cross-check.
-    Direct mirrors godot-sandbox's SafeGDScript pattern (source
-    language -> target ISA, no C++ intermediate). VRChat's creator
-    feedback loop demos in-world without a compile-and-flash cycle.
+    **Ship FBD -> VM assembly, direct.** **C# as an intermediate is
+    blocklisted**; the platform's C# compiler adds Roslyn as a dep for one
+    output format and duplicates verification outside RFD 2159's C++/Rust
+    cross-check. Direct mirrors godot-sandbox's SafeGDScript pattern
+    (source language -> target ISA, no C++ intermediate). The platform's
+    creator loop demos in-world without a compile-and-flash cycle.
 
     **Dropped (were parked previously):**
-    1. UE 4/5 Blueprint; out of scope for taskweft.
-    2. Resonite ProtoFlux; out of scope.
+    1. A game engine's visual scripting graph; out of scope for taskweft.
+    2. Another social VR platform's node graph; out of scope.
     3. glTF Interactivity; out of scope.
 
-    Udon assembly's opcode + directive surface lives at
-    `taskweft-fbd-compiler/sigs/vrchat_udon_asm.sigs` (extracted from
-    UdonSharp's own assembler, MIT). The FBD emitter walks each block
-    and writes the corresponding uasm opcodes into the RFD 2160 USD
-    plan's `/Deliveries/UdonAsm` string.
+    The VM assembly's opcode and directive surface lives at
+    `taskweft-fbd-compiler/sigs/world_vm_asm.sigs`, extracted from the
+    platform's own MIT-licensed assembler. The FBD emitter walks each
+    block and writes the corresponding opcodes into the RFD 2160 USD
+    plan's `/Deliveries/WorldVmAsm` string.
 
-    `DETAILS.md` carries the block-to-uasm mapping and the round-trip
+    `DETAILS.md` carries the block-to-opcode mapping and the round-trip
     against the `blocks_get_or` fixture.
     """
 
     details "Problem", ~S"""
     RFD 2150 makes PLCopen FBD the one runtime target. The two platforms
     taskweft ships to are **godot-sandbox** (RFD 2154, C++ + Rust ELFs
-    via RFD 2159) and **VRChat Udon**. Udon has its own native
-    assembly language; FBD needs a direct compiler into it.
+    via RFD 2159) and a **social VR platform's world-scripting VM**. The
+    VM has its own native assembly language; FBD needs a direct compiler
+    into it.
     """
 
     details "References", ~S"""
-    1. `sigs/vrchat_udon_asm.sigs`; the target instruction set
+    1. `sigs/world_vm_asm.sigs`; the target instruction set
     2. RFD 2150 FBD target, RFD 2160 USD intermediate
-    3. UdonSharp (source of truth for opcode set): vrchat-community/UdonSharp
+    3. The platform's MIT-licensed C#-to-VM compiler, the source of truth
+       for the opcode set
     """
 
     drafted_by :ai

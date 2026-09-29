@@ -169,7 +169,7 @@ project (Elixir + Godot scene + Godot Sandbox addon)"
     3. Live editing of the plan while the sandbox runs. Reloading the
       `.riscv` at runtime is possible (Godot Sandbox supports it), but
       the RFD leaves it as "restart the scene" for stage 1.
-    4. Any glTF / VRChat / Blueprint / ProtoFlux integration; those are
+    4. Any glTF or social VR node-graph integration; those are
       RFD 2153's job.
     """
 

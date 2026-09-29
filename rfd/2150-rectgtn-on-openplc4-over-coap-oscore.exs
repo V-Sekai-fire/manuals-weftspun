@@ -14,7 +14,8 @@ defmodule RFD2150 do
     feature "compile RECTGTN plans to IEC 61131-3 **FBD**. Runtime
 hosts for OpenPLC v4's compiled binary: PLC, ESP32, Godot Sandbox
 (RISC-V). Node-graph converter targets from the same FBD network:
-glTF Interactivity, VRChat Udon, UE 4/5 Blueprint, Resonite ProtoFlux.
+glTF Interactivity, a social VR world-scripting VM, a game engine's
+visual scripting graph, another social VR platform's node graph.
 Coordination is in-process linking (RFD 2154); CoAP+OSCORE (RFD 2151)
 is parked until a deployment leaves Godot's networking."
 
@@ -31,8 +32,8 @@ is parked until a deployment leaves Godot's networking."
 
     problem ~S"""
     Taskweft targets the BEAM. Constrained runtimes (PLC, ESP32, Godot
-    Sandbox RISC-V VM) and node-graph editors (glTF Interactivity, Udon,
-    Blueprint, ProtoFlux) cannot host BEAM. All those consumers speak
+    Sandbox RISC-V VM) and node-graph editors (glTF Interactivity, world-scripting
+    VMs, visual scripting graphs) cannot host BEAM. All those consumers speak
     the same shape; typed function blocks with dataflow wires, state
     persisted through named variables; which IEC 61131-3 calls **FBD**.
     """
@@ -49,13 +50,28 @@ is parked until a deployment leaves Godot's networking."
     languages. Two survive the workspace's blocklist as RECTGTN targets;
     the other three are blocklisted or deprecated.
 
-    | rank | lang | verdict | why |
-    |---|---|---|---|
-    | 1 | **FBD** | the only target | State machine encoded as `SR_L` flip-flops (one per step) + `AND` gates (one per transition) + `MOVE` blocks (one per action). Every downstream consumer; OpenPLC v4, glTF Interactivity, VRChat Udon, UE Blueprint, Resonite ProtoFlux, Godot Sandbox loading OpenPLC's compiled binary; speaks this shape. RFD 2149's Lean analyser reads the compact GRAFCET *input* to the emitter, not the FBD output, so verification is unaffected. |
-    |; | ~~SFC~~ | **blocklisted** | Every downstream target speaks FBD-shape; none speaks SFC-shape natively. Shipping SFC as a second output would be drift-shaped (SFC as "pretty FBD") and every consumer would re-encode it into flip-flops anyway. Full argument in `BLOCKLIST.md`. |
-    |; | ~~ST~~ | **blocklisted** | Textual imperative subset adds a second parser the Lean analyser has to see through. FBD stays graph-shaped. `BLOCKLIST.md`. |
-    |; | ~~LD~~ | **blocklisted** | Relay logic carries simple bool combinational + timers/counters; RECTGTN's ETNF tuple state does not survive the projection. `BLOCKLIST.md`. |
-    |; | ~~IL~~ | deprecated | IEC 61131-3 Ed. 3 (2013) withdrew it. Never a target; needs no blocklist row. |
+    - **FBD**, the only target. State machine encoded as `SR_L`
+      flip-flops (one per step) + `AND` gates (one per transition) +
+      `MOVE` blocks (one per action). Every downstream consumer speaks
+      this shape: OpenPLC v4, glTF Interactivity, a social VR
+      world-scripting VM, a game engine's visual scripting graph,
+      another social VR platform's node graph, and Godot Sandbox
+      loading OpenPLC's compiled binary. RFD 2149's Lean analyser reads
+      the compact GRAFCET *input* to the emitter, not the FBD output, so
+      verification is unaffected.
+    - ~~SFC~~, **blocklisted**. Every downstream target speaks FBD-shape;
+      none speaks SFC-shape natively. Shipping SFC as a second output
+      would be drift-shaped (SFC as "pretty FBD") and every consumer
+      would re-encode it into flip-flops anyway. Full argument in
+      `BLOCKLIST.md`.
+    - ~~ST~~, **blocklisted**. Textual imperative subset adds a second
+      parser the Lean analyser has to see through. FBD stays
+      graph-shaped. `BLOCKLIST.md`.
+    - ~~LD~~, **blocklisted**. Relay logic carries simple bool
+      combinational + timers/counters; RECTGTN's ETNF tuple state does
+      not survive the projection. `BLOCKLIST.md`.
+    - ~~IL~~, deprecated. IEC 61131-3 Ed. 3 (2013) withdrew it. Never a
+      target; needs no blocklist row.
 
     The emitter refuses to produce ST, LD, or IL bodies and errors out
     naming the row above. A silent skip on a bad target reads exactly
@@ -268,8 +284,8 @@ is parked until a deployment leaves Godot's networking."
 
     details "Problem", ~S"""
     Taskweft targets the BEAM. Constrained runtimes (PLC, ESP32, Godot
-    Sandbox RISC-V VM) and node-graph editors (glTF Interactivity, Udon,
-    Blueprint, ProtoFlux) cannot host BEAM. All those consumers speak
+    Sandbox RISC-V VM) and node-graph editors (glTF Interactivity, world-scripting
+    VMs, visual scripting graphs) cannot host BEAM. All those consumers speak
     the same shape; typed function blocks with dataflow wires, state
     persisted through named variables; which IEC 61131-3 calls **FBD**.
     """

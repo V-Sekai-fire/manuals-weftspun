@@ -12,7 +12,7 @@ defmodule RFD2160 do
     state :prediscussion
 
     feature "one bidirectional intermediate that carries the source
-FBD, every derived artefact (`.gd`, Udon asm, `.elf`, `.uasset`),
+FBD, every derived artefact (`.gd`, world-VM asm, `.elf`, `.uasset`),
 and provenance to round-trip between them"
 
     scope "taskweft, taskweft-fbd-compiler, all emitters, taskweft-godot-sandbox"
@@ -51,13 +51,13 @@ and provenance to round-trip between them"
     Prim shape per plan: `/Plan/{Domain, Problem, Network, Deliveries,
     Provenance}`. Under `/Deliveries`, two platforms only:
     1. **Godot**: `ElfCpp` / `ElfRust` (asset refs, RFD 2159 cross-check)
-    2. **VRChat**: `UdonAsm` (inline Udon assembly)
+    2. **Social VR world VM**: `WorldVmAsm` (inline VM assembly)
     Plus `PLCopenXML` (inline XML, source of truth) and optional
     `GDScript` (inline `.gd`). `/Provenance`: emitter versions, hashes,
     timestamps.
 
     RFD 2159's differential reads `ElfCpp` and `ElfRust` and diffs.
-    RFD 2153 writes `UdonAsm`. RFD 2154 loads `ElfCpp`. All emitters
+    RFD 2153 writes `WorldVmAsm`. RFD 2154 loads `ElfCpp`. All emitters
     become USD writers; all consumers USD readers.
     """
 
