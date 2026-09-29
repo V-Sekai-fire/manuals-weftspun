@@ -7,7 +7,7 @@ defmodule RFD1014 do
   use RFD.DSL
 
   rfd 1014, "Batch processing" do
-    state :published
+    state :abandoned
 
     feature "batch processing"
 

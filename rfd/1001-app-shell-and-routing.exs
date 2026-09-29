@@ -7,7 +7,7 @@ defmodule RFD1001 do
   use RFD.DSL
 
   rfd 1001, "App shell and routing" do
-    state :published
+    state :abandoned
 
     feature "app shell"
 

@@ -7,7 +7,7 @@ defmodule RFD1111 do
   use RFD.DSL
 
   rfd 1111, "The 3DAIGC-API reference, not restated here" do
-    state :committed
+    state :abandoned
 
     scope "`3DAIGC-API` (DGX, port 7842), `weftspun-3d-studio`'s own\n`thirdparty/m3/api/api.md`"
 
@@ -39,27 +39,6 @@ defmodule RFD1111 do
     module map. RFD 1102 gives the task catalog a client developer needs
     day to day. RFD 1100 gives the spatial-fabric publish path this
     reference's own RP1/OMB section covered.
-    """
-
-    details_title "The 3DAIGC-API reference, not restated here"
-
-    details_preamble ~S"""
-    `GET /health` and other system checks; optional token-based user
-    management, off by default (`user_auth_enabled`); a file upload
-    system returning file IDs, with a 24-hour cleanup; mesh generation,
-    by task type; mesh segmentation; auto-rigging; splat generation;
-    mesh editing, by text or image; mesh retopology; UV unwrapping;
-    worked workflow examples per task type; a named error-code table;
-    the spatial-fabric publish path (RP1/OMB); model preference
-    settings; and the file formats each endpoint group accepts.
-
-    Every response follows one shape: a job envelope
-    (`job_id`/`status`/`message`) on success, an error envelope
-    (`error`/`message`/`detail`) on failure.
-
-    A client developer who needs the exact request and response schema
-    for one of these groups reads `3DAIGC-API`'s own `/docs` (Swagger UI)
-    or `/redoc`, generated from the live server, not this page.
     """
 
     drafted_by :ai

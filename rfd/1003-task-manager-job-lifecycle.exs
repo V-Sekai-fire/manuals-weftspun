@@ -7,7 +7,7 @@ defmodule RFD1003 do
   use RFD.DSL
 
   rfd 1003, "Task Manager job lifecycle" do
-    state :published
+    state :abandoned
 
     feature "task lifecycle"
 
