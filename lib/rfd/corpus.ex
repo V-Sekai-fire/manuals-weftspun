@@ -4,8 +4,7 @@
 defmodule RFD.Corpus do
   @moduledoc """
   Every RFD, register, logbook entry and agreement document, loaded once and held in
-  `:persistent_term` for the site and the MCP server. `mix rfd.pack` writes the same
-  term to `priv/corpus.bin` so a release boots without compiling the sources.
+  `:persistent_term`.
 
   Also the mixin contract that register-like corpora implement — `SERIALS.exs`,
   `SERIALS-vsekai-fabric.exs`, `ESCAPES.exs` — so `RFD.Corpora` can answer questions
@@ -52,22 +51,12 @@ defmodule RFD.Corpus do
   @key {__MODULE__, :corpus}
 
   def load do
-    corpus =
-      case packed_path() do
-        {:ok, path} -> path |> File.read!() |> :erlang.binary_to_term()
-        :error -> build(root())
-      end
-
+    corpus = build(root())
     :persistent_term.put(@key, corpus)
     corpus
   end
 
   def root, do: System.get_env("RFD_ROOT") || RFD.Source.repo_root()
-
-  defp packed_path do
-    path = Application.app_dir(:rfd, "priv/corpus.bin")
-    if File.exists?(path), do: {:ok, path}, else: :error
-  end
 
   @doc "Build the corpus from the sources under `root`."
   def build(root) do
