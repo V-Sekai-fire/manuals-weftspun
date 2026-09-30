@@ -25,7 +25,7 @@ decoder's own flakes are counted apart:
 | --- | --- | --- |
 | queue fix only | 23 of 300 frames carry another frame's index | 2 of 300 |
 | queue fix and per-frame buffers | 300 of 300 correct | 300 of 300 correct, 1 decoder flake |
-| control: one frame planted with a neighbour's index | caught | — |
+| control: one frame planted with a neighbour's index | caught | not run |
 
 **The fix, checked on the wear clip** (`gate_loop.gd --gate=pen --avatar=Mire`, recorded as
 `.cfhd`, the editor loading `template_debug.double`):
