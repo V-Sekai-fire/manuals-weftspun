@@ -18,7 +18,7 @@ worker zone makes the garment, and its ghost materializes in their zone"
 
     scope "entities-godot master built with precision=double, the
 godot-sandbox addon at the same precision, transport-meshing-pen, and
-the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
+the zone, client, CA, asset, lasso, voice and garment-stage guest ELFs"
 
     decision ~S"""
     The first rung is two people in one zone, each with their own avatar:
@@ -53,7 +53,7 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
     details "How the guests are built and tested", ~S"""
     The zone, client, CA, asset, lasso and voice ELFs are C++, built from
     the fabric's, the lasso's and the codec's own sources against the
-    namespaced engine shim dress-on's curvenet guest already uses. Their
+    namespaced engine shim in contract-guest-runtime that the curvenet guest already uses. Their
     tests are a Lean package beside them that links that C++ through a
     small FFI shim, as frame-eye-osc does; Lean is never in the running
     path. Every property the tests check is paired with a control that
@@ -62,7 +62,7 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
     Every guest is built against the double-precision addon: a guest's
     `Variant` is 24 bytes at single precision and 40 at double, so a
     single-precision guest misreads every value the engine hands it.
-    What is missing: the vendored sandbox-api in dress-on, fabric-zone
+    What is missing: the vendored sandbox-api in contract-guest-runtime, fabric-zone
     and voice does not pass `DOUBLE_PRECISION` to its own library, and
     its `node2d.cpp` and `vector.cpp` fail to compile at double;
     `fit.elf`, `usd.elf` and `mujoco.elf` are single precision.
@@ -96,7 +96,7 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
        sandbox addon loads, and the Linux x86_64 build lacks XCursor and
        xkbcommon in the compatibility layer's root filesystem.
        Check: an OpenXR session starts on each path and the pen scene
-       draws in it; dress-on's headless gates pass on the double build.
+       draws in it; transport-meshing-pen's headless gates pass on the double build.
        A path that fails is logged with its error, and the rung goes
        ahead on the other. (`entities-godot`, the godot-sandbox addon)
     2. **Draw.** Strokes become a curvenet in the headset through
@@ -105,7 +105,7 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
        2263's replay still passes; the Lean tests link the lasso's C++
        and check it picks the target nearest the cone's axis, with a
        control that swaps two targets' distances.
-       (`transport-meshing-pen`, `interactor-dress-on`)
+       (`transport-meshing-pen`, `interactor-lasso`)
     3. **Wear.** The garment attaches rigidly to the avatar's bones; a
        mirror shows it. Check: a still from the headset's view.
        (`transport-meshing-pen`)

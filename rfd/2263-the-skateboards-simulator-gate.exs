@@ -15,7 +15,7 @@ defmodule RFD2263 do
 hand and curvenet closes it, repeatably, on a desk and in CI"
 
     scope "transport-meshing-pen's tools/gate_replay.gd,
-tools/replay_oxrsys.py and CI workflows; the dress-on ELFs it carries"
+tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
 
     decision ~S"""
     OXRSys is the OpenXR runtime, and tools/replay_oxrsys.py is its hand:

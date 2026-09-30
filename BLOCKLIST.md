@@ -1882,7 +1882,7 @@ which RFD 2284 needs to carry skin weights and blendshapes onto a remeshed body.
 That program uses libigl for closest-point queries, the cotangent Laplacian, the
 mass matrix and the constrained quadratic solve, and Eigen for every matrix.
 
-**The substitute.** The Laplacian and mass matrix are assembled on dress-on's
+**The substitute.** The Laplacian and mass matrix are assembled on interactor-curvenet's
 `pmp-subset` (MIT); the closest-point match and the conjugate-gradient inpaint
 solve run on compute-rd. The upstream program is a reference to read, not a
 dependency to build, so it is not a CPU control either: the control is the

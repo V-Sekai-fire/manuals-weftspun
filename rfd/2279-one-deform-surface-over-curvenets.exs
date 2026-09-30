@@ -14,7 +14,7 @@ defmodule RFD2279 do
 through one sandbox vmcall table, and any binding bakes to bones or to
 blend shapes"
 
-    scope "`deform_guest.sigs` and `guest/common/deform/` in dress-on,
+    scope "`deform_guest.sigs` and `guest/common/deform/` in interactor-cage,
 registered by `cage.elf` and `curvenet.elf`; the Lean kernels behind it"
 
     decision ~S"""
@@ -163,7 +163,8 @@ registered by `cage.elf` and `curvenet.elf`; the Lean kernels behind it"
     details "What is measured before it ships", ~S"""
     Each check has a planted control that must fail:
 
-    - `gates/4-curvenet` stays at 10 of 10 with the table registered;
+    - `gates/4-curvenet` (in the archived `interactor-dress-on`) stays at
+      10 of 10 with the table registered;
     - a cage built with `net_from_mesh` binds by `bhc13` to the same
       weights `MeshMorph3D` computes, and an open cage is refused;
     - `bake_skin` on a sketched net matches `CassieProfileMover`'s bake;

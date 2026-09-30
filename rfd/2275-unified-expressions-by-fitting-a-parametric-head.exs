@@ -141,7 +141,7 @@ avatar's face mesh"
     a net built from that mesh by RFD 2279's biharmonic method, and the
     cage vertices join the unknowns. Loss: point-to-surface distance to
     the avatar face, plus sparse landmarks (mouth corners, lip midline,
-    chin, brow ends) marked once. The solver is dress-on's gated
+    chin, brow ends) marked once. The solver is contract-lbfgsb's gated
     L-BFGS-B in single precision with double-single dot products, by the
     operator's ruling, with the Jacobian from Lean vector-Jacobian
     kernels.

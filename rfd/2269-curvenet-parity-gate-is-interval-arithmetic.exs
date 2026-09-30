@@ -18,7 +18,7 @@ defmodule RFD2269 do
 conformant driver, by bracketing each output in a proven interval instead of
 demanding identical bits"
 
-    scope "the parity gate at `gates/4-curvenet` and its check harness in
+    scope "the parity gate in `interactor-curvenet` and its check harness in
 `entities-cassie-flow-project/checks`, and the determinism contract every
 Lean-authored curvenet kernel meets"
 

@@ -10,7 +10,7 @@ defmodule RFD2276 do
     state :discussion
     feature "one joint primitive governs a learned persona controller and its authoring IK"
 
-    scope "godot-kusudama IK, motion-bricks PPO, dress-on ggml-rd, Appendix E.3 ROM"
+    scope "godot-kusudama IK, motion-bricks PPO, contract-ggml-rd, Appendix E.3 ROM"
 
     decision ~S"""
     A character-persona motion policy trains offline and runs on ggml-rd, and the
@@ -30,7 +30,7 @@ defmodule RFD2276 do
     references ~S"""
     - Continuous soft and prismatic kusudama: `4-entities/godot-kusudama`, commit 04924abc.
     - Offline PPO with the E.3 ROM envelope: RFD 2238; `3-interactor/motion-bricks-ggml`.
-    - ggml-rd (the RD0 backend, kernels from Lean): `3-interactor/dress-on`, `gates/3-ggml-rd`.
+    - ggml-rd (the RD0 backend, kernels from Lean): `2-contract/ggml-rd`; its gate, `gates/3-ggml-rd`, is in the archived `interactor-dress-on`.
     - Phenotype ROM: `chibifire/starforged-std-3001-appendix-e`, section E.3.
     """
 

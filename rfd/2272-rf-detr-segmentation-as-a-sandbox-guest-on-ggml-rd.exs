@@ -15,8 +15,8 @@ defmodule RFD2272 do
     feature "RF-DETR seg-nano runs as a godot-sandbox guest on ggml-rd,
 checked against a CPU flat control and a fault-injected negative control"
 
-    scope "interactor-dress-on's rfdetr_seg.elf (PR #22), the weight pump, and
-the one new ggml-rd kernel it needed"
+    scope "interactor-rfdetr-seg-guest's rfdetr_seg.elf, the weight pump in
+contract-guest-runtime, and the one new ggml-rd kernel it needed"
 
     decision ~S"""
     `rfdetr_seg.elf` is a godot-sandbox guest on ggml-rd, with its weights
@@ -54,6 +54,7 @@ the one new ggml-rd kernel it needed"
     """
 
     details "Gate 9", ~S"""
+    Gate 9 is `gates/9-rfdetr-seg` in the archived `interactor-dress-on`.
     The flat control is rf-detr-ggml's `seg_cli` on the CPU. Worst max
     difference against it, with the gate beside each:
 

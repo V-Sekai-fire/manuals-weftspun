@@ -15,15 +15,15 @@ defmodule RFD2277 do
     feature "a Modular Avatar build gives Miroir-Re unified expressions from
 ANNY and a dress refitted by a curvenet cage so it does not clip in motion"
 
-    scope "dress-on's `cage.elf` and `motion.elf`; the Unity sandbox; two NDMF
-components; Miroir-Re's dress and face"
+    scope "`cage.elf` (interactor-cage) and `motion.elf` (interactor-motion-guest);
+the Unity sandbox; two NDMF components; Miroir-Re's dress and face"
 
     decision ~S"""
     The first testable release is one NDMF build of Miroir-Re whose dress
     clears the body in every frame of our own motion, and whose face
     carries every unified-expression name transferred from ANNY. A CASSIE
     curvenet becomes a closed cage, bound by (1,3) biharmonic coordinates
-    and solved over the motion's frames with dress-on's L-BFGS-B in
+    and solved over the motion's frames with contract-lbfgsb's L-BFGS-B in
     float32/df32. Every kernel comes from Lean. The guests reach the engine
     only through the sandbox API. C# holds no logic, and no Python.
     """
@@ -124,7 +124,7 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     """
 
     details "The guest", ~S"""
-    The guest is `guest/cage/` (dress-on rule 6). The bind, deform and
+    The guest is `guest/cage/` in interactor-cage, one ELF for its stage. The bind, deform and
     Jacobian are the `bhc13` method of RFD 2279's shared surface, in
     `guest/common/deform/bhc13/`.
 
@@ -256,8 +256,8 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     """
 
     details "Phases and status", ~S"""
-    - **A.** `cage.elf`, `bhc13` and the Lean kernels, on dress-on
-      `feat/cage-elf`. Stopped with partial work; G1 (the Lean bind against
+    - **A.** `cage.elf`, `bhc13` and the Lean kernels, on `feat/cage-elf`
+      in the archived `interactor-dress-on`. Stopped with partial work; G1 (the Lean bind against
       the oracle) is the critical path. Then the in-motion fit, curvenet to
       cage, and `hf_*`.
     - **A2.** `motion.elf`, the Kimodo SOMA and MotionBricks G1 graphs on

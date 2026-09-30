@@ -14,8 +14,8 @@ defmodule RFD2284 do
 meshes, four materials or fewer, 20,000 polygons or fewer, 150 bones or
 fewer"
 
-    scope "dress-on's `remesh.elf`, `unwrap.elf`, `bake.elf` and
-`skintokens.elf`; meshoptimizer 1.3; the NDMF merge pass; Miroir-Re"
+    scope "interactor-remesh's `remesh.elf`; the `unwrap.elf`, `bake.elf` and
+`skintokens.elf` guests; meshoptimizer 1.3; the NDMF merge pass; Miroir-Re"
 
     decision ~S"""
     The Quest variant is built by four godot-sandbox guests reached
