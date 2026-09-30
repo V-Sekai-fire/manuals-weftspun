@@ -26,7 +26,7 @@ defmodule RFD1147 do
     `fourloops-plan.usda` and `fourloops-etnf.usda` name it as a source, so
     a quantity in either layer resolves against the scorer's own document.
 
-    **Its negative control is what makes the number a measurement.** A
+    **Its negative control makes the number a measurement.** A
     nonsense instruction returns 0.0 overall. A scorer that returns a
     middling figure for nonsense has not discriminated, and its score for a
     real edit would mean nothing.
@@ -70,8 +70,8 @@ defmodule RFD1147 do
     excellent on one axis and poor on another. Which axis failed is the actionable
     half, and the overall alone discards it.
 
-    **The negative control.** A nonsense instruction returns 0.0 overall. That is
-    what makes 4.29 a measurement rather than an impression: a scorer that cannot
+    **The negative control.** A nonsense instruction returns 0.0 overall. That
+    makes 4.29 a measurement rather than an impression: a scorer that cannot
     return 0.0 for nonsense is not discriminating, and every score it gives is
     consistent with it having read nothing. `editscoreNonsenseOverall = 0.0` in
     `fourloops-plan.usda` carries that control beside the quantity it validates.

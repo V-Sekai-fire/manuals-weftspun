@@ -9,7 +9,7 @@ defmodule RFD2164 do
   rfd 2164, "MaskScore Speech-stub 12-track ASR panel + 10-rank voice cloning" do
     state :discussion
 
-    feature "MaskScore Speech stub filled along two axes -- a panel of
+    feature "MaskScore Speech stub filled along two axes: a panel of
 diverse ASR judges (12 tracks per audio) and a 10-rank ladder of
 voice-cloned candidates. Together they cover the transcript and audio
 dimensions the reward model needs to score."

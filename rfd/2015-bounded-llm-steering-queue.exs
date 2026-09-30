@@ -14,7 +14,7 @@ defmodule RFD2015 do
     """
 
     problem ~S"""
-    We steer an LLM by appending tasks to a queue as we go — this manuals
+    We steer an LLM by appending tasks to a queue as we go. This manuals
     session is the canonical example, with dozens of incremental requests.
     An unbounded queue overflows two scarce resources: the operator's
     personal context (you lose track of what is pending versus done) and

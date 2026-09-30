@@ -16,7 +16,7 @@ defmodule RFD2060 do
     problem ~S"""
     Repository operations against
     [`v-sekai-multiplayer-fabric`](https://github.com/v-sekai-multiplayer-fabric)
-    — archiving, renaming, pushing, editing settings — run through `gh`
+    (archiving, renaming, pushing, editing settings) run through `gh`
     from a working environment. `gh` was authenticated with a personal
     OAuth token (`gho_`, scopes `gist, read:org, repo, workflow`). The
     `repo` scope is not org-scoped: it grants read/write/**admin/delete**
@@ -34,8 +34,8 @@ defmodule RFD2060 do
 
     details "Context and problem statement", ~S"""
     Repository operations against
-    [`v-sekai-multiplayer-fabric`](https://github.com/v-sekai-multiplayer-fabric) —
-    archiving, renaming, pushing, editing settings, run through `gh` from
+    [`v-sekai-multiplayer-fabric`](https://github.com/v-sekai-multiplayer-fabric)
+    (archiving, renaming, pushing, editing settings) run through `gh` from
     a working environment. `gh` was authenticated with a personal OAuth
     token (`gho_`, scopes `gist, read:org, repo, workflow`). The `repo`
     scope is not org-scoped: it grants read/write/**admin/delete** on
@@ -81,7 +81,7 @@ defmodule RFD2060 do
     `gh auth login` and nothing written to disk.
 
     An installation token is org-scoped by construction, expires ~1 hour
-    after minting, and acts as the App rather than the personal account —
+    after minting, and acts as the App rather than the personal account,
     covering all three of the top drivers in one mechanism, where a
     fine-grained PAT covers org-scoping but stays long-lived and a
     human-account secret. The cost is a reachable Bao at minting time and

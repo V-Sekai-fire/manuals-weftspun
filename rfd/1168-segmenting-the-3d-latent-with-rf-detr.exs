@@ -30,7 +30,7 @@ defmodule RFD1168 do
     **Masking is corruption.** A layer is only a layer if it is whole, so
     emitting `back hair` means restoring what `front hair` hid.
 
-    **LaMa fills the hole, and is the licence-clean half of See-Through** —
+    **LaMa fills the hole, and is the licence-clean half of See-Through**:
     `dreMaz/AnimeMangaInpainting`, MIT over Apache-2.0, tuned for this
     domain. It will not compile: its Fourier convolutions call `rfftn`, and
     no Fourier operator is in `DEVICE_OPS`. CycleGAN is the opposite trade.
@@ -97,7 +97,7 @@ defmodule RFD1168 do
     that are genuinely appearance rather than depth.
     """
 
-    details "Masking is corruption, and it is what makes the layers whole", ~S"""
+    details "Masking is corruption, and it makes the layers whole", ~S"""
     Segmentation alone does not produce layers. It produces regions of a
     surface, and a layer that stops where another one covered it is not a
     layer, it is a silhouette with a bite taken out. `back hair` has to
@@ -249,8 +249,8 @@ defmodule RFD1168 do
 
     **The scoring row is where this reaches beyond this RFD.** RFD 1166
     ranks EditScore, a LoRA over Qwen3-VL-8B at 6.75 GiB, as the gate that
-    accepts or rejects a proposal. If that gate is doing classification --
-    is this edit good, the paper's finding is that an embedding model ties
+    accepts or rejects a proposal. If that gate is doing classification
+    (is this edit good?), the paper's finding is that an embedding model ties
     an LLM at a fraction of the cost, and 6.75 GiB is most of the device's
     8 GB. If it is doing reasoning-intensive judgement, the LLM earns its
     place. **Nobody here has established which**, and the two answers differ

@@ -263,8 +263,8 @@ new upstream mirror `3-interactor/stable-diffusion-cpp-upstream`"
     - Video-family DiTs (Wan-VACE etc.) are not scoped even though
       stable-diffusion.cpp lists them, the workspace's current need is
       image editing, and video would double the surface.
-    - The `mllm/` half of OmniGen2 (Qwen2.5-VL slice) is not ported here —
-      it runs through the standard llama.cpp mtmd path that this
+    - The `mllm/` half of OmniGen2 (Qwen2.5-VL slice) is not ported here.
+      It runs through the standard llama.cpp mtmd path that this
       workspace's `3-interactor/llama-cpp-npu-vision-upstream` already
       exercises. Only the DiT half needs the port.
     """

@@ -124,7 +124,7 @@ defmodule RFD2143 do
     5. Once `fdbcli status minimal` reports the database available and
        `fdbbackup status -t dr` reports no previous backup, runs
        `fdbbackup start -t dr -z -d "$(cat backup-url-r2)"` once.
-       Restarting a running tag is what makes a second start abort as
+       Restarting a running tag makes a second start abort as
        "already exists" without naming which tag, so the guard fires on
        the state that the start call actually needs.
 
@@ -159,8 +159,8 @@ defmodule RFD2143 do
     4. Bootstrap a fresh CA whose key stays outside Bao, because the CA
        inside Bao is unreachable until Bao is up. Issue the machine leaf,
        set it as `FDB_TLS_CERT_<mid>_B64` / `FDB_TLS_KEY_<mid>_B64`.
-    5. `fdbrestore start -r "$(cat /etc/foundationdb/backup-url-r2)" -w`
-       – wait, because a background restore that fails on a
+    5. `fdbrestore start -r "$(cat /etc/foundationdb/backup-url-r2)" -w`:
+       wait, because a background restore that fails on a
        loopback-broken stunnel does not surface until the next check.
     6. When restore finishes, `fdbcli status` reports the restored key
        ranges and Bao's mount metadata is visible in FDB. Recreate

@@ -35,7 +35,7 @@ defmodule RFD1171 do
     **The boundary is subtraction, not segmentation.** The posed ANNY mesh
     gives the body outline through `silhouette.py`; MoGe depth gives the
     person's outline and the camera both project through. What lies between
-    is worn — no taxonomy-aware segmenter, so no labelled corpus.
+    is worn (no taxonomy-aware segmenter, so no labelled corpus).
     `contour.py` makes either a fixed ring. `DETAILS.md` places every
     candidate and names the empty stages.
     """
@@ -401,7 +401,7 @@ defmodule RFD1171 do
 
     **An illustration has one view and there is no second one to take.** A
     drawing is not a scene anybody can walk around. For that input,
-    multi-view has to be *generated*, which is TRELLIS.2 or Pixal3D --
+    multi-view has to be *generated* (which is TRELLIS.2 or Pixal3D)
     and then verified back against what conditioned it, exactly the control
     rule CLAUDE.md states for poses.
 
@@ -523,7 +523,7 @@ defmodule RFD1171 do
                                          metres, scale included    surface occludes
 
     **What improved is not the depth term, it is where absolute scale comes
-    from.** Under affine depth, scale was visible to exactly one term --
+    from.** Under affine depth, scale was visible to exactly one term:
     the LBFGS vertex fit, and only when its correspondence was right. The
     one quantity nothing else could see was sourced through the least
     trustworthy path in the system. Metric depth sees scale with no
@@ -593,8 +593,8 @@ defmodule RFD1171 do
 
     **Why depth is the right third opinion is measured, not asserted**, and
     that part survives any swap. The silhouette scores 0.849 on a
-    depth-plus-scale change, which is exactly its own self-IoU floor --
-    perfectly blind:
+    depth-plus-scale change, which is exactly its own self-IoU floor
+    (perfectly blind):
 
         LBFGS vertex   sees 3D with correspondence  blind to whether the
                                                     correspondence is right
@@ -700,7 +700,7 @@ defmodule RFD1171 do
     the camera sequence, so `sphere_hammersley_sequence` is the path unless
     somebody argues otherwise.
 
-    **It is also constructed synthetic by CLAUDE.md's definition** --
+    **It is also constructed synthetic by CLAUDE.md's definition**:
     rendered deterministically from assets held here, labels true by
     construction, the same seed reproducing the corpus. Not generated data,
     so none of the four conditions apply.
@@ -738,7 +738,7 @@ defmodule RFD1171 do
     **What is licence-clean is classical.** OpenCV is Apache-2.0 and COLMAP
     is new BSD, with the caveat COLMAP states itself: its dependencies are
     separately licensed and building against them can affect the result.
-    For a fixed webcam the classical route is also the simpler one --
+    For a fixed webcam the classical route is also the simpler one:
     accumulating a static scene over frames is arithmetic, not a model, and
     it needs no checkpoint, no corpus and no licence at all.
     """
@@ -932,8 +932,8 @@ defmodule RFD1171 do
     4. **A garment representation.** Every row above treats a garment as
        pixels or voxels. Nothing here says what a `topwear` *is* as a
        shippable asset, and glTF's pure-data rule constrains the answer.
-    5. **A persona.** `make a friend` needs the character to have a manner
-       – what it knows, how it speaks, what it will not say -- and nothing
+    5. **A persona.** `make a friend` needs the character to have a manner:
+       what it knows, how it speaks, what it will not say. Nothing
        in this workspace holds one. A system prompt is the cheap version
        and a LoRA over Qwen3-VL is the durable one, which is EditScore's
        arrangement pointed at personality instead of judgement.

@@ -52,7 +52,7 @@ defmodule RFD1102 do
     details_title "The supported task catalog, one live source"
 
     details_preamble ~S"""
-    Every module in the atelier catalog runs on **ggml** (RFD 2188 —
+    Every module in the atelier catalog runs on **ggml** (RFD 2188:
     one ggml source across the workspace at `2-contract/ggml/`).
     Weights ship as GGUF, quantised to Q4 unless a measurement asks
     for wider precision. Consumer projects wrap the shared runtime;

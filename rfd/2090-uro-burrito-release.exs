@@ -16,8 +16,8 @@ defmodule RFD2090 do
     problem ~S"""
     `zone-backend`'s root `Dockerfile` (used for local `docker-compose`)
     boots `uro` via `iex -S mix do ecto.create, ecto.migrate, run
-    priv/repo/test_seeds.exs, phx.server`. This is dev-shaped on purpose —
-    seeding `test_seeds.exs` on every boot is fine for local development —
+    priv/repo/test_seeds.exs, phx.server`. This is dev-shaped on purpose
+    (seeding `test_seeds.exs` on every boot is fine for local development),
     but `build-image.yml` reused the same root `Dockerfile` for its
     `ghcr.io` image, described as "consumed by
     `v-sekai-multiplayer-fabric/infra` via the `gateway_image`/`uro_image`
@@ -33,8 +33,8 @@ defmodule RFD2090 do
     details "Context and problem statement", ~S"""
     `zone-backend`'s root `Dockerfile` (used for local `docker-compose`)
     boots `uro` via `iex -S mix do ecto.create, ecto.migrate, run
-    priv/repo/test_seeds.exs, phx.server`. This is dev-shaped on purpose —
-    seeding `test_seeds.exs` on every boot is fine for local development —
+    priv/repo/test_seeds.exs, phx.server`. This is dev-shaped on purpose
+    (seeding `test_seeds.exs` on every boot is fine for local development),
     but `build-image.yml` reused the same root `Dockerfile` for its
     `ghcr.io` image, described as "consumed by
     `v-sekai-multiplayer-fabric/infra` via the `gateway_image`/`uro_image`
@@ -106,9 +106,9 @@ defmodule RFD2090 do
     safe to bake in at compile time: `ecto_repos`, `hammer`, logger
     format, `pow`'s static config, and similar.
 
-    `Uro.Config.Helpers` (the `COMPILE_PHASE` module) is deleted —
-    confirmed via `grep -rln "Uro\.Config\.Helpers\|compile_phase"
-    lib/` that nothing outside `config/*.exs` referenced it.
+    `Uro.Config.Helpers` (the `COMPILE_PHASE` module) is deleted.
+    `grep -rln "Uro\.Config\.Helpers\|compile_phase" lib/` confirmed
+    that nothing outside `config/*.exs` referenced it.
 
     `lib/uro/release.ex` adds `Uro.Release.migrate/0`, run via the
     release's own `eval` command

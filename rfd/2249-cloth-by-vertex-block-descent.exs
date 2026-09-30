@@ -65,7 +65,7 @@ defmodule RFD2249 do
     it. This build accepts no vertex-collision fallback; both spellings are
     refused at the schema.
 
-    The GPU backend does not apply the cap to geometry-against-cloth groups --
+    The GPU backend does not apply the cap to geometry-against-cloth groups:
     its farthest-point-sampling filter returns early unless the group is
     cloth-against-cloth, and on the device gives 70 contacts at 128 elements
     and 173 at 1,152.

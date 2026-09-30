@@ -70,6 +70,25 @@ defmodule RFDTest do
     assert RFD.Doc.tropes(doc()) == []
   end
 
+  test "a tell fails validation wherever a reader sees text" do
+    for bad <- [
+          doc(decision: "Do the thing — it matters."),
+          doc(decision: "Do the thing --\nit matters."),
+          doc(decision: "Do the thing\n— it matters."),
+          doc(problem: "Stages run in order – each one checked."),
+          doc(feature: "a feature — with an aside"),
+          doc(details: [{"Staging is what makes the tier", "Body."}])
+        ] do
+      assert_raise ArgumentError, ~r/prose carries/, fn -> RFD.Doc.validate!(bad) end
+    end
+  end
+
+  test "list markers, Lean comments, hyphens and ranges are not tells" do
+    ok = "- a list item\n  - a nested item\n\n    -- a Lean comment\n\nA well-known 1–3 range."
+    assert RFD.Doc.tropes(doc(decision: ok)) == []
+    assert %RFD.Doc{} = RFD.Doc.validate!(doc(decision: ok))
+  end
+
   test "front matter and a preamble render in place and the pointer is not doubled" do
     d =
       doc(

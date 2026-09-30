@@ -18,7 +18,7 @@ defmodule RFD2070 do
     C++ engine module: spans for the loop's phases, counters and gauges
     for grants and ticks, and log lines. Export is opt-in. The server
     reads `OTEL_EXPORTER_OTLP_ENDPOINT`, and with no endpoint set it stays
-    idle — it records signals in process but exports nothing, which keeps
+    idle: it records signals in process but exports nothing, which keeps
     a server that has no collector from retrying against one that is not
     there. The observability stack
     (`rfd/200b-observability-stack-victoriatraces`) runs an OTEL collector

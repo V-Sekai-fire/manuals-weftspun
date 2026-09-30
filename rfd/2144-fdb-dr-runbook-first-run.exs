@@ -28,8 +28,8 @@ defmodule RFD2144 do
     written to 1P as `weftspun-fdb cluster id`. Coordinator addresses
     change on a rebuild anyway, so the identity change rides along.
 
-    Measurements — R2 snapshot age, `fdbrestore` timings, twelve inline
-    defects the runbook did not name — move to `DETAILS.md`.
+    Measurements (R2 snapshot age, `fdbrestore` timings, twelve inline
+    defects the runbook did not name) move to `DETAILS.md`.
     `logbook-rfd2144-dr-runbook-first-run.md` records what was measured
     during the run itself.
     """
@@ -38,7 +38,7 @@ defmodule RFD2144 do
     RFD 2143 called its own DR runbook theatre because RFD 2141's break-glass
     CA was not in 1Password. On 2026-09-01, `weftspun-fdb`, `weftspun-bao`,
     `spot-broker` and `chibifire-com` were gone from Fly. Tigris and R2 both
-    survived — compute lost, storage kept — so the runbook had to run.
+    survived (compute lost, storage kept), so the runbook had to run.
     """
 
     related ~S"""
@@ -50,7 +50,7 @@ defmodule RFD2144 do
     details "The disaster", ~S"""
     On 2026-09-01, `fly apps list` for `personal` returned one row:
     `artifacts-mmo-mcp`. The four apps the working agreements name as
-    placed, `weftspun-fdb`, `weftspun-bao`, `spot-broker`, `chibifire-com` —
+    placed (`weftspun-fdb`, `weftspun-bao`, `spot-broker`, `chibifire-com`)
     were gone. Tigris `weftspun-fdb-blob` and R2 `weftspun-fdb-dr` both
     survived, so the disaster matched RFD 2143's premise partially: compute
     lost, object storage kept. The `personal` org's `weftspun-fdb-blob` bucket
@@ -108,7 +108,7 @@ defmodule RFD2144 do
     and `backup_fresh_dr` publish a file only when the backup agents are
     running and their newest object is fresh. On a fresh cluster with no
     backup started, the files never appear, and the checks stay critical
-    past their grace periods. `--strategy immediate` is what makes the
+    past their grace periods. `--strategy immediate` makes the
     deploy return anyway. Once the cluster is up and the DR-tag backup
     starts, the checks recover on the next poll.
 

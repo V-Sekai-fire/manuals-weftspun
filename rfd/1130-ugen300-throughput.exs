@@ -219,8 +219,8 @@ defmodule RFD1130 do
     **The scale row is confounded and is recorded rather than used.** `force_range_out` moved
     conv1's scale 2.8x as asked, but the kernel hash changed too: the optimiser re-derives
     weight quantisation, bias correction and its distillation pass against the new range. So
-    forcing a range is not a scale-only perturbation, which matters to anything built on QZO --
-    see `logbook-dfc-emulation-contexts-disagree.md`.
+    forcing a range is not a scale-only perturbation, which matters to anything built on QZO
+    (see `logbook-dfc-emulation-contexts-disagree.md`).
 
     Compile cost, for anything that recompiles per generation: **optimize 12.9-15.9 s, compile
     4.5-5.0 s** for a two-conv graph, and **8.7 s** to compile a 131k-parameter stack.

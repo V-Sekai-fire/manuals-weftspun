@@ -22,8 +22,8 @@ defmodule RFD1165 do
 
     **The requirement is measured: QAFT needs 32.5 GiB, on an A40.** The
     desk 3090 holds 24, so the shortfall is 8.5 GiB and no batch size
-    closes it. Separately, `a16_w16` is refused by this part outright --
-    twelve `precision_change` layers the target will not take -- so
+    closes it. Separately, `a16_w16` is refused by this part outright
+    (twelve `precision_change` layers the target will not take), so
     `a8_w8` is the precision ceiling. `DETAILS.md` carries both.
     """
 
@@ -73,8 +73,8 @@ defmodule RFD1165 do
     """
 
     details "Why batch size was never going to work", ~S"""
-    The first version of this RFD read the compiler's own advice --
-    `Please try Quantization-Aware Fine-Tuning with lower batch size` --
+    The first version of this RFD read the compiler's own advice
+    (`Please try Quantization-Aware Fine-Tuning with lower batch size`)
     as a lever, and the advice is not wrong in general. It is wrong here
     because the floor of the range is still above the card.
 

@@ -76,7 +76,7 @@ defmodule RFD1126 do
     of decided at run time. The pose it emits is reachable because the
     parameterisation says so, not because training made it likely.
 
-    The clamp is what makes that claim survive compilation. `swing-twist-kusudama`
+    The clamp makes that claim survive compilation. `swing-twist-kusudama`
     already has joint limits stated in Lean 4 and checked against Godot's own
     output, and clamping swing and twist at every unrolled step is a `Clip`, which
     compiles. So the guarantee holds in a feed-forward graph, which is the thing a

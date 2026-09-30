@@ -18,7 +18,7 @@ defmodule RFD2200 do
     at `relationships/`, one tuple per row, key shape
     `<subject>--<verb>--<object>`. Twelve tuples live for the current
     fleet across five verbs (`authors`, `admin`, `owns`, `runs-on`,
-    `hosts`). Three named roles fall out — coordinator (MPS),
+    `hosts`). Three named roles fall out: coordinator (MPS),
     gpu-experimenter (CUDA), edge-qat-specialist (HAILO). See
     `DETAILS.md` for the tuple listing and role scopes.
     """
@@ -36,8 +36,8 @@ defmodule RFD2200 do
     section "Non-goals", ~S"""
     Not enforced today. The tuples are data; nothing gates a KV write
     against them yet. When enforcement lands it goes in a separate RFD.
-    Also not covered: an external ReBAC engine (OpenFGA, SpiceDB) —
-    the tuples-in-KV shim is the minimum that answers the question we
+    Also not covered: an external ReBAC engine (OpenFGA, SpiceDB).
+    The tuples-in-KV shim is the minimum that answers the question we
     have. A production ReBAC engine is a future call.
     """
 
