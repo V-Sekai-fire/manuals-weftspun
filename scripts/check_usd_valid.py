@@ -268,7 +268,7 @@ def self_test():
     # it to 1 silently, and `= 10` mangled the same way also becomes 1. The layer then
     # parses, validates and round-trips perfectly while carrying two tasks numbered 1.
     # Value corruption is invisible at the USD level by construction, which is the division
-    # of labour with `check_rfd1122_plan.py` -- this gate says the layer is well formed, and
+    # of labour with `check_rfd1122_plan.exs` -- this gate says the layer is well formed, and
     # that one says the content means what it claims. It catches the duplicate.
 
     # And one positive control: an untouched copy must still pass, or the controls above

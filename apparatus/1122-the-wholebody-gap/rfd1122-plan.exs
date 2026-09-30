@@ -11,7 +11,7 @@ defmodule Plan.Rfd1122Plan do
 
 WHY THIS EXISTS. The RFD states its order in sentences, and a sentence cannot be asked
 whether step 8 comes after the two steps it needs. Here the order is an `int order`, the
-dependencies are relationships, and `scripts/check_rfd1122_plan.py` fails when the two
+dependencies are relationships, and `scripts/check_rfd1122_plan.exs` fails when the two
 disagree. RFD 1035 makes OpenUSD the internal format, and a plan is a graph, so it
 composes here for the same reason the topology does.
 
@@ -34,7 +34,7 @@ They are here now, and they mean nothing. `upAxis = \"Z\"` matches what
 them agreeing rather than contradicting. `metersPerUnit = 1` is the default made
 explicit. The gate checks this, so the claim cannot rot.")
 
-    string("checker", ".logbook/scripts/check_rfd1122_plan.py")
+    string("checker", "scripts/check_rfd1122_plan.exs")
     string("rfd", "1122")
     string("rfdState", "discussion")
     int_list("sizePoints", [
