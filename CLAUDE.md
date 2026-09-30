@@ -580,6 +580,11 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   and material counts.
 - **Formats and figures:** `.usda`, ZStandard parquet, usdz as a delivery container, PSD,
   pure-data glTF, the CineForm SDK as the codec, hand-authored inline SVG for figures.
+- **Live streaming:** PyroWave (MIT, `Themaister/pyrowave`) with the Granite subset it checks
+  out (MIT, `Themaister/Granite`), an intra-only wavelet codec in Vulkan compute, for the
+  desktop-to-headset stream; CineForm stays the recording codec (RFD 2287).
+- **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
+  kernel compiled to SPIR-V, Metal and a CPU library, so GPU and CPU are measured on one source.
 - **Test assets:** procedurally generated geometry with analytic ground truth.
 
 ## What Belongs Here
