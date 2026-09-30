@@ -3,9 +3,8 @@ name: Checks
 on:
   pull_request:
   merge_group:
-  # A push to main is the "just-merged" edge, which is where the
-  # orphan-branch gate has something new to look at. Every other job in
-  # this file guards itself with an `if:` for the trigger it wants.
+  # A push to main/main fills the cache. A run restores caches saved on its own branch
+  # or on main/main, so a cache saved by a pull request helps only that pull request.
   push:
     branches: [main/main]
   schedule:
@@ -25,7 +24,7 @@ jobs:
   # The ci-* hooks sit in the manual stage because they need GATE_BASE or
   # GH_TOKEN, which a local commit does not have.
   prek:
-    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    if: github.event_name == 'pull_request' || github.event_name == 'merge_group' || github.event_name == 'push'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -80,14 +79,22 @@ jobs:
         working-directory: transport-shepherd
         run: mix deps.get
       - run: pip install prek
-      # The Markdown and the registers are rendered from the .exs sources (RFD 2232).
       - run: mix local.hex --force && mix local.rebar --force && mix deps.get
-      - run: mix rfd.render
+      # A push to main/main skips every step after these three, so its cache holds the
+      # compiled deps and the hook environments.
+      - run: mix compile
+      - working-directory: transport-shepherd
+        run: mix compile
+      - run: prek install-hooks
+      # The Markdown and the registers are rendered from the .exs sources (RFD 2232).
+      - if: github.event_name != 'push'
+        run: mix rfd.render
       # GH_TOKEN passthrough for the shepherd goal-manifests port, which asks the
       # organisation which repos are archived (same reason the goal-manifests
       # python job below carries it). Without it the shepherd hook reports FAIL
       # UNCHECKED per rule 3 rather than a silent skip.
-      - env:
+      - if: github.event_name != 'push'
+        env:
           SHEPHERD_ROOT: ${{ github.workspace }}/transport-shepherd
           GH_TOKEN: ${{ github.token }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -99,8 +106,10 @@ jobs:
           else
             prek run --all-files --show-diff-on-failure --color always
           fi
-      - run: pip install -r scripts/requirements.txt
-      - env:
+      - if: github.event_name != 'push'
+        run: pip install -r scripts/requirements.txt
+      - if: github.event_name != 'push'
+        env:
           GATE_BASE: origin/${{ github.event.pull_request.base.ref || github.event.repository.default_branch }}
           GH_TOKEN: ${{ github.token }}
         run: >-
