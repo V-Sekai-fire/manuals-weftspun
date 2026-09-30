@@ -37,7 +37,7 @@ V-Sekai client and server that host the loop"
     """
 
     related ~S"""
-    - RFD 2263 (the first testable release's simulator gate), the active release.
+    - RFD 2263 and RFD 2287, the active release's simulator gate and first rung.
     - RFD 2234 (dress-on pipeline), the loop the releases ride on.
     - RFD 1053 (OpenUSD as the internal format).
     - RFD 2229 (interchangeable parts), the rule new parts answer to.
@@ -57,10 +57,10 @@ V-Sekai client and server that host the loop"
       study (Yu et al., doi 10.1145/3411764.3445158). Done: people liked
       it, and wearables exist in what they drew (36 study shoes, a dress,
       two hats).
-    - **First testable release.** Can a person draw an outfit on
-      an avatar and get back a garment that fits and drapes? The simulator
-      first, a replayed sketch; then one person at a time on a standalone
-      VR headset. Active (RFD 2263).
+    - **First testable release.** Can a person draw an outfit, wear it,
+      and show it to someone who talks with them? The simulator first, a
+      replayed sketch (RFD 2263); then the first rung, two people in one
+      zone with the garment made on a worker zone (RFD 2287). Active.
     - **Shareable release.** Will people save, share and wear what they made
       where others see it? The same creators and whoever they share with,
       phones included. Next: save as OpenUSD, export VRM, wear it and move
