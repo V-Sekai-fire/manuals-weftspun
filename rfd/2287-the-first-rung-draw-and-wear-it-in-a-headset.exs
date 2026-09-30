@@ -58,6 +58,26 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
     small FFI shim, as frame-eye-osc does; Lean is never in the running
     path. Every property the tests check is paired with a control that
     plants the defect and must be found.
+
+    Every guest is built against the double-precision addon: a guest's
+    `Variant` is 24 bytes at single precision and 40 at double, so a
+    single-precision guest misreads every value the engine hands it.
+    What is missing: the vendored sandbox-api in dress-on, fabric-zone
+    and voice does not pass `DOUBLE_PRECISION` to its own library, and
+    its `node2d.cpp` and `vector.cpp` fail to compile at double;
+    `fit.elf`, `usd.elf` and `mujoco.elf` are single precision.
+    """
+
+    details "The headset", ~S"""
+    The headset is aarch64 SteamOS with SteamVR's OpenXR runtime, two
+    2160 by 2160 panels at 108, 120 or 144 Hz, a recommended render
+    target of 1728 by 1728 per eye, and 16 GB of memory shared with an
+    Adreno 750. One Slang kernel measures 1.28 FP32 and 2.57 FP16
+    TFLOPS on that GPU and 107 GFLOPS across its 8 CPU cores, about
+    0.39 to 0.48 of the desk's M2 Pro on each. PyroWave encodes both eyes
+    at 200 Mbit/s and 72 Hz in 12.4 ms through the CPU-buffer path,
+    against 317 Mbit/s of measured Wi-Fi. `logbook/logbook-steam-frame-sizing.md`
+    carries the apparatus and the numbers.
     """
 
     details "The critical path", ~S"""
@@ -67,7 +87,14 @@ the zone, client, CA, asset, lasso, voice and dress-on guest ELFs"
     1. **Build.** Base Godot `master` with `precision=double` for x86_64
        Linux and Windows, and the godot-sandbox addon rebuilt at double
        precision. The headset runs the Windows build through its
-       compatibility layer; a desktop OpenXR runtime also streams to it.
+       compatibility layer; a desktop OpenXR runtime also streams to it,
+       and that stream is PyroWave, an intra-only wavelet codec in
+       Vulkan compute whose exact rate control holds a frame to its byte
+       budget. CineForm stays the recording codec. The Windows double
+       editor build holds 72 fps in the headset; the exported
+       `template_release` build faults in a `StringName` copy once the
+       sandbox addon loads, and the Linux x86_64 build lacks XCursor and
+       xkbcommon in the compatibility layer's root filesystem.
        Check: an OpenXR session starts on each path and the pen scene
        draws in it; dress-on's headless gates pass on the double build.
        A path that fails is logged with its error, and the rung goes
