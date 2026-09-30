@@ -182,6 +182,22 @@ repos:
         files: ^scripts/check_double_join\.exs$
         pass_filenames: false
 
+      # CLAUDE.md states the desk agent's capabilities as RFD 2200 tuples, and the gate reads
+      # its verbs from RFD 2200's source, so a verb the RFD does not name fails here.
+      - id: rebac
+        name: the rebac block in CLAUDE.md uses only RFD 2200's verbs
+        entry: elixir scripts/check_rebac.exs
+        language: system
+        files: ^(CLAUDE\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs)$
+        pass_filenames: false
+
+      - id: rebac-self-test
+        name: the rebac gate still fails on known-broken rows
+        entry: elixir scripts/check_rebac.exs --self-test
+        language: system
+        files: ^scripts/check_rebac\.exs$
+        pass_filenames: false
+
       # CLAUDE.md was 972 lines, 592 of them the argument behind the blocklist table. The
       # reasoning moved to BLOCKLIST.md so a reader looking up whether a source is permitted
       # is not walking through the case against FLUX.1 to reach the next agreement.

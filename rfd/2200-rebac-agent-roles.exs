@@ -67,9 +67,27 @@ defmodule RFD2200 do
     | `owns` | the subject holds and operates the object as hardware (a GPU card, an NPU) |
     | `runs-on` | the subject's Claude Code process is hosted on the object machine |
     | `hosts` | inverse of `runs-on`, from the host side; makes queries "who is on host X" cheap |
+    | `reaches` | the subject works on the object over the network as an unprivileged user |
+    | `restarts` | the subject stops and starts the object service without holding its host |
+    | `mints` | the subject mints short-lived credentials of the object's kind, revoking each |
+    | `pushes` | the subject pushes feature branches to the object, never its default branch |
 
     Verb vocabulary is small on purpose. A new verb costs an RFD amendment;
     overloading existing verbs is fine when the mapping is obvious.
+
+    A row whose verb carries a `!` is a denial: `<subject>--!<verb>--<object>`
+    says the subject does not hold the relation, and it carries its reason
+    after `#`. Default deny already covers what no row names; a denial row
+    answers a question an agent would otherwise have to ask.
+    """
+
+    details "Tuples in a document", ~S"""
+    `CLAUDE.md` carries the desk agent's tuples in a fenced `rebac` block,
+    one row per line, with a note or a reason after `#`.
+    `scripts/check_rebac.exs` reads the verb table above, so a verb used
+    there before this table names it fails the gate, and so does a denial
+    without its reason, a repeated row, or a relation both granted and
+    denied.
     """
 
     details "The three roles", ~S"""
