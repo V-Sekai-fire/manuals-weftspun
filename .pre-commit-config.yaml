@@ -61,25 +61,14 @@ repos:
         files: ^README\.md$
         pass_filenames: true
 
-      # The plan's numbering must agree with its own graph, and its counts with the
-      # documents they came from -- and one of those documents is RFD 1122, which lives in
-      # `request-for-discussion` rather than here. CI checks this repository out on its
-      # own, so the RFD is simply absent there and the check cannot run.
-      #
-      # `stages: [manual]` rather than a skip inside the script, because the two read
-      # differently. A script that notices a missing source and passes anyway reports a
-      # green run for a check it did not perform; a manual hook reports nothing and says
-      # where to run it. In a goal-manifest workspace:
-      #
-      #     prek run rfd1122-plan --hook-stage manual --all-files
+      # The plan's numbering must agree with its own graph, and its counts with the documents
+      # that cite them. It reads the plan's Elixir source and nothing rendered.
       - id: rfd1122-plan
-        name: RFD 1122's plan agrees with its graph and with the RFD
-        entry: python scripts/check_rfd1122_plan.py
-        language: python
-        additional_dependencies: ["usd-core==26.8"]
-        files: ^(rfd1122-plan\.usda|scripts/check_rfd1122_plan\.py|CLAUDE\.md)$
+        name: RFD 1122's plan agrees with its graph and with the documents citing it
+        entry: elixir scripts/check_rfd1122_plan.exs --self-test
+        language: system
+        files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|CLAUDE\.md|BLOCKLIST\.md|rfd/1142-the-mac-against-the-ugen300\.exs|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
         pass_filenames: false
-        stages: [manual]
 
       # The four loops are described twice on purpose: `fourloops-plan.usda` is the task
       # graph and `fourloops-etnf.usda` is the schema those tasks read and write. Two

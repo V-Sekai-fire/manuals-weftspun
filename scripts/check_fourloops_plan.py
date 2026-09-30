@@ -17,7 +17,7 @@ WHAT IT CHECKS, and why each is separate.
 3. COUNTS ARE NOT ONLY HERE. Every integer under `/FourLoops/Quantities` is searched for in
    the sources the layer names, as a whole token with commas stripped. A number that lives
    only in the stage is a number nobody reviewed. This is the pattern
-   `check-rfd-structure.py` uses for RFD 1000's state list and `check_rfd1122_plan.py` uses
+   `check-rfd-structure.py` uses for RFD 1000's state list and `check_rfd1122_plan.exs` uses
    for RFD 1122's.
 
 4. THE CHART AGREES, IN ONE DIRECTION. Every stage the plan declares must be mentioned in
@@ -280,7 +280,7 @@ def check(stage_path=DEFAULT_STAGE, chart_path=DEFAULT_CHART, root=None):
 def workspace_root():
     """The `repo` client root: the first ancestor holding `.repo`.
 
-    A search rather than a parent count, for the reason `check_rfd1122_plan.py` records:
+    A search rather than a parent count, because
     a hard-coded depth encodes where a project happens to sit today, and the manifest
     moves projects.
     """
