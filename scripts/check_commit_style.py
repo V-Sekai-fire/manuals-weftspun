@@ -16,9 +16,10 @@ WHAT IS CHECKED. Every commit reachable from HEAD but not from --base:
    sentence can plausibly open with; `RFD 2026: …` and `[RFD 2026] …` both pass).
 3. The subject does not end with a trailing period.
 
-SCOPE. The gate runs only when `git config remote.origin.url` matches `github.com/weftspun/`
-(or the equivalent SSH form). Forks — anything with a different origin — are skipped with
-a `skipped: origin not weftspun` line, per RFD 2026's "use the fork's standard pattern".
+SCOPE. The gate runs only when a git remote matches `github.com/V-Sekai-fire/` or
+`github.com/chibifire-stages/` (or the equivalent SSH form). Forks — anything with a different
+origin — are skipped with a `skipped: origin not ours` line, per RFD 2026's "use the fork's
+standard pattern".
 
 DETECTION FLOOR. A subject that opens with a valid Conventional-Commits type BUT happens
 to also read as a sentence (imagine an author writing `Feat: some feature.`) is caught by
@@ -43,12 +44,13 @@ import sys
 CONVENTIONAL_RE = re.compile(r"^[a-z][a-z0-9-]*(\([^)]+\))?!?:")
 SENTENCE_START_RE = re.compile(r"^([A-Z]|\d|\[|`)")
 TRAILING_PERIOD_RE = re.compile(r"\.$")
+OWN_RE = re.compile(r"github\.com[/:](V-Sekai-fire|chibifire-stages)/", re.IGNORECASE)
 
 
 def is_own_repo(cwd: str = ".") -> bool:
-    """True when any git remote points at a weftspun-owned repo.
+    """True when any git remote points at a repository we own (V-Sekai-fire or chibifire-stages).
 
-    Remotes here are named after the manifest (`weftspun`, `huggingface-datasets`, etc.),
+    Remotes here are named after the manifest (`v-sekai-fire`, `huggingface-datasets`, etc.),
     not `origin`, so `remote.origin.url` returns nothing on a repo-managed checkout.
     Enumerate every remote's URL and match on any hit.
     """
@@ -62,7 +64,7 @@ def is_own_repo(cwd: str = ".") -> bool:
     for line in out.splitlines():
         # `remote.<name>.url  <url>`
         parts = line.split(None, 1)
-        if len(parts) == 2 and re.search(r"github\.com[/:]weftspun/", parts[1]):
+        if len(parts) == 2 and OWN_RE.search(parts[1]):
             return True
     return False
 
@@ -103,7 +105,7 @@ def main(argv: list[str]) -> int:
         return self_test()
 
     if not is_own_repo():
-        print("skipped: origin not weftspun (fork convention applies, RFD 2026)")
+        print("skipped: origin not ours (fork convention applies, RFD 2026)")
         return 0
 
     base = args.base or "HEAD~10"
@@ -154,15 +156,18 @@ def self_test() -> int:
                 print(f"       problem: {p}")
             all_pass = False
 
-    # A weftspun URL is detected as own
+    # Our orgs are own; forks, the retired weftspun org and a lookalike org name are not
     for url, expect_own in [
-        ("https://github.com/weftspun/request-for-discussion", True),
-        ("git@github.com:weftspun/request-for-discussion.git", True),
+        ("https://github.com/V-Sekai-fire/manuals-weftspun", True),
+        ("git@github.com:V-Sekai-fire/interactor-dress-on.git", True),
+        ("https://github.com/v-sekai-fire/interactor-dress-on", True),
+        ("https://github.com/chibifire-stages/character-marocchino", True),
         ("https://github.com/godotengine/godot", False),
         ("git@github.com:huggingface/transformers.git", False),
+        ("https://github.com/weftspun/request-for-discussion", False),
+        ("https://github.com/V-Sekai-fire-mirror/manuals-weftspun", False),
     ]:
-        # Simulate: parse URL directly via the same regex
-        got_own = bool(re.search(r"github\.com[/:]weftspun/", url))
+        got_own = bool(OWN_RE.search(url))
         ok = got_own == expect_own
         marker = "ok   " if ok else "FAIL "
         print(f"  {marker} url-classify {url!r} → own={got_own} (expected {expect_own})")
