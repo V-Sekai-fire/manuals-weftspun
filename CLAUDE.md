@@ -611,6 +611,39 @@ identical from the receiving end, and the cost of being wrong is asymmetric.
 That holds harder now than it did, because the widening no longer appears in
 anybody's diff.
 
+## What the Agent May Do on This Desk
+
+The desk agent's capabilities are RFD 2200 tuples, one per line in the block
+below. A row is `<subject>--<verb>--<object>`; a `!` before the verb makes it a
+denial, which carries its reason after `#`. Default deny covers what no row
+names. `scripts/check_rebac.exs` reads the verbs out of RFD 2200's table, so a
+new verb is an amendment to that RFD before it is a row here.
+
+```rebac
+desk-agent--runs-on--windows-desktop
+desk-agent--reaches--headset          # SSH as its unprivileged user, with the desk key, from WSL
+desk-agent--restarts--vr-runtime      # then restarts the eye-tracking bridge the restart orphans
+desk-agent--mints--github-token       # from Bao, for both organisations; revoked when a task ends
+desk-agent--pushes--v-sekai-fire      # feature branches; a diverged one goes up under a new name
+desk-agent--pushes--chibifire-stages  # feature branches
+desk-agent--!admin--headset           # root needs the operator's approval at the password manager
+desk-agent--!admin--default-branch    # the operator merges on green, never with --admin
+desk-agent--!owns--rented-gpu         # the Compute constraint above
+```
+
+    elixir scripts/check_rebac.exs
+    elixir scripts/check_rebac.exs --self-test
+
+## How the Desk Is Driven
+
+Temporary files go in the session scratchpad, and anything worth keeping goes
+into this tree or onto a pushed branch; there is no third place. Work runs
+natively on Windows, and WSL carries only git and Bao plumbing. A script bound
+for WSL is written to a file and run with `bash -l <file> </dev/null`: an inline
+`$VAR` is mangled on its way through `wsl.exe`, and a child that reads stdin
+swallows the rest of a script fed on stdin. Each task ends by removing what it
+staged and revoking the token it minted.
+
 ## Why a Link After All
 
 The links carry a document; the checkout carries the permissions. This
