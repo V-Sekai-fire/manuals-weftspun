@@ -3,15 +3,16 @@
 Working agreements for every project in the Weftspun workspace, and the
 capability rules for the agent that works in them.
 
-The file lives in `weftspun/request-for-discussion` and reaches the workspace
+The file lives in `V-Sekai-fire/manuals-weftspun` and reaches the workspace
 root through `default.xml`:
 
-    <linkfile src="CLAUDE.md" dest="CLAUDE.md" />
+    <linkfile src="CLAUDE.md" dest="AGENTS.md" />
     <linkfile src="CITATION.cff" dest="CITATION.cff" />
 
-Two links to two files, each reaching the root under its own name.
+Two links to two files. This one reaches the root as `AGENTS.md`; the same
+project also links three RFD READMEs into `.claude/skills/`.
 
-It has a repository of its own — `weftspun/dot-claude`, checked out at `.claude`.
+It has a repository of its own — `V-Sekai-fire/dot-claude`, checked out at `.claude`.
 What the arrangement buys is at the end under "Why a link after all".
 
 `weftspun/logbook` is archived and its 145 commits are here, alongside the
@@ -143,7 +144,7 @@ folders.
 
 **Sides.** Every repository sits on a side of the hexagon, and the `default.xml`
 of the goal manifest it is checked out through is what decides which. There is
-**one live goal manifest**, `weftspun/weftspun-keypoint`. A new repository is
+**one live goal manifest**, `V-Sekai-fire/contract-manifest-taskweft`. A new repository is
 placed when it is added, not later: an unplaced project is the drift the six
 words exist to stop.
 
@@ -223,7 +224,8 @@ states what the change makes true of the system and why. RFD 2026
 carries the argument.
 
 Forks — anything whose git remote points at somewhere other than
-`github.com/weftspun/...` — follow the upstream's convention. A
+`github.com/V-Sekai-fire/...` or `github.com/chibifire-stages/...` — follow
+the upstream's convention. A
 Conventional-Commits upstream gets Conventional-Commits subjects on
 its fork here, because the fork's diff goes back one day and needs
 to fit.
@@ -418,7 +420,7 @@ answer.
 Documentation carries the same obligation. Where a document states a number or a
 rule, that statement should be machine-checked against live code, so drift fails
 a command rather than being discovered six months later.
-`request-for-discussion/scripts/check-rfd-structure.py` is the reference case:
+`scripts/check-rfd-structure.py` is the reference case:
 it reads its state list and its README line limit out of RFD 1000 rather than
 restating them, so the document and the gate cannot disagree.
 
@@ -585,12 +587,12 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - `CLAUDE.md` — this file: the working agreements, and the rule below.
 
 `settings.json` and the `prose-detrope` subagent are tracked in
-`weftspun/dot-claude`, checked out at `.claude`. `settings.json` is the
+`V-Sekai-fire/dot-claude`, checked out at `.claude`. `settings.json` is the
 workspace's reviewed permission set; `settings.local.json` beside it is per-desk
 and gitignored, and Claude Code merges the two with local winning. The split is
 the tool's; only the tracking decision is ours.
 
-The editor configuration is `weftspun/dot-vscode`, checked out at `.vscode`. It
+The editor configuration is `V-Sekai-fire/dot-vscode`, checked out at `.vscode`. It
 holds the scons build tasks for the `4-entities/godot-*` checkouts, which each
 gitignore `.vscode/` — a task written inside one is untracked on the desk that
 wrote it and absent on the next, and there are nine of them against one
@@ -612,7 +614,7 @@ anybody's diff.
 ## Why a Link After All
 
 The links carry a document; the checkout carries the permissions. This
-file is tracked in `weftspun/request-for-discussion`; `repo status` sees
+file is tracked in `V-Sekai-fire/manuals-weftspun`; `repo status` sees
 drift in it, so the link at the root is a second name for that file
 rather than a place edits can hide. `settings.json` is tracked in
 `dot-claude` and reviewed as a diff — permissions do not travel through
@@ -648,12 +650,22 @@ which `repo` tries to rebase forward and then leaves mid-rebase; a plain
 `git init` repository at a manifest path, which `repo` reports as `unsupported
 checkout state`; and the rebase or merge residue of a previous failure.
 
-    python .repo/manifests/check_sync_preflight.py .
+    elixir .repo/manifests/sync.exs . --preflight    # report, touch nothing
+    elixir .repo/manifests/sync.exs .                # park, repo sync, verify
 
-It enumerates rather than samples, repairs nothing, and reports unpushed commits
-separately from whether the sync will stop — that is what decides whether parking
-a branch is free or destructive. Two positive and six negative controls. CI runs
-the controls only, because CI has no `repo` client, and the job says so.
+It enumerates every project in `default.xml` rather than sampling. The full
+run parks only what is safe to park: a branch whose commits are all on its
+upstream is detached and deleted, and an unmanaged checkout is renamed to
+`<path>.aside`. It stops, naming the project, on a branch carrying work the
+remote has not seen and on rebase residue. After `repo sync` it re-checks every
+project and counts any still blocking, so a sync that left a bad checkout does
+not read as a success. Two positive and eight negative controls, plus one that
+a project absent from disk is counted; CI runs them with `--self-test`, because
+CI has no `repo` client.
+
+Parking work ends with the preflight at zero blocking. Unfinished work is
+pushed to a `feat/` branch first, so the sync parks the checkout instead of
+stopping on it.
 
 ## The anti-entropy check
 

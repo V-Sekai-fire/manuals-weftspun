@@ -31,7 +31,7 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 CLAUDE_MD = HERE.parent / "CLAUDE.md"
-ORG = "weftspun"
+ORG = "V-Sekai-fire"
 
 
 def sides_rule(text):
@@ -48,7 +48,7 @@ def named_live(text):
     sentences that record the fix.
     """
     para = sides_rule(text).split("\n\n")[0]
-    return sorted(set(re.findall(rf"`{ORG}/([a-z0-9._-]+)`", para)))
+    return sorted(set(re.findall(rf"`{re.escape(ORG)}/([A-Za-z0-9._-]+)`", para)))
 
 
 def archived_repos():
@@ -104,7 +104,7 @@ def self_test():
 
     controls = [
         ("an archived manifest is named as live",
-         real.replace("`weftspun/weftspun-keypoint`", f"`{ORG}/{victim}`", 1)),
+         real.replace("`V-Sekai-fire/contract-manifest-taskweft`", f"`{ORG}/{victim}`", 1)),
         # MUTATE THE PARAGRAPH THE GATE READS, NOT THE FIRST MATCH IN THE FILE. The first
         # version of this control substituted with count=1 over the whole document and landed on
         # an unrelated `weftspun/...` mention hundreds of lines earlier, leaving the Sides rule
