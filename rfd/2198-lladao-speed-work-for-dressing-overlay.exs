@@ -41,7 +41,7 @@ inference-time dressing overlay generator"
     """
 
     related ~S"""
-    RFD 2186, RFD 2183, RFD 1170 (LLaDA-o stays shelved there — different
+    RFD 2186, RFD 2183, RFD 1170 (LLaDA-o stays shelved there: different
     target). Memory `[[llada-diffusion-lm-shelved]]`. Logbook
     `logbook-lladao-n1-quality-beats-omnigen2.md`.
     """

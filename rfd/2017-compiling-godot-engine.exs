@@ -62,8 +62,8 @@ defmodule RFD2017 do
       and `SCCACHE_CACHE_SIZE`, and sccache uses local disk with no S3
       config needed.
 
-    Secrets policy: only the bucket name, endpoint, region, and key prefix —
-    none of which are secrets, appear in committed config. The access key
+    Secrets policy: only the bucket name, endpoint, region, and key prefix
+    (none of which are secrets) appear in committed config. The access key
     and secret are never committed to any repo, dotfile, or build log. They
     live in one of two places depending on where the build runs:
 

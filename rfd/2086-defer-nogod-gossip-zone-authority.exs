@@ -19,8 +19,8 @@ defmodule RFD2086 do
     consensus: vector clocks (`VClock`), Hilbert-range containment
     (`ZoneRange`, `geometricAuthority`, `geometricInterest`), a hybrid
     logical clock (`HLC`), and theorems that gossip-based range adoption
-    preserves `DisjointRanges` — no two zones ever claim overlapping
-    authority — without a central coordinator.
+    preserves `DisjointRanges` (no two zones ever claim overlapping
+    authority) without a central coordinator.
     """
 
     related ~S"""

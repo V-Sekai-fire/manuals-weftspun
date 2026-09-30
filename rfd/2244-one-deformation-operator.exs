@@ -11,7 +11,7 @@ defmodule RFD2244 do
 
     compact_head true
 
-    feature "one deform stage — blendshapes, correctives, driver bones — with no per-category branch"
+    feature "one deform stage (blendshapes, correctives, driver bones), no per-category branch"
 
     scope "supersedes the dress and identity overlay stages; `3-interactor/anny`. Displacement only: adding or removing corners is a CSG flow, parked"
 
@@ -50,7 +50,7 @@ defmodule RFD2244 do
 
     That is the whole of the difference the two RFDs encode. A representation that
     needs a branch to express both has privileged one index, and the privilege is
-    not recoverable from the geometry — only from which loop the caller happens to
+    not recoverable from the geometry, only from which loop the caller happens to
     be standing in.
     """
 
@@ -69,8 +69,8 @@ defmodule RFD2244 do
     details "Why props and environment are not a special case", ~S"""
     A prop is a mesh with corners and, usually, a skeleton with few joints. A set
     piece is a mesh with corners and, usually, no skeleton. Both are the general
-    case with terms set to zero, and zero is a value rather than an absence — the
-    same reason the working agreements refuse a null for "no parent".
+    case with terms set to zero, and zero is a value rather than an absence (the
+    same reason the working agreements refuse a null for "no parent").
 
     The saving is not that props become easy. It is that a prop and an avatar move
     through one export path, so a fix to skinning or to corrective evaluation lands
@@ -98,7 +98,7 @@ defmodule RFD2244 do
     by construction rather than by omission.
 
     Operator directive 2026-09-10: work that needs new corners is a CSG flow, and
-    that flow is parked. Naming it keeps the boundary honest in both directions — a
+    that flow is parked. Naming it keeps the boundary honest in both directions: a
     garment that must add geometry is not a counterexample to this RFD, it is a
     different operator that has not been specified yet, and reaching for a
     blendshape basis to fake it would be the error this RFD exists to prevent.
@@ -116,7 +116,7 @@ defmodule RFD2244 do
 
     Pose-dependence of identity. The retracted RFDs claim identity is frozen per
     character. If a face requires correctives driven by expression, identity is
-    pose-dependent after all — which does not break the collapse, and in fact
+    pose-dependent after all, which does not break the collapse, and in fact
     strengthens it, but does dissolve the "frozen per character" justification the
     two stages were split on. The split would then have no stated basis at all.
 

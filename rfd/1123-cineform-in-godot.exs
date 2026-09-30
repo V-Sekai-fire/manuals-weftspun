@@ -330,7 +330,7 @@ defmodule RFD1123 do
         anny_version, git_sha
 
     The render seed is not decoration. We measured that the same seed returns a bit identical
-    image and a different seed changes every body pixel. So the seed is what makes the corpus
+    image and a different seed changes every body pixel. So the seed makes the corpus
     reproducible, and the constructed synthetic rule asks for exactly that.
     """
 

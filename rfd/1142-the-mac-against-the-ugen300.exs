@@ -26,7 +26,7 @@ defmodule RFD1142 do
         cpu       133.0   2.425e-01   FAIL            373/373
     Metal is twice as fast and the only one inside the bound. The Neural
     Engine also stops at 2 GiB of weights, at 2^31 bytes, where Metal holds
-    8176.2 MiB — the UGen300's whole working set. Both caps are undocumented.
+    8176.2 MiB, the UGen300's whole working set. Both caps are undocumented.
 
     The comparison against the device stays open: its fp16 rate is halved
     from its INT8 row rather than measured, and the part has yet to arrive.

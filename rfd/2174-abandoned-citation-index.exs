@@ -83,7 +83,7 @@ defmodule RFD2174 do
     """
 
     details "Citations of RFDs 1049-1052 (abandoned model images)", ~S"""
-    Weftspun-image-to-world, LingBot map, WorldMirror2, TripoSplat --
+    Weftspun-image-to-world, LingBot map, WorldMirror2, TripoSplat:
     all abandoned in the 2026-09-01 catalog prune.
 
       RFD 1038 (discussion) → drop (RFD 1038 mesh model is the same shape)

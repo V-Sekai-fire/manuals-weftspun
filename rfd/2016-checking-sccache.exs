@@ -30,7 +30,7 @@ defmodule RFD2016 do
     `rfd/2017-compiling-godot-engine/index.md`). The failure mode is
     silent: if the `SCCACHE_*` environment is missing, the credentials are
     wrong, or the region/endpoint is off, sccache quietly falls back to a
-    local disk cache — or records read/write errors — while the build
+    local disk cache, or records read/write errors, while the build
     """
 
     related ~S"""

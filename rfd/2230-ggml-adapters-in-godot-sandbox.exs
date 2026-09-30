@@ -166,7 +166,7 @@ of its named consolidations landing)"
        motion-bricks-cpp's adapter code (`src/root.cpp` planner
        glue, tokenizer bindings) to GDScript. Verify inference
        matches the C++ baseline on a fixed motion prompt.
-    3. Retract RFD 2212 (motion-bricks-as-native-godot-module) —
+    3. Retract RFD 2212 (motion-bricks-as-native-godot-module):
        the module doesn't exist as an independent thing anymore;
        its C++ becomes part of `modules/ggml/`'s WebGPU backend
        sourcing, its adapter becomes `motion_bricks.gd`.

@@ -50,7 +50,7 @@ without adding new C++ or forking upstream"
     """
 
     details "Rejected", ~S"""
-    - **New C++ `modules/vrm/`** subclassing `GLTFDocumentExtension` —
+    - **New C++ `modules/vrm/`** subclassing `GLTFDocumentExtension`:
       duplicates work already done in godot-vrm's GDScript. Possible
       follow-up when sandbox overhead measurably hits latency.
     - **Bundle godot-vrm as a plain GDScript addon**, parsing runs

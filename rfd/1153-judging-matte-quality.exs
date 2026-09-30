@@ -36,8 +36,8 @@ defmodule RFD1153 do
 
     problem ~S"""
     Background removal produced three candidate mattes per image and no way to say
-    which was broken. The available proxy -- soft-alpha pixels per silhouette
-    perimeter -- ranks model families but cannot judge one matte. Two attempts with
+    which was broken. The available proxy, soft-alpha pixels per silhouette
+    perimeter, ranks model families but cannot judge one matte. Two attempts with
     EditScore failed: whole images flattened onto grey scored near-constant within
     each image, so the judge was reading the photograph rather than the cutout, and a
     twin panel of cutout beside alpha returned exactly 8.00 for all eighteen.

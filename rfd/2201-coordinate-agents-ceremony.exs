@@ -16,8 +16,8 @@ defmodule RFD2201 do
     decision ~S"""
     Fold the workspace's ad-hoc coordination sweep into a named, bounded
     ceremony that the coordinator role runs when asked. The ceremony has
-    seven steps and each step's output is a specific artefact — a KV read,
-    a peer message, a PR enqueue, a surface to the operator — with the
+    seven steps and each step's output is a specific artefact (a KV read,
+    a peer message, a PR enqueue, a surface to the operator), with the
     next step gated on the previous. The steps are enumerated in
     `DETAILS.md`; a companion skill `coordinate-agents` in
     `weftspun/dot-claude` is the operational how-to.
@@ -36,7 +36,7 @@ defmodule RFD2201 do
 
     section "Non-goals", ~S"""
     Not a scheduler; not a hook (the prettier-only exception is a shape a
-    hook would reject); not any-agent-runs-this — only the coordinator
+    hook would reject); not any-agent-runs-this, only the coordinator
     role from RFD 2200.
     """
 

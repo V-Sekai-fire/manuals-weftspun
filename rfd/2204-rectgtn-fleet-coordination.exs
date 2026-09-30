@@ -295,7 +295,7 @@ fleet-domain document"
     so a peer that reranks does it by hand, a peer that finishes an item
     picks the next one from a board it interprets alone, and the operator
     carries the priority ordering in their head each turn. The
-    `may-use--<device>` tuples RFD 2202 introduced are documentation only —
+    `may-use--<device>` tuples RFD 2202 introduced are documentation only:
     nothing gates work on them. When two peers want the same GPU or the
     same HF repo, prose adjudicates.
     """

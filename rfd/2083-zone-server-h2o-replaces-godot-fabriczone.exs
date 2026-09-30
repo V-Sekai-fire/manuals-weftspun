@@ -15,7 +15,7 @@ defmodule RFD2083 do
 
     problem ~S"""
     The production zone server (`zone-server`, deployed as
-    `multiplayer-fabric-zone` on Fly.io) is a boot scaffold today —
+    `multiplayer-fabric-zone` on Fly.io) is a boot scaffold today:
     OpenTelemetry init only, no WebTransport listener, no game logic
     (`project/main.gd`'s own `TODO(cycle-5)` comment). The real
     entity/simulation engine,

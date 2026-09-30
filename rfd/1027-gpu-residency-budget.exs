@@ -136,7 +136,7 @@ defmodule RFD1027 do
     the four surviving conditions on generated synthetic.
     """
 
-    details "Staging is what makes the tier", ~S"""
+    details "Staging makes the tier", ~S"""
     Pixal3D holds 24.05 GB and peaks at 6.50 GB. Three stages run in
     order, and each frees before the next loads. Without that staging it
     would need an 80 GB card.

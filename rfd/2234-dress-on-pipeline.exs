@@ -89,7 +89,7 @@ defmodule RFD2234 do
     (CLAUDE.md). `utils/render_rgb_and_mask.py` uses five hand-picked azimuths and is
     NOT used. Step 1's 150-view render (`bpy_render.py:302-336`) is the source of
     every 2D image: pick views by camera position from `transforms.json`. The
-    Hammersley offset at `bpy_render.py:304` is `np.random.rand()` **unseeded** —
+    Hammersley offset at `bpy_render.py:304` is `np.random.rand()` **unseeded**:
     every run gets a different camera set, so the driver seeds `np.random` per
     target before each render and records the seed; both passes then share one
     `transforms.json` and one front/rear view index.
@@ -545,7 +545,7 @@ defmodule RFD2234 do
     ### `tools/publish_dress_on.py` (matting env), copy `publish_artifacts.py`
     - `hf_token()` from 1Password (`publish_artifacts.py:54-62`, same item).
     - `api.create_repo(..., repo_type="dataset", exist_ok=True)`; `api.upload_folder(...)`
-      **without** `delete_patterns` so each run adds shards (incremental, resumable —
+      **without** `delete_patterns` so each run adds shards (incremental, resumable;
       `mirror_base_weights.py:19` is why `upload_folder` and not `push_to_hub`).
     - Preflight `refuse_if_absolute` and `refuse_if_forbidden` over the stage.
     - README card **without a `configs:` block** (auto-parquet picks up
@@ -745,7 +745,7 @@ defmodule RFD2234 do
     - Appendix-E measurements with no ANNY knob (limb lengths, breadths,
       circumferences other than waist), counted per row as `unmapped_measurements`,
       never fitted. Steering them would need new ANNY targets, not a solve.
-    - Fixing `anny/AGENTS.md:61` (names the renamed `parameters_regressor.py`) —
+    - Fixing `anny/AGENTS.md:61` (names the renamed `parameters_regressor.py`):
       upstream's doc, one line, raise separately.
     - True multi-image conditioning inside one VoxHammer edit (would need
       multidiffusion ported into the KV-cached inversion samplers).

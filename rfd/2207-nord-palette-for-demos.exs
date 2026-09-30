@@ -43,7 +43,7 @@ inspect an intermediate"
       palette was first applied to.
     - Codebase: `7-service/service-sqlar-cas/docs/index.html`, the
       reference Nord application in this workspace.
-    - CLAUDE.md's "Trademarks Stay Out of Shipping Artifacts" clause —
+    - CLAUDE.md's "Trademarks Stay Out of Shipping Artifacts" clause:
       the six palettes are all trademark-clean and named by their own
       project names.
     """
@@ -168,7 +168,7 @@ inspect an intermediate"
       palette was first applied to.
     - Codebase: `7-service/service-sqlar-cas/docs/index.html`, the
       reference Nord application in this workspace.
-    - CLAUDE.md's "Trademarks Stay Out of Shipping Artifacts" clause —
+    - CLAUDE.md's "Trademarks Stay Out of Shipping Artifacts" clause:
       the six palettes are all trademark-clean and named by their own
       project names.
     """

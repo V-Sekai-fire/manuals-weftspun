@@ -51,7 +51,7 @@ defmodule RFD2247 do
       that ignores the parameter entirely fails instead of tying.
     - **Conservation.** A transformation preserves a quantity it must not
       change. Merging parameter-identical springbone chains changes the
-      component count and nothing else -- transform count before equals after.
+      component count and nothing else: transform count before equals after.
       Falsification: a merge that drops a transform must fail the test.
     - **Round-trip identity.** Export then import returns the input. The engine's
       USD adapter carried blend shapes out and silently dropped every one on the
@@ -77,8 +77,8 @@ defmodule RFD2247 do
     spring-bone components reduced to 19, collision checks 1233 to 512. Twelve
     example-based tests passed.
 
-    Two negative controls -- a frozen chain that must NOT register motion, and a
-    stiff chain that must deflect less than a soft one -- failed with the same
+    Two negative controls (a frozen chain that must NOT register motion, and a
+    stiff chain that must deflect less than a soft one) failed with the same
     number, 0.2017 m, for every parameter setting. The harness was measuring the
     carrier translating the chains rigidly, never their articulation: `qpos`
     written each step teleports the carrier and imparts no velocity, so nothing
@@ -109,8 +109,8 @@ defmodule RFD2247 do
     """
 
     details "What this does not ask for", ~S"""
-    Not every test becomes a property test. Wiring checks -- does this menu item
-    exist, does this file parse -- stay as examples; there is no invariant to
+    Not every test becomes a property test. Wiring checks (does this menu item
+    exist, does this file parse) stay as examples; there is no invariant to
     generalise. The rule binds where there is a claim about behaviour over a
     domain of inputs, which is where the interesting bugs are.
     """

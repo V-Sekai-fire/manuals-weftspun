@@ -21,7 +21,7 @@ defmodule RFD1145 do
     **The hazard is the holdout.** The COCO-OOD stylized sets are
     `val2017` restyled, so they are held out twice over: derived from the
     blinded holdout, and generated. CLAUDE.md states the rule this loop is
-    most likely to break — anything derived from `val2017` inherits its
+    most likely to break: anything derived from `val2017` inherits its
     status, and a set generated from a held-out photo carries that photo's
     content wherever it goes.
 

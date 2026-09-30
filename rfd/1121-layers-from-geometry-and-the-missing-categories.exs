@@ -203,7 +203,7 @@ defmodule RFD1121 do
     A range is an order claim. Reordering invalidates every group, so it invalidates every mask.
 
     So no part may be merged into the basemesh, and no operation may renumber it. Attached parts
-    carry their own vertex arrays. This is what makes "treat it like a garment" the safe answer
+    carry their own vertex arrays. This makes "treat it like a garment" the safe answer
     rather than merely the tidy one.
 
     ### The count gate was decoration
@@ -440,12 +440,12 @@ defmodule RFD1121 do
 
     **CORRECTION, BECAUSE THE PREMISE FOR READING IT WAS WRONG.** It was reached for on the
     understanding that it fits garments to *volumes*. Its README says the opposite in one line: "For
-    avatars and garments, only `.obj` triangular mesh is supported." The inputs are four surfaces --
-    target avatar, source garment, source skeleton and target skeleton, the last two as edge meshes
-    -- plus an optional skinning-weight matrix of skeleton nodes by vertices, and vertices project to
-    the nearest bone by distance when it is absent. Whether PolyFEM tetrahedralises internally is
-    unverified here: the paper PDF exceeds the fetch limit and was not read, so this records what the
-    interface takes and makes no claim about the solver.
+    avatars and garments, only `.obj` triangular mesh is supported." The inputs are four surfaces
+    (target avatar, source garment, source skeleton and target skeleton, the last two as edge
+    meshes) plus an optional skinning-weight matrix of skeleton nodes by vertices, and vertices
+    project to the nearest bone by distance when it is absent. Whether PolyFEM tetrahedralises
+    internally is unverified here: the paper PDF exceeds the fetch limit and was not read, so this
+    records what the interface takes and makes no claim about the solver.
 
     The correction does not cost the plan anything, and it is worth saying why rather than leaving it
     to be re-derived. What the method needs is an avatar surface, a skeleton and skinning weights.
