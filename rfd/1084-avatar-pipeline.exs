@@ -21,7 +21,7 @@ defmodule RFD1084 do
     download; nothing uploads unless the user mints or saves elsewhere.
     Rig alignment is validated against RFD 1083's contract, checked with
     a `[API-Contract] PASS` log line, and the client applies no
-    rig-repair heuristic of its own for `fromAigc` loads — a backward or
+    rig-repair heuristic of its own for `fromAigc` loads; a backward or
     floating rig means re-running after pulling the latest API, not a
     client-side patch.
 

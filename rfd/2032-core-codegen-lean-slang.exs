@@ -14,8 +14,8 @@ defmodule RFD2032 do
     """
 
     problem ~S"""
-    The cores carry compute kernels — hit raycasts, the budgeter solve,
-    geometry costing — that need to be verified once and run as GPU
+    The cores carry compute kernels (hit raycasts, the budgeter solve,
+    geometry costing) that need to be verified once and run as GPU
     compute, with the dispatch wrapped behind the flat C ABI port
     (`rfd/2044-lean4-kernel-cores-flat-c-host-adapters`). Hand-porting a
     kernel from a separate spec to a shader drifts.

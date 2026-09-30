@@ -48,7 +48,7 @@ defmodule RFD2065 do
        runtime on the user's machine to satisfy the MSIX `Executable=`
        constraint.
     2. A Godot export carries a full rendering and physics engine (~60–80
-       MB) for a process whose only job is download management —
+       MB) for a process whose only job is download management. That is
        unnecessary weight and a larger attack surface.
     3. The casync implementation in `aria_storage` (Elixir) is complete,
        tested, and already depended on. Writing a second one in GDScript

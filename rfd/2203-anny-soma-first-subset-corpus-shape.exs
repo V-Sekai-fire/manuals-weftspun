@@ -204,8 +204,8 @@ defmodule RFD2203 do
 
     The check catches a broken pose transfer on a load-bearing bone. A weight-slot-column
     corruption attempt landed as a no-op (documented in the script) because
-    `vertex_bone_weights` is per-vertex effective-bones (13 slots), not one column per bone —
-    kept in the record as the shape that didn't work.
+    `vertex_bone_weights` is per-vertex effective-bones (13 slots), not one column per bone.
+    The attempt is kept in the record as the shape that didn't work.
 
     Detection floor at n=4 poses: any defect appearing in >75% of frames per CLAUDE.md rule 5.
     Production runs scale n with shard motion coverage.

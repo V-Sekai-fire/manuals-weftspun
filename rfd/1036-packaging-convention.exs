@@ -102,7 +102,7 @@ defmodule RFD1036 do
     The `worker` stage is the real image. It carries CUDA, the upstream
     source, and the weights.
 
-    That split is what makes the contract testable. RFD 1040 records a run
+    That split makes the contract testable. RFD 1040 records a run
     of it in Docker on a machine with no NVIDIA device.
     """
 

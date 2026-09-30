@@ -206,7 +206,7 @@ defmodule RFD1136 do
 
         cineform-tui [options] sweep-<subject>.mkv
 
-    The grid's enumeration order is what makes this work: azimuth runs fastest,
+    The grid's enumeration order makes this work: azimuth runs fastest,
     so frame index maps to pose, and a truncated file is a partial sweep of one
     elevation rather than a partial sweep of everything.
 

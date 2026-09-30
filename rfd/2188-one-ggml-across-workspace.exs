@@ -19,7 +19,7 @@ defmodule RFD2188 do
     are deleted; a prek gate refuses any new consumer that brings its own.
 
     Manifest points at branch `weftspun-consolidated`, seeded from
-    `ggml-seethrough` HEAD (`3404c951`, 2026-08-29) — the richest tip,
+    `ggml-seethrough` HEAD (`3404c951`, 2026-08-29), the richest tip,
     carrying 14+ custom backends. `upstream-tracking` branch was pushed
     at `ggml-org/ggml master` (2026-08-30) as a future rebase base.
 
@@ -43,7 +43,7 @@ defmodule RFD2188 do
     RFD 1000 (hexagon-side placement rule), RFD 1102 (task catalog
     gacha pipeline consumes ggml through skin-tokens.cpp and
     motion-bricks.cpp), CLAUDE.md's ggml/GGUF blocklist row (the vendor's
-    own runtime is exempt — this RFD is that exemption's canonical form).
+    own runtime is exempt; this RFD is that exemption's canonical form).
     """
 
     details_title "One GGML across the workspace"

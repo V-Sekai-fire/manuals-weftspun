@@ -14,8 +14,8 @@ defmodule RFD2040 do
     """
 
     problem ~S"""
-    The combat concern — combo timing, hit validation, the enemy
-    spawn-invulnerability window, and damage — needs to be deterministic
+    The combat concern (combo timing, hit validation, the enemy
+    spawn-invulnerability window, and damage) needs to be deterministic
     and testable with no server and no headset. Per
     `rfd/2028-hexagonal-core-ports-adapters` it becomes a core behind
     narrow ports.

@@ -60,7 +60,7 @@ defmodule RFD2145 do
         certificate has no well-defined expiration date, the notAfter
         SHOULD be assigned the GeneralizedTime value of
         99991231235959Z.
-        – RFC 5280 §4.1.2.5
+        (RFC 5280 §4.1.2.5)
 
     RFC 5280 permits the "never expires" sentinel (`99991231235959Z`) for
     certs the issuer treats as having no defined end date. Some private
@@ -83,7 +83,7 @@ defmodule RFD2145 do
         For a Root CA certificate trusted for server authentication,
         Mozilla will remove the websites trust bit when the CA key
         material is more than 15 years old.
-        – Mozilla Root Store Policy v2.9, 2023-09
+        (Mozilla Root Store Policy v2.9, 2023-09)
 
     Our root is private, so Mozilla does not force our hand. The industry
     consensus reflected in that number is that 15 years is the outer edge
@@ -96,7 +96,7 @@ defmodule RFD2145 do
 
         Certificates should have lifetimes that are as short as practical,
         while balancing the operational overhead of renewal.
-        – NCSC "In-house public key infrastructure, PKI principles"
+        (NCSC "In-house public key infrastructure, PKI principles")
 
     **NIST SP 800-57 Part 1 §5.3.6 (key lifetimes).** Recommends both
     "originator usage period" and "recipient usage period" bounded.

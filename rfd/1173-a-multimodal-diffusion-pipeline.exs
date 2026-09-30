@@ -165,7 +165,7 @@ defmodule RFD1173 do
 
     An earlier draft named Qwen3-VL-4B (fp16 ~8.9 GB) as the VLM; the
     Qwen3-VL-8B fp16 fallback (~16 GB) was also on the shortlist. Both
-    retracted per RFD 2169. The reason is not tier, Qwen3-VL fits --
+    retracted per RFD 2169. The reason is not tier (Qwen3-VL fits);
     it is that Gemma-4-12B has a true upstream QAFT release and Qwen
     does not, and the workspace standardized on QAFT-first (RFD 1027).
     """

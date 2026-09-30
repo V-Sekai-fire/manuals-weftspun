@@ -72,7 +72,7 @@ defmodule RFD2087 do
     codegen, the same pattern as `lean-entity-packet` and
     `lean-rebac-core`'s Lean → C ports), and its own Lean source
     (`core/spec/Sinew/Align.lean`, read directly, not assumed) is **not**
-    a QP-based solver at all. It is Kabsch-style rotation fitting —
+    a QP-based solver at all. It is Kabsch-style rotation fitting:
     `rodrigues` for one vector pair, a Newton-Schulz-orthogonalized
     covariance (`ns30`) for two or more, falling back to a Jacobi-SVD
     Kabsch solve (`kabsch`) when the fast path produces an invalid

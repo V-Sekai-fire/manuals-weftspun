@@ -19,7 +19,8 @@ defmodule RFD.Doc do
     human: "This RFD was drafted by a human without AI help."
   }
   @tropes [
-    {~r/(?<=\S) [-—][-—]? /u, "an em-dash join"},
+    {~r/(?<=\S) [-–—][-–—]?(?: |$)/mu, "an em-dash join"},
+    {~r/^[ \t]*[–—] /mu, "an em-dash join"},
     {~r/\b(is|are)\s+what\s+(makes|proves|shows|says)\b/i, "a pompous copula"},
     {~r/\bthe exact (window|moment|shape|line|point|reason|failure)\b/i,
      "an `exact` on a soft noun"}
@@ -99,25 +100,29 @@ defmodule RFD.Doc do
   end
 
   @doc """
-  The trope tells `scripts/check_tropes.py` counts. That gate holds density where it
-  is rather than forbidding a tell, so these are warnings at compile time, not errors.
+  Every prose tell in the text a reader sees, one entry per occurrence. A tell fails
+  validation the same way any other shape problem does.
   """
   def tropes(%__MODULE__{} = d) do
     prose =
-      [d.preamble, d.decision, d.problem, d.related, d.details_preamble] ++
-        Enum.map(d.details ++ d.sections, &elem(&1, 1))
+      [d.title, d.feature, d.scope, d.preamble, d.decision, d.problem] ++
+        List.wrap(d.references) ++
+        [d.related, d.details_title, d.details_preamble] ++
+        Enum.flat_map(d.details ++ d.sections, &Tuple.to_list/1)
 
-    for text <- prose, is_binary(text), {re, name} <- @tropes, Regex.match?(re, text) do
-      "prose carries #{name}: #{inspect(Regex.run(re, text) |> hd() |> String.trim())}"
+    for text <- prose,
+        is_binary(text),
+        {re, name} <- @tropes,
+        [hit | _] <- Regex.scan(re, text) do
+      "prose carries #{name}: #{inspect(String.trim(hit))}"
     end
   end
 
   def validate!(%__MODULE__{} = d) do
-    problems = if System.get_env("RFD_LENIENT"), do: [], else: problems(d)
+    problems = if System.get_env("RFD_LENIENT"), do: [], else: problems(d) ++ tropes(d)
 
     case problems do
       [] ->
-        for t <- tropes(d), do: IO.warn("RFD #{d.serial}: #{t}", [])
         d
 
       ps ->

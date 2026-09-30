@@ -16,7 +16,7 @@ defmodule RFD1170 do
     attest_in :none
 
     decision ~S"""
-    Study it, take nothing, rebuild from the components it names — cheap,
+    Study it, take nothing, rebuild from the components it names: cheap,
     because **every component is separately licensed and clean; only the
     glue is unlicensed.**
 
@@ -29,20 +29,20 @@ defmodule RFD1170 do
         TalkingHead        MIT          keep, or ANNY through Godot
         three.js           MIT          Godot, with Mitsuba as oracle
 
-    **Their TTS choice is ours, independently** — the same
+    **Their TTS choice is ours, independently**: the same
     `Qwen3-TTS-12Hz-1.7B-CustomVoice` RFD 1166 seated at 4 the same day.
 
     **Two stages swap for reasons already held here.** Parakeet is
     licence-clean but has no compiled path, while RFD 1169 puts Qwen3-ASR's
-    encoder inside `DEVICE_OPS`. Gemma 4 is Apache-2.0 — RFD 1155 abandoned
-    it on shape, not licence — but 31 B does not fit 8 GB and a hosted API
+    encoder inside `DEVICE_OPS`. Gemma 4 is Apache-2.0 (RFD 1155 abandoned
+    it on shape, not licence), but 31 B does not fit 8 GB and a hosted API
     cannot be a corpus source. **The lip-sync is the part we lack**, and
     `DETAILS.md` carries what TalkingHead does and what is unknown.
     """
 
     problem ~S"""
-    `victor/gemma-avatar` runs the loop this workspace wants — speak, be
-    understood, be answered by a lip-syncing face — and states **no
+    `victor/gemma-avatar` runs the loop this workspace wants (speak, be
+    understood, be answered by a lip-syncing face) and states **no
     licence**. Its integration code cannot be taken.
     """
 
@@ -86,7 +86,7 @@ defmodule RFD1170 do
         met4citizen/TalkingHead MIT          browser
         three.js                MIT          browser
 
-    **Only the glue is unlicensed.** That is what makes a rebuild cheap
+    **Only the glue is unlicensed.** That makes a rebuild cheap
     rather than a research project: the parts are all obtainable under
     their own terms and the missing piece is an evening of wiring.
     """
@@ -232,7 +232,7 @@ defmodule RFD1170 do
 
     A retrain needs the original distribution, which is 288 hours nobody
     here can read the terms for. A LoRA adapts a checkpoint that already
-    has it, and needs only the motions this workspace wants it to learn --
+    has it, and needs only the motions this workspace wants it to learn,
     which is exactly what ANNY and SOMA's own pose library is, plus
     constructed synthetic rendered deterministically from rigs held here.
 
@@ -297,12 +297,12 @@ defmodule RFD1170 do
         Mitsuba 3              Godot                 per-pixel, per view
 
     **And it answers rule 4 for the renderer.** A number without a baseline
-    is not a measurement, and until now the realtime renderer had none --
+    is not a measurement, and until now the realtime renderer had none:
     "it looks right" is the proxy, and rule 1 says the proxy is always the
     one that is easy to read. A physically-based render of the same scene
     from the same camera is the physical quantity.
 
-    **The camera sequence is already settled**, which is what makes the
+    **The camera sequence is already settled**, which makes the
     comparison cheap. CLAUDE.md requires views from
     `sphere_hammersley_sequence` and gives the reason, a hand-picked front
     view showed error of five stacked soda cans along the travel axis
@@ -313,7 +313,7 @@ defmodule RFD1170 do
     **The tolerance is the open question and it is not a small one.** Godot
     will not match Mitsuba: MToon is a stylised shading model and the
     runtime is rasterised, so the two disagree by construction and the
-    useful bound is not zero. What the oracle catches is a *change* --
+    useful bound is not zero. What the oracle catches is a *change*:
     a rig edit, a material change or an export regression that moves the
     runtime away from where it was, rather than absolute physical
     agreement. Stating that first avoids the trap of building a gate whose

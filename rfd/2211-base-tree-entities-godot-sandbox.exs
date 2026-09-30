@@ -20,7 +20,7 @@ defmodule RFD2211 do
     related ~S"""
     - [RFD 2210](../2210-atelier-godot-web-shipping-surface/), L3.
     - [RFD 2213](../2213-vrm-via-godot-sandbox-elf/), sandbox ELF loader.
-    - [RFD 2229](../2229-interchangeable-parts-consolidation/) —
+    - [RFD 2229](../2229-interchangeable-parts-consolidation/),
       consolidation policy.
     """
 

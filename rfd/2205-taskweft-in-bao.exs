@@ -354,8 +354,8 @@ the browser-side WASM parity target"
       an external service dependency the plugin doesn't need; embedding
       the planner satisfies operator's constraint that the plugin
       requires only REST commands and no other service.
-    - **`router.ex` mTLS auth extension:** retracted with the bridge —
-      nothing calls MCP any more.
+    - **`router.ex` mTLS auth extension:** retracted with the bridge.
+      Nothing calls MCP any more.
     """
 
     details "Non-goals", ~S"""
@@ -382,7 +382,7 @@ the browser-side WASM parity target"
       this plugin ships alongside.
     - RFD 2202 (ReBAC Bao enforcement), this RFD fills the
       compute-lease broker gap RFD 2202 named as future work.
-    - Sibling plugin scaffold: `7-service/service-bao-sqlite-fdb/` —
+    - Sibling plugin scaffold: `7-service/service-bao-sqlite-fdb/`,
       the layout the new plugin copies verbatim.
     """
 

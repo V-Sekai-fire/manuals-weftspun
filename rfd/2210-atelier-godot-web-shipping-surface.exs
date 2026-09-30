@@ -34,7 +34,7 @@ L2 fanout at RFDs 2211/2214/2215/2216, adapter shape at RFD 2230"
       bundle format.
     - [RFD 2215](../2215-one-binary-two-heads/), two-heads shape.
     - [RFD 2216](../2216-threejs-blocklist/), three.js blocklist.
-    - [RFD 2229](../2229-interchangeable-parts-consolidation/) —
+    - [RFD 2229](../2229-interchangeable-parts-consolidation/),
       consolidation policy.
     - [RFD 2230](../2230-ggml-adapters-in-godot-sandbox/), ggml as
       one shared module + GDScript adapters.

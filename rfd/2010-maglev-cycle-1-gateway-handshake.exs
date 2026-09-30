@@ -15,7 +15,7 @@ defmodule RFD2010 do
 
     problem ~S"""
     A minimal Godot client is more work than a curl or harness ping, and
-    the work cannot be skipped — a non-Godot client would not catch
+    the work cannot be skipped: a non-Godot client would not catch
     Godot-specific datagram handling before it reaches a gameplay scene.
     """
 

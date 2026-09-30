@@ -203,7 +203,7 @@ concrete case is the Starforged play surface in
     character read as a doll on a stage rather than as the person the
     player was talking to. The retarget was a *decision-point* game
     where the player is in dialogue with a character; the video-call
-    frame is what makes that reading legible without any extra prose.
+    frame makes that reading legible without any extra prose.
     This RFD writes that legibility down as a convention future
     character-facing demos default to.
     """

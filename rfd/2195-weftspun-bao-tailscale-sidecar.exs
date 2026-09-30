@@ -420,8 +420,8 @@ defmodule RFD2195 do
     A token issued by cert-auth carries `token_policies`, but templated
     policies like `agents-rw` resolve at request time against the entity's
     alias for a specific accessor. When a cert-auth entry is
-    reshaped, split from shared to dedicated, widened, narrowed, deleted
-    — the accessor the templated policy references may no longer match
+    reshaped (split from shared to dedicated, widened, narrowed, deleted),
+    the accessor the templated policy references may no longer match
     the alias on the pre-swap entity, and writes 403 with `preflight
     capability check`. The token itself is authentic; the template just
     resolves to nothing.
