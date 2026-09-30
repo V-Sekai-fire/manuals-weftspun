@@ -11,7 +11,8 @@ defmodule RFD2232 do
 
     feature "one `rfd/NNNN-slug.exs` per RFD and one `SERIALS*.exs` per site, compiled by `rfd_dsl`; the Markdown and the `.usda` registers are renderings of them and are not tracked"
 
-    scope "the Mix project at the repository root, every `rfd/*.exs`, `SERIALS.exs` and `SERIALS-vsekai-fabric.exs`, the site and the MCP endpoint it serves"
+    scope "the Mix project at the repository root, every `rfd/*.exs`, `SERIALS.exs` and
+`SERIALS-vsekai-fabric.exs`"
 
     decision ~S"""
     An RFD is an Elixir module that uses `RFD.DSL`: one `rfd` block with
@@ -23,8 +24,7 @@ defmodule RFD2232 do
     is a module that uses `RFD.Register`: `allocated`, `unused` and `deleted`
     blocks of `serial`, `never_written` and `retired` rows. `mix rfd.render`
     writes README.md, DETAILS.md and `SERIALS*.usda`, the shape the gates and
-    `pen-66606.usda` read, and those files are ignored by git. The same corpus
-    is a site and a public MCP endpoint on Fly. `DETAILS.md` carries the rest.
+    `pen-66606.usda` read, and those files are ignored by git. `DETAILS.md` carries the rest.
     """
 
     problem ~S"""
@@ -83,17 +83,6 @@ defmodule RFD2232 do
     and 2232 had been appended into the deleted scope. Tropes are warnings at
     compile time, not errors, because `check_tropes.py` holds density where
     it is rather than forbidding a tell.
-    """
-
-    details "The site and the MCP endpoint", ~S"""
-    `RFD.Corpus` loads every source once; `RFDWeb.Router` serves the register,
-    each RFD, the flight levels, the logbook, the serial pages and the
-    agreements as plain HTML, and forwards `/mcp` to `ExMCP.HttpPlug` over
-    `RFD.MCP.Server`, whose tools (`list_rfds`, `get_rfd`, `search_rfds`,
-    `get_register`, `list_logbook`, `get_logbook_entry`, `get_agreements`) are
-    public and read-only. `mix rfd.pack` writes `priv/corpus.bin` so the Fly
-    release boots without compiling; `Containerfile`, `fly.toml` and the
-    Deploy workflow carry it, and Quarto with the GitHub Pages site is gone.
     """
 
     details "What the DSL does not do", ~S"""

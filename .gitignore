@@ -14,7 +14,6 @@ rfd/114[4-6]-*/fourloops-plan.usda
 rfd/114[4-6]-*/fourloops-etnf.usda
 /_build/
 /deps/
-/priv/corpus.bin
 
 # RFD 2232: README.md, DETAILS.md and the serial registers are rendered from the
 # .exs sources by `mix rfd.render`; the sources are what is tracked. Nothing else
