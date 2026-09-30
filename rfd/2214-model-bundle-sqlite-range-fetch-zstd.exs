@@ -7,7 +7,7 @@ defmodule RFD2214 do
   use RFD.DSL
 
   rfd 2214, "model bundle as ZSTD-compressed SQLite on local disk" do
-    state :discussion
+    state :abandoned
 
     feature "how a ggml model file (e.g. 180 MB Q4 GGUF) reaches the\nnative binary at runtime"
 

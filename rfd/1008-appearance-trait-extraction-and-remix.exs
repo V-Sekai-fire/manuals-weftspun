@@ -7,7 +7,7 @@ defmodule RFD1008 do
   use RFD.DSL
 
   rfd 1008, "Appearance trait extraction and remix" do
-    state :discussion
+    state :abandoned
 
     feature "appearance traits"
 
