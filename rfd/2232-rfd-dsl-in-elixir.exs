@@ -80,9 +80,9 @@ defmodule RFD2232 do
     `close-out-gates-red-green-scout` from a merged branch, so the second
     took the next unused serial, 2233; serial 2169 was allocated and deleted
     at once; 2184 and 2186 carried slugs their directories had left behind;
-    and 2232 had been appended into the deleted scope. Tropes are warnings at
-    compile time, not errors, because `check_tropes.py` holds density where
-    it is rather than forbidding a tell.
+    and 2232 had been appended into the deleted scope. A prose tell (an
+    em-dash join, a pompous copula, an `exact` on a soft noun) in any field a
+    reader sees is a compile error, like the other shape rules.
     """
 
     details "The site and the MCP endpoint", ~S"""
