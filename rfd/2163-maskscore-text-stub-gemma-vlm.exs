@@ -7,7 +7,7 @@ defmodule RFD2163 do
   use RFD.DSL
 
   rfd 2163, "MaskScore Text-stub emit via Gemma VLM on frame pairs" do
-    state :discussion
+    state :abandoned
 
     feature "MaskScore Text stub filled by prompting Gemma-4-12B on
 each (frame_a, frame_b) render pair. The instruction column becomes a

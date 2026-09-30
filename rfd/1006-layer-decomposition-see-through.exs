@@ -7,7 +7,7 @@ defmodule RFD1006 do
   use RFD.DSL
 
   rfd 1006, "Layer decomposition (See-Through)" do
-    state :discussion
+    state :abandoned
 
     feature "image-to-layers"
 
