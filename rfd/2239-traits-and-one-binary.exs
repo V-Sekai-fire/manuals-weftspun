@@ -432,11 +432,16 @@ defmodule RFD2239 do
     ruling. What remains open is narrower and worth keeping: who redoes the six
     in-tree conversion commits against it.
 
-    **Where `entities-godot-cineform` lives and how it is placed.** It does not
-    exist, in either organisation, and it is not needed: `modules/cineform` is
-    already in the fork on `feat/module-cineform` and rides into the assembly with
-    the other twenty branches. The question assumed a repository that was never
-    created and whose function is in-tree.
+    **Where `entities-godot-cineform` lives and how it is placed.**
+    `V-Sekai-fire/entities-godot-cineform` builds the CineForm `MovieWriter` as
+    a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
+    API in Godot 4.5, with clang 23 on its default branch
+    `main/llvm-clang23-build`; `default.xml` places it at
+    `4-entities/godot-cineform`. `interactor-dress-on` vendors its libraries
+    under `project/addons/cineform`, and RFD 2287's recordings go through it.
+    The in-tree `modules/cineform` on `feat/module-cineform` rides into the
+    assembly beside it: the module is the writer an engine build carries, the
+    extension is the one a project loads without one.
 
     **Whether `transport-taskweft-acp` must be unarchived for rung 3.** No. The
     concern was that widening the `Plan` family to 100,000 distinct rows means
@@ -540,8 +545,8 @@ defmodule RFD2239 do
 
     details "What this RFD does not decide", ~S"""
     The llama.cpp pairing with the canonical ggml; the godot-sandbox
-    revision to advance to and who redoes the six conversion commits; where
-    `entities-godot-cineform` lives; whether the teacher weights ship with
+    revision to advance to and who redoes the six conversion commits; whether
+    the teacher weights ship with
     the game; the G1-to-VRM retarget path; the policy on a machine with only
     an integrated GPU; whether `voxhammer.cpp` is placed or removed; the
     obs_dim, K_max and ROM rulings of RFD 2238; the likeness and consent RFD;
