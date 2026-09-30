@@ -16,9 +16,9 @@ defmodule RFD2287 do
 while a second person in the same zone sees it and talks with them; a
 worker zone makes the garment, and its ghost materializes in their zone"
 
-    scope "entities-godot master built with precision=double, the
-godot-sandbox addon at the same precision, transport-meshing-pen, and
-the zone, client, CA, asset, lasso, voice and garment-stage guest ELFs"
+    scope "entities-godot master built with precision=double, the godot-sandbox addon at
+the same precision, transport-meshing-pen, and the zone, client, CA, asset, lasso, voice and
+garment-stage guest ELFs. Using a standalone mode Steam Frame."
 
     decision ~S"""
     The first rung is two people in one zone, each with their own avatar:
