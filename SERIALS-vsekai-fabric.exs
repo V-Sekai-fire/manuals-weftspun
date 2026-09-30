@@ -245,6 +245,7 @@ defmodule Serials.VSekaiFabric do
       serial 2285, "unship-the-web-demo-and-xr-paths"
       serial 2286, "a-phone-face-bridge-to-social-vr"
       serial 2287, "the-first-rung-draw-and-wear-it-in-a-headset", flight_level: :l1
+      serial 2288, "guest-capabilities-as-macaroons", flight_level: :l1
     end
 
     deleted do
