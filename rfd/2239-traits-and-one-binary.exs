@@ -437,8 +437,7 @@ defmodule RFD2239 do
     a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
     API in Godot 4.5, with clang 23 on its default branch
     `main/llvm-clang23-build`; `default.xml` places it at
-    `4-entities/godot-cineform`. `interactor-dress-on` vendors its libraries
-    under `project/addons/cineform`, and RFD 2287's recordings go through it.
+    `4-entities/godot-cineform`, and RFD 2287's recordings go through it.
     The in-tree `modules/cineform` on `feat/module-cineform` rides into the
     assembly beside it: the module is the writer an engine build carries, the
     extension is the one a project loads without one.

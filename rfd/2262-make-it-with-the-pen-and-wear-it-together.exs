@@ -15,7 +15,7 @@ defmodule RFD2262 do
 draws their character and outfit with the meshing pen, wears it and moves in
 it where others see it, and gets a grade that teaches them to draw better"
 
-    scope "interactor-dress-on, transport-meshing-pen, and the
+    scope "transport-meshing-pen, the stage guests it builds, and the
 V-Sekai client and server that host the loop"
 
     decision ~S"""
@@ -81,7 +81,7 @@ V-Sekai client and server that host the loop"
 
     details "Where it runs", ~S"""
     The first host is `transport-meshing-pen`: the xr-grid pen with the
-    dress-on ELFs inserted through godot-sandbox. It has two
+    stage guest ELFs it builds inserted through godot-sandbox. It has two
     implementations, chosen per process through the OpenXR runtime
     manifest (`XR_RUNTIME_JSON`):
 
@@ -134,7 +134,8 @@ V-Sekai client and server that host the loop"
     `feat/module-speech` branch.
 
     The loop's locomotion is its own: a generated clip retargeted onto the
-    avatar (interactor-dress-on gate 10), with the body grounded on the GPU
+    avatar (`interactor-motion-guest`; gate 10 stays in the archived
+    `interactor-dress-on`), with the body grounded on the GPU
     as one rigid move per frame, so a foot stays where it lands and a seat
     holds a sitting body. Every contact is held to a penny (1.52 mm), within
     100 ms end to end and 1.0 ms of GPU time per frame on the standalone
@@ -173,8 +174,9 @@ V-Sekai client and server that host the loop"
 
     - Shelved 2026-09-27: avatar-person segmentation for faces. RF-DETR
       seg-nano runs on ggml-rd as a godot-sandbox guest
-      (interactor-dress-on PR #22; gate 9 passes against a CPU flat
-      control and a `GGML_RD_FAULT` negative control). A fine-tune loop
+      (`interactor-rfdetr-seg-guest`; gate 9, in the archived
+      `interactor-dress-on`, passes against a CPU flat control and a
+      `GGML_RD_FAULT` negative control). A fine-tune loop
       exists (interactor-rf-detr-ggml PR #25), and a 300-image CC0 VRM
       pilot carries exact masks (datasource-anny-render-corpus PR #41).
       Unpark when a release needs avatar-person detection.

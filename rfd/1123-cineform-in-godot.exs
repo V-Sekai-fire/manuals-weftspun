@@ -141,9 +141,8 @@ defmodule RFD1123 do
     engine build carries. `V-Sekai-fire/entities-godot-cineform`, placed at
     `4-entities/godot-cineform`, builds the same `MovieWriter` as a godot-cpp GDExtension, which
     became possible when `MovieWriter` reached the extension API in Godot 4.5; it is the writer a
-    project loads without an engine build, and `interactor-dress-on` vendors its libraries under
-    `project/addons/cineform`. The extension's encoder queue and buffer lifetime are measured in
-    the logbook (`logbook-cineform-writer-queue-and-buffer.md`).
+    project loads without an engine build. The extension's encoder queue and buffer lifetime are
+    measured in the logbook (`logbook-cineform-writer-queue-and-buffer.md`).
 
     **So the Scope line is wrong.** `3-interactor/godot-cineform` was created, used, and deleted;
     the extension that replaced it lives at `4-entities/godot-cineform`.

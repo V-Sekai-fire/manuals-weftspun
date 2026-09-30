@@ -14,7 +14,7 @@ defmodule RFD2265 do
     feature "the pen-meshing loop holds 90Hz with headroom on the standalone
 headset, by moving the curve-network off the main thread onto the GPU"
 
-    scope "the curvenet guest at `3-interactor/dress-on/guest/curvenet`,
+    scope "the curvenet guest at `3-interactor/curvenet/guest/curvenet`,
 reimplemented on compute-rd with Lean-authored kernels"
 
     decision ~S"""
@@ -22,7 +22,7 @@ reimplemented on compute-rd with Lean-authored kernels"
     10.1145/3411764.3445158) on compute-rd, kernels authored in Lean and
     lowered through Slang to SPIR-V, dispatched by an rdc::Device driver
     shaped like the avbd one. The CPU curvenet.elf stays as the oracle and a
-    parity gate at `gates/4-curvenet` holds both paths to the same integer
+    parity gate in `interactor-curvenet` holds both paths to the same integer
     counts and brackets every float output in the interval oracle's bounds
     (RFD 2269). Detail is in DETAILS.md.
     """

@@ -69,7 +69,7 @@ defmodule RFD2289 do
     placed tree: 62 found nothing, 9 found a runtime off the route, 38 found
     code, 32 found stubs, 26 are process rules, and 7 live in a checkout
     absent from this desk. The operator kept 2213, 2244 and 2268 as
-    dress-on's planned work and picked the three groups above from the
+    the guest stack's planned work and picked the three groups above from the
     rest. The negative controls are RFDs 1010, 1013, 1095 and 1103,
     abandoned by RFD 2285 for having no code: each scores zero cites.
 

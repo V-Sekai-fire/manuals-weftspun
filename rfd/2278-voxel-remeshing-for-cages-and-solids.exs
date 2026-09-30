@@ -17,7 +17,7 @@ defmodule RFD2278 do
 solid an inside test needs"
 
     scope "meshoptimizer 1.3 `meshopt_remesh` with `meshopt_RemeshShell` and
-`meshopt_RemeshSolve`, vendored into dress-on's guest build; RFD 2277's cage
+`meshopt_RemeshSolve`, built into interactor-remesh's `remesh.elf`; RFD 2277's cage
 source and body solid"
 
     decision ~S"""
