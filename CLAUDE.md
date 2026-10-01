@@ -627,7 +627,7 @@ line in that RFD before it is a row here.
 
 ```rebac
 desk-agent--runs-on--windows-desktop
-desk-agent--reaches--headset          # SSH as its unprivileged user, with the desk key, from WSL
+desk-agent--!reaches--headset         # its key went with the retired WSL setup; the Mac desk reaches the headset
 desk-agent--restarts--vr-runtime      # then restarts the eye-tracking bridge the restart orphans
 desk-agent--mints--github-token       # from Bao, for both organisations; revoked when a task ends
 desk-agent--pushes--v-sekai-fire      # feature branches; a diverged one goes up under a new name
@@ -644,11 +644,9 @@ desk-agent--!owns--rented-gpu         # the Compute constraint above
 
 Temporary files go in the session scratchpad, and anything worth keeping goes
 into this tree or onto a pushed branch; there is no third place. Work runs
-natively on Windows, and WSL carries only git and Bao plumbing. A script bound
-for WSL is written to a file and run with `bash -l <file> </dev/null`: an inline
-`$VAR` is mangled on its way through `wsl.exe`, and a child that reads stdin
-swallows the rest of a script fed on stdin. Each task ends by removing what it
-staged and revoking the token it minted.
+natively on Windows, git, Bao and Fly included: the desk has no WSL, and the
+headset key it held went with it. Each task ends by removing what it staged and
+revoking the token it minted.
 
 ## Why a Link After All
 

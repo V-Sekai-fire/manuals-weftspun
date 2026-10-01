@@ -217,10 +217,10 @@ defmodule RFD2200 do
 
       relate "desk-agent", :runs_on, "windows-desktop"
 
-      relate "desk-agent",
-             :reaches,
-             "headset",
-             "SSH as its unprivileged user, with the desk key, from WSL"
+      deny "desk-agent",
+           :reaches,
+           "headset",
+           "its key went with the retired WSL setup; the Mac desk reaches the headset"
 
       relate "desk-agent",
              :restarts,
