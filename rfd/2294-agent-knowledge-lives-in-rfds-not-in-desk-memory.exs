@@ -85,14 +85,16 @@ rules below"
     """
 
     details "Locomotion", ~S"""
-    In the headset a person moves by xr-grid's world grab: both grips pinch the
-    world, and moving, turning or spreading the hands carries, turns or scales it
-    about the hands' midpoint (`addons/procedural_3d_grid/core/xr_pinch.gd` on a
-    canvas beside the hands, as `transport-meshing-pen` wires it). One grip moves
-    nothing. A character moved with a gamepad uses `interactor-motion-guest`: the
-    motion models on ggml-rd with compute-rd in a godot-sandbox guest, retargeted
-    onto the avatar, with the stick setting movement and facing. No teleport, snap
-    turn, smooth stick movement or hand-written character controller is added.
+    In the headset a person moves two ways, and both work. One is xr-grid's world
+    grab: both grips pinch the world, and moving, turning or spreading the hands
+    carries, turns or scales it about the hands' midpoint
+    (`addons/procedural_3d_grid/core/xr_pinch.gd` on a canvas beside the hands, as
+    `transport-meshing-pen` wires it). One grip moves nothing. The other is the
+    controllers: smooth stick movement, snap turning and teleport. A character
+    moved with a gamepad uses `interactor-motion-guest`: the motion models on
+    ggml-rd with compute-rd in a godot-sandbox guest, retargeted onto the avatar,
+    with the stick setting movement and facing. No hand-written character
+    controller is added.
     """
 
     details "Deploying offline", ~S"""
