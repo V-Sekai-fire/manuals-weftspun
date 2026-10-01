@@ -39,6 +39,11 @@ DLL are the hand-made ones from the sizing entry; `run-xr.sh` is the branch's.
 | --- | --- | --- | --- |
 | `dev-pen-hand` | `xr` | PASS: `session_visible` at 4.77 s; 6 strokes, 2 cycles, 2 openings; 940 vertices, 1748 faces | `logs/dev-pen-hand.txt` |
 | `dev-pen-hand-hidden` | `hidden` | FAIL as required: view flat, expected xr, rc 1 | `logs/dev-pen-hand-hidden.txt` |
+| `dev-pen-hand-hold` | `xr --hold=60` | PASS: 4309 frames, mean 13.92 ms, p50 13.89, p95 13.89, max 135.24; 72.0 fps | `logs/dev-pen-hand-hold.txt` |
+
+The held run is the frame-time baseline without the station; the sizing entry's 4308 frames
+at the same mean and p95 agree with it. In that run `session_visible` arrives twice, at 3.52 s
+and 7.26 s.
 
 The gate passes without what the hand copy carried and the branch does not, all of it
 absent together: an untracked `override.cfg` (`xr/openxr/enabled`, `xr/shaders/enabled`, the
