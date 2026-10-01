@@ -180,6 +180,18 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
       window on their view.
     """
 
+    details "The setting", ~S"""
+    The two players stand in a train-station plaza, a port of the
+    MIT-licensed procedural three.js scene `sakuragaoka-station`, placed
+    at `3-interactor/sakuragaoka-station-upstream` (`4112f57`). Its
+    43,727 lines of JavaScript under `src/` generate every texture in
+    code and keep no mesh on disk, so the port rebuilds the scene in the
+    engine with MToon materials rather than importing it. The port lives
+    in `entities-sakuragaoka-station`, and the pen vendors it with
+    `tools/vendor_station.sh <commit>`, which takes only a commit some
+    remote branch contains.
+    """
+
     details "The avatars", ~S"""
     Both avatars are free original models under the Apache-2.0 licence,
     each in its own repository with its licence file and its Unity
