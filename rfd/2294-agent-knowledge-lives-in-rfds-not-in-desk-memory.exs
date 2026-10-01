@@ -67,7 +67,10 @@ rules below"
     An agent works from the placed tree, and branches where a pin is old. A
     procedure a desk repeats becomes an Elixir DSL or a tool in the tree rather than
     one-off shell. No workflow or background subagent runs unless the operator asks
-    for one. Test marks go only in test scenes, never in a scene that ships.
+    for one. Test marks go only in test scenes, never in a scene that ships. A
+    large area is parked one top-level entry at a time, each pushed or moved into
+    the tree and then removed until the area is empty, with no census of every file
+    first, so the area visibly shrinks.
 
     Forks, new repositories and pushes stay in V-Sekai-fire and chibifire-stages.
     Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
