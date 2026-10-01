@@ -137,6 +137,16 @@ rules below"
     `tools/prop_shots.gd` is the precedent (RFD 2283). A copy goes to
     `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
     `<topic>-NN.png`, the number rising so that no sheet is overwritten.
+
+    A residual is fixed, never smudged: nothing blurs an image before the diff,
+    loosens a threshold or masks a region. Fixes go down a ladder, each rung measured
+    with the diff's own metric before and after: exact fixes at the source, then
+    missing structure, then registration, where a camera that does not match is fixed
+    in the camera and never by warping an image, then parameters fitted to the oracle
+    with `contract-lbfgsb` on the GPU, coarse to fine, written back into the source
+    assets and checked on views the fit did not use. What remains is reported beside
+    its floor, and a later change may not raise it. Antialiasing and distance fades
+    that belong to the renderer stay.
     """
 
     details "The station in Godot", ~S"""
