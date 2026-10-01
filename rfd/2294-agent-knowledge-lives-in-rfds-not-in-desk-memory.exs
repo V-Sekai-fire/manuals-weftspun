@@ -267,6 +267,11 @@ rules below"
     Windows desk, Git Bash rewrites an argument that starts with `/` into a Windows
     path, so the revoke goes through curl or names the path without its leading
     slash.
+
+    Agents may use Bao to pass data to each other. What is written there is stored
+    in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is
+    FoundationDB, whose backup goes to R2 (RFD 2143). An entry deleted from Bao
+    stays in that copy until it rolls over.
     """
   end
 end
