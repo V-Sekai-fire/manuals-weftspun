@@ -247,6 +247,7 @@ defmodule Serials.VSekaiFabric do
       serial 2287, "the-first-rung-draw-and-wear-it-in-a-headset", flight_level: :l1
       serial 2288, "guest-capabilities-as-macaroons", flight_level: :l1
       serial 2289, "unship-the-zone-stack-off-route-runtimes-and-browser-client"
+      serial 2290, "trim-the-independent-ggml-runtimes"
     end
 
     deleted do
