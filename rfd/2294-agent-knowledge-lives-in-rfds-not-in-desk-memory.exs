@@ -160,8 +160,14 @@ rules below"
       plain surface, or goes through `remesh.elf` when it must be unioned;
     - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
       forking it;
-    - draws vector materials (signs, paving, bark, blossom cards) on the GPU through
-      the SlugHorn port.
+    - renders completely from meshes baked from the vector materials' data (signs,
+      paving, bark, blossom cards), coarsened by LOD when over budget, so everything
+      works with the runtime vector shader off;
+    - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
+      adding detail to surfaces near the eye within the headset's GPU budget;
+    - synthesizes finer detail only where the source is procedural;
+    - judges alpha on the final composite of its layers: an opaque object ends with
+      no transparency, and a transparent base-colour material writes alpha.
 
     No rasterized vector art or glyph outline goes into the headset. Meshes made
     from outlines are fine, and a glyph mesh goes through `remesh.elf` when its
@@ -250,7 +256,10 @@ rules below"
     A GitHub token is minted from `github/token`, never printed, and handed to git
     through a credential helper that reads it from the environment. When its task
     ends it is revoked with `DELETE /installation/token`, which answers 204 and
-    leaves the token answering 401, and only then is its copy deleted.
+    leaves the token answering 401, and only then is its copy deleted. On a
+    Windows desk, Git Bash rewrites an argument that starts with `/` into a Windows
+    path, so the revoke goes through curl or names the path without its leading
+    slash.
     """
   end
 end
