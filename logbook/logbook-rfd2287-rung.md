@@ -98,3 +98,20 @@ On the headset, the CI engine with the hand-made DLL isolates the engine:
 | Tag | Mode | Result | Read from |
 | --- | --- | --- | --- |
 | `dev-ci-engine` | `xr` | PASS: `Godot 4.8-dev (gh)`; `session_visible` at 3.53 s; 6 strokes, 2 cycles, 2 openings; 940 vertices, 1748 faces | `logs/dev-ci-engine.txt` |
+
+## dev: the CI binaries on the headset
+
+`tools/frame/push.sh` at pen `44f5d5e` put the pen, its vendored double addon and the pinned
+engine on the headset; `~/rfd2287/PUSHED` names all three, each checked against its
+release's `SHA256SUMS`: engine `v20260930-double.1` (`bb91fc39…3686c3ab`), addon
+`v20260930-addon.1` (DLL `d8c043e5…c9453520`). Nothing hand-made remains in the path; the
+hand-made pen and engine are kept as `pen.hand` and `godot-dbl.hand`.
+
+| Tag | Mode | Result | Read from |
+| --- | --- | --- | --- |
+| `dev-ci` | `xr` | PASS: `Godot 4.8-dev (gh)`; view XR OpenXR at 2.25 s; the cut pipeline reaches DONE with 6 strokes, 2 cycles, 2 openings; 940 vertices, 1748 faces | `logs/dev-ci.txt` |
+| `dev-ci-hidden` | `hidden` | FAIL as required: view flat, expected xr, rc 1 | `logs/dev-ci-hidden.txt` |
+| `dev-ci-hold` | `xr --hold=60` | PASS: 4308 frames, mean 13.91 ms, p50 13.89, p95 13.89, max 128.48; 72.0 fps | `logs/dev-ci-hold.txt` |
+
+Against the hand-made baseline (mean 13.92 ms, p95 13.89, max 135.24) the CI binaries hold
+the same 72 fps. `session_visible` again arrives twice, at 2.19 s and 5.47 s.
