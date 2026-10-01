@@ -248,6 +248,7 @@ defmodule Serials.VSekaiFabric do
       serial 2288, "guest-capabilities-as-macaroons", flight_level: :l1
       serial 2289, "unship-the-zone-stack-off-route-runtimes-and-browser-client"
       serial 2290, "trim-the-independent-ggml-runtimes"
+      serial 2291, "capability-rebac-is-a-dsl-feature", flight_level: :l2
     end
 
     deleted do

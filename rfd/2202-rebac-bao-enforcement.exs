@@ -205,6 +205,19 @@ defmodule RFD2202 do
         python scripts/sync_rebac_groups.py
     """
 
+    rebac do
+      verbs_from 2200
+
+      relate "mps-45994b", :role, "coordinator", "entity 714065ee, group agents-coordinator"
+
+      relate "cuda-a63415",
+             :role,
+             "gpu-experimenter",
+             "entity 17b34a2f, group agents-gpu-experimenter"
+
+      relate "hailo-552dfa", :role, "assist", "entity f92af0c7, group agents-assist"
+    end
+
     drafted_by :ai
   end
 end

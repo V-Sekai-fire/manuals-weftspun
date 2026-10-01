@@ -72,6 +72,56 @@ defmodule Mix.Tasks.Rfd.Check do
   end
 end
 
+defmodule Mix.Tasks.Rfd.Rebac do
+  @shortdoc "Hold every rebac block against the verb vocabulary the corpus declares"
+  @moduledoc false
+  use Mix.Task
+
+  @impl true
+  def run(args) do
+    {_, docs, _} = OptionParser.parse(args, strict: [])
+    Code.compiler_options(ignore_module_conflict: true)
+
+    blocks =
+      for path <- RFD.Source.all(),
+          doc = RFD.Source.load(path),
+          doc.rebac != nil,
+          do: {doc.serial, doc.rebac}
+
+    vocabulary = Map.new(blocks, fn {serial, r} -> {serial, RFD.ReBAC.verb_names(r)} end)
+    all_verbs = vocabulary |> Map.values() |> List.flatten() |> MapSet.new()
+
+    problems =
+      Enum.flat_map(blocks, fn {serial, r} ->
+        missing = for s <- r.verbs_from, not Map.has_key?(vocabulary, s), do: s
+
+        known =
+          MapSet.new(
+            RFD.ReBAC.verb_names(r) ++ Enum.flat_map(r.verbs_from, &Map.get(vocabulary, &1, []))
+          )
+
+        for reason <-
+              for(s <- missing, do: "verbs_from #{s} names no RFD that declares verbs") ++
+                RFD.ReBAC.problems(r, known),
+            do: "RFD #{serial}: #{reason}"
+      end) ++
+        Enum.flat_map(if(docs == [], do: ["CLAUDE.md"], else: docs), fn path ->
+          for reason <- RFD.ReBAC.document_problems(File.read!(path), all_verbs),
+              do: "#{path}: #{reason}"
+        end)
+
+    Enum.each(problems, &Mix.shell().error("FAIL #{&1}"))
+
+    Mix.shell().info(
+      "#{length(blocks)} rebac block(s) over #{MapSet.size(all_verbs)} verb(s), " <>
+        "#{Enum.sum(for {_, r} <- blocks, do: length(r.tuples))} tuple(s), " <>
+        "#{Enum.sum(for {_, r} <- blocks, do: length(r.capabilities))} capability(ies)"
+    )
+
+    if problems != [], do: Mix.raise("#{length(problems)} rebac problem(s)")
+  end
+end
+
 defmodule Mix.Tasks.Rfd.Usda do
   @shortdoc "Print the .usda rendering of one register source to stdout"
   @moduledoc false
@@ -289,8 +339,34 @@ defmodule RFD.Source do
       [{"README.md", RFD.Doc.readme(doc)}, {"DETAILS.md", RFD.Doc.details(doc)}]
       |> Enum.reject(fn {_, body} -> is_nil(body) end)
 
-    write(name, dir, wanted, opts)
+    case write(name, dir, wanted, opts) do
+      {:drift, _, _} = drift -> drift
+      rendered -> merge(rendered, write(name, repo_root(), regions!(path, doc), opts))
+    end
   end
+
+  # A `renders_into` in the RFD's rebac block owns the fenced `rebac` region of that document.
+  defp regions!(path, %{rebac: %RFD.ReBAC{}} = doc) do
+    for {doc_path, subject} <- doc.rebac.renders_into do
+      full = Path.join(repo_root(), doc_path)
+      text = File.read!(full)
+
+      case RFD.ReBAC.put_block(text, RFD.ReBAC.rows_for(doc.rebac, subject)) do
+        :no_block ->
+          raise ArgumentError, "#{path}: #{doc_path} carries no rebac block to render into"
+
+        body ->
+          {doc_path, body}
+      end
+    end
+  end
+
+  defp regions!(_path, _doc), do: []
+
+  defp merge({:same, name}, {:same, _}), do: {:same, name}
+  defp merge({:same, _}, other), do: other
+  defp merge(one, {:same, _}), do: one
+  defp merge({tag, name, a}, {_, _, b}), do: {tag, name, a ++ b}
 
   defp write(name, dir, wanted, opts) do
     differing = for {n, body} <- wanted, File.read(Path.join(dir, n)) != {:ok, body}, do: n

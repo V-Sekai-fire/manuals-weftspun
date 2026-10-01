@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gate: every rebac block in CLAUDE.md is RFD 2200 tuples over the verbs RFD 2200's table names.
+# Gate: every rebac block in CLAUDE.md is RFD 2200 tuples over the verbs RFD 2200 declares.
+#
+# The verbs come from RFD 2200's `rebac` block as data (RFD 2291), not from a table
+# scraped out of its rendered Markdown, and every rule lives in `RFD.ReBAC`, which the
+# DSL applies when a source compiles. `mix rfd.rebac` runs this over the whole corpus;
+# this script is the CLAUDE.md half, which a prek hook runs on its own.
 #
 # Usage:
 #     elixir scripts/check_rebac.exs [--doc CLAUDE.md] [--rfd rfd/2200-rebac-agent-roles.exs]
@@ -7,91 +12,31 @@
 #
 # Exit codes: 0 every row is well formed, 1 a row is not or a precondition is unmet, 2 bad usage.
 
+for f <- ["lib/rfd/rebac.ex", "lib/rfd/doc.ex", "lib/rfd/dsl.ex"], do: Code.require_file(f)
+
 defmodule ReBACGate do
   @rfd "rfd/2200-rebac-agent-roles.exs"
-  @table "| verb | meaning |\n|---|---|\n| `owns` | x |\n| `reaches` | y |\n"
-  @seg "[a-z0-9]+(?:-[a-z0-9]+)*"
 
-  defp row_re, do: Regex.compile!("^(#{@seg})--(!?)(#{@seg})--(#{@seg})(?:\\s+#\\s*(\\S.*))?$")
+  @doc "The verbs an RFD source declares, as a set of atoms."
+  def verbs(path) do
+    Code.compiler_options(ignore_module_conflict: true)
 
-  def verbs(rfd_text) do
-    ~r/^\s*\|\s*`([a-z][a-z-]*)`\s*\|/m
-    |> Regex.scan(rfd_text, capture: :all_but_first)
-    |> List.flatten()
-    |> MapSet.new()
-  end
-
-  def rows(doc_text) do
-    {rows, open?, found?} =
-      doc_text
-      |> String.split("\n")
-      |> Enum.with_index(1)
-      |> Enum.reduce({[], false, false}, fn {line, n}, {acc, inside, found} ->
-        t = String.trim(line)
-
-        cond do
-          not inside and t == "```rebac" -> {acc, true, true}
-          inside and t == "```" -> {acc, false, found}
-          inside and (t == "" or String.starts_with?(t, "#")) -> {acc, inside, found}
-          inside -> {[{n, t} | acc], inside, found}
-          true -> {acc, inside, found}
+    case Code.compile_file(path) do
+      [{module, _} | _] ->
+        case module.__rfd__().rebac do
+          nil -> MapSet.new()
+          rebac -> MapSet.new(RFD.ReBAC.verb_names(rebac))
         end
-      end)
 
-    cond do
-      not found? -> :no_block
-      open? -> :unclosed
-      true -> Enum.reverse(rows)
+      [] ->
+        MapSet.new()
     end
   end
 
   def check(doc_text, verbs) do
-    case {MapSet.size(verbs), rows(doc_text)} do
-      {0, _} -> ["RFD 2200's verb table is missing or empty"]
-      {_, :no_block} -> ["no rebac block in the document"]
-      {_, :unclosed} -> ["a rebac block is never closed"]
-      {_, rows} -> row_errors(rows, verbs)
-    end
-  end
-
-  defp row_errors(rows, verbs) do
-    parsed = Enum.map(rows, fn {n, t} -> {n, t, Regex.run(row_re(), t)} end)
-
-    shape =
-      Enum.flat_map(parsed, fn
-        {n, t, nil} -> ["line #{n}: not <subject>--<verb>--<object> in lowercase kebab: #{t}"]
-        {n, _, [_, _, neg, v, _ | rest]} -> row_rules(n, neg, v, List.first(rest), verbs)
-      end)
-
-    tuples = for {n, _, [_, s, neg, v, o | _]} <- parsed, do: {n, {s, neg, v, o}}
-
-    repeats =
-      tuples
-      |> Enum.group_by(&elem(&1, 1), &elem(&1, 0))
-      |> Enum.filter(fn {_, ns} -> length(ns) > 1 end)
-      |> Enum.map(fn {{s, neg, v, o}, ns} ->
-        "lines #{Enum.join(ns, ", ")}: #{s}--#{neg}#{v}--#{o} repeats"
-      end)
-
-    both =
-      tuples
-      |> Enum.group_by(fn {_, {s, _, v, o}} -> {s, v, o} end, fn {_, {_, neg, _, _}} -> neg end)
-      |> Enum.filter(fn {_, negs} -> "" in negs and "!" in negs end)
-      |> Enum.map(fn {{s, v, o}, _} -> "#{s}--#{v}--#{o} is both granted and denied" end)
-
-    shape ++ Enum.sort(repeats) ++ Enum.sort(both)
-  end
-
-  defp row_rules(n, neg, v, reason, verbs) do
-    unknown =
-      if MapSet.member?(verbs, v), do: [], else: ["line #{n}: `#{v}` is not in RFD 2200's table"]
-
-    bare =
-      if neg == "!" and reason in [nil, ""],
-        do: ["line #{n}: a denial carries its reason after #"],
-        else: []
-
-    unknown ++ bare
+    if MapSet.size(verbs) == 0,
+      do: ["the RFD declares no verbs"],
+      else: RFD.ReBAC.document_problems(doc_text, verbs)
   end
 
   def run(argv) do
@@ -108,16 +53,17 @@ defmodule ReBACGate do
   end
 
   defp gate(doc, rfd) do
-    with {:ok, d} <- File.read(doc), {:ok, r} <- File.read(rfd) do
-      case check(d, verbs(r)) do
+    with {:ok, d} <- File.read(doc), true <- File.exists?(rfd) do
+      vs = verbs(rfd)
+
+      case check(d, vs) do
         [] ->
-          tuples = rows(d)
-          denials = Enum.count(tuples, fn {_, t} -> String.contains?(t, "--!") end)
-          grants = length(tuples) - denials
+          rows = RFD.ReBAC.block_rows(d)
+          denials = Enum.count(rows, fn {_, t} -> String.contains?(t, "--!") end)
 
           IO.puts(
-            "check_rebac: #{length(tuples)} rows in #{doc} (#{grants} grants, " <>
-              "#{denials} denials) over #{MapSet.size(verbs(r))} verbs from #{rfd}: PASS"
+            "check_rebac: #{length(rows)} rows in #{doc} (#{length(rows) - denials} grants, " <>
+              "#{denials} denials) over #{MapSet.size(vs)} verbs from #{rfd}: PASS"
           )
 
         errors ->
@@ -125,8 +71,8 @@ defmodule ReBACGate do
           System.halt(1)
       end
     else
-      {:error, why} ->
-        IO.puts("check_rebac: cannot read #{doc} or #{rfd}: #{:file.format_error(why)}")
+      _ ->
+        IO.puts("check_rebac: cannot read #{doc} or #{rfd}")
         System.halt(1)
     end
   end
@@ -134,20 +80,22 @@ defmodule ReBACGate do
   defp doc(rows), do: "Intro.\n\n```rebac\n" <> Enum.join(rows, "\n") <> "\n```\n"
 
   defp self_test do
-    v = verbs(@table)
+    v = MapSet.new([:owns, :reaches, :may_use])
 
     controls = [
       {"a well-formed block passes",
        doc(["# grants", "", "a--owns--card", "a--!reaches--box  # no key"]), v, true},
+      {"a kebab verb reads as its atom", doc(["a--may-use--card"]), v, true},
       {"an unknown verb fails", doc(["a--drives--card"]), v, false},
       {"a denial without its reason fails", doc(["a--!owns--card"]), v, false},
       {"an uppercase segment fails", doc(["A--owns--card"]), v, false},
       {"a repeated row fails", doc(["a--owns--card", "a--owns--card"]), v, false},
-      {"a relation granted and denied fails",
-       doc(["a--owns--card", "a--!owns--card # no"]), v, false},
+      {"a relation granted and denied fails", doc(["a--owns--card", "a--!owns--card # no"]), v,
+       false},
       {"a document with no rebac block fails", "Nothing here.\n", v, false},
       {"an unclosed rebac block fails", "```rebac\na--owns--card\n", v, false},
-      {"an RFD with no verb table fails", doc(["a--owns--card"]), verbs("no table"), false}
+      {"a row that is not a tuple fails", doc(["owns a card"]), v, false},
+      {"an RFD that declares no verbs fails", doc(["a--owns--card"]), MapSet.new(), false}
     ]
 
     results =

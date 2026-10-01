@@ -621,8 +621,9 @@ anybody's diff.
 The desk agent's capabilities are RFD 2200 tuples, one per line in the block
 below. A row is `<subject>--<verb>--<object>`; a `!` before the verb makes it a
 denial, which carries its reason after `#`. Default deny covers what no row
-names. `scripts/check_rebac.exs` reads the verbs out of RFD 2200's table, so a
-new verb is an amendment to that RFD before it is a row here.
+names. The block is rendered by `mix rfd.render` from RFD 2200's `rebac`
+declarations (RFD 2291), so it is not hand-edited, and a new verb is a `verb`
+line in that RFD before it is a row here.
 
 ```rebac
 desk-agent--runs-on--windows-desktop

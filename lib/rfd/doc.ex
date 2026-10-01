@@ -48,6 +48,7 @@ defmodule RFD.Doc do
             details_title: nil,
             details_preamble: nil,
             details: [],
+            rebac: nil,
             drafted_by: :ai
 
   @type t :: %__MODULE__{}
@@ -79,7 +80,7 @@ defmodule RFD.Doc do
       "attest_in must be :readme, :details or :none"
     )
     |> check(
-      d.attest_in != :details or d.details != [] or d.details_preamble != nil,
+      d.attest_in != :details or d.details != [] or d.details_preamble != nil or d.rebac != nil,
       "attest_in :details needs a DETAILS.md to carry the sentence"
     )
     |> check(
@@ -95,6 +96,11 @@ defmodule RFD.Doc do
       "a spine section goes in its own field, not in section/2"
     )
     |> check(spine_in_order?(d.order), "the spine runs Decision, Problem, References, Related")
+    |> check(
+      d.rebac == nil or match?(%RFD.ReBAC{}, d.rebac),
+      "rebac holds the model the rebac block builds"
+    )
+    |> Kernel.++(rebac_problems(d))
     |> Kernel.++(length_problems(d))
     |> Enum.reverse()
   end
@@ -108,7 +114,7 @@ defmodule RFD.Doc do
       [d.title, d.feature, d.scope, d.preamble, d.decision, d.problem] ++
         List.wrap(d.references) ++
         [d.related, d.details_title, d.details_preamble] ++
-        Enum.flat_map(d.details ++ d.sections, &Tuple.to_list/1)
+        Enum.flat_map(d.details ++ d.sections ++ rebac_sections(d), &Tuple.to_list/1)
 
     for text <- prose,
         is_binary(text),
@@ -138,6 +144,26 @@ defmodule RFD.Doc do
 
   defp check(acc, true, _msg), do: acc
   defp check(acc, false, msg), do: [msg | acc]
+
+  defp rebac_problems(%{rebac: %RFD.ReBAC{} = r}) do
+    known = if r.verbs_from == [], do: MapSet.new(RFD.ReBAC.verb_names(r))
+    RFD.ReBAC.problems(r, known)
+  end
+
+  defp rebac_problems(_), do: []
+
+  @doc "The DETAILS sections a `rebac` block renders, in a fixed order after the authored ones."
+  def rebac_sections(%__MODULE__{rebac: nil}), do: []
+
+  def rebac_sections(%__MODULE__{rebac: r}) do
+    for {heading, body} <- [
+          {"The verbs", RFD.ReBAC.verb_table(r)},
+          {"The tuples", RFD.ReBAC.tuple_block(r)},
+          {"The capabilities", RFD.ReBAC.capability_table(r)}
+        ],
+        body != nil,
+        do: {heading, body}
+  end
 
   defp length_problems(d) do
     if d.decision == nil and d.state not in @no_decision_states do
@@ -208,7 +234,7 @@ defmodule RFD.Doc do
   end
 
   @doc "DETAILS.md, or nil when the RFD has no details."
-  def details(%__MODULE__{details: [], details_preamble: nil}), do: nil
+  def details(%__MODULE__{details: [], details_preamble: nil, rebac: nil}), do: nil
 
   def details(%__MODULE__{} = d) do
     parts =
@@ -216,7 +242,8 @@ defmodule RFD.Doc do
         "# RFD #{d.serial} details: #{d.details_title || d.title}",
         d.attest_in != :none && canary(d.drafted_by),
         d.details_preamble && String.trim_trailing(d.details_preamble)
-      ] ++ Enum.map(d.details, fn {h, b} -> section(h, b) end)
+      ] ++
+        Enum.map(d.details ++ rebac_sections(d), fn {h, b} -> section(h, b) end)
 
     Enum.map_join(Enum.reject(parts, &(&1 in [nil, false])), "\n\n", & &1) <> "\n"
   end
@@ -234,7 +261,7 @@ defmodule RFD.Doc do
 
   defp section(heading, body), do: "## #{heading}\n\n#{String.trim_trailing(body)}"
 
-  defp details_pointer(%{details: [], details_preamble: nil}), do: ""
+  defp details_pointer(%{details: [], details_preamble: nil, rebac: nil}), do: ""
   defp details_pointer(%{details_pointer: false}), do: ""
 
   defp details_pointer(d) do

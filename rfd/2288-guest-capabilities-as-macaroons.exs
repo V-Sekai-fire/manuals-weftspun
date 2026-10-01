@@ -70,12 +70,25 @@ makes host calls, and the ReBAC tuples of RFD 2200"
     """
 
     details "Adding a capability", ~S"""
-    A capability names one verb on one object: `send` to the session's
-    relay, `write` to this zone's journal file, `transfer` of one VM to
-    one zone. A new need adds a tuple for that narrow verb and object. A
-    wider capability is not allowed; a second, narrow one is. `ca.elf`
-    gets no `transfer` or memory-read capability.
+    A capability names one verb on one object, and the table below carries
+    the three that exist as `capability` declarations (RFD 2291, ReBAC as a
+    DSL feature), so a reader counts them rather than reading for them. A
+    new need adds a declaration for that narrow verb and object, and a
+    tuple that mints it. A wider capability is not allowed; a second,
+    narrow one is. `ca.elf` gets no `transfer` or memory-read capability.
     """
+
+    rebac do
+      verbs_from 2200
+
+      verb :send, "the guest sends a frame to the object relay"
+      verb :write, "the guest appends to the object file the zone holds"
+      verb :transfer, "the guest's VM moves to the object zone"
+
+      capability :send, object: "session-relay", caveats: [:vm, :verb, :object, :expires, :epoch]
+      capability :write, object: "zone-journal", caveats: [:vm, :verb, :object, :expires, :epoch]
+      capability :transfer, object: "vm", caveats: [:vm, :verb, :object, :expires, :epoch]
+    end
 
     details "Checks", ~S"""
     Each has a control, and each runs with the guest's real host calls.

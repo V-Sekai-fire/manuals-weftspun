@@ -172,19 +172,21 @@ repos:
         pass_filenames: false
 
       # CLAUDE.md states the desk agent's capabilities as RFD 2200 tuples, and the gate reads
-      # its verbs from RFD 2200's source, so a verb the RFD does not name fails here.
+      # the verbs RFD 2200's `rebac` block declares, so a verb the RFD does not declare fails
+      # here. The first version matched pipes in RFD 2200's rendered table, which made a build
+      # artifact the authority for the vocabulary; RFD 2291 made it a declaration instead.
       - id: rebac
-        name: the rebac block in CLAUDE.md uses only RFD 2200's verbs
+        name: the rebac block in CLAUDE.md uses only the verbs RFD 2200 declares
         entry: elixir scripts/check_rebac.exs
         language: system
-        files: ^(CLAUDE\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs)$
+        files: ^(CLAUDE\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs|lib/rfd/rebac\.ex)$
         pass_filenames: false
 
       - id: rebac-self-test
         name: the rebac gate still fails on known-broken rows
         entry: elixir scripts/check_rebac.exs --self-test
         language: system
-        files: ^scripts/check_rebac\.exs$
+        files: ^(scripts/check_rebac\.exs|lib/rfd/rebac\.ex)$
         pass_filenames: false
 
       # CLAUDE.md was 972 lines, 592 of them the argument behind the blocklist table. The
@@ -338,6 +340,15 @@ repos:
         entry: mix rfd.serials
         language: system
         files: '^(rfd/[0-9]{4}-[^/]+\.exs|SERIALS[^/]*\.exs|lib/.*|test/.*|mix\.exs)$'
+        pass_filenames: false
+
+      # A `verbs_from` resolves only once every source is loaded, so the vocabulary check is
+      # corpus-wide rather than per-file. It reads CLAUDE.md's fenced block as well.
+      - id: rfd-dsl-rebac
+        name: every rebac block states tuples over verbs an RFD declares
+        entry: mix rfd.rebac
+        language: system
+        files: '^(rfd/[0-9]{4}-[^/]+\.exs|CLAUDE\.md|lib/.*|test/.*|mix\.exs)$'
         pass_filenames: false
 
       # The DSL's own controls: six known-broken documents must be refused.
