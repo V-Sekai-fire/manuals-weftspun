@@ -106,10 +106,11 @@ rules below"
     """
 
     details "Video", ~S"""
-    Every video ships twice, as AV1 with FLAC in WebM and as CineForm with FLAC in
-    Matroska, each with its `.cff`. It is recorded as `.cfhd` through
-    `entities-godot-cineform` at double precision and delivered by
-    `interactor-av1mkv`'s `deliver.exs`; no master is MJPEG. Nothing records
+    Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
+    WebM is made: videos are uploaded by hand, and a WebM does not play on every
+    desk. It is recorded as `.cfhd` through `entities-godot-cineform` at double
+    precision and delivered by `interactor-av1mkv`'s `deliver.exs`, which writes
+    only those two files; no master is MJPEG. Nothing records
     through the encoder BLOCKLIST.md bars or through the desktop driver's own
     recorder: recordings are CineForm, the live stream is PyroWave, and the headset
     view comes from the compositor mirror.
