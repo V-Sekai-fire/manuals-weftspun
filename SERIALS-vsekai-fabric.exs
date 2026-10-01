@@ -249,6 +249,7 @@ defmodule Serials.VSekaiFabric do
       serial 2289, "unship-the-zone-stack-off-route-runtimes-and-browser-client"
       serial 2290, "trim-the-independent-ggml-runtimes"
       serial 2291, "capability-rebac-is-a-dsl-feature", flight_level: :l2
+      serial 2293, "the-skateboards-workspace-and-the-first-rungs-plan", flight_level: :l1
     end
 
     deleted do
