@@ -65,6 +65,86 @@ defmodule RFD.DSL do
     end
   end
 
+  @madr [
+    context: "Context and problem statement",
+    drivers: "Decision drivers",
+    options: "Considered options",
+    outcome: "Decision outcome",
+    consequences: "Consequences",
+    confirmation: "Confirmation",
+    more_information: "More information"
+  ]
+  @madr_required [:context, :outcome]
+
+  @doc "The MADR sections the `madr` block owns, keyword to canonical heading, in template order."
+  def madr_sections, do: @madr
+
+  @doc false
+  def put_madr!(module, entries) do
+    entries = Enum.reverse(entries)
+    keys = Enum.map(entries, &elem(&1, 0))
+    where = "madr in #{inspect(module)}"
+
+    if entries == [], do: raise(ArgumentError, "#{where}: the block declares no section")
+
+    dup = for {k, n} <- Enum.frequencies(keys), n > 1, do: k
+
+    if dup != [],
+      do: raise(ArgumentError, "#{where}: section given twice: #{inspect(dup)}")
+
+    ranks = for k <- keys, do: Enum.find_index(Keyword.keys(@madr), &(&1 == k))
+
+    if ranks != Enum.sort(ranks),
+      do:
+        raise(
+          ArgumentError,
+          "#{where}: sections run #{Enum.join(Keyword.keys(@madr), ", ")}; " <>
+            "got #{Enum.join(keys, ", ")}"
+        )
+
+    for k <- @madr_required, k not in keys do
+      raise ArgumentError, "#{where}: a MADR block states its #{k}"
+    end
+
+    for {k, body} <- entries do
+      Module.put_attribute(
+        module,
+        :rfd_details,
+        {Keyword.fetch!(@madr, k), madr_body!(where, k, body)}
+      )
+    end
+
+    :ok
+  end
+
+  defp madr_body!(_where, _key, body) when is_binary(body), do: body
+
+  defp madr_body!(where, :consequences, [{side, _} | _] = body) when side in [:good, :bad] do
+    unless Keyword.keyword?(body) and Keyword.keys(body) -- [:good, :bad] == [],
+      do: raise(ArgumentError, "#{where}: consequences takes good: and bad: only")
+
+    for {side, items} <- body, item <- bullets!(where, :consequences, items) do
+      "- #{side |> Atom.to_string() |> String.capitalize()}: #{item}"
+    end
+    |> Enum.join("\n")
+  end
+
+  defp madr_body!(where, key, body) when is_list(body) do
+    Enum.map_join(bullets!(where, key, body), "\n", &("- " <> &1))
+  end
+
+  defp madr_body!(where, key, body) do
+    raise ArgumentError,
+          "#{where}: #{key} takes a string or a list of strings, got #{inspect(body)}"
+  end
+
+  defp bullets!(where, key, items) do
+    unless is_list(items) and items != [] and Enum.all?(items, &is_binary/1),
+      do: raise(ArgumentError, "#{where}: #{key} takes a non-empty list of strings")
+
+    items
+  end
+
   @doc false
   def build(serial, title, fields, details, sections \\ [], order \\ []) do
     fields =
@@ -112,6 +192,21 @@ defmodule RFD.DSL do
       end
     end
 
+    # The MADR template as sections the DSL names and orders, in place of seven `details` strings.
+    defmacro madr(do: block) do
+      quote do
+        if Module.has_attribute?(__MODULE__, :rfd_madr),
+          do:
+            raise(ArgumentError, "madr in #{inspect(__MODULE__)}: one block carries the template")
+
+        Module.register_attribute(__MODULE__, :rfd_madr, accumulate: true)
+        import RFD.DSL.MADR
+        unquote(block)
+        import RFD.DSL.MADR, only: []
+        RFD.DSL.put_madr!(__MODULE__, @rfd_madr)
+      end
+    end
+
     # A README section outside the spine (RFD 1000 allows them), in declaration order.
     defmacro section(heading, body) do
       quote do
@@ -130,6 +225,23 @@ defmodule RFD.DSL do
     defp field(name, v) do
       quote do
         @rfd_fields {unquote(name), unquote(v)}
+      end
+    end
+  end
+
+  defmodule MADR do
+    @moduledoc false
+    defmacro context(body), do: entry(:context, body)
+    defmacro drivers(body), do: entry(:drivers, body)
+    defmacro options(body), do: entry(:options, body)
+    defmacro outcome(body), do: entry(:outcome, body)
+    defmacro consequences(body), do: entry(:consequences, body)
+    defmacro confirmation(body), do: entry(:confirmation, body)
+    defmacro more_information(body), do: entry(:more_information, body)
+
+    defp entry(key, body) do
+      quote do
+        @rfd_madr {unquote(key), unquote(body)}
       end
     end
   end
