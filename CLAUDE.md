@@ -587,6 +587,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   licences are fine, AGPL stays banned (operator, 2026-09-30; confirmed 2026-10-01).
 - **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
   kernel compiled to SPIR-V, Metal and a CPU library, so GPU and CPU are measured on one source.
+- **Sign-in:** `wax_` (Apache-2.0, `tanguilp/wax`) verifies Uro's WebAuthn passkeys, and
+  `nimble_totp` (Apache-2.0, `dashbit/nimble_totp`) makes its authenticator-app codes. Each was
+  picked over a self-owned version because it has more hours in production (operator, 2026-10-01).
 - **Test assets:** procedurally generated geometry with analytic ground truth.
 
 ## What Belongs Here
