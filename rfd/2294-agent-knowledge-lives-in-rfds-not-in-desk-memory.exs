@@ -91,18 +91,20 @@ rules below"
     """
 
     details "Deploying offline", ~S"""
-    The whole stack deploys offline, which means reachable on the LAN and perhaps
+    The whole stack deploys offline on one laptop, reachable on the LAN and perhaps
     the tailnet, with nothing needed from the WAN:
 
-    - every build source is in the manifest and mirrored, and release binaries are
-      mirrored with their sha256s;
+    - every build source is in the manifest and mirrored on the laptop, and release
+      binaries are mirrored with their sha256s;
     - each runtime (FoundationDB, Uro, OpenBao, the zone servers, the object store)
-      runs on a LAN host under bubblewrap, with only its own data and network;
-    - names come from LAN DNS or the tailnet, and certificates from the offline CA;
+      runs on the laptop, with only its own data;
+    - names come from the laptop's own resolver or the tailnet, and certificates
+      from the offline CA;
     - sign-in has a LAN-only method beside the third-party providers.
 
-    Uro runs next to its FoundationDB cluster, so a page read never leaves one
-    network.
+    Bubblewrap is the test: the stack runs with its network unshared, so a fetch
+    that reaches past the laptop fails by name. Uro runs next to its FoundationDB
+    cluster, so a page read never leaves one machine.
     """
 
     details "Video", ~S"""
