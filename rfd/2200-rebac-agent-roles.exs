@@ -16,11 +16,11 @@ defmodule RFD2200 do
     decision ~S"""
     Model agent roles as **ReBAC relationship tuples** in a Bao KV mount
     at `relationships/`, one tuple per row, key shape
-    `<subject>--<verb>--<object>`. Twelve tuples live for the current
-    fleet across five verbs (`authors`, `admin`, `owns`, `runs-on`,
-    `hosts`). Three named roles fall out: coordinator (MPS),
-    gpu-experimenter (CUDA), edge-qat-specialist (HAILO). See
-    `DETAILS.md` for the tuple listing and role scopes.
+    `<subject>--<verb>--<object>`. This RFD owns the verb vocabulary and
+    declares it in a `rebac` block (RFD 2291, ReBAC as a DSL feature), so
+    the verbs are data rather than a table a gate parses. Three named roles
+    fall out: coordinator (MPS), gpu-experimenter (CUDA),
+    edge-qat-specialist (HAILO). `DETAILS.md` carries verbs, rows, scopes.
     """
 
     problem ~S"""
@@ -58,22 +58,10 @@ defmodule RFD2200 do
         object: weftspun-agreements
         created_at: <unix>
 
-    Verbs currently used:
-
-    | verb | meaning |
-    |---|---|
-    | `authors` | the subject drafts and owns retractions for the object (docs, experiments, RFDs) |
-    | `admin` | the subject holds administrative capability over the object (Bao PKI, cert-auth, mount config) |
-    | `owns` | the subject holds and operates the object as hardware (a GPU card, an NPU) |
-    | `runs-on` | the subject's Claude Code process is hosted on the object machine |
-    | `hosts` | inverse of `runs-on`, from the host side; makes queries "who is on host X" cheap |
-    | `reaches` | the subject works on the object over the network as an unprivileged user |
-    | `restarts` | the subject stops and starts the object service without holding its host |
-    | `mints` | the subject mints short-lived credentials of the object's kind, revoking each |
-    | `pushes` | the subject pushes feature branches to the object, never its default branch |
-
-    Verb vocabulary is small on purpose. A new verb costs an RFD amendment;
-    overloading existing verbs is fine when the mapping is obvious.
+    The verb vocabulary is below, one `verb` declaration per row. It is
+    small on purpose. A new verb is a `verb` line in this RFD before it is
+    a row anywhere; overloading an existing verb is fine when the mapping
+    is obvious.
 
     A row whose verb carries a `!` is a denial: `<subject>--!<verb>--<object>`
     says the subject does not hold the relation, and it carries its reason
@@ -83,11 +71,15 @@ defmodule RFD2200 do
 
     details "Tuples in a document", ~S"""
     `CLAUDE.md` carries the desk agent's tuples in a fenced `rebac` block,
-    one row per line, with a note or a reason after `#`.
-    `scripts/check_rebac.exs` reads the verb table above, so a verb used
-    there before this table names it fails the gate, and so does a denial
-    without its reason, a repeated row, or a relation both granted and
-    denied.
+    one row per line, with a note or a reason after `#`. The block is
+    rendered from the `renders_into "CLAUDE.md"` rows declared here, so the
+    document holds no second copy to drift from.
+
+    `mix rfd.rebac` holds every block in the corpus against the vocabulary,
+    and `scripts/check_rebac.exs` holds `CLAUDE.md` against it on its own.
+    Both read `RFD.ReBAC`, so a verb no RFD declares fails, and so does a
+    denial without its reason, a repeated row, or a relation both granted
+    and denied.
     """
 
     details "The three roles", ~S"""
@@ -196,6 +188,69 @@ defmodule RFD2200 do
     A `list_agent_roles.py` helper would do this more efficiently
     against the API; not written today.
     """
+
+    rebac do
+      verb :authors,
+           "the subject drafts and owns retractions for the object (docs, experiments, RFDs)"
+
+      verb :admin,
+           "the subject administers the object (Bao PKI, cert-auth, mount config)"
+
+      verb :owns, "the subject holds and operates the object as hardware (a GPU card, an NPU)"
+      verb :runs_on, "the subject's Claude Code process is hosted on the object machine"
+
+      verb :hosts,
+           ~S|inverse of `runs-on`, from the host side; makes queries "who is on host X" cheap|
+
+      verb :reaches, "the subject works on the object over the network as an unprivileged user"
+      verb :restarts, "the subject stops and starts the object service without holding its host"
+      verb :mints, "the subject mints short-lived credentials of the object's kind, revoking each"
+      verb :pushes, "the subject pushes feature branches to the object, never its default branch"
+      verb :role, "the subject holds the object as its role, which RFD 2202 maps to a Bao group"
+
+      verb :may_use,
+           "the subject uses the object as compute, which no Bao policy gates (RFD 2202)"
+
+      verb :trusts, "the subject reads the object as a source it does not verify again (RFD 2239)"
+
+      renders_into "CLAUDE.md", subject: "desk-agent"
+
+      relate "desk-agent", :runs_on, "windows-desktop"
+
+      relate "desk-agent",
+             :reaches,
+             "headset",
+             "SSH as its unprivileged user, with the desk key, from WSL"
+
+      relate "desk-agent",
+             :restarts,
+             "vr-runtime",
+             "then restarts the eye-tracking bridge the restart orphans"
+
+      relate "desk-agent",
+             :mints,
+             "github-token",
+             "from Bao, for both organisations; revoked when a task ends"
+
+      relate "desk-agent",
+             :pushes,
+             "v-sekai-fire",
+             "feature branches; a diverged one goes up under a new name"
+
+      relate "desk-agent", :pushes, "chibifire-stages", "feature branches"
+
+      deny "desk-agent",
+           :admin,
+           "headset",
+           "root needs the operator's approval at the password manager"
+
+      deny "desk-agent",
+           :admin,
+           "default-branch",
+           "the operator merges on green, never with --admin"
+
+      deny "desk-agent", :owns, "rented-gpu", "the Compute constraint above"
+    end
 
     drafted_by :ai
   end

@@ -278,4 +278,62 @@ defmodule RFDTest do
       """)
     end
   end
+
+  defp rebac_source(name, rows) do
+    head = """
+    defmodule #{name} do
+      use RFD.DSL
+      rfd 2997, "rebac" do
+        state :discussion
+        decision "Do it."
+        rebac do
+          verb :owns, "holds the object as hardware"
+    """
+
+    head <> rows <> "\n    end\n    drafted_by :human\n  end\nend\n"
+  end
+
+  test "a rebac block becomes the doc's model and renders into DETAILS" do
+    code = rebac_source("RFDTestReBAC", ~s|      relate "a", :owns, "card"|)
+    [{mod, _}] = Code.compile_string(code)
+    doc = mod.__rfd__()
+
+    assert %RFD.ReBAC{tuples: [%{subject: "a", verb: :owns}]} = doc.rebac
+    assert RFD.Doc.details(doc) =~ "## The verbs\n\n| verb | meaning |"
+    assert RFD.Doc.details(doc) =~ "## The tuples\n\n```rebac\na--owns--card\n```"
+    assert RFD.Doc.readme(doc) =~ "`DETAILS.md` carries the rest of this RFD."
+  end
+
+  test "a tuple over an undeclared verb is refused at compile time" do
+    code = rebac_source("RFDTestReBACVerb", ~s|      relate "a", :drives, "card"|)
+
+    assert_raise ArgumentError, ~r/`drives` is not a declared verb/, fn ->
+      Code.compile_string(code)
+    end
+  end
+
+  test "a denial without its reason is refused at compile time" do
+    code = rebac_source("RFDTestReBACDeny", ~s|      deny "a", :owns, "card", ""|)
+
+    assert_raise ArgumentError, ~r/a denial carries its reason/, fn ->
+      Code.compile_string(code)
+    end
+  end
+
+  test "two rebac blocks in one RFD are refused" do
+    second = ~s|        end\n        rebac do\n          verb :hosts, "hosts it"|
+    code = rebac_source("RFDTestReBACTwice", ~s|      relate "a", :owns, "card"\n| <> second)
+
+    assert_raise ArgumentError, ~r/one block carries the model/, fn ->
+      Code.compile_string(code)
+    end
+  end
+
+  test "a capability with an unknown field is refused" do
+    code = rebac_source("RFDTestReBACCap", ~s|      capability :send, objekt: "relay"|)
+
+    assert_raise ArgumentError, ~r/unknown fields \[:objekt\]/, fn ->
+      Code.compile_string(code)
+    end
+  end
 end

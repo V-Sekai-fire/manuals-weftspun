@@ -146,6 +146,31 @@ defmodule RFD.DSL do
   end
 
   @doc false
+  def put_rebac!(module, entries) do
+    entries = Enum.reverse(entries)
+    where = "rebac in #{inspect(module)}"
+
+    if entries == [], do: raise(ArgumentError, "#{where}: the block declares nothing")
+
+    rebac = %RFD.ReBAC{
+      verbs: for({:verb, v} <- entries, do: v),
+      tuples: for({:tuple, t} <- entries, do: t),
+      capabilities: for({:capability, c} <- entries, do: c),
+      verbs_from: for({:verbs_from, s} <- entries, do: s),
+      renders_into: for({:renders_into, r} <- entries, do: r)
+    }
+
+    # A tuple's verb is checkable here only when this block owns the vocabulary;
+    # `verbs_from` resolves across the corpus, in `mix rfd.rebac`.
+    known = if rebac.verbs_from == [], do: MapSet.new(RFD.ReBAC.verb_names(rebac))
+
+    case RFD.ReBAC.problems(rebac, known) do
+      [] -> rebac
+      ps -> raise ArgumentError, "#{where}:\n  " <> Enum.join(ps, "\n  ")
+    end
+  end
+
+  @doc false
   def build(serial, title, fields, details, sections \\ [], order \\ []) do
     fields =
       Enum.reverse(fields) ++ [sections: Enum.reverse(sections), order: Enum.reverse(order)]
@@ -207,6 +232,20 @@ defmodule RFD.DSL do
       end
     end
 
+    # Capability-ReBAC as declarations rather than a Markdown table a gate parses.
+    defmacro rebac(do: block) do
+      quote do
+        if Module.has_attribute?(__MODULE__, :rfd_rebac),
+          do: raise(ArgumentError, "rebac in #{inspect(__MODULE__)}: one block carries the model")
+
+        Module.register_attribute(__MODULE__, :rfd_rebac, accumulate: true)
+        import RFD.DSL.ReBAC
+        unquote(block)
+        import RFD.DSL.ReBAC, only: []
+        @rfd_fields {:rebac, RFD.DSL.put_rebac!(__MODULE__, @rfd_rebac)}
+      end
+    end
+
     # A README section outside the spine (RFD 1000 allows them), in declaration order.
     defmacro section(heading, body) do
       quote do
@@ -243,6 +282,63 @@ defmodule RFD.DSL do
       quote do
         @rfd_madr {unquote(key), unquote(body)}
       end
+    end
+  end
+
+  defmodule ReBAC do
+    @moduledoc false
+    defmacro verb(name, meaning) do
+      entry(:verb, quote(do: %{name: unquote(name), meaning: unquote(meaning)}))
+    end
+
+    defmacro relate(subject, verb, object, note \\ nil) do
+      entry(:tuple, row(subject, verb, object, false, note))
+    end
+
+    defmacro deny(subject, verb, object, reason) do
+      entry(:tuple, row(subject, verb, object, true, reason))
+    end
+
+    defmacro capability(name, opts) do
+      entry(:capability, quote(do: RFD.DSL.ReBAC.cap!(unquote(name), unquote(opts))))
+    end
+
+    defmacro verbs_from(serial), do: entry(:verbs_from, serial)
+
+    defmacro renders_into(path, opts \\ []) do
+      entry(:renders_into, quote(do: {unquote(path), Keyword.get(unquote(opts), :subject)}))
+    end
+
+    @doc false
+    def cap!(name, opts) do
+      unknown = Keyword.keys(opts) -- [:verb, :object, :caveats]
+
+      if unknown != [],
+        do:
+          raise(ArgumentError, "capability #{inspect(name)}: unknown fields #{inspect(unknown)}")
+
+      %{
+        name: name,
+        verb: Keyword.get(opts, :verb, name),
+        object: Keyword.get(opts, :object),
+        caveats: Keyword.get(opts, :caveats, [])
+      }
+    end
+
+    defp row(subject, verb, object, deny, reason) do
+      quote do
+        %{
+          subject: unquote(subject),
+          verb: unquote(verb),
+          object: unquote(object),
+          deny: unquote(deny),
+          reason: unquote(reason)
+        }
+      end
+    end
+
+    defp entry(tag, value) do
+      quote do: @rfd_rebac({unquote(tag), unquote(value)})
     end
   end
 end

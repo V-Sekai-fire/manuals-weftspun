@@ -52,6 +52,15 @@
     compact_head: 1,
     attest_in: 1,
     details_pointer: 1,
-    section: 2
+    section: 2,
+    rebac: 1,
+    verb: 2,
+    relate: 3,
+    relate: 4,
+    deny: 4,
+    capability: 2,
+    verbs_from: 1,
+    renders_into: 1,
+    renders_into: 2
   ]
 ]
