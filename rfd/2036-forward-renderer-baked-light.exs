@@ -25,37 +25,39 @@ defmodule RFD2036 do
 
     details_title "Forward renderer baked light"
 
-    details "Context and problem statement", ~S"""
-    The mobile tile renderer rations bandwidth across file, memory, and
-    network IO, and deferred rendering competes for it. The slice needs
-    predictable frame cost regardless of light count.
-    """
+    madr do
+      context ~S"""
+      The mobile tile renderer rations bandwidth across file, memory, and
+      network IO, and deferred rendering competes for it. The slice needs
+      predictable frame cost regardless of light count.
+      """
 
-    details "Considered options", ~S"""
-    - Deferred rendering.
-    - A simple forward renderer with baked global illumination.
-    """
+      options ~S"""
+      - Deferred rendering.
+      - A simple forward renderer with baked global illumination.
+      """
 
-    details "Decision outcome", ~S"""
-    Chosen option: a simple forward renderer with baked global
-    illumination and light probes for static geometry, a dedicated shadow
-    pass for avatars, and probe lighting for dynamic entities, because the
-    frame cost stays predictable regardless of light count. Deferred
-    rendering pressures the bandwidth the mobile tile renderer rations.
-    """
+      outcome ~S"""
+      Chosen option: a simple forward renderer with baked global
+      illumination and light probes for static geometry, a dedicated shadow
+      pass for avatars, and probe lighting for dynamic entities, because the
+      frame cost stays predictable regardless of light count. Deferred
+      rendering pressures the bandwidth the mobile tile renderer rations.
+      """
 
-    details "Consequences", ~S"""
-    - Frame cost stays predictable, so artists place many lights without
-      watching the budget.
-    - Dynamic entities take lower-fidelity probe lighting.
-    - The renderer removes one axis the small team otherwise tunes by
-      hand.
-    """
+      consequences ~S"""
+      - Frame cost stays predictable, so artists place many lights without
+        watching the budget.
+      - Dynamic entities take lower-fidelity probe lighting.
+      - The renderer removes one axis the small team otherwise tunes by
+        hand.
+      """
 
-    details "Confirmation", ~S"""
-    The Field room holds the frame floor on the standalone VR build with
-    many lights placed.
-    """
+      confirmation ~S"""
+      The Field room holds the frame floor on the standalone VR build with
+      many lights placed.
+      """
+    end
 
     drafted_by :ai
   end
