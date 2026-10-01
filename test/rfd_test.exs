@@ -131,4 +131,151 @@ defmodule RFDTest do
 
     assert_raise ArgumentError, ~r/state :whatever/, fn -> Code.compile_string(broken) end
   end
+
+  defp compile!(name, body) do
+    code = """
+    defmodule #{name} do
+      use RFD.DSL
+      rfd 2997, "madr" do
+        state :discussion
+        decision "Do it."
+    #{body}
+        drafted_by :ai
+      end
+    end
+    """
+
+    [{mod, _}] = Code.compile_string(code)
+    mod.__rfd__()
+  end
+
+  test "a madr block names the MADR headings and keeps its place among details" do
+    d =
+      compile!("RFDMadrGood", """
+          details "Up front", "before the block"
+          madr do
+            context "The thing was not done."
+            drivers ["cheap", "recorded"]
+            options ["leave it", "do it"]
+            outcome "Chosen option: do it."
+            consequences good: ["it is done"], bad: ["it costs a run"]
+            confirmation "The gate reads it."
+            more_information "RFD 1000."
+          end
+          details "After", "after the block"
+      """)
+
+    assert Enum.map(d.details, &elem(&1, 0)) == [
+             "Up front",
+             "Context and problem statement",
+             "Decision drivers",
+             "Considered options",
+             "Decision outcome",
+             "Consequences",
+             "Confirmation",
+             "More information",
+             "After"
+           ]
+
+    details = RFD.Doc.details(d)
+    assert details =~ "## Decision drivers\n\n- cheap\n- recorded\n"
+    assert details =~ "## Consequences\n\n- Good: it is done\n- Bad: it costs a run\n"
+    assert details =~ "## Confirmation\n\nThe gate reads it."
+  end
+
+  test "a madr section given twice is refused" do
+    assert_raise ArgumentError, ~r/section given twice: \[:context\]/, fn ->
+      compile!("RFDMadrDup", """
+          madr do
+            context "a"
+            context "b"
+            outcome "c"
+          end
+      """)
+    end
+  end
+
+  test "madr sections out of the template's order are refused" do
+    assert_raise ArgumentError, ~r/sections run context, drivers/, fn ->
+      compile!("RFDMadrOrder", """
+          madr do
+            context "a"
+            consequences "b"
+            outcome "c"
+          end
+      """)
+    end
+  end
+
+  test "a madr block without a context or an outcome is refused" do
+    assert_raise ArgumentError, ~r/states its outcome/, fn ->
+      compile!("RFDMadrNoOutcome", """
+          madr do
+            context "a"
+          end
+      """)
+    end
+
+    assert_raise ArgumentError, ~r/states its context/, fn ->
+      compile!("RFDMadrNoContext", """
+          madr do
+            outcome "a"
+          end
+      """)
+    end
+  end
+
+  test "an empty madr block and a second one are refused" do
+    assert_raise ArgumentError, ~r/declares no section/, fn ->
+      compile!("RFDMadrEmpty", """
+          madr do
+          end
+      """)
+    end
+
+    assert_raise ArgumentError, ~r/one block carries the template/, fn ->
+      compile!("RFDMadrTwice", """
+          madr do
+            context "a"
+            outcome "b"
+          end
+
+          madr do
+            context "c"
+            outcome "d"
+          end
+      """)
+    end
+  end
+
+  test "a madr body that is neither a string nor a list of strings is refused" do
+    assert_raise ArgumentError, ~r/options takes a non-empty list of strings/, fn ->
+      compile!("RFDMadrBadList", """
+          madr do
+            context "a"
+            options []
+            outcome "b"
+          end
+      """)
+    end
+
+    assert_raise ArgumentError, ~r/takes a string or a list of strings/, fn ->
+      compile!("RFDMadrBadBody", """
+          madr do
+            context "a"
+            outcome :nope
+          end
+      """)
+    end
+
+    assert_raise ArgumentError, ~r/consequences takes good: and bad: only/, fn ->
+      compile!("RFDMadrBadSide", """
+          madr do
+            context "a"
+            outcome "b"
+            consequences good: ["x"], ugly: ["y"]
+          end
+      """)
+    end
+  end
 end

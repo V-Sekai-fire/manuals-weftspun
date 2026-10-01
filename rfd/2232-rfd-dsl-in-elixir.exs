@@ -85,6 +85,22 @@ defmodule RFD2232 do
     reader sees is a compile error, like the other shape rules.
     """
 
+    details "The MADR template as a block", ~S"""
+    The seven MADR headings are a `madr` block rather than seven `details`
+    strings: `context`, `drivers`, `options`, `outcome`, `consequences`,
+    `confirmation`, `more_information`. The DSL owns the headings, so a
+    spelling cannot drift, and it refuses a section given twice, a run out of
+    the template's order, a block missing its context or its outcome, a second
+    block and an empty one. A body is a string or a list of strings, and
+    `consequences` also takes `good:` and `bad:` lists. `details/2` stays for
+    a section outside the template, in declaration order beside the block.
+    The RFDs that carry nothing but the template render the same bytes through
+    it as they did through the strings. The block nests one level and `mix
+    format` re-indents a heredoc to its call, so a file whose body lines
+    already run past the formatter's `line_length` stays on `details` strings:
+    RFD 2062 carries an inventory table of 124 such lines.
+    """
+
     details "What the DSL does not do", ~S"""
     It does not read the register from the RFD sources: a serial is a fact the
     register records once, and a deleted serial has no source to derive it
