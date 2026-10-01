@@ -17,7 +17,7 @@ file, and `cmp -l` names one byte in it:
 | | Stock | `proton-xrfix` |
 | --- | --- | --- |
 | `files/lib/wine/aarch64-unix/win32u.so` | 2,313,208 bytes | 2,313,208 bytes |
-| sha256 | `922534cd…a53a449` | `e7137688…262f10059` |
+| sha256 | `922534cd…3a53a449` | `e7137688…62f10059` |
 | Byte at file offset `0x13dd35` | `0xe9` | `0xed` |
 | Instruction at `0x13dd34`, in `.text` | `ldr x4, [x9, #976]` | `ldr x4, [x9, #984]` |
 
@@ -72,3 +72,29 @@ bintr-emit change to `src/sandbox.cpp`. The macOS addon was arm64, a name the pe
 `service-godot-build` PRs #2 and #3 fix all three; the second dispatch is runs 36809657978
 (engine, tag `v20260930-double.1`) and 36809660359 (addon, tag `v20260930-addon.1`) from
 `d6a6de0`.
+
+Run 36809657978 built all six engine binaries and published `v20260930-double.1`. The
+Windows editor prints `4.8.dev.double.gh.97dab7a63` from `--headless --version` on the
+runner, so the binary is double and names the pinned commit.
+
+| Binary | Bytes | sha256 |
+| --- | --- | --- |
+| `godot.windows.editor.double.x86_64.llvm.exe` | 163,304,448 | `bb91fc39…3686c3ab` |
+| `godot.windows.editor.double.x86_64.llvm.console.exe` | 157,184 | `217c7b70…5a8a4404` |
+| `godot.linuxbsd.editor.double.x86_64` | 178,417,368 | `37c6962f…240e919b` |
+| `godot.macos.editor.double.arm64` | 137,518,624 | `5f6f2df3…b1de8dce` |
+
+The tag points at `df0be66` while the run built from `d6a6de0`, because `gh release create`
+tags the branch head when the release job runs and a merge landed in between;
+`double.yml` and the composite actions are identical at both commits.
+
+Run 36809660359 built the three addon libraries and failed at its release step:
+godot-sandbox tracks framework skeletons with an `Info.plist` under `bin/`, every job's
+`*double*` glob uploaded them, and flattening collided on `Info.plist`. PR #4 stages only
+each job's library; run 36813244229 rebuilds the addon under the same tag.
+
+On the headset, the CI engine with the hand-made DLL isolates the engine:
+
+| Tag | Mode | Result | Read from |
+| --- | --- | --- | --- |
+| `dev-ci-engine` | `xr` | PASS: `Godot 4.8-dev (gh)`; `session_visible` at 3.53 s; 6 strokes, 2 cycles, 2 openings; 940 vertices, 1748 faces | `logs/dev-ci-engine.txt` |
