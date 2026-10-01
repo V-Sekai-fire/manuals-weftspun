@@ -594,6 +594,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Sign-in:** `wax_` (Apache-2.0, `tanguilp/wax`) verifies Uro's WebAuthn passkeys, and
   `nimble_totp` (Apache-2.0, `dashbit/nimble_totp`) makes its authenticator-app codes. Each was
   picked over a self-owned version because it has more hours in production (operator, 2026-10-01).
+- **Observability:** VictoriaMetrics, VictoriaLogs and VictoriaTraces (Apache-2.0,
+  `VictoriaMetrics/*`), as release binaries pinned by sha256: the metrics, log and trace stores.
+  Uro's OTLP traces go straight to VictoriaTraces (operator, 2026-10-01: "spin up victory metrics
+  suite").
 - **Test assets:** procedurally generated geometry with analytic ground truth.
 
 ## What Belongs Here
