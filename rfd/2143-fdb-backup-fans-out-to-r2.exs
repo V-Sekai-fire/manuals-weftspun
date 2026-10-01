@@ -9,18 +9,18 @@ defmodule RFD2143 do
   rfd 2143, "FDB backup fans out to R2 for off-Fly durability" do
     state :discussion
 
-    feature "a second `fdbbackup` tag writes to R2 IA alongside the Tigris tag"
+    feature "the `fdbbackup` tag `dr` writes to R2 IA, the cluster's only backup"
 
     scope "weftspun-fdb (3 machines)"
 
     attest_in :none
 
     decision ~S"""
-    A second `fdbbackup` tag `dr` writes concurrently to R2 IA
-    (`weftspun-fdb-dr`), reached via a second stunnel loopback listener
-    that adds the SNI FoundationDB does not send. R2 IA carries a 30-day
-    minimum storage duration and free egress. The `default` tag keeps
-    writing to Tigris; two destinations, one cluster.
+    The `fdbbackup` tag `dr` writes to R2 IA (`weftspun-fdb-dr`), reached
+    via a stunnel loopback listener that adds the SNI FoundationDB does
+    not send. R2 IA carries a 30-day minimum storage duration and free
+    egress. It is the cluster's only backup: the `default` tag's Tigris
+    destination is retired, and its credentials are not restored.
 
     R2 S3 credentials live in Bao at `secret/data/weftspun-fdb/r2-dr`,
     cached as Fly secrets on `weftspun-fdb` because Bao's storage is FDB
@@ -28,18 +28,19 @@ defmodule RFD2143 do
     stays in 1Password; the S3 keys are regenerated from it at DR time
     rather than restored, so no long-lived material sits outside Bao.
 
-    **Gate:** `fdbbackup status -t dr` reports restorable and R2's newest
-    `data/` object is younger than `WEFT_BACKUP_MAX_AGE`.
+    **Gate:** `fdbbackup status -t dr` reports the tag restorable and its
+    newest complete log within `WEFT_BACKUP_MAX_BEHIND`, read by
+    `backup-fresh.sh --tag dr` and published as `/dr` for the
+    `backup_fresh_dr` machine check.
 
     **Negative control:** a machine started without `R2_ACCESS_KEY_ID`
-    runs `default` only, and the `dr` check reports critical rather than
+    writes no `/dr`, and the `dr` check reports critical rather than
     passing on nothing.
     """
 
     problem ~S"""
-    Today `fdbbackup` writes to Tigris (`fly.storage.tigris.dev`), Fly's
-    own object storage. A disaster naming "all Fly infra gone" takes the
-    backup with the cluster. Beside it: Bao holds the FDB CA key as
+    A backup on Fly's own object storage goes with the cluster in a
+    disaster naming "all Fly infra gone". Beside it: Bao holds the FDB CA key as
     `type=internal`, and Bao's storage backend is FDB, so the CA rides
     FDB backups. A restore that cannot read the backup cannot issue the
     machine leaves the restored cluster needs.
@@ -95,8 +96,8 @@ defmodule RFD2143 do
     """
 
     details "Entrypoint change", ~S"""
-    The existing `AWS_*` variables that drive the Tigris destination stay
-    as-is. A parallel set of variables drives the R2 destination:
+    The Tigris destination's `AWS_*` variables are unset, which leaves its
+    block inert. Five variables drive the R2 destination:
 
         R2_ACCESS_KEY_ID
         R2_SECRET_ACCESS_KEY
@@ -104,8 +105,7 @@ defmodule RFD2143 do
         R2_BUCKET             # weftspun-fdb-dr
         R2_REGION             # auto
 
-    The entrypoint, when all five are set, does what it does for Tigris,
-    once more:
+    The entrypoint, when all five are set:
 
     1. Writes `/etc/foundationdb/blob-credentials-r2.json` at mode 0600.
        `FDB_BLOB_CREDENTIALS` becomes `default_creds:r2_creds` so both
@@ -119,8 +119,9 @@ defmodule RFD2143 do
        `127.0.0.1:8444`, `sc=0`, `region=auto`,
        `knob_http_request_aws_v4_header=true`. R2 refuses SigV2 the way
        Tigris does.
-    4. Registers a second `[backup_agent.2]` block in
-       `foundationdb.conf`, so `fdbmonitor` keeps a second agent alive.
+    4. Registers `[backup_agent.1]` in `foundationdb.conf` whenever
+       either destination is configured, so an R2-only machine still has
+       a worker (RFD 2144); `[backup_agent.2]` only when both are.
     5. Once `fdbcli status minimal` reports the database available and
        `fdbbackup status -t dr` reports no previous backup, runs
        `fdbbackup start -t dr -z -d "$(cat backup-url-r2)"` once.
@@ -128,12 +129,12 @@ defmodule RFD2143 do
        "already exists" without naming which tag, so the guard fires on
        the state that the start call actually needs.
 
-    `backup-fresh.sh` grows a `--tag <name>` mode. Without a tag, it
-    keeps today's behavior (reads `status json`, writes
-    `/run/backup-fresh/health`). With `--tag dr` it parses
-    `fdbbackup status -t dr` for `restorable` and its last-complete log
-    timestamp, and writes `/run/backup-fresh/dr`. `fdb.toml` adds a
-    `[checks.backup_fresh_dr]` block polling `/dr`.
+    `backup-fresh.sh --tag dr` starts in the same block, so it runs
+    whenever R2 is configured. It parses `fdbbackup status -t dr` for
+    `restorable` and the last-complete log timestamp, and writes
+    `/run/backup-fresh/dr`, which `fdb.toml`'s `[checks.backup_fresh_dr]`
+    polls. Every tag reads its own status, because the cluster-wide
+    `status json` cannot tell tags apart.
     """
 
     details "The DR runbook (restore from R2, all Fly infra gone)", ~S"""
@@ -148,8 +149,7 @@ defmodule RFD2143 do
        `weftspun-fdb-dr` bucket. Copy both to a scratch note; do not put
        them back in 1P.
     2. `flyctl apps create weftspun-fdb --org personal` and set:
-       * `AWS_*` for a new Tigris bucket (or leave unset to skip Tigris
-         until later)
+       * no `AWS_*`: the Tigris destination is retired
        * `R2_*` from step 1
        * `WEFT_FDB_CLUSTER_ID` to the value in the archived `fdb.toml`;
          coordinator addresses change, cluster identity does not.
@@ -189,16 +189,14 @@ defmodule RFD2143 do
     """
 
     details "What this RFD does not cover", ~S"""
-    - **Cross-region.** Tigris and R2 IA in one region are one regional
-      outage away from being one destination. A second R2 region is a
-      later change.
+    - **Cross-region.** R2 IA in one region is one regional outage away
+      from no backup at all. A second R2 region is a later change.
     - **Backup encryption at rest.** FDB does not encrypt backup
       payloads. If R2 is compromised, the attacker has the database.
       `fdbbackup --encryption-key-file` is the fix; it needs its own
       key management story.
-    - **PITR window.** The Tigris tag today keeps 10-day snapshots
-      (`Snapshot interval is 864000 seconds`). R2 keeps the same, at IA
-      rates.
+    - **PITR window.** The `dr` tag keeps 10-day snapshots
+      (`Snapshot interval is 864000 seconds`), at IA rates.
     """
 
     drafted_by :ai
