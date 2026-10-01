@@ -144,8 +144,8 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
        a decoded frame against its input, with a dropped-packet control.
        (`interactor-voice`)
     8. **Evidence.** One session, the person in the headset and the
-       operator on the desktop, recorded as CineForm and WebM, with the
-       zone logs.
+       operator on the desktop, recorded as CineForm, with the zone
+       logs.
 
     If the end of the rung's window arrives short, the steps land in this
     order and the rest wait: build, draw, wear, then transport and zone,

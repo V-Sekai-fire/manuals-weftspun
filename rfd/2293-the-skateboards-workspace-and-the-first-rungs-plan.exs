@@ -678,9 +678,8 @@ defmodule RFD2293 do
     at double for macOS arm64 (its own manifest's `godot-cpp` with
     precision double) writing `session.cfhd` through Movie Maker at a
     fixed 30 fps on the flat client, never the XR one; `av1mkv mkv` makes
-    the lossless wrap here, and the WebM comes from `av1mkv encode` on
-    `desktop-ai4kuou`'s NVENC over the tailnet, since this Mac has no AV1
-    encoder and `av1mkv` has no software path; the zone logs are the three
+    the lossless wrap here, which with its `.cff` is the whole deliverable,
+    and no WebM is made; the zone logs are the three
     `zone.elf` journals exported under the write capability.
     `logbook/logbook-rfd2287-rung.md` carries the apparatus (the exact
     `run-xr.sh` lines, driver settings, sha256s), the numbers with their
@@ -781,7 +780,7 @@ defmodule RFD2293 do
     drawn garment materialises from the worker zone and is worn.
 
     **released: the rung, live and reproducible from a bare machine.** The evidence
-    session recorded as CineForm and WebM with the zone journals;
+    session recorded as CineForm with the zone journals;
     `contract-manifest-skateboard` created with the gates and the
     bootstrap, and a bare directory bootstrapped to the released tag;
     the manual's Sides and allowlist edits and this RFD landed; the

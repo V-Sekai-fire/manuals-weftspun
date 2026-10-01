@@ -106,10 +106,11 @@ rules below"
     """
 
     details "Video", ~S"""
-    Every video ships twice, as AV1 with FLAC in WebM and as CineForm with FLAC in
-    Matroska, each with its `.cff`. It is recorded as `.cfhd` through
-    `entities-godot-cineform` at double precision and delivered by
-    `interactor-av1mkv`'s `deliver.exs`; no master is MJPEG. Nothing records
+    Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
+    WebM is made: videos are uploaded by hand, and a WebM does not play on every
+    desk. It is recorded as `.cfhd` through `entities-godot-cineform` at double
+    precision and delivered by `interactor-av1mkv`'s `deliver.exs`, which writes
+    only those two files; no master is MJPEG. Nothing records
     through the encoder BLOCKLIST.md bars or through the desktop driver's own
     recorder: recordings are CineForm, the live stream is PyroWave, and the headset
     view comes from the compositor mirror.
@@ -142,7 +143,9 @@ rules below"
     The Sakuragaoka Station port (`entities-sakuragaoka-station`):
 
     - realizes every closed solid through CSG, and carries each face's colour as a
-      palette index in UV, since CSG keeps UV and drops vertex colour;
+      palette index in UV, since CSG keeps UV and drops vertex colour; CSG takes
+      only manifold solids, so a geometry that fails the manifold check stays a
+      plain surface, or goes through `remesh.elf` when it must be unioned;
     - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
       forking it;
     - draws vector materials (signs, paving, bark, blossom cards) on the GPU through
@@ -162,7 +165,9 @@ rules below"
     fine, and Python bindings serve upstream contributions and their tests, never a
     pipeline. ggml runs only in such a guest: a native ggml module as RFD 2230 drew
     it, a GDExtension ggml API or a standalone runtime is off the route, and a
-    standalone CLI may stay as a CPU oracle for a gate.
+    standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
+    ggml-rd with compute-rd as well, since EditScore's decision model builds on it
+    (RFD 2268).
 
     A guest's source lives in the repository that consumes it and follows
     curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
