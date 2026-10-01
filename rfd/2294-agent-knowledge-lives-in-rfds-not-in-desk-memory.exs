@@ -193,6 +193,9 @@ rules below"
     from the compositor mirror (`/dev/video99`) with screen sharing on; X11 capture
     cannot see it.
 
+    Asleep, the headset drops off the LAN entirely, answering neither mDNS nor
+    ARP, so a name that does not resolve means it is asleep, not broken.
+
     The headset is the Mac desk's in the queue, so another desk coordinates with
     the Mac before touching it. A key appended to its `authorized_keys` starts on a
     new line with carriage returns stripped, because the file may end without a
@@ -217,8 +220,10 @@ rules below"
     """
 
     details "Bao and the tokens it mints", ~S"""
-    A desk reaches Bao over the tailnet and logs in with its certificate, passing
-    no role `name`, so the certificate selects the role. The login token lives for
+    Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
+    online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in
+    with its certificate, passing no role `name`, so the certificate selects the
+    role. The login token lives for
     the session: it is reused until its TTL lapses and revoked only when the
     operator asks or the session ends, never at the end of each task.
 
