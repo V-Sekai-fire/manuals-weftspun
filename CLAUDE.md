@@ -598,6 +598,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   `VictoriaMetrics/*`), as release binaries pinned by sha256: the metrics, log and trace stores.
   Uro's OTLP traces go straight to VictoriaTraces (operator, 2026-10-01: "spin up victory metrics
   suite").
+- **Protocol buffers:** `protoc` and its upb C generators (BSD-3-Clause, `protocolbuffers/protobuf`,
+  as conda-forge's `libprotobuf` through pixi) with the upb runtime, generating the OTLP encoders a
+  Godot guest ELF uses from the OTLP `.proto` files (Apache-2.0, `open-telemetry/opentelemetry-proto`)
+  (operator, 2026-10-01: "can you codegen c using the official tool? it's faster").
 - **Test assets:** procedurally generated geometry with analytic ground truth.
 
 ## What Belongs Here
