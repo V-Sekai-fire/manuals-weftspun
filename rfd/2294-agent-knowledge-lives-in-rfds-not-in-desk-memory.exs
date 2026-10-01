@@ -72,7 +72,12 @@ rules below"
     the tree and then removed until the area is empty, with no census of every file
     first, so the area visibly shrinks.
 
-    Forks, new repositories and pushes stay in V-Sekai-fire and chibifire-stages.
+    All GitHub activity stays in V-Sekai-fire and chibifire-stages: forks, new
+    repositories and pushes, and no pull request, issue, comment or mention in any
+    other organisation, though reading and cloning public repositories is fine.
+    Pushed text cites an upstream change by its bare commit SHA, never by an
+    `owner/repo#N` reference or an issue or pull request URL, since GitHub posts
+    those back onto the upstream's timeline.
     Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
     created at the upstream commit, so the upstream's branch-keyed workflows do not
     fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
