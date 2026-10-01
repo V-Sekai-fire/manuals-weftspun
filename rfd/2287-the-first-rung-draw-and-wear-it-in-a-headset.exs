@@ -171,8 +171,9 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
     - The reference space is local-floor. Interface panels are
       world-locked, 1 to 3 m away, never locked to the head, and their
       text is at least 1 degree tall.
-    - The frame rate holds the headset's refresh rate. Any artificial
-      movement is snap turn and teleport, with no smooth acceleration.
+    - The frame rate holds the headset's refresh rate. A person moves by
+      xr-grid's world grab, both grips pinching the world, with no smooth
+      acceleration (RFD 2294).
     - A haptic pulse confirms each stroke closed, lasso target taken
       and garment worn.
     - The mirror is a world-locked object the person walks up to, not a

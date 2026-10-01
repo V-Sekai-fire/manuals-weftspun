@@ -646,7 +646,14 @@ Temporary files go in the session scratchpad, and anything worth keeping goes
 into this tree or onto a pushed branch; there is no third place. Work runs
 natively on Windows, git, Bao, Fly and the headset's ssh included: the desk has
 no WSL. Each task ends by removing what it staged and revoking the token it
-minted.
+minted; the desk's Bao login token itself lives for the session (RFD 2294).
+
+## Where an Agent's Knowledge Goes
+
+What any agent needs to know about V-Sekai-fire and chibifire-stages lives in an
+RFD here, the one that owns the topic or RFD 2294. A desk's local memory keeps only
+what is true of that desk, and a local note about a generic rule names the RFD that
+states it.
 
 ## Why a Link After All
 
