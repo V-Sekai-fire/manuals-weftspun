@@ -67,7 +67,10 @@ rules below"
     An agent works from the placed tree, and branches where a pin is old. A
     procedure a desk repeats becomes an Elixir DSL or a tool in the tree rather than
     one-off shell. No workflow or background subagent runs unless the operator asks
-    for one. Test marks go only in test scenes, never in a scene that ships.
+    for one. Test marks go only in test scenes, never in a scene that ships. A
+    large area is parked one top-level entry at a time, each pushed or moved into
+    the tree and then removed until the area is empty, with no census of every file
+    first, so the area visibly shrinks.
 
     Forks, new repositories and pushes stay in V-Sekai-fire and chibifire-stages.
     Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
@@ -193,6 +196,9 @@ rules below"
     from the compositor mirror (`/dev/video99`) with screen sharing on; X11 capture
     cannot see it.
 
+    Asleep, the headset drops off the LAN entirely, answering neither mDNS nor
+    ARP, so a name that does not resolve means it is asleep, not broken.
+
     The headset is the Mac desk's in the queue, so another desk coordinates with
     the Mac before touching it. A key appended to its `authorized_keys` starts on a
     new line with carriage returns stripped, because the file may end without a
@@ -217,8 +223,10 @@ rules below"
     """
 
     details "Bao and the tokens it mints", ~S"""
-    A desk reaches Bao over the tailnet and logs in with its certificate, passing
-    no role `name`, so the certificate selects the role. The login token lives for
+    Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
+    online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in
+    with its certificate, passing no role `name`, so the certificate selects the
+    role. The login token lives for
     the session: it is reused until its TTL lapses and revoked only when the
     operator asks or the session ends, never at the end of each task.
 

@@ -170,6 +170,35 @@ correctness of a tree that a completing cycle does not check."
     `rebase_commit` export.
     """
 
+    details "Seeding the work clone", ~S"""
+    `update_godot_v_sekai.exs` clones `entities-godot` into
+    `.assembly-work/entities-godot` when that has no `.git`. A clone
+    from GitHub, plain or with `--reference-if-able`, negotiates
+    nothing, because the reference repository's `objects` is a symlink
+    into `.repo/project-objects` and git sees no alternate refs; on
+    2026-09-30 one ran 30 minutes before it was killed. Seeded from the
+    repo client's objects, the clone takes 4 seconds:
+
+    1. `git init --ref-format=reftable`;
+    2. `objects/info/alternates` names the realpath of
+       `.repo/project-objects/entities-godot.git/objects`;
+    3. `git update-ref --stdin` copies `refs/remotes/v-sekai-fire/*`
+       to `refs/remotes/origin/*`, and the tags, from
+       `.repo/projects/4-entities/godot.git`;
+    4. `git fetch origin`, `git remote set-head origin -a`, and
+       `git checkout -B master origin/master`.
+
+    Reftable is needed on a case-insensitive filesystem, where the
+    remote's `head/float16-gcc-aarch64` branch collides with
+    `origin/HEAD` as loose refs.
+
+    A recipe is simulated before a real run with
+    `git --attr-source=<current> merge-tree --write-tree` per merge.
+    Without `--attr-source`, merge-tree ignores the merge attributes of
+    `.github/CODEOWNERS` and `.gitignore` and reports conflicts the
+    cycle never meets.
+    """
+
     details "Two decisions recorded so they are not reopened", ~S"""
     **Fork-point needs no reflog.** `needs_rebase` only needs the
     boolean `tip(base) != fork_point`, which reduces to:
