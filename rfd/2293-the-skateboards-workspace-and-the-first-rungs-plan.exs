@@ -800,8 +800,7 @@ defmodule RFD2293 do
       (#110) and its drawn materials (#72);
     - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
       (#87);
-    - the PyroWave encoder pipelined to hold 144 Hz, and PyroWave's macOS
-      shaders compiled through Slang;
+    - the PyroWave encoder pipelined to hold 144 Hz;
     - the headset path: the release uploaded to the Frame as a
       development title, the Frame streaming from the desktop over
       oxrsys, and the extra companion controllers.
