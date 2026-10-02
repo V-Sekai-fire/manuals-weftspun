@@ -267,6 +267,19 @@ rules below"
       the avatar (operator, 2026-10-02).
     - Replies. RFD 2295 owns their form: the calibrated confidence tag, ISO 8601
       times and intervals, and the known-unknown questions that close a plan.
+
+    `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
+    commit authored or committed as the agent identity, agent credit in a commit
+    message, a pull request body, a comment or a review, a software GPU emulator in a
+    workflow, and a workflow that renders a contact sheet without uploading an
+    artifact. Its self-test carries a control in each direction for each check. It
+    is defined once, as the `practices` hook in this repository's
+    `.pre-commit-hooks.yaml`. Another repository lists that hook in its
+    `.pre-commit-config.yaml`, where it runs on push, and its CI calls
+    `.github/workflows/practices.yml` from here, which runs the same hook; both
+    pin a commit of this repository. This repository runs it as the
+    `ci-practices` hook. Comments posted after the last run are seen at the next
+    push or edit. The other practices hold by agreement.
     """
 
     details "Visual comparisons", ~S"""

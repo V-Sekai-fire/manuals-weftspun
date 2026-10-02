@@ -1,0 +1,40 @@
+name: Practices
+
+# Runs a caller's `practices` prek hook, which comes from this repository's
+# `.pre-commit-hooks.yaml`, so prek locally and CI run the same definition.
+# A caller's `.pre-commit-config.yaml` lists the hook, and its workflow calls this file:
+#
+#   on:
+#     pull_request:
+#       types: [opened, synchronize, reopened, edited]
+#   jobs:
+#     practices:
+#       uses: V-Sekai-fire/manuals-weftspun/.github/workflows/practices.yml@<commit>
+#
+# The commit is pinned, as is the hook's `rev`, so a rule change arrives as a diff.
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  practices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+      - run: pip install prek
+      - env:
+          GATE_BASE: ${{ github.event.pull_request.base.sha }}
+          GATE_PR: ${{ github.repository }}#${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: prek run --all-files --hook-stage manual --color always practices

@@ -1,0 +1,8 @@
+# Hooks other repositories run from here, so each practice has one definition.
+- id: practices
+  name: commits, workflows and pull request text follow RFD 2294's standard practices
+  entry: scripts/check_practices.exs
+  language: script
+  pass_filenames: false
+  always_run: true
+  stages: [pre-push, manual]
