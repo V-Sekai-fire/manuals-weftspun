@@ -563,7 +563,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Collision:** MuJoCo (Apache-2.0) as a godot-sandbox guest ELF from
   `interactor-mujoco-sandbox-demo`, for stroke-crossing detection in the CASSIE curvenet pass —
   capsule collision on host-supplied strokes through `mj_crossings`, no dynamics. A curve-geometry
-  role distinct from the RFD 2238 MuJoCo Warp physics and pose-training use.
+  role distinct from the RFD 2238 MuJoCo Warp physics and pose-training use. The same guest also
+  holds the Sakuragaoka Station port's colliders and walks the player through them (ray and contact
+  queries, bit-deterministic and migratable); Godot's own physics is not used there (operator,
+  2026-10-01).
 - **Matting:** BiRefNet_HR-matting (MIT), weights `ZhengPeng7/BiRefNet_HR-matting` from Hugging
   Face, draws the edge of a person mask over the RF-DETR instance; the MoGe-3 depth-edge check,
   not the matte, accepts the mask (RFD 2273).
