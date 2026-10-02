@@ -52,8 +52,12 @@ rules below"
 
     details "Starting out in the workspace", ~S"""
     A new agent, a small local model included, starts here and does one step at a
-    time:
+    time. It begins right after the bootstrap script has run.
 
+    0. The bootstrap leaves a workspace root holding `.repo/`, `AGENTS.md` and the
+       placed projects. Every path below is relative to that root. `ls .repo` and
+       `repo list` confirm it. If `repo`, `elixir`, `mix` or `python` is missing,
+       ask the operator; don't install tools yourself.
     1. Read `AGENTS.md` at the workspace root, then this RFD.
     2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
        `contract-manifest-taskweft`) places every project on a side of the
@@ -85,6 +89,29 @@ rules below"
        and `python scripts/check-rfd-structure.py`. All three pass before the push.
     5. Keep product names and other organisations' issue or PR references out of
        the text, and cite an upstream change by its bare commit SHA.
+
+    A worked example, typed into Git Bash on the Windows desk. It adds a sentence to
+    this RFD:
+
+        cd <workspace root>/2-contract/manuals-weftspun
+        git fetch v-sekai-fire main/main
+        git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main/main
+        cd "$TEMP/rfd-edit"
+
+    Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
+    sentence inside the right `details` block, and save. Then:
+
+        mix rfd.render
+        python scripts/check_tropes.py --base v-sekai-fire/main/main
+        python scripts/check-rfd-structure.py
+        git commit -am "RFD 2294: say what the sentence makes true"
+        git push v-sekai-fire feat/rfd-my-topic
+        gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
+        cd <workspace root>/2-contract/manuals-weftspun
+        git worktree remove "$TEMP/rfd-edit"
+
+    With no GitHub credentials, stop after the commit and give the operator the
+    branch name. When any step fails, stop and ask the operator rather than guess.
     """
 
     details "The work queue", ~S"""
