@@ -82,6 +82,12 @@ rules below"
     created at the upstream commit, so the upstream's branch-keyed workflows do not
     fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
     git stores each ref as a path.
+
+    From Git Bash on Windows, a command with `/`-switches runs under
+    `MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'`, so the switches are not rewritten
+    into paths. `start "" ...` goes in a `.cmd` file: passed inline, the empty
+    title arrives as `\"\"` and `start` tries to run `\`. Godot raises its own
+    process to above-normal priority, so a desk run lowers it by PID once started.
     """
 
     details "Locomotion", ~S"""
@@ -167,9 +173,12 @@ rules below"
       plain surface, or goes through `remesh.elf` when it must be unioned;
     - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
       forking it;
-    - renders completely from meshes baked from the vector materials' data (signs,
-      paving, bark, blossom cards), coarsened by LOD when over budget, so everything
-      works with the runtime vector shader off;
+    - renders from meshes baked from the vector materials' data (signs, paving,
+      bark), coarsened by LOD when over budget, so it works with the runtime vector
+      shader off; alpha-cut foliage cards are the one exception: they stay
+      two-triangle cards cut out at runtime, because baking 53,211 blossom cards as
+      geometry costs about 2.5M triangles even at blob detail (operator,
+      2026-10-01);
     - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
       adding detail to surfaces near the eye within the headset's GPU budget;
     - synthesizes finer detail only where the source is procedural;
@@ -180,6 +189,28 @@ rules below"
     from outlines are fine, and a glyph mesh goes through `remesh.elf` when its
     font's winding is invalid. Parity with the three.js original is measured at
     sphere-Hammersley views against `tools/oracle/shot.mjs` renders.
+
+    The reference is the original rendered through WARP, Windows' software
+    rasterizer (`--angle warp`, release `oracle-4112f57-h8-warp`), because it is
+    deterministic and seam-free. ANGLE's Vulkan path hashes the cloud noise's
+    lattice corners from float sums differently on each side of a cell edge and
+    draws seams the original does not intend, and D3D11 flips one 8-bit level from
+    run to run. The port hashes from integer corners. A change lands only when no
+    view's full-resolution MAD rises against the reference, unless the operator
+    accepts the exception on #72.
+
+    The operator's budget for the standalone headset: at most 700k triangles in
+    view per frame, of which world geometry gets 250k (400k at most) and characters
+    450k. A crowd of non-player characters holds 150k of the character share and
+    drops to impostors first. One equal-error LOD threshold over the frame enforces
+    it, and the LODs come from Godot's own `generate_lods` on welded meshes.
+    Avatars and characters cast their shadows from tapered capsules fitted per
+    skeleton (#110), not from the shadow map; an untapered capsule keeps stock
+    Godot's height and radius behaviour.
+
+    The outline reads the mesh's geometric normal, which the toon-ramp hook writes,
+    not MToon's bent indirect-light normal, and takes depth and normal from the
+    majority MSAA sample.
     """
 
     details "Where compute runs", ~S"""
@@ -233,6 +264,20 @@ rules below"
     the Mac before touching it. A key appended to its `authorized_keys` starts on a
     new line with carriage returns stripped, because the file may end without a
     newline and a `.pub` written on Windows ends its lines with CRLF.
+
+    The station ships to the headset as the Windows x86_64 build, run through the
+    headset's compatibility layer, on single-precision Godot 4.7.2 until the
+    station's double-precision guests are verified (operator, 2026-10-01). The
+    export uses an export template and a real rendering device, so it runs in the
+    Windows desk's interactive session: Windows OpenSSH and a service-mode CI runner
+    both run in session 0, which has no desktop. A session drives the Godot editor
+    there through the computer-use driver, or starts the export from SSH as a
+    scheduled task with `/it`. No GitHub Actions runner does it.
+
+    The build ships as a casync repository: desync, the Go implementation of
+    casync, makes the index and chunk store, and they go into a V-Sekai-fire
+    repository of their own. The headset pulls the title with desync's arm64 build,
+    or takes it over SSH as user `deck` with the desk's key, as a dev title.
     """
 
     details "Merging", ~S"""
