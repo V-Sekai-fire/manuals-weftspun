@@ -49,8 +49,7 @@ defmodule RFD2296 do
       a control of its own, apart from `no_resolve`; `tools/probe_player.gd`
       gets a negative control and runs in CI; a frame-time baseline is
       taken with no station loaded, so the frame time has its floor beside
-      it; the persona reaches the platform and climbs the stairs, and each
-      radial beat shows the radial inside the head-camera frame.
+      it.
     - The godot-sandbox fork rebased on upstream `8a1774d`
       (V-Sekai-fire/godot-sandbox#15), with the host's unboxed-argument
       path packing `Vector2`, `Vector3`, `Vector4` and `Plane` at double
@@ -63,7 +62,7 @@ defmodule RFD2296 do
     The order is the rebase, then the addon release, then the guest
     rebuilds, then the tag, because a guest built against the old numbers
     lands its packed acquire on the array-window call. Playable: dev.1's
-    route, with the persona reaching every beat.
+    route.
     """
 
     details "dev.next: a placeholder for everything not yet assigned to a dev rung", ~S"""
@@ -78,6 +77,11 @@ defmodule RFD2296 do
       drift in millimetres against the source clip's own;
     - Maro as the dress-on statue beside the plaza monument, with a pen
       to draw on it;
+    - the runs that need the owned GPU: the persona reaching the platform
+      and climbing the stairs through oxrsys and PyroWave, each radial beat
+      inside the head-camera frame; `gate_xr_scripted --expect=flat`; the
+      compute-rd and ggml stage runs; and the GPU Maro fit timed against
+      the CPU baseline;
     - the `street` and `railway` modules, then `crossing`, `houses`,
       `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
       `characters` and `petals`;
