@@ -50,6 +50,43 @@ rules below"
 
     details_title "agent knowledge lives in RFDs, not in desk memory"
 
+    details "Starting out in the workspace", ~S"""
+    A new agent, a small local model included, starts here and does one step at a
+    time:
+
+    1. Read `AGENTS.md` at the workspace root, then this RFD.
+    2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
+       `contract-manifest-taskweft`) places every project on a side of the
+       hexagon: `2-contract/`, `3-interactor/`, `4-entities/`, `5-repository/`,
+       `6-datasource/`, `7-service/`. `repo list` shows what is placed.
+    3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
+       `elixir .repo/manifests/sync.exs .`. A project the preflight names as
+       blocking gets a decision from the operator, not a guess.
+    4. Never edit a placed checkout in place. Make a worktree in a scratch
+       directory on a new `feat/<topic>` branch:
+       `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
+       using the project's own remote and default branch.
+    5. Commit subjects are sentence-case prose with no `feat:` prefix, no trailing
+       period and no attribution line. Push only the feature branch, and open the
+       pull request in V-Sekai-fire or chibifire-stages. The operator merges.
+    6. Remove the worktree when the pull request is open.
+
+    An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
+    the rendered Markdown, which is a build artifact:
+
+    1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
+       one when none does.
+    2. Edit its `decision` or a `details "Title", ~S"""..."""` block in the
+       tenseless present (RFD 2172). A statement that is no longer true is deleted,
+       not retracted. Name the operator and date for an operator's decision.
+    3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
+       "This RFD was drafted by an AI and read by a human before it shipped."
+    4. Run `mix rfd.render`, `python scripts/check_tropes.py --base v-sekai-fire/main/main`
+       and `python scripts/check-rfd-structure.py`. All three pass before the push.
+    5. Keep product names and other organisations' issue or PR references out of
+       the text, and cite an upstream change by its bare commit SHA.
+    """
+
     details "The work queue", ~S"""
     The agent sessions share one work-stealing queue, the issues labelled
     `worksteal` on `contract-zone-backend`; its protocol is pinned there as #58. An
