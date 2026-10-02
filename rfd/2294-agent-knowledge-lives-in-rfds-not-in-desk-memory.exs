@@ -70,9 +70,12 @@ rules below"
        directory on a new `feat/<topic>` branch:
        `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
        using the project's own remote and default branch.
-    5. Commit subjects are sentence-case prose with no `feat:` prefix, no trailing
-       period and no attribution line. Push only the feature branch, and open the
-       pull request in V-Sekai-fire or chibifire-stages. The operator merges.
+    5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
+       period. Commits and pull requests carry no Claude attribution: no
+       `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
+       Credit to people stays, such as a co-author trailer for the person whose
+       work a commit carries. Push only the feature branch, and open the pull
+       request in V-Sekai-fire or chibifire-stages. The operator merges.
     6. Remove the worktree when the pull request is open.
 
     An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
