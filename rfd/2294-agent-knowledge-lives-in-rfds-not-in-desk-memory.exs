@@ -50,6 +50,73 @@ rules below"
 
     details_title "agent knowledge lives in RFDs, not in desk memory"
 
+    details "Starting out in the workspace", ~S"""
+    A new agent, a small local model included, starts here and does one step at a
+    time. It begins right after the bootstrap script has run.
+
+    0. The bootstrap leaves a workspace root holding `.repo/`, `AGENTS.md` and the
+       placed projects. Every path below is relative to that root. `ls .repo` and
+       `repo list` confirm it. If `repo`, `elixir`, `mix` or `python` is missing,
+       ask the operator; don't install tools yourself.
+    1. Read `AGENTS.md` at the workspace root, then this RFD.
+    2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
+       `contract-manifest-taskweft`) places every project on a side of the
+       hexagon: `2-contract/`, `3-interactor/`, `4-entities/`, `5-repository/`,
+       `6-datasource/`, `7-service/`. `repo list` shows what is placed.
+    3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
+       `elixir .repo/manifests/sync.exs .`. A project the preflight names as
+       blocking gets a decision from the operator, not a guess.
+    4. Never edit a placed checkout in place. Make a worktree in a scratch
+       directory on a new `feat/<topic>` branch:
+       `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
+       using the project's own remote and default branch.
+    5. Commit subjects are sentence-case prose with no `feat:` prefix, no trailing
+       period and no attribution line. Push only the feature branch, and open the
+       pull request in V-Sekai-fire or chibifire-stages. The operator merges.
+    6. Remove the worktree when the pull request is open.
+
+    An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
+    the rendered Markdown, which is a build artifact:
+
+    1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
+       one when none does.
+    2. Edit its `decision` or one of its `details` blocks in the
+       tenseless present (RFD 2172). A statement that is no longer true is deleted,
+       not retracted. Name the operator and date for an operator's decision.
+    3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
+       "This RFD was drafted by an AI and read by a human before it shipped."
+    4. Run `mix rfd.render`, `python scripts/check_tropes.py --base v-sekai-fire/main/main`
+       and `python scripts/check-rfd-structure.py`. All three pass before the push.
+    5. Keep product names and other organisations' issue or PR references out of
+       the text, and cite an upstream change by its bare commit SHA.
+
+    A worked example, typed into Git Bash on the Windows desk. It adds a sentence to
+    this RFD:
+
+        cd <workspace root>/2-contract/manuals-weftspun
+        git fetch v-sekai-fire main/main
+        git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main/main
+        cd "$TEMP/rfd-edit"
+
+    Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
+    sentence inside the right `details` block, and save. Then:
+
+        mix rfd.render
+        python scripts/check_tropes.py --base v-sekai-fire/main/main
+        python scripts/check-rfd-structure.py
+        git commit -am "RFD 2294: say what the sentence makes true"
+        git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
+        gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
+        cd <workspace root>/2-contract/manuals-weftspun
+        git worktree remove "$TEMP/rfd-edit"
+
+    The push names the hooks directory by absolute path because a placed
+    checkout's `.git` is a link into `.repo/projects/`, which Git Bash cannot follow.
+    Given the relative path, the pre-push hook dies before running its gates. Never
+    skip the hook with `--no-verify`. With no GitHub credentials, stop after the
+    commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
+    """
+
     details "The work queue", ~S"""
     The agent sessions share one work-stealing queue, the issues labelled
     `worksteal` on `contract-zone-backend`; its protocol is pinned there as #58. An
