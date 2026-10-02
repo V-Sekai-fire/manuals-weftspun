@@ -8,7 +8,7 @@ defmodule RFD2285 do
   use RFD.DSL
 
   rfd 2285, "Unship the web demo and the XR paths" do
-    state :abandoned
+    state :published
 
     feature "documentation retraction"
 
@@ -29,7 +29,7 @@ defmodule RFD2285 do
     RFDs finds no deploy configuration, no public-demo build flag, no
     IWSDK use and no vendor XR stack. The runtime is the native Godot 4
     binary, and the manifest already dropped the web platform's tooling.
-    Four published RFDs still state these paths as current.
+    Each of the four states its path as current with no code behind it.
     """
 
     related ~S"""
