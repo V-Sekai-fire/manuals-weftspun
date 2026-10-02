@@ -621,6 +621,16 @@ repos:
         always_run: true
         stages: [manual]
 
+      # The `practices` hook other repositories take from `.pre-commit-hooks.yaml`,
+      # run here from the working tree, with its self-test.
+      - id: ci-practices
+        name: commits, workflows and pull request text follow RFD 2294's standard practices
+        entry: bash -c 'elixir scripts/check_practices.exs --self-test && elixir scripts/check_practices.exs --base "${GATE_BASE:?GATE_BASE unset}"'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
       - id: ci-spdx
         name: every source file carries an SPDX header
         entry: bash -c 'python scripts/check_spdx.py --self-test && python scripts/check_spdx.py'

@@ -15,8 +15,8 @@ defmodule RFD2295 do
     feature "an agent tags every unverified claim with a word and a probability,
 `(likely, p=0.80)`, from one fixed scale"
 
-    scope "agent replies to the operator, logbook entries, and
-`scripts/check_confidence_tags.py`"
+    scope "agent replies to the operator, logbook entries, the times and
+closing questions in both, and `scripts/check_confidence_tags.py`"
 
     decision ~S"""
     A claim an agent has not verified carries its confidence as a word and a
@@ -89,8 +89,21 @@ defmodule RFD2295 do
     is written in ISO 8601 with its date and UTC offset:
     `2026-10-02T09:51-07:00`, not `09:51` or `11am`. A forecast's deadline
     is the same kind of time, so `tagged by 2026-10-02T11:00-07:00` is
-    scorable by a reader in another zone or on another day. Durations stay
-    plain (`20 minutes`). No gate checks this yet; it holds by agreement.
+    scorable by a reader in another zone or on another day.
+
+    A piece of work is timed as an ISO 8601 interval, start and end, followed
+    by its duration (operator, 2026-10-02):
+    `2026-10-02T20:12:48+00:00/2026-10-02T20:40:10+00:00, PT27M22S`. Work
+    still running gives its start and `open`. No gate checks this yet; it
+    holds by agreement.
+    """
+
+    details "Known unknowns", ~S"""
+    A plan or a recommendation ends with zero to four questions about the
+    known unknowns whose answers would change it, each answerable in one
+    word with the recommended option marked. None are asked when nothing is
+    unknown, and never more than four (operator, 2026-10-02). Replies are
+    not files, so this holds by agreement.
     """
 
     details "What is checked", ~S"""
