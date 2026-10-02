@@ -749,7 +749,7 @@ defmodule RFD2293 do
     servers run on Fly from rc on; only the Frame's own Linux path is
     logged without gating.
 
-    **The dev rungs play on macOS, not the Frame.** dev.1 and dev.2 run
+    **The dev rungs play on macOS, not the Frame.** They run
     the macOS arm64 double editor and addon through the oxrsys OpenXR
     runtime and its simulator, streaming with PyroWave, so one machine
     carries the whole loop; the release carries the macOS engine and
@@ -777,28 +777,25 @@ defmodule RFD2293 do
     modules the terrain is open where the town's houses and shops stand
     in the original; the logbook names that gap.
 
-    **dev.2: the walker becomes one player, with a body.** The walker,
-    rx's player controllers and motion.elf merge into one player in rx's
-    `sar_game_framework`, replacing its CharacterBody movement through a
-    MuJoCo-backed movement component, and the pen vendors it. motion.elf
-    returns at double and drives Mire, the headset player's avatar, seen
-    in a mirror, with a foot-slide gate that measures planted-foot drift
-    in millimetres against the source clip's own. World grab moves behind
-    a radial menu (hold B or Y, tilt, release). Maro stands as the
-    dress-on statue beside the plaza monument, with a pen to draw on it.
-    The `street` and `railway` modules land, and the Meta Touch Plus
-    bindings are generated from motion-guest's route table. The
-    godot-sandbox fork, rebased on upstream, ships the addon this rung
-    builds on. Playable: walk the station in Mire's body, see it in the
-    mirror, find the statue and draw on it.
-
     **dev.next: a placeholder for everything not yet assigned to a dev
     rung.** It holds the work that waits for a rung of its own, and an
     item moves out of it into a numbered dev rung when that rung is
     planned:
-    - the town's remaining modules: `crossing`, `houses`, `vehicles`,
-      `poles`, `props`, `shopsA`, `shopsB`, `trains`, `characters` and
-      `petals`;
+    - one player with a body: the walker, rx's player controllers and
+      motion.elf merged into one player in rx's `sar_game_framework`
+      through a MuJoCo-backed movement component, vendored into the pen;
+      motion.elf at double driving Mire, the headset player's avatar,
+      seen in a mirror, with a foot-slide gate measuring planted-foot
+      drift in millimetres against the source clip's own;
+    - world grab moved behind a radial menu (hold B or Y, tilt, release);
+    - Maro as the dress-on statue beside the plaza monument, with a pen
+      to draw on it;
+    - the `street` and `railway` modules, then `crossing`, `houses`,
+      `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
+      `characters` and `petals`;
+    - Meta Touch Plus bindings generated from motion-guest's route table;
+    - the godot-sandbox fork rebased on upstream, and the addon built
+      from it;
     - the station's crowds (contract-zone-backend#111), capsule shadows
       (#110) and its drawn materials (#72);
     - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
