@@ -36,5 +36,6 @@ jobs:
       - env:
           GATE_BASE: ${{ github.event.pull_request.base.sha }}
           GATE_PR: ${{ github.repository }}#${{ github.event.pull_request.number }}
+          GATE_BRANCH: ${{ github.head_ref }}
           GH_TOKEN: ${{ github.token }}
         run: prek run --all-files --hook-stage manual --color always practices
