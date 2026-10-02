@@ -18,9 +18,8 @@ defmodule RFD2296 do
 
     decision ~S"""
     dev.2 closes the gaps dev.1's logbook counts, rebases the godot-sandbox
-    fork on upstream and releases the addon from it, rebuilds every guest
-    for the moved packed-array calls, and shows the joy forecasts as
-    contact sheets. dev.next holds everything not yet assigned to a dev
+    fork on upstream and releases the addon from it, and rebuilds every
+    guest for the moved packed-array calls. dev.next holds everything not yet assigned to a dev
     rung, and an item leaves it when a numbered rung is planned.
     """
 
@@ -41,7 +40,7 @@ defmodule RFD2296 do
 
     details_title "the first rung's dev.2 and dev.next"
 
-    details "dev.2: dev.1's counted gaps closed, the addon rebased, and joy on sheets", ~S"""
+    details "dev.2: dev.1's counted gaps closed and the addon rebased", ~S"""
     Operator, 2026-10-02.
 
     - The gaps `logbook-rfd2287-rung.md` counts: a teleport onto the 8 cm
@@ -49,21 +48,18 @@ defmodule RFD2296 do
       a control of its own, apart from `no_resolve`; `tools/probe_player.gd`
       gets a negative control and runs in CI; a frame-time baseline is
       taken with no station loaded, so the frame time has its floor beside
-      it; the persona reaches the platform and climbs the stairs, and each
-      radial beat shows the radial inside the head-camera frame.
+      it.
     - The godot-sandbox fork rebased on upstream `8a1774d`
       (V-Sekai-fire/godot-sandbox#15), with the host's unboxed-argument
       path packing `Vector2`, `Vector3`, `Vector4` and `Plane` at double
       rather than as float, its CI green, the addon released from it, and
       every guest rebuilt for the packed-array calls at `ECALL` +68 and +69.
-    - The joy forecasts below shown as contact sheets, composed as RFD
-      2294's visual comparisons are.
 
     Each gap closes with the control the logbook counts it as lacking.
     The order is the rebase, then the addon release, then the guest
     rebuilds, then the tag, because a guest built against the old numbers
     lands its packed acquire on the array-window call. Playable: dev.1's
-    route, with the persona reaching every beat.
+    route.
     """
 
     details "dev.next: a placeholder for everything not yet assigned to a dev rung", ~S"""
@@ -76,8 +72,17 @@ defmodule RFD2296 do
       motion.elf at double driving Mire, the headset player's avatar,
       seen in a mirror, with a foot-slide gate measuring planted-foot
       drift in millimetres against the source clip's own;
+    - the joy forecasts below shown as orbit-view contact sheets, composed
+      as RFD 2294's visual comparisons are and rendered by Mitsuba inside
+      a godot-sandbox guest ELF on the CPU, with the world grabbed, turned
+      like a model and recorded as a video;
     - Maro as the dress-on statue beside the plaza monument, with a pen
       to draw on it;
+    - the runs that need the owned GPU: the persona reaching the platform
+      and climbing the stairs through oxrsys and PyroWave, each radial beat
+      inside the head-camera frame; `gate_xr_scripted --expect=flat`; the
+      compute-rd and ggml stage runs; and the GPU Maro fit timed against
+      the CPU baseline;
     - the `street` and `railway` modules, then `crossing`, `houses`,
       `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
       `characters` and `petals`;
