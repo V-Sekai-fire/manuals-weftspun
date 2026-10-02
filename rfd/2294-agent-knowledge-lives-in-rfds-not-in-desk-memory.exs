@@ -80,7 +80,7 @@ rules below"
 
     1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
        one when none does.
-    2. Edit its `decision` or a `details "Title", ~S"""..."""` block in the
+    2. Edit its `decision` or one of its `details` blocks in the
        tenseless present (RFD 2172). A statement that is no longer true is deleted,
        not retracted. Name the operator and date for an operator's decision.
     3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
@@ -105,13 +105,16 @@ rules below"
         python scripts/check_tropes.py --base v-sekai-fire/main/main
         python scripts/check-rfd-structure.py
         git commit -am "RFD 2294: say what the sentence makes true"
-        git push v-sekai-fire feat/rfd-my-topic
+        git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
         gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
         cd <workspace root>/2-contract/manuals-weftspun
         git worktree remove "$TEMP/rfd-edit"
 
-    With no GitHub credentials, stop after the commit and give the operator the
-    branch name. When any step fails, stop and ask the operator rather than guess.
+    The push names the hooks directory by absolute path because a placed
+    checkout's `.git` is a link into `.repo/projects/`, which Git Bash cannot follow.
+    Given the relative path, the pre-push hook dies before running its gates. Never
+    skip the hook with `--no-verify`. With no GitHub credentials, stop after the
+    commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
     """
 
     details "The work queue", ~S"""
