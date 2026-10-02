@@ -593,7 +593,8 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Formats and figures:** `.usda`, ZStandard parquet, usdz as a delivery container, PSD,
   pure-data glTF, the CineForm SDK as the codec, hand-authored inline SVG for figures.
 - **Live streaming:** PyroWave (MIT, `Themaister/pyrowave`) with the Granite subset it checks
-  out (MIT, `Themaister/Granite`), an intra-only wavelet codec in Vulkan compute, for the
+  out (MIT, `Themaister/Granite`), an intra-only wavelet codec whose Vulkan compute shaders are
+  packed through Slang's `slangmosh` into SPIR-V; its macOS port uses hand-written MSL. For the
   desktop-to-headset stream; CineForm stays the recording codec (RFD 2287).
 - **OpenXR runtime:** oxrsys (MPL-2.0, forked as `V-Sekai-fire/oxrsys` from `demonixis/oxrsys`), the
   desktop OpenXR runtime that streams to the Steam Frame over PyroWave (operator, 2026-10-01).
