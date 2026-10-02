@@ -734,28 +734,80 @@ defmodule RFD2293 do
     """
 
     details "The release ladder: dev, beta, rc, released", ~S"""
-    The work lands as four releases, each a whole playable build on the
-    Steam Frame before the next starts, in RFD 2262's sense: a person
+    The work lands as four releases, each a whole playable build before
+    the next starts, in RFD 2262's sense: a person
     puts it on and does the thing it claims. A release is a tag on
     `transport-meshing-pen` (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
-    `v<date>`), a GitHub release on the pen carrying the Windows double
-    engine, the addon DLLs, the ELFs and their sha256s, `tools/frame/push.sh`
-    of that release onto the Frame, a playtest by a named person recorded
-    from the devkit's stream with `clip.sh`, and every gate of the release
-    green with its control, logged in `logbook-rfd2287-rung.md`. A
+    `v<date>`), a GitHub release on the pen carrying the rung's double
+    engine and addon, the ELFs and their sha256s, a playtest recorded on
+    the rung's platform (on the Frame, the release uploaded to the
+    headset as a development title and played by a named person; on
+    macOS, the persona locomotion run below), and every gate of the
+    release green with its control, logged
+    in `logbook-rfd2287-rung.md`. A
     release that is not playable is not cut. The Windows build is what
     climbs on the Frame; the headless Linux build is what the ghost
     servers run on Fly from rc on; only the Frame's own Linux path is
     logged without gating.
 
-    **dev: one person draws in the station.** The pen branches merged;
-    the Windows double engine and addon from committed recipes with
-    provenance; `run-xr.sh xr` passes and `hidden` fails on the Frame;
-    the station's oracle written and `layout`, `environment`, `plaza`,
-    `station`, `sakura` ported and held at 72 fps, the plaza seen on the
-    devkit's stream; the pipeline cut to MESH; the replay gate with
-    `drop_seam`. Playable: put it on, stand on the plaza, draw a skirt
-    with the Frame's own controllers, see it form.
+    **The dev rungs play on macOS, not the Frame.** They run
+    the macOS arm64 double editor and addon through the oxrsys OpenXR
+    runtime and its simulator, streaming with PyroWave, so one machine
+    carries the whole loop; the release carries the macOS engine and
+    addon checked against their sums, with oxrsys pinned in
+    `tools/frame/releases.env`. Collision and walking run in the MuJoCo
+    guest, never Godot's physics, because the guest is bit-deterministic
+    and migratable. The playtest of a dev rung is persona locomotion: a
+    named visitor persona, driven by a language model through the
+    simulator, visits the station beat by beat, each beat with a
+    screenshot, and the logbook records it as the playtest with that
+    deviation named.
+
+    **dev.1: one person visits the station.** The four ported modules
+    (`environment`, `station`, `plaza`, `sakura`), each a faithful port
+    of 4112f57, with their colliders sent to the MuJoCo guest exactly as
+    the original's `physics.js` calls make them. A walker ported from the
+    original's `player.js` (radius 0.3 m, height 1.7 m, step 0.45 m) on
+    the guest's kinematics, read through rx's hand input, with snap turn
+    and teleport. World grab stays available as a fallback. Gates:
+    `gate_colliders` (every collider matches the original's), and
+    `gate_locomotion` (walk, step-up and its refusal, snap turn,
+    teleport, and bit-identical poses across two runs), each with a
+    control that must fail. Playable: arrive on the platform, walk to the
+    plaza, climb the station stairs, turn, teleport. Past the four
+    modules the terrain is open where the town's houses and shops stand
+    in the original; the logbook names that gap.
+
+    **dev.next: a placeholder for everything not yet assigned to a dev
+    rung.** It holds the work that waits for a rung of its own, and an
+    item moves out of it into a numbered dev rung when that rung is
+    planned:
+    - one player with a body: the walker, rx's player controllers and
+      motion.elf merged into one player in rx's `sar_game_framework`
+      through a MuJoCo-backed movement component, vendored into the pen;
+      motion.elf at double driving Mire, the headset player's avatar,
+      seen in a mirror, with a foot-slide gate measuring planted-foot
+      drift in millimetres against the source clip's own;
+    - world grab moved behind a radial menu (hold B or Y, tilt, release);
+    - Maro as the dress-on statue beside the plaza monument, with a pen
+      to draw on it;
+    - the `street` and `railway` modules, then `crossing`, `houses`,
+      `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
+      `characters` and `petals`;
+    - Meta Touch Plus bindings generated from motion-guest's route table;
+    - the godot-sandbox fork rebased on upstream, and the addon built
+      from it;
+    - the station's crowds (contract-zone-backend#111), capsule shadows
+      (#110) and its drawn materials (#72);
+    - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
+      (#87);
+    - the PyroWave encoder pipelined to hold 144 Hz;
+    - no hand-placed colliders: every collider decomposed from its mesh
+      by CoACD running as a godot-sandbox guest ELF over ggml-rd and
+      compute-rd, and handed to the MuJoCo guest;
+    - the headset path: the release uploaded to the Frame as a
+      development title, the Frame streaming from the desktop over
+      oxrsys, and the extra companion controllers.
 
     **beta: one person wears what they draw, and the assistant draws
     too.** Guests at double with the precision gate; priority mode and
@@ -787,6 +839,42 @@ defmodule RFD2293 do
     desk's GitHub credentials destroyed. Playable: anyone with the
     bootstrap line and a Frame reaches the rc build and plays it against
     the live zones.
+    """
+
+    details "Which features are likely to bring joy", ~S"""
+    Each feature carries a forecast, in RFD 2295's tag form, of the chance
+    that a player finds joy in it, judged on a sense-of-wonder rubric of
+    five criteria: a new sense (an experience new technology makes
+    possible), a new standard (it changes how a player sees games),
+    emergence (AI or other people make it come alive), motivation (seeing
+    it makes someone want to play) and surprise. Infrastructure a player
+    never notices rates low however necessary it is; the forecasts say
+    where joy is expected, not what is worth building.
+
+    | rung | feature | criteria | joy |
+    | --- | --- | --- | --- |
+    | dev.1 | walking a faithful station in VR | motivation, surprise | (likely, p=0.70) |
+    | dev.1 | world grab: turning the town like a model | sense, surprise | (likely, p=0.65) |
+    | dev.1 | the persona visitor touring on its own | emergence | (even, p=0.45) |
+    | dev.1 | stick walking, snap turn, teleport | none | (unlikely, p=0.20) |
+    | dev.1 | MuJoCo collision, bit-deterministic | none | (unlikely, p=0.15) |
+    | dev.1 | playing on macOS via oxrsys, PyroWave | none | (unlikely, p=0.10) |
+    | dev.next | drawing a garment onto Maro | sense, surprise, motivation | (likely, p=0.80) |
+    | dev.next | companion controllers drawing alongside | emergence, sense | (likely, p=0.70) |
+    | dev.next | Mire's body, met in the mirror | sense, motivation | (likely, p=0.70) |
+    | dev.next | trains, petals and walkers | surprise, motivation | (likely, p=0.65) |
+    | dev.next | crowds on the platform | surprise | (even, p=0.55) |
+    | dev.next | the station's drawn materials | surprise | (even, p=0.40) |
+    | dev.next | PyroWave held at 144 Hz | none | (unlikely, p=0.25) |
+    | dev.next | colliders decomposed by CoACD | none | (unlikely, p=0.15) |
+    | dev.next | capsule shadows | none | (unlikely, p=0.20) |
+    | dev.next | a development title on the Frame | none | (unlikely, p=0.20) |
+    | dev.next | world grab behind a radial menu | none | (unlikely, p=0.15) |
+    | dev.next | the foot-slide gate | none | (remote, p=0.05) |
+    | dev.next | `.sgd` scripts, generated bindings, rebase | none | (remote, p=0.05) |
+
+    The most joy rests on dev.next's drawing, companion and avatar
+    features, so the rung after dev.1 takes them first.
     """
 
     details "Verification, end to end", ~S"""
