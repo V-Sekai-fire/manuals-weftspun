@@ -12,32 +12,34 @@ defmodule RFD2210 do
     feature "the atelier ships as one native Godot binary per platform;
 one runtime, two heads (interactive + headless capture)"
 
-    scope "`3-interactor/entities-godot-sandbox`, `2-contract/ggml`,
-L2 fanout at RFDs 2211/2214/2215/2216, adapter shape at RFD 2230"
+    scope "`entities-godot` master at precision=double with the godot-sandbox addon,
+`2-contract/ggml` and `2-contract/ggml-rd`, L2 fanout at RFDs 2214/2215/2216"
 
     decision ~S"""
-    One runtime, one binary per platform (macOS / Windows / Linux) from
-    `3-interactor/entities-godot-sandbox`. Vulkan renderer (MoltenVK on
-    macOS). Two heads: interactive window for the Starforged VN game,
-    headless `godot --headless --write-movie` for the marketing video.
-    Same `.tscn` / `.tres` assets, same binary, different invocation
-    flag. ggml consumers ride on one shared `modules/ggml/` module
-    (RFD 2230) with per-model GDScript adapters. Three.js is
-    blocklisted (RFD 2216). SQLite + ZSTD is the model bundle format
-    on local disk (RFD 2214). Video muxed through CineForm per
-    RFD 1123.
+    One runtime, one binary per platform (macOS / Windows / Linux): base
+    Godot built with double precision and the godot-sandbox addon (RFD
+    2287). Vulkan renderer (MoltenVK on macOS). Two heads: interactive
+    window for the Starforged VN game, headless `godot --headless
+    --write-movie` for the marketing video. Same `.tscn` / `.tres`
+    assets, same binary, different invocation flag. ggml consumers run,
+    by agreement, as godot-sandbox guests on ggml-rd with compute-rd (RFD
+    2290).
+    Three.js is blocklisted (RFD 2216). SQLite + ZSTD is the model
+    bundle format on local disk (RFD 2214). Video muxed through
+    CineForm per RFD 1123.
     """
 
     related ~S"""
-    - [RFD 2211](../2211-base-tree-entities-godot-sandbox/), base tree.
+    - [RFD 2287](../2287-the-first-rung-draw-and-wear-it-in-a-headset/),
+      base Godot at double with the addon.
     - [RFD 2214](../2214-model-bundle-sqlite-range-fetch-zstd/), model
       bundle format.
     - [RFD 2215](../2215-one-binary-two-heads/), two-heads shape.
     - [RFD 2216](../2216-threejs-blocklist/), three.js blocklist.
     - [RFD 2229](../2229-interchangeable-parts-consolidation/),
       consolidation policy.
-    - [RFD 2230](../2230-ggml-adapters-in-godot-sandbox/), ggml as
-      one shared module + GDScript adapters.
+    - [RFD 2290](../2290-trim-the-independent-ggml-runtimes/), ggml
+      only in guests.
     - RFD 2205 (Taskweft in Bao), RFD 2206 (video-call VRM portrait),
       RFD 2207 (Nord palette), RFD 2188 (one ggml across workspace),
       RFD 1123 (CineForm in Godot), RFD 1170 (presence loop).

@@ -9,9 +9,9 @@ defmodule RFD2237 do
   rfd 2237, "The body reacts through a per-frame diagram scan" do
     state :discussion
 
-    feature "a Function Block Diagram run once per frame between the gamepad, the mocap trackers and motion-bricks.cpp: inputs in, a motion command and a chain mask out, the planner generating the sequences, a Lean reference the guest is measured against"
+    feature "a diagram scanned per frame: pad and trackers in, motion and chain mask out"
 
-    scope "`3-interactor/taskweft-fbd-compiler`, `3-interactor/taskweft-godot-sandbox`, `3-interactor/motion-bricks-cpp` as the actuator"
+    scope "`taskweft-fbd-compiler`, `taskweft-godot-sandbox`, and `motion.elf` as actuator"
 
     decision ~S"""
     The body's reaction logic is a diagram with declared inputs and outputs,
@@ -22,8 +22,8 @@ defmodule RFD2237 do
     is executable Lean, and the guest is differentially tested against it on
     every generated controller and trace. The taskweft planner generates the
     sequences; continuous logic is written in the text form. The actuator is
-    motion-bricks.cpp's command; the chain mask is an output for the mask and
-    unmask training. `DETAILS.md` carries the rest.
+    a MotionBricks job in `motion.elf` on ggml-rd (RFD 2290); the chain mask is
+    an output for the mask and unmask training. `DETAILS.md` carries the rest.
     """
 
     problem ~S"""
@@ -37,8 +37,8 @@ defmodule RFD2237 do
 
     references ~S"""
     - RFD 2236, the diagram forms, the compiler and the teacher this continues
-    - RFD 2154 and RFD 1175, the per-frame tick in Godot Sandbox and motion-bricks generating the body's motion between decisions
-    - RFD 2230 and RFD 2213, the ggml adapter and the VRM loading the outputs reach once they land
+    - RFD 2154 and RFD 1175, the per-frame tick and MotionBricks moving the body
+    - RFD 2290 and RFD 2213, ggml only in guests and the VRM loading the outputs reach
     - RFD 2229, interchangeable parts, which decides what each leg reuses
     """
 
@@ -55,7 +55,7 @@ defmodule RFD2237 do
     | the block library | `Block` in `TaskweftFbdCompiler.lean` | semantics for the logic, edge, timer, bistable, select, arithmetic and comparison blocks; no new block |
     | the per-frame host | `taskweft_bridge.gd` (`_process`), `taskweft_host.gd` (`vmcall`) | `body_host.gd`: the guest attached as a script, `tick` each frame |
     | the inputs | Godot `Input` joypad, `XRServer` trackers | a named dictionary; a trace file when headless |
-    | the actuator | `motion-bricks-cpp` C ABI and its demo server (`POST /api/session`, `POST /api/plan`) | the host posts the command; RFD 2230's adapter replaces the post |
+    | the actuator | `motion.elf` (`interactor-motion-guest`) | a MotionBricks job per command |
     | the logic generator | `Planner.plan/2`, `Export.sgd/1`, `mix taskweft_acp.plan_sgd` | `avatar_reactions.ex`; the lift of `set` and `hold` steps |
     | the differential runner | Godot headless, the sandbox addon | `scan_runner.gd`, `scripts/diff_scan.sh` |
     """
@@ -125,7 +125,7 @@ defmodule RFD2237 do
     trace when headless; calls the guest's `tick`; prints one `tick` line
     with inputs and outputs per frame for the session log; and posts the
     motion command (`style` by index into the named styles, `move`,
-    `facing`, `speed`, `seed`, `advance`) to motion-bricks.cpp's demo server.
+    `facing`, `speed`, `seed`, `advance`) to `motion.elf` as a MotionBricks job.
     The chain mask is an output on the same line. Nothing else is computed
     in the host.
     """

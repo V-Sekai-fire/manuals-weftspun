@@ -36,6 +36,8 @@ defmodule RFD2293 do
     - RFD 2262, the ladder; RFD 2287, the rung; RFD 2263, the simulator gate.
     - RFD 2256, the transport; RFD 2288 and RFD 2291, the capabilities.
     - RFD 2289, a placement is the manifest row; RFD 2142, the Bao PKI.
+    - Abandons RFD 2067: the ladder's tags are the pen's `v<date>-dev.N`, and
+      the packaging repository its semver tags named is not placed.
     """
 
     drafted_by :ai
@@ -387,6 +389,31 @@ defmodule RFD2293 do
     `--control=single_elf` loads the committed single `curvenet.elf`
     from `087b43a` and must print `RESULT: FAIL`. `linux.yml` gains
     `feat/*` and stays as the single-precision arm.
+    """
+
+    details "The guests the pen ships", ~S"""
+    `transport-meshing-pen` ships five guest ELFs at its root, each line from
+    the header of the guest's `main.cpp`:
+
+    - `curvenet.elf` (`interactor-curvenet`): the curvenet stage, Cassie's pen
+      to curvenet to mesh and mesh back to curvenet, CPU only.
+    - `dress_on.elf` (`contract-guest-runtime`): the guest's public surface,
+      exposing the GPU layer's own Stage 1 probes.
+    - `mujoco.elf` (`interactor-mujoco-sandbox-demo`): MuJoCo as a RISC-V
+      sandbox guest stepped from GDScript; its `main.cpp` has no header, so
+      this line is the project README's.
+    - `rd_worker.elf` (`contract-guest-runtime`): Gate 6G.1, `rd_compute`
+      called from a worker Thread's vmcall.
+    - `usd.elf` (`interactor-usd-guest`): OpenUSD opens a `.usdz` package
+      from bytes the host hands over, with no filesystem, and answers with
+      packed arrays.
+
+    The addon carries its own `addons/godot_sandbox/gdscript.elf`. The pen
+    builds `probes`, `ggml_test`, `lasso`, `cage`, `headfit`, `rfdetr_seg`,
+    `motion`, `cassie_graph` and `usd_probe` without shipping them, and its
+    `.gitignore` names each. The census is `git ls-files '*.elf'` on the
+    pen's `release/v20261001-dev.1`; this list holds by agreement, and no
+    gate compares it with the pen.
     """
 
     details "Step 2. Draw", ~S"""
@@ -778,6 +805,25 @@ defmodule RFD2293 do
     modules the terrain is open where the town's houses and shops stand
     in the original; the logbook names that gap.
 
+    **dev.2: dev.1's counted gaps closed, the addon rebased, and joy on
+    sheets** (operator, 2026-10-02):
+    - the gaps `logbook-rfd2287-rung.md` counts: a teleport onto the 8 cm
+      handrail is refused through a walkable-floor ray; `solid_land` gets
+      a control of its own, apart from `no_resolve`; `tools/probe_player.gd`
+      gets a negative control and runs in CI; a frame-time baseline is
+      taken with no station loaded, so the frame time has its floor beside
+      it; the persona reaches the platform and climbs the stairs, and each
+      radial beat shows the radial inside the head-camera frame;
+    - the godot-sandbox fork rebased on upstream `8a1774d`
+      (V-Sekai-fire/godot-sandbox#15), with the host's unboxed-argument
+      path packing `Vector2`, `Vector3`, `Vector4` and `Plane` at double
+      rather than as float, its CI green, the addon released from it, and
+      every guest rebuilt for the packed-array calls at `ECALL` +68 and +69;
+    - the joy forecasts below shown as contact sheets, composed as RFD
+      2294's visual comparisons are.
+    Each gap closes with the control the logbook counts it as lacking.
+    Playable: dev.1's route, with the persona reaching every beat.
+
     **dev.next: a placeholder for everything not yet assigned to a dev
     rung.** It holds the work that waits for a rung of its own, and an
     item moves out of it into a numbered dev rung when that rung is
@@ -795,8 +841,6 @@ defmodule RFD2293 do
       `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
       `characters` and `petals`;
     - Meta Touch Plus bindings generated from motion-guest's route table;
-    - the godot-sandbox fork rebased on upstream, and the addon built
-      from it;
     - the station's crowds (contract-zone-backend#111), capsule shadows
       (#110) and its drawn materials (#72);
     - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
@@ -871,10 +915,11 @@ defmodule RFD2293 do
     | dev.next | a development title on the Frame | none | (unlikely, p=0.20) |
     | dev.next | world grab behind a radial menu | none | (unlikely, p=0.15) |
     | dev.next | the foot-slide gate | none | (remote, p=0.05) |
-    | dev.next | `.sgd` scripts, generated bindings, rebase | none | (remote, p=0.05) |
+    | dev.2 | the godot-sandbox rebase | none | (remote, p=0.05) |
+    | dev.next | `.sgd` scripts, generated bindings | none | (remote, p=0.05) |
 
     The most joy rests on dev.next's drawing, companion and avatar
-    features, so the rung after dev.1 takes them first.
+    features.
     """
 
     details "Verification, end to end", ~S"""

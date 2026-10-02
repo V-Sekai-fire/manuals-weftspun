@@ -40,8 +40,8 @@ rules below"
     - RFD 2287, the first rung, whose interface moves a person by the world grab
       described under Locomotion.
     - RFD 2293, the Skateboard's workspace, which builds the translated libraries.
-    - RFD 2265, compute-rd kernels with a CPU oracle; RFD 2230's native ggml
-      module is off the route.
+    - RFD 2265, compute-rd kernels with a CPU oracle; RFD 2290, ggml only in
+      guests.
     - RFD 2283, verification by recording, which the contact sheets deliver.
     - RFD 2200, the desk agent's ReBAC rows.
     """
@@ -219,9 +219,14 @@ rules below"
     both vision-model review and human QA: one row per case, one column per source
     (original, before, after, diff), each cell labelled with its metric, failures
     first, and the numbers kept beside the sheet. `entities-sakuragaoka-station`'s
-    `tools/prop_shots.gd` is the precedent (RFD 2283). A copy goes to
+    `tools/prop_shots.gd` is the precedent for that layout only (RFD 2283). A sheet
+    is composed by rendering, with fragment shaders into a `SubViewport`, or in a
+    godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
+    `.sgd`, and its views come from `sphere_hammersley_sequence`. Each sheet carries
+    a `.cff` and its `<stem>.xmp` sidecar (RFD 2240). A copy goes to
     `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
-    `<topic>-NN.png`, the number rising so that no sheet is overwritten.
+    `<topic>-NN.png`, the number rising so that no sheet is overwritten. These rules
+    hold by agreement; no gate reads a sheet.
 
     A residual is fixed, never smudged: nothing blurs an image before the diff,
     loosens a threshold or masks a region. Fixes go down a ladder, each rung measured
@@ -289,8 +294,8 @@ rules below"
     in Lean and lowered through Slang to SPIR-V (RFD 2265). It never runs as a host
     Python or C++ pipeline or as a GDScript loop. Fragment shaders that render are
     fine, and Python bindings serve upstream contributions and their tests, never a
-    pipeline. ggml runs only in such a guest: a native ggml module as RFD 2230 drew
-    it, a GDExtension ggml API or a standalone runtime is off the route, and a
+    pipeline. ggml runs only in such a guest (RFD 2290): a native ggml engine
+    module, a GDExtension ggml API or a standalone runtime is off the route, and a
     standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
     ggml-rd with compute-rd as well, since EditScore's decision model builds on it
     (RFD 2268).

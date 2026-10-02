@@ -54,18 +54,18 @@ defmodule RFD2109 do
 
     | Store             | Outcome                                                              |
     | ----------------- | -------------------------------------------------------------------- |
-    | FoundationDB      | Chosen. Apache 2.0, C++, linear, write-optimized                     |
+    | FoundationDB      | Chosen as the page store. Apache 2.0, C++, linear, write-optimized   |
     | TiDB              | Viable, not chosen. Apache 2.0, MySQL wire, so `myxql` connects      |
     | YDB               | Viable, not chosen. Apache 2.0, C++, and no Ecto adapter exists      |
     | Apache Ignite     | Viable, not chosen. Apache 2.0, Java, and no Ecto adapter exists     |
     | YugabyteDB        | Vetoed                                                               |
     | Stock PostgreSQL  | Blocklisted for operational reasons, which are vacuum and heap bloat |
-    | SQLite            | Rejected. Weaker constraint enforcement than the requirement         |
+    | SQLite            | Chosen as the engine, its pages in FoundationDB (RFD 2103)           |
     | CockroachDB       | Source-available since 2019, so it fails the FOSS rule               |
     | Citus             | AGPL, so it fails the non-viral rule                                 |
     | MariaDB, MySQL    | GPL, so they fail the non-viral rule                                 |
     | ScyllaDB, MongoDB | AGPL or SSPL, so they fail the non-viral rule                        |
-    | DuckDB, for OLTP  | 0.919 ms point read, the slowest of four measured in `rfd/0103`      |
+    | DuckDB, for OLTP  | Rejected for OLTP; it reads the analytical record instead            |
     | Rivet 2.0         | Apache 2.0. Actor logic is TypeScript. See the section below         |
 
     TiDB is the option that keeps relational form with no adapter work. It
@@ -119,20 +119,17 @@ defmodule RFD2109 do
     """
 
     details "The trade this record accepts", ~S"""
-    `rfd/0103` states the FoundationDB limits directly. A query is valid
-    only when one Get or one GetRange satisfies it. No joins. No `or`. No
-    aggregates in the database, so filtering and grouping run in Elixir.
-    One Between clause per query, on an indexed field.
+    Uro reaches FoundationDB through SQLite on the `weft_fdb` VFS (RFD
+    2103), so its queries keep SQL, joins and aggregates. The cost is one
+    connection per database, because each open takes the database's fence.
 
-    Those limits bite reporting, and reporting does not use this store.
-    `data/measurements/` already holds the analytical record as zstd
-    Parquet, and `lean-duckdb` already reads it. DuckDB supplies the joins
-    and the aggregates.
+    Reporting does not use this store. `data/measurements/` already holds
+    the analytical record as zstd Parquet, and `lean-duckdb` already reads
+    it. DuckDB supplies the joins and the aggregates there.
 
-    Point-read latency from `rfd/0103`: 0.405 ms for a new transaction per
-    read, and 0.157 ms inside one transaction. PostgreSQL 16 measured
-    0.084 ms, so FoundationDB is 4.8 and 1.9 times that, in the same order
-    rather than a different one.
+    `apparatus/2103-uro-on-ecto-foundationdb/pointget.c` measures a
+    FoundationDB point read in a new transaction each and inside one shared
+    transaction; no gate holds its numbers.
     """
 
     details "Open questions", ~S"""
