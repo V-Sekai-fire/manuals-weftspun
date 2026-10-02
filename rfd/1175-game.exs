@@ -12,8 +12,8 @@ defmodule RFD1175 do
     feature "one native binary that is both the interactive demo and
 the video head that records it"
 
-    scope "`3-interactor/entities-godot-sandbox`; every part the
-atelier ships lands in this binary"
+    scope "`entities-godot` master built with precision=double and the
+godot-sandbox addon (RFD 2287); every part the atelier ships lands in this binary"
 
     attest_in :none
 
@@ -21,8 +21,8 @@ atelier ships lands in this binary"
     One Godot binary (Vulkan; MoltenVK on macOS) shows a VRM avatar
     framed like a video call, and at each decision point offers the
     legal Starforged moves from the Taskweft planner; the chosen move's
-    outcome drives a VRM expression while motion-bricks (ggml, Vulkan)
-    generates the body motion between decisions. The same binary with
+    outcome drives a VRM expression while MotionBricks, in `motion.elf`
+    on ggml-rd, generates the body motion between decisions. The same binary with
     `--headless --write-movie` walks a shot list and encodes CineForm,
     so the video is the game recorded rather than a second deliverable.
     `DETAILS.md` carries what the player sees, the loop, the runtime
@@ -59,17 +59,19 @@ atelier ships lands in this binary"
     move's outcome (`strong-hit` / `weak-hit` / `miss`) fires a VRM
     expression blendshape (`happy` / `neutral` / `sad`) that holds
     ~1.5 s then decays over ~100 ms, total envelope ~1.6 s.
-    Motion-bricks (ggml, 183 M params, NVIDIA Open Model License,
-    Q4 GGUF) generates body motion between decisions.
+    MotionBricks-G1 generates body motion between decisions, in
+    `motion.elf` (`interactor-motion-guest`) on ggml-rd with compute-rd.
     """
 
     details "Runtime stack", ~S"""
     - **Godot** as the runtime, Vulkan renderer (MoltenVK on macOS).
-    - **VRM 1.0** loads via `godot-vrm` compiled to RISC-V ELF and
-      run in the `modules/sandbox` (libriscv) sandbox, no forked C++,
-      no unsandboxed GDScript addon.
-    - **ggml** with Vulkan backend for every inference call
-      (motion-bricks, Kimodo text-to-motion, EditScore judgment).
+    - **VRM 1.0** loads via `godot-vrm` compiled to a RISC-V ELF and
+      run in the godot-sandbox addon (libriscv), no forked C++, no
+      unsandboxed GDScript addon.
+    - **ggml** only inside godot-sandbox guests on ggml-rd with
+      compute-rd (RFD 2290): MotionBricks and Kimodo in `motion.elf`,
+      EditScore judgment as its decision model (RFD 2268).
+      The route holds by agreement; no gate checks it.
     - **Model bundle**: ZSTD-compressed SQLite on local disk, loaded
       via `sqlite3_open()` on install path.
     - **CineForm** encoder (ffmpeg blocklisted).
