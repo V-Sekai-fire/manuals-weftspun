@@ -103,8 +103,37 @@ Control: the engine with one byte at offset 4096 set to zero is `FAILED` against
 
 ## The persona run
 
-Placeholder until the run lands: the visit's beats (arrive, walk to the station, snap turns,
-teleport, climb the forecourt stairs, stand), a screenshot per beat, frame time and loss.
+09:28 to 09:29, pen `feat/station-walking` at c4e46b5, the macOS double editor under the oxrsys
+runtime with the PyroWave encoder named in the runtime log. The visitor "Hana" is
+`tools/walk_oxrsys.py` sending touch-controller tracking to the simulator, driven by the beats in
+`tools/persona_hana.json`; `tools/persona_capture.gd` logs a `persona` line and saves a head-camera
+frame every 0.5 s (74 frames).
+
+| beat | logged pose | result |
+| --- | --- | --- |
+| walk from the plaza toward the station | z 34.00 to 19.55, feet 0.812 to 0.407 m | moved |
+| snap turn right, then back | yaw 4 to -26 to 4 degrees | 30 degrees each, cooldown held |
+| teleport, no stick motion | z 19.55 to 14.93, 4.6 m (about 2.6 adult heights) | landed |
+| walk to the forecourt | feet 0.000 m | on the ground |
+| open the radial, world grab off then on | `grab false` to `grab true` | toggled |
+
+Frame rate held 45 to 50 fps and dipped to 39 with the radial open, against the runtime's
+120 Hz target.
+
+What the run did not show:
+- Hana did not reach the platform or climb the station stairs; the beats walk down to the
+  forecourt.
+- The radial's wedges sit below the head-camera frame, so its beats are confirmed by the log
+  line and not by an image. `screencapture` has no screen permission from the job.
+- The session receives tracking only when `walk_oxrsys` connects after the focused state; the
+  two runs before this one connected early and lost their beats.
+
+## The release
+
+`release/v20261001-dev.1` and the annotated tag `v20261001-dev.1` point at ee80fb5, the merge
+of transport-meshing-pen#26. `release.yml` published the prerelease, and every asset downloaded
+from it passes `shasum -a 256 -c SHA256SUMS`: the double engine, the addon library and the
+`curvenet`, `dress_on`, `mujoco`, `rd_worker` and `usd` ELFs.
 
 ## Deviations from RFD 2293's dev rung
 
@@ -120,11 +149,13 @@ teleport, climb the forecourt stairs, stand), a screenshot per beat, frame time 
 2. `solid_land` is not independent of `no_resolve`: it breaks the shared `resolve`, not the
    teleport's own refusal, so the teleport check has no control of its own.
 3. Tracking input under oxrsys was not exercised in the preflight (no client connected).
-4. No frame-time baseline without the world was taken, so the 12.05 ms has no floor beside it.
+4. `tools/probe_player.gd` has no negative control and is not in CI.
+5. No frame-time baseline without the world was taken, so the 12.05 ms has no floor beside it.
 
 ## Forecasts
 
-- The persona run completes every beat (likely, p=0.75).
-- dev.1 is tagged by 11:00 (likely, p=0.70).
+- The persona run completes every beat (likely, p=0.75). Resolved false: the platform and
+  stairs beats were not reached.
+- dev.1 is tagged by 11:00 (likely, p=0.70). Resolved true: tagged before 10:00.
 
 This entry was drafted by an AI and read by a human before it shipped.
