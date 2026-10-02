@@ -698,7 +698,11 @@ a link.
 
 ## Claude does not write attribution
 
-Modify user settings so we do not write claude attribution.
+Commits, pull requests and comments carry no agent credit, and commits are
+authored as the operator. RFD 2294's "Interchangeable sessions" states the
+rule, with the workspace's other standard practices, and how to strip a footer
+a tool appends; `dot-claude`'s `settings.json` turns the tool's own attribution
+off.
 
 ## How entries are written
 
