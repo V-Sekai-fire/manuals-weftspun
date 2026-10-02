@@ -41,9 +41,9 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
     """
 
     related ~S"""
-    - RFD 2262, the ladder this rung is on; RFD 2136, the rung precedent.
-    - RFD 2263, step 2's regression test; RFD 2256, the transport.
-    - RFD 2271, C++ guests with Lean tests; RFD 2288, their capabilities.
+    - RFD 2262, the ladder; RFD 2136, the precedent; RFD 2263, step 2's test.
+    - RFD 2256, the transport; RFD 2271, guests with Lean tests; RFD 2288, capabilities.
+    - Abandons RFDs 2211, 2001 and 2075: the engine is base Godot; zones are `zone.elf`.
     """
 
     drafted_by :ai

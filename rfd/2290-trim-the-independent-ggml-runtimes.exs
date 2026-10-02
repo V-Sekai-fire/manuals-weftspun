@@ -39,8 +39,8 @@ defmodule RFD2290 do
     related ~S"""
     - RFD 2188 placed `2-contract/ggml`; this is its Phase 2.
     - RFD 2287 computes in guest ELFs on ggml-rd or compute-rd, RFD 2268 makes
-      EditScore a decision model there, RFD 2289 abandoned the off-route
-      runtimes, and RFD 2242's native ggml modules stay abandoned.
+      EditScore a decision model there, and RFD 2289 abandoned the off-route
+      runtimes. Abandons RFD 2230 beside 2242: no engine tree has `modules/ggml`.
     - RFD 2272's Gate 9 reads `rf-detr-ggml`'s `seg_cli`.
     """
 
