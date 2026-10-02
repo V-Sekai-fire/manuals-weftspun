@@ -734,28 +734,63 @@ defmodule RFD2293 do
     """
 
     details "The release ladder: dev, beta, rc, released", ~S"""
-    The work lands as four releases, each a whole playable build on the
-    Steam Frame before the next starts, in RFD 2262's sense: a person
+    The work lands as four releases, each a whole playable build before
+    the next starts, in RFD 2262's sense: a person
     puts it on and does the thing it claims. A release is a tag on
     `transport-meshing-pen` (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
-    `v<date>`), a GitHub release on the pen carrying the Windows double
-    engine, the addon DLLs, the ELFs and their sha256s, `tools/frame/push.sh`
-    of that release onto the Frame, a playtest by a named person recorded
-    from the devkit's stream with `clip.sh`, and every gate of the release
-    green with its control, logged in `logbook-rfd2287-rung.md`. A
+    `v<date>`), a GitHub release on the pen carrying the rung's double
+    engine and addon, the ELFs and their sha256s, a playtest recorded on
+    the rung's platform (on the Frame, `tools/frame/push.sh` and a named
+    person recorded with `clip.sh`; on macOS, the persona locomotion run
+    below), and every gate of the release green with its control, logged
+    in `logbook-rfd2287-rung.md`. A
     release that is not playable is not cut. The Windows build is what
     climbs on the Frame; the headless Linux build is what the ghost
     servers run on Fly from rc on; only the Frame's own Linux path is
     logged without gating.
 
-    **dev: one person draws in the station.** The pen branches merged;
-    the Windows double engine and addon from committed recipes with
-    provenance; `run-xr.sh xr` passes and `hidden` fails on the Frame;
-    the station's oracle written and `layout`, `environment`, `plaza`,
-    `station`, `sakura` ported and held at 72 fps, the plaza seen on the
-    devkit's stream; the pipeline cut to MESH; the replay gate with
-    `drop_seam`. Playable: put it on, stand on the plaza, draw a skirt
-    with the Frame's own controllers, see it form.
+    **The dev rungs play on macOS, not the Frame.** dev.1 and dev.2 run
+    the macOS arm64 double editor and addon through the oxrsys OpenXR
+    runtime and its simulator, streaming with PyroWave, so one machine
+    carries the whole loop; the release carries the macOS engine and
+    addon checked against their sums, with oxrsys pinned in
+    `tools/frame/releases.env`. Collision and walking run in the MuJoCo
+    guest, never Godot's physics, because the guest is bit-deterministic
+    and migratable. The playtest of a dev rung is persona locomotion: a
+    named visitor persona, driven by a language model through the
+    simulator, visits the station beat by beat, each beat with a
+    screenshot, and the logbook records it as the playtest with that
+    deviation named.
+
+    **dev.1: one person visits the station.** The four ported modules
+    (`environment`, `station`, `plaza`, `sakura`), each a faithful port
+    of 4112f57, with their colliders sent to the MuJoCo guest exactly as
+    the original's `physics.js` calls make them. A walker ported from the
+    original's `player.js` (radius 0.3 m, height 1.7 m, step 0.45 m) on
+    the guest's kinematics, read through rx's hand input, with snap turn
+    and teleport. World grab stays available as a fallback. Gates:
+    `gate_colliders` (every collider matches the original's), and
+    `gate_locomotion` (walk, step-up and its refusal, snap turn,
+    teleport, and bit-identical poses across two runs), each with a
+    control that must fail. Playable: arrive on the platform, walk to the
+    plaza, climb the station stairs, turn, teleport. Past the four
+    modules the terrain is open where the town's houses and shops stand
+    in the original; the logbook names that gap.
+
+    **dev.2: the walker becomes one player, with a body.** The walker,
+    rx's player controllers and motion.elf merge into one player in rx's
+    `sar_game_framework`, replacing its CharacterBody movement through a
+    MuJoCo-backed movement component, and the pen vendors it. motion.elf
+    returns at double and drives Mire, the headset player's avatar, seen
+    in a mirror, with a foot-slide gate that measures planted-foot drift
+    in millimetres against the source clip's own. World grab moves behind
+    a radial menu (hold B or Y, tilt, release). Maro stands as the
+    dress-on statue beside the plaza monument, with a pen to draw on it.
+    The `street` and `railway` modules land, and the Meta Touch Plus
+    bindings are generated from motion-guest's route table. The
+    godot-sandbox fork, rebased on upstream, ships the addon this rung
+    builds on. Playable: walk the station in Mire's body, see it in the
+    mirror, find the statue and draw on it.
 
     **beta: one person wears what they draw, and the assistant draws
     too.** Guests at double with the precision gate; priority mode and
