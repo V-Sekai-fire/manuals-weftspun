@@ -557,6 +557,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   native binary from `entities-godot-sandbox`; Mitsuba 3 GPU variants.
 - **Inference:** ggml (RFD 2188) with the Vulkan backend; Gemma 4 (E2B, E4B); rf-detr keypoint
   and segmentation heads.
+- **Local agent:** Hermes Agent (MIT, `NousResearch/hermes-agent`) and its TUI, driving
+  `gemma-4-12B-it-heretic-QAT` (Apache-2.0, `SC117/gemma-4-12B-it-heretic-QAT-GGUF`, from
+  `google/gemma-4-12B-it`) served by LM Studio on this desk (operator, 2026-10-01).
 - **Collision:** MuJoCo (Apache-2.0) as a godot-sandbox guest ELF from
   `interactor-mujoco-sandbox-demo`, for stroke-crossing detection in the CASSIE curvenet pass —
   capsule collision on host-supplied strokes through `mj_crossings`, no dynamics. A curve-geometry
