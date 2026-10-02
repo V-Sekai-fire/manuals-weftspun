@@ -740,9 +740,9 @@ defmodule RFD2293 do
     `transport-meshing-pen` (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
     `v<date>`), a GitHub release on the pen carrying the rung's double
     engine and addon, the ELFs and their sha256s, a playtest recorded on
-    the rung's platform (on the Frame, `tools/frame/push.sh` and a named
-    person recorded with `clip.sh`; on macOS, the persona locomotion run
-    below), and every gate of the release green with its control, logged
+    the rung's platform (on the Frame, the release uploaded to the
+    headset as a development title and played by a named person; on
+    macOS, the persona locomotion run below), and every gate of the release green with its control, logged
     in `logbook-rfd2287-rung.md`. A
     release that is not playable is not cut. The Windows build is what
     climbs on the Frame; the headless Linux build is what the ghost
