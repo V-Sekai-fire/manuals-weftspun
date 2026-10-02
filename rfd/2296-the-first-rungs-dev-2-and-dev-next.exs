@@ -18,9 +18,8 @@ defmodule RFD2296 do
 
     decision ~S"""
     dev.2 closes the gaps dev.1's logbook counts, rebases the godot-sandbox
-    fork on upstream and releases the addon from it, rebuilds every guest
-    for the moved packed-array calls, and shows the joy forecasts as
-    contact sheets. dev.next holds everything not yet assigned to a dev
+    fork on upstream and releases the addon from it, and rebuilds every
+    guest for the moved packed-array calls. dev.next holds everything not yet assigned to a dev
     rung, and an item leaves it when a numbered rung is planned.
     """
 
@@ -41,7 +40,7 @@ defmodule RFD2296 do
 
     details_title "the first rung's dev.2 and dev.next"
 
-    details "dev.2: dev.1's counted gaps closed, the addon rebased, and joy on sheets", ~S"""
+    details "dev.2: dev.1's counted gaps closed and the addon rebased", ~S"""
     Operator, 2026-10-02.
 
     - The gaps `logbook-rfd2287-rung.md` counts: a teleport onto the 8 cm
@@ -55,8 +54,6 @@ defmodule RFD2296 do
       path packing `Vector2`, `Vector3`, `Vector4` and `Plane` at double
       rather than as float, its CI green, the addon released from it, and
       every guest rebuilt for the packed-array calls at `ECALL` +68 and +69.
-    - The joy forecasts below shown as contact sheets, composed as RFD
-      2294's visual comparisons are.
 
     Each gap closes with the control the logbook counts it as lacking.
     The order is the rebase, then the addon release, then the guest
@@ -75,6 +72,10 @@ defmodule RFD2296 do
       motion.elf at double driving Mire, the headset player's avatar,
       seen in a mirror, with a foot-slide gate measuring planted-foot
       drift in millimetres against the source clip's own;
+    - the joy forecasts below shown as orbit-view contact sheets, composed
+      as RFD 2294's visual comparisons are and rendered by Mitsuba inside
+      a godot-sandbox guest ELF on the CPU, with the world grabbed, turned
+      like a model and recorded as a video;
     - Maro as the dress-on statue beside the plaza monument, with a pen
       to draw on it;
     - the runs that need the owned GPU: the persona reaching the platform
