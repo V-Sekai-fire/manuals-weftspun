@@ -9,7 +9,8 @@
 #     scripts/check_practices.exs --self-test
 #
 # Without --base the base is GATE_BASE, then PRE_COMMIT_FROM_REF, then @{upstream}; with
-# none of them the commits are a FAIL, not a skip. GATE_PR adds the --pr check.
+# none of them the commits are a FAIL, not a skip. GATE_PR adds the --pr check. GATE_BRANCH,
+# else pre-push's PRE_COMMIT_REMOTE_BRANCH, names the branch, which must be feat/* or archived/*.
 #
 # Exit codes: 0 every practice holds, 1 one does not or a source was unreadable, 2 bad usage.
 
@@ -147,6 +148,21 @@ defmodule Practices do
     bad == []
   end
 
+  def branch_problems(name) do
+    name = String.replace_prefix(name, "refs/heads/", "")
+
+    if String.starts_with?(name, ["feat/", "archived/"]),
+      do: [],
+      else: ["branch #{name} is neither feat/* nor archived/*"]
+  end
+
+  def branch do
+    Enum.find_value(["GATE_BRANCH", "PRE_COMMIT_REMOTE_BRANCH"], fn k ->
+      v = System.get_env(k, "")
+      if v != "", do: v
+    end)
+  end
+
   def base(root, given) do
     env = Enum.find(["GATE_BASE", "PRE_COMMIT_FROM_REF"], &(System.get_env(&1, "") != ""))
 
@@ -191,9 +207,20 @@ defmodule Practices do
         end
 
       w = report("workflows", workflow_problems(root))
+
+      b =
+        case branch() do
+          nil ->
+            IO.puts("branch: none named (GATE_BRANCH unset, not a push), 1 unchecked")
+            true
+
+          name ->
+            report("branch", {1, branch_problems(name)})
+        end
+
       pr = System.get_env("GATE_PR", "")
       p = pr == "" or report("pull request text", pr_problems(pr))
-      if c and w and p, do: 0, else: 1
+      if c and w and b and p, do: 0, else: 1
     end
   end
 end
@@ -264,6 +291,16 @@ defmodule SelfTest do
          "      - run: elixir contact_sheet.exs\n      - uses: actions/upload-artifact@v4\n"
        ) == []}
     ]
+
+    controls =
+      controls ++
+        [
+          {"a feat/ branch passes", Practices.branch_problems("feat/x") == []},
+          {"an archived/ branch passes",
+           Practices.branch_problems("refs/heads/archived/x") == []},
+          {"a claude/ branch is rejected", Practices.branch_problems("claude/thread-x") != []},
+          {"a fix/ branch is rejected", Practices.branch_problems("fix/x") != []}
+        ]
 
     saved = Map.new(["GATE_BASE", "PRE_COMMIT_FROM_REF"], &{&1, System.get_env(&1)})
     Enum.each(saved, fn {k, _} -> System.delete_env(k) end)

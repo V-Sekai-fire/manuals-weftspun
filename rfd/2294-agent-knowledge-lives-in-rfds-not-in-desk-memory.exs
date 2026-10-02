@@ -250,6 +250,9 @@ rules below"
       issue, as on `contract-zone-backend#114`. Each session ticks only its own
       items and comments when it starts, finishes or is blocked on one, with times
       in RFD 2295's form. Neither takes the other's items.
+    - Branches. Every branch a session works on is `feat/<topic>` or, once its
+      work is parked or superseded, `archived/<topic>`, whatever name the
+      session was handed (operator, 2026-10-02).
     - Capability-scoped workers. A worker session holds the capabilities its task
       needs as RFD 2200 tuples, and default deny covers the rest. A peer's request
       never widens a worker's rows.
@@ -271,11 +274,12 @@ rules below"
     `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
     commit authored or committed as the agent identity, agent credit in a commit
     message, a pull request body, a comment or a review, a software GPU emulator in a
-    workflow, and a workflow that renders a contact sheet without uploading an
-    artifact. Its self-test carries a control in each direction for each check. It
-    is defined once, as the `practices` hook in this repository's
-    `.pre-commit-hooks.yaml`. Another repository lists that hook in its
-    `.pre-commit-config.yaml`, where it runs on push, and its CI calls
+    workflow, a workflow that renders a contact sheet without uploading an
+    artifact, and a branch named neither `feat/*` nor `archived/*`. Its self-test
+    carries a control in each direction for each check. It is defined once, as
+    the `practices` hook in this repository's `.pre-commit-hooks.yaml`. Another
+    repository lists that hook in its `.pre-commit-config.yaml`, where it runs on
+    push, and its CI calls
     `.github/workflows/practices.yml` from here, which runs the same hook; both
     pin a commit of this repository. This repository runs it as the
     `ci-practices` hook. Comments posted after the last run are seen at the next
