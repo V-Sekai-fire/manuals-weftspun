@@ -801,6 +801,9 @@ defmodule RFD2293 do
     - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
       (#87);
     - the PyroWave encoder pipelined to hold 144 Hz;
+    - no hand-placed colliders: every collider decomposed from its mesh
+      by CoACD running as a godot-sandbox guest ELF over ggml-rd and
+      compute-rd, and handed to the MuJoCo guest;
     - the headset path: the release uploaded to the Frame as a
       development title, the Frame streaming from the desktop over
       oxrsys, and the extra companion controllers.
@@ -835,6 +838,42 @@ defmodule RFD2293 do
     desk's GitHub credentials destroyed. Playable: anyone with the
     bootstrap line and a Frame reaches the rc build and plays it against
     the live zones.
+    """
+
+    details "Which features are likely to bring joy", ~S"""
+    Each feature carries a forecast, in RFD 2295's tag form, of the chance
+    that a player finds joy in it, judged on a sense-of-wonder rubric of
+    five criteria: a new sense (an experience new technology makes
+    possible), a new standard (it changes how a player sees games),
+    emergence (AI or other people make it come alive), motivation (seeing
+    it makes someone want to play) and surprise. Infrastructure a player
+    never notices rates low however necessary it is; the forecasts say
+    where joy is expected, not what is worth building.
+
+    | rung | feature | criteria | joy |
+    | --- | --- | --- | --- |
+    | dev.1 | walking a faithful station in VR | motivation, surprise | (likely, p=0.70) |
+    | dev.1 | world grab: turning the town like a model | sense, surprise | (likely, p=0.65) |
+    | dev.1 | the persona visitor touring on its own | emergence | (even, p=0.45) |
+    | dev.1 | stick walking, snap turn, teleport | none | (unlikely, p=0.20) |
+    | dev.1 | MuJoCo collision, bit-deterministic | none | (unlikely, p=0.15) |
+    | dev.1 | playing on macOS via oxrsys, PyroWave | none | (unlikely, p=0.10) |
+    | dev.next | drawing a garment onto Maro | sense, surprise, motivation | (likely, p=0.80) |
+    | dev.next | companion controllers drawing alongside | emergence, sense | (likely, p=0.70) |
+    | dev.next | Mire's body, met in the mirror | sense, motivation | (likely, p=0.70) |
+    | dev.next | trains, petals and walkers | surprise, motivation | (likely, p=0.65) |
+    | dev.next | crowds on the platform | surprise | (even, p=0.55) |
+    | dev.next | the station's drawn materials | surprise | (even, p=0.40) |
+    | dev.next | PyroWave held at 144 Hz | none | (unlikely, p=0.25) |
+    | dev.next | colliders decomposed by CoACD | none | (unlikely, p=0.15) |
+    | dev.next | capsule shadows | none | (unlikely, p=0.20) |
+    | dev.next | a development title on the Frame | none | (unlikely, p=0.20) |
+    | dev.next | world grab behind a radial menu | none | (unlikely, p=0.15) |
+    | dev.next | the foot-slide gate | none | (remote, p=0.05) |
+    | dev.next | `.sgd` scripts, generated bindings, rebase | none | (remote, p=0.05) |
+
+    The most joy rests on dev.next's drawing, companion and avatar
+    features, so the rung after dev.1 takes them first.
     """
 
     details "Verification, end to end", ~S"""
