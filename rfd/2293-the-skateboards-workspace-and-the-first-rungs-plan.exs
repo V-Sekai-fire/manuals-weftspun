@@ -792,6 +792,23 @@ defmodule RFD2293 do
     builds on. Playable: walk the station in Mire's body, see it in the
     mirror, find the statue and draw on it.
 
+    **dev.next: a placeholder for everything not yet assigned to a dev
+    rung.** It holds the work that waits for a rung of its own, and an
+    item moves out of it into a numbered dev rung when that rung is
+    planned:
+    - the town's remaining modules: `crossing`, `houses`, `vehicles`,
+      `poles`, `props`, `shopsA`, `shopsB`, `trains`, `characters` and
+      `petals`;
+    - the station's crowds (contract-zone-backend#111), capsule shadows
+      (#110) and its drawn materials (#72);
+    - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
+      (#87);
+    - the PyroWave encoder pipelined to hold 144 Hz, and PyroWave's macOS
+      shaders compiled through Slang;
+    - the headset path: the release uploaded to the Frame as a
+      development title, the Frame streaming from the desktop over
+      oxrsys, and the extra companion controllers.
+
     **beta: one person wears what they draw, and the assistant draws
     too.** Guests at double with the precision gate; priority mode and
     the replay feeder, with `PRIORITY=0` and `NOFEED=1`; lasso, the grid,
