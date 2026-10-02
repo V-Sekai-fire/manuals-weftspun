@@ -13,11 +13,10 @@ on:
     - cron: "17 5 * * *"
 
 concurrency:
-  # One CI run per branch. A pull_request synchronize, a merge_group
-  # entry, and a push to that branch all share the same group, and the
-  # newer one cancels any earlier still running.
+  # One CI run per branch. A newer pull_request run cancels the older one
+  # still running; a merge_group entry, a push or a scheduled run is never cancelled.
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # prek is the only job: every gate is a hook in `.pre-commit-config.yaml`.

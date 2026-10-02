@@ -637,6 +637,24 @@ repos:
         always_run: true
         stages: [manual]
 
+      # The workspace half needs a `repo` checkout, so it sits in the manual stage like pen-66606.
+      - id: workflow-concurrency
+        name: every workflow cancels superseded pull request runs and nothing else
+        entry: bash -c 'python scripts/check_workflow_concurrency.py --self-test && python scripts/check_workflow_concurrency.py .github/workflows'
+        language: python
+        additional_dependencies: ["pyyaml==6.0.3"]
+        files: ^(\.github/workflows/.*\.ya?ml|scripts/check_workflow_concurrency\.py)$
+        pass_filenames: false
+
+      - id: workflow-concurrency-workspace
+        name: every placed V-Sekai-fire workflow cancels superseded pull request runs and nothing else
+        entry: python scripts/check_workflow_concurrency.py
+        language: python
+        additional_dependencies: ["pyyaml==6.0.3"]
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
       - id: ci-rulesets
         name: every ruleset a document names exists
         entry: bash -c 'python scripts/check_rulesets.py --self-test && python scripts/check_rulesets.py --repo "${GITHUB_REPOSITORY:?GITHUB_REPOSITORY unset}"'

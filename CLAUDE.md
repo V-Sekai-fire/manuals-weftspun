@@ -543,6 +543,17 @@ not satisfy a claim.
     python scripts/check_rulesets.py --self-test
     python scripts/check_rulesets.py --repo <owner>/<name>
 
+`scripts/check_workflow_concurrency.py` holds every GitHub Actions workflow to
+one rule: a top-level `concurrency` group keyed on the pull request number or
+the ref, with `cancel-in-progress` true only for `pull_request`. A new push to
+a pull request cancels that pull request's older run, and a push to a default
+branch, a tag, a merge-queue entry or a dispatch is never cancelled; on
+2026-10-02 runners were starved by superseded heads still running full
+matrices. A workflow with a `workflow_call` trigger carries no group, because
+there `github.workflow` names the caller and the group would deadlock with it.
+The `workflow-concurrency` hook checks this repository on every commit and
+`workflow-concurrency-workspace` reads every placed V-Sekai-fire checkout.
+
 ## Allowlist
 
 Default deny. A source, model, runtime, dataset or tool is usable only if it is named here or
