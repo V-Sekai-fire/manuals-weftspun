@@ -252,6 +252,7 @@ defmodule Serials.VSekaiFabric do
       serial 2293, "the-skateboards-workspace-and-the-first-rungs-plan", flight_level: :l1
       serial 2294, "agent-knowledge-lives-in-rfds-not-in-desk-memory", flight_level: :l2
       serial 2295, "agent-replies-state-calibrated-confidence", flight_level: :l2
+      serial 2296, "the-first-rungs-dev-2-and-dev-next", flight_level: :l1
     end
 
     deleted do
