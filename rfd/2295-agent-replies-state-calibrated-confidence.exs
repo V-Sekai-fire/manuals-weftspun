@@ -84,6 +84,15 @@ defmodule RFD2295 do
     carry tagged forecasts starts it.
     """
 
+    details "Times", ~S"""
+    A time in a reply, a logbook entry, an issue comment or a pull request
+    is written in ISO 8601 with its date and UTC offset:
+    `2026-10-02T09:51-07:00`, not `09:51` or `11am`. A forecast's deadline
+    is the same kind of time, so `tagged by 2026-10-02T11:00-07:00` is
+    scorable by a reader in another zone or on another day. Durations stay
+    plain (`20 minutes`). No gate checks this yet; it holds by agreement.
+    """
+
     details "What is checked", ~S"""
     `scripts/check_confidence_tags.py` scans `logbook/*.md` and every RFD
     source for tags, and fails a tag whose word is not on
