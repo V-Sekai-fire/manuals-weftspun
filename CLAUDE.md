@@ -595,6 +595,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   the public domain on 2026-03-17 (operator, 2026-10-01).
 - **Formats and figures:** `.usda`, ZStandard parquet, usdz as a delivery container, PSD,
   pure-data glTF, the CineForm SDK as the codec, hand-authored inline SVG for figures.
+- **Still images:** OpenEXR (BSD-3-Clause, `AcademySoftwareFoundation/openexr`), its Python
+  bindings 3.5.1 pinned where they are used, for scene-linear stills: orbit-view sheets
+  (`contract-orbit-views`) and renders whose color is measured; a PNG made from one is a preview
+  (operator, 2026-10-02: "please use openexr if possible").
 - **Live streaming:** PyroWave (MIT, `Themaister/pyrowave`) with the Granite subset it checks
   out (MIT, `Themaister/Granite`), an intra-only wavelet codec whose Vulkan compute shaders are
   packed through Slang's `slangmosh` into SPIR-V; its macOS port uses hand-written MSL. For the
