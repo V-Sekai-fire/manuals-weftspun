@@ -33,7 +33,7 @@ macOS raises a modal alert that holds the process at 0% CPU until the job's time
     $G --headless --xr-mode off --path . --script tools/gate_locomotion.gd -- [--control=...]
     python3 tools/walk_oxrsys.py --self-test
 
-## The collider gate (08:53)
+## The collider gate (2026-10-02T08:53-07:00)
 
 | run | result |
 | --- | --- |
@@ -44,7 +44,7 @@ macOS raises a modal alert that holds the process at 0% CPU until the job's time
 The `shift` control moves one box 5 cm, about two and a half nickels side by side, and the
 gate sees it. The population is fixed, so the gate enumerates all 1089 rather than sampling.
 
-## The oxrsys preflight (08:54)
+## The oxrsys preflight (2026-10-02T08:54-07:00)
 
 The pen's `xr_main.tscn` under oxrsys reached session state 5 (focused) with the streaming
 server up. `WaitFrame` pacing settled at a mean of 12.05 ms, standard deviation 0.04 ms
@@ -54,7 +54,7 @@ errors were action-map paths for an interaction profile the pen does not bind.
 
 No simulator client was connected, so tracking input was not exercised. That is counted below.
 
-## The locomotion gate (09:12)
+## The locomotion gate (2026-10-02T09:12-07:00)
 
 A fixed step of 1/60 s, no scene, the walker driven directly.
 
@@ -83,14 +83,14 @@ end `RESULT: FAIL` with a non-zero exit:
 It fails on the handrail instead, which the 1.2 m step now climbs. The ledge check is held by
 `no_resolve`.
 
-## The persona walk driver (09:09)
+## The persona walk driver (2026-10-02T09:09-07:00)
 
 `tools/walk_oxrsys.py` sends `ClientConnect` and then 90 Hz `TrackingPacket`s with thumbsticks
 and face buttons, which the simulator app does not send. Its self-test: the tracking packet is
 1008 bytes and `ClientConnect` 80, as in `Protocol.h`; the sticks and buttons read back at their
 offsets; and a control reading one field later does not see the sticks. 5 of 5 PASS.
 
-## The release dry run (09:14)
+## The release dry run (2026-10-02T09:14-07:00)
 
 `release.yml`'s download and sum steps, run locally with `shasum -a 256` in place of `sha256sum`:
 
@@ -103,7 +103,7 @@ Control: the engine with one byte at offset 4096 set to zero is `FAILED` against
 
 ## The persona run
 
-09:28 to 09:29, pen `feat/station-walking` at c4e46b5, the macOS double editor under the oxrsys
+2026-10-02T09:28-07:00 to 09:29-07:00, pen `feat/station-walking` at c4e46b5, the macOS double editor under the oxrsys
 runtime with the PyroWave encoder named in the runtime log. The visitor "Hana" is
 `tools/walk_oxrsys.py` sending touch-controller tracking to the simulator, driven by the beats in
 `tools/persona_hana.json`; `tools/persona_capture.gd` logs a `persona` line and saves a head-camera
@@ -156,6 +156,7 @@ from it passes `shasum -a 256 -c SHA256SUMS`: the double engine, the addon libra
 
 - The persona run completes every beat (likely, p=0.75). Resolved false: the platform and
   stairs beats were not reached.
-- dev.1 is tagged by 11:00 (likely, p=0.70). Resolved true: tagged before 10:00.
+- dev.1 is tagged by 2026-10-02T11:00-07:00 (likely, p=0.70). Resolved true: tagged before
+  2026-10-02T10:00-07:00.
 
 This entry was drafted by an AI and read by a human before it shipped.
