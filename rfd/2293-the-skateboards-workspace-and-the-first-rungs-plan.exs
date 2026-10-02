@@ -34,6 +34,7 @@ defmodule RFD2293 do
 
     related ~S"""
     - RFD 2262, the ladder; RFD 2287, the rung; RFD 2263, the simulator gate.
+    - RFD 2296, the dev rungs after dev.1: dev.2 and dev.next.
     - RFD 2256, the transport; RFD 2288 and RFD 2291, the capabilities.
     - RFD 2289, a placement is the manifest row; RFD 2142, the Bao PKI.
     - Abandons RFD 2067: the ladder's tags are the pen's `v<date>-dev.N`, and
@@ -790,68 +791,38 @@ defmodule RFD2293 do
     screenshot, and the logbook records it as the playtest with that
     deviation named.
 
-    **dev.1: one person visits the station.** The four ported modules
-    (`environment`, `station`, `plaza`, `sakura`), each a faithful port
-    of 4112f57, with their colliders sent to the MuJoCo guest exactly as
-    the original's `physics.js` calls make them. A walker ported from the
-    original's `player.js` (radius 0.3 m, height 1.7 m, step 0.45 m) on
-    the guest's kinematics, read through rx's hand input, with snap turn
-    and teleport. World grab stays available as a fallback. Gates:
-    `gate_colliders` (every collider matches the original's), and
-    `gate_locomotion` (walk, step-up and its refusal, snap turn,
-    teleport, and bit-identical poses across two runs), each with a
-    control that must fail. Playable: arrive on the platform, walk to the
-    plaza, climb the station stairs, turn, teleport. Past the four
-    modules the terrain is open where the town's houses and shops stand
-    in the original; the logbook names that gap.
+    **dev.1: one person visits the station.** The pen's
+    `v20261001-dev.1` tag and `release/v20261001-dev.1` point at
+    `ee80fb5`, the merge of transport-meshing-pen#26, and the prerelease
+    carries the double engine `v20260930-double.1`, the addon
+    `v20260930-addon.1` and the five guest ELFs, each against
+    `SHA256SUMS`. The four ported modules (`environment`, `station`,
+    `plaza`, `sakura`), each a faithful port of 4112f57, send their 1089
+    primitive colliders and the terrain height field to the MuJoCo guest
+    as the original's `physics.js` calls make them. A walker ported from
+    the original's `player.js` (radius 0.3 m, height 1.7 m, step 0.45 m)
+    runs on the guest's ray and contact queries, read through rx's stick
+    movement and rotation components, with a 30 degree snap turn and
+    teleport; there is no jump. World grab is off by default and sits in
+    a three-wedge radial (hold B or Y, tilt, release: world grab,
+    recentre, exit). Gates: `gate_colliders` in
+    `entities-sakuragaoka-station` (every collider matches the
+    original's, with `drop_one` and `shift` as controls), run by hand
+    because that repository has no CI; and `gate_locomotion` in the pen's
+    `double.yml` (walk, step-up and the refused 1.25 m ledge, the
+    handrail stopping the walker, snap turn, teleport landing and
+    refused, and bit-identical poses across two runs), with the controls
+    `step_high`, `no_resolve`, `solid_land` and `ulp`, each of which must
+    fail. Playable, as the persona run on 2026-10-02 showed: walk from
+    the plaza toward the station, snap turn, teleport, reach the
+    forecourt, and toggle world grab from the radial. The persona did not
+    reach the platform or climb the stairs; the locomotion gate climbs
+    the six treads headless. Past the four modules the terrain is open
+    where the town's houses and shops stand in the original. The
+    logbook names that gap and counts five others, which RFD 2296's
+    dev.2 works from.
 
-    **dev.2: dev.1's counted gaps closed, the addon rebased, and joy on
-    sheets** (operator, 2026-10-02):
-    - the gaps `logbook-rfd2287-rung.md` counts: a teleport onto the 8 cm
-      handrail is refused through a walkable-floor ray; `solid_land` gets
-      a control of its own, apart from `no_resolve`; `tools/probe_player.gd`
-      gets a negative control and runs in CI; a frame-time baseline is
-      taken with no station loaded, so the frame time has its floor beside
-      it; the persona reaches the platform and climbs the stairs, and each
-      radial beat shows the radial inside the head-camera frame;
-    - the godot-sandbox fork rebased on upstream `8a1774d`
-      (V-Sekai-fire/godot-sandbox#15), with the host's unboxed-argument
-      path packing `Vector2`, `Vector3`, `Vector4` and `Plane` at double
-      rather than as float, its CI green, the addon released from it, and
-      every guest rebuilt for the packed-array calls at `ECALL` +68 and +69;
-    - the joy forecasts below shown as contact sheets, composed as RFD
-      2294's visual comparisons are.
-    Each gap closes with the control the logbook counts it as lacking.
-    Playable: dev.1's route, with the persona reaching every beat.
-
-    **dev.next: a placeholder for everything not yet assigned to a dev
-    rung.** It holds the work that waits for a rung of its own, and an
-    item moves out of it into a numbered dev rung when that rung is
-    planned:
-    - one player with a body: the walker, rx's player controllers and
-      motion.elf merged into one player in rx's `sar_game_framework`
-      through a MuJoCo-backed movement component, vendored into the pen;
-      motion.elf at double driving Mire, the headset player's avatar,
-      seen in a mirror, with a foot-slide gate measuring planted-foot
-      drift in millimetres against the source clip's own;
-    - world grab moved behind a radial menu (hold B or Y, tilt, release);
-    - Maro as the dress-on statue beside the plaza monument, with a pen
-      to draw on it;
-    - the `street` and `railway` modules, then `crossing`, `houses`,
-      `vehicles`, `poles`, `props`, `shopsA`, `shopsB`, `trains`,
-      `characters` and `petals`;
-    - Meta Touch Plus bindings generated from motion-guest's route table;
-    - the station's crowds (contract-zone-backend#111), capsule shadows
-      (#110) and its drawn materials (#72);
-    - rx's scripts shipped as `.sgd` (#92) on the merged-compiler addon
-      (#87);
-    - the PyroWave encoder pipelined to hold 144 Hz;
-    - no hand-placed colliders: every collider decomposed from its mesh
-      by CoACD running as a godot-sandbox guest ELF over ggml-rd and
-      compute-rd, and handed to the MuJoCo guest;
-    - the headset path: the release uploaded to the Frame as a
-      development title, the Frame streaming from the desktop over
-      oxrsys, and the extra companion controllers.
+    **dev.2 and dev.next** are RFD 2296.
 
     **beta: one person wears what they draw, and the assistant draws
     too.** Guests at double with the precision gate; priority mode and
@@ -903,23 +874,8 @@ defmodule RFD2293 do
     | dev.1 | stick walking, snap turn, teleport | none | (unlikely, p=0.20) |
     | dev.1 | MuJoCo collision, bit-deterministic | none | (unlikely, p=0.15) |
     | dev.1 | playing on macOS via oxrsys, PyroWave | none | (unlikely, p=0.10) |
-    | dev.next | drawing a garment onto Maro | sense, surprise, motivation | (likely, p=0.80) |
-    | dev.next | companion controllers drawing alongside | emergence, sense | (likely, p=0.70) |
-    | dev.next | Mire's body, met in the mirror | sense, motivation | (likely, p=0.70) |
-    | dev.next | trains, petals and walkers | surprise, motivation | (likely, p=0.65) |
-    | dev.next | crowds on the platform | surprise | (even, p=0.55) |
-    | dev.next | the station's drawn materials | surprise | (even, p=0.40) |
-    | dev.next | PyroWave held at 144 Hz | none | (unlikely, p=0.25) |
-    | dev.next | colliders decomposed by CoACD | none | (unlikely, p=0.15) |
-    | dev.next | capsule shadows | none | (unlikely, p=0.20) |
-    | dev.next | a development title on the Frame | none | (unlikely, p=0.20) |
-    | dev.next | world grab behind a radial menu | none | (unlikely, p=0.15) |
-    | dev.next | the foot-slide gate | none | (remote, p=0.05) |
-    | dev.2 | the godot-sandbox rebase | none | (remote, p=0.05) |
-    | dev.next | `.sgd` scripts, generated bindings | none | (remote, p=0.05) |
 
-    The most joy rests on dev.next's drawing, companion and avatar
-    features.
+    RFD 2296 carries the forecasts for dev.2 and dev.next.
     """
 
     details "Verification, end to end", ~S"""
