@@ -596,8 +596,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Quantization:** QAT with a quantized forward during training.
 - **Environments and dependencies:** `pixi`, or an embedded interpreter pinning its deps in
   source; `default.xml` for dependencies.
-- **Packaging:** fpm (MIT-style, `jordansissel/fpm`, v1.18.0) to turn built files into .deb, .rpm
-  and macOS .pkg installers, run as a build tool in CI and never shipped (operator, 2026-10-03).
+- **Packaging:** nFPM (MIT, `goreleaser/nfpm`, v2.47.0) to turn built files into .deb and .rpm
+  natively, as sinew-mocap's packaging does, and the Windows SDK's makeappx and signtool for MSIX;
+  build tools in CI, never shipped. nFPM replaces fpm here (operator, 2026-10-03).
 - **Mesh processing:** meshoptimizer (MIT, `zeux/meshoptimizer`) for simplification and its
   voxel remesher; xatlas (MIT, `jpcy/xatlas`) for UV unwrapping. Together they run remesh,
   simplify, unwrap and retexture on avatar meshes at build time, to cut polygon, skinned-mesh
