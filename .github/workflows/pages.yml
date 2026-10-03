@@ -1,0 +1,48 @@
+# The rendered RFDs on GitHub Pages: mix rfd.render, then Jekyll turns the Markdown into a site.
+name: pages
+on:
+  push:
+    branches: [main/main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "29"
+          elixir-version: "1.20.4"
+      - uses: actions/cache@v6
+        with:
+          path: |
+            deps
+            _build
+          key: pages-otp29-ex1.20.4-${{ hashFiles('mix.lock') }}-${{ hashFiles('lib/**', 'mix.exs') }}
+          restore-keys: pages-otp29-ex1.20.4-${{ hashFiles('mix.lock') }}-
+      - run: mix local.hex --force && mix local.rebar --force && mix deps.get
+      - run: ERL_COMPILER_OPTIONS='[nowarn_deprecated_catch]' mix rfd.render
+      - run: elixir scripts/pages_site.exs _site_src
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: _site_src
+          destination: _site
+      - uses: actions/upload-pages-artifact@v4
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
