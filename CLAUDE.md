@@ -620,7 +620,17 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   the docking panel framework oxrsys's desktop frontends move to from Qt, vendored into oxrsys's
   `third_party/` by git subtree. It carries SDL3 (zlib, `libsdl-org/SDL`) for windows, input and
   Vulkan surfaces, and ThorVG (MIT, `thorvg/thorvg`) for its software-canvas panels and text, both
-  in its own `third_party/` by git subtree (operator, 2026-10-03).
+  in its own `third_party/` by git subtree; its UI text is the Inter typeface (OFL-1.1,
+  `rsms/inter`), embedded in the library (operator, 2026-10-03).
+- **OpenVR driver API:** the OpenVR SDK (BSD-3-Clause, `ValveSoftware/openvr`, release v2.15.6) as
+  the reference for an OXRSys SteamVR driver, entered clean-room: the driver lists only the
+  interfaces, entry points and constants it uses in `.sigs` files, the pattern of Chromium's
+  `tools/generate_stubs`, and generates its declarations and loader stubs from them; the SDK's
+  headers are never vendored or included. OpenVR-only games reach OXRSys's PyroWave stream through
+  SteamVR this way; OpenComposite stays blocked (operator, 2026-10-03).
+  Alongside it: ALVR (MIT, `alvr-org/ALVR`) as a design reference only, cited and never copied;
+  Chromium's `tools/generate_stubs` (BSD-3-Clause) to generate the declarations and stubs; and
+  SteamVR as the PC VR runtime the driver loads into and is tested in on this desk.
 - **Broadcast software:** OBS Studio and its plugins, without a row each: proprietary and GPL
   licences are fine, AGPL stays banned (operator, 2026-09-30; confirmed 2026-10-01).
 - **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
