@@ -338,6 +338,12 @@ file, the trademark comes out.
 If a rewrite in generic vocabulary would lose the meaning, the meaning
 was leaning on the mark.
 
+An identifier another system matches verbatim is data, not a name, and
+is used as that system spells it: a controller type id in an input
+profile, an app key, a protocol or file-format tag. Interop fails without
+the exact string, so it stays; the comments and prose around it still
+use generic terms (operator, 2026-10-03).
+
 ## How Our Own Code Is Commented
 
 Use comments extremely sparingly. Most should be at the request of the user.
