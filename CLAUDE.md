@@ -596,6 +596,8 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Quantization:** QAT with a quantized forward during training.
 - **Environments and dependencies:** `pixi`, or an embedded interpreter pinning its deps in
   source; `default.xml` for dependencies.
+- **Packaging:** fpm (MIT-style, `jordansissel/fpm`, v1.18.0) to turn built files into .deb, .rpm
+  and macOS .pkg installers, run as a build tool in CI and never shipped (operator, 2026-10-03).
 - **Mesh processing:** meshoptimizer (MIT, `zeux/meshoptimizer`) for simplification and its
   voxel remesher; xatlas (MIT, `jpcy/xatlas`) for UV unwrapping. Together they run remesh,
   simplify, unwrap and retexture on avatar meshes at build time, to cut polygon, skinned-mesh
