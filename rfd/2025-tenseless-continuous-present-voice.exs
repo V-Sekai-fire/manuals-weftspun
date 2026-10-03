@@ -1,19 +1,26 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 2025. `mix rfd.render` renders rfd/2025-tenseless-continuous-present-voice/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD2025 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 2025, "Tenseless continuous present voice" do
-    state :prediscussion
+rfd 2025, "Tenseless continuous present voice", :prediscussion do
+  prose ~S"""
+  :: decision
+  See `DETAILS.md` for the full argument.
+  :: problem
+  Comments and documentation drift out of sync with code as the system
+  changes. A comment written as history ("added a cache", "we removed
+  the old path") or as a plan ("will solve this", "TODO: wire X")
+  describes a moment that has passed or has not yet arrived, so a reader
+  cannot check it against the code in front of them. How should prose in
+  this repo phrase what it says about the system?
+  :: related
+  See `DETAILS.md` for the full argument.
+  """
 
-    decision ~S"""
-    See `DETAILS.md` for the full argument.
-    """
+  details_title "Tenseless continuous present voice"
 
-    problem ~S"""
+  madr do
+    context ~S"""
     Comments and documentation drift out of sync with code as the system
     changes. A comment written as history ("added a cache", "we removed
     the old path") or as a plan ("will solve this", "TODO: wire X")
@@ -22,84 +29,65 @@ defmodule RFD2025 do
     this repo phrase what it says about the system?
     """
 
-    related ~S"""
-    See `DETAILS.md` for the full argument.
+    drivers ~S"""
+    - A reader trusts a comment when it matches the code as it stands.
+    - History lives in git; plans live in issues and decision records.
+    - The rule stays mechanical enough to apply in review without debate.
     """
 
-    details_title "Tenseless continuous present voice"
+    options ~S"""
+    - Free choice of tense per author.
+    - Past-tense changelog voice inside code comments.
+    - A tenseless continuous-present voice where every sentence states
+      what is currently true of the system.
+    """
 
-    madr do
-      context ~S"""
-      Comments and documentation drift out of sync with code as the system
-      changes. A comment written as history ("added a cache", "we removed
-      the old path") or as a plan ("will solve this", "TODO: wire X")
-      describes a moment that has passed or has not yet arrived, so a reader
-      cannot check it against the code in front of them. How should prose in
-      this repo phrase what it says about the system?
-      """
+    outcome ~S"""
+    Chosen option: a tenseless continuous-present voice, because a
+    sentence that states a present truth stays correct as long as the code
+    it describes stays the same, and goes stale visibly the moment the
+    code changes.
 
-      drivers ~S"""
-      - A reader trusts a comment when it matches the code as it stands.
-      - History lives in git; plans live in issues and decision records.
-      - The rule stays mechanical enough to apply in review without debate.
-      """
+    Every comment and documentation sentence states what is currently true
+    of the system. Prose describes behaviour ("the parser streams
+    tokens"), and an unfinished area reads as a present gap ("the parser
+    handles no Unicode escapes yet") rather than as a task or a past edit.
+    The voice covers code comments, doc pages, and decision records alike.
 
-      options ~S"""
-      - Free choice of tense per author.
-      - Past-tense changelog voice inside code comments.
-      - A tenseless continuous-present voice where every sentence states
-        what is currently true of the system.
-      """
+    The voice rules out three habits:
 
-      outcome ~S"""
-      Chosen option: a tenseless continuous-present voice, because a
-      sentence that states a present truth stays correct as long as the code
-      it describes stays the same, and goes stale visibly the moment the
-      code changes.
+    - Past-tense narration of edits, such as "removed the legacy path" or
+      "we switched to a queue".
+    - Future or imperative planning, such as "will add validation" or
+      "TODO: handle retries".
+    - Temporal qualifiers that age, such as "now", "currently changed", or
+      "previously".
 
-      Every comment and documentation sentence states what is currently true
-      of the system. Prose describes behaviour ("the parser streams
-      tokens"), and an unfinished area reads as a present gap ("the parser
-      handles no Unicode escapes yet") rather than as a task or a past edit.
-      The voice covers code comments, doc pages, and decision records alike.
+    A TODO document states each open item as a present gap, so the file
+    reads as a description of where the system stands rather than a
+    logbook of intentions.
+    """
 
-      The voice rules out three habits:
+    consequences ~S"""
+    - Good, because a stale sentence signals a real divergence from the
+      code, which makes review catch it.
+    - Good, because one voice covers code comments, doc pages, and
+      decision records.
+    - Bad, because a present-gap phrasing reads less naturally than an
+      imperative TODO, and authors need practice to phrase work that way.
+    """
 
-      - Past-tense narration of edits, such as "removed the legacy path" or
-        "we switched to a queue".
-      - Future or imperative planning, such as "will add validation" or
-        "TODO: handle retries".
-      - Temporal qualifiers that age, such as "now", "currently changed", or
-        "previously".
+    confirmation ~S"""
+    Review checks that new comments and prose state present truths, with
+    no past-tense edit narration, no future or imperative planning, and no
+    aging temporal qualifiers. The existing decision records in this repo
+    already read this way.
+    """
 
-      A TODO document states each open item as a present gap, so the file
-      reads as a description of where the system stands rather than a
-      logbook of intentions.
-      """
-
-      consequences ~S"""
-      - Good, because a stale sentence signals a real divergence from the
-        code, which makes review catch it.
-      - Good, because one voice covers code comments, doc pages, and
-        decision records.
-      - Bad, because a present-gap phrasing reads less naturally than an
-        imperative TODO, and authors need practice to phrase work that way.
-      """
-
-      confirmation ~S"""
-      Review checks that new comments and prose state present truths, with
-      no past-tense edit narration, no future or imperative planning, and no
-      aging temporal qualifiers. The existing decision records in this repo
-      already read this way.
-      """
-
-      more_information ~S"""
-      This generalizes the house rule applied across the sinew Lean spec and
-      its native viewer prose, where comments describe current behaviour and
-      `todo.md` lists each open item as a present gap.
-      """
-    end
-
-    drafted_by :ai
+    more_information ~S"""
+    This generalizes the house rule applied across the sinew Lean spec and
+    its native viewer prose, where comments describe current behaviour and
+    `todo.md` lists each open item as a present gap.
+    """
   end
 end

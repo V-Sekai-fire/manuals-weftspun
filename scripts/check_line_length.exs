@@ -39,6 +39,28 @@ defmodule LineLength do
     end
   end
 
+  def removed_lengths(repo, base) do
+    against = if base == "HEAD", do: ["--cached"], else: [base]
+
+    git(repo, ["diff", "-U0", "--no-color" | against])
+    |> String.split("\n")
+    |> Enum.reduce({%{}, nil}, fn row, {gone, path} ->
+      cond do
+        String.starts_with?(row, "--- ") -> {gone, String.replace_prefix(row, "--- a/", "")}
+        String.starts_with?(row, "+++ b/") -> {gone, String.slice(row, 6..-1//1)}
+        String.starts_with?(row, "-") and path != nil -> {put_gone(gone, path, row), path}
+        true -> {gone, path}
+      end
+    end)
+    |> elem(0)
+  end
+
+  defp put_gone(gone, path, "-" <> text) do
+    Map.update(gone, {path, moved(text)}, len(text), &max(&1, len(text)))
+  end
+
+  defp moved(text), do: text |> String.trim() |> String.replace(~r/(,| do)$/, "")
+
   def added_lines(repo, base) do
     against = if base == "HEAD", do: ["--cached"], else: [base]
 
@@ -190,6 +212,8 @@ defmodule LineLength do
             added
           end
 
+        gone = removed_lengths(repo, base)
+
         bad =
           for {p, nums} <- Enum.sort(added),
               full = Path.join(repo, p),
@@ -197,7 +221,9 @@ defmodule LineLength do
               lines = String.split(read(full), "\n"),
               n <- Enum.sort(nums),
               n <= length(lines),
-              len(Enum.at(lines, n - 1)) > limit do
+              line = Enum.at(lines, n - 1),
+              len(line) > limit,
+              Map.get(gone, {p, moved(line)}, 0) < len(line) do
             "#{p}:#{n} is #{len(Enum.at(lines, n - 1))} columns, over #{limit}"
           end
 
@@ -232,6 +258,11 @@ defmodule LineLength do
       {"a short added line passes", [{"a.exs", "short = 1"}], nil, 0, false},
       {"a long added line fails", [{"a.exs", long_code}], nil, 1, false},
       {"a long line already on the base is not asked for", [], {"a.exs", long_code}, 0, false},
+      {"a long line only moved shallower is not asked for", [{"a.exs", long_code <> ","}],
+       {"a.exs", "  " <> long_code <> " do"}, 0, :reindent},
+      {"a line moved deeper past the limit fails",
+       [{"a.exs", "    " <> String.duplicate("y", 38)}],
+       {"a.exs", "  " <> String.duplicate("y", 38)}, 1, :reindent},
       {"no line_length in .formatter.exs fails", [{"a.exs", "short = 1"}], nil, 1, :nolimit},
       {"--fix rewraps long heredoc prose and then passes",
        [{"a.exs", ~s(  x ~S"""\n) <> long_prose <> ~s(\n    """)}], nil, 0, :fix},
@@ -257,7 +288,10 @@ defmodule LineLength do
       if committed, do: w(repo, elem(committed, 0), elem(committed, 1) <> "\n")
       git(repo, ["add", "-A"])
       git(repo, ["commit", "-q", "-m", "base"])
-      if committed, do: File.write!(Path.join(repo, elem(committed, 0)), "short = 1\n", [:append])
+
+      if committed && mode != :reindent,
+        do: File.write!(Path.join(repo, elem(committed, 0)), "short = 1\n", [:append])
+
       Enum.each(staged, fn {name, body} -> w(repo, name, body <> "\n") end)
       git(repo, ["add", "-A"])
       got = check(repo, "HEAD", mode == :fix, false)
@@ -328,3 +362,4 @@ case OptionParser.parse(System.argv(),
     IO.puts(:stderr, "usage: check_line_length.exs [--base BASE] [--fix] [--self-test]")
     System.halt(2)
 end
+

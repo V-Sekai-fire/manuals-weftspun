@@ -1,53 +1,40 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1086. `mix rfd.render` renders rfd/1086-dev-machine-topology/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1086 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1086, "Dev machine topology, and the two-machine sync rule" do
-    state :abandoned
+rfd 1086, "Dev machine topology, and the two-machine sync rule", :abandoned do
+  scope "an editor workstation, a CUDA-capable GPU host, `scripts/sync-*`"
+  attest_in :none
 
-    scope "an editor workstation, a CUDA-capable GPU host, `scripts/sync-*`"
+  prose ~S"""
+  :: decision
+  One rule: one machine owns `src/` at a time. Normal development and
+  headset testing run on the editor workstation, which also runs the
+  Vite dev server (`https://<workstation-LAN-IP>:3000`); the headset
+  always targets that LAN IP, never `localhost` on itself. The GPU
+  host is reached over a VPN mesh (Tailscale), mostly headless, for
+  SSH, `3DAIGC-API` inference, and builds. `scripts/sync-changes-to-dgx.ps1`
+  and `sync-changes-to-pc.sh` push incrementally in one direction at a
+  time; a `.sync-lock-dgx` file mid-sync means stop, not force.
 
-    attest_in :none
-
-    decision ~S"""
-    One rule: one machine owns `src/` at a time. Normal development and
-    headset testing run on the editor workstation, which also runs the
-    Vite dev server (`https://<workstation-LAN-IP>:3000`); the headset
-    always targets that LAN IP, never `localhost` on itself. The GPU
-    host is reached over a VPN mesh (Tailscale), mostly headless, for
-    SSH, `3DAIGC-API` inference, and builds. `scripts/sync-changes-to-dgx.ps1`
-    and `sync-changes-to-pc.sh` push incrementally in one direction at a
-    time; a `.sync-lock-dgx` file mid-sync means stop, not force.
-
-    See `DETAILS.md` for the machine-role table, the log-reading fields,
-    the file-ownership table, and the full sync command reference.
-    """
-
-    problem ~S"""
-    Two machines, an editor workstation and a headless GPU host, each
-    hold a copy of this repository, synced by `scp`, not by git.
-    Reading `logs/remote-log.txt`, planning a headset test, or resolving
-    a sync conflict all need to know which machine owns `src/` at any
-    given moment. Nothing about this split needs one specific machine or
-    headset; RFD 1119 gives the real requirement, a CUDA GPU and a
-    WebXR browser. This RFD's own examples name a Windows Surface, an
-    NVIDIA DGX Spark, and a Galaxy XR headset, this team's own reference
-    pair and test device.
-    """
-
-    related ~S"""
-    RFD 1119 gives the general hardware requirement this RFD's own
-    Surface/DGX pair is one example of. RFD 1088 gives the HTTPS
-    certificate setup this topology's headset access depends on. RFD
-    1101 gives the two SSH host names this RFD also names.
-    weftspun-3d-studio's own `thirdparty/m3/docs/DEV_MACHINE_TOPOLOGY.md`
-    holds the same content, byte-identical, as of this writing.
-    """
-
-    drafted_by :ai
-  end
+  See `DETAILS.md` for the machine-role table, the log-reading fields,
+  the file-ownership table, and the full sync command reference.
+  :: problem
+  Two machines, an editor workstation and a headless GPU host, each
+  hold a copy of this repository, synced by `scp`, not by git.
+  Reading `logs/remote-log.txt`, planning a headset test, or resolving
+  a sync conflict all need to know which machine owns `src/` at any
+  given moment. Nothing about this split needs one specific machine or
+  headset; RFD 1119 gives the real requirement, a CUDA GPU and a
+  WebXR browser. This RFD's own examples name a Windows Surface, an
+  NVIDIA DGX Spark, and a Galaxy XR headset, this team's own reference
+  pair and test device.
+  :: related
+  RFD 1119 gives the general hardware requirement this RFD's own
+  Surface/DGX pair is one example of. RFD 1088 gives the HTTPS
+  certificate setup this topology's headset access depends on. RFD
+  1101 gives the two SSH host names this RFD also names.
+  weftspun-3d-studio's own `thirdparty/m3/docs/DEV_MACHINE_TOPOLOGY.md`
+  holds the same content, byte-identical, as of this writing.
+  """
 end

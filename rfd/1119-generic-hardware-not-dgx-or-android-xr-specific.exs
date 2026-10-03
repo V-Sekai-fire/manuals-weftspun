@@ -1,54 +1,41 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1119. `mix rfd.render` renders rfd/1119-generic-hardware-not-dgx-or-android-xr-specific/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1119 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1119, "Target hardware stays generic" do
-    state :abandoned
+rfd 1119, "Target hardware stays generic", :abandoned do
+  scope "the backend GPU host, the XR headset target"
+  attest_in :none
 
-    scope "the backend GPU host, the XR headset target"
+  prose ~S"""
+  :: decision
+  The backend (`3DAIGC-API`) runs on any machine with a CUDA GPU. The
+  DGX Spark is this project's own reference machine, not a
+  requirement; RFD 1027's memory budget, not a DGX-specific spec,
+  decides whether a GPU fits the loaded models.
 
-    attest_in :none
+  The client runs in any WebXR-capable browser, on any headset that
+  supports it. Quest 3 and Apple Vision Pro reach the dev URL the same
+  way Galaxy XR does, through `enableVR()` or `enableAR()`, per RFD 1010. Android XR's own
+  native face-tracking bridge (RFD 1082, RFD 1096) stays Android-specific, since it calls an
+  Android-only OpenXR
+  extension. That path is a Galaxy-XR enhancement, not a requirement
+  for XR elsewhere. A headset without it still gets VR, AR, floor
+  anchoring, and the WebXR-native `expression-tracking` feature where
+  the browser grants it.
 
-    decision ~S"""
-    The backend (`3DAIGC-API`) runs on any machine with a CUDA GPU. The
-    DGX Spark is this project's own reference machine, not a
-    requirement; RFD 1027's memory budget, not a DGX-specific spec,
-    decides whether a GPU fits the loaded models.
-
-    The client runs in any WebXR-capable browser, on any headset that
-    supports it. Quest 3 and Apple Vision Pro reach the dev URL the same
-    way Galaxy XR does, through `enableVR()` or `enableAR()`, per RFD 1010. Android XR's own
-    native face-tracking bridge (RFD 1082, RFD 1096) stays Android-specific, since it calls an
-    Android-only OpenXR
-    extension. That path is a Galaxy-XR enhancement, not a requirement
-    for XR elsewhere. A headset without it still gets VR, AR, floor
-    anchoring, and the WebXR-native `expression-tracking` feature where
-    the browser grants it.
-
-    See `DETAILS.md` for the affected RFDs.
-    """
-
-    problem ~S"""
-    Several RFDs name one specific machine, the DGX Spark, and one
-    specific headset line, Android XR (Galaxy XR), as if the project
-    needed that exact hardware. Neither dependency is real. The backend
-    needs a CUDA GPU with enough VRAM for the loaded models. The client
-    needs a WebXR-capable browser. A reader who owns a 4090 desktop, a
-    Quest 3, or an Apple Vision Pro should not read those RFDs as
-    requirements they fail to meet.
-    """
-
-    related ~S"""
-    RFD 1027 gives the GPU memory budget that replaces "runs on a DGX
-    Spark" as the real constraint. RFD 1010 gives the WebXR session
-    modes every supported headset shares. RFD 1082 and RFD 1096 give the
-    Android-specific enhancement this decision does not remove.
-    """
-
-    drafted_by :ai
-  end
+  See `DETAILS.md` for the affected RFDs.
+  :: problem
+  Several RFDs name one specific machine, the DGX Spark, and one
+  specific headset line, Android XR (Galaxy XR), as if the project
+  needed that exact hardware. Neither dependency is real. The backend
+  needs a CUDA GPU with enough VRAM for the loaded models. The client
+  needs a WebXR-capable browser. A reader who owns a 4090 desktop, a
+  Quest 3, or an Apple Vision Pro should not read those RFDs as
+  requirements they fail to meet.
+  :: related
+  RFD 1027 gives the GPU memory budget that replaces "runs on a DGX
+  Spark" as the real constraint. RFD 1010 gives the WebXR session
+  modes every supported headset shares. RFD 1082 and RFD 1096 give the
+  Android-specific enhancement this decision does not remove.
+  """
 end

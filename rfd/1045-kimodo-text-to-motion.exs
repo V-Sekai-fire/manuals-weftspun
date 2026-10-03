@@ -1,76 +1,60 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1045. `mix rfd.render` renders rfd/1045-kimodo-text-to-motion/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1045 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1045, "Model image for kimodo_text_to_motion" do
-    state :discussion
+rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
+  feature "model packaging"
+  attest_in :none
 
-    feature "model packaging"
+  prose ~S"""
+  :: decision
+  Return the SOMA result and the VRM result as separate outputs. The
+  SOMA output is the model. The VRM output is a retarget, and a caller
+  that has its own rig wants the SOMA.
 
-    attest_in :none
+  Do not hide the retarget. A single VRM output makes the model look
+  wrong when the retarget is what failed.
 
-    decision ~S"""
-    Return the SOMA result and the VRM result as separate outputs. The
-    SOMA output is the model. The VRM output is a retarget, and a caller
-    that has its own rig wants the SOMA.
+  See `DETAILS.md` for the model's memory, the `predict()` interface,
+  and the motion validation gate this model image runs.
+  :: problem
+  Kimodo turns a sentence into motion. It emits SOMA, and the client
+  needs VRM humanoid tracks. The retarget between them is the hard part,
+  and it is not the model.
 
-    Do not hide the retarget. A single VRM output makes the model look
-    wrong when the retarget is what failed.
+  The model is small at 0.6 GB in bf16. The packaging risk is the
+  skeleton contract.
+  :: related
+  RFD 1007 records the motion validation. RFD 1005 records the VRM
+  pipeline the retarget targets. RFD 1026 gives the memory.
+  """
 
-    See `DETAILS.md` for the model's memory, the `predict()` interface,
-    and the motion validation gate this model image runs.
-    """
+  details_title "Model image for kimodo_text_to_motion"
 
-    problem ~S"""
-    Kimodo turns a sentence into motion. It emits SOMA, and the client
-    needs VRM humanoid tracks. The retarget between them is the hard part,
-    and it is not the model.
+  prose ~S"""
+  :: details The model
+  | Property   | Value            |
+  | ---------- | ---------------- |
+  | Parameters | 0.3 B, estimated |
+  | bf16       | 0.6 GB           |
+  | Q4_K_M     | 0.17 GB          |
+  | Format     | bf16             |
+  :: details The interface
+  | Input            | Type  | Default |
+  | ---------------- | ----- | ------- |
+  | prompt           | str   | none    |
+  | duration_seconds | float | 4.0     |
+  | fps              | int   | 30      |
+  | target_rig       | Path  | none    |
+  | seed             | int   | -1      |
 
-    The model is small at 0.6 GB in bf16. The packaging risk is the
-    skeleton contract.
-    """
+  `target_rig` is optional. Without it the model image returns SOMA
+  only, and it runs no retarget.
+  :: details The validation gate
+  RFD 1007 records the motion validation. A motion that leaves the floor
+  or that inverts a knee must fail here, and not in the viewport.
 
-    related ~S"""
-    RFD 1007 records the motion validation. RFD 1005 records the VRM
-    pipeline the retarget targets. RFD 1026 gives the memory.
-    """
-
-    details_title "Model image for kimodo_text_to_motion"
-
-    details "The model", ~S"""
-    | Property   | Value            |
-    | ---------- | ---------------- |
-    | Parameters | 0.3 B, estimated |
-    | bf16       | 0.6 GB           |
-    | Q4_K_M     | 0.17 GB          |
-    | Format     | bf16             |
-    """
-
-    details "The interface", ~S"""
-    | Input            | Type  | Default |
-    | ---------------- | ----- | ------- |
-    | prompt           | str   | none    |
-    | duration_seconds | float | 4.0     |
-    | fps              | int   | 30      |
-    | target_rig       | Path  | none    |
-    | seed             | int   | -1      |
-
-    `target_rig` is optional. Without it the model image returns SOMA
-    only, and it runs no retarget.
-    """
-
-    details "The validation gate", ~S"""
-    RFD 1007 records the motion validation. A motion that leaves the floor
-    or that inverts a knee must fail here, and not in the viewport.
-
-    Run the validation inside this model image, and return its verdict as a
-    field. A caller then knows the motion is unusable before it loads it.
-    """
-
-    drafted_by :ai
-  end
+  Run the validation inside this model image, and return its verdict as a
+  field. A caller then knows the motion is unusable before it loads it.
+  """
 end
