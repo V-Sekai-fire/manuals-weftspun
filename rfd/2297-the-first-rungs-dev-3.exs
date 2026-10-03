@@ -35,13 +35,31 @@ defmodule RFD2297 do
 
     details_title "the first rung's dev.3"
 
-    details "dev.3: one executable per platform with its pack inside", ~S"""
+    details "dev.3: one game per platform, with its pack inside", ~S"""
     Operator, 2026-10-03.
 
-    The release carries each platform's game as one executable with its
-    `.pck` embedded, exported at double precision. dev.2 shipped the double
-    editor, the addon and the guest ELFs for a checkout to open instead.
-    """
+    - macOS arm64: `meshing-pen.app`, with its `.pck` and the addon
+      framework inside the bundle, shipped as `meshing-pen.dmg` through
+      Godot's standard macOS export. The template `.zip` that export needs
+      is an exception the operator granted.
+    - Windows x86_64: `meshing-pen-windows.exe` with its `.pck` embedded
+      and the addon `.dll` beside it, shipped as `meshing-pen-windows.zip`,
+      also by the operator's exception. Linux players run it through
+      Proton, so there is no Linux export.
+    - Both are exported at double precision from `ENGINE_TAG`'s templates,
+      unsigned, by `tools/export_dev3.exs` in CI on a macOS runner.
+    - Gate: `tools/smoke_export.exs` launches the exported app until it
+      quits and finds `dress_on`, `curvenet`, `usd` and `mujoco` loaded
+      from the pack. Its control, the same app with the pack removed, must
+      fail. No run forces headless.
+    - Orbit views (also called contact sheets, turnaround sheets or
+      turntable renders) of the joy features, rendered from the exported
+      game on macOS and on the Steam Frame, each with its `.cff` and `.tsv`
+      under the contract-orbit-views standard.
+    - Playtest: the persona through oxrsys against the exported app.
 
+    dev.2 shipped the double editor, the addon and the guest ELFs for a
+    checkout to open instead.
+    """
   end
 end

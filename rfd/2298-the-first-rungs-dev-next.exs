@@ -45,7 +45,8 @@ defmodule RFD2298 do
       motion.elf at double driving Mire, the headset player's avatar,
       seen in a mirror, with a foot-slide gate measuring planted-foot
       drift in millimetres against the source clip's own;
-    - the joy forecasts below shown as orbit-view contact sheets, composed
+    - the joy forecasts below shown as orbit views (also called contact sheets,
+      turnaround sheets or turntable renders), composed
       as RFD 2294's visual comparisons are and rendered by Mitsuba inside
       a godot-sandbox guest ELF on the CPU, with the world grabbed, turned
       like a model and recorded as a video;
@@ -95,6 +96,5 @@ defmodule RFD2298 do
 
     The most joy rests on the drawing, companion and avatar features.
     """
-
   end
 end
