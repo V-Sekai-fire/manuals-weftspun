@@ -64,6 +64,7 @@ here corresponds to an entry.
 - **FFmpeg** as a codec dependency: LGPL-2.1-or-later, and a Godot export links into one binary, which is relinking the licence asks for and we cannot offer; the CineForm SDK is Apache-2.0 OR MIT and does both directions — see below
 - **Mitsuba 3's CPU variants** as a render target: `llvm_ad_*` and `scalar_*`: measured at 78 s a frame against 0.34 s on the card, a factor of 230, and the fallback that reached them was silent; measurement and a card-less desk are exempt — see below
 - **Eigen** and **libigl** as dependencies: operator directive 2026-09-28; both MPL-2.0, and the robust skin weights transfer port replaces them with pmp-subset and compute-rd — see below
+- **OpenComposite** as the route from OpenVR games to an OpenXR runtime: operator directive 2026-10-03; it swaps the user's OpenVR runtime for every OpenVR title at once, and an OXRSys SteamVR driver is the sanctioned route — see below
 
 ### Abliteration is blocked, and the model's own card is the argument
 
@@ -1887,3 +1888,26 @@ mass matrix and the constrained quadratic solve, and Eigen for every matrix.
 solve run on compute-rd. The upstream program is a reference to read, not a
 dependency to build, so it is not a CPU control either: the control is the
 guest's own CPU path, written without either library.
+
+### OpenComposite is blocklisted, and an OXRSys SteamVR driver is the route instead
+
+OpenComposite (GPL-3.0) is a reimplementation of the OpenVR client API on
+top of OpenXR. Installed the usual way, it rewrites the per-user OpenVR
+runtime path, so every OpenVR title on the desk, not only the one being
+tested, stops talking to SteamVR and talks to whichever OpenXR runtime is
+active. Installed the other way, it replaces a game's `openvr_api.dll`,
+which puts a translation layer inside a game process that may run
+anti-cheat.
+
+The operator blocked it on 2026-10-03, when a social VR client on OXRSys was
+the one support tuple being worked: that client ships only the OpenVR
+plugin, so it cannot reach an OpenXR runtime directly.
+
+**What is blocked.** OpenComposite in either install mode, for any
+OpenVR title, on any desk.
+
+**What replaces it.** An OXRSys SteamVR driver: the game → OpenVR →
+SteamVR → the driver, which hosts OXRSys's PyroWave stream. SteamVR
+keeps compositing, the driver lives in SteamVR's own server process
+rather than the game's, and the OpenVR SDK's driver header it builds
+against needs its own allowlist row first.
