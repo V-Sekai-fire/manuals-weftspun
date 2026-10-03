@@ -407,17 +407,11 @@ rules below"
   Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
   online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in
   with its certificate, passing no role `name`, so the certificate selects the
-  role. The login token lives for
-  the session: it is reused until its TTL lapses and revoked only when the
-  operator asks or the session ends, never at the end of each task.
+  role. The login token is reused until its TTL lapses.
 
-  A GitHub token is minted from `github/token`, never printed, and handed to git
-  through a credential helper that reads it from the environment. When its task
-  ends it is revoked with `DELETE /installation/token`, which answers 204 and
-  leaves the token answering 401, and only then is its copy deleted. On a
-  Windows desk, Git Bash rewrites an argument that starts with `/` into a Windows
-  path, so the revoke goes through curl or names the path without its leading
-  slash.
+  A GitHub token is minted from `github/token` by the desk's git credential
+  helper on each request, never printed or stored. No token is revoked: each
+  one expires on its own within the hour (operator, 2026-10-03).
 
   Agents may use Bao to pass data to each other. What is written there is stored
   in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is

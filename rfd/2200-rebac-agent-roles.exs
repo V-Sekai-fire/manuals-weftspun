@@ -181,7 +181,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
 
     verb :reaches, "the subject works on the object over the network as an unprivileged user"
     verb :restarts, "the subject stops and starts the object service without holding its host"
-    verb :mints, "the subject mints short-lived credentials of the object's kind, revoking each"
+    verb :mints, "the subject mints short-lived credentials of the object's kind, each left to expire"
     verb :pushes, "the subject pushes feature branches to the object, never its default branch"
     verb :role, "the subject holds the object as its role, which RFD 2202 maps to a Bao group"
 
@@ -205,7 +205,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
     relate "desk-agent",
            :mints,
            "github-token",
-           "from Bao, for both organisations; revoked when a task ends"
+           "from Bao, for both organisations; each left to expire"
 
     relate "desk-agent",
            :pushes,

@@ -676,7 +676,7 @@ line in that RFD before it is a row here.
 desk-agent--runs-on--windows-desktop
 desk-agent--reaches--headset          # SSH as its unprivileged user, with the desk key, from Windows OpenSSH
 desk-agent--restarts--vr-runtime      # then restarts the eye-tracking bridge the restart orphans
-desk-agent--mints--github-token       # from Bao, for both organisations; revoked when a task ends
+desk-agent--mints--github-token       # from Bao, for both organisations; each left to expire
 desk-agent--pushes--v-sekai-fire      # feature branches; a diverged one goes up under a new name
 desk-agent--pushes--chibifire-stages  # feature branches
 desk-agent--!admin--headset           # root needs the operator's approval at the password manager
@@ -692,8 +692,8 @@ desk-agent--!owns--rented-gpu         # the Compute constraint above
 Temporary files go in the session scratchpad, and anything worth keeping goes
 into this tree or onto a pushed branch; there is no third place. Work runs
 natively on Windows, git, Bao, Fly and the headset's ssh included: the desk has
-no WSL. Each task ends by removing what it staged and revoking the token it
-minted; the desk's Bao login token itself lives for the session (RFD 2294).
+no WSL. Each task ends by removing what it staged; minted tokens and the desk's
+Bao login token expire on their own and are not revoked (RFD 2294).
 
 ## Where an Agent's Knowledge Goes
 
