@@ -49,6 +49,7 @@ defmodule RFD.Doc do
             details_preamble: nil,
             details: [],
             rebac: nil,
+            steps: [],
             drafted_by: :ai
 
   @type t :: %__MODULE__{}
@@ -101,6 +102,7 @@ defmodule RFD.Doc do
       "rebac holds the model the rebac block builds"
     )
     |> Kernel.++(rebac_problems(d))
+    |> Kernel.++(RFD.RECTGTN.problems(d))
     |> Kernel.++(length_problems(d))
     |> Enum.reverse()
   end
@@ -114,7 +116,7 @@ defmodule RFD.Doc do
       [d.title, d.feature, d.scope, d.preamble, d.decision, d.problem] ++
         List.wrap(d.references) ++
         [d.related, d.details_title, d.details_preamble] ++
-        Enum.flat_map(d.details ++ d.sections ++ rebac_sections(d), &Tuple.to_list/1)
+        Enum.flat_map(d.details ++ d.sections ++ generated_sections(d), &Tuple.to_list/1)
 
     for text <- prose,
         is_binary(text),
@@ -152,7 +154,9 @@ defmodule RFD.Doc do
 
   defp rebac_problems(_), do: []
 
-  @doc "The DETAILS sections a `rebac` block renders, in a fixed order after the authored ones."
+  @doc "The DETAILS sections the declaration blocks render, after the authored ones."
+  def generated_sections(%__MODULE__{} = d), do: rebac_sections(d) ++ RFD.RECTGTN.problem_sections(d)
+
   def rebac_sections(%__MODULE__{rebac: nil}), do: []
 
   def rebac_sections(%__MODULE__{rebac: r}) do
@@ -234,7 +238,7 @@ defmodule RFD.Doc do
   end
 
   @doc "DETAILS.md, or nil when the RFD has no details."
-  def details(%__MODULE__{details: [], details_preamble: nil, rebac: nil}), do: nil
+  def details(%__MODULE__{details: [], details_preamble: nil, rebac: nil, steps: []}), do: nil
 
   def details(%__MODULE__{} = d) do
     parts =
@@ -243,7 +247,7 @@ defmodule RFD.Doc do
         d.attest_in != :none && canary(d.drafted_by),
         d.details_preamble && String.trim_trailing(d.details_preamble)
       ] ++
-        Enum.map(d.details ++ rebac_sections(d), fn {h, b} -> section(h, b) end)
+        Enum.map(d.details ++ generated_sections(d), fn {h, b} -> section(h, b) end)
 
     Enum.map_join(Enum.reject(parts, &(&1 in [nil, false])), "\n\n", & &1) <> "\n"
   end
@@ -261,7 +265,7 @@ defmodule RFD.Doc do
 
   defp section(heading, body), do: "## #{heading}\n\n#{String.trim_trailing(body)}"
 
-  defp details_pointer(%{details: [], details_preamble: nil, rebac: nil}), do: ""
+  defp details_pointer(%{details: [], details_preamble: nil, rebac: nil, steps: []}), do: ""
   defp details_pointer(%{details_pointer: false}), do: ""
 
   defp details_pointer(d) do

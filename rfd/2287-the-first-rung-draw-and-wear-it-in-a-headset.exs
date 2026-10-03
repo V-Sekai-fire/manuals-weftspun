@@ -80,77 +80,96 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
     carries the apparatus and the numbers.
     """
 
-    details "The critical path", ~S"""
-    Each step starts when the one before it runs. Each names its
-    repository, what is missing, and its check.
+    details "How the critical path is read", ~S"""
+    The steps are `step` declarations rather than a numbered list, so the order,
+    each step's repository, what it is missing and the check it ends at are data
+    (RFD 2292, the organization as one RECTGTN domain). The table below is
+    rendered from them, and the plan under it is what the planner returns.
 
-    1. **Build.** Base Godot `master` with `precision=double` for x86_64
-       Linux and Windows, and the godot-sandbox addon rebuilt at double
-       precision. The headset runs the Windows build through its
-       compatibility layer; a desktop OpenXR runtime also streams to it,
-       and that stream is PyroWave, an intra-only wavelet codec in
-       Vulkan compute whose exact rate control holds a frame to its byte
-       budget. CineForm stays the recording codec. The Windows double
-       editor build holds 72 fps in the headset; the exported
-       `template_release` build faults in a `StringName` copy once the
-       sandbox addon loads, and the Linux x86_64 build lacks XCursor and
-       xkbcommon in the compatibility layer's root filesystem.
-       Check: an OpenXR session starts on each path and the pen scene
-       draws in it; transport-meshing-pen's headless gates pass on the double build.
-       A path that fails is logged with its error, and the rung goes
-       ahead on the other. (`entities-godot`, the godot-sandbox addon)
-    2. **Draw.** Strokes become a curvenet in the headset through
-       `curvenet.elf` in the pen's sandbox, in the xr-grid scene, with
-       the lasso from `lasso.elf` for picking far targets. Check: RFD
-       2263's replay still passes; the Lean tests link the lasso's C++
-       and check it picks the target nearest the cone's axis, with a
-       control that swaps two targets' distances.
-       (`transport-meshing-pen`, `interactor-lasso`)
-    3. **Wear.** The garment attaches rigidly to the avatar's bones; a
-       mirror shows it. Check: a still from the headset's view.
-       (`transport-meshing-pen`)
-    4. **Transport and lock-down.** picoquic with h3zero, TLS 1.3 through
-       picotls on mbedTLS, in the guest; the host relays UDP through
-       `PacketPeerUDP` and never sees plaintext. Connections are direct.
-       `ca.elf` makes the session's root key in guest memory and issues
-       one-hour certificates for zones and players, names limited to
-       `*.zone.fabric.internal`; every end accepts only that root. A
-       guest's VM carries its memory, so every VM transfer (serializing
-       it, snapshotting it, moving it to another zone, or a host read of
-       its memory) needs a capability: a macaroon that a ReBAC check
-       mints (RFD 2288). `ca.elf` gets no transfer capability. Check,
-       each with its control: a certificate from another CA is refused,
-       an expired one is refused, an out-of-pattern name is not issued,
-       and a transfer with no capability is refused while the same
-       transfer goes ahead once its capability is minted.
-       (`interactor-fabric-zone`)
-    5. **Zone.** `zone.elf`, all of `modules/multiplayer_fabric` as a
-       guest (entity pools, STAGING, ghosts, the SQLite journal and the
-       predictive BVH), hosting the headset and desktop clients with a
-       humanoid pose payload for both avatars. Check: each client sees
-       the other's pose; the Lean tests search for a frame with two
-       owners or none, with a control that plants a double hand-off.
-       (`interactor-fabric-zone`)
-    6. **Worker zone.** A second `zone.elf` takes a stroke set and runs
-       `curvenet.elf`, its kernels on compute-rd, and stores the garment
-       with `asset.elf` (casync); the garment's ghost, carrying its hash,
-       materializes in the players' zone, each client fetches it by the
-       hash, then its ownership hands over. Check: exactly one zone owns
-       the garment at every frame; a fetched garment's chunks match its
-       index, with a control that corrupts one chunk and must be caught.
-    7. **Talk.** `voice.elf`, the Opus codec as a guest, sends its packets
-       as WebTransport datagrams, played at the speaker's avatar. Check:
-       speech round-trips between the two clients; the Lean tests check
-       a decoded frame against its input, with a dropped-packet control.
-       (`interactor-voice`)
-    8. **Evidence.** One session, the person in the headset and the
-       operator on the desktop, recorded as CineForm and WebM, with the
-       zone logs.
-
-    If the end of the rung's window arrives short, the steps land in this
-    order and the rest wait: build, draw, wear, then transport and zone,
-    then talk.
+    If the end of the rung's window arrives short, the steps land in this order
+    and the rest wait: build, draw, wear, then transport and zone, then talk.
     """
+
+    steps do
+      step "Build",
+        repos: ["entities-godot", "the godot-sandbox addon"],
+        missing: ~S"""
+        The Windows double editor build holds 72 fps in the headset; the
+        exported `template_release` build faults in a `StringName` copy once
+        the sandbox addon loads, and the Linux x86_64 build lacks XCursor and
+        xkbcommon in the compatibility layer's root filesystem.
+        """,
+        check: ~S"""
+        An OpenXR session starts on each path and the pen scene draws in it;
+        transport-meshing-pen's headless gates pass on the double build. A path
+        that fails is logged with its error, and the rung goes ahead on the
+        other.
+        """,
+        state: :failed
+
+      step "Draw",
+        repos: ["transport-meshing-pen", "interactor-lasso"],
+        missing: "Strokes become a curvenet through `curvenet.elf` in the pen's
+sandbox, in the xr-grid scene, with the lasso from `lasso.elf` for picking far
+targets.",
+        check: "RFD 2263's replay still passes; the Lean tests link the lasso's
+C++ and check it picks the target nearest the cone's axis.",
+        control: "two targets' distances are swapped, and the pick must change"
+
+      step "Wear",
+        repos: ["transport-meshing-pen"],
+        check: "A mirror shows the garment attached rigidly to the avatar's
+bones, from a still of the headset's view."
+
+      step "Transport and lock-down",
+        repos: ["interactor-fabric-zone"],
+        missing: ~S"""
+        picoquic with h3zero, TLS 1.3 through picotls on mbedTLS, in the guest;
+        the host relays UDP through `PacketPeerUDP` and never sees plaintext.
+        `ca.elf` makes the session's root key in guest memory and issues
+        one-hour certificates for zones and players, names limited to
+        `*.zone.fabric.internal`.
+        """,
+        check: "Every end accepts only that root, and a VM transfer carries a
+capability a ReBAC check mints (RFD 2288).",
+        control: ~S"""
+        a certificate from another CA is refused, an expired one is refused, an
+        out-of-pattern name is not issued, and a transfer with no capability is
+        refused while the same transfer goes ahead once its capability is minted
+        """
+
+      step "Zone",
+        repos: ["interactor-fabric-zone"],
+        missing: "`zone.elf`, all of `modules/multiplayer_fabric` as a guest
+(entity pools, STAGING, ghosts, the SQLite journal and the predictive BVH),
+hosting the headset and desktop clients with a humanoid pose payload.",
+        check: "Each client sees the other's pose, and the Lean tests search for
+a frame with two owners or none.",
+        control: "a double hand-off is planted and must be found"
+
+      step "Worker zone",
+        repos: ["interactor-fabric-zone"],
+        missing: "A second `zone.elf` takes a stroke set, runs `curvenet.elf`
+with its kernels on compute-rd, and stores the garment with `asset.elf`
+(casync); the garment's ghost carries its hash and ownership hands over.",
+        check: "Exactly one zone owns the garment at every frame, and a fetched
+garment's chunks match its index.",
+        control: "one chunk is corrupted and must be caught"
+
+      step "Talk",
+        repos: ["interactor-voice"],
+        missing: "`voice.elf`, the Opus codec as a guest, sends its packets as
+WebTransport datagrams, played at the speaker's avatar.",
+        check: "Speech round-trips between the two clients, and the Lean tests
+check a decoded frame against its input.",
+        control: "a packet is dropped and the decode must degrade rather than
+desynchronise"
+
+      step "Evidence",
+        repos: ["transport-meshing-pen"],
+        check: "One session, the person in the headset and the operator on the
+desktop, recorded as CineForm and WebM, with the zone logs."
+    end
 
     details "The interface", ~S"""
     The interface derives from xr-grid and CASSIE: the pen draws in a

@@ -1,0 +1,22 @@
+# Copyright (c) 2026 K. S. Ernest (iFire) Lee
+# SPDX-License-Identifier: MIT
+#
+# `mix rfd.rectgtn` renders this from rfd/2027-umbrella-package-installs-all-components.exs; it is a build artifact
+# (RFD 2292). Compose it with ../organization.ex and plan it for the solution.
+defmodule Rfd2027 do
+  use Taskweft.DSL
+
+  @name "rfd_2027"
+  @source "weftspun_organization"
+
+  @variables %{
+    rfd_state: %{type: :int, init: %{"2027": 0}},
+    step_state: %{type: :int, init: %{}},
+    flight_level: %{type: :int, init: %{"2027": 0}}
+  }
+
+  @todo_list [
+    ["prepare", "2027"],
+    ["land", "2027"]
+  ]
+end

@@ -122,6 +122,49 @@ defmodule Mix.Tasks.Rfd.Rebac do
   end
 end
 
+defmodule Mix.Tasks.Rfd.Rectgtn do
+  @shortdoc "Render the organization domain and one Taskweft problem per RFD"
+  @moduledoc false
+  use Mix.Task
+
+  @impl true
+  def run(args) do
+    {opts, _, _} = OptionParser.parse(args, strict: [check: :boolean])
+    Code.compiler_options(ignore_module_conflict: true)
+
+    root = Path.join(RFD.Source.repo_root(), "rectgtn")
+    problems = Path.join(root, "problems")
+    unless opts[:check], do: File.mkdir_p!(problems)
+
+    docs = for path <- RFD.Source.all(), do: RFD.Source.load(path)
+
+    wanted =
+      [{Path.join(root, "organization.ex"), RFD.RECTGTN.domain_source()}] ++
+        for doc <- docs do
+          {Path.join(problems, "rfd_#{doc.serial}.ex"), RFD.RECTGTN.problem_source(doc)}
+        end
+
+    drift = for {path, body} <- wanted, File.read(path) != {:ok, body}, do: path
+
+    cond do
+      drift == [] ->
+        Mix.shell().info("same  #{length(wanted)} rectgtn document(s)")
+
+      opts[:check] ->
+        for p <- drift, do: Mix.shell().error("DRIFT #{Path.relative_to_cwd(p)}")
+        Mix.raise("#{length(drift)} rectgtn document(s) differ from their source")
+
+      true ->
+        for {path, body} <- wanted, path in drift, do: File.write!(path, body)
+
+        Mix.shell().info(
+          "ok    #{length(drift)} of #{length(wanted)} rectgtn document(s) written " <>
+            "(#{Enum.count(docs, &(&1.steps != []))} with a declared critical path)"
+        )
+    end
+  end
+end
+
 defmodule Mix.Tasks.Rfd.Usda do
   @shortdoc "Print the .usda rendering of one register source to stdout"
   @moduledoc false

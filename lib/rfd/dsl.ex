@@ -171,6 +171,19 @@ defmodule RFD.DSL do
   end
 
   @doc false
+  def put_steps!(module, entries) do
+    steps = Enum.reverse(entries)
+    where = "steps in #{inspect(module)}"
+
+    if steps == [], do: raise(ArgumentError, "#{where}: the block declares no step")
+
+    case RFD.RECTGTN.problems(%{steps: steps}) do
+      [] -> steps
+      ps -> raise ArgumentError, "#{where}:\n  " <> Enum.join(ps, "\n  ")
+    end
+  end
+
+  @doc false
   def build(serial, title, fields, details, sections \\ [], order \\ []) do
     fields =
       Enum.reverse(fields) ++ [sections: Enum.reverse(sections), order: Enum.reverse(order)]
@@ -246,6 +259,20 @@ defmodule RFD.DSL do
       end
     end
 
+    # A critical path as ordered declarations, which the RECTGTN problem plans over.
+    defmacro steps(do: block) do
+      quote do
+        if Module.has_attribute?(__MODULE__, :rfd_steps),
+          do: raise(ArgumentError, "steps in #{inspect(__MODULE__)}: one block carries the path")
+
+        Module.register_attribute(__MODULE__, :rfd_steps, accumulate: true)
+        import RFD.DSL.Steps
+        unquote(block)
+        import RFD.DSL.Steps, only: []
+        @rfd_fields {:steps, RFD.DSL.put_steps!(__MODULE__, @rfd_steps)}
+      end
+    end
+
     # A README section outside the spine (RFD 1000 allows them), in declaration order.
     defmacro section(heading, body) do
       quote do
@@ -282,6 +309,30 @@ defmodule RFD.DSL do
       quote do
         @rfd_madr {unquote(key), unquote(body)}
       end
+    end
+  end
+
+  defmodule Steps do
+    @moduledoc false
+    defmacro step(name, opts) do
+      quote do: @rfd_steps(RFD.DSL.Steps.step!(unquote(name), unquote(opts)))
+    end
+
+    @doc false
+    def step!(name, opts) do
+      unknown = Keyword.keys(opts) -- [:repos, :missing, :check, :control, :state]
+
+      if unknown != [],
+        do: raise(ArgumentError, "step #{inspect(name)}: unknown fields #{inspect(unknown)}")
+
+      %RFD.Step{
+        name: name,
+        repos: opts |> Keyword.get(:repos, []) |> List.wrap(),
+        missing: Keyword.get(opts, :missing),
+        check: Keyword.get(opts, :check),
+        control: Keyword.get(opts, :control),
+        state: Keyword.get(opts, :state, :ready)
+      }
     end
   end
 
