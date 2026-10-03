@@ -34,7 +34,7 @@ defmodule RFD2293 do
 
     related ~S"""
     - RFD 2262, the ladder; RFD 2287, the rung; RFD 2263, the simulator gate.
-    - RFD 2296, the dev rungs after dev.1: dev.2 and dev.next.
+    - RFD 2296, dev.2; RFD 2297, dev.3; RFD 2298, dev.next.
     - RFD 2256, the transport; RFD 2288 and RFD 2291, the capabilities.
     - RFD 2289, a placement is the manifest row; RFD 2142, the Bao PKI.
     - Abandons RFD 2067: the ladder's tags are the pen's `v<date>-dev.N`, and
@@ -822,7 +822,7 @@ defmodule RFD2293 do
     logbook names that gap and counts five others, which RFD 2296's
     dev.2 works from.
 
-    **dev.2 and dev.next** are RFD 2296.
+    **dev.2** is RFD 2296, **dev.3** is RFD 2297 and **dev.next** is RFD 2298.
 
     **beta: one person wears what they draw, and the assistant draws
     too.** Guests at double with the precision gate; priority mode and
@@ -875,7 +875,7 @@ defmodule RFD2293 do
     | dev.1 | MuJoCo collision, bit-deterministic | none | (unlikely, p=0.15) |
     | dev.1 | playing on macOS via oxrsys, PyroWave | none | (unlikely, p=0.10) |
 
-    RFD 2296 carries the forecasts for dev.2 and dev.next.
+    RFD 2296 carries dev.2's forecasts and RFD 2298 dev.next's.
     """
 
     details "Verification, end to end", ~S"""
