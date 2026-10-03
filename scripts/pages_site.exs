@@ -1,5 +1,5 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 # Gathers the rendered RFDs into a Jekyll source tree with an index, one row per RFD.
 #   elixir scripts/pages_site.exs <out-dir>
 [out] = System.argv()
