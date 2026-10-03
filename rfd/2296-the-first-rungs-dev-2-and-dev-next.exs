@@ -62,6 +62,14 @@ defmodule RFD2296 do
     route.
     """
 
+    details "dev.3: one executable per platform with its pack inside", ~S"""
+    Operator, 2026-10-03.
+
+    The release carries each platform's game as one executable with its
+    `.pck` embedded, exported at double precision. dev.2 shipped the double
+    editor, the addon and the guest ELFs for a checkout to open instead.
+    """
+
     details "dev.next: a placeholder for everything not yet assigned to a dev rung", ~S"""
     It holds the work that waits for a rung of its own, and an item moves
     out of it into a numbered dev rung when that rung is planned:

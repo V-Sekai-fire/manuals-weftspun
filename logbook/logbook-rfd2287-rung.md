@@ -159,4 +159,63 @@ from it passes `shasum -a 256 -c SHA256SUMS`: the double engine, the addon libra
 - dev.1 is tagged by 2026-10-02T11:00-07:00 (likely, p=0.70). Resolved true: tagged before
   2026-10-02T10:00-07:00.
 
+# dev.2: dev.1's counted gaps closed on the rebased addon
+
+Measured 2026-10-02 on the Mac desk (M2 Pro, Metal) and in the pen's CI, for the tag
+`v20261002-dev.2` at e2ab330. Times are ISO 8601. The rung ran
+2026-10-02T16:16:46Z/2026-10-03T00:06:35Z, PT7H49M49S, from godot-sandbox#15 opening to the
+release.
+
+## The gaps, closed with their controls
+
+The `double` run 37075755487 on e2ab330 is green, and each gap's control fails as planted:
+
+1. A teleport onto the handrail is refused. The `no_floor` control fails on "handrail top
+   refused".
+2. `solid_land` has a control of its own, which fails on "teleport refused".
+3. `tools/probe_player.gd` runs in CI, and its `no_cooldown` control fails on "snap cooldown".
+4. The frame-time floor: the persona run below reads a median 60 fps with no station loaded,
+   against 55 fps with it.
+
+## The addon and the guests
+
+godot-sandbox#15 merged at c7db89a. On that commit 25 CI runs succeeded and 5 were cancelled,
+so "its CI green" holds for the runs that finished. `v20261002-addon.1` was released from it,
+and all nine of its jobs passed. The five guests were rebuilt with `SBXV` 40 in
+transport-meshing-pen#32.
+
+## The playtest
+
+The persona Hana went through oxrsys with PyroWave on #32's head (c47c469), driven by
+`walk_oxrsys.py` with the double editor on Metal, 2026-10-02T14:21:45-07:00/2026-10-02T14:23:31-07:00,
+PT1M46S:
+
+    persona stairs down: monotonic PASS, 6 tread levels hit
+    persona stairs up: monotonic PASS, 8 tread levels hit: 0.000 0.179 0.357 0.536 0.714 0.893 1.071 1.250
+    persona RESULT: PASS (1 passes down, 1 up, each tread 0.179 m, about one and a half soda cans tall)
+    persona fps: median 55 over 60 half-second samples
+    persona fps: median 60 over 59 half-second samples (no station)
+
+That closes dev.1's unreached stairs beat. `gate_xr_scripted --expect=flat` also passed there
+(PT51S), and its `drop_seam` control failed at MESH.
+
+## The release
+
+The `release` run 37080604767 published the prerelease, 2026-10-03T00:06:10Z/2026-10-03T00:06:38Z,
+PT28S. All ten assets downloaded from it pass `shasum -a 256 -c SHA256SUMS`:
+
+- the macOS arm64 and Windows x86_64 double editors;
+- both double addon libraries;
+- the `curvenet`, `dress_on`, `mujoco`, `rd_worker` and `usd` ELFs.
+
+The tag's "Build Platform Target" run failed only in `itch-upload`: curl exit 6 resolving
+butler's host. That job is archived (transport-meshing-pen#34).
+
+## Deviations and gaps, counted
+
+1. The release is the editor, the addon and the ELFs, not one executable with its `.pck`.
+   One-file exports are dev.3's.
+2. The playtest is the assistant's persona run, with no human seat, on macOS.
+3. The joy orbit views, the world-grab video and the Mitsuba guest moved to dev.next.
+
 This entry was drafted by an AI and read by a human before it shipped.
