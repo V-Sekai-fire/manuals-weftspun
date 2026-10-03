@@ -733,7 +733,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   servers run on Fly from rc on; only the Frame's own Linux path is
   logged without gating.
 
-  **The dev rungs play on macOS, not the Frame.** They run
+  **dev.1 and dev.2 play on macOS; dev.3 plays on the Frame.** dev.1 and
+  dev.2 run
   the macOS arm64 double editor and addon through the oxrsys OpenXR
   runtime and its simulator, streaming with PyroWave, so one machine
   carries the whole loop; the release carries the macOS engine and

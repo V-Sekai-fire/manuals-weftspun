@@ -57,9 +57,8 @@ rfd 2298, "the first rung's dev.next", :discussion do
   - no hand-placed colliders: every collider decomposed from its mesh
     by CoACD running as a godot-sandbox guest ELF over ggml-rd and
     compute-rd, and handed to the MuJoCo guest;
-  - the headset path: the release uploaded to the Frame as a
-    development title, the Frame streaming from the desktop over
-    oxrsys, and the extra companion controllers.
+  - the headset path: the Frame streaming from the desktop over oxrsys,
+    and the extra companion controllers.
   :: details Which features are likely to bring joy
   Each forecast uses RFD 2293's sense-of-wonder rubric and RFD 2295's
   tag form.
@@ -75,7 +74,6 @@ rfd 2298, "the first rung's dev.next", :discussion do
   | dev.next | PyroWave held at 144 Hz | none | (unlikely, p=0.25) |
   | dev.next | colliders decomposed by CoACD | none | (unlikely, p=0.15) |
   | dev.next | capsule shadows | none | (unlikely, p=0.20) |
-  | dev.next | a development title on the Frame | none | (unlikely, p=0.20) |
   | dev.next | the foot-slide gate | none | (remote, p=0.05) |
   | dev.next | `.sgd` scripts, generated bindings | none | (remote, p=0.05) |
 

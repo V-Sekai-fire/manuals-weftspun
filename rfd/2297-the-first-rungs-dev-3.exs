@@ -9,42 +9,63 @@ rfd 2297, "the first rung's dev.3", :discussion do
 
   prose ~S"""
   :: decision
-  dev.3 ships each platform's game as one executable with its `.pck`
-  embedded, exported at double precision.
+  dev.3 ships the game as one Windows x86_64 executable with its `.pck`
+  embedded, exported at double precision, and plays it on the Frame.
   :: problem
   dev.1 and dev.2 shipped the double editor, the addon and the guest
   ELFs, so a player needs a pen checkout to open them.
   :: related
   - RFD 2293, the workspace, the ladder and dev.1; its release rules hold here.
-  - RFD 2296, dev.2; RFD 2297, dev.3; RFD 2298, dev.next.
+  - RFD 2296, dev.2; RFD 2298, dev.next.
+  - RFD 2294, the headset and the visual comparisons.
   """
 
   details_title "the first rung's dev.3"
 
-  details "dev.3: one game per platform, with its pack inside", ~S"""
-  Operator, 2026-10-03.
+  details "dev.3: one Windows game with its pack inside, on the Frame", ~S"""
+  Operator, 2026-10-02.
 
-  - macOS arm64: `meshing-pen.app`, with its `.pck` and the addon
-    framework inside the bundle, shipped as `meshing-pen.dmg` through
-    Godot's standard macOS export. The template `.zip` that export needs
-    is an exception the operator granted.
   - Windows x86_64: `meshing-pen-windows.exe` with its `.pck` embedded
-    and the addon `.dll` beside it, shipped as `meshing-pen-windows.zip`,
-    also by the operator's exception. Linux players run it through
-    Proton, so there is no Linux export.
-  - Both are exported at double precision from `ENGINE_TAG`'s templates,
-    unsigned, by `tools/export_dev3.exs` in CI on a macOS runner.
-  - Gate: `tools/smoke_export.exs` launches the exported app until it
-    quits and finds `dress_on`, `curvenet`, `usd` and `mujoco` loaded
-    from the pack. Its control, the same app with the pack removed, must
-    fail. No run forces headless.
+    and the addon's `libgodot_riscv.windows.template_release.double.x86_64.dll`
+    beside it, released as two plain assets with no archive around them.
+    There is no macOS export; Linux players run the Windows build through
+    the compatibility layer, so there is no Linux export.
+  - The export runs headless on the pinned Linux double editor from
+    `ENGINE_TAG`'s templates, unsigned, by `tools/export_dev3.exs` in
+    `release.yml`'s `export` job on an ubuntu runner, inside the job's
+    five minutes; each engine call runs under `timeout`.
+  - The release job FAILs when any asset is a `.zip` or a `.dmg`; its
+    control plants `x.zip` and must fail.
+  - Gate: `tools/smoke_export.exs` launches the exported executable on the
+    Windows desk until it quits and finds `dress_on`, `curvenet`, `usd` and
+    `mujoco` loaded from the pack. Its control, the bare double
+    `template_release` executable beside the same `.dll`, carries no pack
+    and must fail. No run forces headless, and CI's Windows runner has only
+    a software rasterizer, so CI counts the smoke as unchecked and the
+    logbook carries the desk's result.
   - Orbit views (also called contact sheets, turnaround sheets or
-    turntable renders) of the joy features, rendered from the exported
-    game on macOS and on the Steam Frame, each with its `.cff` and `.tsv`
-    under the contract-orbit-views standard.
-  - Playtest: the persona through oxrsys against the exported app.
+    turntable renders) of the joy features, rendered by the exported game
+    running `tools/orbit_views.sgd` on the Windows desk and on the Frame,
+    each with its `.cff` and `.tsv` under the contract-orbit-views
+    standard and checked with the `zero_views` control.
+  - Playtest: the release uploaded to the Frame as a development title by
+    `tools/frame/push.sh` and played by a named person through
+    `run-xr.sh`, with `still.sh` and `clip.sh` under `logs/`; the persona
+    plays the same executable through oxrsys on the Windows desk. The
+    Frame run happens when the operator asks for it, and the Mac desk is
+    told before the headset is touched.
 
   dev.2 shipped the double editor, the addon and the guest ELFs for a
   checkout to open instead.
+  """
+
+  details "Which features are likely to bring joy", ~S"""
+  Each forecast uses RFD 2293's sense-of-wonder rubric and RFD 2295's
+  tag form.
+
+  | rung | feature | criteria | joy |
+  | --- | --- | --- | --- |
+  | dev.3 | a development title on the Frame | none | (unlikely, p=0.20) |
+  | dev.3 | one executable, no checkout | none | (unlikely, p=0.15) |
   """
 end
