@@ -1,47 +1,36 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1022. `mix rfd.render` renders rfd/1022-hexagonal-client/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1022 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1022, "A hexagonal client for the headless studio API" do
-    state :abandoned
+rfd 1022, "A hexagonal client for the headless studio API", :abandoned do
+  scope "`src/core/`"
+  attest_in :none
 
-    scope "`src/core/`"
+  prose ~S"""
+  :: decision
+  Grow a hexagonal core inside `src/core/`. It takes the same ports
+  and adapters split the Elixir side uses: a `domain/` of pure rules,
+  `ports/` of contracts, and `adapters/` one per data source.
 
-    attest_in :none
+  The client keeps every other file. This is a strangler fig, as RFD
+  1019 records. Nothing moves until a port covers it.
+  :: problem
+  RFD 1019 makes the studio core an API server. The browser client
+  becomes one consumer of that API. The client is not built that way
+  today.
 
-    decision ~S"""
-    Grow a hexagonal core inside `src/core/`. It takes the same ports
-    and adapters split the Elixir side uses: a `domain/` of pure rules,
-    `ports/` of contracts, and `adapters/` one per data source.
+  The client holds 333 source files. 39 of them call the network
+  directly, through `axios` or `fetch`. Domain logic, network calls,
+  React state, and three.js all sit in the same modules. A rule such
+  as "which model serves this task type" lives beside the code that
+  fetches a job. A test of that rule must load React and the network.
+  A second consumer, such as the XR client, cannot reach the rule at
+  all.
 
-    The client keeps every other file. This is a strangler fig, as RFD
-    1019 records. Nothing moves until a port covers it.
-    """
-
-    problem ~S"""
-    RFD 1019 makes the studio core an API server. The browser client
-    becomes one consumer of that API. The client is not built that way
-    today.
-
-    The client holds 333 source files. 39 of them call the network
-    directly, through `axios` or `fetch`. Domain logic, network calls,
-    React state, and three.js all sit in the same modules. A rule such
-    as "which model serves this task type" lives beside the code that
-    fetches a job. A test of that rule must load React and the network.
-    A second consumer, such as the XR client, cannot reach the rule at
-    all.
-
-    The model catalog shows the problem. `src/library/aiModelsCatalog.js`
-    holds a fixed list of 28 models. The Elixir core holds the same
-    list, from RFD 1016. The two already drifted once:
-    `qwen_q4_k_m_image_edit` reached the inventory and never reached the
-    client.
-    """
-
-    drafted_by :ai
-  end
+  The model catalog shows the problem. `src/library/aiModelsCatalog.js`
+  holds a fixed list of 28 models. The Elixir core holds the same
+  list, from RFD 1016. The two already drifted once:
+  `qwen_q4_k_m_image_edit` reached the inventory and never reached the
+  client.
+  """
 end

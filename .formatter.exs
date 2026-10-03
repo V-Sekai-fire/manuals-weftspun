@@ -16,6 +16,7 @@
   # declarations: `state :discussion`, not `state(:discussion)`.
   locals_without_parens: [
     rfd: 3,
+    rfd: 4,
     register: 2,
     layer: 1,
     thesis: 1,
@@ -53,6 +54,7 @@
     attest_in: 1,
     details_pointer: 1,
     section: 2,
+    prose: 1,
     rebac: 1,
     verb: 2,
     relate: 3,

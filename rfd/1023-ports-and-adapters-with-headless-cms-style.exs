@@ -1,48 +1,37 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1023. `mix rfd.render` renders rfd/1023-ports-and-adapters-with-headless-cms-style/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1023 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1023, "Ports and adapters, in the headless content style" do
-    state :abandoned
+rfd 1023, "Ports and adapters, in the headless content style", :abandoned do
+  scope "`src/core/`, `src/chain/`"
+  attest_in :none
 
-    scope "`src/core/`, `src/chain/`"
+  prose ~S"""
+  :: decision
+  Arrange the code the way a headless content system is arranged, and
+  take content as the only concern. Such a system holds content and
+  answers for it over an API. It does not render, and it does not
+  hold a wallet.
 
-    attest_in :none
+  Two rules hold the split together: `domain/` may import from
+  `domain/` only, and nothing in `src/core/` may import a chain
+  library or a `src/chain/` module.
 
-    decision ~S"""
-    Arrange the code the way a headless content system is arranged, and
-    take content as the only concern. Such a system holds content and
-    answers for it over an API. It does not render, and it does not
-    hold a wallet.
+  The client keeps every other file. This is a strangler fig, as RFD
+  1019 records. A module moves when a port covers it, and not before.
+  :: problem
+  RFD 1019 makes the studio core an API server. RFD 1022 started a
+  hexagonal core in the client, with one port for the model catalog.
+  The rest of the client keeps the old shape: domain rules, network
+  calls, chain calls, React, and three.js share modules.
 
-    Two rules hold the split together: `domain/` may import from
-    `domain/` only, and nothing in `src/core/` may import a chain
-    library or a `src/chain/` module.
+  **The layout does not say what a module is.** `src/library/` holds
+  507-line catalogs beside wallet readers beside three.js helpers. A
+  reader cannot tell a rule from an adapter.
 
-    The client keeps every other file. This is a strangler fig, as RFD
-    1019 records. A module moves when a port covers it, and not before.
-    """
-
-    problem ~S"""
-    RFD 1019 makes the studio core an API server. RFD 1022 started a
-    hexagonal core in the client, with one port for the model catalog.
-    The rest of the client keeps the old shape: domain rules, network
-    calls, chain calls, React, and three.js share modules.
-
-    **The layout does not say what a module is.** `src/library/` holds
-    507-line catalogs beside wallet readers beside three.js helpers. A
-    reader cannot tell a rule from an adapter.
-
-    **The chain reaches into content.** Four modules of content code
-    read wallet data, one step behind the four modules that import a
-    chain library directly. Avatar authoring is content work, and it now
-    needs a wallet.
-    """
-
-    drafted_by :ai
-  end
+  **The chain reaches into content.** Four modules of content code
+  read wallet data, one step behind the four modules that import a
+  chain library directly. Avatar authoring is content work, and it now
+  needs a wallet.
+  """
 end

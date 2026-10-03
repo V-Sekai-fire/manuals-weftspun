@@ -132,6 +132,46 @@ defmodule RFDTest do
     assert_raise ArgumentError, ~r/state :whatever/, fn -> Code.compile_string(broken) end
   end
 
+  test "the top-level form with prose builds the same struct the defmodule form does" do
+    long = """
+    defmodule RFD2996 do
+      use RFD.DSL
+      rfd 2996, "compact" do
+        state :ideation
+        decision ~S\"""
+        Do it.
+        \"""
+        details "How", ~S\"""
+        Like so.
+        \"""
+        drafted_by :ai
+      end
+    end
+    """
+
+    short = """
+    use RFD.DSL
+    rfd 2996, "compact", :ideation do
+      prose ~S\"""
+      :: decision
+      Do it.
+      :: details How
+      Like so.
+      \"""
+    end
+    """
+
+    [{mod, _}] = Code.compile_string(long)
+    was = mod.__rfd__()
+    [{^mod, _}] = Code.compile_string(short)
+    assert mod.__rfd__() == was
+
+    for bad <- [":: decide", ":: details", ":: decision How"] do
+      code = String.replace(short, ":: decision", bad)
+      assert_raise ArgumentError, ~r/prose:/, fn -> Code.compile_string(code) end
+    end
+  end
+
   defp compile!(name, body) do
     code = """
     defmodule #{name} do

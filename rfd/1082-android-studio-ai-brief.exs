@@ -1,53 +1,40 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1082. `mix rfd.render` renders rfd/1082-android-studio-ai-brief/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1082 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1082, "A companion APK relays face weights past Chrome's own gap" do
-    state :abandoned
+rfd 1082, "A companion APK relays face weights past Chrome's own gap", :abandoned do
+  scope "`native/android-xr-face-bridge/`, `com.weftspun.xrfacebridge`"
+  attest_in :none
 
-    scope "`native/android-xr-face-bridge/`, `com.weftspun.xrfacebridge`"
+  prose ~S"""
+  :: decision
+  A companion APK, `com.weftspun.xrfacebridge`, runs native face
+  tracking (Jetpack XR, with OpenXR's `XR_ANDROID_face_tracking` as a
+  parallel path per RFD 1096), then POSTs face JSON to the dev PC over
+  LAN while the user is inside Chrome WebXR. Chrome loads this
+  project's own URL with `?nativeFaceRelay=1`, and applies the
+  relayed weights through the same code path native WebView injection
+  already uses. This is a development-time workflow; production would
+  need real WebXR expressions, a hosted relay, or a native immersive
+  host instead.
 
-    attest_in :none
-
-    decision ~S"""
-    A companion APK, `com.weftspun.xrfacebridge`, runs native face
-    tracking (Jetpack XR, with OpenXR's `XR_ANDROID_face_tracking` as a
-    parallel path per RFD 1096), then POSTs face JSON to the dev PC over
-    LAN while the user is inside Chrome WebXR. Chrome loads this
-    project's own URL with `?nativeFaceRelay=1`, and applies the
-    relayed weights through the same code path native WebView injection
-    already uses. This is a development-time workflow; production would
-    need real WebXR expressions, a hosted relay, or a native immersive
-    host instead.
-
-    See `DETAILS.md` for the end-to-end data flow, the implementation
-    status table, the platform constraints, and the test steps.
-    """
-
-    problem ~S"""
-    Chrome on Android XR does not grant WebXR's `expression-tracking`
-    feature, so `XRFrame.expressions` never reaches the web app inside
-    an immersive session, and a VRM avatar's face cannot follow the
-    user's own face in AR or VR through Chrome alone. This gap is
-    specific to Android XR's own Chrome build; a headset whose browser
-    grants `expression-tracking` needs no bridge at all.
-    """
-
-    related ~S"""
-    **Unresolved duplicate:** weftspun-3d-studio's own
-    `thirdparty/m3/docs/ANDROID_STUDIO_AI_BRIEF.md` covers the same
-    topic, with real content differences. Neither version is
-    authoritative; that reconciliation is still open. RFD 1096 gives the
-    OpenXR spec this bridge's native path implements. RFD 1105 gives the
-    webcam-driven fallback this bridge complements. RFD 1119 gives the
-    general hardware requirement this Android-only bridge is one
-    enhancement on top of, not a dependency.
-    """
-
-    drafted_by :ai
-  end
+  See `DETAILS.md` for the end-to-end data flow, the implementation
+  status table, the platform constraints, and the test steps.
+  :: problem
+  Chrome on Android XR does not grant WebXR's `expression-tracking`
+  feature, so `XRFrame.expressions` never reaches the web app inside
+  an immersive session, and a VRM avatar's face cannot follow the
+  user's own face in AR or VR through Chrome alone. This gap is
+  specific to Android XR's own Chrome build; a headset whose browser
+  grants `expression-tracking` needs no bridge at all.
+  :: related
+  **Unresolved duplicate:** weftspun-3d-studio's own
+  `thirdparty/m3/docs/ANDROID_STUDIO_AI_BRIEF.md` covers the same
+  topic, with real content differences. Neither version is
+  authoritative; that reconciliation is still open. RFD 1096 gives the
+  OpenXR spec this bridge's native path implements. RFD 1105 gives the
+  webcam-driven fallback this bridge complements. RFD 1119 gives the
+  general hardware requirement this Android-only bridge is one
+  enhancement on top of, not a dependency.
+  """
 end

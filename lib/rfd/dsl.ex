@@ -6,31 +6,30 @@ defmodule RFD.DSL do
   Author an RFD as Elixir. The block builds an `RFD.Doc`, validates it against
   RFD 1000 while the file compiles, and exposes it as `__rfd__/0`.
 
-      defmodule RFD2232 do
-        use RFD.DSL
+      use RFD.DSL
 
-        rfd 2232, "RFD authoring as an Elixir DSL" do
-          state :discussion
-          flight_level :l2
-          feature "one source file per RFD, the README and DETAILS rendered from it"
-          scope "the Mix project at the root, every rfd/NNNN-slug.exs"
+      rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
+        flight_level :l2
+        feature "one source file per RFD, the README and DETAILS rendered from it"
+        scope "the Mix project at the root, every rfd/NNNN-slug.exs"
 
-          decision \"\"\"
-          ...
-          \"\"\"
+        prose ~S\"\"\"
+        :: decision
+        ...
+        :: problem
+        ...
+        \"\"\"
 
-          problem \"\"\"
-          ...
-          \"\"\"
-
-          references ["RFD 1000", "RFD 2177"]
-          related "RFD 1000 (the shape), RFD 2177 (the register tag)."
-          details "How the renderer is checked", \"\"\"
-          ...
-          \"\"\"
-          drafted_by :ai
-        end
+        references ["RFD 1000", "RFD 2177"]
+        related "RFD 1000 (the shape), RFD 2177 (the register tag)."
+        details "How the renderer is checked", \"\"\"
+        ...
+        \"\"\"
       end
+
+  At the top of a file `rfd` defines the module `RFD2232` itself, and `prose` stands for
+  the `decision`, `problem` and `details` calls its `::` lines open. `drafted_by` defaults
+  to `:ai`. The `defmodule RFD2232 do ... end` form with `state` inside the block still loads.
 
   Sections render in the order they are declared; the spine must still run
   Decision, Problem, References, Related. A file that breaks the shape does not
@@ -39,16 +38,31 @@ defmodule RFD.DSL do
 
   defmacro __using__(_opts) do
     quote do
-      import RFD.DSL, only: [rfd: 3]
+      import RFD.DSL, only: [rfd: 3, rfd: 4]
     end
   end
 
-  defmacro rfd(serial, title, do: block) do
+  defmacro rfd(serial, title, do: block), do: rfd_body(serial, title, [], block, __CALLER__)
+
+  # The compact form: `use RFD.DSL` at the top of the file, the state positional.
+  defmacro rfd(serial, title, state, do: block),
+    do: rfd_body(serial, title, [state: state], block, __CALLER__)
+
+  defp rfd_body(serial, title, head, block, %{module: nil}) when is_integer(serial) do
+    quote do
+      defmodule unquote(:"Elixir.RFD#{serial}") do
+        unquote(rfd_body(serial, title, head, block, :module))
+      end
+    end
+  end
+
+  defp rfd_body(serial, title, head, block, _caller) do
     quote do
       Module.register_attribute(__MODULE__, :rfd_fields, accumulate: true)
       Module.register_attribute(__MODULE__, :rfd_details, accumulate: true)
       Module.register_attribute(__MODULE__, :rfd_sections, accumulate: true)
       Module.register_attribute(__MODULE__, :rfd_order, accumulate: true)
+      unquote(for {k, v} <- head, do: quote(do: @rfd_fields({unquote(k), unquote(v)})))
       import RFD.DSL.Fields
       unquote(block)
       import RFD.DSL.Fields, only: []
@@ -170,6 +184,46 @@ defmodule RFD.DSL do
     end
   end
 
+  @prose_one ~w(decision problem references related preamble details_preamble)a
+  @prose_two ~w(details section)a
+
+  @doc "The fields a `prose` block may open, without and with a heading."
+  def prose_fields, do: {@prose_one, @prose_two}
+
+  @doc false
+  def split_prose!(text) do
+    names = Map.new(@prose_one ++ @prose_two, &{Atom.to_string(&1), &1})
+
+    text
+    |> String.split("\n")
+    |> Enum.drop(-1)
+    |> Enum.reduce([], fn line, acc ->
+      case {Regex.run(~r/^:: ([a-z_]+)(?: (.+))?$/, line), acc} do
+        {[_ | [name | heading]], _} ->
+          field = Map.get(names, name) || raise ArgumentError, "prose: no field #{inspect(name)}"
+
+          if field in @prose_two != (heading != []),
+            do:
+              raise(
+                ArgumentError,
+                "prose: #{name} takes a heading only if it is #{inspect(@prose_two)}"
+              )
+
+          [{field, List.first(heading), []} | acc]
+
+        {nil, [{f, h, lines} | rest]} ->
+          [{f, h, [line | lines]} | rest]
+
+        {nil, []} ->
+          raise ArgumentError, "prose: the first line opens a field with `:: name`"
+      end
+    end)
+    |> Enum.reverse()
+    |> Enum.map(fn {f, h, lines} ->
+      {f, h, lines |> Enum.reverse() |> Enum.map_join(&(&1 <> "\n"))}
+    end)
+  end
+
   @doc false
   def build(serial, title, fields, details, sections \\ [], order \\ []) do
     fields =
@@ -210,6 +264,14 @@ defmodule RFD.DSL do
     defmacro preamble(v), do: field(:preamble, v)
     defmacro front_matter(v), do: field(:front_matter, v)
     defmacro compact_head(v), do: field(:compact_head, v)
+
+    # Consecutive heredoc fields as one `~S` heredoc, each opened by `:: field [heading]`.
+    defmacro prose({:sigil_S, _, [{:<<>>, _, [text]}, []]}) do
+      for {name, heading, body} <- RFD.DSL.split_prose!(text) do
+        args = if heading, do: [heading, body], else: [body]
+        quote do: RFD.DSL.Fields.unquote(name)(unquote_splicing(args))
+      end
+    end
 
     defmacro details(heading, body) do
       quote do

@@ -1,469 +1,427 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 2294. `mix rfd.render` renders
-# rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory/README.md and DETAILS.md from
-# this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD2294 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 2294, "agent knowledge lives in RFDs, not in desk memory" do
-    state :discussion
-
-    flight_level :l2
-
-    feature "where an agent session keeps what it learns about V-Sekai-fire and
+rfd 2294, "agent knowledge lives in RFDs, not in desk memory", :discussion do
+  flight_level :l2
+  feature "where an agent session keeps what it learns about V-Sekai-fire and
 chibifire-stages, and the operator's rules that lived in one desk's memory, written down"
-
-    scope "`manuals-weftspun`, `CLAUDE.md`, every agent session's local memory, and the
+  scope "`manuals-weftspun`, `CLAUDE.md`, every agent session's local memory, and the
 rules below"
 
-    decision ~S"""
-    What any agent needs to know about V-Sekai-fire and chibifire-stages, their
-    repositories, the headset and the services lives in an RFD in this repository:
-    the RFD that owns the topic, or this one when none does. A desk's local memory
-    keeps only what is true of that desk alone, such as its paths, its identities
-    and its tools; a local note about a generic rule names the RFD that states it.
-    An agent that learns a generic rule writes it into the RFD in the same session,
-    through a pull request like any other change.
-    """
+  prose ~S"""
+  :: decision
+  What any agent needs to know about V-Sekai-fire and chibifire-stages, their
+  repositories, the headset and the services lives in an RFD in this repository:
+  the RFD that owns the topic, or this one when none does. A desk's local memory
+  keeps only what is true of that desk alone, such as its paths, its identities
+  and its tools; a local note about a generic rule names the RFD that states it.
+  An agent that learns a generic rule writes it into the RFD in the same session,
+  through a pull request like any other change.
+  :: problem
+  An agent session's memory is a directory on one desk. On 2026-10-01 the
+  operator's rules for locomotion, offline deployment, video and the station
+  lived only on the Mac desk, and those for where compute runs and for binary
+  translation only on the Windows desks, so no session saw all of them, and a
+  rule changed on one desk disagreed with the others without anyone being told.
+  :: related
+  - RFD 2287, the first rung, whose interface moves a person by the world grab
+    described under Locomotion.
+  - RFD 2293, the Skateboard's workspace, which builds the translated libraries.
+  - RFD 2265, compute-rd kernels with a CPU oracle; RFD 2290, ggml only in
+    guests.
+  - RFD 2283, verification by recording, which the contact sheets deliver.
+  - RFD 2200, the desk agent's ReBAC rows.
+  """
 
-    problem ~S"""
-    An agent session's memory is a directory on one desk. On 2026-10-01 the
-    operator's rules for locomotion, offline deployment, video and the station
-    lived only on the Mac desk, and those for where compute runs and for binary
-    translation only on the Windows desks, so no session saw all of them, and a
-    rule changed on one desk disagreed with the others without anyone being told.
-    """
+  details_title "agent knowledge lives in RFDs, not in desk memory"
 
-    related ~S"""
-    - RFD 2287, the first rung, whose interface moves a person by the world grab
-      described under Locomotion.
-    - RFD 2293, the Skateboard's workspace, which builds the translated libraries.
-    - RFD 2265, compute-rd kernels with a CPU oracle; RFD 2290, ggml only in
-      guests.
-    - RFD 2283, verification by recording, which the contact sheets deliver.
-    - RFD 2200, the desk agent's ReBAC rows.
-    """
+  prose ~S"""
+  :: details Starting out in the workspace
+  A new agent, a small local model included, starts here and does one step at a
+  time. It begins right after the bootstrap script has run.
 
-    drafted_by :ai
+  0. The bootstrap leaves a workspace root holding `.repo/`, `AGENTS.md` and the
+     placed projects. Every path below is relative to that root. `ls .repo` and
+     `repo list` confirm it. If `repo`, `elixir`, `mix` or `python` is missing,
+     ask the operator; don't install tools yourself.
+  1. Read `AGENTS.md` at the workspace root, then this RFD.
+  2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
+     `contract-manifest-taskweft`) places every project on a side of the
+     hexagon: `2-contract/`, `3-interactor/`, `4-entities/`, `5-repository/`,
+     `6-datasource/`, `7-service/`. `repo list` shows what is placed.
+  3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
+     `elixir .repo/manifests/sync.exs .`. A project the preflight names as
+     blocking gets a decision from the operator, not a guess.
+  4. Never edit a placed checkout in place. Make a worktree in a scratch
+     directory on a new `feat/<topic>` branch:
+     `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
+     using the project's own remote and default branch.
+  5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
+     period. Commits and pull requests carry no Claude attribution: no
+     `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
+     Credit to people stays, such as a co-author trailer for the person whose
+     work a commit carries. "Interchangeable sessions" below names the commit
+     author and how to strip a footer a tool appends. Push only the feature
+     branch, and open the pull request in V-Sekai-fire or chibifire-stages.
+     The operator merges.
+  6. Remove the worktree when the pull request is open.
 
-    details_title "agent knowledge lives in RFDs, not in desk memory"
+  An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
+  the rendered Markdown, which is a build artifact:
 
-    details "Starting out in the workspace", ~S"""
-    A new agent, a small local model included, starts here and does one step at a
-    time. It begins right after the bootstrap script has run.
+  1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
+     one when none does.
+  2. Edit its `decision` or one of its `details` blocks in the
+     tenseless present (RFD 2172). A statement that is no longer true is deleted,
+     not retracted. Name the operator and date for an operator's decision.
+  3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
+     "This RFD was drafted by an AI and read by a human before it shipped."
+  4. Run `mix rfd.render`, `python scripts/check_tropes.py --base v-sekai-fire/main/main`
+     and `python scripts/check-rfd-structure.py`. All three pass before the push.
+  5. Keep product names and other organisations' issue or PR references out of
+     the text, and cite an upstream change by its bare commit SHA.
 
-    0. The bootstrap leaves a workspace root holding `.repo/`, `AGENTS.md` and the
-       placed projects. Every path below is relative to that root. `ls .repo` and
-       `repo list` confirm it. If `repo`, `elixir`, `mix` or `python` is missing,
-       ask the operator; don't install tools yourself.
-    1. Read `AGENTS.md` at the workspace root, then this RFD.
-    2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
-       `contract-manifest-taskweft`) places every project on a side of the
-       hexagon: `2-contract/`, `3-interactor/`, `4-entities/`, `5-repository/`,
-       `6-datasource/`, `7-service/`. `repo list` shows what is placed.
-    3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
-       `elixir .repo/manifests/sync.exs .`. A project the preflight names as
-       blocking gets a decision from the operator, not a guess.
-    4. Never edit a placed checkout in place. Make a worktree in a scratch
-       directory on a new `feat/<topic>` branch:
-       `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
-       using the project's own remote and default branch.
-    5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
-       period. Commits and pull requests carry no Claude attribution: no
-       `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
-       Credit to people stays, such as a co-author trailer for the person whose
-       work a commit carries. "Interchangeable sessions" below names the commit
-       author and how to strip a footer a tool appends. Push only the feature
-       branch, and open the pull request in V-Sekai-fire or chibifire-stages.
-       The operator merges.
-    6. Remove the worktree when the pull request is open.
+  A worked example, typed into Git Bash on the Windows desk. It adds a sentence to
+  this RFD:
 
-    An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
-    the rendered Markdown, which is a build artifact:
+      cd <workspace root>/2-contract/manuals-weftspun
+      git fetch v-sekai-fire main/main
+      git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main/main
+      cd "$TEMP/rfd-edit"
 
-    1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
-       one when none does.
-    2. Edit its `decision` or one of its `details` blocks in the
-       tenseless present (RFD 2172). A statement that is no longer true is deleted,
-       not retracted. Name the operator and date for an operator's decision.
-    3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
-       "This RFD was drafted by an AI and read by a human before it shipped."
-    4. Run `mix rfd.render`, `python scripts/check_tropes.py --base v-sekai-fire/main/main`
-       and `python scripts/check-rfd-structure.py`. All three pass before the push.
-    5. Keep product names and other organisations' issue or PR references out of
-       the text, and cite an upstream change by its bare commit SHA.
+  Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
+  sentence inside the right `details` block, and save. Then:
 
-    A worked example, typed into Git Bash on the Windows desk. It adds a sentence to
-    this RFD:
+      mix rfd.render
+      python scripts/check_tropes.py --base v-sekai-fire/main/main
+      python scripts/check-rfd-structure.py
+      git commit -am "RFD 2294: say what the sentence makes true"
+      git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
+      gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
+      cd <workspace root>/2-contract/manuals-weftspun
+      git worktree remove "$TEMP/rfd-edit"
 
-        cd <workspace root>/2-contract/manuals-weftspun
-        git fetch v-sekai-fire main/main
-        git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main/main
-        cd "$TEMP/rfd-edit"
+  The push names the hooks directory by absolute path because a placed
+  checkout's `.git` is a link into `.repo/projects/`, which Git Bash cannot follow.
+  Given the relative path, the pre-push hook dies before running its gates. Never
+  skip the hook with `--no-verify`. With no GitHub credentials, stop after the
+  commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
+  :: details The work queue
+  The agent sessions share one work-stealing queue, the issues labelled
+  `worksteal` on `contract-zone-backend`; its protocol is pinned there as #58. An
+  agent works its own queue newest first, and with nothing unclaimed steals the
+  oldest unclaimed, unpinned issue from the fullest queue. A pinned issue needs one
+  desk's hardware or credentials and is never stolen. The queue applies
+  backpressure: a queue holding three or more open issues, pinned ones included,
+  is full, its agent files nothing new and finishes first, a follow-up found
+  mid-task becomes a checklist line in the issue that found it, and an operator
+  request is still filed, with the queue's depth reported back so the operator can
+  say what waits.
+  :: details How a desk works
+  An agent works from the placed tree, and branches where a pin is old. A
+  procedure a desk repeats becomes an Elixir DSL or a tool in the tree rather than
+  one-off shell. No workflow or background subagent runs unless the operator asks
+  for one. Test marks go only in test scenes, never in a scene that ships. A
+  large area is parked one top-level entry at a time, each pushed or moved into
+  the tree and then removed until the area is empty, with no census of every file
+  first, so the area visibly shrinks.
 
-    Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
-    sentence inside the right `details` block, and save. Then:
+  All GitHub activity stays in V-Sekai-fire and chibifire-stages: forks, new
+  repositories and pushes, and no pull request, issue, comment or mention in any
+  other organisation, though reading and cloning public repositories is fine.
+  Pushed text cites an upstream change by its bare commit SHA, never by an
+  `owner/repo#N` reference or an issue or pull request URL, since GitHub posts
+  those back onto the upstream's timeline.
+  Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
+  created at the upstream commit, so the upstream's branch-keyed workflows do not
+  fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
+  git stores each ref as a path.
 
-        mix rfd.render
-        python scripts/check_tropes.py --base v-sekai-fire/main/main
-        python scripts/check-rfd-structure.py
-        git commit -am "RFD 2294: say what the sentence makes true"
-        git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
-        gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
-        cd <workspace root>/2-contract/manuals-weftspun
-        git worktree remove "$TEMP/rfd-edit"
+  From Git Bash on Windows, a command with `/`-switches runs under
+  `MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'`, so the switches are not rewritten
+  into paths. `start "" ...` goes in a `.cmd` file: passed inline, the empty
+  title arrives as `\"\"` and `start` tries to run `\`. Godot raises its own
+  process to above-normal priority, so a desk run lowers it by PID once started.
+  :: details Locomotion
+  In the headset a person moves two ways, and both work. One is xr-grid's world
+  grab: both grips pinch the world, and moving, turning or spreading the hands
+  carries, turns or scales it about the hands' midpoint
+  (`addons/procedural_3d_grid/core/xr_pinch.gd` on a canvas beside the hands, as
+  `transport-meshing-pen` wires it). One grip moves nothing. The other is the
+  controllers: smooth stick movement, snap turning and teleport. A character
+  moved with a gamepad uses `interactor-motion-guest`: the motion models on
+  ggml-rd with compute-rd in a godot-sandbox guest, retargeted onto the avatar,
+  with the stick setting movement and facing. No hand-written character
+  controller is added.
+  :: details Deploying offline
+  The whole stack deploys offline on one laptop, reachable on the LAN and perhaps
+  the tailnet, with nothing needed from the WAN:
 
-    The push names the hooks directory by absolute path because a placed
-    checkout's `.git` is a link into `.repo/projects/`, which Git Bash cannot follow.
-    Given the relative path, the pre-push hook dies before running its gates. Never
-    skip the hook with `--no-verify`. With no GitHub credentials, stop after the
-    commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
-    """
+  - every build source is in the manifest and mirrored on the laptop, and release
+    binaries are mirrored with their sha256s;
+  - each runtime (FoundationDB, Uro, OpenBao, the zone servers, the object store)
+    runs on the laptop, with only its own data;
+  - names come from the laptop's own resolver or the tailnet, and certificates
+    from the offline CA;
+  - sign-in has a LAN-only method beside the third-party providers.
 
-    details "The work queue", ~S"""
-    The agent sessions share one work-stealing queue, the issues labelled
-    `worksteal` on `contract-zone-backend`; its protocol is pinned there as #58. An
-    agent works its own queue newest first, and with nothing unclaimed steals the
-    oldest unclaimed, unpinned issue from the fullest queue. A pinned issue needs one
-    desk's hardware or credentials and is never stolen. The queue applies
-    backpressure: a queue holding three or more open issues, pinned ones included,
-    is full, its agent files nothing new and finishes first, a follow-up found
-    mid-task becomes a checklist line in the issue that found it, and an operator
-    request is still filed, with the queue's depth reported back so the operator can
-    say what waits.
-    """
+  Bubblewrap is the test: the stack runs with its network unshared, so a fetch
+  that reaches past the laptop fails by name. Uro runs next to its FoundationDB
+  cluster, so a page read never leaves one machine.
+  :: details Video
+  Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
+  WebM is made: videos are uploaded by hand, and a WebM does not play on every
+  desk. It is recorded as `.cfhd` through `entities-godot-cineform` at double
+  precision and delivered by `interactor-av1mkv`'s `deliver.exs`, which writes
+  only those two files; no master is MJPEG. Nothing records
+  through the encoder BLOCKLIST.md bars or through the desktop driver's own
+  recorder: recordings are CineForm, the live stream is PyroWave, and the headset
+  view comes from the compositor mirror.
 
-    details "How a desk works", ~S"""
-    An agent works from the placed tree, and branches where a pin is old. A
-    procedure a desk repeats becomes an Elixir DSL or a tool in the tree rather than
-    one-off shell. No workflow or background subagent runs unless the operator asks
-    for one. Test marks go only in test scenes, never in a scene that ships. A
-    large area is parked one top-level entry at a time, each pushed or moved into
-    the tree and then removed until the area is empty, with no census of every file
-    first, so the area visibly shrinks.
+  Marketing media and samples are marked with `https://github.com/v-sekai-fire`:
+  it is the `url` in each `.cff`, the web statement in its XMP and the line on
+  its exit card, and each follows the four-beat script below.
 
-    All GitHub activity stays in V-Sekai-fire and chibifire-stages: forks, new
-    repositories and pushes, and no pull request, issue, comment or mention in any
-    other organisation, though reading and cloning public repositories is fine.
-    Pushed text cites an upstream change by its bare commit SHA, never by an
-    `owner/repo#N` reference or an issue or pull request URL, since GitHub posts
-    those back onto the upstream's timeline.
-    Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
-    created at the upstream commit, so the upstream's branch-keyed workflows do not
-    fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
-    git stores each ref as a path.
+  A short runs exactly 40 seconds and is scripted before recording in four beats:
+  hook, intrigue, delivery and exit (HIDE).
+  The hook fills the first 3 s as on-screen text that works with the sound off and
+  promises without answering. One line of intrigue makes the viewer feel the
+  problem. The delivery is the one thing they came for. The exit gives them
+  something to do. It is never about us. The length is 40 times the frame rate in
+  Movie Maker frames, counted from the first rendered frame; the engine renders
+  the captions, and no external tool re-encodes the file.
+  :: details Interchangeable sessions
+  Any agent session, on a desk or in the cloud, can pick up any task another
+  session started, because each follows the practices below and reads them here
+  rather than from its own memory. A practice another RFD owns is named here and
+  stated there. A desk's memory, a project's instructions, a skill or `CLAUDE.md`
+  points at this section instead of restating it.
 
-    From Git Bash on Windows, a command with `/`-switches runs under
-    `MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'`, so the switches are not rewritten
-    into paths. `start "" ...` goes in a `.cmd` file: passed inline, the empty
-    title arrives as `\"\"` and `start` tries to run `\`. Godot raises its own
-    process to above-normal priority, so a desk run lowers it by PID once started.
-    """
+  - Attribution. Commits, pull requests, issue comments and reviews carry no
+    agent credit: no agent `Co-Authored-By` trailer, no session link and no
+    "Generated with" or "Generated by" footer. Commits are authored as
+    `K. S. Ernest (iFire) Lee <32321+fire@users.noreply.github.com>`. The GitHub
+    connector and `gh` append a footer on create, so each body is rewritten with
+    an update call and read back before the task moves on, and `dot-claude`'s
+    `hooks/strip_claude_footer.py` prompts that rewrite after every create
+    (operator, 2026-10-02).
+  - Automation. A new driver, gate or sheet builder is a plain Elixir script
+    (`.exs`). Python appears only as a thin worker where a library has no other
+    binding, such as Mitsuba's renderer. A cloud session runs the Elixir gates on
+    CI's pinned toolchain, OTP 29 and Elixir 1.20.4 through `erlef/setup-beam`,
+    never on a distribution's packaged Elixir (operator, 2026-10-02).
+  - Where work runs. A cloud session has no GPU and takes CPU-only work:
+    headless Godot gates, the godot-sandbox tests, CPU Mitsuba (`llvm_ad_rgb`),
+    the cloth fit on its CPU backend, and blend-shape matching through
+    `contract-lbfgsb`. Its testing blocklists software GPU emulators: lavapipe
+    and llvmpipe, SwiftShader, WARP, and Vulkan or Metal emulation. Work that
+    needs a GPU (the persona, XR and headset runs, compute-rd and ggml runs, GPU
+    sheet renders, macOS binaries) goes to the GPU desk rather than to an
+    emulator. Timings are reported with milliseconds per frame (operator,
+    2026-10-02).
+  - GPU Cloud and GPU-Free Cloud. Work split between the GPU desk's session
+    ("GPU Cloud") and a cloud session ("GPU-Free Cloud") is one checklist in one
+    issue, as on `contract-zone-backend#114`. Each session ticks only its own
+    items and comments when it starts, finishes or is blocked on one, with times
+    in RFD 2295's form. Neither takes the other's items.
+  - Branches. Every branch a session works on is `feat/<topic>` or, once its
+    work is parked or superseded, `archived/<topic>`, whatever name the
+    session was handed (operator, 2026-10-02).
+  - Capability-scoped workers. A worker session holds the capabilities its task
+    needs as RFD 2200 tuples, and default deny covers the rest. A peer's request
+    never widens a worker's rows.
+  - Contact sheets. Release contact sheets are videos: the
+    `sphere_hammersley_sequence` views are the columns and the fitting sequence
+    is the frames. A CI job that shows a sheet renders it in that job and uploads
+    it with `actions/upload-artifact`, so the sheet belongs to the run and the
+    commit that made it. The colour reference is the lookdev-24 chart,
+    `entities-sakuragaoka-station`'s `tools/calib/chart24.json`, and no
+    commercial chart's trademark appears in code or documents. The cell layout is
+    under "Visual comparisons" below.
+  - Characters. A garment is fitted to a character's body meshes only, and a
+    character's own clothing is not loaded beneath it unless the operator asks
+    for layering. Maro is the dress-on statue a garment is drawn onto; Mire is
+    the avatar (operator, 2026-10-02).
+  - Replies. RFD 2295 owns their form: the calibrated confidence tag, ISO 8601
+    times and intervals, and the known-unknown questions that close a plan.
 
-    details "Locomotion", ~S"""
-    In the headset a person moves two ways, and both work. One is xr-grid's world
-    grab: both grips pinch the world, and moving, turning or spreading the hands
-    carries, turns or scales it about the hands' midpoint
-    (`addons/procedural_3d_grid/core/xr_pinch.gd` on a canvas beside the hands, as
-    `transport-meshing-pen` wires it). One grip moves nothing. The other is the
-    controllers: smooth stick movement, snap turning and teleport. A character
-    moved with a gamepad uses `interactor-motion-guest`: the motion models on
-    ggml-rd with compute-rd in a godot-sandbox guest, retargeted onto the avatar,
-    with the stick setting movement and facing. No hand-written character
-    controller is added.
-    """
+  `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
+  commit authored or committed as the agent identity, agent credit in a commit
+  message, a pull request body, a comment or a review, a software GPU emulator in a
+  workflow, a workflow that renders a contact sheet without uploading an
+  artifact, and a branch named neither `feat/*` nor `archived/*`. Its self-test
+  carries a control in each direction for each check. It is defined once, as
+  the `practices` hook in this repository's `.pre-commit-hooks.yaml`. Another
+  repository lists that hook in its `.pre-commit-config.yaml`, where it runs on
+  push, and its CI calls
+  `.github/workflows/practices.yml` from here, which runs the same hook; both
+  pin a commit of this repository. This repository runs it as the
+  `ci-practices` hook. Comments posted after the last run are seen at the next
+  push or edit. The other practices hold by agreement.
+  :: details Visual comparisons
+  A visual comparison is delivered as a labelled contact sheet, the format for
+  both vision-model review and human QA: one row per case, one column per source
+  (original, before, after, diff), each cell labelled with its metric, failures
+  first, and the numbers kept beside the sheet. `entities-sakuragaoka-station`'s
+  `tools/prop_shots.gd` is the precedent for that layout only (RFD 2283). A sheet
+  is composed by rendering, with fragment shaders into a `SubViewport`, or in a
+  godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
+  `.sgd`, and its views come from `sphere_hammersley_sequence`. Each sheet carries
+  a `.cff` and its `<stem>.xmp` sidecar (RFD 2240). A copy goes to
+  `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
+  `<topic>-NN.png`, the number rising so that no sheet is overwritten. These rules
+  hold by agreement; no gate reads a sheet.
 
-    details "Deploying offline", ~S"""
-    The whole stack deploys offline on one laptop, reachable on the LAN and perhaps
-    the tailnet, with nothing needed from the WAN:
+  A residual is fixed, never smudged: nothing blurs an image before the diff,
+  loosens a threshold or masks a region. Fixes go down a ladder, each rung measured
+  with the diff's own metric before and after: exact fixes at the source, then
+  missing structure, then registration, where a camera that does not match is fixed
+  in the camera and never by warping an image, then parameters fitted to the oracle
+  with `contract-lbfgsb` on the GPU, coarse to fine, written back into the source
+  assets and checked on views the fit did not use. What remains is reported beside
+  its floor, and a later change may not raise it. Antialiasing and distance fades
+  that belong to the renderer stay.
+  :: details The station in Godot
+  The Sakuragaoka Station port (`entities-sakuragaoka-station`):
 
-    - every build source is in the manifest and mirrored on the laptop, and release
-      binaries are mirrored with their sha256s;
-    - each runtime (FoundationDB, Uro, OpenBao, the zone servers, the object store)
-      runs on the laptop, with only its own data;
-    - names come from the laptop's own resolver or the tailnet, and certificates
-      from the offline CA;
-    - sign-in has a LAN-only method beside the third-party providers.
+  - realizes every closed solid through CSG, and carries each face's colour as a
+    palette index in UV, since CSG keeps UV and drops vertex colour; CSG takes
+    only manifold solids, so a geometry that fails the manifold check stays a
+    plain surface, or goes through `remesh.elf` when it must be unioned;
+  - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
+    forking it;
+  - renders from meshes baked from the vector materials' data (signs, paving,
+    bark), coarsened by LOD when over budget, so it works with the runtime vector
+    shader off; alpha-cut foliage cards are the one exception: they stay
+    two-triangle cards cut out at runtime, because baking 53,211 blossom cards as
+    geometry costs about 2.5M triangles even at blob detail (operator,
+    2026-10-01);
+  - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
+    adding detail to surfaces near the eye within the headset's GPU budget;
+  - synthesizes finer detail only where the source is procedural;
+  - judges alpha on the final composite of its layers: an opaque object ends with
+    no transparency, and a transparent base-colour material writes alpha.
 
-    Bubblewrap is the test: the stack runs with its network unshared, so a fetch
-    that reaches past the laptop fails by name. Uro runs next to its FoundationDB
-    cluster, so a page read never leaves one machine.
-    """
+  No rasterized vector art or glyph outline goes into the headset. Meshes made
+  from outlines are fine, and a glyph mesh goes through `remesh.elf` when its
+  font's winding is invalid. Parity with the three.js original is measured at
+  sphere-Hammersley views against `tools/oracle/shot.mjs` renders.
 
-    details "Video", ~S"""
-    Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
-    WebM is made: videos are uploaded by hand, and a WebM does not play on every
-    desk. It is recorded as `.cfhd` through `entities-godot-cineform` at double
-    precision and delivered by `interactor-av1mkv`'s `deliver.exs`, which writes
-    only those two files; no master is MJPEG. Nothing records
-    through the encoder BLOCKLIST.md bars or through the desktop driver's own
-    recorder: recordings are CineForm, the live stream is PyroWave, and the headset
-    view comes from the compositor mirror.
+  The reference is the original rendered through WARP, Windows' software
+  rasterizer (`--angle warp`, release `oracle-4112f57-h8-warp`), because it is
+  deterministic and seam-free. ANGLE's Vulkan path hashes the cloud noise's
+  lattice corners from float sums differently on each side of a cell edge and
+  draws seams the original does not intend, and D3D11 flips one 8-bit level from
+  run to run. The port hashes from integer corners. A change lands only when no
+  view's full-resolution MAD rises against the reference, unless the operator
+  accepts the exception on #72.
 
-    Marketing media and samples are marked with `https://github.com/v-sekai-fire`:
-    it is the `url` in each `.cff`, the web statement in its XMP and the line on
-    its exit card, and each follows the four-beat script below.
+  The operator's budget for the standalone headset: at most 700k triangles in
+  view per frame, of which world geometry gets 250k (400k at most) and characters
+  450k. A crowd of non-player characters holds 150k of the character share and
+  drops to impostors first. One equal-error LOD threshold over the frame enforces
+  it, and the LODs come from Godot's own `generate_lods` on welded meshes.
+  Avatars and characters cast their shadows from tapered capsules fitted per
+  skeleton (#110), not from the shadow map; an untapered capsule keeps stock
+  Godot's height and radius behaviour.
 
-    A short runs exactly 40 seconds and is scripted before recording in four beats:
-    hook, intrigue, delivery and exit (HIDE).
-    The hook fills the first 3 s as on-screen text that works with the sound off and
-    promises without answering. One line of intrigue makes the viewer feel the
-    problem. The delivery is the one thing they came for. The exit gives them
-    something to do. It is never about us. The length is 40 times the frame rate in
-    Movie Maker frames, counted from the first rendered frame; the engine renders
-    the captions, and no external tool re-encodes the file.
-    """
+  The outline reads the mesh's geometric normal, which the toon-ramp hook writes,
+  not MToon's bent indirect-light normal, and takes depth and normal from the
+  majority MSAA sample.
+  :: details Where compute runs
+  Heavy compute runs in a godot-sandbox guest: a riscv64 guest ELF on the CPU,
+  which is also the parity oracle, or kernels on ggml-rd with compute-rd, authored
+  in Lean and lowered through Slang to SPIR-V (RFD 2265). It never runs as a host
+  Python or C++ pipeline or as a GDScript loop. Fragment shaders that render are
+  fine, and Python bindings serve upstream contributions and their tests, never a
+  pipeline. ggml runs only in such a guest (RFD 2290): a native ggml engine
+  module, a GDExtension ggml API or a standalone runtime is off the route, and a
+  standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
+  ggml-rd with compute-rd as well, since EditScore's decision model builds on it
+  (RFD 2268).
 
-    details "Interchangeable sessions", ~S"""
-    Any agent session, on a desk or in the cloud, can pick up any task another
-    session started, because each follows the practices below and reads them here
-    rather than from its own memory. A practice another RFD owns is named here and
-    stated there. A desk's memory, a project's instructions, a skill or `CLAUDE.md`
-    points at this section instead of restating it.
+  A guest's source lives in the repository that consumes it and follows
+  curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
+  sees the library. Mesh arrays cross in the layout of `contract-guest-common`'s
+  `mesh_wire.h`. A vmcall takes at most seven arguments, an eighth failing with a
+  register overflow, and each call returns inside the sandbox's
+  `execution_timeout`.
+  :: details Binary translation and the Windows build
+  Everything that runs in godot-sandbox is binary-translated, guest ELFs and
+  SafeGDScript alike, and an interpreted timing is never the one reported. No
+  `.gd` ships: every script, third-party ones included, ships compiled as `.sgd`
+  with its translation, and a script that does not compile is a counted FAIL, not
+  a fallback.
 
-    - Attribution. Commits, pull requests, issue comments and reviews carry no
-      agent credit: no agent `Co-Authored-By` trailer, no session link and no
-      "Generated with" or "Generated by" footer. Commits are authored as
-      `K. S. Ernest (iFire) Lee <32321+fire@users.noreply.github.com>`. The GitHub
-      connector and `gh` append a footer on create, so each body is rewritten with
-      an update call and read back before the task moves on, and `dot-claude`'s
-      `hooks/strip_claude_footer.py` prompts that rewrite after every create
-      (operator, 2026-10-02).
-    - Automation. A new driver, gate or sheet builder is a plain Elixir script
-      (`.exs`). Python appears only as a thin worker where a library has no other
-      binding, such as Mitsuba's renderer. A cloud session runs the Elixir gates on
-      CI's pinned toolchain, OTP 29 and Elixir 1.20.4 through `erlef/setup-beam`,
-      never on a distribution's packaged Elixir (operator, 2026-10-02).
-    - Where work runs. A cloud session has no GPU and takes CPU-only work:
-      headless Godot gates, the godot-sandbox tests, CPU Mitsuba (`llvm_ad_rgb`),
-      the cloth fit on its CPU backend, and blend-shape matching through
-      `contract-lbfgsb`. Its testing blocklists software GPU emulators: lavapipe
-      and llvmpipe, SwiftShader, WARP, and Vulkan or Metal emulation. Work that
-      needs a GPU (the persona, XR and headset runs, compute-rd and ggml runs, GPU
-      sheet renders, macOS binaries) goes to the GPU desk rather than to an
-      emulator. Timings are reported with milliseconds per frame (operator,
-      2026-10-02).
-    - GPU Cloud and GPU-Free Cloud. Work split between the GPU desk's session
-      ("GPU Cloud") and a cloud session ("GPU-Free Cloud") is one checklist in one
-      issue, as on `contract-zone-backend#114`. Each session ticks only its own
-      items and comments when it starts, finishes or is blocked on one, with times
-      in RFD 2295's form. Neither takes the other's items.
-    - Branches. Every branch a session works on is `feat/<topic>` or, once its
-      work is parked or superseded, `archived/<topic>`, whatever name the
-      session was handed (operator, 2026-10-02).
-    - Capability-scoped workers. A worker session holds the capabilities its task
-      needs as RFD 2200 tuples, and default deny covers the rest. A peer's request
-      never widens a worker's rows.
-    - Contact sheets. Release contact sheets are videos: the
-      `sphere_hammersley_sequence` views are the columns and the fitting sequence
-      is the frames. A CI job that shows a sheet renders it in that job and uploads
-      it with `actions/upload-artifact`, so the sheet belongs to the run and the
-      commit that made it. The colour reference is the lookdev-24 chart,
-      `entities-sakuragaoka-station`'s `tools/calib/chart24.json`, and no
-      commercial chart's trademark appears in code or documents. The cell layout is
-      under "Visual comparisons" below.
-    - Characters. A garment is fitted to a character's body meshes only, and a
-      character's own clothing is not loaded beneath it unless the operator asks
-      for layering. Maro is the dress-on statue a garment is drawn onto; Mire is
-      the avatar (operator, 2026-10-02).
-    - Replies. RFD 2295 owns their form: the calibrated confidence tag, ISO 8601
-      times and intervals, and the known-unknown questions that close a plan.
+  The game ships as a Windows build, run natively and through the headset's
+  compatibility layer, so a translation is a precompiled Windows library linked
+  against the universal C runtime that loads under that layer, never code
+  generated at run time into writable executable memory. A Linux `.so` serves the
+  Linux zone servers and never reaches the headset. The compatibility layer runs
+  that same Windows build, so the Windows desk is where it is tested. RFD 2293
+  builds the libraries.
+  :: details The headset
+  Tests and gates run on the Windows desk or as renders on the Mac, not in the
+  headset the operator wears. A run, a runtime restart or a capture in the headset
+  happens only when the operator asks for that run, and nothing captures the
+  headset view while the operator is in a social session. The headset view comes
+  from the compositor mirror (`/dev/video99`) with screen sharing on; X11 capture
+  cannot see it.
 
-    `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
-    commit authored or committed as the agent identity, agent credit in a commit
-    message, a pull request body, a comment or a review, a software GPU emulator in a
-    workflow, a workflow that renders a contact sheet without uploading an
-    artifact, and a branch named neither `feat/*` nor `archived/*`. Its self-test
-    carries a control in each direction for each check. It is defined once, as
-    the `practices` hook in this repository's `.pre-commit-hooks.yaml`. Another
-    repository lists that hook in its `.pre-commit-config.yaml`, where it runs on
-    push, and its CI calls
-    `.github/workflows/practices.yml` from here, which runs the same hook; both
-    pin a commit of this repository. This repository runs it as the
-    `ci-practices` hook. Comments posted after the last run are seen at the next
-    push or edit. The other practices hold by agreement.
-    """
+  Asleep, the headset drops off the LAN entirely, answering neither mDNS nor
+  ARP, so a name that does not resolve means it is asleep, not broken.
 
-    details "Visual comparisons", ~S"""
-    A visual comparison is delivered as a labelled contact sheet, the format for
-    both vision-model review and human QA: one row per case, one column per source
-    (original, before, after, diff), each cell labelled with its metric, failures
-    first, and the numbers kept beside the sheet. `entities-sakuragaoka-station`'s
-    `tools/prop_shots.gd` is the precedent for that layout only (RFD 2283). A sheet
-    is composed by rendering, with fragment shaders into a `SubViewport`, or in a
-    godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
-    `.sgd`, and its views come from `sphere_hammersley_sequence`. Each sheet carries
-    a `.cff` and its `<stem>.xmp` sidecar (RFD 2240). A copy goes to
-    `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
-    `<topic>-NN.png`, the number rising so that no sheet is overwritten. These rules
-    hold by agreement; no gate reads a sheet.
+  The headset is the Mac desk's in the queue, so another desk coordinates with
+  the Mac before touching it. A key appended to its `authorized_keys` starts on a
+  new line with carriage returns stripped, because the file may end without a
+  newline and a `.pub` written on Windows ends its lines with CRLF.
 
-    A residual is fixed, never smudged: nothing blurs an image before the diff,
-    loosens a threshold or masks a region. Fixes go down a ladder, each rung measured
-    with the diff's own metric before and after: exact fixes at the source, then
-    missing structure, then registration, where a camera that does not match is fixed
-    in the camera and never by warping an image, then parameters fitted to the oracle
-    with `contract-lbfgsb` on the GPU, coarse to fine, written back into the source
-    assets and checked on views the fit did not use. What remains is reported beside
-    its floor, and a later change may not raise it. Antialiasing and distance fades
-    that belong to the renderer stay.
-    """
+  The station ships to the headset as the Windows x86_64 build, run through the
+  headset's compatibility layer, on single-precision Godot 4.7.2 until the
+  station's double-precision guests are verified (operator, 2026-10-01). The
+  export uses an export template and a real rendering device, so it runs in the
+  Windows desk's interactive session: Windows OpenSSH and a service-mode CI runner
+  both run in session 0, which has no desktop. A session drives the Godot editor
+  there through the computer-use driver, or starts the export from SSH as a
+  scheduled task with `/it`. No GitHub Actions runner does it.
 
-    details "The station in Godot", ~S"""
-    The Sakuragaoka Station port (`entities-sakuragaoka-station`):
+  The build ships as a casync repository: desync, the Go implementation of
+  casync, makes the index and chunk store, and they go into a V-Sekai-fire
+  repository of their own. The headset pulls the title with desync's arm64 build,
+  or takes it over SSH as user `deck` with the desk's key, as a dev title.
+  :: details Merging
+  An agent merges its own pull requests on V-Sekai-fire once they are green,
+  through the merge queue where the repository has one, and never with an admin
+  bypass. Where a repository requires no checks, `--auto` merges at once with its
+  checks red, so there the agent waits for green and merges by hand. Repository
+  admins may bypass a ruleset for a pull request; agents do not.
+  :: details Where interactor-dress-on went
+  `interactor-dress-on` is archived. Its stages live in their own repositories
+  (`contract-guest-runtime`, `contract-guest-common`, `contract-ggml-rd`,
+  `contract-lbfgsb`, `contract-anny-kernels`, `contract-sinew-align`, and
+  `interactor-drape`, `-curvenet`, `-garment-fit`, `-cage`, `-headfit`, `-lasso`,
+  `-motion-guest`, `-rfdetr-seg-guest`, `-usd-guest`, `-av1mkv`), and
+  `transport-meshing-pen` builds the guest ELFs from those sibling checkouts.
+  :: details Bao and the tokens it mints
+  Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
+  online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in
+  with its certificate, passing no role `name`, so the certificate selects the
+  role. The login token lives for
+  the session: it is reused until its TTL lapses and revoked only when the
+  operator asks or the session ends, never at the end of each task.
 
-    - realizes every closed solid through CSG, and carries each face's colour as a
-      palette index in UV, since CSG keeps UV and drops vertex colour; CSG takes
-      only manifold solids, so a geometry that fails the manifold check stays a
-      plain surface, or goes through `remesh.elf` when it must be unioned;
-    - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
-      forking it;
-    - renders from meshes baked from the vector materials' data (signs, paving,
-      bark), coarsened by LOD when over budget, so it works with the runtime vector
-      shader off; alpha-cut foliage cards are the one exception: they stay
-      two-triangle cards cut out at runtime, because baking 53,211 blossom cards as
-      geometry costs about 2.5M triangles even at blob detail (operator,
-      2026-10-01);
-    - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
-      adding detail to surfaces near the eye within the headset's GPU budget;
-    - synthesizes finer detail only where the source is procedural;
-    - judges alpha on the final composite of its layers: an opaque object ends with
-      no transparency, and a transparent base-colour material writes alpha.
+  A GitHub token is minted from `github/token`, never printed, and handed to git
+  through a credential helper that reads it from the environment. When its task
+  ends it is revoked with `DELETE /installation/token`, which answers 204 and
+  leaves the token answering 401, and only then is its copy deleted. On a
+  Windows desk, Git Bash rewrites an argument that starts with `/` into a Windows
+  path, so the revoke goes through curl or names the path without its leading
+  slash.
 
-    No rasterized vector art or glyph outline goes into the headset. Meshes made
-    from outlines are fine, and a glyph mesh goes through `remesh.elf` when its
-    font's winding is invalid. Parity with the three.js original is measured at
-    sphere-Hammersley views against `tools/oracle/shot.mjs` renders.
-
-    The reference is the original rendered through WARP, Windows' software
-    rasterizer (`--angle warp`, release `oracle-4112f57-h8-warp`), because it is
-    deterministic and seam-free. ANGLE's Vulkan path hashes the cloud noise's
-    lattice corners from float sums differently on each side of a cell edge and
-    draws seams the original does not intend, and D3D11 flips one 8-bit level from
-    run to run. The port hashes from integer corners. A change lands only when no
-    view's full-resolution MAD rises against the reference, unless the operator
-    accepts the exception on #72.
-
-    The operator's budget for the standalone headset: at most 700k triangles in
-    view per frame, of which world geometry gets 250k (400k at most) and characters
-    450k. A crowd of non-player characters holds 150k of the character share and
-    drops to impostors first. One equal-error LOD threshold over the frame enforces
-    it, and the LODs come from Godot's own `generate_lods` on welded meshes.
-    Avatars and characters cast their shadows from tapered capsules fitted per
-    skeleton (#110), not from the shadow map; an untapered capsule keeps stock
-    Godot's height and radius behaviour.
-
-    The outline reads the mesh's geometric normal, which the toon-ramp hook writes,
-    not MToon's bent indirect-light normal, and takes depth and normal from the
-    majority MSAA sample.
-    """
-
-    details "Where compute runs", ~S"""
-    Heavy compute runs in a godot-sandbox guest: a riscv64 guest ELF on the CPU,
-    which is also the parity oracle, or kernels on ggml-rd with compute-rd, authored
-    in Lean and lowered through Slang to SPIR-V (RFD 2265). It never runs as a host
-    Python or C++ pipeline or as a GDScript loop. Fragment shaders that render are
-    fine, and Python bindings serve upstream contributions and their tests, never a
-    pipeline. ggml runs only in such a guest (RFD 2290): a native ggml engine
-    module, a GDExtension ggml API or a standalone runtime is off the route, and a
-    standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
-    ggml-rd with compute-rd as well, since EditScore's decision model builds on it
-    (RFD 2268).
-
-    A guest's source lives in the repository that consumes it and follows
-    curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
-    sees the library. Mesh arrays cross in the layout of `contract-guest-common`'s
-    `mesh_wire.h`. A vmcall takes at most seven arguments, an eighth failing with a
-    register overflow, and each call returns inside the sandbox's
-    `execution_timeout`.
-    """
-
-    details "Binary translation and the Windows build", ~S"""
-    Everything that runs in godot-sandbox is binary-translated, guest ELFs and
-    SafeGDScript alike, and an interpreted timing is never the one reported. No
-    `.gd` ships: every script, third-party ones included, ships compiled as `.sgd`
-    with its translation, and a script that does not compile is a counted FAIL, not
-    a fallback.
-
-    The game ships as a Windows build, run natively and through the headset's
-    compatibility layer, so a translation is a precompiled Windows library linked
-    against the universal C runtime that loads under that layer, never code
-    generated at run time into writable executable memory. A Linux `.so` serves the
-    Linux zone servers and never reaches the headset. The compatibility layer runs
-    that same Windows build, so the Windows desk is where it is tested. RFD 2293
-    builds the libraries.
-    """
-
-    details "The headset", ~S"""
-    Tests and gates run on the Windows desk or as renders on the Mac, not in the
-    headset the operator wears. A run, a runtime restart or a capture in the headset
-    happens only when the operator asks for that run, and nothing captures the
-    headset view while the operator is in a social session. The headset view comes
-    from the compositor mirror (`/dev/video99`) with screen sharing on; X11 capture
-    cannot see it.
-
-    Asleep, the headset drops off the LAN entirely, answering neither mDNS nor
-    ARP, so a name that does not resolve means it is asleep, not broken.
-
-    The headset is the Mac desk's in the queue, so another desk coordinates with
-    the Mac before touching it. A key appended to its `authorized_keys` starts on a
-    new line with carriage returns stripped, because the file may end without a
-    newline and a `.pub` written on Windows ends its lines with CRLF.
-
-    The station ships to the headset as the Windows x86_64 build, run through the
-    headset's compatibility layer, on single-precision Godot 4.7.2 until the
-    station's double-precision guests are verified (operator, 2026-10-01). The
-    export uses an export template and a real rendering device, so it runs in the
-    Windows desk's interactive session: Windows OpenSSH and a service-mode CI runner
-    both run in session 0, which has no desktop. A session drives the Godot editor
-    there through the computer-use driver, or starts the export from SSH as a
-    scheduled task with `/it`. No GitHub Actions runner does it.
-
-    The build ships as a casync repository: desync, the Go implementation of
-    casync, makes the index and chunk store, and they go into a V-Sekai-fire
-    repository of their own. The headset pulls the title with desync's arm64 build,
-    or takes it over SSH as user `deck` with the desk's key, as a dev title.
-    """
-
-    details "Merging", ~S"""
-    An agent merges its own pull requests on V-Sekai-fire once they are green,
-    through the merge queue where the repository has one, and never with an admin
-    bypass. Where a repository requires no checks, `--auto` merges at once with its
-    checks red, so there the agent waits for green and merges by hand. Repository
-    admins may bypass a ruleset for a pull request; agents do not.
-    """
-
-    details "Where interactor-dress-on went", ~S"""
-    `interactor-dress-on` is archived. Its stages live in their own repositories
-    (`contract-guest-runtime`, `contract-guest-common`, `contract-ggml-rd`,
-    `contract-lbfgsb`, `contract-anny-kernels`, `contract-sinew-align`, and
-    `interactor-drape`, `-curvenet`, `-garment-fit`, `-cage`, `-headfit`, `-lasso`,
-    `-motion-guest`, `-rfdetr-seg-guest`, `-usd-guest`, `-av1mkv`), and
-    `transport-meshing-pen` builds the guest ELFs from those sibling checkouts.
-    """
-
-    details "Bao and the tokens it mints", ~S"""
-    Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
-    online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in
-    with its certificate, passing no role `name`, so the certificate selects the
-    role. The login token lives for
-    the session: it is reused until its TTL lapses and revoked only when the
-    operator asks or the session ends, never at the end of each task.
-
-    A GitHub token is minted from `github/token`, never printed, and handed to git
-    through a credential helper that reads it from the environment. When its task
-    ends it is revoked with `DELETE /installation/token`, which answers 204 and
-    leaves the token answering 401, and only then is its copy deleted. On a
-    Windows desk, Git Bash rewrites an argument that starts with `/` into a Windows
-    path, so the revoke goes through curl or names the path without its leading
-    slash.
-
-    Agents may use Bao to pass data to each other. What is written there is stored
-    in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is
-    FoundationDB, whose backup goes to R2 (RFD 2143). An entry deleted from Bao
-    stays in that copy until it rolls over.
-    """
-  end
+  Agents may use Bao to pass data to each other. What is written there is stored
+  in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is
+  FoundationDB, whose backup goes to R2 (RFD 2143). An entry deleted from Bao
+  stays in that copy until it rolls over.
+  """
 end

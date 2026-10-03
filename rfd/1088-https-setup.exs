@@ -1,46 +1,33 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
-#
-# RFD 1088. `mix rfd.render` renders rfd/1088-https-setup/README.md and
-# DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
-defmodule RFD1088 do
-  use RFD.DSL
+use RFD.DSL
 
-  rfd 1088, "HTTPS for local WebXR development" do
-    state :abandoned
+rfd 1088, "HTTPS for local WebXR development", :abandoned do
+  scope "the Vite dev server, `certs/`"
+  attest_in :none
 
-    scope "the Vite dev server, `certs/`"
+  prose ~S"""
+  :: decision
+  Generate a local certificate into `certs/`, and let Vite pick it up
+  automatically. `mkcert` is the recommended path: install it, run
+  `mkcert -install` once for the local CA, then `mkcert localhost
+  127.0.0.1 ::1 <LAN-IP>` for a certificate that also covers the
+  headset's LAN address. An OpenSSL path (`npm run setup-https`, or a
+  manual `openssl req`) covers a host without `mkcert`. A self-signed
+  certificate still shows a browser warning; accepting it is safe for
+  local development.
 
-    attest_in :none
-
-    decision ~S"""
-    Generate a local certificate into `certs/`, and let Vite pick it up
-    automatically. `mkcert` is the recommended path: install it, run
-    `mkcert -install` once for the local CA, then `mkcert localhost
-    127.0.0.1 ::1 <LAN-IP>` for a certificate that also covers the
-    headset's LAN address. An OpenSSL path (`npm run setup-https`, or a
-    manual `openssl req`) covers a host without `mkcert`. A self-signed
-    certificate still shows a browser warning; accepting it is safe for
-    local development.
-
-    See `DETAILS.md` for every option's exact commands, the headset
-    network-access steps, and troubleshooting.
-    """
-
-    problem ~S"""
-    WebXR needs HTTPS. A plain `npm run dev` over HTTP cannot open an
-    AR or VR session at all, on a desktop browser or on a Galaxy XR
-    headset over the LAN.
-    """
-
-    related ~S"""
-    **Unresolved duplicate:** weftspun-3d-studio's own
-    `thirdparty/m3/docs/HTTPS_SETUP.md` covers the same topic, with real
-    content differences. Neither version is authoritative; that
-    reconciliation is still open. RFD 1086 gives the Surface/DGX/headset
-    topology this certificate serves.
-    """
-
-    drafted_by :ai
-  end
+  See `DETAILS.md` for every option's exact commands, the headset
+  network-access steps, and troubleshooting.
+  :: problem
+  WebXR needs HTTPS. A plain `npm run dev` over HTTP cannot open an
+  AR or VR session at all, on a desktop browser or on a Galaxy XR
+  headset over the LAN.
+  :: related
+  **Unresolved duplicate:** weftspun-3d-studio's own
+  `thirdparty/m3/docs/HTTPS_SETUP.md` covers the same topic, with real
+  content differences. Neither version is authoritative; that
+  reconciliation is still open. RFD 1086 gives the Surface/DGX/headset
+  topology this certificate serves.
+  """
 end

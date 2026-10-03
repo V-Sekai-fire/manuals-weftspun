@@ -11,6 +11,7 @@ import os
 import re
 import subprocess
 import sys
+import textwrap
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -71,7 +72,14 @@ def non_blank_lines(text: str) -> int:
     return sum(1 for line in text.splitlines() if line.strip())
 
 
-def density(text: str) -> float:
+def source_prose(text: str) -> str:
+    bodies = (textwrap.dedent(b) for b in md_ast.HEREDOC.findall(text))
+    return re.sub(r"(?m)^:: .*$", "", "\n\n".join(bodies))
+
+
+def density(text: str, source: bool = False) -> float:
+    if source:
+        text = source_prose(text)
     n = non_blank_lines(text)
     hits, _ = count_tropes(text)
     return (100.0 * hits / n) if n else 0.0
@@ -128,8 +136,9 @@ def gate(base: str) -> int:
             continue
         after = open(full, encoding="utf-8").read()
         before = prior_text(base, path)
-        d_now = density(after)
-        d_was = density(before)
+        exs = path.endswith(".exs")
+        d_now = density(after, exs)
+        d_was = density(before, exs and bool(md_ast.HEREDOC.search(before)))
         if d_now > d_was + 0.001:
             hits, per = count_tropes(after)
             top = ", ".join(f"{k}={v}" for k, v in per.items() if v)
@@ -148,7 +157,8 @@ def report() -> int:
             if name in ("README.md", "DETAILS.md") or in_scope(
                     os.path.relpath(os.path.join(dirpath, name), ROOT)):
                 rel = os.path.relpath(os.path.join(dirpath, name), ROOT)
-                d = density(open(os.path.join(dirpath, name), encoding="utf-8").read())
+                d = density(open(os.path.join(dirpath, name), encoding="utf-8").read(),
+                            name.endswith(".exs"))
                 if d > 0:
                     print(f"  {d:5.2f}%  {rel}")
                 scanned += 1
@@ -234,17 +244,32 @@ def self_test() -> int:
             0,
         ),
     ]
+    one, two = "The gate ran -- every control fired.\n", "    tree |-- a/\n"
+    deep = "".join(f'    {f} ~S"""\n' + textwrap.indent(b, "    ") + '    """\n'
+                   for f, b in (("decision", one), ("problem", two)))
+    deep = 'defmodule R do\n  rfd 1, "t" do\n' + deep + "  end\nend\n"
+    flat = textwrap.indent(":: decision\n" + one + ":: problem\n" + two, "  ")
+    flat = 'rfd 1, "t", :ideation do\n  prose ~S"""\n' + flat + '  """\nend\n'
+    sources = [
+        ("a tell in an indented heredoc is counted", density(deep, True) > 0),
+        ("an RFD source's density ignores its wrapper", density(deep, True) == density(flat, True)),
+    ]
     fails = 0
+    for label, ok in sources:
+        if not ok:
+            print(f"  FAIL {label}")
+            fails += 1
     for label, text, tell, expected in controls:
         _, per = count_tropes(text)
         got = per[tell]
         if got != expected:
             print(f"  FAIL {label}: {tell} expected {expected}, got {got}")
             fails += 1
+    total = len(controls) + len(sources)
     if fails:
-        print(f"{fails} of {len(controls)} controls failed")
+        print(f"{fails} of {total} controls failed")
         return 1
-    print(f"ok   {len(controls)} of {len(controls)} controls fired in both directions")
+    print(f"ok   {total} of {total} controls fired in both directions")
     return 0
 
 
