@@ -628,6 +628,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   `tools/generate_stubs`, and generates its declarations and loader stubs from them; the SDK's
   headers are never vendored or included. OpenVR-only games reach OXRSys's PyroWave stream through
   SteamVR this way; OpenComposite stays blocked (operator, 2026-10-03).
+  Alongside it: ALVR (MIT, `alvr-org/ALVR`) as a design reference only, cited and never copied;
+  Chromium's `tools/generate_stubs` (BSD-3-Clause) to generate the declarations and stubs; and
+  SteamVR as the PC VR runtime the driver loads into and is tested in on this desk.
 - **Broadcast software:** OBS Studio and its plugins, without a row each: proprietary and GPL
   licences are fine, AGPL stays banned (operator, 2026-09-30; confirmed 2026-10-01).
 - **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
