@@ -616,6 +616,11 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   desktop-to-headset stream; CineForm stays the recording codec (RFD 2287).
 - **OpenXR runtime:** oxrsys (MPL-2.0, forked as `V-Sekai-fire/oxrsys` from `demonixis/oxrsys`), the
   desktop OpenXR runtime that streams to the Steam Frame over PyroWave (operator, 2026-10-01).
+- **Desktop UI:** interactor-panelspun (Apache-2.0 OR MIT, `V-Sekai-fire/interactor-panelspun`),
+  the docking panel framework oxrsys's desktop frontends move to from Qt, vendored into oxrsys's
+  `third_party/` by git subtree. It carries SDL3 (zlib, `libsdl-org/SDL`) for windows, input and
+  Vulkan surfaces, and ThorVG (MIT, `thorvg/thorvg`) for its software-canvas panels and text, both
+  in its own `third_party/` by git subtree (operator, 2026-10-03).
 - **Broadcast software:** OBS Studio and its plugins, without a row each: proprietary and GPL
   licences are fine, AGPL stays banned (operator, 2026-09-30; confirmed 2026-10-01).
 - **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
