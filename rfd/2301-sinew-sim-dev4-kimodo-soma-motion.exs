@@ -10,17 +10,18 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   prose ~S"""
   :: decision
   dev.4 adds pose and occlusion diversity to sinew-sim. It generates real motion with
-  Kimodo-SOMA, drives the ANNY body through `anny_from_soma`, renders on the GPU, and
-  measures joint error for each pose. It runs once the Kimodo source is reachable.
-  `DETAILS.md` carries the pipeline.
+  Kimodo-SOMA, drives the ANNY body through `anny_from_soma`, renders on the graphics
+  processing unit (GPU), and measures joint error for each pose. It runs once the Kimodo
+  source is reachable. `DETAILS.md` carries the pipeline.
   :: problem
   dev.3 proved accuracy for one body in one rest pose. Whether that accuracy holds
   across varied poses and under self-occlusion stays untested. The obvious motion
-  sources are out of reach today: the 100STYLE retarget is unfinished, and the SMPL
-  family is blocked.
+  sources are out of reach today: the 100STYLE retarget is unfinished, and the Skinned
+  Multi-Person Linear model (SMPL) family is blocked.
   :: references
   The sinew-sim repository holds the Kimodo-SOMA inference, the `anny_from_soma`
-  bridge, the GPU render and the MPJPE runs this note cites.
+  bridge, the GPU render and the mean per-joint position error (MPJPE) runs this note
+  cites.
   :: related
   - RFD 2300, the sinew-sim ladder; RFD 2203, the ANNY-SOMA corpus and basemesh.
   - RFD 2190, camera coverage; RFD 2191, the solver residual.
@@ -34,15 +35,18 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   Kimodo-SOMA is a text-to-motion model that generates novel motion rather than
   replaying a fixed clip library. The `Kimodo-SOMA-*` checkpoints carry the NVIDIA Open
   Model Licence and permit commercial use. `Kimodo-SMPLX-RP-v1` stays out as a SMPL-X
-  checkpoint, since the SMPL family is blocked. Kimodo-SOMA emits a SOMA pose.
+  checkpoint, the expressive SMPL variant, since the SMPL family is blocked. Kimodo-SOMA
+  emits a SOMA pose.
   :: details Body
   The SOMA pose drives the ANNY body through `anny_from_soma`, with the ANNY identity
-  rather than MHR. The pose applies to the MakeHuman basemesh topology, 19,158 vertices,
-  so the `coco.pth` regressor gives valid ground-truth COCO joints, the topology dev.3
-  measured against.
+  rather than the Meta Momentum Human Rig (MHR). The pose applies to the MakeHuman
+  basemesh topology, 19,158 vertices, so the `coco.pth` regressor gives valid
+  ground-truth Common Objects in Context (COCO) joints, the topology dev.3 measured
+  against.
   :: details Render
-  Frames render on the GPU with `cuda_ad_rgb`. The Mitsuba CPU variants are not a render
-  target here. BLOCKLIST.md allows them only for measurement or a card-less desk.
+  Frames render on the GPU with `cuda_ad_rgb`. The Mitsuba central processing unit (CPU)
+  variants are not a render target here. BLOCKLIST.md allows them only for measurement or
+  a card-less desk.
   :: details Measure
   Each pose is its own small camera rig, with the cameras orbiting one fixed pose, so the
   dev.3 absolute-MPJPE method applies per pose and the results aggregate across poses. A
