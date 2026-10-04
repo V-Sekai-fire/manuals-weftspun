@@ -16,8 +16,8 @@ rfd 2300, "sinew-sim rung ladder", :discussion do
   Full-body tracking needs a measured floor for camera coverage, solver residual and motion
   diversity, or a real-capture rig gets built on guesses. The sinew-sim runs supply that floor.
   :: references
-  The sinew-sim repository holds the numpy fusion, RF-DETR (a DEtection TRansformer
-  keypoint detector) render and mean per-joint position error (MPJPE) runs these rungs
+  The sinew-sim repository holds the numpy fusion, RF-DETR (Roboflow Detection
+  Transformer) render and mean per-joint position error (MPJPE) runs these rungs
   cite.
   :: related
   - RFD 2203, the ANNY-SOMA corpus; RFD 2190, the rig extrinsics; RFD 2191, the solver residual.
