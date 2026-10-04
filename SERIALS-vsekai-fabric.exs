@@ -256,6 +256,7 @@ defmodule Serials.VSekaiFabric do
       serial 2297, "the-first-rungs-dev-3", flight_level: :l1
       serial 2298, "the-first-rungs-dev-next", flight_level: :l1
       serial 2300, "sinew-sim-rung-ladder", flight_level: :l1
+      serial 2301, "sinew-sim-dev4-kimodo-soma-motion", flight_level: :l1
     end
 
     deleted do
