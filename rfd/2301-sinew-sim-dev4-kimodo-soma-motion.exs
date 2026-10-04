@@ -39,14 +39,14 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   emits a SOMA pose.
   :: details Body
   The SOMA pose drives the ANNY body through `anny_from_soma`, with the ANNY identity
-  rather than the Meta Momentum Human Rig (MHR). The pose applies to the MakeHuman
+  rather than the Momentum Human Rig (MHR). The pose applies to the MakeHuman
   basemesh topology, 19,158 vertices, so the `coco.pth` regressor gives valid
   ground-truth Common Objects in Context (COCO) joints, the topology dev.3 measured
   against.
   :: details Render
-  Frames render on the GPU with `cuda_ad_rgb`. The Mitsuba central processing unit (CPU)
-  variants are not a render target here. BLOCKLIST.md allows them only for measurement or
-  a card-less desk.
+  Frames render on the GPU with `cuda_ad_rgb`. BLOCKLIST.md restricts the Mitsuba central
+  processing unit (CPU) variants to measurement or a card-less desk, so this pipeline
+  renders only on the GPU.
   :: details Measure
   Each pose is its own small camera rig, with the cameras orbiting one fixed pose, so the
   dev.3 absolute-MPJPE method applies per pose and the results aggregate across poses. A
