@@ -28,9 +28,22 @@ rfd 2191, "Unrolled solver residual measurement", :discussion do
   :: references
   Original issue: `weftspun/request-for-discussion` issue 28;
   `pose-consensus/python/lbfgs_polish.py` (baseline);
-  `pose-consensus/python/soma_referee.py` (reporting convention).
+  `pose-consensus/python/soma_referee.py` (reporting convention); `DETAILS.md` carries the floor.
   :: related
   RFD 1122 (unrolled Kusudama solver), RFD 2190 (rig extrinsics
   calibration; blocks this), RFD 2168 (wholebody detector retract).
+  """
+
+  details_title "Unrolled solver residual measurement"
+
+  prose ~S"""
+  :: details What the residual floor measures against
+  The near-40 mm ray-gap, about a golf ball at 42.7 mm, is a pessimistic ground-truth-free
+  proxy rather than the residual floor. Measured against ANNY ground truth the floor is 5.0 mm
+  median, about seven credit cards stacked at 0.76 mm each, and 10.2 mm mean, about one AAA
+  battery across at 10.5 mm. The residual sits in a per-joint definition offset rather than
+  triangulation noise: hips near 33 mm, about three AAA batteries end to end at 10.5 mm each,
+  and shoulders near 13 mm, about an AA battery across at 14.5 mm. RFD 2300 carries the ladder
+  and the per-joint breakdown.
   """
 end

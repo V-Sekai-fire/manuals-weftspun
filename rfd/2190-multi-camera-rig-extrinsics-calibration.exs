@@ -27,10 +27,24 @@ rfd 2190, "Multi-camera rig extrinsics calibration", :discussion do
   Issue 30 closed stale.
   :: references
   Original issue: `weftspun/request-for-discussion` issue 30.
-  `pose-consensus/python/silhouette.py` (Camera class).
+  `pose-consensus/python/silhouette.py` (Camera class). `DETAILS.md` carries the coverage detail.
   :: related
   RFD 1122 (unrolled Kusudama solver; consumes `view`),
   RFD 2168 (wholebody detector retract),
   RFD 2191 (unrolled solver residual; blocked by this).
+  """
+
+  details_title "Multi-camera rig extrinsics calibration"
+
+  prose ~S"""
+  :: details What sinew-sim measured about coverage
+  Distinct camera orbits beat co-located sensors. One co-located stereo device carries three
+  sensors about 7.5 cm apart, about a soda-can width at 66 mm, on a single orbit, and its fused
+  error lands near 146 mm, about two soda cans side by side at 66 mm each. The same sensor
+  count spread over three orbits lands near 36 mm, a little under a golf ball at 42.7 mm.
+  Camera coverage and tracker count set the floor, not markerless keypoint precision. Real
+  RFDETRKeypointPreview on 96 ANNY renders detects 95 of 96, which is 99 percent, with a 3.9 px
+  median reprojection and a ground-truth-free median ray-gap near 40 mm, about a golf ball at
+  42.7 mm. RFD 2300 carries the ladder these numbers sit on.
   """
 end
