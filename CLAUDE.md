@@ -629,6 +629,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   desktop-to-headset stream; CineForm stays the recording codec (RFD 2287).
 - **OpenXR runtime:** oxrsys (MPL-2.0, forked as `V-Sekai-fire/interactor-oxrsys` from `demonixis/oxrsys`), the
   desktop OpenXR runtime that streams to the Steam Frame over PyroWave (operator, 2026-10-01).
+- **OpenXR conformance:** the OpenXR CTS (Apache-2.0, `KhronosGroup/OpenXR-CTS`), its release
+  `conformance_cli` run against oxrsys on this desk to measure the runtime's conformance; a test
+  harness, never shipped (operator, 2026-10-03).
 - **Desktop UI:** interactor-panelspun (Apache-2.0 OR MIT, `V-Sekai-fire/interactor-panelspun`),
   the docking panel framework oxrsys's desktop frontends move to from Qt, vendored into oxrsys's
   `third_party/` by git subtree. It carries SDL3 (zlib, `libsdl-org/SDL`) for windows, input and
