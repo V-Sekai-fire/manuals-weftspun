@@ -33,7 +33,7 @@ rows =
       |> Enum.find("", &String.starts_with?(&1, "# "))
       |> String.trim_leading("# ")
 
-    link = "[#{String.slice(slug, 0, 4)}](rfd/#{slug}/README.html)"
+    link = "[#{String.slice(slug, 0, 4)}](rfd/#{slug}/)"
     "| #{link} | #{String.replace(title, "|", "\\|")} |"
   end
 
