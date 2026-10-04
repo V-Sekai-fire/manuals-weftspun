@@ -16,7 +16,8 @@ rfd 2300, "sinew-sim rung ladder", :discussion do
   Full-body tracking needs a measured floor for camera coverage, solver residual and motion
   diversity, or a real-capture rig gets built on guesses. The sinew-sim runs supply that floor.
   :: references
-  The sinew-sim repository holds the numpy fusion, RF-DETR render and MPJPE runs these rungs
+  The sinew-sim repository holds the numpy fusion, RF-DETR (a DEtection TRansformer
+  keypoint detector) render and mean per-joint position error (MPJPE) runs these rungs
   cite.
   :: related
   - RFD 2203, the ANNY-SOMA corpus; RFD 2190, the rig extrinsics; RFD 2191, the solver residual.
@@ -46,8 +47,9 @@ rfd 2300, "sinew-sim rung ladder", :discussion do
   10.5 mm, with a similarity scale of 1.0003. The ray-gap overstates the error. It measures RMS
   point-to-ray distance, a consistency signal rather than accuracy. The residual concentrates
   in a per-joint definition offset. Hips sit near 33 mm, about three AAA batteries end to end
-  at 10.5 mm each, and shoulders near 13 mm, about an AA battery across at 14.5 mm, where COCO
-  marks a body-surface landmark and the ANNY regressor marks an internal articulation centre.
+  at 10.5 mm each, and shoulders near 13 mm, about an AA battery across at 14.5 mm, where
+  Common Objects in Context (COCO) marks a body-surface landmark and the ANNY regressor
+  marks an internal articulation centre.
   The other 15 joints average about 7.6 mm, about a pencil width at 7 mm. Ground truth is the
   ANNY regressor's own joints, true by construction for this synthetic pose rather than
   external mocap.
@@ -55,10 +57,10 @@ rfd 2300, "sinew-sim rung ladder", :discussion do
   Real motion is not fundamentally blocked. The 100STYLE obstacle is a static per-joint
   bind-orientation offset. The source drive is unmounted, so no source reaches the pipeline
   today. The sanctioned motion path runs Kimodo-SOMA to SOMA-X to ANNY through `anny_from_soma`
-  with the ANNY identity. The render-variant tension between reproducible CPU and sanctioned
-  GPU is already settled by BLOCKLIST.md: Mitsuba `llvm_ad_*` CPU variants are a render target
-  only for measurement or a card-less desk, and `cuda_ad_rgb` on the owned card is the render
-  path.
+  with the ANNY identity. The render-variant tension between reproducible central processing
+  unit (CPU) and sanctioned graphics processing unit (GPU) is already settled by BLOCKLIST.md:
+  Mitsuba `llvm_ad_*` CPU variants are a render target only for measurement or a card-less
+  desk, and `cuda_ad_rgb` on the owned card is the render path.
   :: details Ground truth, the basemesh and the units convention
   Ground truth rides the MakeHuman basemesh topology, 19,158 vertices, that `coco.pth` is
   indexed against. That mesh is posable and coco-regressable. The units convention is
