@@ -65,6 +65,7 @@ here corresponds to an entry.
 - **Mitsuba 3's CPU variants** as a render target: `llvm_ad_*` and `scalar_*`: measured at 78 s a frame against 0.34 s on the card, a factor of 230, and the fallback that reached them was silent; measurement and a card-less desk are exempt — see below
 - **Eigen** and **libigl** as dependencies: operator directive 2026-09-28; both MPL-2.0, and the robust skin weights transfer port replaces them with pmp-subset and compute-rd — see below
 - **OpenComposite** as the route from OpenVR games to an OpenXR runtime: operator directive 2026-10-03; it swaps the user's OpenVR runtime for every OpenVR title at once, and an OXRSys SteamVR driver is the sanctioned route — see below
+- **Qt** in new code: operator directive 2026-10-03; desktop UI is interactor-panelspun (SDL3 + ThorVG), and existing Qt code in oxrsys stays until it is migrated — see below
 
 ### Abliteration is blocked, and the model's own card is the argument
 
@@ -1911,3 +1912,18 @@ SteamVR → the driver, which hosts OXRSys's PyroWave stream. SteamVR
 keeps compositing, the driver lives in SteamVR's own server process
 rather than the game's, and the OpenVR SDK's driver header it builds
 against needs its own allowlist row first.
+
+### Qt is blocklisted for new code, and panelspun is the desktop UI
+
+The operator blocked Qt for new code on 2026-10-03, when the XR computer-use
+tool (`V-Sekai-fire/interactor-xr-pilot`) was planned against the Qt
+simulator. Desktop UI is built on interactor-panelspun, the SDL3 and ThorVG
+docking framework already allowlisted for oxrsys's frontends, under
+Apache-2.0 OR MIT.
+
+**What is blocked.** Qt as a dependency of any new repository, and new Qt
+code in an existing one.
+
+**What is not.** The Qt code already in oxrsys (Home, its tray, and the
+simulator) keeps building and shipping until each is migrated to panelspun;
+a fix to it is not new code.
