@@ -574,6 +574,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   native binary from `entities-godot-sandbox`; Mitsuba 3 GPU variants.
 - **Inference:** ggml (RFD 2188) with the Vulkan backend; Gemma 4 (E2B, E4B); rf-detr keypoint
   and segmentation heads.
+- **XR computer use:** interactor-xr-pilot (Apache-2.0 OR MIT, `V-Sekai-fire/interactor-xr-pilot`),
+  an MCP server in Lean 4 with a panelspun window that lets an agent screenshot and drive an OpenXR
+  app as an OXRSys client: head, controllers and buttons out, PyroWave decoded on the GPU in
+  (operator, 2026-10-03).
 - **Local agent:** Hermes Agent (MIT, `NousResearch/hermes-agent`) and its TUI, driving
   `gemma-4-12B-it-heretic-QAT` (Apache-2.0, `SC117/gemma-4-12B-it-heretic-QAT-GGUF`, from
   `google/gemma-4-12B-it`) served by LM Studio on this desk (operator, 2026-10-01).
