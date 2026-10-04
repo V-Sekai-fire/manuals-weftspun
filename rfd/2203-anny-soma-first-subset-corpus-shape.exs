@@ -161,11 +161,12 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   `scripts/verify_projection_vertex.py`: same 4 poses through both models, makehuman posed
   vertices compared against SOMA-topology posed vertices interpolated via the barycentric map
   anny uses at build time (`point_to_mesh_distance_and_face_uvs` from `soma.py:97`). Filtered
-  to the body-surface subset (rest distance to nearest SOMA_wrap triangle < 5 mm; 15,778 of
-  19,158 verts kept) because the 3,380 non-body verts, interior mesh, hair, teeth, eye
-  internals, sit too far from SOMA_wrap for barycentric interpolation to be meaningful and
-  would drive max/p99 without saying anything about pose correctness. `wholebody133.pth`'s
-  anchors are body-surface points, so the check that matters is on the body-surface subset.
+  to the body-surface subset (rest distance to nearest SOMA_wrap triangle < 5 mm, about
+  two-thirds of a pencil at 7 mm; 15,778 of 19,158 verts kept) because the 3,380 non-body
+  verts, interior mesh, hair, teeth, eye internals, sit too far from SOMA_wrap for barycentric
+  interpolation to be meaningful and would drive max/p99 without saying anything about pose
+  correctness. `wholebody133.pth`'s anchors are body-surface points, so the check that matters
+  is on the body-surface subset.
 
   - max: **5.116 mm** (3.4× penny)
   - mean: **0.842 mm** (sub-credit-card)
@@ -187,5 +188,11 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
 
   Detection floor at n=4 poses: any defect appearing in >75% of frames per CLAUDE.md rule 5.
   Production runs scale n with shard motion coverage.
+  :: details The units convention and the regressable basemesh
+  The units convention is confirmed: metres equal normalised units divided by scale through
+  `render_view.normalise`, where a scale of 0.6025 is the reciprocal of a 1.66-metre stature,
+  and a regenerated mesh matches the rendered sidecar centre and scale to 2e-16. The
+  19,158-vertex MakeHuman basemesh that `coco.pth` indexes is posable and coco-regressable.
+  RFD 2300's dev.3 measures absolute MPJPE against this mesh's regressed joints.
   """
 end
