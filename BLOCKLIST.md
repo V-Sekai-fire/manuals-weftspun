@@ -66,6 +66,7 @@ here corresponds to an entry.
 - **Eigen** and **libigl** as dependencies: operator directive 2026-09-28; both MPL-2.0, and the robust skin weights transfer port replaces them with pmp-subset and compute-rd — see below
 - **OpenComposite** as the route from OpenVR games to an OpenXR runtime: operator directive 2026-10-03; it swaps the user's OpenVR runtime for every OpenVR title at once, and an OXRSys SteamVR driver is the sanctioned route — see below
 - **Qt** in new code: operator directive 2026-10-03; desktop UI is interactor-panelspun (SDL3 + ThorVG), and existing Qt code in oxrsys stays until it is migrated — see below
+- **datasource-cassie intermediates** (`curves/`, `sketch_history/`, `sketch_graph/`): reformatted or CASSIE-processed copies of the sessions; `raw_data/`, the sketching app's own export, is the input — see below
 
 ### Abliteration is blocked, and the model's own card is the argument
 
@@ -1929,3 +1930,36 @@ code in an existing one.
 **What is not.** The Qt code already in oxrsys (Home, its tray, and the
 simulator) keeps building and shipping until each is migrated to panelspun;
 a fix to it is not new code.
+
+### datasource-cassie intermediates are blocklisted, and `raw_data/` is the input
+
+Operator directive, 2026-10-04: CASSIE sketches are read from the most faithful
+raw input, and the dataset's intermediates are not used.
+
+**What is blocked.** Three of the four folders of `V-Sekai/datasource-cassie`
+(`6-datasource/cassie/data/`):
+
+- `curves/` lists the strokes left in the final sketch as polylines. It drops
+  deleted strokes, the session's order and timing, mirroring and the patches,
+  and its points are already transformed: dress's first point is
+  (0.1122, 1.3800, 0.1237), against (0.1154, 1.3741, 0.1267) for the
+  controller sample the app recorded.
+- `sketch_history/` reformats the strokes and puts CASSIE's own output
+  (fitted poly-Bézier or line) next to the samples.
+- `sketch_graph/` is CASSIE's structuring result: nodes and segments after
+  its snapping, available only for Armature and Patch sketches.
+
+**What is used.** `raw_data/`: the app's direct export. Per stroke it keeps
+the controller's `inputSamples`; per session it keeps every action in order
+(add or delete a stroke or a patch, canvas transforms, head and hand poses,
+the mirroring flag) and every patch the app made, with `foundByAlgo`. Dress
+records 126 strokes (46 later deleted) and 246 patches (225 found by the
+algorithm); 202 survive to the end, 190 of them found by the algorithm.
+
+**Why.** An expectation measured on an intermediate measures the
+intermediate. Dress's cycles counted on `curves/` were 9 with godot-cassie's
+graph and 12 with curvenet, while the session itself kept 190 patches found
+by the algorithm, because those polylines are CASSIE's input before its
+snapping and never meet at shared nodes. Replaying `raw_data/` stroke by
+stroke, in the session's order, is what the app saw.
+
