@@ -19,7 +19,7 @@ here corresponds to an entry.
 - generators with no licence-clean **depth** control: HiDream-I1, SANA — see below
 - **hosted-API generators** as a corpus source: Nano-banana / Gemini and any API-only model — condition 1 cannot be satisfied without a checkpoint, see below
 - DeepFashion: re-export of a research-only corpus
-- AddBiomechanics `.b3d` as an identity source: lab volunteers — narrow and inequitable population
+- AddBiomechanics `.b3d` as an identity source: licence-clean (CC BY 4.0); blocked on population, a narrow lab-volunteer group, not on licence
 - `caldata_*_jc.parquet`: pre-cut derivatives; use originals
 - EasyDiffusion outputs, seethrough PSDs: secondary generation
 - **Blender**: renders are not reproducible across versions — see below
@@ -39,7 +39,7 @@ here corresponds to an entry.
 - `weftspun/rf-detr-keypoint-data`: **val2017-derived** — carries the whole blinded holdout, and 78% of it is licence-dirty. Validation only, never training. See below
 - **IREE** as a build target: a compiler rather than an execution provider, and it is not XLA — see below
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
-- **See-Through checkpoints**: every one states no licence, and the depth one derives from OpenRAIL++-M — see below
+- **See-Through checkpoints**: none carries a usable grant, and the depth one derives from OpenRAIL++-M — see below
 - **SMPL and every variant** as a body model: non-commercial without an MPG licence; SOMA-X to ANNY is the sanctioned bypass — see below
 - **MHR** (Meta Momentum Human Rig): its identity model and its face-expression basis, operator directive 2026-09-28; SOMA-X's pose correctives stay allowed — see below
 - **AMD XDNA NPU** as an execution target: a second accelerator toolchain, nothing measured and no runtime installed — see below
@@ -1020,7 +1020,7 @@ cannot find a blocklisted model.
 ### See-Through's checkpoints are blocklisted, and the taxonomy is kept instead
 
 The repository is Apache-2.0 and that covers its code. Every checkpoint its inference
-scripts actually load is hosted separately and carries no grant:
+scripts actually load is hosted separately, and none carries a usable grant:
 
 | checkpoint                                    | state                                                                    |
 | --------------------------------------------- | ------------------------------------------------------------------------ |
@@ -1051,8 +1051,10 @@ RFD 1166's rubric asks two questions of any candidate: `ask`, whether an
 answer can be got out of it, and `adapt`, whether this desk can train,
 tune or LoRA it. See-Through fails both, for different reasons.
 
-**`ask` is closed by the weights.** Every checkpoint the inference
-scripts load states no licence, so there is nothing to run.
+**`ask` is closed by the weights.** No checkpoint the inference scripts
+load carries a usable grant: three state no licence, one is unreadable
+behind HTTP 401, and the one labelled apache-2.0 is an SDXL fine-tune
+whose RAIL++-M restrictions propagate (above). So there is nothing to run.
 
 **`adapt` is closed by the base model, which is the part that had not
 been looked at.** The repository ships training scripts for all four
