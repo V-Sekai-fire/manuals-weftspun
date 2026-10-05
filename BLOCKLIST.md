@@ -70,6 +70,7 @@ here corresponds to an entry.
 - Godot `override.cfg`: setting a Movie Maker size through it does not take (operator, 2026-10-04)
 - OBS for recording a Godot run: it does not wait for the engine's startup, so a clip carries unbounded startup waits; Godot's Movie Maker records it (operator, 2026-10-04)
 - 2K renders and recordings (1920x1080 and other sizes below 3840x2160): renders and videos are 4K (operator, 2026-10-04)
+- libsecret's `secret-tool` and the Secret Service providers behind it (gnome-keyring, KWallet) as a secret store (operator, 2026-10-05)
 
 ### Abliteration is blocked, and the model's own card is the argument
 
