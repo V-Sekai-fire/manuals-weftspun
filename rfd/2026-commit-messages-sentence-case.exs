@@ -64,24 +64,32 @@ rfd 2026, "Commit messages sentence case", :committed do
   upstream (RFD 2294, "Where a session posts"), so a fork's history
   past the upstream commit is ours and reads like the rest. A fork of
   a Conventional-Commits upstream carries sentence-case subjects on top
-  of the upstream's prefixed ones.
+  of the upstream's prefixed ones. A branch that merges the upstream
+  passes the upstream ref to the gate with `--exclude`, so only our
+  commits are read.
   :: details Confirmation
-  The rule is machine-checked by `scripts/check_commit_style.py`. It
-  gates commits reachable in `<base>..HEAD` for three properties:
+  The rule is machine-checked by the `practices` hook
+  (`scripts/check_practices.exs`, RFD 2294), on push and in CI in every
+  repository that takes the hook, and by `scripts/check_commit_style.py`
+  on its own. Each reads the commits reachable from `HEAD` and from
+  neither `<base>` nor any `--exclude` ref, for three properties:
 
   1. No Conventional-Commits `type:` or `type(scope):` prefix on the
      subject.
   2. Subject opens with an uppercase letter, digit, or bracket.
   3. Subject does not end with a trailing period.
 
-  The gate reads no remote, so a fork is held to the same three
-  properties. Its self-test carries six subject controls (three that
-  pass, three that fail) plus four that commit a prefixed subject and a
-  sentence-case subject in a scratch repository, once behind a
-  V-Sekai-fire remote and once behind a fork remote, and assert the
-  first fails and the second passes.
+  Neither gate reads a remote, so a fork is held to the same three
+  properties. The Python gate's self-test carries six subject controls
+  (three that pass, three that fail), four that run the script itself
+  on a prefixed and a sentence-case commit in a scratch repository, once
+  behind a V-Sekai-fire remote and once behind a fork remote, and two
+  on a merged upstream commit with a prefixed subject, which fails when
+  read and passes once its ref is excluded. The practices self-test
+  carries the same rules in both directions.
 
       python scripts/check_commit_style.py --base origin/main
+      python scripts/check_commit_style.py --base origin/main --exclude upstream/master
       python scripts/check_commit_style.py --self-test
 
   Review reads each subject as a capitalised sentence with no type

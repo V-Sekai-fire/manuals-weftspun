@@ -251,8 +251,9 @@ rules below"
     times and intervals, and the known-unknown questions that close a plan.
 
   `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
-  commit authored or committed as the agent identity, agent credit in a commit
-  message, a pull request body, a comment or a review, a software GPU emulator in a
+  commit authored or committed as the agent identity, a commit subject that is not
+  sentence-case prose (RFD 2026), agent credit in a commit message, a pull request
+  body, a comment or a review, a software GPU emulator in a
   workflow, a workflow that renders a contact sheet without uploading an
   artifact, and a branch named neither `feat/*` nor `archived/*`. Its self-test
   carries a control in each direction for each check. It is defined once, as

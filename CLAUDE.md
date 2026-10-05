@@ -228,13 +228,19 @@ workflow` and `chore(deps): bump` are not. No trailing period. The
 body, when there is one, states what the change makes true of the
 system and why. RFD 2026 carries the argument.
 
-`scripts/check_commit_style.py` gates it and reads no remote, so a
-fork is held to the same rule. Both directions carry a control: six
-subject controls, and four that commit a prefixed and a sentence-case
-subject in a scratch repository behind a V-Sekai-fire remote and
-behind a fork remote.
+The `practices` hook (`scripts/check_practices.exs`, RFD 2294) rejects
+a subject that breaks the rule, on push and in CI, in every repository
+that takes the hook. `scripts/check_commit_style.py` checks the same
+three properties on its own. Neither reads a remote, so a fork is held
+to the same rule. A branch that merges a fork's upstream names the
+upstream ref with `--exclude`, so the upstream's own commits are not
+read. Both directions carry a control: six subject controls, four that
+run the script on a prefixed and a sentence-case commit behind a
+V-Sekai-fire remote and behind a fork remote, and two on a merged
+upstream commit, read and then excluded.
 
     python scripts/check_commit_style.py --base origin/main
+    python scripts/check_commit_style.py --base origin/main --exclude upstream/master
     python scripts/check_commit_style.py --self-test
 
 ## How Session-Bundle Work Is Landed
