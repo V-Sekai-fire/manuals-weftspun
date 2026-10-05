@@ -206,6 +206,10 @@ rules below"
     an update call and read back before the task moves on, and `dot-claude`'s
     `hooks/strip_claude_footer.py` prompts that rewrite after every create
     (operator, 2026-10-02).
+  - Where a session posts. Pull requests, issues, comments, reviews and
+    discussions go only to repositories in V-Sekai-fire and chibifire-stages.
+    A fix to a fork lands in our fork, and nothing is sent upstream. Reading
+    another organisation's code is fine (operator, 2026-10-05).
   - Automation. A new driver, gate or sheet builder is a plain Elixir script
     (`.exs`). Python appears only as a thin worker where a library has no other
     binding, such as Mitsuba's renderer. A cloud session runs the Elixir gates on
