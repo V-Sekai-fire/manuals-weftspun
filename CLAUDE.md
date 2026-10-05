@@ -681,6 +681,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   `open-telemetry/opentelemetry-proto`) (operator, 2026-10-01: "can you codegen c using the official
   tool? it's faster").
 - **Test assets:** procedurally generated geometry with analytic ground truth.
+- **Sketching reference:** `V-Sekai/interactor-cassie` (MIT), the CASSIE sketching app's C#
+  source, read as the reference the curvenet graph port is checked against; read only, never run,
+  vendored or shipped (operator, 2026-10-05).
 
 ## What Belongs Here
 
