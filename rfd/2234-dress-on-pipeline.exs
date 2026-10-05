@@ -9,7 +9,7 @@ rfd 2234,
 
   feature "an ANNY body dressed from a garment photo by two VoxHammer half-torso passes, shipped as MaskScore-shaped parquet"
 
-  scope "`3-interactor/voxhammer-upstream/tools/`, `chibifire/anny-dress-on-stage-train`, task #176"
+  scope "VoxHammer's `tools/`, `chibifire/anny-dress-on-stage-train`, task 176"
 
   prose ~S"""
   :: decision
@@ -21,7 +21,7 @@ rfd 2234,
   MaskScore/EditScore three-parquet shape, with a joined view for the viewer.
   `DETAILS.md` carries the plan as it was worked, section by section.
   :: problem
-  Task #176 needs an ANNY body dressed from a second-hand-fashion photo, and
+  Task 176 needs an ANNY body dressed from a second-hand-fashion photo, and
   VoxHammer's image mode does not take a garment photo: it lifts a 2D edit of its
   own render into 3D. The plan records the correction, the seeding hole it closes,
   the renderer swap, the schema the rows must follow, and what was out of scope.
@@ -44,7 +44,7 @@ rfd 2234,
   request ("copy the dress on plan to rfd"). Prose is unchanged apart from em-dash joins
   the DSL flags; the file paths and numbers are those of that day.
   :: details Context
-  Task #176 dress-on. Take an ANNY parametric body, take a second-hand-fashion garment
+  Task 176 dress-on. Take an ANNY parametric body, take a second-hand-fashion garment
   photo, splice the garment onto the body mesh with VoxHammer (a training-free 3D
   latent editor with a splice-before-decode guard that keeps everything outside the
   mask exact), trim the garment out of its photo with BiRefNet in a separate process,
@@ -57,7 +57,7 @@ rfd 2234,
   ANNY, and one design correction found during exploration:
 
   **VoxHammer's image mode does not take a garment photo.** It takes three
-  fixed-name images from `--image_dir` (`voxhammer/edit_pipeline.py:532-534`):
+  fixed-name images from `--image_dir` (`voxhammer/edit_pipeline.py`):
   `2d_render.png` (a render of the unedited body), `2d_edit.png` (that same view
   edited in 2D to show the wanted result), `2d_mask.png` (the changed region in
   that view). The shipped example is a hoodie figure whose face was changed in an
@@ -67,9 +67,9 @@ rfd 2234,
   the torso is honest and sufficient.
 
   **Multiview is two sequential half-torso passes on the same Hammersley cameras.**
-  `get_cond([...])` stacks images along the batch axis (`trellis_image_to_3d.py:161-168`);
+  `get_cond([...])` stacks images along the batch axis (`trellis_image_to_3d.py`);
   TRELLIS's stock multi-image mode mixes those at the sampler level, and VoxHammer's
-  edit samplers are KV-cached single-cond inversions (`edit_pipeline.py:546-552`),
+  edit samplers are KV-cached single-cond inversions (`edit_pipeline.py`),
   so true multi-image conditioning inside the edit is research, not glue. Instead the
   3D mask is **two boxes**, front-torso and back-torso, split at the body's coronal
   plane. Pass 1 edits the front box conditioned on the front garment composited over
@@ -80,9 +80,9 @@ rfd 2234,
 
   **Views come from `sphere_hammersley_sequence`, never a hand-picked azimuth**
   (CLAUDE.md). `utils/render_rgb_and_mask.py` uses five hand-picked azimuths and is
-  NOT used. Step 1's 150-view render (`bpy_render.py:302-336`) is the source of
+  NOT used. Step 1's 150-view render (`bpy_render.py`) is the source of
   every 2D image: pick views by camera position from `transforms.json`. The
-  Hammersley offset at `bpy_render.py:304` is `np.random.rand()` **unseeded**:
+  Hammersley offset at `bpy_render.py` is `np.random.rand()` **unseeded**:
   every run gets a different camera set, so the driver seeds `np.random` per
   target before each render and records the seed; both passes then share one
   `transforms.json` and one front/rear view index.
@@ -175,22 +175,22 @@ rfd 2234,
   ### `tools/anny_body.py` (anny env), identity → body.glb + mask.glb
   - Build the model with `anny.Anny(rig="anny", topology="anny", phenotypes="all",
   local_changes="default", skinning_method="lbs")`
-   , the same `CORPUS_CONFIG` as `6-datasource/anny-render-corpus/anny_rig.py:78-80`,
+   , the same `CORPUS_CONFIG` as `anny_rig.py` in &{repo("anny-render-corpus")},
     minus `facial_actions` and minus the corpus's forearm twist fix (not wanted here).
   - Phenotypes come from `tools/identity_appendix_e.py` (below), which returns
     the same `{label: float in 0..1}` dict shape that
-    `sample_identities.py:42-63` produces, so this script is source-agnostic.
+    `sample_identities.py` produces, so this script is source-agnostic.
     Record the source row keys and the 11 named floats.
-  - Forward at identity pose (`_identity_pose` pattern, `anny_rig.py:99-101`) →
+  - Forward at identity pose (`_identity_pose` pattern, `anny_rig.py`) →
     `out["vertices"][0]`, `model.faces`.
   - **Pre-normalize to the unit cube** (`scale = 1/max(extent)`, centre at origin)
     BEFORE export, and apply the same transform to the mask. VoxHammer's
-    `bpy_render.normalize_scene` (`voxhammer/bpy_render.py:231-250`) then acts as
-    ~identity on the body, and `utils/render_rgb_and_mask.py:35` explicitly does
+    `bpy_render.normalize_scene` (`voxhammer/bpy_render.py`) then acts as
+    ~identity on the body, and `utils/render_rgb_and_mask.py` explicitly does
     NOT normalize, rendering at radius 1.8, so a unit-scale body is what both
     consumers expect. This sidesteps the question of whether the mask path
     normalizes independently: both files share one frame and are already unit.
-  - Torso masks: `dominant_bone(model)` (`anny_rig.py:93-96`) → vertices whose
+  - Torso masks: `dominant_bone(model)` (`anny_rig.py`) → vertices whose
     dominant bone name matches spine/chest/breast (print `model.bone_labels` on
     first run to pick the exact names) → their AABB, padded ~8 % → split at the
     torso's coronal midplane (y = centroid, ANNY is y-forward) into two
@@ -198,14 +198,14 @@ rfd 2234,
     `mask_back.glb`. Store the 8 corners of each box in `phenotype.json` so the
     2D projection step needs no re-parse of the GLB.
   - Export with `trimesh.Scene().export("*.glb")`,
-  `anny/src/anny/examples/interactive_demo.py:84-102`.
+  `anny/src/anny/examples/interactive_demo.py`.
     No skeleton, no UVs: VoxHammer flattens to a static mesh and deletes all
-    materials (`bpy_render.py:93-94, 166-171`), so static geometry is exactly right.
+    materials (`bpy_render.py`), so static geometry is exactly right.
   - Emits `phenotype.json` (seed, 11 floats, anny version SHA) for the row.
 
   ### `tools/identity_appendix_e.py` (anny env), appendix-E anthropometry → ANNY phenotypes
   Operator chose appendix-E over ANNY's own prior. What is known, from the only
-  schema documentation on disk (`g1-sim-to-real/rom_map.py:9-14, 65-80`):
+  schema documentation on disk (`g1-sim-to-real/rom_map.py`):
   the dataset is `chibifire/starforged-std-3001-appendix-e`, config `human`,
   120 rows, columns `section`-like key, `subcategory`, `angle_deg_min/max`,
   `source`, `percentile`, `sex`. **Only E.3 (16 rows of joint ROM) is documented
@@ -222,34 +222,34 @@ rfd 2234,
   `percentile`/`sex` columns exist for a reason, and E.3 leaves them empty only
   because the AAOS ROM reference is not percentile-stratified), build the
   mapping as a `SOURCES["appendix_e"]` function in the same shape as
-  `sample_identities.py:42-67` (its docstring says a new population source is
+  `sample_identities.py` (its docstring says a new population source is
   "adding a function below, not reshaping the schema"):
   - Identity grid for batch 1: `{male, female} × {p5, p25, p50, p75, p95}` = 10
     identities, each a (sex, percentile) → (stature m, mass kg) lookup.
-  - `gender` ← sex as 0.0 / 1.0 (`model_data.py:40-55`: a 0..1 male↔female scalar).
+  - `gender` ← sex as 0.0 / 1.0 (`model_data.py`: a 0..1 male↔female scalar).
   - `age` ← the adult band through `MorphologicalAgeMapping`
-    (`shape_distribution.py:17-51`), the only years→parameter bridge ANNY has.
+    (`shape_distribution.py`), the only years→parameter bridge ANNY has.
   - `height`, `weight` ← **the workspace's LBFGS residual resolver**, with a
     measurement residual in place of a vertex residual.
-    `4-entities/anny-pose-retarget-work/lbfgs_polish.py:1-16` is the pattern:
+    The pose-retarget work's `lbfgs_polish.py` is the pattern:
     `torch.optim.LBFGS(..., line_search_fn="strong_wolfe")` at float64 over ANNY
     parameters, the established follow-up to `AnnyInverter`'s Adam pass
-    (`gnm-anny-headfit/headfit.py:11-12` records 1.7e-4 mm on a same-rig target).
-    ANNY's forward and `Anthropometry.height` (Z-extent, `anthropometry.py:76`)
-    and `.mass` (volume × density, `:90-104`) are all differentiable, so the loop
+    (`gnm-anny-headfit/headfit.py` records 1.7e-4 mm on a same-rig target).
+    ANNY's forward and `Anthropometry.height` (Z-extent, `anthropometry.py`)
+    and `.mass` (volume × density) are all differentiable, so the loop
     minimises `((height(v) − stature)/stature)² + ((mass(v) − mass)/mass)²` over
     `{height, weight}` with autograd, no root-finding, no finite differences.
-    ANNY's phenotype space has no metres in it (`phenotype.py:311-337`), which is
+    ANNY's phenotype space has no metres in it (`phenotype.py`), which is
     why this is a solve, not an assignment.
   - Regularisation reuses `AnnyInverter._DEFAULT_REG_WEIGHT_KWARGS`
-    (`anny_inverter.py:20-32`): `height` 1e-3 (free), `age` 10.0 (near-frozen),
+    (`anny_inverter.py`): `height` 1e-3 (free), `age` 10.0 (near-frozen),
     race 100.0 (frozen), the priors already tuned for exactly this shape of fit.
   - `muscle` held at 0.5 (mass alone cannot separate weight from muscle); record
-    that `mass()` uses a hard-coded 980 kg/m³ (`anthropometry.py:104`), a
+    that `mass()` uses a hard-coded 980 kg/m³ (`anthropometry.py`), a
     systematic bias against any real weight table, the row stores achieved
     beside target so the bias is measured, not hidden.
   - If 1a shows a waist-circumference row, add `Anthropometry.waist_circumference`
-    (`:82`, the 46-vertex ring) as a third residual term, same loop, one line.
+    (the 46-vertex ring) as a third residual term, same loop, one line.
   - `proportions`, `cupsize`, `firmness`, race terms ← 0.5 (ANNY's neutral); no
     appendix column steers them.
   - The second-opinion referee that guards the vertex fit
@@ -260,9 +260,9 @@ rfd 2234,
     non-waist circumferences. `Anthropometry` exposes five scalars only
     (`height, waist_circumference, volume, mass, bmi`). Recorded in the row as
     `unmapped_measurements: list<string>` so the omission is counted, not silent.
-  - `AnnyInverter` (`anny_inverter.py:771-809`) is **not** the tool: it needs a
+  - `AnnyInverter` (`anny_inverter.py`) is **not** the tool: it needs a
     full `[B, V, 3]` target mesh in ANNY topology, not scalars.
-    (`AGENTS.md:61` still names the old `parameters_regressor.py`; stale.)
+    (`AGENTS.md` still names the old `parameters_regressor.py`; stale.)
   - Each ANNY forward is one 13 718-vertex evaluation; a two-scalar solve is
     well under a second per identity on CPU.
 
@@ -274,16 +274,16 @@ rfd 2234,
   silent substitution.
 
   **SOMA-X is the pivot, and ANNY phenotypes are already its identity vector.**
-  `3-interactor/soma-x/soma/identity_model.py:350-392`, `AnnyIdentityModel`
+  `soma/identity_model.py` in &{repo("interactor-soma-x")}: `AnnyIdentityModel`
   wraps `anny.create_fullbody_model(all_phenotypes=True, ...)`,
   `num_identity_coeffs = len(phenotype_labels)`, and `get_rest_shape` passes
   `identity_coeffs` straight through as `phenotype_kwargs`. So the 11 `pheno_*`
   columns in the row **are** the SOMA-X identity coefficients for
-  `identity_model_type="anny"` (`soma/soma.py:170-172`); no conversion column,
+  `identity_model_type="anny"` (`soma/soma.py`); no conversion column,
   and none may be added (it would be derivable, which ETNF forbids).
 
   **GarmentMeasurements is blocklisted** (operator, 2026-09-07: licence).
-  `GarmentMeasurementIdentityModel` (`identity_model.py:468-516`) and its
+  `GarmentMeasurementIdentityModel` (`identity_model.py`) and its
   CAESAR PCA are not an option for any identity path; SOMA-X's other backends are
   unaffected. Do not add it to `BLOCKLIST.md` on this relay, the operator's own
   row and section land through their channel.
@@ -300,9 +300,9 @@ rfd 2234,
   Operator: "you can also use mitsuba3 to render". Mitsuba is the workspace's
   sanctioned renderer (CLAUDE.md asks the mtoon renderers to consolidate on it)
   and is already exercised in `g1-sim-to-real/bench_silhouette.py`.
-  VoxHammer skips its own render when the artefacts exist (`inference.py:31`),
+  VoxHammer skips its own render when the artefacts exist (`inference.py`),
   so this is a drop-in for Step 1 as long as it emits the exact contract
-  `voxhammer/extract_feature.py:35-53, 60-74` reads:
+  `voxhammer/extract_feature.py` reads:
 
   - `mesh.ply`, the mesh normalized into `[-0.5, 0.5]³` (`voxelize_mesh` clips to
     that cube at line 23). Our body is already unit-scaled by `anny_body.py`, so
@@ -311,7 +311,7 @@ rfd 2234,
     RGB by alpha, so a black-composited background would double-darken). Mitsuba:
     `scene.integrator = path`, film `rgba`, `sensor.film.pixel_format = "rgba"`,
     no envmap emitter behind the object; a constant emitter for the three-point
-    fill that `bpy_render.py:112-134` hard-codes.
+    fill that `bpy_render.py` hard-codes.
   - `transforms.json`, `{"aabb": [[-0.5]*3, [0.5]*3], "scale": s, "offset": [ox,oy,oz],
   "frames": [{"file_path": "NNN.png", "camera_angle_x": 0.6981 (40° in rad), "transform_matrix":
   c2w}]}`
@@ -320,15 +320,15 @@ rfd 2234,
     inverting. Build it from `mi.ScalarTransform4f.look_at(origin, target=(0,0,0), up=(0,0,1))`
     and then apply the OpenCV→OpenGL flip so the file matches what Blender wrote.
   - Cameras: `sphere_hammersley_sequence(i, 150, offset)`, the pure function at
-    `voxhammer/bpy_render.py:11-40` (identical copy in `trellis/utils/random_utils.py:22`),
+    `voxhammer/bpy_render.py` (identical copy in `trellis/utils/random_utils.py`),
     radius 2, fov 40°, with `offset` drawn from a **seeded** RNG and the seed
     written into `transforms.json` as an extra key. This is where the
-    reproducibility hole at `bpy_render.py:304` is closed for good.
+    reproducibility hole at `bpy_render.py` is closed for good.
   - **Second layout, `--aov --views 64`**, for scoring: `view_XXX.json` (camera),
     `view_XXX.png` (RGBA), `view_XXX.aov.npz` with `depth` (H,W) and `normal`
-    (H,W,3), the contract `score_render_pair.py:31-41` reads. Mitsuba's `aov`
+    (H,W,3), the contract `score_render_pair.py` reads. Mitsuba's `aov`
     integrator (`depth`, `sh_normal`) gives both in one pass; 64 views is the
-    MaskScore convention (`maskscore_rung_1_mesh.py:106-108`). Note
+    MaskScore convention (`maskscore_rung_1_mesh.py`). Note
     `sphere_hammersley_sequence(i, 64) ≠ (i, 150)`, so this is a distinct
     render, run on every candidate mesh and on the input.
   - **Validation gate before it replaces Blender**: render the shipped
@@ -349,13 +349,13 @@ rfd 2234,
 
   `[feature.judge]` (only when EditScore runs): `python = "3.11.*"`, torch with a
   per-package CUDA index, `editscore` and its Qwen3-VL backbone exactly as
-  `anny-render-corpus/score_edits.py:119-122` loads them (`BASE`, `ADAPTER`,
-  `score_range=25`, 512² cap because 1024² does not fit 8 GB per `:98-99`).
+  `anny-render-corpus/score_edits.py` loads them (`BASE`, `ADAPTER`,
+  `score_range=25`, 512² cap because 1024² does not fit 8 GB).
   `[environments] judge = { features = ["judge"], no-default-feature = true }`.
   Four usages, four environments; the orchestrator hands files between them.
 
   ### `tools/pick_view.py` (render env), view selection + 2D mask from the Hammersley render
-  - Reads `transforms.json` from Step 1 (`bpy_render.py:329-336`: per-frame
+  - Reads `transforms.json` from Step 1 (`bpy_render.py`: per-frame
     `transform_matrix` c2w and `camera_angle_x`; radius 2, fov 40°, 512²).
   - **Front-most view** = frame whose camera position has the largest dot with
     the body's forward axis (+y in ANNY's frame, mapped through the same unit
@@ -378,31 +378,31 @@ rfd 2234,
   - Write `2d_edit.png`. Record `composite_method = "alpha-paste-to-mask-bbox"`.
 
   ### `run_edit_test.py` (default env), changes
-  1. **Vertex-coloured export via the Gaussian, no nvdiffrast.** `edit_pipeline.py:556`
+  1. **Vertex-coloured export via the Gaussian, no nvdiffrast.** `edit_pipeline.py`
      calls `postprocessing_utils.to_glb(...)`, which unconditionally bakes a
-     texture via nvdiffrast (`trellis/utils/postprocessing_utils.py:443-453`);
+     texture via nvdiffrast (`trellis/utils/postprocessing_utils.py`);
      our shim raises by design. Monkeypatch `postprocessing_utils.to_glb` from
      the driver (upstream file untouched) with `gaussian_vertex_color_glb(app_rep, mesh, **_)`:
      - mesh: `mesh.vertices.cpu().numpy() @ ZUP_TO_YUP`, `mesh.faces` (rotation
-       from `postprocessing_utils.py:457`); skip `postprocess_mesh` (its
+       from `postprocessing_utils.py`); skip `postprocess_mesh` (its
        `fill_holes` renders visibility).
      - colour: the Gaussian splat **is** the decoded appearance field. Take
        `app_rep.get_xyz` and the SH-DC colour (`app_rep.get_features[:, 0]` →
        `SH2RGB`), build a `scipy.spatial.cKDTree`, and assign each mesh vertex the
        inverse-distance mean of its k=8 nearest Gaussians. Pack as `COLOR_0`
        (`trimesh.visual.ColorVisuals(vertex_colors=...)`) and export GLB. This is
-       what `pixal3d.cpp` itself emits by default (`mesh_export.cpp:502-513`,
-       rationale at `mesh_export.h:11-15`). No cameras, no rendering, ~25 lines.
+       what `pixal3d.cpp` itself emits by default (`mesh_export.cpp`,
+       rationale at `mesh_export.h`). No cameras, no rendering, ~25 lines.
      - also `app_rep.save_ply("dressed_gaussian.ply")` so the row keeps the full
        appearance field for any later re-bake.
      **Upgrade path (recorded, not done):** Pixal3D's `t2_bake_glb`
-     (`pixal3d.cpp/trellis2_capi.h:167-183`) is a CPU xatlas UV-atlas bake that
+     (`pixal3d.cpp/trellis2_capi.h`) is a CPU xatlas UV-atlas bake that
      takes exactly this per-vertex PBR (rgb, metallic, roughness, alpha) and
-     returns a GLB with a real texture, CPU-only, no CUDA (`mesh_export.h:14-15`).
+     returns a GLB with a real texture, CPU-only, no CUDA (`mesh_export.h`).
      It needs a CMake build of `pixal3d.cpp` (not built on this box; needs only
      Threads + bundled xatlas) and a `T2MESH03` blob writer. When a UV texture is
      required, that is the ~1-day step; nothing in pass 1 needs it.
-  2. **Pass `--render_dir` pointing at the Mitsuba output** so `inference.py:31`
+  2. **Pass `--render_dir` pointing at the Mitsuba output** so `inference.py`
      skips Blender. Keep `np.random.seed(target_seed + pass_index)` before
      `run_3d_rendering` anyway, so the Blender fallback (if Mitsuba fails the
      validation gate) is also reproducible. Seeds go into `voxhammer_config`.
@@ -417,8 +417,8 @@ rfd 2234,
   ### `tools/write_dress_on_rows.py` (matting env), the MaskScore / EditScore schema
   Operator: the dataset must follow the MaskScore / EditScore schemas. Those are
   the workspace's **root + candidates + scores** three-parquet ETNF shape
-  (`anny-render-corpus/maskscore_rung_1_mesh.py:10-27, 86-135`,
-  `maskscore_rung_1_stubs.py:37-53`), and dress-on becomes one more stub in that
+  (`anny-render-corpus/maskscore_rung_1_mesh.py`,
+  `maskscore_rung_1_stubs.py`), and dress-on becomes one more stub in that
   register rather than a schema of its own. The shape is a **scorer-calibration**
   shape: every row carries several candidates with a known ordering, and the emit
   refuses to write unless the identity and negative controls hold. So a dress-on
@@ -428,7 +428,7 @@ rfd 2234,
   ```
   ("dress_on", "garment_edit", "instruction_following", "input_mesh", "anny_glb")
   ```
-  `MASKSCORE.md`, which `maskscore_rung_1_stubs.py:38` cites for these
+  `MASKSCORE.md`, which `maskscore_rung_1_stubs.py` cites for these
   vocabularies, is **absent from disk** (Glob finds none). Record that as a
   doc-drift finding in the shard; do not invent a replacement.
 
@@ -442,7 +442,7 @@ rfd 2234,
   ```
   Batch 1 = 10 identities × 2 edited candidates × 2 passes = **40 VoxHammer edits**.
 
-  **Tables** (all zstd; `real()` relative paths as `maskscore_rung_1_mesh.py:77-80`,
+  **Tables** (all zstd; `real()` relative paths as `maskscore_rung_1_mesh.py`,
   assets uploaded beside the parquets, not `struct<bytes,path>` embedding, which
   is not the workspace's shape):
 
@@ -468,7 +468,7 @@ rfd 2234,
 
   `dress_on_scores.parquet`, geometric, **always present**, one row per
   (candidate, view) over **64** Hammersley views, the `score_render_pair.py`
-  metric (`:3-7`): `(row_key, candidate, view_index, depth_l1, normal_l1, normal_dot)`
+  metric: `(row_key, candidate, view_index, depth_l1, normal_l1, normal_dot)`
   against the **undressed input's** render, computed twice, on the reference
   alpha outside the torso masks (`*_outside`, VoxHammer's "rest exact" guarantee
   as a number) and inside (`*_inside`, how much changed). No judge needed.
@@ -476,7 +476,7 @@ rfd 2234,
   `dress_on_judge.parquet`, **present only when a judge ran**, one row per
   (candidate, judge): `(row_key, candidate, judge_base, judge_adapter, judge_precision,
   judge_num_pass, prompt_sha, instruction, overall, refused)`, the record
-  `score_edits.py:154-163` already emits. Judge = EditScore (Apache-2,
+  `score_edits.py` already emits. Judge = EditScore (Apache-2,
   `omnigen2/OmniGen2-RL`; `EditScore(backbone="qwen3vl", …, score_range=25).evaluate([src,
   edited], instruction)`),
   fed the front `render_2d` and the candidate's front render with the instruction
@@ -496,7 +496,7 @@ rfd 2234,
   relative to it, rule 4: the floor is reported in the same table.
 
   **Controls, asserted before the write** (`assert_controls` shape,
-  `maskscore_rung_1_mesh.py:58-68`; a failure refuses the whole emit):
+  `maskscore_rung_1_mesh.py`; a failure refuses the whole emit):
   - floor: rank5 (source decode) vs the input render, reported, not gated; it is
     the reconstruction error every other number is read against;
   - rest-exact: rank1 and rank3 `depth_l1_outside` ≤ rank5's + 1/64 on every view
@@ -508,17 +508,17 @@ rfd 2234,
 
   **Row-writer gates (fail, never skip):** refuse a row whose conditioning used
   `brand` (pass-1 no-logos rule enforced at write time); refuse any absolute
-  path (`refuse_if_absolute`, `publish_artifacts.py:96-121`); refuse a ragged
+  path (`refuse_if_absolute`, `publish_artifacts.py`); refuse a ragged
   scores satellite (view count must match across candidates,
-  `maskscore_rung_1_mesh.py:109-114`).
+  `maskscore_rung_1_mesh.py`).
 
   **Joined view for HF**, add one entry to `CONFIGS`
-  (`maskscore_rung_1_hf_publish.py:14-33`):
+  (`maskscore_rung_1_hf_publish.py`):
   ```
   "dress_on": {"prefix": ("dress_on",), "cand_composite": ("row_key","candidate"),
                "score_composite": ("row_key","candidate")}
   ```
-  `build_wide` (`:59-78`) nests candidates → scores into the root; an unjudged
+  `build_wide` nests candidates → scores into the root; an unjudged
   candidate gets `judge: []`, a value not a null. Emits
   `data/dress_on/train-NNNNN-of-MMMMM.parquet`, the viewer's one paginated
   table, beside the four satellites. Shard at ~500 MB.
@@ -530,14 +530,14 @@ rfd 2234,
   conditioning so the corpus can be regenerated.
 
   ### `tools/publish_dress_on.py` (matting env), copy `publish_artifacts.py`
-  - `hf_token()` from 1Password (`publish_artifacts.py:54-62`, same item).
+  - `hf_token()` from 1Password (`publish_artifacts.py`, same item).
   - `api.create_repo(..., repo_type="dataset", exist_ok=True)`; `api.upload_folder(...)`
     **without** `delete_patterns` so each run adds shards (incremental, resumable;
-    `mirror_base_weights.py:19` is why `upload_folder` and not `push_to_hub`).
+    `mirror_base_weights.py` is why `upload_folder` and not `push_to_hub`).
   - Preflight `refuse_if_absolute` and `refuse_if_forbidden` over the stage.
   - README card **without a `configs:` block** (auto-parquet picks up
     `data/<config>/`; the block caused "size not coherent" errors upstream).
-  - Read-back after upload, as `publish_artifacts.py:537-539` does.
+  - Read-back after upload, as `publish_artifacts.py` does.
 
   ### `tools/dress_on_batch.py` (system python, stdlib), orchestrator
   - `--count N --seed S --garment-offset K --out <work>`; per target runs the seven
@@ -619,7 +619,7 @@ rfd 2234,
     than the tolerance, a resolver that returns the same body for both has not
     resolved anything.
   - **Step 1** `trimesh.load("body.glb").bounds` within `[-0.5, 0.5]`; vertex count
-    13 718 (`topology="anny"`, `anny_render_schema.py:94`); both mask GLBs inside
+    13 718 (`topology="anny"`, `anny_render_schema.py`); both mask GLBs inside
     the body's torso height band and on opposite sides of its coronal plane;
     `phenotype.json` has 11 floats plus the source keys.
   - **Step 2** `transforms.json` has 150 frames; rendering twice with the same
@@ -664,18 +664,18 @@ rfd 2234,
             blendshapes ANNY does not ship, for any identity model including ANNY. The
             identity vector is the same `pheno_*` row above, so the dressed body and its
             corrective set share one parameterization.
-          - **Twist bones: none.** `4-entities/godot-soma-twist/README.md:10-42`, the
+          - **Twist bones: none.** The soma-twist addon's `README.md` says the
             shipping answer is a linear elbow→wrist weight ramp on the wrist bone
             (1.0° / 3.6° / 14.0° error at 45/90/135° pronation, better than a twist bone
             plus disperser), because glTF carries no runtime code and humanoid retarget
             profiles drop any bone they cannot name. `anny_rig.fix_forearm_twist`
-            (`anny-render-corpus/anny_rig.py:148`) is that ramp.
+            (`anny-render-corpus/anny_rig.py`) is that ramp.
           - **Garment as SpringBone-rigged hull segments** (operator, earlier): the
             torso-box edit region is the garment's hull; CoACD it (`max_convex_hull` is
             the cost knob, per memory) and attach as VRM SpringBone chains.
           - **G1 / Unitree**: not a dress-on step. SOMA-X's README names BONES-SEED
             (retargeted G1 data) and Kimodo as its humanoid bridges, the Apache-2
-            retarget source for #174's microduck-formula training, recorded here so the
+            retarget source for task 174's microduck-formula training, recorded here so the
             two tasks share one identity vector rather than two.
           """
 
@@ -686,12 +686,12 @@ rfd 2234,
   a file contract**, to be replaced one at a time by a ggml component of a future
   `voxhammer.cpp` shaped like `pixal3d.cpp`. Blender is already off; Mitsuba
   stays, it is C++ (operator), and only its Python binding here is glue.
-  **USD in C++ has exactly one sanctioned path.** `3-interactor/datasource-flow`
-  (github.com/V-Sekai-fire/datasource-flow) *is* the workspace's OpenUSD
+  **USD in C++ has exactly one sanctioned path.** &{repo("interactor-flow")}
+  *is* the workspace's OpenUSD
   implementation: it builds OpenUSD 26.05 from source (`SConstruct`,
   `env.BuildOpenUSD`), keeps `pxr::` inside `flow/core`, and exposes a flat C
   ABI in `flow/ports` (`idtx_core.sigs` → dlsym thunks, the same shape as
-  `contract-bus`). Hosts, Godot, Unity, the CLI, bind only that ABI.
+  &{repo("contract-bus")}). Hosts, Godot, Unity, the CLI, bind only that ABI.
   tinyusdz and hand-written USD parsers are both **banned** (operator,
   2026-09-07). So `voxhammer.cpp` is a host of flow's port ring for every
   stage it reads or writes (Mesh + displayColor, Cube edit regions, Points
@@ -707,7 +707,7 @@ rfd 2234,
   TRELLIS.2's generator, not this editor. The file contracts (PLY/USD in,
   `transforms.json`, PNGs, parquet out) are what make the swap incremental.
   :: details voxhammer.cpp, state at 2026-09-07T11:10Z
-  - `3-interactor/voxhammer.cpp` (local, not in the manifest, not pushed):
+  - `voxhammer.cpp` (a local checkout, not in the manifest, not pushed):
     walking skeleton of the non-learned half, **bit-exact** against the Python
     pipeline on `work/smoke2` (voxels 3378 = 3378, delete 3068 = 3068, cameras
     max|Δc2w| = 0, Hammersley offset identical to 15 decimals).
@@ -727,7 +727,7 @@ rfd 2234,
   - Appendix-E measurements with no ANNY knob (limb lengths, breadths,
     circumferences other than waist), counted per row as `unmapped_measurements`,
     never fitted. Steering them would need new ANNY targets, not a solve.
-  - Fixing `anny/AGENTS.md:61` (names the renamed `parameters_regressor.py`):
+  - Fixing `anny/AGENTS.md` (names the renamed `parameters_regressor.py`):
     upstream's doc, one line, raise separately.
   - True multi-image conditioning inside one VoxHammer edit (would need
     multidiffusion ported into the KV-cached inversion samplers).
@@ -736,7 +736,7 @@ rfd 2234,
   - Depth / intrinsics from the garment photos. Every camera here is synthetic
     (Hammersley, written by us), so nothing estimates a camera. If a later pass
     wants garment geometry from the photo (drape, thickness) rather than a 2D
-    paste, MoGe-3 (`3-interactor/moge-upstream`, RFD 1102's metric-depth row) is
+    paste, MoGe-3 (&{repo("MoGe")}, RFD 1102's metric-depth row) is
     the tool for depth + intrinsics on that real image; not needed in pass 1.
   - UV-atlas texture via `pixal3d.cpp` `t2_bake_glb` (CPU, needs the C++ build);
     pass 1 ships `COLOR_0` vertex colours from the Gaussian plus the Gaussian PLY.
@@ -744,7 +744,7 @@ rfd 2234,
   - A judge other than EditScore (HERD named Gemma-4-12B zero-shot); the judge
     satellite's interned `judge_base/adapter` columns take either without a
     schema change, and the frozen-judge doctrine binds whichever runs.
-  - LPIPS in the geometric scorer, `score_render_pair.py:9` defers it too.
+  - LPIPS in the geometric scorer, `score_render_pair.py` defers it too.
   - Removing `bpy` from the edit env's `pixi.toml` (it is stubbed at runtime now;
     pxr and bpy cannot share a process). Do it after batch 1 lands, not under it;
     it also retires the only reason the edit env was pinned to Python 3.11.
