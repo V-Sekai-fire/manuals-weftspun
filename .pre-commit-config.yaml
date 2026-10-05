@@ -656,6 +656,23 @@ repos:
         files: ^(\.github/workflows/.*\.ya?ml|scripts/check_workflow_concurrency\.py)$
         pass_filenames: false
 
+      - id: readme-churn-self-test
+        name: the README churn gate still fails on planted ports, versions, dates and flag lists
+        entry: python scripts/check_project_readme_churn.py --self-test
+        language: python
+        additional_dependencies: ["markdown-it-py==3.0.0"]
+        files: ^scripts/(check_project_readme_churn|check_project_readme_length|md_ast)\.py$
+        pass_filenames: false
+
+      - id: readme-churn-workspace
+        name: no placed V-Sekai-fire README carries ports, versions, dates, branches, status tables or flag lists
+        entry: python scripts/check_project_readme_churn.py
+        language: python
+        additional_dependencies: ["markdown-it-py==3.0.0"]
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
       - id: workflow-concurrency-workspace
         name: every placed V-Sekai-fire workflow cancels superseded pull request runs and nothing else
         entry: python scripts/check_workflow_concurrency.py

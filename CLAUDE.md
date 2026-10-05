@@ -509,6 +509,15 @@ and run it, and its licence; the rest is in the code, its `--help`, and the
 RFD that owns the topic (operator, 2026-10-04: "the more technical details
 you write in the readme the more that will go stale").
 
+`scripts/check_project_readme_churn.py` holds that line on the same
+projects and the same fork exemption: a README fails on a port, a version
+outside a dependencies section, a date, a branch name, a status table or
+mark, or three or more flags outside fenced blocks. READMEs that carried
+such detail when the gate landed are listed in it and counted on each run.
+
+    python scripts/check_project_readme_churn.py
+    python scripts/check_project_readme_churn.py --self-test
+
 ## How Responses Are Bounded
 
 Session budget is finite. A reply carries the answer or the code, not the walk
