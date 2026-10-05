@@ -48,9 +48,30 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   reads and writes them in the guest; Gate S round-trips them against
   the host's OpenUSD. CASSIE's `dress.curves` converts once to the
   same layout, from the train split of a group-wise 60/20/20 split
-  whose test set is withheld. Replaying a saved `.usda` through this
-  gate is the next step; its expected cycles come from CASSIE's own
-  algorithm.
+  whose test set is withheld.
+  :: details The graph is CASSIE's, ported literally
+  The sketch graph and its cycle detection are a literal port of
+  CASSIE's C# (`Graph`, `CycleDetection`, `Node`, `Segment`, `Cycle`),
+  not a reimplementation. The C++ guest (`interactor-curvenet`,
+  `feat/cassie-graph-port`) is checked event for event against a
+  literal Python port of the same classes: 425 of 425 events agree.
+  :: details Replaying a recorded session
+  A recorded CASSIE session replays CASSIE's own recorded intersection
+  constraints as the junctions, never a merge distance and never a
+  re-detection. A replayed junction is the recorded point within
+  0.1 mm, about an eighth of a credit card; the worst measured is
+  0.016 mm, about a fiftieth of one.
+
+  A session's expected cycle count is the patches CASSIE still had at
+  the end. The export logs every patch created and none of those
+  dropped, and a stroke's patches are logged just before its
+  `ADD_STROKE`. A logged patch counts unless it was deleted, holds a
+  deleted stroke or that stroke's mirror (id + 1), or was split by a
+  later stroke's batch.
+
+  | Session | Patches logged | Alive at the end | Port's cycles | Exact |
+  | --- | --- | --- | --- | --- |
+  | dress | 225 | 104 | 103 | 101 |
   :: details What may still break
   - The runtime's button bits map to OpenXR paths the pen's action
     map may not expect; the symptom is the wrong number of openings.
