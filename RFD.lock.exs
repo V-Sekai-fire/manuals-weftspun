@@ -532,6 +532,7 @@
     }
   },
   files: %{
+    {"MoGe", "moge/model/v3.py"} => %{contains: []},
     {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
     {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
     {"egit", "c_src/git_branch.hpp"} => %{contains: []},
