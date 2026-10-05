@@ -49,7 +49,7 @@ gates, and each guest solve"
   :: details The budgets
   | What | Budget | On overrun |
   | --- | --- | --- |
-  | One main-loop step | 6.94 ms, one frame at 144 Hz | the guest is suspended and resumed next frame |
+  | One main-loop step | 6.94 ms, one frame at 144 Hz | the guest is suspended until next frame |
   | Scene load to first frame | 5 s | the load fails by name |
   | One test or gate run | 1 minute | the run fails, never a silent skip |
   | One solve: a guest call or a stroke commit | 60 s | the solve times out and fails |
