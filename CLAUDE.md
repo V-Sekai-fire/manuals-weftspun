@@ -501,6 +501,13 @@ exempt list inline in the script.
     python scripts/check_project_readme_length.py
     python scripts/check_project_readme_length.py --self-test
 
+The body stays light too. Every technical detail a README restates (a flag,
+a port, a file layout, a build step's internals) is one more thing that goes
+stale when the code moves. A README says what the project is, how to build
+and run it, and its licence; the rest is in the code, its `--help`, and the
+RFD that owns the topic (operator, 2026-10-04: "the more technical details
+you write in the readme the more that will go stale").
+
 ## How Responses Are Bounded
 
 Session budget is finite. A reply carries the answer or the code, not the walk
