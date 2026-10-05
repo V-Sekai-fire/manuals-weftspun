@@ -166,7 +166,8 @@ fleet-domain document"
 
   Reuses `Taskweft.JSONLD.Loader.validate/2` and `Taskweft.MCP.Server`
   without modification. The caveat primitive is imported verbatim from
-  `7-service/service-sqlar-cas/lib/sqlar_cas/caveat.ex`, no fork.
+  `lib/sqlar_cas/caveat.ex` of
+  &{repo("service-sqlar-cas", planned: "7-service")}, no fork.
   :: details Tiebreak order
   Encoded in the domain's `methods.alternatives` list order, the
   planner picks the first alternative that satisfies its guards and
@@ -227,7 +228,7 @@ fleet-domain document"
     surfaces "no assignable Task" rather than silently returning the
     first `TwCall`. Rule 2 of CLAUDE.md's verification list.
   - **Browser reviewability**: the WASM SQLite demo in
-    `7-service/service-sqlar-cas/docs/` gets the fleet-domain tables
+    `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} gets the fleet-domain tables
     in its fixture and renders the plan sol-tree client-side, so a
     reader can inspect the planner's output without an Elixir toolchain.
   :: details From the README, moved here on 2026-09-07

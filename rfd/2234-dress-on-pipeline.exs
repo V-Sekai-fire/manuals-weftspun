@@ -234,7 +234,8 @@ rfd 2234,
     The pose-retarget work's `lbfgs_polish.py` is the pattern:
     `torch.optim.LBFGS(..., line_search_fn="strong_wolfe")` at float64 over ANNY
     parameters, the established follow-up to `AnnyInverter`'s Adam pass
-    (`gnm-anny-headfit/headfit.py` records 1.7e-4 mm on a same-rig target).
+    (`gnm-anny-headfit/headfit.py` records &{measured(:same_rig_headfit_residual)} on a
+    same-rig target).
     ANNY's forward and `Anthropometry.height` (Z-extent, `anthropometry.py`)
     and `.mass` (volume × density) are all differentiable, so the loop
     minimises `((height(v) − stature)/stature)² + ((mass(v) − mass)/mass)²` over

@@ -7,9 +7,7 @@ rfd 2241,
     :discussion do
   feature "an audio-pose training corpus built from a licence-clean speech-and-video set by two inference passes, published with its provenance, and measured only on constructed data"
 
-  scope "rf-detr-cpp (the keypoint pass), MoGe (the geometry pass),
-taskweft-fbd-teacher (the selector, packer and tables), service-cineform
-(the aligned record), and the private Hub repositories the corpus lands in"
+  scope "rf-detr-cpp, MoGe, the FBD teacher, service-cineform and the corpus's Hub repositories"
 
   prose ~S"""
   :: decision

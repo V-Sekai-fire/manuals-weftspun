@@ -38,7 +38,8 @@ the browser-side WASM parity target"
 
   prose ~S"""
   :: details Plugin binary: `bao-plugin-taskweft`
-  New Go project at `7-service/service-taskweft-bao/`. Layout mirrors
+  New Go project,
+  &{repo("service-taskweft-bao", planned: "7-service")}. Layout mirrors
   the shipped &{repo("service-bao-sqlite-fdb")} reference plugin:
 
       service-taskweft-bao/
@@ -176,7 +177,7 @@ the browser-side WASM parity target"
       → taskweft.js         # small JS loader
 
   The browser demo already shipping in
-  `7-service/service-sqlar-cas/docs/` (`sql-wasm.js` + Range-fetch
+  `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} (`sql-wasm.js` + Range-fetch
   `persona.sqlite`) loads `taskweft.wasm` alongside and calls
   `plan(domainJson, skipJson)` on it. See RFD 2204's Starforged demo
   section for the game-loop shape.
@@ -281,7 +282,8 @@ the browser-side WASM parity target"
   one thin `extern "C"` shim mirroring its 23-function NIF surface,
   and two hosts that call the shim:
 
-  1. **Bao plugin**, Go binary at `7-service/service-taskweft-bao/`,
+  1. **Bao plugin**, Go binary in
+     &{repo("service-taskweft-bao", planned: "7-service")},
      registered against weftspun-bao as `bao plugin register database
      taskweft`. Every peer resolves "what is my next task?" as
      `bao read taskweft/creds/<goal_id>`. Bao stamps the response

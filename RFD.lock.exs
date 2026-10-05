@@ -150,6 +150,14 @@
       url: "https://github.com/chibifire-stages/character-mille-mire-feuille",
       tip: "ee77c5b1198b441bf261fe27e85dd2f86e1781ff"
     },
+    "egit" => %{
+      default: "main",
+      state: :placed,
+      path: "4-entities/egit",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/egit",
+      tip: "ad394ddb413c9642f69686cc072d0f6605612346"
+    },
     "frame-controller-sim" => %{
       default: "main",
       state: :placed,
@@ -429,6 +437,7 @@
       tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
     },
     "interactor-rf-detr-elf-rd" => %{state: :planned, side: "3-interactor"},
+    "service-taskweft-bao" => %{state: :planned, side: "7-service"},
     "contract-hm08-partition" => %{
       default: "main",
       state: :placed,
@@ -462,6 +471,7 @@
       tip: "4f9980c14e8bd2515b58244123c767ed0617eac8"
     },
     "interactor-kimodo-elf-rd" => %{state: :planned, side: "3-interactor"},
+    "service-sqlar-cas" => %{state: :planned, side: "7-service"},
     "transport-usbip-frame" => %{
       default: "main",
       state: :placed,
@@ -471,6 +481,14 @@
       tip: "c222b2b60a83efb1f09449211521345908a118d6"
     },
     "contract-manifest-skateboard" => %{state: :planned, side: "2-contract"},
+    "trust-lean" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/trust-lean",
+      revision: "refs/tags/v3.0.0-fire.2",
+      url: "https://github.com/V-Sekai-fire/trust-lean",
+      tip: "0e82d3c239b8f548577fd87368aae5f35f788f5b"
+    },
     "interactor-rf-detr-ggml" => %{
       default: "main",
       state: :placed,
@@ -513,5 +531,33 @@
       tip: "916379ba4c997788754ee49988a873f5fc27beaf"
     }
   },
-  files: %{{"datasource-store", "fly/backup-fresh.sh"} => %{contains: []}}
+  files: %{
+    {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
+    {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
+    {"egit", "c_src/git_branch.hpp"} => %{contains: []},
+    {"egit", "c_src/git_checkout.hpp"} => %{contains: []},
+    {"egit", "c_src/git_merge.hpp"} => %{contains: []},
+    {"egit", "c_src/git_status.hpp"} => %{contains: []},
+    {"interactor-anny", "src/anny/models/soma.py"} => %{contains: []},
+    {"interactor-anny", "test/test_soma.py"} => %{contains: []},
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py"} => %{
+      contains: []
+    },
+    {"interactor-soma-x", "soma/identity_model.py"} => %{contains: []},
+    {"interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp"} => %{
+      contains: []
+    }
+  }
 }

@@ -7,8 +7,7 @@ rfd 2239,
     :discussion do
   feature "the queued plan amended to its open items: dress-on, generate-pose and generate-identity become rows of the FBD teacher (ten traits at 100,000 rows, one generated anchor), the teacher's tools are ported to Elixir before any new trait, the DSL gains codebooks whose codes are enums, and the runtime with ggml inside ships as one native Godot binary"
 
-  scope "taskweft-fbd-teacher, taskweft-fbd-compiler, entities-godot-sandbox,
-VoxHammer's `tools/`, the goal manifest `weftspun/weftspun-keypoint`"
+  scope "the FBD teacher and compiler, the sandbox engine, VoxHammer `tools/`, the goal manifest"
 
   prose ~S"""
   :: decision
