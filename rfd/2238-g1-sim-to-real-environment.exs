@@ -7,11 +7,11 @@ rfd 2238,
     :discussion do
   feature "the microduck formula (mjlab on MuJoCo Warp, PPO through rsl-rl, 50 Hz control, ONNX with the normaliser baked in) stood up on the Unitree G1 rig inside WSL2 on the desk's own 4090, with the Appendix E.3 joint envelope as one artefact and a throwaway smoke run proving train, roll-out and export end to end"
 
-  scope "`3-interactor/motion-bricks-cpp/mujoco` (`pixi.toml`, `rom_envelope.py`, `mjlab_motionbricks/`), the WSL2 host on this desk, RFD 1138's source list"
+  scope "`3-interactor/g1-sim-to-real` (`pixi.toml`, `rom_envelope.py`, `mjlab_motionbricks/`), the WSL2 host on this desk, RFD 1138's source list"
 
   prose ~S"""
   :: decision
-  The training environment is the `pixi.toml` already pinned in `mujoco/`,
+  The training environment is the `pixi.toml` already pinned in `V-Sekai-fire/interactor-g1-sim-to-real`,
   installed for linux-64 inside WSL2 because mjlab declares itself Linux
   or macOS only; the undeclared `uv` venv the benchmarks used is retired.
   The eight-joint E.3 envelope is written to disk once, wrist included,
@@ -43,8 +43,8 @@ rfd 2238,
   :: details Interchangeable parts
   | leg | the part that already exists | what changes |
   | --- | --- | --- |
-  | the environment declaration | `mujoco/pixi.toml` (mjlab 1.6.0, mujoco 3.11.0, warp-lang 1.17.0, rsl-rl-lib 5.4.2, torch 2.11.0 cu128) | installed for linux-64 in WSL2; `pyarrow`, `datasets` and the editable task package added |
-  | the rig | `mujoco/g1.xml` (menagerie, BSD-3-Clause) and mjlab's `asset_zoo/robots/unitree_g1` | mjlab's G1 config reused; `CITATION.cff` beside our copy |
+  | the environment declaration | `pixi.toml` (mjlab 1.6.0, mujoco 3.11.0, warp-lang 1.17.0, rsl-rl-lib 5.4.2, torch 2.11.0 cu128) | installed for linux-64 in WSL2; `pyarrow`, `datasets` and the editable task package added |
+  | the rig | `g1.xml` (menagerie, BSD-3-Clause) and mjlab's `asset_zoo/robots/unitree_g1` | mjlab's G1 config reused; `CITATION.cff` beside our copy |
   | the joint envelope | `rom_calibrate.py`, `rom_map.py` | `rom_envelope.py` and `data/g1_rom_envelope.parquet` |
   | the task template | mjlab `tasks/velocity/config/g1` (`env_cfgs.py`, `rl_cfg.py`), `VelocityOnPolicyRunner` | `mjlab_motionbricks/`: the task at 50 Hz with `rom_penalty` and `rom_clearance` |
   | the runner and export | mjlab `scripts/train.py`, `scripts/play.py`, `MjlabOnPolicyRunner.export_policy_to_onnx`, `exporter_utils` | thin entries that register the task, pick the GPU by name and assert the graph's shape |

@@ -20,7 +20,7 @@ rfd 2276, "Kusudama governs a ggml-rd persona policy", :discussion do
   runs on the RenderingDevice, not a foreign inference stack.
   :: references
   - Continuous soft and prismatic kusudama: `4-entities/godot-kusudama`, commit 04924abc.
-  - Offline PPO with the E.3 ROM envelope: RFD 2238; `3-interactor/motion-bricks-ggml`.
+  - Offline PPO with the E.3 ROM envelope: RFD 2238; `3-interactor/g1-sim-to-real`.
   - ggml-rd (the RD0 backend, kernels from Lean): `2-contract/ggml-rd`; its gate,
     `gates/3-ggml-rd`, is in the archived `interactor-dress-on`.
   - Phenotype ROM: `chibifire/starforged-std-3001-appendix-e`, section E.3.

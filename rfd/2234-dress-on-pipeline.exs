@@ -205,7 +205,7 @@ rfd 2234,
 
   ### `tools/identity_appendix_e.py` (anny env), appendix-E anthropometry → ANNY phenotypes
   Operator chose appendix-E over ANNY's own prior. What is known, from the only
-  schema documentation on disk (`motion-bricks-cpp/mujoco/rom_map.py:9-14, 65-80`):
+  schema documentation on disk (`g1-sim-to-real/rom_map.py:9-14, 65-80`):
   the dataset is `chibifire/starforged-std-3001-appendix-e`, config `human`,
   120 rows, columns `section`-like key, `subcategory`, `angle_deg_min/max`,
   `source`, `percentile`, `sex`. **Only E.3 (16 rows of joint ROM) is documented
@@ -299,7 +299,7 @@ rfd 2234,
   ### `tools/render_hammersley.py` (render env), Step 1 in Mitsuba 3, replacing Blender
   Operator: "you can also use mitsuba3 to render". Mitsuba is the workspace's
   sanctioned renderer (CLAUDE.md asks the mtoon renderers to consolidate on it)
-  and is already exercised in `motion-bricks-cpp/mujoco/bench_silhouette.py`.
+  and is already exercised in `g1-sim-to-real/bench_silhouette.py`.
   VoxHammer skips its own render when the artefacts exist (`inference.py:31`),
   so this is a drop-in for Step 1 as long as it emits the exact contract
   `voxhammer/extract_feature.py:35-53, 60-74` reads:

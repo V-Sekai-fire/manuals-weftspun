@@ -103,7 +103,7 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   control" discipline this generalises, and the springbone follow-on whose
   harness bug motivated it), RFD 2232 (Markdown as build artifact),
   `2-contract/manuals-weftspun/apparatus/springbone_mujoco.py` and its test
-  suite, `3-interactor/motion-bricks-cpp/mujoco/` (add_cloth_chains.py,
+  suite, `3-interactor/g1-sim-to-real/` (add_cloth_chains.py,
   bench_silhouette.py, coacd_calibrate.py).
   """
 end
