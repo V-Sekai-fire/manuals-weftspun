@@ -1970,3 +1970,7 @@ graph and 12 with curvenet, while the session itself kept 190 patches found
 by the algorithm, because those polylines are CASSIE's input before its
 snapping and never meet at shared nodes. Replaying `raw_data/` stroke by
 stroke, in the session's order, is what the app saw.
+
+`sketch_graph/` may grade a replay of `raw_data/` and never feeds one: a
+score against it is a comparison with CASSIE's snapping, not an input to the
+port (operator, 2026-10-05).
