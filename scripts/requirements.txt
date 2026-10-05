@@ -15,3 +15,4 @@ usd-core==26.8
 # schema. Without this the gate cannot run at all, which is how it came to sit
 # unrun while the writer kept emitting the extension it refuses.
 jsonschema==4.23.0
+pyyaml==6.0.3

@@ -34,6 +34,9 @@ usd-core = "==26.8"
 # than STAR. `check_rfd1166_rank.py` recomputes the table against the reference
 # implementation, so the document and the method cannot disagree.
 starvote = "*"
+# check_workflow_concurrency.py reads workflows with it, and prek runs the hooks.
+pyyaml = "==6.0.3"
+prek = "*"
 
 # THE ANE FEATURE, SEPARATE FROM THE GATES ON PURPOSE.
 #
