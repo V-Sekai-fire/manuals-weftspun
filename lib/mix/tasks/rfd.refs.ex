@@ -176,8 +176,7 @@ defmodule Mix.Tasks.Rfd.Refs.Check do
     for part <- [:repos, :files],
         k <- Enum.uniq(Map.keys(held[part]) ++ Map.keys(live[part])),
         held[part][k] != live[part][k],
-        do:
-          "#{part} #{inspect(k)}: locked #{inspect(held[part][k])}, live #{inspect(live[part][k])}"
+        do: "#{part} #{inspect(k)}: #{inspect(held[part][k])} -> #{inspect(live[part][k])}"
   end
 end
 
