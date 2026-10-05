@@ -5,7 +5,7 @@ use RFD.DSL
 rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discussion do
   feature "the RFD 1173 keypoints stub, corpus render side"
 
-  scope "anny-soma-corpus (a new repository; creating it triggers a\n`weftspun-keypoint` manifest PR on the 6-datasource side, owned by the GPU-grant holder)"
+  scope "`6-datasource/anny-soma-corpus` (a new repository; creating it triggers a\n`weftspun-keypoint` manifest PR on the 6-datasource side, owned by the GPU-grant holder)"
 
   prose ~S"""
   :: decision
@@ -21,7 +21,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   untouched. `DETAILS.md` carries the tradeoff, the SOMA hook, the RFD 1122 lineage, and open
   knobs.
   :: problem
-  task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU
+  Task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU
   grant can render, and the pick closes the immutability-vs-agility tradeoff two single-shape
   options force. Vertex-only rows are label-scheme-neutral but the RFD 2196 viewer cannot
   overlay keypoints from vertices and the `.pth` version becomes an implicit training-time

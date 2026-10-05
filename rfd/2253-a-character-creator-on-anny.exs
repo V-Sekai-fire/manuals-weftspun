@@ -6,7 +6,7 @@ rfd 2253, "a character creator on ANNY", :prediscussion do
   feature "a character creator a person opens: sliders over the baked ANNY
 asset in the one Godot binary, exporting the shuttle that
 RFD 2251's chain consumes"
-  scope "entities-anny-creator, a Godot project the RFD 2239 binary runs;
+  scope "`4-entities/anny-creator`, a Godot project the RFD 2239 binary runs;
 the baked ANNY asset; RFD 2251's `rig` through `render`"
 
   prose ~S"""
@@ -60,18 +60,31 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   :: details What exists, by path
   Every ingredient is in the tree. The creator is the join.
 
-  | ingredient | path | what it gives the creator |
-  | --- | --- | --- |
-  | baked asset | `tools/bake_anny.py` in &{repo("entities-anny-creator")}, run once under the `bake` pixi environment | the `anny` topology at 13,718 vertices and 27,420 triangles, 104 joints, 8 of 9 influences kept (2 vertices lose a 0.001 weight), 948 morph targets in one 64 MB glb |
-  | phenotype math | `src/anny/models/phenotype.py` in &{repo("interactor-anny")}, `utils/interpolation.py` | six free axes over 17 anchor slots; race, cup and firmness are constants folded into the bake |
-  | joint tables | `src/anny/data/cached/anny.pth` in &{repo("interactor-anny")}, read by the bake | per-target joint head deltas and orientation-matrix deltas, linear in the same coefficients |
-  | facial actions | `src/anny/data/faceunits01/targets/faceunits` in &{repo("interactor-anny")} | 52 targets, computed as deltas by `compute_blendshape_targets.py` |
-  | local dials | `src/anny/data/mpfb2/targets` in &{repo("interactor-anny")} | 254 targets grouped by body region |
-  | partition proofs | &{repo("contract-hm08-partition")} | `body`, `HelperGeometry`, `JointCubes` partition the mesh with no gap; Lean 4, no `sorry` |
-  | keypoint anchors | &{repo("contract-anny-keypoint-anchors")} | 133 COCO-WholeBody anchors, for a later image front door |
-  | anthropometry | &{repo("chibifire/starforged-std-3001-appendix-e")}, `human` config | percentile spans for presets |
-  | slider reference | `src/anny/examples/interactive_demo.py` in &{repo("interactor-anny")} | 740 lines of Gradio with GLB export: the parameter math to port, never to run |
-  | runtime | `4-entities/godot-rfd-2251-fire` | the binary with `skin_tokens`, `kimodo`, `pixal3d`, `llm`, `motion_bricks` |
+  - **baked asset**: `tools/bake_anny.py` in &{repo("entities-anny-creator")}, run once under
+    the `bake` pixi environment; the `anny` topology at 13,718 vertices and 27,420 triangles,
+    104 joints, 8 of 9 influences kept (2 vertices lose a 0.001 weight), 948 morph targets in
+    one 64 MB glb.
+  - **phenotype math**: `src/anny/models/phenotype.py` in &{repo("interactor-anny")},
+    `utils/interpolation.py`; six free axes over 17 anchor slots; race, cup and firmness are
+    constants folded into the bake.
+  - **joint tables**: `src/anny/data/cached/anny.pth` in &{repo("interactor-anny")}, read by the
+    bake; per-target joint head deltas and orientation-matrix deltas, linear in the same
+    coefficients.
+  - **facial actions**: `src/anny/data/faceunits01/targets/faceunits` in
+    &{repo("interactor-anny")}; 52 targets, computed as deltas by
+    `compute_blendshape_targets.py`.
+  - **local dials**: `src/anny/data/mpfb2/targets` in &{repo("interactor-anny")}; 254 targets
+    grouped by body region.
+  - **partition proofs**: &{repo("contract-hm08-partition")}; `body`, `HelperGeometry`,
+    `JointCubes` partition the mesh with no gap; Lean 4, no `sorry`.
+  - **keypoint anchors**: &{repo("contract-anny-keypoint-anchors")}; 133 COCO-WholeBody anchors,
+    for a later image front door.
+  - **anthropometry**: &{repo("chibifire/starforged-std-3001-appendix-e")}, `human` config;
+    percentile spans for presets.
+  - **slider reference**: `src/anny/examples/interactive_demo.py` in &{repo("interactor-anny")};
+    740 lines of Gradio with GLB export: the parameter math to port, never to run.
+  - **runtime**: `4-entities/godot-rfd-2251-fire`; the binary with `skin_tokens`, `kimodo`,
+    `pixal3d`, `llm`, `motion_bricks`.
   :: details The slider math
   Three kinds of control, one operator underneath (RFD 2244).
 
