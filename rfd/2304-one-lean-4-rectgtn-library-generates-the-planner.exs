@@ -233,10 +233,10 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     `lean/`, pin Lean v4.30.0; xr-pilot pins v4.34.1 and the FBD compiler
     v4.34.0-rc1. A Lake dependency needs one toolchain, so those two import
     the library once the pins agree.
-  :: details Open questions
-  - **Home.** The Lean search, the generated C and its drift gate want one
-    repository. `V-Sekai-fire/nif` holds the NIF and is not placed;
-    interactor-taskweft holds the Lean tree its CI builds. A new repository
-    takes RFD 2111's `<type>-<name>` shape.
+  :: details Home
+  The library, the C it generates and the drift gate live in
+  `V-Sekai-fire/nif`, beside the NIF they build and the M1 harness. The
+  manifest places it at `3-interactor/taskweft-nif`, next to the taskweft
+  projects (operator, 2026-10-05).
   """
 end
