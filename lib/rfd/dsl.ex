@@ -242,8 +242,37 @@ defmodule RFD.DSL do
           "RFD #{serial}: field given twice: #{inspect(Enum.map(dup, &elem(&1, 0)))}"
         )
 
+    fields = abandoned(serial, fields)
+
     struct!(RFD.Doc, [serial: serial, title: title, details: Enum.reverse(details)] ++ fields)
+    |> expand()
     |> RFD.Doc.validate!()
+  end
+
+  defp abandoned(serial, fields) do
+    case fields[:abandoned_at] do
+      nil ->
+        fields
+
+      sha ->
+        if fields[:state] != :abandoned,
+          do: raise(ArgumentError, "RFD #{serial}: abandoned_at needs state :abandoned")
+
+        fields ++ [decision: RFD.Ref.abandoned!(serial, sha)]
+    end
+  end
+
+  defp expand(%RFD.Doc{} = d) do
+    pair = fn {h, b} -> {RFD.Ref.expand!(h), RFD.Ref.expand!(b)} end
+
+    d
+    |> Map.from_struct()
+    |> Map.new(fn
+      {k, v} when k in [:details, :sections] -> {k, Enum.map(v, pair)}
+      {k, v} when is_list(v) -> {k, Enum.map(v, &RFD.Ref.expand!/1)}
+      {k, v} -> {k, RFD.Ref.expand!(v)}
+    end)
+    |> then(&struct!(RFD.Doc, &1))
   end
 
   defmodule Fields do
@@ -264,6 +293,7 @@ defmodule RFD.DSL do
     defmacro preamble(v), do: field(:preamble, v)
     defmacro front_matter(v), do: field(:front_matter, v)
     defmacro compact_head(v), do: field(:compact_head, v)
+    defmacro abandoned_at(sha), do: field(:abandoned_at, sha)
 
     # Consecutive heredoc fields as one `~S` heredoc, each opened by `:: field [heading]`.
     defmacro prose({:sigil_S, _, [{:<<>>, _, [text]}, []]}) do

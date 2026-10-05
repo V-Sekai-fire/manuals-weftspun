@@ -451,8 +451,25 @@ since merged away. Git history preserves every dropped paragraph, and
 the successor RFD's `## Related` section preserves the "why".
 
 A retracted RFD topic deletes its body. The file stays on disk because
-its SERIALS entry names it; it shrinks to title + `**State:**
-abandoned` + canary, with no explanatory prose.
+its SERIALS entry names it; it shrinks to title, `:abandoned` and
+`abandoned_at "<sha>"`, the last commit holding its full source. The DSL
+renders the stub and refuses any other section; `mix rfd.restore NNNN`
+brings the body back from that commit.
+
+A fact about another repository is a reference, not a literal. RFD prose
+writes `&{repo("name")}`, `&{file(repo, "path", contains: "text")}`,
+`&{pin(repo)}` and `&{measured(:key)}`; they resolve against
+`RFD.lock.exs`, which `mix rfd.refs.update` writes from the manifest and
+each repository's default branch, and against `MEASUREMENTS.exs`, whose
+values must appear in the logbook entry each names. A reference that no
+longer resolves fails the render. `scripts/check_rfd_literals.exs` holds
+the count of bare side paths, own-organisation names, SHAs, `file:line`,
+branches and pull request numbers in each changed source at or below the
+base, and refuses any added `file:line`, branch or pull request number.
+
+    mix rfd.refs.update
+    elixir scripts/check_rfd_literals.exs --base origin/main
+    elixir scripts/check_rfd_literals.exs --self-test
 
 **The logbook records retractions, and that is the division.** An entry
 records an event, and a withdrawn measurement is itself an event, so it

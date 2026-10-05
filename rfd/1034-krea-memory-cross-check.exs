@@ -3,23 +3,5 @@
 use RFD.DSL
 
 rfd 1034, "Krea memory cross-check", :abandoned do
-  feature "capacity planning"
-  attest_in :none
-
-  prose ~S"""
-  :: decision
-  Check the rule against the one model with a measured number. Krea 2
-  Turbo is that model. `scripts-cheatsheet.md` records 57 GB on disk,
-  and a 32 GB reserve per worker.
-
-  See `DETAILS.md` for the parameter estimate by part, and how it
-  compares against the measured reserve and disk size.
-  :: problem
-  RFD 1025 gives a rule for the memory. RFD 1026 applies that rule to
-  models with no published parameter count. An unchecked rule on an
-  estimated count gives two errors, and not one.
-  :: related
-  RFD 1025 gives the rule. RFD 1026 gives the counts this check cannot
-  confirm.
-  """
+  abandoned_at "978ea6a"
 end

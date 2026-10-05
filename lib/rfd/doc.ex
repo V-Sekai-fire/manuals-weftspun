@@ -49,6 +49,7 @@ defmodule RFD.Doc do
             details_preamble: nil,
             details: [],
             rebac: nil,
+            abandoned_at: nil,
             drafted_by: :ai
 
   @type t :: %__MODULE__{}
@@ -100,6 +101,7 @@ defmodule RFD.Doc do
       d.rebac == nil or match?(%RFD.ReBAC{}, d.rebac),
       "rebac holds the model the rebac block builds"
     )
+    |> Kernel.++(abandoned_problems(d))
     |> Kernel.++(rebac_problems(d))
     |> Kernel.++(length_problems(d))
     |> Enum.reverse()
@@ -144,6 +146,24 @@ defmodule RFD.Doc do
 
   defp check(acc, true, _msg), do: acc
   defp check(acc, false, msg), do: [msg | acc]
+
+  @stub_free ~w(feature scope preamble front_matter problem related details_preamble rebac)a
+
+  defp abandoned_problems(%{state: :abandoned} = d) do
+    extra =
+      for(k <- @stub_free, Map.get(d, k) != nil, do: k) ++
+        for {k, v} <- [references: d.references, details: d.details, sections: d.sections],
+            v != [],
+            do: k
+
+    cond do
+      d.abandoned_at == nil -> ["an abandoned RFD names its last full source with abandoned_at"]
+      extra != [] -> ["an abandoned RFD carries only its stub; drop #{inspect(extra)}"]
+      true -> []
+    end
+  end
+
+  defp abandoned_problems(_), do: []
 
   defp rebac_problems(%{rebac: %RFD.ReBAC{} = r}) do
     known = if r.verbs_from == [], do: MapSet.new(RFD.ReBAC.verb_names(r))

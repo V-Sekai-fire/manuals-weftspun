@@ -370,7 +370,16 @@ repos:
         name: the RFD DSL still refuses known-broken documents
         entry: mix test
         language: system
-        files: '^(lib/.*|test/.*|mix\.exs)$'
+        files: '^(lib/.*|test/.*|mix\.exs|RFD\.lock\.exs|MEASUREMENTS\.exs)$'
+        pass_filenames: false
+
+      # Churny literals in RFD prose (side paths, branches, PR numbers, SHAs, file:line)
+      # are written as &{repo/file/pin/measured}; ci-rfd-literals holds the count against the base.
+      - id: rfd-literals-self-test
+        name: the RFD literal gate still fails on planted literals
+        entry: elixir scripts/check_rfd_literals.exs --self-test
+        language: system
+        files: ^scripts/check_rfd_literals\.exs$
         pass_filenames: false
 
       - id: elixir-parses
@@ -608,6 +617,14 @@ repos:
       - id: ci-trope-density
         name: trope density did not rise against the base
         entry: bash -c 'python scripts/check_tropes.py --base "${GATE_BASE:?GATE_BASE unset}"'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
+      - id: ci-rfd-literals
+        name: no RFD source adds a churny literal against the base
+        entry: bash -c 'elixir scripts/check_rfd_literals.exs --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
         always_run: true

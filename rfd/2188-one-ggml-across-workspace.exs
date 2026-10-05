@@ -17,7 +17,7 @@ rfd 2188, "One GGML across the workspace", :discussion do
   carrying 14+ custom backends. `upstream-tracking` branch was pushed
   at `ggml-org/ggml master` (2026-08-30) as a future rebase base.
 
-  Placed at `2-contract/ggml`: the tensor runtime is a contract every
+  Placed at &{repo("2-contract/ggml")}: the tensor runtime is a contract every
   interactor consumes. There is no `0-shared` hexagon side.
   :: problem
   Discovery found six divergent copies, two with conflicting-SHA
