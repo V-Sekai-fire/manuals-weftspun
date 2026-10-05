@@ -315,14 +315,18 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     unrecorded double binaries in `taskweft-godot-sandbox` are not
     copied.
   - Native binary translation, required, interpretation never: every
-    ELF ships with its translation. The addon is built from
+    ELF guest we author ships with its translation on every platform
+    it ships to, Windows, Linux and macOS alike. The addon is built from
     `feat/bintr-emit` (`GODOT_SANDBOX_BINTR_EMIT=<dir>` writes each
     program's translation as C99; `RISCV_ASMJIT=OFF`, no JIT), and
     the pen's `guests.yml` emits each program's C99 on the linux
     runner and compiles one library per program hash,
     `res://bintr/bintr-<HASH>.so` for linux x86_64, `.dll` for
-    windows x86_64 through llvm-mingw, and `.dylib` for macos arm64,
-    at double; `tools/build.exs` does the same on a desk.
+    windows x86_64 through LLVM's clang (`clang-cl` on a desk, the
+    llvm-mingw clang on the runner), and `.dylib` for macos arm64,
+    at double; `tools/build.exs` does the same on a desk. The Windows
+    leg is in progress on `feat/bintr-emit`; until its `.dll` loads,
+    a Windows guest is untranslated and the gate below names it.
     `stages/sandbox_util.gd`'s `enable_native_translation` drops its
     Linux-only guard and turns the setting on wherever a library for
     the platform is shipped; the Windows segfault of 2026-09-23 (the
@@ -344,6 +348,15 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     `godot_lite` stays float, since the host boundary is `api.hpp`'s
     `Variant` and `PackedFloat32Array` is float either way. `lasso` and
     `curvenet` export `variant_bytes()`.
+  - df32, a double-float pair of a high and a low float32, is the
+    scalar for guest geometry that must hold far from the origin,
+    with `two_sum`, `quick_two_sum` and `two_prod` as the anny Slang
+    kernels write them. On the Moon, about 3.8e8 m out, float32
+    spacing is about 32 m, some 480 soda cans, so float32 world
+    coordinates cannot place a stroke there. Graph math runs in
+    canvas-local coordinates; the canvas origin crosses the API
+    boundary in df32 or double. float32 stays a one-line switch, kept
+    for comparison against float32 sources.
   - The pen's build loses the next rung: `CMakeLists.txt` drops every
     `DRAPE_ROOT`, `LBFGSB_ROOT`, `GARMENT_FIT_ROOT`, `CAGE_ROOT`,
     `HEADFIT_ROOT`, `MOTION_GUEST_ROOT`, `RFDETR_SEG_ROOT`,

@@ -169,6 +169,19 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   in `entities-sakuragaoka-station`, and the pen vendors it with
   `tools/vendor_station.sh <commit>`, which takes only a commit some
   remote branch contains.
+  :: details Fitting a free-space sketch to the avatar
+  A sketch drawn in free space is placed on the avatar from
+  anthropometric keypoints in `starforged-std-3001-appendix-e`:
+  stature, crotch height as stature less sitting height, and hip
+  breadth. Appendix E carries no waist height, so it comes from the
+  ISO 7250 typical value. Then each stroke, in drawing order, is
+  pushed out of the body by `mujoco.elf`: rays against the mesh
+  triangles, a point inside when its exit normal says so, and 4 mm of
+  clearance, about five credit cards stacked. A junction
+  stays pinned to the earlier stroke's pushed position. On CASSIE's
+  dress session, 0 of 12307 points end inside the body by winding
+  number, and 4 junctions miss. This is placement; the drape stays on
+  the next rung.
   :: details The avatars
   Both avatars are free original models under the Apache-2.0 licence,
   each in its own repository with its licence file and its Unity
