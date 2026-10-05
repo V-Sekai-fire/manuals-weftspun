@@ -613,6 +613,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   voxel remesher; xatlas (MIT, `jpcy/xatlas`) for UV unwrapping. Together they run remesh,
   simplify, unwrap and retexture on avatar meshes at build time, to cut polygon, skinned-mesh
   and material counts.
+- **Stroke rendering:** Line3D from Cozy Cube's `lines_and_trails_3d` addon (MIT,
+  `codeberg.org/MajorMcDoom/cozy-cube-godot-addons`), vendored into a project's `addons/`, draws
+  pen strokes as camera-facing ribbons in Godot (operator, 2026-10-04).
 - **Vector shapes:** slughorn (MIT, imported as `V-Sekai-fire/interactor-slughorn`) with its
   ThorVG (MIT) and Clipper2 (BSL-1.0) submodules, turning SVG into Slug curve and band data
   and baked meshes inside `slug.elf`, a godot-sandbox guest. The Slug patent was dedicated to
