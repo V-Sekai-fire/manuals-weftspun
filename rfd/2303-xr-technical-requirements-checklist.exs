@@ -55,13 +55,15 @@ recording or render made from them"
   stops the process tree, asking first and then forcing.
   :: details Launch
   - L1. A head-tracked frame, the scene or a tracked loading view, within 4 s
-    of launch. Why: the view is black or frozen until then, and 4 s leaves 1 s
-    under the load cap. Gate: unchecked; `movie.py` runs with XR off.
-  - L2. The scene loaded within 5 s of launch (operator, 2026-10-04: "5s of
-    load max"). Why: the operator's cap. Gate: `tools/movie.py --load=5`.
+    of launch. Why: the view is black or frozen until then; 4 s is the figure
+    a standalone headset store's checks use. Gate: unchecked; `movie.py` runs
+    with XR off.
+  - L2. The scene loaded within 4 s of launch, the same figure as L1
+    (operator, 2026-10-04). Why: a load past it shows nothing tracked for
+    longer than L1 allows. Gate: `tools/movie.py --load=4`.
   - L3. A 50 s hang is a FAIL. Why: the person has taken the headset off by
-    then. Gate: `tools/movie.py` stops the run at the 5 s cap, so a 50 s hang
-    fails 45 s early.
+    then. Gate: `tools/movie.py` stops the run at the 4 s cap, so a 50 s hang
+    fails 46 s early.
   - L4. No black or frozen view during a load: every frame in a load is
     submitted with a tracked pose, with no gap over 6.9 ms. Why: RFD 2302's
     main-loop bound holds during loads too. Gate: unchecked;
