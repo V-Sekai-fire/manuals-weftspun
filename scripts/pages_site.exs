@@ -22,9 +22,16 @@ rows =
     slug = Path.basename(dir)
     File.mkdir_p!(Path.join([out, "rfd", slug]))
 
-    for f <- ["README.md", "DETAILS.md"],
-        File.exists?(Path.join(dir, f)),
-        do: File.cp!(Path.join(dir, f), Path.join([out, "rfd", slug, f]))
+    for f <- ["README.md", "DETAILS.md"], File.exists?(Path.join(dir, f)) do
+      text =
+        String.replace(
+          File.read!(Path.join(dir, f)),
+          "`DETAILS.md`",
+          "[`DETAILS.md`](DETAILS.html)"
+        )
+
+      File.write!(Path.join([out, "rfd", slug, f]), text)
+    end
 
     title =
       readme
