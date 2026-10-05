@@ -672,6 +672,11 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Sign-in:** `wax_` (Apache-2.0, `tanguilp/wax`) verifies Uro's WebAuthn passkeys, and
   `nimble_totp` (Apache-2.0, `dashbit/nimble_totp`) makes its authenticator-app codes. Each was
   picked over a self-owned version because it has more hours in production (operator, 2026-10-01).
+- **Root store:** the macOS Secure Enclave through Security.framework, Windows' NCrypt Platform
+  Crypto Provider and DPAPI, and Linux `systemd-creds` (LGPL-2.1-or-later, 256 or later) with
+  tpm2-tss (BSD-2-Clause) where systemd loads it for the TPM path, each sealing the offline-root
+  seed of `tools/offline_ca.exs` (`V-Sekai-fire/interactor-fabric-zone`) to a key its own desk
+  holds, with 2-of-3 Shamir shares on paper as the only written copy (operator, 2026-10-05).
 - **Observability:** VictoriaMetrics, VictoriaLogs and VictoriaTraces (Apache-2.0,
   `VictoriaMetrics/*`), as release binaries pinned by sha256: the metrics, log and trace stores.
   Uro's OTLP traces go straight to VictoriaTraces (operator, 2026-10-01: "spin up victory metrics
