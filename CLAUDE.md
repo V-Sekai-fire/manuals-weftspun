@@ -614,8 +614,11 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Environments and dependencies:** `pixi`, or an embedded interpreter pinning its deps in
   source; `default.xml` for dependencies.
 - **Packaging:** nFPM (MIT, `goreleaser/nfpm`, v2.47.0) to turn built files into .deb and .rpm
-  natively, as sinew-mocap's packaging does, and the Windows SDK's makeappx and signtool for MSIX;
-  build tools in CI, never shipped. nFPM replaces fpm here (operator, 2026-10-03).
+  natively, as sinew-mocap's packaging does, and WiX Toolset v4 (MS-RL, `wixtoolset/wix`, 4.0.6)
+  for the per-user Windows MSI, built through CMake's CPack WIX generator; build tools in CI, never
+  shipped. nFPM replaces fpm here (operator, 2026-10-03). WiX replaces makeappx and signtool, and
+  MSI rather than MSIX: an MSIX installs only once a certificate signs it and the user trusts that
+  certificate, which a double-click cannot do (operator, 2026-10-04).
 - **Mesh processing:** meshoptimizer (MIT, `zeux/meshoptimizer`) for simplification and its
   voxel remesher; xatlas (MIT, `jpcy/xatlas`) for UV unwrapping. Together they run remesh,
   simplify, unwrap and retexture on avatar meshes at build time, to cut polygon, skinned-mesh
