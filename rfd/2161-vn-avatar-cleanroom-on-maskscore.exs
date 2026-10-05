@@ -65,7 +65,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   5. **"Vision encoder split onto Hailo NPU via QFT"**; PARKED. No
      Linux x86_64 host to run the proprietary DFC wheel, no Hailo
      hardware to deploy to. Scaffold survives at
-     `3-interactor/editscore-lora-qwen3vl-4b/scripts/gate_vision_encoder.py`
+     `scripts/gate_vision_encoder.py` in &{repo("interactor-editscore-lora-qwen3vl-4b")}
      with a real ONNX export the DFC-side gate can consume when hardware
      arrives.
   :: details The stack that landed
@@ -81,7 +81,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   | Locations | `6-datasource/{kenney,thebasemesh,quaternius}-stage` | cc-* clean | assets on disk |
 
   **One real inference proved on Mac mini M2 Pro 32 GB (2026-09-01):**
-  `scripts/smoke_editscore_mlx.py` in `3-interactor/editscore-lora-qwen3vl-4b/`
+  `scripts/smoke_editscore_mlx.py` in &{repo("interactor-editscore-lora-qwen3vl-4b")}
   loaded the MLX 4-bit Qwen3-VL-4B in 0.9 s and generated a one-token
   reward response in 1.9 s from a dummy 224x224 image + edit-instruction
   prompt. Wiring holds; real numbers arrive with real (image, edit) pairs.
@@ -91,7 +91,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
 
   1. **QAFT-LoRA training on Qwen3-VL-4B against `EditScore/EditScore-Reward-Data`
     (97,300 rows, 161.8 GB, apache-2.0)** returns to the table. The
-    `3-interactor/editscore-lora-qwen3vl-4b/scripts/smoke.py` scaffold
+    `scripts/smoke.py` in &{repo("interactor-editscore-lora-qwen3vl-4b")} scaffold
     targets this exactly; needs `bitsandbytes` (already linux-64
     target-scoped in `pixi.toml`; add `win-64` when the Windows path is
     real). Model VRAM footprint: Qwen3-VL-4B fp16 ~8.9 GB + optimizer

@@ -65,9 +65,9 @@ loader path, memory `consolidate-interchangeable-parts`"
 
   Two mechanisms already carry the rule for specific interfaces:
 
-  - `2-contract/ggml/` (RFD 2188) as the single ggml source every
+  - &{repo("ggml")} (RFD 2188) as the single ggml source every
     consumer links.
-  - `2-contract/manuals-weftspun/` (this repo) as the single
+  - &{repo("manuals-weftspun")} (this repo) as the single
     workspace-doctrine mount, reached from `weftspun-keypoint` via
     linkfile.
   :: details Live candidates in the manifest (2026-09-05 as of writing)
@@ -80,17 +80,17 @@ loader path, memory `consolidate-interchangeable-parts`"
       3-interactor/ggml-seethrough        remote=weftspun  rev=3404c951
       2-contract/ggml                     remote=weftspun  rev=weftspun-consolidated
 
-  **RFD 2188 named `2-contract/ggml` as the single ggml source
+  **RFD 2188 named &{repo("ggml")} as the single ggml source
   workspace-wide.** The manifest still ships three checkouts. Two
   of them (`trellis2cpp/ggml`, `ggml-seethrough`) are consumers
   still pinned to their own ggml revisions rather than reading
   through the shared source.
 
   **Verification needed before trimming.** Whether each consumer
-  has actually migrated to `2-contract/ggml`'s API, or whether the
+  has actually migrated to &{repo("ggml")}'s API, or whether the
   pinned revision holds something the consolidated source doesn't
   yet cover. A CI green on `trellis2-ex` and `seethrough` against
-  `2-contract/ggml` is the measurement.
+  &{repo("ggml")} is the measurement.
 
   Follow-up L1 RFDs (planned in the 22xx range): one per consumer
   scoping the migration + trim per project.

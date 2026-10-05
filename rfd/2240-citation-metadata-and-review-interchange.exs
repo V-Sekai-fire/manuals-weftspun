@@ -7,7 +7,7 @@ rfd 2240,
     :discussion do
   feature "how a deliverable is stored and reviewed: the citation record as the master, its XMP serialization in a sidecar beside every asset, SVG and Lottie for vector, CineForm for the intermediate, OpenTimelineIO for the review timeline"
 
-  scope "every repository that ships a deliverable; `2-contract/manuals-weftspun` (the converter and its gate), the three CineForm repositories, and the `CITATION.cff` beside every placed project"
+  scope "every repository that ships a deliverable; manuals-weftspun (the converter and its gate), the three CineForm repositories, and the `CITATION.cff` beside every placed project"
 
   prose ~S"""
   :: decision
@@ -47,7 +47,7 @@ rfd 2240,
   | metadata serialization | ISO 16684-1:2012 (XMP), RDF/XML | `<stem>.xmp` beside the asset; `CITATION.xmp` at a project root |
   | static vector | W3C SVG 1.1 / 2.0 | `.svg`, which may also carry the packet inline |
   | animated vector | Lottie, IANA `video/lottie+json` | `.lot` with a mandatory sidecar |
-  | intermediate video | CineForm (SMPTE VC-5), intra-frame | `interactor-cineform` writing Matroska |
+  | intermediate video | CineForm (SMPTE VC-5), intra-frame | &{repo("interactor-cineform")} writing Matroska |
   | review timeline | OpenTimelineIO | `.otio` under `review/` |
   | display transform | OpenColorIO 2 | the configuration named by the timeline |
 
@@ -119,7 +119,7 @@ rfd 2240,
   CineForm in `.mov`. RFD 1123 chose Matroska and recorded why: AVI's 32-bit
   size field stops a file at 4 GiB, about 56 seconds of 4K60 at these
   bitrates, and MOV performed the same as Matroska while being less open.
-  `interactor-cineform` writes Matroska today, with a `V_MS/VFW/FOURCC` video
+  &{repo("interactor-cineform")} writes Matroska today, with a `V_MS/VFW/FOURCC` video
   track carrying `CFHD` and an uncompressed PCM audio track. A specification
   that named the container differently does not undo a measurement, so the
   container stays Matroska and the sidecar rule is unchanged: the stem is the
@@ -145,9 +145,9 @@ rfd 2240,
 
   | piece | state |
   | --- | --- |
-  | `interactor-cineform` | source complete, **its own manifest root**; `contract-bus`, QCBOR, `cineform-sdk` and `libwebm` placed by it. Not compiled here |
-  | `transport-cineform-tui` | source complete, a manifest root of its own, the job sender over the bus |
-  | `service-cineform` | composes the two so one `contract-bus` is checked out rather than two, and states which pin wins where they disagree |
+  | &{repo("interactor-cineform")} | source complete, **its own manifest root**; &{repo("contract-bus")}, QCBOR, `cineform-sdk` and `libwebm` placed by it. Not compiled here |
+  | &{repo("transport-cineform-tui")} | source complete, a manifest root of its own, the job sender over the bus |
+  | &{repo("service-cineform")} | composes the two so one &{repo("contract-bus")} is checked out rather than two, and states which pin wins where they disagree |
   | the engine-side writer | `modules/cineform` on the fork's `cineform-movie-writer` branch: `movie_writer_cineform.cpp`, `video_stream_cineform.cpp`, the class reference and a demo, with `thirdparty/cineform` and `thirdparty/libwebm` vendored on that branch. The branch is not merged into the working branch the manifest names |
   | Lottie, written | already here and older than this document: `scripts/keypoint_render.py` writes an animation, `scripts/lottie.schema.json` is the 1.0 schema vendored with its provenance, and `scripts/check_lottie_spec.py` validates against it and caught 207 errors when first run |
   | Lottie, read | ThorVG is vendored in the fork at `thirdparty/thorvg` with only the SVG and raster loaders; the loader sources are not in the placed tree, and a branch of the fork carries the re-vendoring unmerged. Upstream 1.0.3 is now placed at `2-contract/thorvg` with the loader intact |

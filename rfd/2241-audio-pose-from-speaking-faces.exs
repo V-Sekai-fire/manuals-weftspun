@@ -7,7 +7,7 @@ rfd 2241,
     :discussion do
   feature "an audio-pose training corpus built from a licence-clean speech-and-video set by two inference passes, published with its provenance, and measured only on constructed data"
 
-  scope "`3-interactor/rf-detr-cpp` (the keypoint pass), `3-interactor/moge-upstream` (the geometry pass), `3-interactor/taskweft-fbd-teacher` (the selector, packer and tables), `7-service/service-cineform` (the aligned record), and the private Hub repositories the corpus lands in"
+  scope "`3-interactor/rf-detr-cpp` (the keypoint pass), MoGe (the geometry pass), `3-interactor/taskweft-fbd-teacher` (the selector, packer and tables), `7-service/service-cineform` (the aligned record), and the private Hub repositories the corpus lands in"
 
   prose ~S"""
   :: decision
@@ -29,7 +29,7 @@ rfd 2241,
   :: references
   - `IS2AI/SpeakingFaces`, CC BY 4.0 with MIT code, DOI 10.3390/s21103465, Hub revision `eb2f8226`
   - RF-DETR's keypoint head, Apache-2.0 in the Nano family; the object-detection head stays blocklisted
-  - MoGe-3, placed at `3-interactor/moge-upstream` and pinned at `74fbce0`; RFD 1123 for CineForm
+  - MoGe-3, placed at &{repo("MoGe")} and pinned at `74fbce0`; RFD 1123 for CineForm
   :: related
   - RFD 2239 records the identity drop and this park; RFD 2234 the renderer the constructed arm reuses.
   """

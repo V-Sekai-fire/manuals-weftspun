@@ -7,7 +7,7 @@ rfd 2239,
     :discussion do
   feature "the queued plan amended to its open items: dress-on, generate-pose and generate-identity become rows of the FBD teacher (ten traits at 100,000 rows, one generated anchor), the teacher's tools are ported to Elixir before any new trait, the DSL gains codebooks whose codes are enums, and the runtime with ggml inside ships as one native Godot binary"
 
-  scope "`3-interactor/taskweft-fbd-teacher`, `3-interactor/taskweft-fbd-compiler`, `3-interactor/entities-godot-sandbox`, `3-interactor/voxhammer-upstream/tools`, the goal manifest `weftspun/weftspun-keypoint`"
+  scope "`3-interactor/taskweft-fbd-teacher`, `3-interactor/taskweft-fbd-compiler`, `3-interactor/entities-godot-sandbox`, `tools` in VoxHammer, the goal manifest `weftspun/weftspun-keypoint`"
 
   prose ~S"""
   :: decision
@@ -62,7 +62,7 @@ rfd 2239,
   | the trusted list bounds data sources; code repositories are fine | the `Trust` module gates every fetch and publish on `magi-16739d--trusts--<source>` tuples; forks are tooling; udon2godot's translations and the constraint-twist sample are constructed fixture inputs |
   | "FSQ categories become code enums", "like float categories rather than float numerics" | `codebook` declarations and `name#c.c.c` literals (DSL rung 1); an enum in Elixir, a `Fin` triple in Lean, an int triple in the guest; `Codebook.lean` proves the decode injective, bounded and monotone |
   | place the fashion set and the anthropometry table, then `repo sync` | manifest PR 129, merged at `a9a2f4fd`: three datasets under `6-datasource`, the motion-bricks bundle under `5-repository`, four pins moved |
-  | "the entire system must run as a monolithic binary" with the ggml dependencies in `entities-godot` | `modules/ggml`, `modules/motionbricks`, `modules/taskweft`, `modules/game` and the sandbox pin advance in the Godot 4.7 fork; nothing at runtime reaches a Python, a WSL or a listener |
+  | "the entire system must run as a monolithic binary" with the ggml dependencies in &{repo("entities-godot")} | `modules/ggml`, `modules/motionbricks`, `modules/taskweft`, `modules/game` and the sandbox pin advance in the Godot 4.7 fork; nothing at runtime reaches a Python, a WSL or a listener |
   | "interchangable parts methology is required. See also Japanese methods of industrial processes" | the RFD 2229 table per leg; jidoka, poka-yoke, genchi genbutsu, andon, takt, heijunka, kanban, 5S and kaizen each tied to a gate or a task rather than left as a slogan |
   | "double check .cff citations are updated every pass" | `mix fbd.cff.check` and the anti-entropy pair "manifest project against its `CITATION.cff`"; a citation line in every milestone's verification |
   | "elixir is a compentent binary parser too" | GLB, ONNX protobuf, gguf, `.npy` and parquet read by binary pattern matching, each reader with a refused control |
@@ -395,12 +395,12 @@ rfd 2239,
   ruling. What remains open is narrower and worth keeping: who redoes the six
   in-tree conversion commits against it.
 
-  **Where `entities-godot-cineform` lives and how it is placed.**
+  **Where &{repo("entities-godot-cineform")} lives and how it is placed.**
   `V-Sekai-fire/entities-godot-cineform` builds the CineForm `MovieWriter` as
   a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
   API in Godot 4.5, with clang 23 on its default branch
   `main/llvm-clang23-build`; `default.xml` places it at
-  `4-entities/godot-cineform`, and RFD 2287's recordings go through it.
+  &{repo("entities-godot-cineform")}, and RFD 2287's recordings go through it.
   The in-tree `modules/cineform` on `feat/module-cineform` rides into the
   assembly beside it: the module is the writer an engine build carries, the
   extension is the one a project loads without one.

@@ -30,6 +30,22 @@
       url: "https://github.com/V-Sekai-fire/interactor-voice",
       tip: "7d35038f8bb8239bea28ffd0176860400dc50a7e"
     },
+    "chibifire/starforged-std-3001-appendix-e" => %{
+      default: "main",
+      state: :placed,
+      path: "6-datasource/starforged-std-3001-appendix-e",
+      revision: "main",
+      url: "https://huggingface.co/datasets/chibifire/starforged-std-3001-appendix-e",
+      tip: "2dcc6877f6047414bcc34448b043ead589d4ce5c"
+    },
+    "nif" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/taskweft-nif",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/nif",
+      tip: "6bd657bcdfb3cf7239f6a49883817b9672e1bacd"
+    },
     "ggml" => %{
       default: "main",
       state: :placed,
@@ -78,6 +94,14 @@
       url: "https://github.com/V-Sekai-fire/interactor-usd-guest",
       tip: "4125bcc267e345ae62c9177554b082edd2924a4d"
     },
+    "entities-anny-creator" => %{
+      default: "main",
+      state: :placed,
+      path: "4-entities/anny-creator",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/entities-anny-creator",
+      tip: "0aea2924f287b34d7816f6b20c644823d22d4e2a"
+    },
     "datasource-foundationdb" => %{
       default: "main",
       state: :placed,
@@ -101,6 +125,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/transport-elixir-libgodot-connector",
       tip: "2747e6fe378fe1abc1d002912a9b19c21c1b23b9"
+    },
+    "interactor-anny" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/anny",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-anny",
+      tip: "fed2f9a23f065dead04fdb180f0b9ebee2ca0b0f"
     },
     "interactor-nx-ggml" => %{
       default: "main",
@@ -142,6 +174,14 @@
       url: "https://github.com/V-Sekai-fire/entities-godot-cineform",
       tip: "6caca0193925e8b274756e67bf591f6fb9e41083"
     },
+    "contract-anny-keypoint-anchors" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/anny-keypoint-anchors",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-anny-keypoint-anchors",
+      tip: "7139b12b19df6b9026e4188292e9231e6b3fc887"
+    },
     "contract-ggml-rd" => %{
       default: "main",
       state: :placed,
@@ -149,6 +189,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-ggml-rd",
       tip: "8361d7c90f20674d7e6b6b615969dc0f33dccc0b"
+    },
+    "interactor-kimodo-text-to-motion" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/kimodo-text-to-motion",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-kimodo-text-to-motion",
+      tip: "a62f46b0f14a0522ed398d37b6afae163e0c9777"
     },
     "interactor-soma-x" => %{
       default: "main",
@@ -332,6 +380,22 @@
       url: "https://github.com/V-Sekai-fire/sakuragaoka-station",
       tip: "f7cf5ac562149d1454da9b8f0b0d15a847d54226"
     },
+    "interactor-editscore-lora-qwen3vl-4b" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/editscore-lora-qwen3vl-4b",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-editscore-lora-qwen3vl-4b",
+      tip: "cea684045282bd76e9390a08a8b28e623b5237b9"
+    },
+    "interactor-taskweft" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/taskweft",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-taskweft",
+      tip: "52b1fcdc160572ca9ecb368e7a8534b8da99a6ea"
+    },
     "contract-guest-runtime" => %{
       default: "main",
       state: :placed,
@@ -348,6 +412,14 @@
       url: "https://github.com/V-Sekai-fire/interactor-motion-guest",
       tip: "166587ca94c7e7ff1a03c061833aed111940d79b"
     },
+    "interactor-taskweft-nmm-personas" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/taskweft-nmm-personas",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-taskweft-nmm-personas",
+      tip: "b1d81e7e205f1b538a3bc9af2ffbdd72f4f1f3ca"
+    },
     "interactor-mujoco-sandbox-demo" => %{
       default: "main",
       state: :placed,
@@ -357,6 +429,14 @@
       tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
     },
     "interactor-rf-detr-elf-rd" => %{state: :planned, side: "3-interactor"},
+    "contract-hm08-partition" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/hm08-partition",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-hm08-partition",
+      tip: "a98269135096a49b26efa75285cb83ce7966b4f4"
+    },
     "contract-sinew-align" => %{
       default: "main",
       state: :placed,

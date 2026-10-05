@@ -81,17 +81,17 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      Check: an OpenXR session starts on each path and the pen scene
      draws in it; transport-meshing-pen's headless gates pass on the double build.
      A path that fails is logged with its error, and the rung goes
-     ahead on the other. (`entities-godot`, the godot-sandbox addon)
+     ahead on the other. (&{repo("entities-godot")}, the godot-sandbox addon)
   2. **Draw.** Strokes become a curvenet in the headset through
      `curvenet.elf` in the pen's sandbox, in the xr-grid scene, with
      the lasso from `lasso.elf` for picking far targets. Check: RFD
      2263's replay still passes; the Lean tests link the lasso's C++
      and check it picks the target nearest the cone's axis, with a
      control that swaps two targets' distances.
-     (`transport-meshing-pen`, `interactor-lasso`)
+     (&{repo("transport-meshing-pen")}, &{repo("interactor-lasso")})
   3. **Wear.** The garment attaches rigidly to the avatar's bones; a
      mirror shows it. Check: a still from the headset's view.
-     (`transport-meshing-pen`)
+     (&{repo("transport-meshing-pen")})
   4. **Transport and lock-down.** picoquic with h3zero, TLS 1.3 through
      picotls on mbedTLS, in the guest; the host relays UDP through
      `PacketPeerUDP` and never sees plaintext. Connections are direct.
@@ -106,14 +106,14 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      an expired one is refused, an out-of-pattern name is not issued,
      and a transfer with no capability is refused while the same
      transfer goes ahead once its capability is minted.
-     (`interactor-fabric-zone`)
+     (&{repo("interactor-fabric-zone")})
   5. **Zone.** `zone.elf`, all of `modules/multiplayer_fabric` as a
      guest (entity pools, STAGING, ghosts, the SQLite journal and the
      predictive BVH), hosting the headset and desktop clients with a
      humanoid pose payload for both avatars. Check: each client sees
      the other's pose; the Lean tests search for a frame with two
      owners or none, with a control that plants a double hand-off.
-     (`interactor-fabric-zone`)
+     (&{repo("interactor-fabric-zone")})
   6. **Worker zone.** A second `zone.elf` takes a stroke set and runs
      `curvenet.elf`, its kernels on compute-rd, and stores the garment
      with `asset.elf` (casync); the garment's ghost, carrying its hash,
@@ -125,7 +125,7 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      as WebTransport datagrams, played at the speaker's avatar. Check:
      speech round-trips between the two clients; the Lean tests check
      a decoded frame against its input, with a dropped-packet control.
-     (`interactor-voice`)
+     (&{repo("interactor-voice")})
   8. **Evidence.** One session, the person in the headset and the
      operator on the desktop, recorded as CineForm, with the zone
      logs.
@@ -162,11 +162,11 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   :: details The setting
   The two players stand in a train-station plaza, a port of the
   MIT-licensed procedural three.js scene `sakuragaoka-station`, placed
-  at `3-interactor/sakuragaoka-station-upstream` (`4112f57`). Its
+  at &{repo("sakuragaoka-station")} (`4112f57`). Its
   43,727 lines of JavaScript under `src/` generate every texture in
   code and keep no mesh on disk, so the port rebuilds the scene in the
   engine with MToon materials rather than importing it. The port lives
-  in `entities-sakuragaoka-station`, and the pen vendors it with
+  in &{repo("entities-sakuragaoka-station")}, and the pen vendors it with
   `tools/vendor_station.sh <commit>`, which takes only a commit some
   remote branch contains.
   :: details Fitting a free-space sketch to the avatar

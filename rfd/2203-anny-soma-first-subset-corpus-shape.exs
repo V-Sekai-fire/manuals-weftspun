@@ -5,7 +5,7 @@ use RFD.DSL
 rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discussion do
   feature "the RFD 1173 keypoints stub, corpus render side"
 
-  scope "`6-datasource/anny-soma-corpus` (a new repository; creating it triggers a\n`weftspun-keypoint` manifest PR on the 6-datasource side, owned by the GPU-grant holder)"
+  scope "anny-soma-corpus (a new repository; creating it triggers a\n`weftspun-keypoint` manifest PR on the 6-datasource side, owned by the GPU-grant holder)"
 
   prose ~S"""
   :: decision
@@ -149,7 +149,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   then run LBS from the same bone chain, so bone world transforms cannot differ. The
   load-bearing gate for the corpus's downstream use is the vertex-side diff, verified below.
 
-  The bone-level hook landed via `interactor-kimodo-text-to-motion` PR #1 (merged 2026-09-04)
+  The bone-level hook landed via &{repo("interactor-kimodo-text-to-motion")} PR #1 (merged 2026-09-04)
   in `scripts/verify_projection.py`: 4 random SOMA poses through both `anny.Anny(rig="soma",
   topology="soma")` and `anny.Anny(rig="soma", topology=TopologyConfig(base_mesh="makehuman",
   remove_unattached_vertices=False))`, bone world transforms extracted from `bone_poses`:
@@ -157,7 +157,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   - max: **0.000 mm** (sub-credit-card thickness)
   - mean: **0.000 mm** (sub-credit-card thickness)
 
-  The vertex-side hook landed via `interactor-kimodo-text-to-motion` PR #3 in
+  The vertex-side hook landed via &{repo("interactor-kimodo-text-to-motion")} PR #3 in
   `scripts/verify_projection_vertex.py`: same 4 poses through both models, makehuman posed
   vertices compared against SOMA-topology posed vertices interpolated via the barycentric map
   anny uses at build time (`point_to_mesh_distance_and_face_uvs` from `soma.py:97`). Filtered

@@ -11,9 +11,9 @@ from completing, parked as a record. The measured answer inverts the
 question: a git-assembler cycle completes unattended today. What
 remains blocked is the Elixir reimplementation, and separately the
 correctness of a tree that a completing cycle does not check."
-  scope "`4-entities/entities-assembly` (`gitassembly`,
+  scope "entities-assembly (`gitassembly`,
 `update_godot_v_sekai.exs`, `lib/assembler/`), the
-`V-Sekai-fire/egit` fork, and `entities-godot`'s
+the egit fork, and entities-godot's
 `.github/CODEOWNERS` as assembled"
 
   prose ~S"""
@@ -157,7 +157,7 @@ correctness of a tree that a completing cycle does not check."
   the `operation->exec` null-deref in rebase, and the missing
   `rebase_commit` export.
   :: details Seeding the work clone
-  `update_godot_v_sekai.exs` clones `entities-godot` into
+  `update_godot_v_sekai.exs` clones &{repo("entities-godot")} into
   `.assembly-work/entities-godot` when that has no `.git`. A clone
   from GitHub, plain or with `--reference-if-able`, negotiates
   nothing, because the reference repository's `objects` is a symlink

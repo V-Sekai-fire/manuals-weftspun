@@ -236,7 +236,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   :: details Home
   The library, the C it generates and the drift gate live in
   `V-Sekai-fire/nif`, beside the NIF they build and the M1 harness. The
-  manifest places it at `3-interactor/taskweft-nif`, next to the taskweft
+  manifest places it at &{repo("nif")}, next to the taskweft
   projects (operator, 2026-10-05).
   """
 end
