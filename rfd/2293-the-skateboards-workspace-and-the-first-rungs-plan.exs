@@ -9,8 +9,9 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
 
   prose ~S"""
   :: decision
-  A new manifest, `contract-manifest-skateboard`, places only the
-  rung's repositories with gates and bootstrap copied from the taskweft
+  A new manifest,
+  &{repo("contract-manifest-skateboard", planned: "2-contract")}, places
+  only the rung's repositories with gates and bootstrap copied from the taskweft
   manifest. Eight steps land as four releases (dev, beta, rc, released),
   each playable on the Steam Frame through the Windows double build.
   Zones run as ghost servers on Fly's headless Linux double build; GPU
@@ -32,144 +33,73 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   details_title "the Skateboard's workspace, and the first rung's plan"
 
   prose ~S"""
-  :: details What the desk found on 2026-09-30
-  - The double build that held 72 fps in the headset (`entities-godot`
-    master `97dab7a63`, godot-sandbox `b1118e5`, llvm-mingw 20260922)
-    lives at `C:/b/godot-dbl` and `~/rfd2287/godot-dbl`, outside every
-    repository. No workflow, script or `7-service/godot-build` variant
-    passes `precision=double`; no double binary is in the workspace.
-  - The godot-sandbox source is not placed; the pen vendors single
-    binaries at `addons/godot_sandbox/bin`, and its `.gdextension`
-    already names the absent `*.double.*` files.
-  - The guest `Variant` is 24 bytes at single and 40 at double
-    (`2-contract/guest-runtime/vendor/sandbox-api/docker/api/variant.hpp:304`).
-    `vendor/sandbox-api/cmake/CMakeLists.txt:15` passes
-    `DOUBLE_PRECISION_REAL_T` to programs and never to the `sandbox_api`
-    library; `node2d.cpp:26,48` and `vector.cpp:57-141` return `float`.
-    Every ELF in the pen is single (`build/rv64/CMakeCache.txt`).
-  - `3-interactor/lasso` is done as a library with Lean tests and
-    planted controls; nothing in the pen loads `lasso.elf`. The RFD 2263
-    replay (`tools/gate_replay.gd`, `tools/strokes/skirt.usda`) passes
-    in CI on stock single 4.7.2, has no control in replay mode, and
-    `skirt.usda` carries no `meta.expected`.
-  - The pen's action map is Godot's default: no Frame controller
-    profile, no hand tracking, Stage space not local-floor, no haptics,
-    no mirror. The garment is a `MeshInstance3D` on a FoxGirl OBJ; no
-    `Skeleton3D`; `usd.elf` reads no skeletons; Godot master has no USD
-    importer.
-  - The headset harness is on the unmerged pen branches
-    `feat/companion-pens` (`tools/frame/run-xr.sh`, `still.sh`,
-    `clip.sh`, the `hand.gd` null guard the double build needs) and
-    `feat/windows-run`; `xr/companion_pens.gd` turns the companions off
-    whenever OpenXR is active.
-  - `frame-controller-sim`'s `feat/windows-driver` (`724f7f6`) registers
-    the companions as controllers with
-    `Prop_ControllerHandSelectionPriority_Int32 = -1` and carries the
-    feeder (`src/vpen_feeder.cpp`, `tools/vpen_feeder.py`); `main/main`
-    is `50f41be`, trackers only.
-  - `interactor-fabric-zone` and `interactor-voice` do not exist. The
-    engine-native sources sit in `4-entities/godot-fabric`:
-    `modules/multiplayer_fabric` (4.8k lines, `FabricZone` subclasses
-    `SceneTree`), `modules/multiplayer_fabric_asset`, `modules/http3`
-    over `thirdparty/picoquic` and `picotls` (picoquic owns its socket;
-    the client installs a null verifier), `modules/speech` over
-    `thirdparty/opus_speech`.
-  - The avatars `chibifire-stages/character-mille-mire-feuille` and
-    `character-marocchino` are on GitHub (Apache-2.0, USD) and not
-    placed; the 53-role map is in Marocchino's `.fbx.meta` and Mire's
-    `.unitypackage`; the USD joints are renamed (`Upper_leg.L` to
-    `Upper_leg_L`); Mire has no FBX.
-  - `sakuragaoka-station` is placed at
-    `3-interactor/sakuragaoka-station-upstream` (`4112f57`, MIT): a
-    deterministic procedural three.js town (`ctx.rng` is mulberry32,
-    `Math.random` banned), `build(ctx)` per module, `tools/check.mjs`
-    builds it headless in node, and `src/core/batch2.js` already bakes
-    every toon colour into vertex colours and merges by cell.
-  - `1-transport/meshing-pen/tools/build.exs:27` fetches the riscv64
-    sysroot from `interactor-mujoco-sandbox-demo`; `build.sh` runs
-    `3-interactor/drape/kernels/avbd/gen.sh` unconditionally;
-    `.github/workflows/guests.yml:52` syncs eighteen repositories by
-    name.
-  - The Frame advertises `_steamos-devkit._tcp` as `fire-s-frame` and
-    `fire-s-frame.local` is in `known_hosts`; `~/.ssh/config` has no
-    `Host frame` block yet. The headset harness expects `~/rfd2287/pen`,
-    `~/rfd2287/godot-dbl`, `~/rfd2287/proton-xrfix` and its prefix.
-  - This desk, an M2 Pro Mac, is the desktop client and the GPU sidecar;
-    it has clang, cmake, ninja, lake, elixir, Blender, `op` and
-    `flyctl`, and no llvm-mingw. `desktop-ai4kuou` (Windows, the
-    NVENC card) is online on the tailnet and is not a client.
-  - `gh` on this desk is the App installation `v-sekai-fire-persona[bot]`
-    (keyring service `gh:github.com`); `git` mints installation tokens
-    through `~/.local/bin/git-credential-gh-app` and
-    `gh-installation-token`, cached in the login keychain under account
-    `github-app-4890712` (services `github-app-token-<org>`,
-    `github-app-token-expiry-<org>`; the retired `.keychain-jwt.bak`
-    path also used `github-app-private-key`). None of it is in 1Password.
   :: details The workspace: contract-manifest-skateboard
-  One repository, `V-Sekai-fire/contract-manifest-skateboard`, branch
-  `main/main`, made by `gh repo create` under the `v-sekai-fire-persona`
-  user and given the taskweft manifest's ruleset shape: PR plus merge
-  queue, the six required contexts `manifest-comments`,
-  `manifest-dupes`, `manifest-root`, `manifest-root-shepherd`,
-  `manifest-xml`, `sync-preflight`, never `--admin`. Its contents:
+  One repository, &{repo("contract-manifest-skateboard", planned: "2-contract")},
+  default branch `main`, made by `gh repo create` under the
+  `v-sekai-fire-persona` user and given the taskweft manifest's ruleset
+  shape: PR plus merge queue, the six required contexts
+  `manifest-comments`, `manifest-dupes`, `manifest-root`,
+  `manifest-root-shepherd`, `manifest-xml`, `sync-preflight`, never
+  `--admin`. Its contents:
 
-  - `default.xml`, the five gates and the preflight copied from
-    `contract-manifest-taskweft` (`check_manifest_{comments,dupes,root,xml}`,
+  - `default.xml`, the five gates and the preflight copied from the
+    taskweft manifest (`check_manifest_{comments,dupes,root,xml}`,
     `sync.exs`, `.github/workflows/gates.yml`), each keeping its
     `--self-test`.
   - `bootstrap.sh`, `bootstrap.ps1`, `install.sh`, `install.ps1`,
     `bootstrap-pins.txt`, `pixi.toml`, `pixi.lock`, `check_bootstrap.py`
-    and the bootstrap workflow copied from `contract-bootstrap`, with
-    `bootstrap.sh`'s two defaults (`WEFTSPUN_RAW`, `WEFTSPUN_MANIFEST`)
-    and `bootstrap.ps1`'s pointed at the new repository. `pixi.toml`
-    loses the `web` feature and the `emsdk-install` task; the
-    `llvm-mingw` pin moves to 20260922, the version the headset build
-    used.
-  - `default.xml` places the repository itself at `2-contract/bootstrap`
-    with the seven `<linkfile>`s `contract-bootstrap` carries today, so
-    `bootstrap.sh`'s `repo sync 2-contract/bootstrap` and step 4's
+    and the bootstrap workflow copied from &{repo("contract-bootstrap")},
+    with `bootstrap.sh`'s two defaults (`WEFTSPUN_RAW`,
+    `WEFTSPUN_MANIFEST`) and `bootstrap.ps1`'s pointed at the new
+    repository. `pixi.toml` loses the `web` feature and the
+    `emsdk-install` task; the `llvm-mingw` pin moves to 20260922, the version
+    the headset build used.
+  - `default.xml` places the bootstrap repository at the same path the
+    taskweft manifest gives it, with the seven `<linkfile>`s it carries
+    today, so `bootstrap.sh`'s `repo sync` of that path and step 4's
     `cmp` of the pins hold without change.
 
   The rows, by side, every one at the revision the taskweft manifest
   pins today unless named:
 
-  - 1-transport: `transport-meshing-pen` at `main/main` once
-    `feat/dress-on` lands there; `weftspun-studio`,
-    `transport-cineform-tui`, `transport-elixir-libgodot-connector`,
-    `transport-central-launcher`, `transport-usbip-frame`.
-  - 2-contract: `manuals-weftspun` with its five linkfiles,
-    `contract-guest-runtime`, `contract-guest-common`,
-    `contract-ggml-rd`, `ggml`, `plausible-witness-dag`,
+  - 1-transport: &{repo("transport-meshing-pen")} at `main`;
+    `weftspun-studio`, &{repo("transport-cineform-tui")},
+    &{repo("transport-elixir-libgodot-connector")},
+    &{repo("transport-central-launcher")}, &{repo("transport-usbip-frame")}.
+  - 2-contract: &{repo("manuals-weftspun")} with its five linkfiles,
+    &{repo("contract-guest-runtime")}, &{repo("contract-guest-common")},
+    &{repo("contract-ggml-rd")}, `ggml`, `plausible-witness-dag`,
     `weftspun-agreements`, and the manifest itself.
-  - 3-interactor: `interactor-curvenet`, `interactor-lasso`,
-    `interactor-usd-guest`, `interactor-fabric-zone` and
-    `interactor-voice` (new, step 4), `interactor-av1mkv`,
-    `interactor-cineform`, `interactor-mujoco-sandbox-demo`,
-    `frame-controller-sim`, `interactor-taskweft-godot-sandbox`,
-    `sakuragaoka-station` at `4112f57` (the three.js original, the
-    parity oracle), and a `pyrowave` fork at `89f7e47` carrying
-    `pwbench.cpp`.
-  - 4-entities: `entities-godot` at `4-entities/godot` (master) and at
-    `4-entities/godot-fabric` (the fabric tag, the port source for
-    steps 4 to 7), `entities-godot-sandbox` at `b1118e5` (new),
-    `entities-sakuragaoka-station` (new, the Godot port),
-    `entities-godot-cineform`, `godot_openvr` at `feat/frame-devices`,
-    `godot-vrm`, `entities-godot-sandbox-gdscript-compiler`.
-  - 5-repository: `repository-riscv64-sysroot`;
-    `character-mille-mire-feuille` and `character-marocchino` from the
-    `chibifire-stages` remote at `https://github.com/chibifire-stages`,
+  - 3-interactor: &{repo("interactor-curvenet")}, &{repo("interactor-lasso")},
+    &{repo("interactor-usd-guest")}, &{repo("interactor-fabric-zone")} and
+    &{repo("interactor-voice")} (step 4), &{repo("interactor-av1mkv")},
+    &{repo("interactor-cineform")}, &{repo("interactor-mujoco-sandbox-demo")},
+    &{repo("frame-controller-sim")}, &{repo("interactor-taskweft-godot-sandbox")},
+    &{repo("sakuragaoka-station")} at &{pin("sakuragaoka-station")} (the
+    three.js original, the parity oracle), and a &{repo("pyrowave")} fork
+    at &{pin("pyrowave")} carrying `pwbench.cpp`.
+  - 4-entities: &{repo("entities-godot")} at master and at the fabric tag
+    (the port source for steps 4 to 7),
+    &{repo("entities-godot-sandbox", planned: "4-entities")} at `b1118e5`,
+    &{repo("entities-sakuragaoka-station")} (the Godot port),
+    &{repo("entities-godot-cineform")}, &{repo("godot_openvr")} at its
+    manifest revision, `godot-vrm`,
+    &{repo("entities-godot-sandbox-gdscript-compiler")}.
+  - 5-repository: &{repo("repository-riscv64-sysroot")};
+    &{repo("character-mille-mire-feuille")} and
+    &{repo("character-marocchino")} from the `chibifire-stages` remote,
     each with a `<linkfile>` of its committed glTF into the pen's
     gitignored `avatars/`.
-  - 6-datasource: `datasource-cassie`; `datasource-store`
+  - 6-datasource: &{repo("datasource-cassie")}; &{repo("datasource-store")}
     (fabric-store, the SQLite VFS whose pages live in FoundationDB,
-    with its `<linkfile>` of `fdb_vfs.c` into
-    `7-service/bao-sqlite-fdb/thirdparty/store/`) and
-    `datasource-foundationdb`.
-  - 7-service: `service-godot-build` (the workflows' home),
-    `service-cineform`, `service-openbao`, `service-bao-sqlite-fdb`
-    (the OpenBao secrets engine that runs catalogued SQL over
-    fabric-store databases; the zone journals' home), `service-zone`
-    (new; the Fly app's Containerfile and `fly.toml`).
+    with its `<linkfile>` of `fdb_vfs.c` into the SQLite secrets
+    engine's `thirdparty/store/`) and &{repo("datasource-foundationdb")}.
+  - 7-service: &{repo("service-godot-build")} (the workflows' home),
+    &{repo("service-cineform")}, &{repo("service-openbao")},
+    &{repo("service-bao-sqlite-fdb")} (the OpenBao secrets engine that
+    runs catalogued SQL over fabric-store databases; the zone journals'
+    home), &{repo("service-zone", planned: "7-service")} (the Fly app's
+    Containerfile and `fly.toml`).
   - The dot repositories `.github`, `dot-claude`, `dot-vscode`,
     `fire-s-extension-pack`.
 
@@ -186,9 +116,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   is refused by `check_manifest_xml.py` by name.
   :: details The hands: priority mode
   The assistant draws with the pen through SteamVR, not through the app.
-  `frame-controller-sim` merges `feat/windows-driver` (`724f7f6`, a
-  superset of `feat/tracker-companions-hidden`) to `main/main`, keeping
-  the aarch64 `build.sh` beside `build-win.sh`, and gains a `priority`
+  &{repo("frame-controller-sim")} carries the Windows driver on `main`,
+  keeping the aarch64 `build.sh` beside `build-win.sh`, and gains a `priority`
   key in `driver/vpen/resources/settings/default.vrsettings`, read in
   `CServerDriver::Init`. With it on, slots 0 and 1 activate as
   `TrackedDeviceClass_Controller` with `Prop_ControllerRoleHint_Int32`
@@ -224,8 +153,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   :: details The world: Sakuragaoka Station, in Godot
   The station is three.js and the rung is Godot, so the generation is
   ported, as RFD 2267 says a port is. A new repository,
-  `V-Sekai-fire/entities-sakuragaoka-station` at
-  `4-entities/sakuragaoka-station`, is a Godot addon,
+  &{repo("entities-sakuragaoka-station")}, is a Godot addon,
   `addons/sakuragaoka_station/`, in the station's own shape: one
   `world/<module>.gd` per `src/world/<module>.js` with a `build(ctx)`,
   `world/layout.gd` as the world contract (coordinates, roads, lots,
@@ -273,17 +201,11 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     through the same `rdc::Device`, `tools/run-mac.sh` beside
     `run-windows.sh` for the flat client and the sidecar; the pen's
     parked `macos.yml` becomes the macOS arm of the headless gates.
-  - Branches first: merge `feat/companion-pens` into `feat/dress-on`
-    (it diverged before the build files existed, so the merge adds
-    `tools/frame/*`, `xr/companion_pens.gd`, `xr/companion_hand.gd` and
-    the `hand.gd` guard without deleting anything; drop
-    `tools/sync_dress_on.sh`), then `tools/run-windows.sh` from
-    `feat/windows-run`, then `feat/dress-on` to `main/main`.
   - GitHub Actions builds every binary; nothing is built by hand
-    again. `7-service/godot-build` is the workflows' home, so the
+    again. &{repo("service-godot-build")} is the workflows' home, so the
     engine fork keeps upstream's nine workflows off and pays no
     runner minutes for them: its `.github/workflows/double.yml` checks
-    out `entities-godot` at the pinned commit and runs a matrix of
+    out &{repo("entities-godot")} at the pinned commit and runs a matrix of
     `windows-x86_64` (llvm-mingw 20260922, `use_mingw=yes
     use_llvm=yes`), `linux-x86_64` and `macos-arm64`, each at
     `precision=double` for `target=editor` and `target=template_release`
@@ -304,8 +226,9 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     a runtime `dlopen`; the x86_64 `SteamLinuxRuntime_sniper` entry
     point under FEX is tried once from the headset and `LD_DEBUG=libs`
     logged either way, and no rung waits on it.
-  - The addon at double, from the placed `4-entities/godot-sandbox` at
-    `b1118e5` plus `feat/bintr-emit`, by `addon.yml` in the same
+  - The addon at double, from
+    &{repo("entities-godot-sandbox", planned: "4-entities")} at `b1118e5`
+    plus its binary-translation emitter, by `addon.yml` in the same
     workflows' home: `scons
     platform=windows arch=x86_64 target=template_release
     precision=double use_mingw=yes use_llvm=yes`, the linux x86_64 and
@@ -316,8 +239,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     copied.
   - Native binary translation, required, interpretation never: every
     ELF guest we author ships with its translation on every platform
-    it ships to, Windows, Linux and macOS alike. The addon is built from
-    `feat/bintr-emit` (`GODOT_SANDBOX_BINTR_EMIT=<dir>` writes each
+    it ships to, Windows, Linux and macOS alike. The addon is built with
+    the emitter (`GODOT_SANDBOX_BINTR_EMIT=<dir>` writes each
     program's translation as C99; `RISCV_ASMJIT=OFF`, no JIT), and
     the pen's `guests.yml` emits each program's C99 on the linux
     runner and compiles one library per program hash,
@@ -325,7 +248,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     windows x86_64 through LLVM's clang (`clang-cl` on a desk, the
     llvm-mingw clang on the runner), and `.dylib` for macos arm64,
     at double; `tools/build.exs` does the same on a desk. The Windows
-    leg is in progress on `feat/bintr-emit`; until its `.dll` loads,
+    leg is in progress; until its `.dll` loads,
     a Windows guest is untranslated and the gate below names it.
     `stages/sandbox_util.gd`'s `enable_native_translation` drops its
     Linux-only guard and turns the setting on wherever a library for
@@ -339,7 +262,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     instructions per second translated against interpreted. Control:
     an ELF whose hash has no library reports untranslated and the gate
     fails by name.
-  - Guests at double, in `contract-guest-runtime`'s vendored
+  - Guests at double, in &{repo("contract-guest-runtime")}'s vendored
     sandbox-api: `target_compile_definitions(sandbox_api PUBLIC
     DOUBLE_PRECISION_REAL_T)` under the option; `node2d.cpp` returns
     `real_t`; `vector.cpp`'s wrappers take `real_t`, checked against
@@ -363,7 +286,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     `ANNY_KERNELS_ROOT`, `SINEW_ALIGN_ROOT` line and the `avbd`
     library; `tools/build.exs`'s `@elfs` becomes `curvenet lasso usd
     probes dress_on rd_worker ggml_test` and its sysroot fetch moves to
-    `5-repository/riscv64-sysroot`; `guests.yml` syncs the new
+    &{repo("repository-riscv64-sysroot")}; `guests.yml` syncs the new
     manifest's names; the drape, fit, cage, headfit, motion and rfdetr
     ELFs and fixtures are deleted. One PR, because `build.sh` runs
     drape's `gen.sh` unconditionally.
@@ -379,32 +302,13 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   `variant_bytes() == 40` for curvenet and lasso; `tools/test.sh` and
   the replay pass on the double editor and template builds in CI on
   linux x86_64 and on the Frame through `run-xr.sh`. Control:
-  `--control=single_elf` loads the committed single `curvenet.elf`
-  from `087b43a` and must print `RESULT: FAIL`. `linux.yml` gains
+  `--control=single_elf` loads a committed single-precision
+  `curvenet.elf` and must print `RESULT: FAIL`. `linux.yml` gains
   `feat/*` and stays as the single-precision arm.
   :: details The guests the pen ships
-  `transport-meshing-pen` ships five guest ELFs at its root, each line from
-  the header of the guest's `main.cpp`:
-
-  - `curvenet.elf` (`interactor-curvenet`): the curvenet stage, Cassie's pen
-    to curvenet to mesh and mesh back to curvenet, CPU only.
-  - `dress_on.elf` (`contract-guest-runtime`): the guest's public surface,
-    exposing the GPU layer's own Stage 1 probes.
-  - `mujoco.elf` (`interactor-mujoco-sandbox-demo`): MuJoCo as a RISC-V
-    sandbox guest stepped from GDScript; its `main.cpp` has no header, so
-    this line is the project README's.
-  - `rd_worker.elf` (`contract-guest-runtime`): Gate 6G.1, `rd_compute`
-    called from a worker Thread's vmcall.
-  - `usd.elf` (`interactor-usd-guest`): OpenUSD opens a `.usdz` package
-    from bytes the host hands over, with no filesystem, and answers with
-    packed arrays.
-
-  The addon carries its own `addons/godot_sandbox/gdscript.elf`. The pen
-  builds `probes`, `ggml_test`, `lasso`, `cage`, `headfit`, `rfdetr_seg`,
-  `motion`, `cassie_graph` and `usd_probe` without shipping them, and its
-  `.gitignore` names each. The census is `git ls-files '*.elf'` on the
-  pen's `release/v20261001-dev.1`; this list holds by agreement, and no
-  gate compares it with the pen.
+  The guests &{repo("transport-meshing-pen")} ships are the `*.elf` files
+  tracked at its root, each described by the header of its `main.cpp`;
+  the ones it builds without shipping are named in its `.gitignore`.
   :: details Step 2. Draw
   - `stages/pipeline.gd` runs `INFER, RIG, AUTHOR, MESH, ATTACH, DONE`:
     `_mesh_done` goes to `ATTACH`, which emits `garment_ready` and the
@@ -419,7 +323,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     highlights the snapped target, pulses `haptic` when it changes, and
     on trigger over the avatar calls `Main.dress_on_wear()`.
     `lasso.elf` leaves `.gitignore` and is committed like
-    `curvenet.elf`; `4-entities/godot-fabric/modules/lasso` is deleted.
+    `curvenet.elf`; the engine fork's `modules/lasso` is deleted.
   - The world-locked grid `addons/procedural_3d_grid/core/procedural_grid_3d.tscn`
     is instanced under `World` at the floor.
   - `project.godot`: `xr/openxr/reference_space=2` (local floor) and
@@ -436,7 +340,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
 
   Check: the replay passes headless on the double build and on the
   Frame in priority mode (six strokes, two cycles, two openings); the
-  Lean tests in `3-interactor/lasso/tests/lasso` pass with their
+  Lean tests in &{repo("interactor-lasso")}'s `tests/lasso` pass with their
   controls; `elixir tools/build.exs --no-elfs --gates=load,crossings`.
   Controls: `drop_seam` fails; `hidden` and `flat --expect=xr` fail;
   priority off draws nothing.
@@ -475,9 +379,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   mirror. Control: `--control=no_attach` leaves the garment under
   `Body`, displacement zero, FAIL.
   :: details Step 4. Transport and lock-down
-  Two repositories shaped like `interactor-lasso`, placed after it:
-  `interactor-fabric-zone` at `3-interactor/fabric-zone` and
-  `interactor-voice` at `3-interactor/voice`. `zone.elf` has a player
+  Two repositories shaped like &{repo("interactor-lasso")}, placed after it:
+  &{repo("interactor-fabric-zone")} and &{repo("interactor-voice")}. `zone.elf` has a player
   mode, as `FabricZone::is_player` does, so there is no `client.elf`.
   picoquic lives only in `zone.elf`; `ca.elf` carries mbedTLS only.
 
@@ -496,7 +399,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     vm, verb, object, expires, epoch; the host (`stages/capability.gd`)
     holds the root key and hands each VM a derived key, so `ca.elf`,
     which gets none, can verify no transfer. The per-VM bit in the
-    godot-sandbox host-call table lands in `entities-godot-sandbox`.
+    godot-sandbox host-call table lands in
+    &{repo("entities-godot-sandbox", planned: "4-entities")}.
   - Host: `stages/zone_stage.gd` owns a `PacketPeerUDP`, drains it into
     `net_rx`, sends `net_tx`, calls `zone_tick` once a frame; enrolment
     is a CSR on an `ENROL` stream the desktop hands to `ca_stage.gd`,
@@ -532,9 +436,9 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   with `local_broadcast_raw`.
 
   The journal does not stay in the guest. `OpenBao -> fdb -> s3` is the
-  placement: `service-openbao` on FoundationDB, `datasource-store`'s
+  placement: &{repo("service-openbao")} on FoundationDB, &{repo("datasource-store")}'s
   `fdb_vfs.c` giving SQLite pages that live in the same cluster, and
-  `service-bao-sqlite-fdb` answering `bao read <mount>/query/<name>` and
+  &{repo("service-bao-sqlite-fdb")} answering `bao read <mount>/query/<name>` and
   `bao write <mount>/exec/<db>/<name>` from a startup catalog and
   nothing else. `stages/zone_stage.gd` drains `zone_journal_export`
   under the write capability every tick that changed a row and hands
@@ -595,7 +499,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   worker with no sidecar makes the garment itself and the gate records
   both times.
   :: details Step 7. Talk
-  `interactor-voice`: Opus 1.6.1 without `dnn/`, `celt/x86`, `celt/arm`,
+  &{repo("interactor-voice")}: Opus 1.6.1 without `dnn/`, `celt/x86`, `celt/arm`,
   rnnoise, AEC3 or libsamplerate, with its own `opus_guest_config.h`;
   `voice_encode` on 960-sample frames at 48 kHz, `voice_push` and
   `voice_pull` over a jitter buffer with packet-loss concealment, lifted
@@ -615,7 +519,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   machines in `sjc` with 1 GB volumes (`cluster_health` passing on all
   three; `backup_fresh` and `backup_fresh_dr` critical on all three
   with `connect: connection refused`, the backup-freshness probe of
-  `6-datasource/store/fly/backup-fresh.sh` not answering, so the
+  &{file("datasource-store", "fly/backup-fresh.sh")} not answering, so the
   backups are unverified and that service is brought back and checked
   before the journals depend on the cluster), and `weftspun-bao`, one `shared-cpu-1x` in `sjc`
   with a dedicated IPv6, OpenBao on FoundationDB storage, mutual TLS on
@@ -624,7 +528,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   of them has a GPU, and none will.
 
   A new app, `weftspun-zone`, from a new repository
-  `V-Sekai-fire/service-zone` at `7-service/zone`: a Containerfile that
+  &{repo("service-zone", planned: "7-service")}: a Containerfile that
   takes the Linux x86_64 double headless engine, the addon's double
   `.so`, and the pen at the release tag, and runs `godot --headless
   --path pen --script tools/zone_main.gd` with a `--mode=<server|worker>`
@@ -648,7 +552,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   an hourly installation token minted the same way
   (`gh-installation-token <org>` through `bao-mint-github` over
   Tailscale), so every GitHub step needs a Bao tailnet node online,
-  which `tailscale status` says. `7-service/openbao` ships the catalog
+  which `tailscale status` says. &{repo("service-openbao")} ships the catalog
   (`schema "zone-*"`, `exec append_mutation`, `exec append_snapshot`,
   `query latest_snapshot`) and sets `BAO_SQLITE_FDB_CATALOG` and
   `BAO_SQLITE_FDB_CLUSTER`; the operator registers and enables the
@@ -733,7 +637,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   The work lands as four releases, each a whole playable build before
   the next starts, in RFD 2262's sense: a person
   puts it on and does the thing it claims. A release is a tag on
-  `transport-meshing-pen` (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
+  &{repo("transport-meshing-pen")} (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
   `v<date>`), a GitHub release on the pen carrying the rung's double
   engine and addon, the ELFs and their sha256s, a playtest recorded on
   the rung's platform (on the Frame, the release uploaded to the
@@ -761,12 +665,11 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   deviation named.
 
   **dev.1: one person visits the station.** The pen's
-  `v20261001-dev.1` tag and `release/v20261001-dev.1` point at
-  `ee80fb5`, the merge of transport-meshing-pen#26, and the prerelease
+  `v20261001-dev.1` tag marks it, and the prerelease
   carries the double engine `v20260930-double.1`, the addon
   `v20260930-addon.1` and the five guest ELFs, each against
   `SHA256SUMS`. The four ported modules (`environment`, `station`,
-  `plaza`, `sakura`), each a faithful port of 4112f57, send their 1089
+  `plaza`, `sakura`), each a faithful port of the pinned original, send their 1089
   primitive colliders and the terrain height field to the MuJoCo guest
   as the original's `physics.js` calls make them. A walker ported from
   the original's `player.js` (radius 0.3 m, height 1.7 m, step 0.45 m)
@@ -775,7 +678,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   teleport; there is no jump. World grab is off by default and sits in
   a three-wedge radial (hold B or Y, tilt, release: world grab,
   recentre, exit). Gates: `gate_colliders` in
-  `entities-sakuragaoka-station` (every collider matches the
+  &{repo("entities-sakuragaoka-station")} (every collider matches the
   original's, with `drop_one` and `shift` as controls), run by hand
   because that repository has no CI; and `gate_locomotion` in the pen's
   `double.yml` (walk, step-up and the refused 1.25 m ledge, the
@@ -803,11 +706,11 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
 
   **rc: two people in one zone, talking, the garment made elsewhere,
   the zones live on Fly.**
-  `interactor-fabric-zone` and `interactor-voice` placed; `ca.elf` and
+  &{repo("interactor-fabric-zone")} and &{repo("interactor-voice")} placed; `ca.elf` and
   the capability table; the transport over the host's UDP; the zone
   with the one-owner search; the worker zone and `asset.elf` with the
   corrupted chunk; voice with the dropped packet; the zone journals on
-  `service-bao-sqlite-fdb` over FoundationDB, read back by `bao read`
+  &{repo("service-bao-sqlite-fdb")} over FoundationDB, read back by `bao read`
   and resumed after a restart; `weftspun-zone` deployed and the
   two-client gate run against its address with the headset as one
   client and the desktop as the other and the sidecar. Playable: one
@@ -817,7 +720,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
 
   **released: the rung, live and reproducible from a bare machine.** The evidence
   session recorded as CineForm with the zone journals;
-  `contract-manifest-skateboard` created with the gates and the
+  &{repo("contract-manifest-skateboard", planned: "2-contract")} created with the gates and the
   bootstrap, and a bare directory bootstrapped to the released tag;
   the manual's Sides and allowlist edits and this RFD landed; the
   desk's GitHub credentials destroyed. Playable: anyone with the
@@ -850,16 +753,15 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   1. A bare-directory bootstrap of the new manifest;
      `elixir .repo/manifests/sync.exs . --preflight` at zero blocking;
      the five gates and `check_bootstrap.py` with `--self-test`.
-  2. `cd 1-transport/meshing-pen && elixir tools/build.exs
-     --gates=load,crossings` on the double build, every ELF at
+  2. `elixir tools/build.exs --gates=load,crossings` in
+     &{repo("transport-meshing-pen")} on the double build, every ELF at
      `DOUBLE_PRECISION=ON` with its `bintr-<HASH>` library for both
      platforms; `tools/probe_load.gd` asserts every ELF translated;
      `--control=single_elf` and an ELF with no library both fail.
   3. Lean tests, `lake build && lake exe tests --write=$TMPDIR/nc.txt &&
      diff $TMPDIR/nc.txt native-checks.txt`, in
-     `3-interactor/lasso/tests/lasso`,
-     `3-interactor/fabric-zone/tests/fabric_zone` and
-     `3-interactor/voice/tests/voice`.
+     the `tests/` directory of &{repo("interactor-lasso")},
+     &{repo("interactor-fabric-zone")} and &{repo("interactor-voice")}.
   4. On the Frame: `tools/frame/run-xr.sh <tag> replay` in priority mode,
      then `PRIORITY=0`, `NOFEED=1`, `hidden`, `flat --expect=xr` and
      `--control=drop_seam` as controls; `run-xr.sh wear replay` with
@@ -869,7 +771,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
      `gate_voice_loopback.gd`; the same two-client gate against
      `weftspun-zone` on Fly, and `fly checks list -a weftspun-zone`.
   6. `mix rfd.check && mix rfd.render && mix rfd.board --check && prek run
-     --all-files` in `2-contract/manuals-weftspun`;
+     --all-files` in &{repo("manuals-weftspun")};
      `python scripts/check_anti_entropy.py` read in full.
   """
 end
