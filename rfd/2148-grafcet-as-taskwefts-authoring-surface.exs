@@ -99,7 +99,7 @@ domain that fits the propositional-with-parameters class"
   bus (iceoryx2 shared memory, 8-byte request-id envelope). Python
   reuses `weft_harness.Bus`'s `serve` loop verbatim; Elixir speaks the
   same wire through a new NIF at
-  `c_src/weft_bus_nif.cpp` in &{repo("interactor-taskweft-nmm-personas")}, modelled
+  &{file("interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp")}, modelled
   on `spot_broker/c_src/store_bus_nif.cpp` + `bus/proof/command_publisher.cpp`.
 
   The bus caps at 128 KiB per message. The projected 128-agent nmm2

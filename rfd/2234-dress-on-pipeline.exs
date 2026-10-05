@@ -175,7 +175,7 @@ rfd 2234,
   ### `tools/anny_body.py` (anny env), identity → body.glb + mask.glb
   - Build the model with `anny.Anny(rig="anny", topology="anny", phenotypes="all",
   local_changes="default", skinning_method="lbs")`
-   , the same `CORPUS_CONFIG` as `anny_rig.py` in &{repo("anny-render-corpus")},
+   , the same `CORPUS_CONFIG` as &{file("anny-render-corpus", "anny_rig.py")},
     minus `facial_actions` and minus the corpus's forearm twist fix (not wanted here).
   - Phenotypes come from `tools/identity_appendix_e.py` (below), which returns
     the same `{label: float in 0..1}` dict shape that
@@ -274,7 +274,7 @@ rfd 2234,
   silent substitution.
 
   **SOMA-X is the pivot, and ANNY phenotypes are already its identity vector.**
-  `soma/identity_model.py` in &{repo("interactor-soma-x")}: `AnnyIdentityModel`
+  &{file("interactor-soma-x", "soma/identity_model.py")}: `AnnyIdentityModel`
   wraps `anny.create_fullbody_model(all_phenotypes=True, ...)`,
   `num_identity_coeffs = len(phenotype_labels)`, and `get_rest_shape` passes
   `identity_coeffs` straight through as `phenotype_kwargs`. So the 11 `pheno_*`
