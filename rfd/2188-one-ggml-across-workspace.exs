@@ -12,10 +12,8 @@ rfd 2188, "One GGML across the workspace", :discussion do
   Every consumer references it through the manifest; vendored copies
   are deleted; a prek gate refuses any new consumer that brings its own.
 
-  Manifest points at branch `weftspun-consolidated`, seeded from
-  `ggml-seethrough` HEAD (`3404c951`, 2026-08-29), the richest tip,
-  carrying 14+ custom backends. `upstream-tracking` branch was pushed
-  at `ggml-org/ggml master` (2026-08-30) as a future rebase base.
+  The manifest tracks the checkout's default branch, which carries the
+  consolidated tip and its 14+ custom backends.
 
   Placed at &{repo("2-contract/ggml")}: the tensor runtime is a contract every
   interactor consumes. There is no `0-shared` hexagon side.

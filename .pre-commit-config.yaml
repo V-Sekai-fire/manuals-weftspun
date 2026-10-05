@@ -630,6 +630,22 @@ repos:
         always_run: true
         stages: [manual]
 
+      - id: ci-rfd-abandoned
+        name: every abandoned_at SHA holds a source with a Decision
+        entry: mix rfd.abandoned.check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
+      - id: ci-rfd-refs
+        name: RFD.lock.exs matches the live manifest and repositories
+        entry: mix rfd.refs.check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
       - id: ci-rfd-canary
         name: every new RFD carries its attestation against the base
         entry: bash -c 'elixir scripts/check_rfd_canary.exs --base "${GATE_BASE:?GATE_BASE unset}"'

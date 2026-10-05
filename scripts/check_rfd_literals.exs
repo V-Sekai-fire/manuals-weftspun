@@ -10,8 +10,8 @@ defmodule Literals do
     side_path: ~r/\b[1-7]-(?:#{@side})\/[\w.-]+/,
     own_org: ~r/\b(?:V-Sekai-fire|chibifire-stages)\/[\w.-]+/i,
     project: ~r/`(?:#{@side}|manuals|frame)-[\w.-]+`/,
-    sha: ~r/`(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}`/,
-    file_line: ~r/\b[\w.\/-]+\.[A-Za-z]\w{0,5}:\d+(?:-\d+)?\b/,
+    sha: ~r/(?<![\w.#-])(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}(?![\w-])/,
+    file_line: ~r/\b[\w.\/-]+\.[A-Za-z]\w{0,5}(?::\d+(?:-\d+)?|#L\d+(?:-L?\d+)?)\b/,
     branch: ~r/\b(?:feat|fix|archived)\/[\w.-]+/,
     pr: ~r/\bPR #\d+|(?<![\w&#])#\d+\b|\bpull\/\d+/
   ]
@@ -67,20 +67,22 @@ defmodule Literals do
   def check(repo, base) do
     with {:ok, _} <- git(repo, ["rev-parse", "--verify", "--quiet", base <> "^{commit}"]),
          {:ok, mb} <- git(repo, ["merge-base", base, "HEAD"]),
-         diff = ["diff", "--name-only", "--diff-filter=AMR", String.trim(mb)],
+         diff = ["diff", "--name-status", "-M", "--diff-filter=AMR", String.trim(mb)],
          {:ok, names} <- git(repo, diff) do
       mb = String.trim(mb)
 
       files =
-        names
-        |> String.split("\n", trim: true)
-        |> Enum.filter(&(&1 =~ ~r"^rfd/[0-9]{4}-[^/]+[.]exs$"))
+        for line <- String.split(names, "\n", trim: true),
+            [_ | paths] = String.split(line, "\t"),
+            path = List.last(paths),
+            path =~ ~r"^rfd/[0-9]{4}-[^/]+[.]exs$",
+            do: {hd(paths), path}
 
       bad =
-        for path <- files, reduce: 0 do
+        for {old, path} <- files, reduce: 0 do
           acc ->
             before =
-              with {:ok, t} <- git(repo, ["show", "#{mb}:#{path}"]), do: t, else: (_ -> nil)
+              with {:ok, t} <- git(repo, ["show", "#{mb}:#{old}"]), do: t, else: (_ -> nil)
 
             {verdict, reasons, fenced} = judge(before, File.read!(Path.join(repo, path)))
             if fenced > 0, do: IO.puts("  #{path}: #{fenced} in fences, unchecked")
@@ -102,6 +104,30 @@ defmodule Literals do
     end
   end
 
+  defp fixture(seed, edits, ref) do
+    tmp = Path.join(System.tmp_dir!(), "rfd-literals-#{System.unique_integer([:positive])}")
+    File.mkdir_p!(Path.join(tmp, "rfd"))
+    id = ["-c", "user.email=t@t", "-c", "user.name=t"]
+    git(tmp, ["init", "-q"])
+    File.write!(Path.join(tmp, "rfd/2999-t.exs"), seed)
+    git(tmp, ["add", "-A"])
+    git(tmp, id ++ ["commit", "-q", "-m", "base"])
+    git(tmp, ["branch", "base"])
+
+    for edit <- edits do
+      case edit do
+        {:mv, from, to} -> git(tmp, ["mv", from, to])
+        {path, text} -> File.write!(Path.join(tmp, path), text)
+      end
+    end
+
+    git(tmp, ["add", "-A"])
+    git(tmp, id ++ ["commit", "-q", "--allow-empty", "-m", "head"])
+    out = ExUnit.CaptureIO.capture_io(fn -> send(self(), {:code, check(tmp, ref)}) end)
+    File.rm_rf!(tmp)
+    receive do: ({:code, c} -> {c, out})
+  end
+
   def self_test do
     base = "rfd 2999, \"t\", :discussion do\n  prose ~S\"\"\"\n  :: decision\n  Text.\n"
     sha = "`392beb7`"
@@ -114,6 +140,9 @@ defmodule Literals do
       {"a branch added", base, base <> "On feat/x.\n", :fail},
       {"a PR number added", base, base <> "Landed in PR #12.\n", :fail},
       {"a bare SHA added", base, base <> "At #{sha}.\n", :fail},
+      {"an unquoted SHA added", base, base <> "Last at 978ea6a.\n", :fail},
+      {"a line anchor added", base, base <> "See ggml.c#L27.\n", :fail},
+      {"a date is not a SHA", base, base <> "On 2026-08-29.\n", :pass},
       {"the SHA under abandoned_at", base, base <> "  abandoned_at \"392beb7\"\n", :pass},
       {"a literal moved, count unchanged", base <> "A feat/x.\nB.\n", base <> "B.\nA feat/x.\n",
        :pass},
@@ -131,32 +160,24 @@ defmodule Literals do
     {_, _, fenced} = judge(base, base <> "```\n3-interactor/foo\n```\n")
     fails = if fenced == 1, do: fails, else: ["fenced count" | fails]
 
-    tmp = Path.join(System.tmp_dir!(), "rfd-literals-#{System.unique_integer([:positive])}")
-    File.mkdir_p!(tmp)
-    git(tmp, ["init", "-q"])
+    seed = base <> "In 3-interactor/a and 3-interactor/b.\n"
 
-    git(tmp, [
-      "-c",
-      "user.email=t@t",
-      "-c",
-      "user.name=t",
-      "commit",
-      "-q",
-      "--allow-empty",
-      "-m",
-      "t"
-    ])
-
-    bad_base = ExUnit.CaptureIO.capture_io(fn -> send(self(), check(tmp, "no-such-ref")) end)
-    File.rm_rf!(tmp)
+    repo_controls = [
+      {"a bad --base", [], "no-such-ref", 1},
+      {"a literal added on HEAD", [{"rfd/2999-t.exs", seed <> "See 3-interactor/c.\n"}], "base",
+       1},
+      {"a clean edit on HEAD", [{"rfd/2999-t.exs", seed <> "More text.\n"}], "base", 0},
+      {"a rename keeps its base count", [{:mv, "rfd/2999-t.exs", "rfd/2999-u.exs"}], "base", 0}
+    ]
 
     fails =
-      receive do: (
-                1 -> fails
-                _ -> ["a bad --base: #{bad_base}" | fails]
-              )
+      Enum.reduce(repo_controls, fails, fn {label, edits, ref, want}, acc ->
+        {got, out} = fixture(seed, edits, ref)
+        if got == want, do: acc, else: ["#{label}: got #{got}, expected #{want}: #{out}" | acc]
+      end)
 
-    n = length(controls) + 2
+    Enum.each(fails, &IO.puts("  FAIL #{&1}"))
+    n = length(controls) + 1 + length(repo_controls)
 
     if fails == [] do
       IO.puts("ok   #{n} of #{n} controls fired in both directions")

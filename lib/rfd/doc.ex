@@ -147,18 +147,17 @@ defmodule RFD.Doc do
   defp check(acc, true, _msg), do: acc
   defp check(acc, false, msg), do: [msg | acc]
 
-  @stub_free ~w(feature scope preamble front_matter problem related details_preamble rebac)a
+  @stub_keys [:serial, :title, :state, :abandoned_at, :decision]
 
   defp abandoned_problems(%{state: :abandoned} = d) do
+    blank = %__MODULE__{serial: nil, title: nil}
+
     extra =
-      for(k <- @stub_free, Map.get(d, k) != nil, do: k) ++
-        for {k, v} <- [references: d.references, details: d.details, sections: d.sections],
-            v != [],
-            do: k
+      for {k, v} <- Map.from_struct(d), k not in @stub_keys, v != Map.get(blank, k), do: k
 
     cond do
       d.abandoned_at == nil -> ["an abandoned RFD names its last full source with abandoned_at"]
-      extra != [] -> ["an abandoned RFD carries only its stub; drop #{inspect(extra)}"]
+      extra != [] -> ["an abandoned RFD carries only its stub; drop #{inspect(Enum.sort(extra))}"]
       true -> []
     end
   end

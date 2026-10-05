@@ -3,5 +3,5 @@
 use RFD.DSL
 
 rfd 2001, "Zonefabric roadmap vs mas bandwidth fps", :abandoned do
-  abandoned_at "392beb7"
+  abandoned_at "392beb734ff0e241273643228edf912502fb91b2"
 end
