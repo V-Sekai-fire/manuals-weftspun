@@ -58,8 +58,8 @@ rules below"
      `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
      using the project's own remote and default branch.
   5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
-     period. Commits and pull requests carry no Claude attribution: no
-     `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
+     period, forks included (RFD 2026). Commits and pull requests carry no Claude
+     attribution: no `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
      Credit to people stays, such as a co-author trailer for the person whose
      work a commit carries. "Interchangeable sessions" below names the commit
      author and how to strip a footer a tool appends. Push only the feature

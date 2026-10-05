@@ -58,14 +58,13 @@ rfd 2026, "Commit messages sentence case", :committed do
   - Bad, because a changelog tool that groups commits by type finds no
     signal here, so adopting one later needs a different marker or a
     history rewrite.
-  :: details Fork exception
-  The rule scopes to **our own repos**, anything whose git remote
-  points at `github.com/weftspun/...`. Forks, repos this workspace
-  mirrors from an upstream that uses its own commit style, follow the
-  upstream's convention. A Conventional-Commits upstream gets
-  Conventional-Commits subjects on its fork here, because the fork's
-  diffs go back to the upstream one day and need to fit its history.
-  The gate below detects the fork case and skips.
+  :: details Scope
+  The rule holds on every repository this workspace commits to, forks
+  included. A fix to a fork lands in our fork and nothing is sent
+  upstream (RFD 2294, "Where a session posts"), so a fork's history
+  past the upstream commit is ours and reads like the rest. A fork of
+  a Conventional-Commits upstream carries sentence-case subjects on top
+  of the upstream's prefixed ones.
   :: details Confirmation
   The rule is machine-checked by `scripts/check_commit_style.py`. It
   gates commits reachable in `<base>..HEAD` for three properties:
@@ -75,10 +74,12 @@ rfd 2026, "Commit messages sentence case", :committed do
   2. Subject opens with an uppercase letter, digit, or bracket.
   3. Subject does not end with a trailing period.
 
-  The gate skips silently on any repo whose remotes do not include a
-  `github.com/weftspun/...` URL, per the fork exception above. Its
-  self-test carries six subject controls (three that pass, three that
-  fail) plus four URL-classification controls (two own, two fork).
+  The gate reads no remote, so a fork is held to the same three
+  properties. Its self-test carries six subject controls (three that
+  pass, three that fail) plus four that commit a prefixed subject and a
+  sentence-case subject in a scratch repository, once behind a
+  V-Sekai-fire remote and once behind a fork remote, and assert the
+  first fails and the second passes.
 
       python scripts/check_commit_style.py --base origin/main
       python scripts/check_commit_style.py --self-test
