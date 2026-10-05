@@ -107,9 +107,10 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     checks it end to end.
   - **The shim, trusted.** Plain C over `erl_nif.h`: the entry points, term
     conversion and function table for the 12 NIFs with a caller. Its budget
-    is the line count of the Fine wrapper it replaces, `c_src/taskweft_nif.cpp`
-    at dev.20, and a gate in `V-Sekai-fire/nif` fails a shim past it, with a
-    padded shim as the negative control.
+    is 448 lines, the line count of the Fine wrapper it replaces,
+    `c_src/taskweft_nif.cpp` at dev.20, and a gate in `V-Sekai-fire/nif` fails
+    a shim past it, with a padded shim as the negative control. The budget
+    drops to the shim's measured length once M4 ships it.
 
   Each dev.20 NIF registers with flags 0, so a plan can hold a regular
   scheduler for its whole 5 s budget. The shim runs the machine in slices,
@@ -179,6 +180,12 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - datasource-queen, interactor-ward and two guest ELF repositories
     include the C++ headers directly. None is placed, so the headers they
     build against stay as they are and they sit outside this change.
+  - contract-zone-backend's `Uro.Planner.ElixirAdapter` is a pure-Elixir
+    port of the C++ search without capabilities, enums, floats or most KHR
+    nodes, and that repository's ADR 0038 removes native code on purpose. It
+    stays pure Elixir and runs the corpus as a third implementation, its
+    differences and unsupported cases counted beside the NIF's (operator,
+    2026-10-05).
   - Two defects sit outside this change and are named so they do not read
     as regressions: interactor-taskweft's `server.ex` raises `MatchError` on
     `{:error, "no_plan"}`, and taskweft-nmm-personas calls
@@ -231,10 +238,5 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     repository. `V-Sekai-fire/nif` holds the NIF and is not placed;
     interactor-taskweft holds the Lean tree its CI builds. A new repository
     takes RFD 2111's `<type>-<name>` shape.
-  - **contract-zone-backend.** `Uro.Planner.ElixirAdapter` is a pure-Elixir
-    port of the C++ search without capabilities, enums, floats or most KHR
-    nodes, and that repository's ADR 0038 removes native code on purpose.
-    Whether it moves onto the library or runs the corpus as a third
-    implementation is the operator's call.
   """
 end
