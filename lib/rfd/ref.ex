@@ -16,7 +16,6 @@ defmodule RFD.Ref do
 
   @open ~r/&\{\s*[A-Za-z_][\w.]*\(/
 
-  @doc "Only `&{` followed by a call opens a span; `&{:ok, &1}` stays prose."
   def spans(text), do: spans(text, 0, [])
 
   defp spans(text, from, acc) do
@@ -167,7 +166,6 @@ defmodule RFD.Ref do
     end
   end
 
-  @doc "A pin is a full commit SHA or a tag; a branch name moves and is not one."
   def pin?(rev), do: is_binary(rev) and rev =~ ~r"\A(?:[0-9a-f]{40}|refs/tags/.+)\z"
 
   def unpinned(key, rev),
@@ -246,10 +244,7 @@ defmodule RFD.Ref do
     end
   end
 
-  @doc """
-  The decision an `abandoned_at` stub renders. The SHA holds a source with a Decision; a shallow
-  clone or a tree outside git renders unverified, and `mix rfd.abandoned.check` refuses both.
-  """
+  @doc "A stub's decision; without full history it renders unverified for rfd.abandoned.check."
   def abandoned!(serial, sha, root \\ File.cwd!(), opts \\ []) do
     unless is_binary(sha) and sha =~ ~r/\A[0-9a-f]{40}\z/,
       do: raise(ArgumentError, "RFD #{serial}: abandoned_at #{inspect(sha)} is not a 40-hex SHA")
@@ -258,7 +253,6 @@ defmodule RFD.Ref do
     "The full argument is in git at `#{sha}`; `mix rfd.restore #{serial}` brings it back."
   end
 
-  @doc "True in a full clone; false in a shallow one or outside git."
   def history?(root), do: git(root, ["rev-parse", "--is-shallow-repository"]) == "false\n"
 
   defp verify_abandoned!(serial, sha, root) do

@@ -122,7 +122,6 @@ defmodule Mix.Tasks.Rfd.Restore do
 
   def run(_), do: Mix.raise("usage: mix rfd.restore NNNN")
 
-  @doc "A full body under `:abandoned` is outside RFD 1000's shape, so it comes back as :discussion."
   def reopen(text) do
     re = ~r/^(rfd\s+\d+,[^\n]*?(?:\n[^\n]*?)??,\s*):abandoned(\s+do\b)/m
 
@@ -136,12 +135,7 @@ end
 
 defmodule Mix.Tasks.Rfd.Refs.Check do
   @shortdoc "Fail when RFD.lock.exs no longer matches the live manifest and repositories"
-  @moduledoc """
-      mix rfd.refs.check
-
-  Rebuilds the lock from contract-manifest-taskweft's default branch and compares every entry
-  but the moving tips; a repository unplaced, archived or renamed, or a file deleted, fails.
-  """
+  @moduledoc "    mix rfd.refs.check"
   use Mix.Task
   alias Mix.Tasks.Rfd.Refs.Update
 
@@ -171,7 +165,6 @@ defmodule Mix.Tasks.Rfd.Refs.Check do
     end
   end
 
-  @doc "The lock without the fields that move on every push."
   def stable(lock) do
     %{
       repos: Map.new(lock.repos, fn {k, e} -> {k, Map.drop(e, [:tip])} end),
@@ -190,11 +183,7 @@ end
 
 defmodule Mix.Tasks.Rfd.Abandoned.Check do
   @shortdoc "Fail unless every abandoned_at SHA holds a source with a Decision"
-  @moduledoc """
-      mix rfd.abandoned.check
-
-  Needs full history; a shallow clone fails here rather than passing unverified.
-  """
+  @moduledoc "    mix rfd.abandoned.check"
   use Mix.Task
 
   @impl true
