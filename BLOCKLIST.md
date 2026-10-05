@@ -71,6 +71,7 @@ here corresponds to an entry.
 - OBS for recording a Godot run: it does not wait for the engine's startup, so a clip carries unbounded startup waits; Godot's Movie Maker records it (operator, 2026-10-04)
 - 2K renders and recordings (1920x1080 and other sizes below 3840x2160): renders and videos are 4K (operator, 2026-10-04)
 - libsecret's `secret-tool` and the Secret Service providers behind it (gnome-keyring, KWallet) as a secret store (operator, 2026-10-05)
+- CompCert: the INRIA Non-Commercial License Agreement forbids commercial use, and the alternative is a paid AbsInt agreement; Trust-Lean's C is compiled by the ordinary toolchains (operator, 2026-10-05)
 
 ### Abliteration is blocked, and the model's own card is the argument
 
