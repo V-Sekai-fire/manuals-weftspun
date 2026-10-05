@@ -165,6 +165,24 @@ EXPENSIVE = ["check_fourloops_plan", "check_fourloops_etnf", "check_rfd1122_plan
              ("check_rfd_canary", ("--self-test",)),
              ("check_project_readme_length", ("--self-test",)),
              ("check_rulesets", ("--self-test",))]
+def run_sub(cmd):
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=RFD)
+    except OSError as e:
+        return False, f"crashed: {e}"
+    if r.returncode == 0:
+        return True, (r.stdout.strip().splitlines() or [""])[-1][:58]
+    err = r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or [""]
+    return False, f"exit {r.returncode}: {err[-1]}"
+
+
+crash = run_sub([sys.executable, "-c", "raise RuntimeError('planted crash')"])
+missing_tool = run_sub([str(RFD/"scripts"/"no-such-sub-check")])
+check("  control: a crashed sub-check fails with its error",
+      not crash[0] and "RuntimeError: planted crash" in crash[1]
+      and not missing_tool[0] and "no-such-sub-check" in missing_tool[1],
+      "planted raise and missing executable both FAIL and name the error")
+
 order = list(EXPENSIVE)
 secrets.SystemRandom().shuffle(order)
 out.append("")
@@ -174,9 +192,7 @@ for item in order:
     exs = RFD/"scripts"/f"{name}.exs"
     py = RFD/"scripts"/f"{name}.py"
     cmd = ["elixir", str(exs)] if exs.exists() else [sys.executable, str(py)]
-    r = subprocess.run([*cmd, *extra], capture_output=True, text=True, cwd=RFD)
-    tail = (r.stdout.strip().splitlines() or [""])[-1][:58]
-    check(f"  {name}", r.returncode == 0, tail)
+    check(f"  {name}", *run_sub([*cmd, *extra]))
 seen = set(order)
 check("shuffle covered every item", seen == set(EXPENSIVE),
       f"{len(seen)}/{len(EXPENSIVE)} distinct, repeats: {len(order)-len(seen)}")
