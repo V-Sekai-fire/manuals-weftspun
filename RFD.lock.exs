@@ -302,12 +302,6 @@
       url: "https://github.com/V-Sekai-fire/pyrowave",
       tip: "c227a4c90c8cd5e1eca4c28550f05093dc651eb1"
     },
-    "interactor-dress-on" => %{
-      default: "main",
-      state: :archived,
-      url: "https://github.com/V-Sekai-fire/interactor-dress-on",
-      tip: "310b52e67d6670275766ce167683b26f1bf0eaee"
-    },
     "contract-zone-backend" => %{
       default: "main",
       state: :placed,

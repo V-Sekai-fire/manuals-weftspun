@@ -402,7 +402,7 @@ rules below"
   checks red, so there the agent waits for green and merges by hand. Repository
   admins may bypass a ruleset for a pull request; agents do not.
   :: details Where interactor-dress-on went
-  The stages of &{repo("interactor-dress-on")} live in their own repositories:
+  The stages of the archived interactor-dress-on live in their own repositories:
   &{repo("contract-guest-runtime")}, &{repo("contract-guest-common")},
   &{repo("contract-ggml-rd")}, &{repo("contract-lbfgsb")},
   &{repo("contract-anny-kernels")}, &{repo("contract-sinew-align")}, and
