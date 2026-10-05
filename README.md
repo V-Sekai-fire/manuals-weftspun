@@ -1,65 +1,18 @@
-# request-for-discussion
+# manuals-weftspun
 
-Every RFD and both serial registers as Elixir sources; one Mix project renders and gates them.
+The workspace's design record: its RFDs, logbook and working agreements, with the Elixir project that renders and gates them.
 
-An RFD is `rfd/NNNN-slug.exs`; a site's serial register is `SERIALS*.exs`:
+## What it is for
 
-    defmodule RFD2232 do
-      use RFD.DSL
+Each RFD and each serial register is an Elixir source that checks its own shape while it compiles, and the Mix project renders the sources to Markdown and USD. The working agreements every project in the workspace follows are in `CLAUDE.md`. RFD 1000 owns the conventions and RFD 2232 owns the authoring format.
 
-      rfd 2232, "RFD authoring as an Elixir DSL" do
-        state :discussion
-        flight_level :l2
-        feature "..."
-        scope "..."
-        decision """
-        ...
-        """
-        problem """
-        ...
-        """
-        references ["RFD 1000, the shape"]
-        related "RFD 1000."
-        details "A heading", """
-        ...
-        """
-        drafted_by :ai
-      end
-    end
+## Build and run
 
-    defmodule Serials.VSekaiFabric do
-      use RFD.Register
+    mix rfd.render
+    mix test
 
-      register "VSekaiFabric" do
-        layer arc: "1.3.6.1.4.1.66606.1.2", site: 2, site_name: "v-sekai-fabric", ...
-        thesis "Every serial this site has allocated. ..."
+The remaining gates run as prek hooks.
 
-        allocated do
-          serial 2000, "conventions"
-          serial 2229, "interchangeable-parts-consolidation", flight_level: :l3
-        end
+## Licence
 
-        deleted do
-          serial 2003, "castspell-sandbox-package-and-manifest-encoding"
-        end
-      end
-    end
-
-Both validate while the file compiles: a state outside the list, a missing Decision, a
-README over 40 lines, a serial listed twice, a serial from another site or a retired
-row naming no serial is a compile error that names the rule. Tropes are warnings.
-
-    mix rfd.render                 # rfd/NNNN-slug.exs -> rfd/NNNN-slug/{README,DETAILS}.md
-                                   # SERIALS*.exs      -> SERIALS*.usda
-    mix rfd.render --check         # fail when a rendered file on disk drifted
-    mix rfd.check                  # compile every source
-    mix rfd.serials [--base REF]   # the registers against the sources and a base revision
-    mix rfd.usda SERIALS.exs       # one register's layer on stdout
-    mix test                       # the positive cases and the negative controls
-
-The rendered files are build artifacts and `.gitignore` names them: the README is the
-CommonMark the Python gates read, and the `.usda` is what `check-rfd-serials.py` and
-`pen-66606.usda` read. CI and the prek hooks render before any gate reads the tree.
-
-A new RFD is a new `.exs` and one `serial` line in the fabric register's `allocated`
-block. RFD 2232 carries the argument.
+Apache-2.0 OR MIT; see `LICENSE-APACHE` and `LICENSE-MIT`.
