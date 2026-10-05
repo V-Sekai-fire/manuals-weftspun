@@ -25,7 +25,6 @@ defmodule Plan.FourloopsPlan do
       "XL"
     ])
     string_list("sources", [
-      "7-service/livebook/priv/python/weft_loop.py",
       "6-datasource/anny-render-corpus/score_edits.py",
       "6-datasource/anny-render-corpus/gen_posed_from_reference.py",
       "6-datasource/anny-render-corpus/render_view.py",
