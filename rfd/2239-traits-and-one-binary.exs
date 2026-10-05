@@ -7,7 +7,8 @@ rfd 2239,
     :discussion do
   feature "the queued plan amended to its open items: dress-on, generate-pose and generate-identity become rows of the FBD teacher (ten traits at 100,000 rows, one generated anchor), the teacher's tools are ported to Elixir before any new trait, the DSL gains codebooks whose codes are enums, and the runtime with ggml inside ships as one native Godot binary"
 
-  scope "`3-interactor/taskweft-fbd-teacher`, `3-interactor/taskweft-fbd-compiler`, `3-interactor/entities-godot-sandbox`, `tools` in VoxHammer, the goal manifest `weftspun/weftspun-keypoint`"
+  scope "taskweft-fbd-teacher, taskweft-fbd-compiler, entities-godot-sandbox,
+VoxHammer's `tools/`, the goal manifest `weftspun/weftspun-keypoint`"
 
   prose ~S"""
   :: decision
@@ -158,7 +159,8 @@ rfd 2239,
   to 64), which the card states, and which is why the set validates a fit
   rather than serving as an identity prior.
   :: details The binary
-  One native Godot binary per platform out of `entities-godot-sandbox`,
+  One native Godot binary per platform out of
+  &{repo("entities-godot-sandbox", planned: "4-entities")},
   Vulkan everywhere, two heads. `modules/ggml` is `turboquant-godot`'s
   `modules/llm` moved under the RFD 2230 name with its ggml taken from the
   manifest at `weftspun-consolidated`, Vulkan only, the device chosen by
@@ -395,13 +397,12 @@ rfd 2239,
   ruling. What remains open is narrower and worth keeping: who redoes the six
   in-tree conversion commits against it.
 
-  **Where &{repo("entities-godot-cineform")} lives and how it is placed.**
-  `V-Sekai-fire/entities-godot-cineform` builds the CineForm `MovieWriter` as
+  **Where entities-godot-cineform lives and how it is placed.**
+  &{repo("entities-godot-cineform")} builds the CineForm `MovieWriter` as
   a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
-  API in Godot 4.5, with clang 23 on its default branch
-  `main/llvm-clang23-build`; `default.xml` places it at
-  &{repo("entities-godot-cineform")}, and RFD 2287's recordings go through it.
-  The in-tree `modules/cineform` on `feat/module-cineform` rides into the
+  API in Godot 4.5, with clang 23 on its default branch; `default.xml` places
+  it, and RFD 2287's recordings go through it.
+  The in-tree `modules/cineform` on its module branch rides into the
   assembly beside it: the module is the writer an engine build carries, the
   extension is the one a project loads without one.
 
