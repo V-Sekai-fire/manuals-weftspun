@@ -1,7 +1,7 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Builds the Pages source as one flow: sources -> records -> groups -> expanders -> files.
-# The logbook (what was measured) comes first and the RFDs (what was decided) second.
+# A masthead and the newest entries lead; the logbook and RFD archives follow, dated from git.
 #   mix run scripts/pages_site.exs <out-dir>
 defmodule PagesSite do
   @states ~w(prediscussion ideation discussion published committed moved abandoned)
@@ -20,8 +20,9 @@ defmodule PagesSite do
     root = Path.expand("..", __DIR__)
     File.rm_rf!(out)
 
-    logs = logbook(root)
-    rfds = rfds()
+    dates = last_changed(root)
+    logs = logbook(root, dates)
+    rfds = rfds(dates)
 
     Enum.each(logs ++ rfds, &copy(&1, out))
 
@@ -30,12 +31,29 @@ defmodule PagesSite do
         do: File.cp!(Path.join(root, f), Path.join(out, "page-" <> f))
 
     File.write!(Path.join(out, "_config.yml"), config())
-    File.write!(Path.join(out, "index.md"), index(logs, rfds))
+    File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
     IO.puts("pages: #{length(logs)} logbook entries and #{length(rfds)} RFDs in #{out}")
   end
 
+  defp last_changed(root) do
+    {out, 0} = System.cmd("git", ["-C", root, "log", "--format=%x00%cs", "--name-only"])
+
+    out
+    |> String.split(<<0>>, trim: true)
+    |> Enum.reduce(%{}, fn chunk, acc ->
+      [date | files] = String.split(chunk, "\n", trim: true)
+      Enum.reduce(files, acc, &Map.put_new(&2, &1, date))
+    end)
+  end
+
+  defp edition(root) do
+    {out, 0} = System.cmd("git", ["-C", root, "log", "-1", "--format=%cs %h"])
+    [date, sha] = String.split(String.trim(out), " ")
+    %{date: date, sha: sha}
+  end
+
   # Sources become records: what the index shows and which files the site carries.
-  defp logbook(root) do
+  defp logbook(root, dates) do
     for f <- Path.wildcard(Path.join(root, "logbook/*.md")) |> Enum.sort() do
       slug = Path.basename(f, ".md")
       words = slug |> String.replace_prefix("logbook-", "") |> String.split("-")
@@ -45,12 +63,13 @@ defmodule PagesSite do
         group: hd(words),
         label: Enum.join(words, " "),
         href: "logbook/#{slug}.html",
+        date: Map.get(dates, "logbook/#{slug}.md", ""),
         files: [{f, "logbook/#{slug}.md"}]
       }
     end
   end
 
-  defp rfds do
+  defp rfds(dates) do
     for path <- RFD.Source.all(),
         dir = RFD.Source.dir_of(path),
         File.exists?(Path.join(dir, "README.md")) do
@@ -66,6 +85,7 @@ defmodule PagesSite do
         label: "RFD #{d.serial}: #{d.title}",
         status: status |> Enum.reject(&(&1 in [nil, false])) |> Enum.join(" "),
         href: "rfd/#{slug}/",
+        date: Map.get(dates, "rfd/#{slug}.exs", ""),
         files:
           for(
             f <- ["README.md", "DETAILS.md"],
@@ -85,7 +105,7 @@ defmodule PagesSite do
   end
 
   # Records become groups, and groups become expanders.
-  defp index(logs, rfds) do
+  defp index(logs, rfds, ed) do
     {topics, single} =
       logs |> Enum.group_by(& &1.group) |> Enum.split_with(fn {_, es} -> length(es) > 1 end)
 
@@ -109,18 +129,27 @@ defmodule PagesSite do
         expander("#{@emoji[s]} #{s} (#{length(es)})", rfd_table(es), false)
       end)
 
-    """
-    # manuals-weftspun
+    tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
+    latest_logs = logs |> Enum.sort_by(& &1.date, :desc) |> Enum.take(5)
+    latest_rfds = rfds |> Enum.sort_by(&{&1.date, &1.serial}, :desc) |> Enum.take(10)
 
-    The workspace's logbook and its RFDs (also called requests for discussion, design docs or
-    architecture decision records). The logbook records what was measured; the RFDs record what
-    was decided from it. Both are rendered from this repository, with the
-    [working agreements](page-CLAUDE.html) alongside.
-
-    #{expander("Logbook (#{length(logs)} entries)", log_body, true)}
-
-    #{expander("RFDs (#{length(rfds)})", legend() <> "\n\n" <> rfd_body, true)}
-    """
+    [
+      "# manuals-weftspun",
+      "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
+        "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
+        "[working agreements](page-CLAUDE.html) · [blocklist](page-BLOCKLIST.html)",
+      "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
+        "also called requests for discussion, design docs or architecture decision records).",
+      tally,
+      "## Latest from the logbook",
+      Enum.map_join(latest_logs, "\n", &"- #{&1.date} · [#{&1.label}](#{&1.href})"),
+      "## Recently changed RFDs",
+      dated_table(latest_rfds),
+      "## Archive",
+      expander("Logbook (#{length(logs)} entries)", log_body, false),
+      expander("RFDs (#{length(rfds)})", legend() <> "\n\n" <> rfd_body, false)
+    ]
+    |> Enum.join("\n\n")
   end
 
   defp expander(summary, body, open?) do
@@ -146,6 +175,20 @@ defmodule PagesSite do
 
     "| RFD | status | title |\n| --- | --- | --- |\n" <> rows
   end
+
+  defp dated_table(es) do
+    rows =
+      Enum.map_join(
+        es,
+        "\n",
+        &"| #{&1.date} | #{link(&1)} | #{&1.status} | #{escape(&1.label)} |"
+      )
+
+    "| changed | RFD | status | title |\n| --- | --- | --- | --- |\n" <> rows
+  end
+
+  defp escape(text), do: String.replace(text, "|", "\\|")
+  defp link(e), do: "[#{e.serial}](#{e.href})"
 
   defp legend do
     "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>
