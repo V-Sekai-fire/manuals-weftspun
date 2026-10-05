@@ -218,9 +218,8 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     local declarations in the C backend, so the emitted code is reentrant
     across schedulers; bounded arrays or proved capacity invariants;
     `Value.int` agreeing with the emitted `int64_t`; a Mathlib-free split
-    of Core and the C backend; and, for M6, floats. No branch or pull
-    request on the fork carries TL4 to TL8 yet. Fixes land on the fork and
-    go nowhere else.
+    of Core and the C backend; and, for M6, floats. Fixes land on the fork
+    and go nowhere else.
   - **RFD 2292** sits on the parked branch `feat/evac-20261002-rfd-2292` and
     holds no serial on main, so its gate joins M5 when it lands.
   - **Toolchain.** Trust-Lean with its Mathlib, and interactor-taskweft's

@@ -686,7 +686,8 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   vendored or shipped (operator, 2026-10-05).
 - **Verified C generation:** Trust-Lean (MIT, `V-Sekai-fire/trust-lean`, our fork of
   `lambdaclass/trust-lean`, pinned by SHA), Lean 4 code generation that emits C with proofs, for
-  the transport kernels. Fixes land on our fork and nothing is sent upstream (operator, 2026-10-05).
+  the transport kernels and the RECTGTN planner's search (RFD 2304). Fixes land on our fork and
+  nothing is sent upstream (operator, 2026-10-05).
 - **Proof library:** Mathlib (Apache-2.0, `leanprover-community/mathlib4`) as Trust-Lean's
   dependency, at build time only, never shipped (operator, 2026-10-05).
 
