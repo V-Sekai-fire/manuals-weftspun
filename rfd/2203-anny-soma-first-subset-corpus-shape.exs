@@ -21,7 +21,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   untouched. `DETAILS.md` carries the tradeoff, the SOMA hook, the RFD 1122 lineage, and open
   knobs.
   :: problem
-  Task #67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU
+  task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU
   grant can render, and the pick closes the immutability-vs-agility tradeoff two single-shape
   options force. Vertex-only rows are label-scheme-neutral but the RFD 2196 viewer cannot
   overlay keypoints from vertices and the `.pth` version becomes an implicit training-time
@@ -30,8 +30,8 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   RFD 2196 (publish rules), RFD 1173 (multimodal pipeline), CLAUDE.md camera-sequence rule.
   :: related
   Rules originated in RFD 1122 (state abandoned), carried forward by RFDs 1121, 1123, 1126, 1128
-  and by CLAUDE.md. Consumer is task #65 (HERO's CUDA-only rescope). Anchor source is
-  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main. SOMA joint-count hook is task #76.
+  and by CLAUDE.md. Consumer is task 65 (HERO's CUDA-only rescope). Anchor source is
+  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main. SOMA joint-count hook is task 76.
   """
 
   details_title "The first-subset row shape for the anny-soma keypoint corpus"
@@ -64,23 +64,25 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   The SOMA joint rotations that posed ANNY are the render input, so carrying them per row costs
   nothing extra and lets the corpus feed RFD 1173's pose stub alongside the keypoints stub.
   Column shape is `soma_pose (77, 3)` in axis-angle rotvecs as Kimodo emits them, verified at
-  the source: `anny/test/test_soma.py:242-283` shows Kimodo emits 77 joint rotations while
+  the source:
+  &{file("interactor-anny", "test/test_soma.py")}
+  shows Kimodo emits 77 joint rotations while
   `anny.Anny(rig="soma", topology="soma")` takes 78 pose parameters, the 77 plus one root
   identity prepended at index 0. RFDs 1102, 1173, and 2162's "78" and HERO's upstream "77" are
-  both true at different levels; task #76 back-ports the disambiguation.
+  both true at different levels; task 76 back-ports the disambiguation.
 
   The verification hook: the first subset render prints the observed count from the `.npz` and
   records it in the manifest with an expected value of 77. A count mismatch surfaces there
   rather than silently corrupting every subsequent frame's pose. The manifest column doubles as
-  the evidence source task #76 cites when it back-ports.
+  the evidence source task 76 cites when it back-ports.
   :: details The topology decision and the accuracy verification hook
   `anny_posed_vertices` is `(19158, 3)` at the makehuman topology, built with `rig="soma"` +
   `TopologyConfig(base_mesh="makehuman", remove_unattached_vertices=False)`. The `wholebody133.pth`
   anchor weights index this topology; a shard whose vertex count differs is rejected by the
   manifest gate, same shape as the SOMA joint-count hook.
 
-  Three vertex counts are shipped by anny's OBJs and are easy to confuse; the trap is named at
-  `anny-keypoint-anchors` README lines 63-67 for the first two, and this row adds the third:
+  Three vertex counts are shipped by anny's OBJs and are easy to confuse; the trap is named in
+  the `anny-keypoint-anchors` README for the first two, and this row adds the third:
 
   | topology | source obj                     | vertex count |
   | --- | --- | --- |
@@ -90,7 +92,8 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
 
   `topology="soma"` poses `SOMA_wrap.obj` at 18,056 vertices and `wholebody133.pth` cannot
   index it. The SOMA rig reaches the makehuman mesh by barycentric projection onto `SOMA_wrap`
-  (`anny/src/anny/models/soma.py:84-125`). HERO re-verifies that projection's accuracy against
+  (&{file("interactor-anny", "src/anny/models/soma.py")}).
+  HERO re-verifies that projection's accuracy against
   the direct `topology="soma"` path and records max/mean per-vertex displacement with household
   anchors; if it lands worse than the direct path by more than a pencil (~7 mm), that becomes a
   stated cost of choosing the makehuman topology for anchor compatibility. Under a pencil, the
@@ -112,7 +115,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   render all of them do.
 
   **Verify before training, not after.** Carried by the verification hook above and by task
-  #76: a moved joint under a bad retarget is a label that lies, and the SOMA joint-count hook
+  76: a moved joint under a bad retarget is a label that lies, and the SOMA joint-count hook
   catches it before any downstream frame is used.
 
   **Evaluate where the labels are real.** Carried by CLAUDE.md's blinded-holdout rule: final
@@ -149,18 +152,20 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   then run LBS from the same bone chain, so bone world transforms cannot differ. The
   load-bearing gate for the corpus's downstream use is the vertex-side diff, verified below.
 
-  The bone-level hook landed via &{repo("interactor-kimodo-text-to-motion")} PR #1 (merged 2026-09-04)
-  in `scripts/verify_projection.py`: 4 random SOMA poses through both `anny.Anny(rig="soma",
-  topology="soma")` and `anny.Anny(rig="soma", topology=TopologyConfig(base_mesh="makehuman",
+  The bone-level hook is
+  &{file("interactor-kimodo-text-to-motion", "scripts/verify_projection.py")}:
+  4 random SOMA poses through both `anny.Anny(rig="soma", topology="soma")` and
+  `anny.Anny(rig="soma", topology=TopologyConfig(base_mesh="makehuman",
   remove_unattached_vertices=False))`, bone world transforms extracted from `bone_poses`:
 
   - max: **0.000 mm** (sub-credit-card thickness)
   - mean: **0.000 mm** (sub-credit-card thickness)
 
-  The vertex-side hook landed via &{repo("interactor-kimodo-text-to-motion")} PR #3 in
-  `scripts/verify_projection_vertex.py`: same 4 poses through both models, makehuman posed
+  The vertex-side hook is
+  &{file("interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py")}:
+  same 4 poses through both models, makehuman posed
   vertices compared against SOMA-topology posed vertices interpolated via the barycentric map
-  anny uses at build time (`point_to_mesh_distance_and_face_uvs` from `soma.py:97`). Filtered
+  anny uses at build time (`point_to_mesh_distance_and_face_uvs` from `soma.py`). Filtered
   to the body-surface subset (rest distance to nearest SOMA_wrap triangle < 5 mm, about
   two-thirds of a pencil at 7 mm; 15,778 of 19,158 verts kept) because the 3,380 non-body
   verts, interior mesh, hair, teeth, eye internals, sit too far from SOMA_wrap for barycentric

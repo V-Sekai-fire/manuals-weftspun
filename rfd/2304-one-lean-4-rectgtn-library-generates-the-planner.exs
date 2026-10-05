@@ -13,7 +13,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   One Lean 4 library is the single implementation of RECTGTN, the
   Relationship-Enabled Capability-Temporal Goal-Task-Network planner. It holds
   the types, the search, ReBAC and the theorems, and generates the C planner
-  through `V-Sekai-fire/trust-lean`: Lean at build time and flat C shipped, the
+  through &{repo("trust-lean")}: Lean at build time and flat C shipped, the
   shape of RFD 2044. Elixir is one user, and its NIF glue (entry points, term
   conversion, the function table) is a small trusted C shim with a size
   budget. The domain loader and expression evaluator use doubles, trig and
@@ -41,8 +41,8 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
 
   prose ~S"""
   :: details The implementations, and what each brings
-  - **`taskweft_nif` 0.2.0-dev.20**, C++, built from `V-Sekai-fire/nif` at
-    tag `v0.2.0-dev.20` (758dc2a). weft-warp-burrito's `taskweft_nif/`
+  - **`taskweft_nif` 0.2.0-dev.20**, C++, built from &{repo("nif")} at
+    tag `v0.2.0-dev.20`. weft-warp-burrito's `taskweft_nif/`
     subtree at e0507a7 is the placed copy, byte-identical to the Hex tarball.
     It brings the behaviour every caller sees: the search (method dispatch,
     backtracking, multigoal binding order, fuel, the fail cache, replan and
@@ -108,7 +108,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - **The shim, trusted.** Plain C over `erl_nif.h`: the entry points, term
     conversion and function table for the 12 NIFs with a caller. Its budget
     is 448 lines, the line count of the Fine wrapper it replaces,
-    `c_src/taskweft_nif.cpp` at dev.20, and a gate in `V-Sekai-fire/nif` fails
+    `c_src/taskweft_nif.cpp` at dev.20, and a gate in &{repo("nif")} fails
     a shim past it, with a padded shim as the negative control. The budget
     drops to the shim's measured length once M4 ships it.
 
@@ -173,7 +173,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     dev.16. They move to dev.20 first, so the oracle is the version they
     run. That move changes plans for any domain that declares capabilities:
     dev.16 routes every goal binding through ReBAC when a capability graph
-    exists, and f4457e5 in `V-Sekai-fire/nif` routes only ReBAC bindings.
+    exists, and &{repo("nif")}'s default branch routes only ReBAC bindings.
   - The NIF yields between slices, as above.
   - The 11 NIFs no workspace code calls leave in a deprecation release of
     their own, because a Hex package can have callers outside the workspace.
@@ -191,7 +191,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     `{:error, "no_plan"}`, and taskweft-nmm-personas calls
     `Taskweft.Grafcet`, a module interactor-taskweft does not carry.
   :: details Milestones
-  - **M1, the harness**, in `V-Sekai-fire/nif`. The prototype differential
+  - **M1, the harness**, in &{repo("nif")}. The prototype differential
     script becomes an in-process ExUnit `:differential` job: the dev.20
     headers linked twice, the request trace, a corpus enumerator and the
     unchecked counter. It needs nothing from Trust-Lean. Exit: the job runs
@@ -227,7 +227,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     `Value.int` agreeing with the emitted `int64_t`; a Mathlib-free split
     of Core and the C backend; and, for M6, floats. Fixes land on the fork
     and go nowhere else.
-  - **RFD 2292** sits on the parked branch `feat/evac-20261002-rfd-2292` and
+  - **RFD 2292** sits on a parked branch and
     holds no serial on main, so its gate joins M5 when it lands.
   - **Toolchain.** Trust-Lean with its Mathlib, and interactor-taskweft's
     `lean/`, pin Lean v4.30.0; xr-pilot pins v4.34.1 and the FBD compiler
@@ -235,8 +235,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     the library once the pins agree.
   :: details Home
   The library, the C it generates and the drift gate live in
-  `V-Sekai-fire/nif`, beside the NIF they build and the M1 harness. The
-  manifest places it at &{repo("nif")}, next to the taskweft
-  projects (operator, 2026-10-05).
+  &{repo("nif")}, beside the NIF they build and the M1 harness, next to
+  the taskweft projects (operator, 2026-10-05).
   """
 end
