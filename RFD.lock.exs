@@ -1,7 +1,7 @@
 # Written by `mix rfd.refs.update`; RFD prose resolves &{...} against it.
 %{
   manifest: %{
-    commit: "7b9c593bfec106ea4e96c2fe63ce82f675fd066f",
+    commit: "e0094faba65a06d25bf65277da32be4ca01b56fc",
     repo: "V-Sekai-fire/contract-manifest-taskweft"
   },
   repos: %{
@@ -172,7 +172,7 @@
       path: "2-contract/manuals-weftspun",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/manuals-weftspun",
-      tip: "98b1da8066b4791593b2a1e94952b475efbd4c36"
+      tip: "3de1531821a6228f85d02b24de7e3f22bfbf0b7d"
     },
     "entities-godot-cineform" => %{
       default: "main",
@@ -394,7 +394,7 @@
       path: "3-interactor/taskweft",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-taskweft",
-      tip: "52b1fcdc160572ca9ecb368e7a8534b8da99a6ea"
+      tip: "be6aed355c4e353169889b2a14416fd15a0b4ecf"
     },
     "contract-guest-runtime" => %{
       default: "main",
@@ -428,7 +428,14 @@
       url: "https://github.com/V-Sekai-fire/interactor-mujoco-sandbox-demo",
       tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
     },
-    "interactor-rf-detr-elf-rd" => %{state: :planned, side: "3-interactor"},
+    "interactor-rfdetr-seg-guest" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/rfdetr-seg-guest",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-rfdetr-seg-guest",
+      tip: "674953880f3e1d5beaecb63f5b40e75319c6b096"
+    },
     "service-taskweft-bao" => %{state: :planned, side: "7-service"},
     "contract-hm08-partition" => %{
       default: "main",
@@ -462,7 +469,6 @@
       url: "https://github.com/V-Sekai-fire/interactor-cineform",
       tip: "4f9980c14e8bd2515b58244123c767ed0617eac8"
     },
-    "interactor-kimodo-elf-rd" => %{state: :planned, side: "3-interactor"},
     "service-sqlar-cas" => %{state: :planned, side: "7-service"},
     "transport-usbip-frame" => %{
       default: "main",
