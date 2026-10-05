@@ -75,7 +75,7 @@ defmodule PagesSite do
         File.exists?(Path.join(dir, "README.md")) do
       d = RFD.Source.load(path)
       slug = Path.basename(dir)
-      drafted = d.attest_in != :none && %{ai: "🧑‍🎤", human: "✍️"}[d.drafted_by]
+      drafted = d.attest_in != :none && %{ai: "🧑‍🦰", human: "✍️"}[d.drafted_by]
       status = [Map.get(@emoji, to_string(d.state), "❔"), drafted, RFD.Doc.details(d) && "📎"]
 
       %{
@@ -193,7 +193,7 @@ defmodule PagesSite do
   defp legend do
     "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>
       "✅ committed, ➡️ moved, 🪦 abandoned; " <>
-      "🧑‍🎤 drafted by aria-fire-persona and read by a human, " <>
+      "🧑‍🦰 drafted by aria-fire-persona and read by a human, " <>
       "✍️ drafted by a human; 📎 has details."
   end
 
