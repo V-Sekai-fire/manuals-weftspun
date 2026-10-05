@@ -102,6 +102,14 @@
       url: "https://github.com/V-Sekai-fire/transport-elixir-libgodot-connector",
       tip: "2747e6fe378fe1abc1d002912a9b19c21c1b23b9"
     },
+    "interactor-nx-ggml" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/nx-ggml",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-nx-ggml",
+      tip: "e0b189535e9c08e6fb1d9c0c70e7a1527addf855"
+    },
     "character-mille-mire-feuille" => %{
       default: "main",
       state: :placed,
@@ -268,6 +276,14 @@
       url: "https://github.com/V-Sekai-fire/interactor-curvenet",
       tip: "85c4599cffee171acafa8c0196f2e56d9643702f"
     },
+    "kimodo-ggml" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/kimodo-ggml",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/kimodo-ggml",
+      tip: "9e62d0ed6bd06fa2890ce92d752a40ae204f1f85"
+    },
     "contract-bus" => %{
       default: "main",
       state: :placed,
@@ -340,6 +356,7 @@
       url: "https://github.com/V-Sekai-fire/interactor-mujoco-sandbox-demo",
       tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
     },
+    "interactor-rf-detr-elf-rd" => %{state: :planned, side: "3-interactor"},
     "contract-sinew-align" => %{
       default: "main",
       state: :placed,
@@ -364,6 +381,7 @@
       url: "https://github.com/V-Sekai-fire/interactor-cineform",
       tip: "4f9980c14e8bd2515b58244123c767ed0617eac8"
     },
+    "interactor-kimodo-elf-rd" => %{state: :planned, side: "3-interactor"},
     "transport-usbip-frame" => %{
       default: "main",
       state: :placed,
@@ -373,6 +391,14 @@
       tip: "c222b2b60a83efb1f09449211521345908a118d6"
     },
     "contract-manifest-skateboard" => %{state: :planned, side: "2-contract"},
+    "interactor-rf-detr-ggml" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/rf-detr-ggml",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-rf-detr-ggml",
+      tip: "ca2aef72406ccacccae2e3625f3595706459809f"
+    },
     "interactor-fabric-zone" => %{
       default: "main",
       state: :placed,

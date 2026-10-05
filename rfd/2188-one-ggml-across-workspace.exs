@@ -44,12 +44,18 @@ rfd 2188, "One GGML across the workspace", :discussion do
   :: details Metal coverage carried from the SAM3 branch
   Four Metal intents came from the SAM3 branch of an earlier copy.
 
-  | intent | verdict | evidence |
-  |---|---|---|
-  | conv\_transpose\_2d on Metal | covered | the canonical tree has the same (f32\_f32, f16\_f32) template pair in `ggml-metal.metal`, with a threadgroup shared-sum reduction; surface and dtype coverage match |
-  | depthwise conv\_2d (CONV\_2D\_DW) | covered with more | kernel\_conv\_2d\_dw is templated over TK (_f32\_f32, _f16\_f32) plus a tiled variant; the SAM3 kernel\_conv\_2d\_dw\_f32 is a strict subset |
-  | flash\_attn\_ext K/V type check | covered | the same assertion `op->src[1]->type == op->src[2]->type` in `ggml-metal-ops.cpp` |
-  | WIN\_PART / WIN\_UNPART on Metal | missing, deferred | the canonical tree has these ops only in the CPU backend (`ggml-cpu.c`). No consumer uses SAM3-style windowed attention, the CPU fallback is correct, and the Metal port waits for a consumer |
+  - conv\_transpose\_2d on Metal is covered: the canonical tree has the same
+    (f32\_f32, f16\_f32) template pair in `ggml-metal.metal`, with a
+    threadgroup shared-sum reduction; surface and dtype coverage match.
+  - Depthwise conv\_2d (CONV\_2D\_DW) is covered with more:
+    kernel\_conv\_2d\_dw is templated over TK (_f32\_f32, _f16\_f32) plus a
+    tiled variant, and the SAM3 kernel\_conv\_2d\_dw\_f32 is a strict subset.
+  - The flash\_attn\_ext K/V type check is covered: the same assertion
+    `op->src[1]->type == op->src[2]->type` is in `ggml-metal-ops.cpp`.
+  - WIN\_PART / WIN\_UNPART on Metal is missing and deferred: the canonical
+    tree has these ops only in the CPU backend (`ggml-cpu.c`). No consumer
+    uses SAM3-style windowed attention, the CPU fallback is correct, and the
+    Metal port waits for a consumer.
 
   Metal flash\_attn\_ext takes head\_dim 16 and 56: 16 template instantiations
   (dk16, dk56 × 8 K/V dtypes) and 2 entries in the head-size whitelist in
