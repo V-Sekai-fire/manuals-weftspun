@@ -51,6 +51,7 @@
     preamble: 1,
     front_matter: 1,
     compact_head: 1,
+    abandoned_at: 1,
     attest_in: 1,
     details_pointer: 1,
     section: 2,
