@@ -38,8 +38,9 @@ the browser-side WASM parity target"
 
   prose ~S"""
   :: details Plugin binary: `bao-plugin-taskweft`
-  New Go project at `7-service/service-taskweft-bao/`. Layout mirrors
-  the shipped `7-service/service-bao-sqlite-fdb/` reference plugin:
+  New Go project,
+  &{repo("service-taskweft-bao", planned: "7-service")}. Layout mirrors
+  the shipped &{repo("service-bao-sqlite-fdb")} reference plugin:
 
       service-taskweft-bao/
         main.go               # plugin.ServeMultiplex entrypoint
@@ -128,10 +129,10 @@ the browser-side WASM parity target"
   RFD 2202 named as future work.
   :: details Storage: SQLite, not KV
   The git-tracked file
-  `2-contract/manuals-weftspun/rectgtn/fleet.jsonld` remains the
+  `rectgtn/fleet.jsonld` in &{repo("manuals-weftspun")} remains the
   human-editable source of truth for the domain document. A small
   builder script `scripts/build_fleet_sqlite.py` compiles it into
-  `2-contract/manuals-weftspun/rectgtn/fleet.sqlite` (also checked
+  `rectgtn/fleet.sqlite` in &{repo("manuals-weftspun")} (also checked
   into git, a small binary fixture, same pattern as
   `service-sqlar-cas/docs/fixtures/persona.sqlite`).
 
@@ -168,7 +169,7 @@ the browser-side WASM parity target"
   :: details WASM parity target
   The same `standalone/*.hpp` compiles via emcc to WebAssembly with
   zero source changes. Parallel build at
-  `3-interactor/taskweft/wasm/`:
+  `wasm/` in &{repo("interactor-taskweft")}:
 
       build.sh              # emcc invocation
       taskweft-shim.cpp     # same shim as the cgo plugin
@@ -176,7 +177,7 @@ the browser-side WASM parity target"
       → taskweft.js         # small JS loader
 
   The browser demo already shipping in
-  `7-service/service-sqlar-cas/docs/` (`sql-wasm.js` + Range-fetch
+  `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} (`sql-wasm.js` + Range-fetch
   `persona.sqlite`) loads `taskweft.wasm` alongside and calls
   `plan(domainJson, skipJson)` on it. See RFD 2204's Starforged demo
   section for the game-loop shape.
@@ -185,17 +186,17 @@ the browser-side WASM parity target"
   state → byte-for-byte identical plan JSON in both hosts. Recorded
   as a fixture under `test/parity/` that both harnesses read.
   :: details Deploy gap: three edits, none built today
-  1. `7-service/service-openbao/Dockerfile.fdb`, `COPY
+  1. `Dockerfile.fdb` in &{repo("service-openbao")}, `COPY
      bao-plugin-taskweft /bao/plugins/`.
-  2. `7-service/service-openbao/config-fdb.hcl`, add
+  2. `config-fdb.hcl` in &{repo("service-openbao")}, add
      `plugin_directory = "/bao/plugins"`.
-  3. `7-service/service-openbao/entrypoint-fdb.sh`, one-shot init:
+  3. `entrypoint-fdb.sh` in &{repo("service-openbao")}, one-shot init:
 
           CHECKSUM=$(sha256sum /bao/plugins/bao-plugin-taskweft | cut -d' ' -f1)
           bao plugin register -sha256=$CHECKSUM database taskweft
           bao secrets enable -path=taskweft taskweft
 
-  Same shape `service-bao-sqlite-fdb`'s README documents. The
+  Same shape &{repo("service-bao-sqlite-fdb")}'s README documents. The
   existing weftspun-bao deploy loads zero plugins today (both HCLs
   have no `plugin_directory`, entrypoint has no `bao plugin
   register` step); this RFD closes that gap.
@@ -281,7 +282,8 @@ the browser-side WASM parity target"
   one thin `extern "C"` shim mirroring its 23-function NIF surface,
   and two hosts that call the shim:
 
-  1. **Bao plugin**, Go binary at `7-service/service-taskweft-bao/`,
+  1. **Bao plugin**, Go binary in
+     &{repo("service-taskweft-bao", planned: "7-service")},
      registered against weftspun-bao as `bao plugin register database
      taskweft`. Every peer resolves "what is my next task?" as
      `bao read taskweft/creds/<goal_id>`. Bao stamps the response
@@ -347,7 +349,7 @@ the browser-side WASM parity target"
     this plugin ships alongside.
   - RFD 2202 (ReBAC Bao enforcement), this RFD fills the
     compute-lease broker gap RFD 2202 named as future work.
-  - Sibling plugin scaffold: `7-service/service-bao-sqlite-fdb/`,
+  - Sibling plugin scaffold: &{repo("service-bao-sqlite-fdb")},
     the layout the new plugin copies verbatim.
   """
 end

@@ -11,9 +11,9 @@ from completing, parked as a record. The measured answer inverts the
 question: a git-assembler cycle completes unattended today. What
 remains blocked is the Elixir reimplementation, and separately the
 correctness of a tree that a completing cycle does not check."
-  scope "`4-entities/entities-assembly` (`gitassembly`,
+  scope "entities-assembly (`gitassembly`,
 `update_godot_v_sekai.exs`, `lib/assembler/`), the
-`V-Sekai-fire/egit` fork, and `entities-godot`'s
+the egit fork, and entities-godot's
 `.github/CODEOWNERS` as assembled"
 
   prose ~S"""
@@ -30,7 +30,7 @@ correctness of a tree that a completing cycle does not check."
   :: related
   - RFD 2242 (ggml consumers as native Godot modules), whose six
     module branches are 6 of the 31 merged in the cycle measured
-    here. `feat/module-ggml` through `feat/module-skin-tokens`
+    here. The module branches from ggml through skin-tokens
     form a strict linear stack, so their large file overlaps are
     stack redundancy rather than contention.
   - The archived-org sweep, which retired
@@ -39,7 +39,7 @@ correctness of a tree that a completing cycle does not check."
     so the sweep did not reach the assembled output.
   - `thirdparty/git-assembler`, GPLv3, the implementation being
     replaced. The repository is MIT and our modification
-    (`dac60d5`) inherits GPLv3.
+    inherits GPLv3.
   """
 
   details_title "one assembly cycle already completes; the blockers are on the replacement"
@@ -47,8 +47,7 @@ correctness of a tree that a completing cycle does not check."
   prose ~S"""
   :: details What was measured
   Four cycles ran on 2026-09-10. The last produced
-  `main/fabric-0.1.0` at `af5dc1898d`, tagged
-  `v2026.09.10.1818-main-fabric-0.1.0`.
+  `main/fabric-0.1.0`, tagged `v2026.09.10.1818-main-fabric-0.1.0`.
 
       first-parent merges, all authored 09-10 11:18      31
       declared refs in `gitassembly` present in result    32 of 32
@@ -63,8 +62,8 @@ correctness of a tree that a completing cycle does not check."
 
   Both claims are re-runnable:
 
-      git log --first-parent --merges --format=%h af5dc1898d | head -31
-      git show af5dc1898d:.github/CODEOWNERS | grep -E '^/' \
+      git log --first-parent --merges --format=%h v2026.09.10.1818-main-fabric-0.1.0 | head -31
+      git show v2026.09.10.1818-main-fabric-0.1.0:.github/CODEOWNERS | grep -E '^/' \
         | awk '{print $1}' | sort | uniq -d
   :: details The prediction that disagreed, and why it was wrong
   Before the run was checked, a full 325-pair sweep of
@@ -128,22 +127,22 @@ correctness of a tree that a completing cycle does not check."
   The larger blocker is `egit`, the Apache-2.0 libgit2 NIF the
   replacement sits on. An audit found 22 defects. By severity:
 
-  - `git_merge.hpp:31-45`. Fast-forward moves the branch ref with
+  - &{file("egit", "c_src/git_merge.hpp")}. Fast-forward moves the branch ref with
     no `git_checkout_tree`, so index and worktree keep the old
     tree, and it returns `{ok, fast_forward}`. Silent history
     corruption.
-  - `git_branch.hpp:138-139`. A `git_branch_create` failure has no
+  - &{file("egit", "c_src/git_branch.hpp")}. A `git_branch_create` failure has no
     `return` and falls through to `ATOM_OK`. Every failure
     reports success.
-  - `git_branch.hpp:112-125`. `overwrite` is read inside the tuple
+  - &{file("egit", "c_src/git_branch.hpp")}. `overwrite` is read inside the tuple
     branch, so a bare atom raises badarg. With the defect above,
     a branch can never be repointed.
-  - `git_checkout.hpp:52-56`. The return of
+  - &{file("egit", "c_src/git_checkout.hpp")}. The return of
     `git_annotated_commit_from_ref` is discarded and `GIT_OK`
-    returned regardless, which NULL-dereferences at `:172`. A NIF
+    returned regardless, which NULL-dereferences further on. A NIF
     crash takes the BEAM down, unlike today's subprocess
     boundary.
-  - `git_status.hpp:168-179`. `GIT_STATUS_CONFLICTED` is in
+  - &{file("egit", "c_src/git_status.hpp")}. `GIT_STATUS_CONFLICTED` is in
     neither mask, so a conflicted repository returns `#{}` and is
     indistinguishable from a clean one.
   - Not exported at all: current branch and HEAD, repository
@@ -152,12 +151,12 @@ correctness of a tree that a completing cycle does not check."
     nowhere in the NIF. That last one blocks the full-parity
     worktree decision outright.
 
-  Already fixed on `V-Sekai-fire/egit`, each with a control that
+  Already fixed on &{repo("egit")}, each with a control that
   fails without it: merge commits recording only HEAD as a parent,
   the `operation->exec` null-deref in rebase, and the missing
   `rebase_commit` export.
   :: details Seeding the work clone
-  `update_godot_v_sekai.exs` clones `entities-godot` into
+  `update_godot_v_sekai.exs` clones &{repo("entities-godot")} into
   `.assembly-work/entities-godot` when that has no `.git`. A clone
   from GitHub, plain or with `--reference-if-able`, negotiates
   nothing, because the reference repository's `objects` is a symlink

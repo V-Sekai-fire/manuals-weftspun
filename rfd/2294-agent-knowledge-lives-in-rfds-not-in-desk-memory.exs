@@ -6,7 +6,7 @@ rfd 2294, "agent knowledge lives in RFDs, not in desk memory", :discussion do
   flight_level :l2
   feature "where an agent session keeps what it learns about V-Sekai-fire and
 chibifire-stages, and the operator's rules that lived in one desk's memory, written down"
-  scope "`manuals-weftspun`, `CLAUDE.md`, every agent session's local memory, and the
+  scope "this repository, `CLAUDE.md`, every agent session's local memory, and the
 rules below"
 
   prose ~S"""
@@ -46,8 +46,8 @@ rules below"
      `repo list` confirm it. If `repo`, `elixir`, `mix` or `python` is missing,
      ask the operator; don't install tools yourself.
   1. Read `AGENTS.md` at the workspace root, then this RFD.
-  2. The workspace is a `repo` client. `.repo/manifests/default.xml` (repository
-     `contract-manifest-taskweft`) places every project on a side of the
+  2. The workspace is a `repo` client. `.repo/manifests/default.xml` (the taskweft
+     manifest repository) places every project on a side of the
      hexagon: `2-contract/`, `3-interactor/`, `4-entities/`, `5-repository/`,
      `6-datasource/`, `7-service/`. `repo list` shows what is placed.
   3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
@@ -55,7 +55,7 @@ rules below"
      blocking gets a decision from the operator, not a guess.
   4. Never edit a placed checkout in place. Make a worktree in a scratch
      directory on a new `feat/<topic>` branch:
-     `git -C <project> worktree add <scratch>/<name> -b feat/<topic> v-sekai-fire/main/main`,
+     `git -C <project> worktree add <scratch>/<name> -b feat/<topic> <remote>/main`,
      using the project's own remote and default branch.
   5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
      period, forks included (RFD 2026). Commits and pull requests carry no Claude
@@ -67,7 +67,7 @@ rules below"
      The operator merges.
   6. Remove the worktree when the pull request is open.
 
-  An RFD is amended in `2-contract/manuals-weftspun/rfd/NNNN-slug.exs`, never in
+  An RFD is amended in `rfd/NNNN-slug.exs` of &{repo("manuals-weftspun")}, never in
   the rendered Markdown, which is a build artifact:
 
   1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
@@ -77,7 +77,7 @@ rules below"
      not retracted. Name the operator and date for an operator's decision.
   3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
      "This RFD was drafted by an AI and read by a human before it shipped."
-  4. Run `mix rfd.render`, `python scripts/check_tropes.py --base v-sekai-fire/main/main`
+  4. Run `mix rfd.render`, `python scripts/check_tropes.py --base <remote>/main`
      and `python scripts/check-rfd-structure.py`. All three pass before the push.
   5. Keep product names and other organisations' issue or PR references out of
      the text, and cite an upstream change by its bare commit SHA.
@@ -86,19 +86,19 @@ rules below"
   this RFD:
 
       cd <workspace root>/2-contract/manuals-weftspun
-      git fetch v-sekai-fire main/main
-      git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main/main
+      git fetch v-sekai-fire main
+      git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main
       cd "$TEMP/rfd-edit"
 
   Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
   sentence inside the right `details` block, and save. Then:
 
       mix rfd.render
-      python scripts/check_tropes.py --base v-sekai-fire/main/main
+      python scripts/check_tropes.py --base v-sekai-fire/main
       python scripts/check-rfd-structure.py
       git commit -am "RFD 2294: say what the sentence makes true"
       git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
-      gh pr create -R V-Sekai-fire/manuals-weftspun --base main/main --fill
+      gh pr create -R V-Sekai-fire/manuals-weftspun --base main --fill
       cd <workspace root>/2-contract/manuals-weftspun
       git worktree remove "$TEMP/rfd-edit"
 
@@ -109,7 +109,7 @@ rules below"
   commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
   :: details The work queue
   The agent sessions share one work-stealing queue, the issues labelled
-  `worksteal` on `contract-zone-backend`; its protocol is pinned there as #58. An
+  `worksteal` on &{repo("contract-zone-backend")}; its protocol is pinned there as #58. An
   agent works its own queue newest first, and with nothing unclaimed steals the
   oldest unclaimed, unpinned issue from the fullest queue. A pinned issue needs one
   desk's hardware or credentials and is never stolen. The queue applies
@@ -148,9 +148,9 @@ rules below"
   grab: both grips pinch the world, and moving, turning or spreading the hands
   carries, turns or scales it about the hands' midpoint
   (`addons/procedural_3d_grid/core/xr_pinch.gd` on a canvas beside the hands, as
-  `transport-meshing-pen` wires it). One grip moves nothing. The other is the
+  &{repo("transport-meshing-pen")} wires it). One grip moves nothing. The other is the
   controllers: smooth stick movement, snap turning and teleport. A character
-  moved with a gamepad uses `interactor-motion-guest`: the motion models on
+  moved with a gamepad uses &{repo("interactor-motion-guest")}: the motion models on
   ggml-rd with compute-rd in a godot-sandbox guest, retargeted onto the avatar,
   with the stick setting movement and facing. No hand-written character
   controller is added.
@@ -172,8 +172,8 @@ rules below"
   :: details Video
   Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
   WebM is made: videos are uploaded by hand, and a WebM does not play on every
-  desk. It is recorded as `.cfhd` through `entities-godot-cineform` at double
-  precision and delivered by `interactor-av1mkv`'s `deliver.exs`, which writes
+  desk. It is recorded as `.cfhd` through &{repo("entities-godot-cineform")} at double
+  precision and delivered by &{repo("interactor-av1mkv")}'s `deliver.exs`, which writes
   only those two files; no master is MJPEG. Nothing records
   through the encoder BLOCKLIST.md bars or through the desktop driver's own
   recorder: recordings are CineForm, the live stream is PyroWave, and the headset
@@ -218,7 +218,7 @@ rules below"
   - Where work runs. A cloud session has no GPU and takes CPU-only work:
     headless Godot gates, the godot-sandbox tests, CPU Mitsuba (`llvm_ad_rgb`),
     the cloth fit on its CPU backend, and blend-shape matching through
-    `contract-lbfgsb`. Its testing blocklists software GPU emulators: lavapipe
+    &{repo("contract-lbfgsb")}. Its testing blocklists software GPU emulators: lavapipe
     and llvmpipe, SwiftShader, WARP, and Vulkan or Metal emulation. Work that
     needs a GPU (the persona, XR and headset runs, compute-rd and ggml runs, GPU
     sheet renders, macOS binaries) goes to the GPU desk rather than to an
@@ -240,7 +240,7 @@ rules below"
     is the frames. A CI job that shows a sheet renders it in that job and uploads
     it with `actions/upload-artifact`, so the sheet belongs to the run and the
     commit that made it. The colour reference is the lookdev-24 chart,
-    `entities-sakuragaoka-station`'s `tools/calib/chart24.json`, and no
+    &{repo("entities-sakuragaoka-station")}'s `tools/calib/chart24.json`, and no
     commercial chart's trademark appears in code or documents. The cell layout is
     under "Visual comparisons" below.
   - Characters. A garment is fitted to a character's body meshes only, and a
@@ -268,7 +268,7 @@ rules below"
   A visual comparison is delivered as a labelled contact sheet, the format for
   both vision-model review and human QA: one row per case, one column per source
   (original, before, after, diff), each cell labelled with its metric, failures
-  first, and the numbers kept beside the sheet. `entities-sakuragaoka-station`'s
+  first, and the numbers kept beside the sheet. &{repo("entities-sakuragaoka-station")}'s
   `tools/prop_shots.gd` is the precedent for that layout only (RFD 2283). A sheet
   is composed by rendering, with fragment shaders into a `SubViewport`, or in a
   godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
@@ -283,12 +283,12 @@ rules below"
   with the diff's own metric before and after: exact fixes at the source, then
   missing structure, then registration, where a camera that does not match is fixed
   in the camera and never by warping an image, then parameters fitted to the oracle
-  with `contract-lbfgsb` on the GPU, coarse to fine, written back into the source
+  with &{repo("contract-lbfgsb")} on the GPU, coarse to fine, written back into the source
   assets and checked on views the fit did not use. What remains is reported beside
   its floor, and a later change may not raise it. Antialiasing and distance fades
   that belong to the renderer stay.
   :: details The station in Godot
-  The Sakuragaoka Station port (`entities-sakuragaoka-station`):
+  The Sakuragaoka Station port (&{repo("entities-sakuragaoka-station")}):
 
   - realizes every closed solid through CSG, and carries each face's colour as a
     palette index in UV, since CSG keeps UV and drops vertex colour; CSG takes
@@ -348,7 +348,7 @@ rules below"
 
   A guest's source lives in the repository that consumes it and follows
   curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
-  sees the library. Mesh arrays cross in the layout of `contract-guest-common`'s
+  sees the library. Mesh arrays cross in the layout of &{repo("contract-guest-common")}'s
   `mesh_wire.h`. A vmcall takes at most seven arguments, an eighth failing with a
   register overflow, and each call returns inside the sandbox's
   `execution_timeout`.
@@ -402,12 +402,13 @@ rules below"
   checks red, so there the agent waits for green and merges by hand. Repository
   admins may bypass a ruleset for a pull request; agents do not.
   :: details Where interactor-dress-on went
-  `interactor-dress-on` is archived. Its stages live in their own repositories
-  (`contract-guest-runtime`, `contract-guest-common`, `contract-ggml-rd`,
-  `contract-lbfgsb`, `contract-anny-kernels`, `contract-sinew-align`, and
-  `interactor-drape`, `-curvenet`, `-garment-fit`, `-cage`, `-headfit`, `-lasso`,
-  `-motion-guest`, `-rfdetr-seg-guest`, `-usd-guest`, `-av1mkv`), and
-  `transport-meshing-pen` builds the guest ELFs from those sibling checkouts.
+  The stages of the archived interactor-dress-on live in their own repositories:
+  &{repo("contract-guest-runtime")}, &{repo("contract-guest-common")},
+  &{repo("contract-ggml-rd")}, &{repo("contract-lbfgsb")},
+  &{repo("contract-anny-kernels")}, &{repo("contract-sinew-align")}, and
+  &{repo("interactor-drape")}, `-curvenet`, `-garment-fit`, `-cage`, `-headfit`,
+  `-lasso`, `-motion-guest`, `-rfdetr-seg-guest`, `-usd-guest`, `-av1mkv`.
+  &{repo("transport-meshing-pen")} builds the guest ELFs from those sibling checkouts.
   :: details Bao and the tokens it mints
   Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
   online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in

@@ -15,7 +15,7 @@ fleet-domain document"
   :: decision
   Feed the Taskweft engine a **fleet domain**, a single JSON-LD
   document conforming to
-  `3-interactor/taskweft/priv/schemas/rectgtn_domain.schema.json`, that
+  `priv/schemas/rectgtn_domain.schema.json` in &{repo("interactor-taskweft")}, that
   names the live peers as entities, their owned resources as capability
   edges, the verbs peers execute as actions, and known decompositions as
   methods. Every peer answers "what should I do next?" with the same
@@ -39,9 +39,9 @@ fleet-domain document"
 
   prose ~S"""
   :: details Fleet-domain shape
-  Checked in at `2-contract/manuals-weftspun/rectgtn/fleet.jsonld`,
+  Checked in at `rectgtn/fleet.jsonld` in &{repo("manuals-weftspun")},
   conforming to
-  `3-interactor/taskweft/priv/schemas/rectgtn_domain.schema.json`. The
+  `priv/schemas/rectgtn_domain.schema.json` in &{repo("interactor-taskweft")}. The
   document is one full RECTGTN domain (`actions`, `methods`,
   `capabilities`, `variables`, `todo_list`, same shape as
   `priv/plans/problems/work_queue.jsonld` in the Taskweft repo).
@@ -149,7 +149,7 @@ fleet-domain document"
   Standing `TwMultiGoal` entries cover steady-state work (open PRs must
   reach `merged` before quarter close, and so on).
   :: details Coordinator adapter
-  New module `3-interactor/taskweft/lib/taskweft/coordinator.ex`, ~150
+  New module `lib/taskweft/coordinator.ex` in &{repo("interactor-taskweft")}, ~150
   lines. Public API:
 
   - `snapshot/0`, read `agents/*` Bao rows and the RFD board's current
@@ -166,7 +166,8 @@ fleet-domain document"
 
   Reuses `Taskweft.JSONLD.Loader.validate/2` and `Taskweft.MCP.Server`
   without modification. The caveat primitive is imported verbatim from
-  `7-service/service-sqlar-cas/lib/sqlar_cas/caveat.ex`, no fork.
+  `lib/sqlar_cas/caveat.ex` of
+  &{repo("service-sqlar-cas", planned: "7-service")}, no fork.
   :: details Tiebreak order
   Encoded in the domain's `methods.alternatives` list order, the
   planner picks the first alternative that satisfies its guards and
@@ -213,7 +214,7 @@ fleet-domain document"
   :: details Verification
   - **Determinism**: two peers, same snapshot revision → disjoint tasks
     whose union is a prefix of `Taskweft.plan(snapshot)`. Test:
-    `3-interactor/taskweft/test/coordinator_determinism_test.exs`.
+    `test/coordinator_determinism_test.exs` in &{repo("interactor-taskweft")}.
   - **Capability reactivity**: one-line edge change moves the winning
     task to another peer on the next `pick`. Test asserts the diff.
   - **TTL correctness**: an assignment past `expires_at` is not
@@ -227,7 +228,7 @@ fleet-domain document"
     surfaces "no assignable Task" rather than silently returning the
     first `TwCall`. Rule 2 of CLAUDE.md's verification list.
   - **Browser reviewability**: the WASM SQLite demo in
-    `7-service/service-sqlar-cas/docs/` gets the fleet-domain tables
+    `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} gets the fleet-domain tables
     in its fixture and renders the plan sol-tree client-side, so a
     reader can inspect the planner's output without an Elixir toolchain.
   :: details From the README, moved here on 2026-09-07
@@ -240,7 +241,7 @@ fleet-domain document"
   :: details Decision
   Feed the Taskweft engine a **fleet domain**, a single JSON-LD
   document conforming to
-  `3-interactor/taskweft/priv/schemas/rectgtn_domain.schema.json`, that
+  `priv/schemas/rectgtn_domain.schema.json` in &{repo("interactor-taskweft")}, that
   names the live peers as entities, their owned resources as capability
   edges, the verbs peers execute as actions, and known decompositions as
   methods. Every peer answers "what should I do next?" with the same

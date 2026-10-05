@@ -119,7 +119,7 @@ rfd 2240,
   CineForm in `.mov`. RFD 1123 chose Matroska and recorded why: AVI's 32-bit
   size field stops a file at 4 GiB, about 56 seconds of 4K60 at these
   bitrates, and MOV performed the same as Matroska while being less open.
-  `interactor-cineform` writes Matroska today, with a `V_MS/VFW/FOURCC` video
+  &{repo("interactor-cineform")} writes Matroska today, with a `V_MS/VFW/FOURCC` video
   track carrying `CFHD` and an uncompressed PCM audio track. A specification
   that named the container differently does not undo a measurement, so the
   container stays Matroska and the sidecar rule is unchanged: the stem is the

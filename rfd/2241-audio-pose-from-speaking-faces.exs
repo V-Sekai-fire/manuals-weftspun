@@ -7,7 +7,7 @@ rfd 2241,
     :discussion do
   feature "an audio-pose training corpus built from a licence-clean speech-and-video set by two inference passes, published with its provenance, and measured only on constructed data"
 
-  scope "`3-interactor/rf-detr-cpp` (the keypoint pass), `3-interactor/moge-upstream` (the geometry pass), `3-interactor/taskweft-fbd-teacher` (the selector, packer and tables), `7-service/service-cineform` (the aligned record), and the private Hub repositories the corpus lands in"
+  scope "rf-detr-cpp, MoGe, the FBD teacher, service-cineform and the corpus's Hub repositories"
 
   prose ~S"""
   :: decision
@@ -29,7 +29,7 @@ rfd 2241,
   :: references
   - `IS2AI/SpeakingFaces`, CC BY 4.0 with MIT code, DOI 10.3390/s21103465, Hub revision `eb2f8226`
   - RF-DETR's keypoint head, Apache-2.0 in the Nano family; the object-detection head stays blocklisted
-  - MoGe-3, placed at `3-interactor/moge-upstream` and pinned at `74fbce0`; RFD 1123 for CineForm
+  - MoGe-3, placed at &{repo("MoGe")} and pinned at &{pin("MoGe")}; RFD 1123 for CineForm
   :: related
   - RFD 2239 records the identity drop and this park; RFD 2234 the renderer the constructed arm reuses.
   """
@@ -79,7 +79,8 @@ rfd 2241,
   MoGe-3 recovers metric point maps, depth, normals and camera field of view from
   a single open-domain image. Geometry is therefore estimated per frame rather
   than triangulated, and no calibration is assumed or needed. `moge-upstream` is
-  placed and pinned at `74fbce0` with `moge/model/v3.py` present.
+  placed and pinned at &{pin("MoGe")} with
+  &{file("MoGe", "moge/model/v3.py")} present.
 
   The triangulation claim is retracted here rather than quietly replaced, because
   a reader who knows which road was a dead end is better off than one who only

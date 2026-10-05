@@ -44,10 +44,9 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
 
   1. **"Rent an RTX 3090 on Vast"**; two cheapest-tier hosts failed to
      spin up (bad GPU error, image never pulled). Spent $0.003 total
-     before pivoting. The Vast market-snapshot dataset survives at
-     `6-datasource/vast-market-snapshots/` (three ETNF Parquet snapshots
-     with 40% churn per ~12 min at the hot $0.18-0.22 band; Wilson
-     95%-lower on pooled 3-snapshot evidence).
+     before pivoting. The Vast market-snapshot dataset survives as
+     three ETNF Parquet snapshots, with 40% churn per ~12 min at the hot
+     $0.18-0.22 band (Wilson 95%-lower on pooled 3-snapshot evidence).
   2. **"Qwen3-Omni-30B does thinker + talker + OmniScore reward"** ;
      RETRACTED. The team behind Qwen3-Omni was disbanded (operator
      report), and no true-QAFT 4-bit checkpoint exists upstream for it
@@ -65,7 +64,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   5. **"Vision encoder split onto Hailo NPU via QFT"**; PARKED. No
      Linux x86_64 host to run the proprietary DFC wheel, no Hailo
      hardware to deploy to. Scaffold survives at
-     `3-interactor/editscore-lora-qwen3vl-4b/scripts/gate_vision_encoder.py`
+     &{file("interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py")}
      with a real ONNX export the DFC-side gate can consume when hardware
      arrives.
   :: details The stack that landed
@@ -81,7 +80,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   | Locations | `6-datasource/{kenney,thebasemesh,quaternius}-stage` | cc-* clean | assets on disk |
 
   **One real inference proved on Mac mini M2 Pro 32 GB (2026-09-01):**
-  `scripts/smoke_editscore_mlx.py` in `3-interactor/editscore-lora-qwen3vl-4b/`
+  &{file("interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py")}
   loaded the MLX 4-bit Qwen3-VL-4B in 0.9 s and generated a one-token
   reward response in 1.9 s from a dummy 224x224 image + edit-instruction
   prompt. Wiring holds; real numbers arrive with real (image, edit) pairs.
@@ -91,7 +90,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
 
   1. **QAFT-LoRA training on Qwen3-VL-4B against `EditScore/EditScore-Reward-Data`
     (97,300 rows, 161.8 GB, apache-2.0)** returns to the table. The
-    `3-interactor/editscore-lora-qwen3vl-4b/scripts/smoke.py` scaffold
+    &{file("interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py")} scaffold
     targets this exactly; needs `bitsandbytes` (already linux-64
     target-scoped in `pixi.toml`; add `win-64` when the Windows path is
     real). Model VRAM footprint: Qwen3-VL-4B fp16 ~8.9 GB + optimizer
@@ -263,42 +262,6 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   | scores | list[float] | reward-model score per dimension |
   | task_type | string | dialog_reply | scene_transition | expression_change |
   | dimension | string | instruction_following | consistency | overall |
-  :: details Bootstrap on the rented Vast machine (3090, 24 GiB)
-      # 1. Pick a 3090 image with CUDA 12.4 + Python 3.11 + git-lfs preinstalled.
-      #    Expect ~$0.20-$0.35/hour on Vast; $40 buys 110-200 hours.
-
-      # 2. Clone this workspace's minimal set (not the whole hexagon).
-      for r in \
-        2-contract/manuals-weftspun \
-        2-contract/bus \
-        3-interactor/taskweft \
-        3-interactor/taskweft-nmm-personas \
-        3-interactor/taskweft-godot-sandbox \
-        3-interactor/anny \
-        3-interactor/soma-x \
-        3-interactor/pose-consensus \
-        3-interactor/moge-upstream \
-        3-interactor/pixal3d-upstream \
-        3-interactor/voxhammer-upstream \
-        3-interactor/wan-vace-upstream \
-        1-transport/weftspun-studio ; do ...; done
-
-      # 3. Fetch SpeakingFaces (huggingface_hub, CC-BY-4.0), download
-      #    Qwen3-VL-4B-Instruct at fp16 (8.9 GiB) + EditScore LoRA
-      #    (270 MB), download Wan-VACE NF4 (8.7 GiB). Total < 24 GiB
-      #    with swap; no QAFT round required (per RFD 1173).
-
-      # 4. mix vn_avatar.build_personas --subjects 8   (MVP corpus: 8 subjects)
-      #    ~30 min on the 3090.
-
-      # 5. mix vn_avatar.smoke                        (one turn end to end)
-      #    Asserts: WebSocket receives >=1 image frame + >=1 audio frame,
-      #    trace row lands with a non-nil reward-model score.
-
-      # 6. COMMIT AND PUSH before tear down. Everything not in a git
-      #    repo goes with the machine (CLAUDE.md).
-
-      # 7. `vast destroy instance <id>` and double-check the console.
   :: details MVP smoke, in one sentence
   Player types "hello" into the browser, one WebSocket message goes
   up, one Qwen3-VL line comes back, the anny-in-godot mouth moves,

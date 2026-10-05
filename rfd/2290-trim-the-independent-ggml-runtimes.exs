@@ -8,7 +8,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
 
   prose ~S"""
   :: decision
-  ggml reaches the GPU through `2-contract/ggml-rd` and compute-rd, inside
+  ggml reaches the GPU through &{repo("contract-ggml-rd")} and compute-rd, inside
   godot-sandbox guests. A row carrying a runtime of its own, reached by a CLI
   or a NIF, is drift, so the manifest stops placing it.
 
@@ -16,9 +16,8 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   staying on GitHub: `stable-diffusion-ggml`, `skin-tokens-ggml`, `nx-ggml`,
   `pixal3d-ggml`, `motion-bricks-ggml`.
 
-  Kept: `2-contract/ggml`, the library the guest ELFs link, and the two ELF
-  repos feeding `rfdetr_seg.elf` and `motion.elf`, renamed
-  `interactor-rf-detr-elf-rd` and `interactor-kimodo-elf-rd`.
+  Kept: &{repo("ggml")}, the library the guest ELFs link, and the two ELF
+  repos feeding `rfdetr_seg.elf` and `motion.elf`, renamed `*-elf-rd`.
   :: problem
   Eight placed rows carry ggml, four of them a vendored tree of about 2,130
   files each: 2,575,482 lines, 17 per cent of what the manifest placed this
@@ -26,7 +25,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   2188 decided one canonical ggml with vendored copies deleted: Phase 1
   landed the framework, and Phase 2, the consumers, did not.
   :: related
-  - RFD 2188 placed `2-contract/ggml`; this is its Phase 2.
+  - RFD 2188 placed &{repo("ggml")}; this is its Phase 2.
   - RFD 2287 computes in guest ELFs on ggml-rd or compute-rd, RFD 2268 makes
     EditScore a decision model there, and RFD 2289 abandoned the off-route
     runtimes. Abandons RFD 2230 beside 2242: no engine tree has `modules/ggml`.
@@ -42,15 +41,15 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
 
   | row | lines | files | vendored | last commit | state |
   |---|---|---|---|---|---|
-  | `3-interactor/stable-diffusion-ggml` | 755,287 | 3,824 | 3,421 | 2026-09-15 | unplaced |
-  | `3-interactor/skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | unplaced |
-  | `3-interactor/nx-ggml` | 426,704 | 2,180 | 2,134 | 2026-08-21 | unplaced |
-  | `3-interactor/pixal3d-ggml` | 40,727 | 87 | 0 | 2026-09-09 | unplaced |
-  | `3-interactor/motion-bricks-ggml` | 39,852 | 593 | 153 | 2026-09-09 | unplaced |
-  | `2-contract/ggml` | 432,459 | 2,157 | canonical | 2026-09-30 | kept, the library |
-  | `3-interactor/rf-detr-ggml` | 436,645 | 2,260 | 2,133 | 2026-09-30 | kept, ELF repo |
-  | `3-interactor/kimodo-ggml` | 6,453 | 95 | 0 | 2026-09-29 | kept, ELF repo |
-  | `2-contract/ggml-rd` | 426,240 | 311 | the route | 2026-09-30 | kept, the route |
+  | `stable-diffusion-ggml` | 755,287 | 3,824 | 3,421 | 2026-09-15 | unplaced |
+  | `skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | unplaced |
+  | &{repo("interactor-nx-ggml")} | 426,704 | 2,180 | 2,134 | 2026-08-21 | unplaced |
+  | `pixal3d-ggml` | 40,727 | 87 | 0 | 2026-09-09 | unplaced |
+  | `motion-bricks-ggml` | 39,852 | 593 | 153 | 2026-09-09 | unplaced |
+  | &{repo("ggml")} | 432,459 | 2,157 | canonical | 2026-09-30 | kept, the library |
+  | &{repo("interactor-rf-detr-ggml")} | 436,645 | 2,260 | 2,133 | 2026-09-30 | kept, ELF repo |
+  | &{repo("kimodo-ggml")} | 6,453 | 95 | 0 | 2026-09-29 | kept, ELF repo |
+  | &{repo("contract-ggml-rd")} | 426,240 | 311 | the route | 2026-09-30 | kept, the route |
   :: details Why the five are free, by name
   Each row was searched for by path string and by name across every
   CMakeLists.txt, .cmake, .sh, .exs, .ex, .toml, .yml and .py in the placed
@@ -65,43 +64,37 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
     from GitHub rather than from the checkout, so that build is unaffected.
     Its other mentions are `scratch_*.exs` probe scripts.
   - `motion-bricks-ggml`: the guest reads
-    `motion-guest/vendor/motion-bricks-ggml`, vendored inside motion-guest
-    (meshing-pen's CMakeLists.txt line 268), not this row.
+    `motion-guest/vendor/motion-bricks-ggml`, vendored inside
+    motion-guest, not this row.
 
   THE ONE COST, NAMED. `motion-guest/tools/motion_native/CMakeLists.txt`
-  line 18 defaults `MB_SRC` to a manifest-side checkout of
-  `motion-bricks-ggml`, and `KIMODO_SRC` the same way. Both are `CACHE PATH`,
-  so that host tool takes `-DMB_SRC=<dir>` instead. No guest ELF is affected.
-  :: details An ELF repo is not a runtime, with the lines that show it
-  transport-meshing-pen is the host that builds the guest ELFs, and three of
-  the eight ggml rows are roots in its CMakeLists.txt. A `-ffile-prefix-map`
-  entry exists only for a root whose sources are compiled in, so the map lines
-  are the evidence rather than the inference.
+  defaults `MB_SRC` to a manifest-side checkout of
+  `motion-bricks-ggml`, and `KIMODO_SRC` the same way. Both are `CACHE
+  PATH`, so that host tool takes `-DMB_SRC=<dir>` instead. No guest ELF is affected.
+  :: details An ELF repo is not a runtime
+  &{repo("transport-meshing-pen")} is the host that builds the guest ELFs,
+  and three of the eight ggml rows are roots in its CMakeLists.txt. A
+  `-ffile-prefix-map` entry exists only for a root whose sources are
+  compiled in, so the map entries are the evidence rather than the
+  inference.
 
-  - `3-interactor/rf-detr-ggml` is an ELF repo. Line 33 sets
-    `RF_DETR_GGML_ROOT`, line 46 maps it to `vendor/rf-detr-ggml/`, and
-    `add_stage_elf(rfdetr_seg ...)` at line 246 compiles seven files out of
-    its `src/`: ops, backbone, projector, deform_attn, decoder, keypoints and
-    segmentation. Line 244 says what it is: RF-DETR instance segmentation on
-    ggml-rd.
-  - `3-interactor/kimodo-ggml` is the same shape, through `motion.elf`: line
-    32 sets `KIMODO_GGML_ROOT`, line 45 maps it, and motion-guest's
-    `kimodo_weights.cpp` and `mb_runtime.cpp` compile beside it.
-  - `2-contract/ggml` is the library both ELFs link. Line 31 sets
-    `GGML_ROOT`, line 145 is `add_subdirectory(${GGML_ROOT} ggml
-    EXCLUDE_FROM_ALL)`, line 218 adds `${GGML_ROOT}/src` to the kernels test,
-    and line 150 stamps `GGML_COMMIT="04b55bba"` into `ggml-base` so a
-    committed ELF does not change with every ggml commit.
+  - &{repo("interactor-rf-detr-ggml")} is an ELF repo: its `src/` compiles
+    into `rfdetr_seg.elf`, RF-DETR instance segmentation on ggml-rd.
+  - &{repo("kimodo-ggml")} is the same shape, through `motion.elf`, with
+    motion-guest's `kimodo_weights.cpp` and `mb_runtime.cpp` beside it.
+  - &{repo("ggml")} is the library both ELFs link, added as a subdirectory
+    and stamped with a fixed `GGML_COMMIT` in `ggml-base`, so a committed
+    ELF does not change with every ggml commit.
 
   None of the three is a second runtime, so none is trimmed.
   :: details The rename, and the one thing it must not change
   Two repositories, renamed on GitHub with `gh repo rename`, which leaves a
   redirect behind, then the manifest row's `name` and `path` together.
 
-  - `interactor-rf-detr-ggml` becomes `interactor-rf-detr-elf-rd`, placed at
-    `3-interactor/rf-detr-elf-rd`.
-  - `interactor-kimodo-ggml` becomes `interactor-kimodo-elf-rd`, placed at
-    `3-interactor/kimodo-elf-rd`.
+  - &{repo("interactor-rf-detr-ggml")} becomes
+    &{repo("interactor-rf-detr-elf-rd", planned: "3-interactor")}.
+  - &{repo("kimodo-ggml")} becomes
+    &{repo("interactor-kimodo-elf-rd", planned: "3-interactor")}.
 
   The blast radius is small and it is known: meshing-pen's CMakeLists.txt and
   its `guests` workflow, `ggml-rd`'s `tests/ggml_rd_kernels/cases/nx_rfdetr.cpp`
@@ -111,7 +104,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   project list. The CMake variables become `RF_DETR_ELF_RD_ROOT` and
   `KIMODO_ELF_RD_ROOT`.
 
-  WHAT MUST NOT CHANGE: the `-ffile-prefix-map` targets. Lines 45 and 46 map
+  WHAT MUST NOT CHANGE: the `-ffile-prefix-map` targets. The map entries send
   each root to `vendor/kimodo-ggml/` and `vendor/rf-detr-ggml/`, and those
   strings are baked into the ELF's debug info and `__FILE__` asserts. Keeping
   the map targets as they are keeps the guest ELFs byte-identical across the
@@ -119,14 +112,13 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   variable, hold the mapped string, and record that it is deliberate in the
   CMakeLists comment so it does not read as an oversight later.
   :: details How it lands, in order
-  1. This document and its serial, as one PR on `manuals-weftspun`. Gates:
+  1. This document and its serial, as one PR on &{repo("manuals-weftspun")}. Gates:
      `scripts/check-rfd-structure.py`, `check-rfd-serials.py`,
      `check-rfd-numbers.py`, `check_rfd_state_canonical.py`, then
      `mix rfd.render`.
-  2. The manifest PR on `contract-manifest-taskweft`: branch
-     `feat/unplace-independent-ggml` off `main/main`, the five rows removed,
-     commit `Unplace the five independent ggml runtimes` in house style with
-     one bullet per row, the kept rows named, the `MB_SRC` cost stated, and
+  2. The manifest PR on the taskweft manifest repository, off `main`, the
+     five rows removed, commit `Unplace the five independent ggml runtimes`
+     in house style with one bullet per row, the kept rows named, the `MB_SRC` cost stated, and
      the gate results. Merged through the queue, never with `--admin`.
   3. `elixir .repo/manifests/sync.exs .`, then the orphaned
      `.repo/project-objects/*.git` stores for the five rows are deleted, as
@@ -149,12 +141,12 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
     (`--self-test`, then `--manifest default.xml`, which resolves every
     revision over the network), `check_manifest_comments`,
     `check_manifest_root --manifest-only`, `check_manifest_dupes`,
-    `sync.exs --self-test`, and `check_commit_style --base origin/main/main`.
+    `sync.exs --self-test`, and `check_commit_style --base origin/main`.
     Each carries its own negative controls, run locally before the push and
     again on CI.
   - `elixir .repo/manifests/sync.exs .`: 152 projects enumerated, 0 blocking,
     and the five checkouts gone.
-  - `elixir tools/build.exs` in `1-transport/meshing-pen` builds the guest
+  - `elixir tools/build.exs` in &{repo("transport-meshing-pen")} builds the guest
     ELFs with the five rows absent, run under `pixi exec` with lld and python
     3.12 and Homebrew's llvm first on PATH, as this desk requires. A failure
     reverts the PR instead of arguing with it. `grep -n ggml

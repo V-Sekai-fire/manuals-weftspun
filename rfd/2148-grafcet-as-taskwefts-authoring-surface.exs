@@ -5,7 +5,7 @@ use RFD.DSL
 rfd 2148, "GRAFCET as taskweft's authoring surface", :prediscussion do
   compact_head true
   feature "taskweft domains authored as compact IEC 60848 GRAFCET,
-lowered to HTN at load, driven over `2-contract/bus`"
+lowered to HTN at load, driven over contract-bus"
   scope "taskweft, taskweft-nmm-personas, and any future planner
 domain that fits the propositional-with-parameters class"
 
@@ -31,8 +31,8 @@ domain that fits the propositional-with-parameters class"
   keeps in sync by hand. No model checker consumes the shape. Two
   hazards follow: the file drifts against itself, and no gate reads it.
   :: references
-  1. `3-interactor/taskweft/lib/taskweft/grafcet.ex`; lower and raise
-  2. `3-interactor/taskweft-nmm-personas/`; reference implementation
+  1. `lib/taskweft/grafcet.ex` in &{repo("interactor-taskweft")}; lower and raise
+  2. &{repo("interactor-taskweft-nmm-personas")}; reference implementation
   3. RFD 1065, 2093, RFD 1173 MASKSCORE.md, Project-AGRAFE
   """
 
@@ -91,15 +91,15 @@ domain that fits the propositional-with-parameters class"
   `/done/lake` although `ingest`, `embedder`, and `slat` each already
   gate on `lake`. The compact form drops those inherited receptivities;
   the second pass is a fixed point. `mix test test/taskweft/grafcet_test.exs`
-  under `3-interactor/taskweft` passes 4/4, exercising both directions.
-  :: details Transport: `2-contract/bus` + CBOR + zstd
+  under &{repo("interactor-taskweft")} passes 4/4, exercising both directions.
+  :: details Transport: &{repo("contract-bus")} + CBOR + zstd
   Stdio JSON is **blocklisted** for the Elixir↔Python wire when the
   peer is a language-external library (nmm2 here). The workspace's
-  canonical transport is `2-contract/bus`'s DYNAMIC byte-slice command
+  canonical transport is &{repo("contract-bus")}'s DYNAMIC byte-slice command
   bus (iceoryx2 shared memory, 8-byte request-id envelope). Python
   reuses `weft_harness.Bus`'s `serve` loop verbatim; Elixir speaks the
   same wire through a new NIF at
-  `3-interactor/taskweft-nmm-personas/c_src/weft_bus_nif.cpp`, modelled
+  &{file("interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp")}, modelled
   on `spot_broker/c_src/store_bus_nif.cpp` + `bus/proof/command_publisher.cpp`.
 
   The bus caps at 128 KiB per message. The projected 128-agent nmm2
@@ -205,12 +205,12 @@ domain that fits the propositional-with-parameters class"
     Snapshot pub/sub is the next-step answer if that budget is ever
     exceeded.
   :: details Verification
-  1. `mix test` in `3-interactor/taskweft/`; 4/4, the compact GRAFCET
+  1. `mix test` in &{repo("interactor-taskweft")}; 4/4, the compact GRAFCET
     round-trip on `weftspun-build.grafcet.jsonld` and canonicalisation
     on `weftspun-build.domain.jsonld`.
-  2. `mix test` in `3-interactor/taskweft-nmm-personas/`; 3/3, the
+  2. `mix test` in &{repo("interactor-taskweft-nmm-personas")}; 3/3, the
     MaskScore row count, the persona rate floor, the Scheduler refusal.
-  3. Live episode over `2-contract/bus` with real 128-agent nmm2:
+  3. Live episode over &{repo("contract-bus")} with real 128-agent nmm2:
     `ep0 seed42: persona 26.14 Hz (target 30), env 8.2 Hz (target 10),
     1.951s` and `9 MaskScore rows -> traces/maskscore.jsonl`.
   4. The traces are `traces/maskscore.jsonl` + `traces/maskscore.parquet`
@@ -234,8 +234,8 @@ domain that fits the propositional-with-parameters class"
   the transport, the persona rate contract, and the verification.
 
   The reference implementation and proof is
-  `3-interactor/taskweft-nmm-personas`: three GRAFCET personas play a
-  128-agent Neural MMO 2 episode over `2-contract/bus` with CBOR+zstd
+  &{repo("interactor-taskweft-nmm-personas")}: three GRAFCET personas play a
+  128-agent Neural MMO 2 episode over &{repo("contract-bus")} with CBOR+zstd
   on the wire, effective persona rate 26 Hz against a 10 Hz floor.
   :: details Problem
   A taskweft HTN domain is a hand-authored 40+ line JSON-LD block of
@@ -244,8 +244,8 @@ domain that fits the propositional-with-parameters class"
   keeps in sync by hand. No model checker consumes the shape. Two
   hazards follow: the file drifts against itself, and no gate reads it.
   :: details References
-  1. `3-interactor/taskweft/lib/taskweft/grafcet.ex`; lower and raise
-  2. `3-interactor/taskweft-nmm-personas/`; reference implementation
+  1. `lib/taskweft/grafcet.ex` in &{repo("interactor-taskweft")}; lower and raise
+  2. &{repo("interactor-taskweft-nmm-personas")}; reference implementation
   3. RFD 1065, 2093, RFD 1173 MASKSCORE.md, Project-AGRAFE
   """
 end
