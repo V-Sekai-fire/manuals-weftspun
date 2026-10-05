@@ -187,7 +187,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - **M1, the harness**, in `V-Sekai-fire/nif`. The prototype differential
     script becomes an in-process ExUnit `:differential` job: the dev.20
     headers linked twice, the request trace, a corpus enumerator and the
-    unchecked counter. It needs neither Trust-Lean nor its licence. Exit:
+    unchecked counter. It needs nothing from Trust-Lean. Exit:
     the job runs in under 5 minutes, the three live controls each fire on
     at least one case, and budget hits are counted.
   - **M2, the Lean search.** `Rectgtn.Search`, Mathlib-free, reproduces
@@ -207,20 +207,19 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     and warm medians within 1.2 times dev.20's.
   - **M5, the hand-written search retires.** The C++ search and the Fine
     wrapper are deleted, weft-warp-burrito's copy of `lean/` goes,
-    `taskweft_nif` 0.3.0 ships, and xr-pilot, the FBD compiler and RFD 2292's gate read the
-    library. Exit: plan bytes unchanged for every caller, and
-    interactor-taskweft's CI green.
+    `taskweft_nif` 0.3.0 ships, and xr-pilot, the FBD compiler and
+    RFD 2292's gate read the library. Exit: plan bytes unchanged for every
+    caller, and interactor-taskweft's CI green.
   - **M6, the rest.** The ReBAC walk moves to generated C. The temporal
     check, the loader and the evaluator use doubles and follow when
     Trust-Lean carries floats; the C++ in the NIF then reaches zero.
   :: details Dependencies
-  - **Licence.** `V-Sekai-fire/trust-lean` carries no licence file on its
-    default branch; its pull request 2 adds MIT and is a draft.
-  - **Allowlist.** Pull request 232 here adds rows for Trust-Lean and for
-    Mathlib at build time.
-  - **Placement.** Pull request 283 on `contract-manifest-taskweft` places
-    Trust-Lean on the contract side. `V-Sekai-fire/nif`, which publishes
-    the Hex package, is not placed.
+  - **Allowlist and placement**, both in flight. Pull request 232 here adds
+    rows for Trust-Lean and for Mathlib at build time, and pull request 283
+    on `contract-manifest-taskweft` places Trust-Lean on the contract side.
+    Trust-Lean is MIT by the License section of its README,
+    https://github.com/lambdaclass/trust-lean#license, which the operator
+    accepts as the licence evidence on 2026-10-05.
   - **The TL4 to TL8 fix chain** on the fork. The library needs from it
     local declarations in the C backend, so the emitted code is reentrant
     across schedulers; bounded arrays or proved capacity invariants;
@@ -229,11 +228,11 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     request on the fork carries TL4 to TL8 yet. Fixes land on the fork and
     go nowhere else.
   - **RFD 2292** sits on the parked branch `feat/evac-20261002-rfd-2292` and
-    holds no serial on main, so its gate joins M5 once it lands.
+    holds no serial on main, so its gate joins M5 when it lands.
   - **Toolchain.** Trust-Lean with its Mathlib, and interactor-taskweft's
-    `lean/`, pin Lean v4.30.0; xr-pilot pins v4.34.1 and the FBD compiler v4.34.0-rc1. A
-    Lake dependency needs one toolchain, so those two import the library
-    once the pins agree.
+    `lean/`, pin Lean v4.30.0; xr-pilot pins v4.34.1 and the FBD compiler
+    v4.34.0-rc1. A Lake dependency needs one toolchain, so those two import
+    the library once the pins agree.
   :: details Open questions
   - **Home.** The Lean search, the generated C and its drift gate want one
     repository. `V-Sekai-fire/nif` holds the NIF and is not placed;
