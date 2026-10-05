@@ -1,107 +1,165 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gathers the rendered RFDs into a Jekyll source tree with an index, one row per RFD.
-# The status column carries emoji for state, drafting and details; titles stay plain text.
-#   elixir scripts/pages_site.exs <out-dir>
-[out] = System.argv()
-root = Path.expand("..", __DIR__)
-File.rm_rf!(out)
-File.mkdir_p!(Path.join(out, "rfd"))
+# Builds the Pages source as one flow: sources -> records -> groups -> expanders -> files.
+# The logbook (what was measured) comes first and the RFDs (what was decided) second.
+#   mix run scripts/pages_site.exs <out-dir>
+defmodule PagesSite do
+  @states ~w(prediscussion ideation discussion published committed moved abandoned)
+  @emoji %{
+    "prediscussion" => "📝",
+    "ideation" => "💡",
+    "discussion" => "💬",
+    "published" => "📢",
+    "committed" => "✅",
+    "abandoned" => "🪦",
+    "moved" => "➡️"
+  }
+  @pages ~w(README.md CLAUDE.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
 
-config = """
-title: manuals-weftspun
-description: RFDs, logbook and working agreements
-theme: jekyll-theme-primer
-"""
+  def main([out]) do
+    root = Path.expand("..", __DIR__)
+    File.rm_rf!(out)
 
-File.write!(Path.join(out, "_config.yml"), config)
+    logs = logbook(root)
+    rfds = rfds()
 
-states = %{
-  "prediscussion" => "📝", "ideation" => "💡", "discussion" => "💬", "published" => "📢",
-  "committed" => "✅", "abandoned" => "🪦", "moved" => "➡️"
-}
+    Enum.each(logs ++ rfds, &copy(&1, out))
 
-status = fn readme_text, dir ->
-  state =
-    case Regex.run(~r/^\*\*State:\*\* (\w+)/m, readme_text) do
-      [_, s] -> Map.get(states, s, "❔")
-      _ -> "❔"
+    for f <- @pages,
+        File.exists?(Path.join(root, f)),
+        do: File.cp!(Path.join(root, f), Path.join(out, "page-" <> f))
+
+    File.write!(Path.join(out, "_config.yml"), config())
+    File.write!(Path.join(out, "index.md"), index(logs, rfds))
+    IO.puts("pages: #{length(logs)} logbook entries and #{length(rfds)} RFDs in #{out}")
+  end
+
+  # Sources become records: what the index shows and which files the site carries.
+  defp logbook(root) do
+    for f <- Path.wildcard(Path.join(root, "logbook/*.md")) |> Enum.sort() do
+      slug = Path.basename(f, ".md")
+      words = slug |> String.replace_prefix("logbook-", "") |> String.split("-")
+
+      %{
+        kind: :log,
+        group: hd(words),
+        label: Enum.join(words, " "),
+        href: "logbook/#{slug}.html",
+        files: [{f, "logbook/#{slug}.md"}]
+      }
     end
+  end
 
-  details = Path.join(dir, "DETAILS.md")
-  both = String.replace(readme_text <> " " <> if(File.exists?(details), do: File.read!(details), else: ""), ~r/\s+/, " ")
+  defp rfds do
+    for path <- RFD.Source.all(),
+        dir = RFD.Source.dir_of(path),
+        File.exists?(Path.join(dir, "README.md")) do
+      d = RFD.Source.load(path)
+      slug = Path.basename(dir)
+      drafted = d.attest_in != :none && %{ai: "🤖", human: "✍️"}[d.drafted_by]
+      status = [Map.get(@emoji, to_string(d.state), "❔"), drafted, RFD.Doc.details(d) && "📎"]
 
-  drafted =
-    cond do
-      String.contains?(both, "This RFD was drafted by an AI and read by a human before it shipped.") -> "🤖"
-      String.contains?(both, "This RFD was drafted by a human without AI help.") -> "✍️"
-      true -> ""
+      %{
+        kind: :rfd,
+        group: to_string(d.state),
+        serial: d.serial,
+        label: "RFD #{d.serial}: #{d.title}",
+        status: status |> Enum.reject(&(&1 in [nil, false])) |> Enum.join(" "),
+        href: "rfd/#{slug}/",
+        files:
+          for(
+            f <- ["README.md", "DETAILS.md"],
+            File.exists?(Path.join(dir, f)),
+            do: {Path.join(dir, f), "rfd/#{slug}/#{f}"}
+          )
+      }
     end
+  end
 
-  [state, drafted, if(File.exists?(details), do: "📎", else: "")] |> Enum.reject(&(&1 == "")) |> Enum.join(" ")
+  defp copy(%{files: files}, out) do
+    for {from, to} <- files do
+      File.mkdir_p!(Path.dirname(Path.join(out, to)))
+      text = File.read!(from) |> String.replace("`DETAILS.md`", "[`DETAILS.md`](DETAILS.html)")
+      File.write!(Path.join(out, to), text)
+    end
+  end
+
+  # Records become groups, and groups become expanders.
+  defp index(logs, rfds) do
+    {topics, single} =
+      logs |> Enum.group_by(& &1.group) |> Enum.split_with(fn {_, es} -> length(es) > 1 end)
+
+    log_groups =
+      Enum.sort(topics) ++
+        if(single == [], do: [], else: [{"other", single |> Enum.flat_map(&elem(&1, 1))}])
+
+    rfd_groups =
+      for s <- @states,
+          es = Enum.filter(rfds, &(&1.group == s)),
+          es != [],
+          do: {s, Enum.sort_by(es, & &1.serial)}
+
+    log_body =
+      Enum.map_join(log_groups, "\n", fn {g, es} ->
+        expander("#{g} (#{length(es)})", log_list(es), false)
+      end)
+
+    rfd_body =
+      Enum.map_join(rfd_groups, "\n", fn {s, es} ->
+        expander("#{@emoji[s]} #{s} (#{length(es)})", rfd_table(es), false)
+      end)
+
+    """
+    # manuals-weftspun
+
+    The workspace's logbook and its RFDs (also called requests for discussion, design docs or
+    architecture decision records). The logbook records what was measured; the RFDs record what
+    was decided from it. Both are rendered from this repository, with the
+    [working agreements](page-CLAUDE.html) alongside.
+
+    #{expander("Logbook (#{length(logs)} entries)", log_body, true)}
+
+    #{expander("RFDs (#{length(rfds)})", legend() <> "\n\n" <> rfd_body, true)}
+    """
+  end
+
+  defp expander(summary, body, open?) do
+    """
+    <details#{if open?, do: " open", else: ""} markdown="1">
+    <summary>#{summary}</summary>
+
+    #{body}
+
+    </details>
+    """
+  end
+
+  defp log_list(es), do: Enum.map_join(es, "\n", &"- [#{&1.label}](#{&1.href})")
+
+  defp rfd_table(es) do
+    rows =
+      Enum.map_join(
+        es,
+        "\n",
+        &"| [#{&1.serial}](#{&1.href}) | #{&1.status} | #{String.replace(&1.label, "|", "\\|")} |"
+      )
+
+    "| RFD | status | title |\n| --- | --- | --- |\n" <> rows
+  end
+
+  defp legend do
+    "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>
+      "✅ committed, ➡️ moved, 🪦 abandoned; 🤖 drafted by an AI and read by a human, " <>
+      "✍️ drafted by a human; 📎 has details."
+  end
+
+  defp config do
+    """
+    title: manuals-weftspun
+    description: Logbook, RFDs and working agreements
+    theme: jekyll-theme-primer
+    """
+  end
 end
 
-rows =
-  for dir <- Path.wildcard(Path.join(root, "rfd/*/")) |> Enum.filter(&File.dir?/1) |> Enum.sort(),
-      readme = Path.join(dir, "README.md"),
-      File.exists?(readme) do
-    slug = Path.basename(dir)
-    File.mkdir_p!(Path.join([out, "rfd", slug]))
-
-    for f <- ["README.md", "DETAILS.md"], File.exists?(Path.join(dir, f)) do
-      text =
-        String.replace(
-          File.read!(Path.join(dir, f)),
-          "`DETAILS.md`",
-          "[`DETAILS.md`](DETAILS.html)"
-        )
-
-      File.write!(Path.join([out, "rfd", slug, f]), text)
-    end
-
-    readme_text = File.read!(readme)
-
-    title =
-      readme_text
-      |> String.split("\n")
-      |> Enum.find("", &String.starts_with?(&1, "# "))
-      |> String.trim_leading("# ")
-
-    link = "[#{String.slice(slug, 0, 4)}](rfd/#{slug}/)"
-    "| #{link} | #{status.(readme_text, dir)} | #{String.replace(title, "|", "\\|")} |"
-  end
-
-File.mkdir_p!(Path.join(out, "logbook"))
-
-logs =
-  for f <- Path.wildcard(Path.join(root, "logbook/*.md")) |> Enum.sort() do
-    File.cp!(f, Path.join([out, "logbook", Path.basename(f)]))
-    "- [#{Path.basename(f, ".md")}](logbook/#{Path.basename(f, ".md")}.html)"
-  end
-
-for f <- ~w(README.md CLAUDE.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md),
-    File.exists?(Path.join(root, f)),
-    do: File.cp!(Path.join(root, f), Path.join(out, "page-" <> f))
-
-index = """
-# manuals-weftspun
-
-The workspace's RFDs (also called requests for discussion, design docs or
-architecture decision records), rendered from their Elixir sources, with the
-logbook below and the [working agreements](page-CLAUDE.html).
-
-Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, ✅ committed,
-🪦 abandoned, ➡️ moved; 🤖 drafted by an AI and read by a human, ✍️ drafted by a
-human; 📎 has details.
-
-| RFD | status | title |
-| --- | --- | --- |
-#{Enum.join(rows, "\n")}
-
-## Logbook
-
-#{Enum.join(logs, "\n")}
-"""
-
-File.write!(Path.join(out, "index.md"), index)
-IO.puts("pages: #{length(rows)} RFDs in #{out}")
+PagesSite.main(System.argv())
