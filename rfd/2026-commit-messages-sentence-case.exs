@@ -58,29 +58,38 @@ rfd 2026, "Commit messages sentence case", :committed do
   - Bad, because a changelog tool that groups commits by type finds no
     signal here, so adopting one later needs a different marker or a
     history rewrite.
-  :: details Fork exception
-  The rule scopes to **our own repos**, anything whose git remote
-  points at `github.com/weftspun/...`. Forks, repos this workspace
-  mirrors from an upstream that uses its own commit style, follow the
-  upstream's convention. A Conventional-Commits upstream gets
-  Conventional-Commits subjects on its fork here, because the fork's
-  diffs go back to the upstream one day and need to fit its history.
-  The gate below detects the fork case and skips.
+  :: details Scope
+  The rule holds on every repository this workspace commits to, forks
+  included. A fix to a fork lands in our fork and nothing is sent
+  upstream (RFD 2294, "Where a session posts"), so a fork's history
+  past the upstream commit is ours and reads like the rest. A fork of
+  a Conventional-Commits upstream carries sentence-case subjects on top
+  of the upstream's prefixed ones. A branch that merges the upstream
+  passes the upstream ref to the gate with `--exclude`, so only our
+  commits are read.
   :: details Confirmation
-  The rule is machine-checked by `scripts/check_commit_style.py`. It
-  gates commits reachable in `<base>..HEAD` for three properties:
+  The rule is machine-checked by the `practices` hook
+  (`scripts/check_practices.exs`, RFD 2294), on push and in CI in every
+  repository that takes the hook, and by `scripts/check_commit_style.py`
+  on its own. Each reads the commits reachable from `HEAD` and from
+  neither `<base>` nor any `--exclude` ref, for three properties:
 
   1. No Conventional-Commits `type:` or `type(scope):` prefix on the
      subject.
   2. Subject opens with an uppercase letter, digit, or bracket.
   3. Subject does not end with a trailing period.
 
-  The gate skips silently on any repo whose remotes do not include a
-  `github.com/weftspun/...` URL, per the fork exception above. Its
-  self-test carries six subject controls (three that pass, three that
-  fail) plus four URL-classification controls (two own, two fork).
+  Neither gate reads a remote, so a fork is held to the same three
+  properties. The Python gate's self-test carries six subject controls
+  (three that pass, three that fail), four that run the script itself
+  on a prefixed and a sentence-case commit in a scratch repository, once
+  behind a V-Sekai-fire remote and once behind a fork remote, and two
+  on a merged upstream commit with a prefixed subject, which fails when
+  read and passes once its ref is excluded. The practices self-test
+  carries the same rules in both directions.
 
       python scripts/check_commit_style.py --base origin/main
+      python scripts/check_commit_style.py --base origin/main --exclude upstream/master
       python scripts/check_commit_style.py --self-test
 
   Review reads each subject as a capitalised sentence with no type

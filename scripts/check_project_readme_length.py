@@ -36,8 +36,7 @@ ROOT = next((c for c in [RFD, *RFD.parents] if (c / ".repo").is_dir()), None)
 LIMIT = 144
 
 # A fork's tagline is upstream's prose, not ours to bound. Read from the git remote
-# rather than a list somebody has to remember to grow, which is the test
-# check_commit_style.py already uses to pick a commit convention.
+# rather than a list somebody has to remember to grow.
 #
 # The taglines that were already over the budget when the measurement was corrected.
 # New and edited READMEs are held to it; these are not, until someone rewrites them.

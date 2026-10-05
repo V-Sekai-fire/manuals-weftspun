@@ -1,72 +1,49 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Gate: commit subjects on our own repos are sentence-case prose, no Conventional Commits prefix.
+"""Gate: commit subjects are sentence-case prose, no Conventional Commits prefix.
 
-WHY. RFD 2026 picked sentence-case prose over Conventional Commits for our own repos. A
-`feat:` / `fix:` / `chore(scope):` prefix reads as noise before the meaning, and no tool
-here consumes it. Forks stay on their upstream's convention — a Conventional-Commits
-upstream (say, an engine we mirror) gets its own style, because the diff is going upstream
-one day and needs to fit there.
+RFD 2026 picked sentence-case prose over Conventional Commits. The rule holds on every
+repository we commit to, forks included: a fork's commits stay in our fork (RFD 2294), so
+the gate reads no remote and skips nothing.
 
-WHAT IS CHECKED. Every commit reachable from HEAD but not from --base:
+Every commit reachable from HEAD but not from --base or any --exclude is checked for three
+properties:
 
-1. The subject line does not begin with a Conventional-Commits prefix
-   (`^[a-z]+(\\([^)]+\\))?!?:` — e.g. `feat:`, `fix(parser):`, `chore!:`).
-2. The subject's first character is an uppercase letter (or a digit / bracket that a
-   sentence can plausibly open with; `RFD 2026: …` and `[RFD 2026] …` both pass).
+1. The subject does not begin with a Conventional-Commits prefix
+   (`^[a-z]+(\\([^)]+\\))?!?:`, e.g. `feat:`, `fix(parser):`, `chore!:`).
+2. The subject opens with an uppercase letter, digit, bracket or backtick
+   (`RFD 2026: …` and `[RFD 2026] …` both pass).
 3. The subject does not end with a trailing period.
 
-SCOPE. The gate runs only when a git remote matches `github.com/V-Sekai-fire/` or
-`github.com/chibifire-stages/` (or the equivalent SSH form). Forks — anything with a different
-origin — are skipped with a `skipped: origin not ours` line, per RFD 2026's "use the fork's
-standard pattern".
-
-DETECTION FLOOR. A subject that opens with a valid Conventional-Commits type BUT happens
-to also read as a sentence (imagine an author writing `Feat: some feature.`) is caught by
-the trailing-period check or the case check anyway. The pattern targets machine-typed
-prefixes; there is no reasonable prose subject that is `type:` prefixed by accident.
-
 Usage:
-    python scripts/check_commit_style.py                    # HEAD..HEAD~10 (last 10)
+    python scripts/check_commit_style.py                    # HEAD~10..HEAD
     python scripts/check_commit_style.py --base origin/main # gate a branch
-    python scripts/check_commit_style.py --self-test        # 6 controls
+    python scripts/check_commit_style.py --base origin/main --exclude upstream/master
+    python scripts/check_commit_style.py --self-test        # 12 controls
 
 Exit codes: 0 all pass, 1 at least one fails, 2 bad usage.
 """
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import subprocess
 import sys
+import tempfile
 
 
 CONVENTIONAL_RE = re.compile(r"^[a-z][a-z0-9-]*(\([^)]+\))?!?:")
 SENTENCE_START_RE = re.compile(r"^([A-Z]|\d|\[|`)")
 TRAILING_PERIOD_RE = re.compile(r"\.$")
-OWN_RE = re.compile(r"github\.com[/:](V-Sekai-fire|chibifire-stages)/", re.IGNORECASE)
+GIT_ENV = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+           "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_PREFIX", "GIT_COMMON_DIR")
 
 
-def is_own_repo(cwd: str = ".") -> bool:
-    """True when any git remote points at a repository we own (V-Sekai-fire or chibifire-stages).
-
-    Remotes here are named after the manifest (`v-sekai-fire`, `huggingface-datasets`, etc.),
-    not `origin`, so `remote.origin.url` returns nothing on a repo-managed checkout.
-    Enumerate every remote's URL and match on any hit.
-    """
-    try:
-        out = subprocess.check_output(
-            ["git", "-C", cwd, "config", "--get-regexp", r"^remote\..*\.url$"],
-            text=True,
-        )
-    except subprocess.CalledProcessError:
-        return False
-    for line in out.splitlines():
-        # `remote.<name>.url  <url>`
-        parts = line.split(None, 1)
-        if len(parts) == 2 and OWN_RE.search(parts[1]):
-            return True
-    return False
+def git(cwd: str, *args: str) -> str:
+    env = {k: v for k, v in os.environ.items() if k not in GIT_ENV}
+    return subprocess.check_output(["git", "-C", cwd, *args], text=True, env=env,
+                                   stderr=subprocess.STDOUT)
 
 
 def check_subject(subject: str) -> list[str]:
@@ -80,11 +57,9 @@ def check_subject(subject: str) -> list[str]:
     return problems
 
 
-def commits_in_range(base: str, head: str = "HEAD") -> list[tuple[str, str]]:
-    out = subprocess.check_output(
-        ["git", "log", "--format=%H%x1f%s", f"{base}..{head}"],
-        text=True,
-    )
+def commits_in_range(base: str, excludes: list[str], cwd: str = ".") -> list[tuple[str, str]]:
+    out = git(cwd, "log", "--format=%H%x1f%s", "HEAD", *(f"^{r}" for r in [base, *excludes]),
+              "--")
     rows = []
     for line in out.splitlines():
         if "\x1f" not in line:
@@ -94,25 +69,11 @@ def commits_in_range(base: str, head: str = "HEAD") -> list[tuple[str, str]]:
     return rows
 
 
-def main(argv: list[str]) -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--base", default=None,
-                    help="Commit range base (default: HEAD~10)")
-    ap.add_argument("--self-test", action="store_true")
-    args = ap.parse_args(argv[1:])
-
-    if args.self_test:
-        return self_test()
-
-    if not is_own_repo():
-        print("skipped: origin not ours (fork convention applies, RFD 2026)")
-        return 0
-
-    base = args.base or "HEAD~10"
+def gate(base: str, excludes: list[str], cwd: str = ".") -> int:
     try:
-        commits = commits_in_range(base)
+        commits = commits_in_range(base, excludes, cwd)
     except subprocess.CalledProcessError as e:
-        print(f"error: git log failed: {e}")
+        print(f"error: git log failed: {e.output.strip()}")
         return 2
 
     if not commits:
@@ -129,15 +90,48 @@ def main(argv: list[str]) -> int:
                 print(f"       - {p}")
         else:
             print(f"ok   {sha[:12]}  {subj[:60]}")
-    print(f"---")
+    print("---")
     print(f"{len(commits)} commit(s), {failures} failure(s)")
     return 1 if failures else 0
 
 
+def main(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--base", default=None,
+                    help="Commit range base (default: HEAD~10)")
+    ap.add_argument("--exclude", action="append", default=[], metavar="REF",
+                    help="Also skip commits reachable from REF, such as a fork's upstream")
+    ap.add_argument("--self-test", action="store_true")
+    args = ap.parse_args(argv[1:])
+
+    if args.self_test:
+        return self_test()
+    return gate(args.base or "HEAD~10", args.exclude)
+
+
+def run_on_scratch_repo(root: str, remote: str, steps: list[list[str]],
+                        args: list[str]) -> tuple[int, str]:
+    repo = tempfile.mkdtemp(dir=root)
+    ident = ["-c", "user.name=self-test", "-c", "user.email=self-test@example.invalid",
+             "-c", "commit.gpgsign=false"]
+    git(repo, "init", "-q", "-b", "work")
+    git(repo, "remote", "add", "origin", remote)
+    for step in [["commit", "-q", "--no-verify", "--allow-empty", "-m", "Base"],
+                 ["tag", "base"], *steps]:
+        git(repo, *ident, *step)
+    env = {k: v for k, v in os.environ.items() if k not in GIT_ENV}
+    run = subprocess.run([sys.executable, os.path.abspath(__file__), *args], cwd=repo,
+                         env=env, capture_output=True, text=True)
+    return run.returncode, run.stdout
+
+
+def commit(subject: str) -> list[str]:
+    return ["commit", "-q", "--no-verify", "--allow-empty", "-m", subject]
+
+
 def self_test() -> int:
-    """6 controls: 3 that pass, 3 that fail. Every direction fires."""
+    """6 subject controls, 4 through the CLI on both remotes, 2 on a merged upstream commit."""
     cases = [
-        # (subject, expected_problems_count, label)
         ("Add the macOS and Windows release workflows", 0, "plain sentence"),
         ("RFD 2026: Commit messages sentence case", 0, "RFD prefix, sentence body"),
         ("[urgent] Fix the leaking file descriptor", 0, "bracket-tag open"),
@@ -156,23 +150,34 @@ def self_test() -> int:
                 print(f"       problem: {p}")
             all_pass = False
 
-    # Our orgs are own; forks, the retired weftspun org and a lookalike org name are not
-    for url, expect_own in [
-        ("https://github.com/V-Sekai-fire/manuals-weftspun", True),
-        ("git@github.com:V-Sekai-fire/interactor-dress-on.git", True),
-        ("https://github.com/v-sekai-fire/interactor-dress-on", True),
-        ("https://github.com/chibifire-stages/character-marocchino", True),
-        ("https://github.com/godotengine/godot", False),
-        ("git@github.com:huggingface/transformers.git", False),
-        ("https://github.com/weftspun/request-for-discussion", False),
-        ("https://github.com/V-Sekai-fire-mirror/manuals-weftspun", False),
-    ]:
-        got_own = bool(OWN_RE.search(url))
-        ok = got_own == expect_own
-        marker = "ok   " if ok else "FAIL "
-        print(f"  {marker} url-classify {url!r} → own={got_own} (expected {expect_own})")
-        if not ok:
-            all_pass = False
+    fork = "https://github.com/godotengine/godot"
+    upstream = [["checkout", "-q", "-b", "upstream", "base"],
+                commit("core: fix the scene loader"),
+                ["checkout", "-q", "work"],
+                commit("Add the release workflow"),
+                ["merge", "-q", "--no-ff", "--no-verify", "-m", "Merge the upstream", "upstream"]]
+    runs = [(f"remote {remote} subject {subj!r}", remote, [commit(subj)],
+             ["--base", "HEAD~1"], expect, subj)
+            for remote in ("https://github.com/V-Sekai-fire/manuals-weftspun", fork)
+            for subj, expect in (("feat: add the release workflow", 1),
+                                 ("Add the release workflow", 0))]
+    runs += [("merged upstream prefixed commit read", fork, upstream, ["--base", "base"], 1,
+              "core: fix the scene loader"),
+             ("merged upstream prefixed commit excluded", fork, upstream,
+              ["--base", "base", "--exclude", "upstream"], 0, "")]
+
+    with tempfile.TemporaryDirectory() as root:
+        for label, remote, steps, args, expect, failing in runs:
+            try:
+                got, out = run_on_scratch_repo(root, remote, steps, args)
+            except (OSError, subprocess.CalledProcessError) as e:
+                got, out = f"error: {getattr(e, 'output', None) or e}", ""
+            named = any(line.startswith("FAIL ") and line.endswith(f"  {failing}")
+                        for line in out.splitlines())
+            ok = got == expect and (expect == 0 or named)
+            marker = "ok   " if ok else "FAIL "
+            print(f"  {marker} {label} exit={got} (expected {expect})")
+            all_pass = all_pass and ok
 
     print("---")
     print("self-test:", "ok" if all_pass else "FAIL")

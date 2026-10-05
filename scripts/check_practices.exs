@@ -4,13 +4,14 @@
 # Other repositories run it as the `practices` prek hook from `.pre-commit-hooks.yaml`.
 #
 # Usage:
-#     scripts/check_practices.exs [--base <ref>] [--repo <path>]   # commits and workflows
+#     scripts/check_practices.exs [--base <ref>] [--exclude <ref>]... [--repo <path>]
 #     scripts/check_practices.exs --pr <owner>/<name>#<n>          # PR text, needs GH_TOKEN
 #     scripts/check_practices.exs --self-test
 #
 # Without --base the base is GATE_BASE, then PRE_COMMIT_FROM_REF, then @{upstream}; with
-# none of them the commits are a FAIL, not a skip. GATE_PR adds the --pr check. GATE_BRANCH,
-# else pre-push's PRE_COMMIT_REMOTE_BRANCH, names the branch, which must be feat/* or archived/*.
+# none of them the commits are a FAIL, not a skip. --exclude drops commits a fork's upstream
+# holds. GATE_PR adds the --pr check. GATE_BRANCH, else pre-push's PRE_COMMIT_REMOTE_BRANCH,
+# names the branch, which must be feat/* or archived/*.
 #
 # Exit codes: 0 every practice holds, 1 one does not or a source was unreadable, 2 bad usage.
 
@@ -22,6 +23,11 @@ defmodule Practices do
     {~r/claude\.ai\/code\/session_/i, "an agent session link"}
   ]
   @agent_identity ~r/(^claude$|noreply@anthropic\.com)/i
+  @subject [
+    {~r/^[a-z][a-z0-9-]*(\([^)]+\))?!?:/, "a Conventional-Commits prefix", true},
+    {~r/^([A-Z]|\d|\[|`)/, "no capital, digit, bracket or backtick first", false},
+    {~r/\.$/, "a trailing period", true}
+  ]
   @emulators ~r/lavapipe|llvmpipe|swiftshader|mesa-vulkan-drivers|LIBGL_ALWAYS_SOFTWARE|
                 lvp_icd|--angle[=\ ]+warp/ix
   @sheet ~r/contact[_-]sheet|contact[_-]video|\bsheet\.gd\b/i
@@ -37,32 +43,39 @@ defmodule Practices do
     for {re, what} <- @credit, Regex.match?(re, plain), do: "#{where}: carries #{what}"
   end
 
+  def subject_problems(where, subject) do
+    for {re, what, bad?} <- @subject,
+        Regex.match?(re, subject) == bad?,
+        do: "#{where}: subject #{inspect(subject)} has #{what} (RFD 2026)"
+  end
+
   def git(root, args),
     do: System.cmd("git", ["-C", root | args], env: @git_env, stderr_to_stdout: true)
 
-  def commits(root, base) do
-    fmt = "%H%x1f%an%x1f%ae%x1f%cn%x1f%ce%x1f%B%x1e"
+  def commits(root, base, excludes) do
+    fmt = "%H%x1f%an%x1f%ae%x1f%cn%x1f%ce%x1f%s%x1f%B%x1e"
+    revs = ["HEAD" | Enum.map([base | excludes], &"^#{&1}")]
 
-    case git(root, ["log", "--no-merges", "--format=#{fmt}", "#{base}..HEAD"]) do
+    case git(root, ["log", "--no-merges", "--format=#{fmt}" | revs] ++ ["--"]) do
       {out, 0} ->
         out
         |> String.split("\x1e", trim: true)
         |> Enum.map(&String.split(String.trim_leading(&1), "\x1f"))
-        |> Enum.filter(&(length(&1) == 6))
+        |> Enum.filter(&(length(&1) == 7))
 
       {out, code} ->
-        {:error, "git log #{base}..HEAD exited #{code}: #{String.trim(out)}"}
+        {:error, "git log #{Enum.join(revs, " ")} exited #{code}: #{String.trim(out)}"}
     end
   end
 
-  def commit_problems(root, base) do
-    case commits(root, base) do
+  def commit_problems(root, base, excludes \\ []) do
+    case commits(root, base, excludes) do
       {:error, msg} ->
         {0, [msg]}
 
       list ->
         bad =
-          Enum.flat_map(list, fn [sha, an, ae, cn, ce, body] ->
+          Enum.flat_map(list, fn [sha, an, ae, cn, ce, subject, body] ->
             short = String.slice(sha, 0, 8)
 
             ids =
@@ -70,7 +83,9 @@ defmodule Practices do
                   Regex.match?(@agent_identity, name) or Regex.match?(@agent_identity, mail),
                   do: "commit #{short}: #{who} is the agent identity #{name} <#{mail}>"
 
-            ids ++ credit_problems("commit #{short}", body)
+            ids ++
+              subject_problems("commit #{short}", subject) ++
+              credit_problems("commit #{short}", body)
           end)
 
         {length(list), bad}
@@ -181,13 +196,14 @@ defmodule Practices do
   end
 
   def main(args) do
-    {opts, rest, bad} = OptionParser.parse(args, strict: [base: :string, repo: :string])
+    {opts, rest, bad} =
+      OptionParser.parse(args, strict: [base: :string, exclude: :keep, repo: :string])
 
     if rest != [] or bad != [] do
       IO.puts(
         :stderr,
-        "usage: check_practices.exs [--base <ref>] [--repo <path>] | --pr <o>/<r>#<n>" <>
-          " | --self-test"
+        "usage: check_practices.exs [--base <ref>] [--exclude <ref>]... [--repo <path>]" <>
+          " | --pr <o>/<r>#<n> | --self-test"
       )
 
       2
@@ -203,7 +219,7 @@ defmodule Practices do
             )
 
           b ->
-            report("commits", commit_problems(root, b))
+            report("commits", commit_problems(root, b, Keyword.get_values(opts, :exclude)))
         end
 
       w = report("workflows", workflow_problems(root))
@@ -249,6 +265,19 @@ defmodule SelfTest do
       bad
     end
 
+    g.(["checkout", "-q", "-b", "upstream"])
+    g.(fire ++ ["commit", "-q", "--allow-empty", "-m", "core: fix the scene loader"])
+    g.(["checkout", "-q", "work"])
+    g.(fire ++ ["merge", "-q", "--no-ff", "-m", "Merge the upstream", "upstream"])
+
+    upstream = fn excludes ->
+      {_, bad} = Practices.commit_problems(tmp, "base", excludes)
+      bad
+    end
+
+    merged = {upstream.([]), upstream.(["upstream"])}
+    g.(["reset", "-q", "--hard", "base"])
+
     workflow = fn body ->
       f = Path.join(tmp, ".github/workflows/w.yml")
       File.write!(f, body)
@@ -266,6 +295,15 @@ defmodule SelfTest do
       {"a Claude-Session trailer is rejected",
        commit.(fire, "Add\n\nClaude-Session: https://claude.ai/code/session_01X") != []},
       {"a commit authored by the agent identity is rejected", commit.(agent, "Add") != []},
+      {"a feat: subject is rejected", commit.(fire, "feat: add the gate") != []},
+      {"a fix(scope): subject is rejected", commit.(fire, "fix(gate): read forks") != []},
+      {"a lower-case subject is rejected", commit.(fire, "add the gate") != []},
+      {"a trailing period is rejected", commit.(fire, "Add the gate.") != []},
+      {"an RFD-numbered subject passes", commit.(fire, "RFD 2026: Hold forks to it") == []},
+      {"a merged upstream prefixed commit is rejected",
+       Enum.any?(elem(merged, 0), &(&1 =~ "core: fix the scene loader"))},
+      {"a merged upstream prefixed commit passes once its ref is excluded",
+       elem(merged, 1) == []},
       {"a human co-author trailer passes",
        commit.(fire, "Add\n\nCo-Authored-By: Hana <hana@example.org>") == []},
       {"a footer in a PR body is rejected",
