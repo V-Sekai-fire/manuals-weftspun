@@ -59,10 +59,11 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - **weft-warp-burrito's `taskweft/lean`** is a byte-identical copy that no
     CI builds. It brings nothing and goes.
   - **xr-pilot's `lean/XrPilot/Plan.lean`** acts: it runs each action as an
-    MCP tool call, takes the first alternative whose checks hold, and does
-    not roll back. It keeps that loop and takes its task-network types and
-    parser from the library. xr-pilot is a Lean program, so it imports the
-    library as a Lake package rather than through the C ABI.
+    MCP tool call, takes the first alternative whose checks hold and whose
+    subtasks succeed, and does not roll back an action that ran. It keeps
+    that loop and takes its task-network types and parser from the library.
+    xr-pilot is a Lean program, so it imports the library as a Lake package
+    rather than through the C ABI.
   - **The FBD compiler's `TaskweftFbdCompiler.lean`** searches nothing. It
     lifts a plan's set and hold sequence into a scan controller, keeps that
     lift, and takes its plan input type from the library.
@@ -163,10 +164,10 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   the same table.
   :: details Callers
   - At identical bytes no caller changes source: interactor-taskweft's CLI
-    and MCP server, weftspun-studio, weftspun-character-taxonomy,
+    and MCP server, weftspun-character-taxonomy,
     taskweft-function-block-diagram-teacher through `taskweft_rebac`, and
     RFD 2292's gate.
-  - weftspun-studio, weftspun-character-taxonomy, taskweft-godot-sandbox,
+  - weftspun-character-taxonomy, taskweft-godot-sandbox,
     taskweft-nmm-personas and taskweft-function-block-diagram-teacher lock
     dev.16. They move to dev.20 first, so the oracle is the version they
     run. That move changes plans for any domain that declares capabilities:
@@ -176,20 +177,19 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - The 11 NIFs no workspace code calls leave in a deprecation release of
     their own, because a Hex package can have callers outside the workspace.
   - datasource-queen, interactor-ward and two guest ELF repositories
-    include the C++ headers directly. None is placed, so they keep building
-    against dev.20's headers and sit outside this change.
-  - Three defects sit outside this change and are named so they do not read
+    include the C++ headers directly. None is placed, so the headers they
+    build against stay as they are and they sit outside this change.
+  - Two defects sit outside this change and are named so they do not read
     as regressions: interactor-taskweft's `server.ex` raises `MatchError` on
-    `{:error, "no_plan"}`; weftspun-studio's `steps/1` rejects the shape
-    `replan` returns; taskweft-nmm-personas calls `Taskweft.Grafcet`, a
-    module interactor-taskweft does not carry.
+    `{:error, "no_plan"}`, and taskweft-nmm-personas calls
+    `Taskweft.Grafcet`, a module interactor-taskweft does not carry.
   :: details Milestones
   - **M1, the harness**, in `V-Sekai-fire/nif`. The prototype differential
     script becomes an in-process ExUnit `:differential` job: the dev.20
     headers linked twice, the request trace, a corpus enumerator and the
-    unchecked counter. It needs nothing from Trust-Lean. Exit:
-    the job runs in under 5 minutes, the three live controls each fire on
-    at least one case, and budget hits are counted.
+    unchecked counter. It needs nothing from Trust-Lean. Exit: the job runs
+    in under 5 minutes, the three live controls each fire on at least one
+    case, and budget hits are counted.
   - **M2, the Lean search.** `Rectgtn.Search`, Mathlib-free, reproduces
     every output-changing behaviour of dev.20's `tw_seek_plan`, and replays
     recorded transcripts. Its theorems: a returned plan replays to the goal,
@@ -214,12 +214,6 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     check, the loader and the evaluator use doubles and follow when
     Trust-Lean carries floats; the C++ in the NIF then reaches zero.
   :: details Dependencies
-  - **Allowlist and placement**, both in flight. Pull request 232 here adds
-    rows for Trust-Lean and for Mathlib at build time, and pull request 283
-    on `contract-manifest-taskweft` places Trust-Lean on the contract side.
-    Trust-Lean is MIT by the License section of its README,
-    https://github.com/lambdaclass/trust-lean#license, which the operator
-    accepts as the licence evidence on 2026-10-05.
   - **The TL4 to TL8 fix chain** on the fork. The library needs from it
     local declarations in the C backend, so the emitted code is reentrant
     across schedulers; bounded arrays or proved capacity invariants;
