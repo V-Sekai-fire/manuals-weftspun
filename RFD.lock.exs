@@ -38,6 +38,14 @@
       url: "https://github.com/V-Sekai-fire/ggml",
       tip: "29cae86726d8ae2b4d699d8e432fd1bb1801e959"
     },
+    "anny-render-corpus" => %{
+      default: "main",
+      state: :placed,
+      path: "6-datasource/anny-render-corpus",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/anny-render-corpus",
+      tip: "9525d608a5bc2d7fcf0ce6536f24bc271475aefc"
+    },
     "contract-bootstrap" => %{
       default: "main",
       state: :placed,
@@ -45,6 +53,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-bootstrap",
       tip: "a1ae55e2e4b99d741d91ca1e201169016b8e5a8e"
+    },
+    "contract-anny-kernels" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/anny-kernels",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-anny-kernels",
+      tip: "52b60f401dde7b9344dc3f84e7e1a8a809b64e2f"
     },
     "service-godot-build" => %{
       default: "main",
@@ -125,6 +141,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-ggml-rd",
       tip: "8361d7c90f20674d7e6b6b615969dc0f33dccc0b"
+    },
+    "interactor-soma-x" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/soma-x",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-soma-x",
+      tip: "61c36f401cf0eb369cf0737301f85695fc4d200f"
     },
     "contract-guest-common" => %{
       default: "main",
@@ -214,6 +238,28 @@
       url: "https://github.com/V-Sekai-fire/pyrowave",
       tip: "c227a4c90c8cd5e1eca4c28550f05093dc651eb1"
     },
+    "interactor-dress-on" => %{
+      default: "main",
+      state: :archived,
+      url: "https://github.com/V-Sekai-fire/interactor-dress-on",
+      tip: "310b52e67d6670275766ce167683b26f1bf0eaee"
+    },
+    "contract-zone-backend" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/zone-backend",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-zone-backend",
+      tip: "cb8c266ffdb7b8b5da3684de7c6d0b0df5dab9a4"
+    },
+    "interactor-drape" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/drape",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-drape",
+      tip: "50f72214ef618e079bf18a5a4559aaa2ecdb97de"
+    },
     "interactor-curvenet" => %{
       default: "main",
       state: :placed,
@@ -221,6 +267,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-curvenet",
       tip: "85c4599cffee171acafa8c0196f2e56d9643702f"
+    },
+    "contract-bus" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/bus",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-bus",
+      tip: "9b76303f51d60b5fdda23582022e0fd9e190430e"
     },
     "service-bao-sqlite-fdb" => %{
       default: "main",
@@ -238,6 +292,22 @@
       url: "https://github.com/V-Sekai-fire/transport-cineform-tui",
       tip: "2d8856d2c9f7863dbee12040b107753a4abb5aaf"
     },
+    "MoGe" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/moge-upstream",
+      revision: "74fbce054ebed49800de42d0ad0e83495065719a",
+      url: "https://github.com/V-Sekai-fire/MoGe",
+      tip: "1bb5557171d4634d2c792b7af2e8ecca5147e991"
+    },
+    "contract-lbfgsb" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/lbfgsb",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-lbfgsb",
+      tip: "7059e066694e5df558e9a1c0ca8c64fc2e11b0c5"
+    },
     "sakuragaoka-station" => %{
       default: "main",
       state: :placed,
@@ -254,6 +324,14 @@
       url: "https://github.com/V-Sekai-fire/contract-guest-runtime",
       tip: "65a3c785f4e177aa5943317e6bdb13ff2554ecc2"
     },
+    "interactor-motion-guest" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/motion-guest",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-motion-guest",
+      tip: "166587ca94c7e7ff1a03c061833aed111940d79b"
+    },
     "interactor-mujoco-sandbox-demo" => %{
       default: "main",
       state: :placed,
@@ -261,6 +339,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-mujoco-sandbox-demo",
       tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
+    },
+    "contract-sinew-align" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/sinew-align",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-sinew-align",
+      tip: "81adca7e4c4bd1b2b83026fc064f6cb1dfaee072"
     },
     "interactor-lasso" => %{
       default: "main",
@@ -311,6 +397,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/datasource-store",
       tip: "4970bc04690d50d051093ba587e06abb0f46daf5"
+    },
+    "interactor-flow" => %{
+      default: "main",
+      state: :placed,
+      path: "3-interactor/datasource-flow",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/interactor-flow",
+      tip: "916379ba4c997788754ee49988a873f5fc27beaf"
     }
   },
   files: %{{"datasource-store", "fly/backup-fresh.sh"} => %{contains: []}}
