@@ -7,7 +7,8 @@ defmodule RFDRefTest do
   @xml """
   <manifest>
     <remote name="v" fetch="https://github.com/V-Sekai-fire" />
-    <project name="transport-pen" path="1-transport/pen" remote="v" revision="v1.2.0" />
+    <project name="transport-pen" path="1-transport/pen" remote="v" revision="refs/tags/v1.2.0" />
+    <project name="contract-branch" path="2-contract/branch" remote="v" revision="main" />
     <project name="contract-bare" path="2-contract/bare" remote="v" />
   </manifest>
   """
@@ -66,8 +67,13 @@ defmodule RFDRefTest do
   end
 
   test "pin renders the revision; an unknown or unpinned repo raises" do
-    assert render(~S|&{pin("transport-pen")}|) == "`v1.2.0`"
+    assert render(~S|&{pin("transport-pen")}|) == "`refs/tags/v1.2.0`"
     assert_raise ArgumentError, fn -> render(~S|&{pin("contract-bare")}|) end
+
+    assert_raise ArgumentError, ~r/not a commit SHA/, fn ->
+      render(~S|&{pin("contract-branch")}|)
+    end
+
     assert_raise ArgumentError, fn -> render(~S|&{pin("nope")}|) end
   end
 
@@ -82,6 +88,10 @@ defmodule RFDRefTest do
     assert_raise ArgumentError, ~r/never states/, fn -> RFD.Ref.check_register!(rows, ".") end
     rows = [x: %{value: 107.7, unit: "mm", logbook: "logbook-anny-phenotype-fit-retired.md"}]
     assert %{x: _} = RFD.Ref.check_register!(rows, ".")
+    rows = [x: %{value: 7.7, unit: "mm", logbook: "logbook-anny-phenotype-fit-retired.md"}]
+    assert_raise ArgumentError, ~r/never states/, fn -> RFD.Ref.check_register!(rows, ".") end
+    rows = [x: %{value: 107.7, unit: "cm", logbook: "logbook-anny-phenotype-fit-retired.md"}]
+    assert_raise ArgumentError, ~r/never states/, fn -> RFD.Ref.check_register!(rows, ".") end
   end
 
   test "a length measurement carries a household anchor" do
@@ -91,7 +101,37 @@ defmodule RFDRefTest do
   end
 
   test "a bad abandoned_at SHA raises" do
-    assert_raise ArgumentError, ~r/not a commit/, fn -> RFD.Ref.abandoned!(2230, "0000000") end
+    assert_raise ArgumentError, ~r/40-hex/, fn -> RFD.Ref.abandoned!(2230, "978ea6a") end
+    none = String.duplicate("0", 40)
+
+    assert_raise ArgumentError, ~r/not a commit/, fn ->
+      RFD.Ref.abandoned!(2230, none, ".", verify: true)
+    end
+  end
+
+  test "outside git, a stub renders unverified and the check refuses it" do
+    tmp = Path.join(System.tmp_dir!(), "rfd-nogit-#{System.unique_integer([:positive])}")
+    File.mkdir_p!(tmp)
+    sha = String.duplicate("a", 40)
+    assert RFD.Ref.abandoned!(2230, sha, tmp) =~ sha
+    refute RFD.Ref.history?(tmp)
+    File.rm_rf!(tmp)
+  end
+
+  test "a stub that writes its own decision raises" do
+    sha = String.duplicate("a", 40)
+
+    src = """
+    use RFD.DSL
+    rfd 2998, "t", :abandoned do
+      abandoned_at "#{sha}"
+      decision "We keep this after all."
+    end
+    """
+
+    assert_raise ArgumentError, ~r/renders its own decision/, fn ->
+      RFD.Source.load_string(src, "rfd/2998-t.exs")
+    end
   end
 
   test "an abandoned doc with an extra section is outside the shape" do
@@ -99,6 +139,30 @@ defmodule RFDRefTest do
     assert RFD.Doc.problems(d) == []
     assert [_] = RFD.Doc.problems(%{d | problem: "more"})
     assert [_] = RFD.Doc.problems(%{d | abandoned_at: nil})
+    assert [_] = RFD.Doc.problems(%{d | flight_level: :l2})
+    assert [_] = RFD.Doc.problems(%{d | details_title: "More"})
+  end
+
+  test "an &{ that opens none of the four calls stays prose" do
+    assert RFD.Ref.spans("`&{:ok, &1}`") == []
+    assert RFD.Ref.expand!("`&{:ok, &1}`", :never_read) == "`&{:ok, &1}`"
+    assert_raise ArgumentError, ~r/does not parse/, fn -> RFD.Ref.calls(~S|&{repo("a",)}|) end
+  end
+
+  test "the lock check names drift and ignores moving tips" do
+    held = %{repos: %{"a" => %{state: :placed, tip: "1"}}, files: %{}}
+    alias Mix.Tasks.Rfd.Refs.Check
+    assert Check.drift(Check.stable(held), Check.stable(put_in(held.repos["a"].tip, "2"))) == []
+    gone = %{held | repos: %{"a" => %{state: :archived, tip: "1"}}}
+    assert [_] = Check.drift(Check.stable(held), Check.stable(gone))
+  end
+
+  test "a restored full body under :abandoned comes back as :discussion" do
+    src = ~s|rfd 1001, "App shell",\n    :abandoned do\n  feature "x"\nend\n|
+    {out, note} = Mix.Tasks.Rfd.Restore.reopen(src)
+    assert out =~ ":discussion do" and note =~ ":discussion"
+    stub = ~s|rfd 1, "t", :abandoned do\n  abandoned_at "x"\nend\n|
+    assert Mix.Tasks.Rfd.Restore.reopen(stub) == {stub, ""}
   end
 
   test "a call outside the four functions raises" do

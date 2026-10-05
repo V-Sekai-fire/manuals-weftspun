@@ -21,17 +21,8 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
       RFD.Ref.git(manifests, ["rev-parse", "HEAD"]) ||
         Mix.raise("#{manifests} is not a git checkout")
 
-    calls = Enum.flat_map(RFD.Source.all(), &RFD.Ref.calls(File.read!(&1))) |> Enum.uniq()
-
-    world = %{
-      manifest: xml,
-      commit: String.trim(commit),
-      archived: if(calls == [], do: [], else: archived!()),
-      tip: &tip!/1,
-      blob: &blob/3
-    }
-
-    lock = RFD.Ref.Snapshot.lock(calls, world)
+    calls = calls()
+    lock = RFD.Ref.Snapshot.lock(calls, world(xml, String.trim(commit), calls))
 
     File.write!(
       RFD.Ref.lock_path(),
@@ -41,6 +32,18 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
 
     Mix.shell().info("#{length(calls)} reference(s), #{map_size(lock.repos)} repo(s) locked")
     Mix.Task.run("rfd.render", [])
+  end
+
+  def calls, do: Enum.flat_map(RFD.Source.all(), &RFD.Ref.calls(File.read!(&1))) |> Enum.uniq()
+
+  def world(xml, commit, calls) do
+    %{
+      manifest: xml,
+      commit: commit,
+      archived: if(calls == [], do: [], else: archived!()),
+      tip: &tip!/1,
+      blob: &blob/3
+    }
   end
 
   defp find_workspace!(dir) do
@@ -61,7 +64,7 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
     end
   end
 
-  defp tip!(url) do
+  def tip!(url) do
     case System.cmd("git", ["ls-remote", "--symref", url, "HEAD"], stderr_to_stdout: true) do
       {out, 0} ->
         [_, branch] = Regex.run(~r{ref: refs/heads/(\S+)\s+HEAD}, out)
@@ -73,7 +76,7 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
     end
   end
 
-  defp blob(url, sha, path) do
+  def blob(url, sha, path) do
     repo = url |> URI.parse() |> Map.fetch!(:path) |> String.trim("/")
 
     case System.cmd(
@@ -104,8 +107,10 @@ defmodule Mix.Tasks.Rfd.Restore do
 
     case Enum.filter(RFD.Ref.sources_at(root, serial, sha), &String.ends_with?(&1, ".exs")) do
       [old | _] ->
-        File.write!(path, RFD.Ref.git(root, ["show", "#{sha}:#{old}"]))
-        Mix.shell().info("#{path} restored from #{sha}:#{old}")
+        text = RFD.Ref.git(root, ["show", "#{sha}:#{old}"])
+        {text, note} = reopen(text)
+        File.write!(path, text)
+        Mix.shell().info("#{path} restored from #{sha}:#{old}#{note}")
 
       [] ->
         Mix.raise(
@@ -116,4 +121,96 @@ defmodule Mix.Tasks.Rfd.Restore do
   end
 
   def run(_), do: Mix.raise("usage: mix rfd.restore NNNN")
+
+  @doc "A full body under `:abandoned` is outside RFD 1000's shape, so it comes back as :discussion."
+  def reopen(text) do
+    re = ~r/^(rfd\s+\d+,[^\n]*?(?:\n[^\n]*?)??,\s*):abandoned(\s+do\b)/m
+
+    if text =~ re and not (text =~ ~r/^\s*abandoned_at\s/m),
+      do:
+        {Regex.replace(re, text, "\\1:discussion\\2", global: false),
+         "; state set to :discussion"},
+      else: {text, ""}
+  end
+end
+
+defmodule Mix.Tasks.Rfd.Refs.Check do
+  @shortdoc "Fail when RFD.lock.exs no longer matches the live manifest and repositories"
+  @moduledoc """
+      mix rfd.refs.check
+
+  Rebuilds the lock from contract-manifest-taskweft's default branch and compares every entry
+  but the moving tips; a repository unplaced, archived or renamed, or a file deleted, fails.
+  """
+  use Mix.Task
+  alias Mix.Tasks.Rfd.Refs.Update
+
+  @manifest "https://github.com/V-Sekai-fire/contract-manifest-taskweft"
+
+  @impl true
+  def run(_) do
+    calls = Update.calls()
+    {_, commit} = Update.tip!(@manifest)
+
+    xml =
+      case Update.blob(@manifest, commit, "default.xml") do
+        {:ok, text} -> text
+        :error -> Mix.raise("default.xml is unreadable at #{commit}")
+      end
+
+    live = RFD.Ref.Snapshot.lock(calls, Update.world(xml, commit, calls)) |> stable()
+    held = RFD.Ref.read_lock!(File.cwd!()) |> stable()
+
+    case drift(held, live) do
+      [] ->
+        Mix.shell().info("ok   #{map_size(held.repos)} locked repo(s) match #{commit}")
+
+      rows ->
+        Enum.each(rows, &Mix.shell().error("  FAIL #{&1}"))
+        Mix.raise("RFD.lock.exs is stale against #{commit}; run `mix rfd.refs.update`")
+    end
+  end
+
+  @doc "The lock without the fields that move on every push."
+  def stable(lock) do
+    %{
+      repos: Map.new(lock.repos, fn {k, e} -> {k, Map.drop(e, [:tip])} end),
+      files: lock.files
+    }
+  end
+
+  def drift(held, live) do
+    for part <- [:repos, :files],
+        k <- Enum.uniq(Map.keys(held[part]) ++ Map.keys(live[part])),
+        held[part][k] != live[part][k],
+        do:
+          "#{part} #{inspect(k)}: locked #{inspect(held[part][k])}, live #{inspect(live[part][k])}"
+  end
+end
+
+defmodule Mix.Tasks.Rfd.Abandoned.Check do
+  @shortdoc "Fail unless every abandoned_at SHA holds a source with a Decision"
+  @moduledoc """
+      mix rfd.abandoned.check
+
+  Needs full history; a shallow clone fails here rather than passing unverified.
+  """
+  use Mix.Task
+
+  @impl true
+  def run(_) do
+    root = RFD.Source.repo_root()
+
+    unless RFD.Ref.history?(root),
+      do: Mix.raise("#{root} is shallow or not a git checkout; `git fetch --unshallow` first")
+
+    stubs =
+      for path <- RFD.Source.all(),
+          [_, sha] <- [Regex.run(~r/^\s*abandoned_at\s+"([^"]*)"/m, File.read!(path))] do
+        serial = path |> Path.basename() |> String.slice(0, 4) |> String.to_integer()
+        RFD.Ref.abandoned!(serial, sha, root, verify: true)
+      end
+
+    Mix.shell().info("ok   #{length(stubs)} abandoned_at SHA(s) hold a source with a Decision")
+  end
 end

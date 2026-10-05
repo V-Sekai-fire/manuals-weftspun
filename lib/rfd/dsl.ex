@@ -258,6 +258,9 @@ defmodule RFD.DSL do
         if fields[:state] != :abandoned,
           do: raise(ArgumentError, "RFD #{serial}: abandoned_at needs state :abandoned")
 
+        if Keyword.has_key?(fields, :decision),
+          do: raise(ArgumentError, "RFD #{serial}: an abandoned_at stub renders its own decision")
+
         fields ++ [decision: RFD.Ref.abandoned!(serial, sha)]
     end
   end

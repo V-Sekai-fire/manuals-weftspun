@@ -452,22 +452,35 @@ the successor RFD's `## Related` section preserves the "why".
 
 A retracted RFD topic deletes its body. The file stays on disk because
 its SERIALS entry names it; it shrinks to title, `:abandoned` and
-`abandoned_at "<sha>"`, the last commit holding its full source. The DSL
-renders the stub and refuses any other section; `mix rfd.restore NNNN`
-brings the body back from that commit.
+`abandoned_at "<sha>"`, the full 40-character SHA of the last commit
+holding its full source. The DSL renders the stub and refuses any other
+field, a hand-written decision included. Rendering needs no history: a
+shallow clone renders the stub unverified, and `mix rfd.abandoned.check`,
+which CI runs on a full clone, fails unless every SHA holds a source with
+a Decision. `mix rfd.restore NNNN` brings the body back from that commit
+and sets a full body still marked `:abandoned` to `:discussion`.
 
 A fact about another repository is a reference, not a literal. RFD prose
 writes `&{repo("name")}`, `&{file(repo, "path", contains: "text")}`,
-`&{pin(repo)}` and `&{measured(:key)}`; they resolve against
+`&{pin(repo)}` and `&{measured(:key)}`; `&{` opens a reference only when
+a call follows it, so `&{:ok, &1}` stays prose. They resolve against
 `RFD.lock.exs`, which `mix rfd.refs.update` writes from the manifest and
 each repository's default branch, and against `MEASUREMENTS.exs`, whose
-values must appear in the logbook entry each names. A reference that no
-longer resolves fails the render. `scripts/check_rfd_literals.exs` holds
-the count of bare side paths, own-organisation names, SHAs, `file:line`,
-branches and pull request numbers in each changed source at or below the
-base, and refuses any added `file:line`, branch or pull request number.
+value and unit must appear together in the logbook entry each names. A
+pin is a full commit SHA or a `refs/tags/` tag; a branch revision fails.
+A reference missing from the lock fails the render, and
+`mix rfd.refs.check`, which CI runs, fails when the lock no longer
+matches contract-manifest-taskweft's default branch: a repository
+unplaced, archived or moved, or a file deleted.
+`scripts/check_rfd_literals.exs` holds the count of bare side paths,
+own-organisation names, SHAs quoted or bare, `file:line` and `#L`
+anchors, branches and pull request numbers in each changed source at or
+below the base, a renamed source against its old path, and refuses any
+added `file:line`, branch or pull request number.
 
     mix rfd.refs.update
+    mix rfd.refs.check
+    mix rfd.abandoned.check
     elixir scripts/check_rfd_literals.exs --base origin/main
     elixir scripts/check_rfd_literals.exs --self-test
 
@@ -526,11 +539,15 @@ and run it, and its licence; the rest is in the code, its `--help`, and the
 RFD that owns the topic (operator, 2026-10-04: "the more technical details
 you write in the readme the more that will go stale").
 
-`scripts/check_project_readme_churn.py` holds that line on the same
-projects and the same fork exemption: a README fails on a port, a version
-outside a dependencies section, a date, a branch name, a status table or
-mark, or three or more flags outside fenced blocks. READMEs that carried
-such detail when the gate landed are listed in it and counted on each run.
+`scripts/check_project_readme_churn.py` reports that line across the
+workspace on the same projects; repositories under V-Sekai-fire and
+chibifire-stages count as ours and the rest as forks. A README fails on a
+port, a version outside a dependencies or pins section, a date, a branch
+name, a status table, a status mark in a table or list, or three or more
+flags outside fenced blocks. READMEs that carried such detail when the
+gate landed are listed in it at their finding count, and fail when the
+count rises or reaches zero. It needs a workspace, so it runs on a desk
+rather than in any repository's CI.
 
     python scripts/check_project_readme_churn.py
     python scripts/check_project_readme_churn.py --self-test

@@ -14,14 +14,17 @@ defmodule RFD.Ref do
 
   def lock_path(root \\ File.cwd!()), do: Path.join(root, @lock)
 
+  @open ~r/&\{\s*[A-Za-z_][\w.]*\(/
+
+  @doc "Only `&{` followed by a call opens a span; `&{:ok, &1}` stays prose."
   def spans(text), do: spans(text, 0, [])
 
   defp spans(text, from, acc) do
-    case :binary.match(text, "&{", scope: {from, byte_size(text) - from}) do
-      :nomatch ->
+    case Regex.run(@open, text, return: :index, offset: from) do
+      nil ->
         Enum.reverse(acc)
 
-      {at, 2} ->
+      [{at, _}] ->
         stop = close!(text, at + 2, 1, false)
         inner = binary_part(text, at + 2, stop - at - 2)
         spans(text, stop + 1, [{binary_part(text, at, stop - at + 1), inner} | acc])
@@ -44,7 +47,13 @@ defmodule RFD.Ref do
 
   @doc "The call inside one span, as `{fun, args}`; anything outside the four functions raises."
   def parse!(inner) do
-    case Code.string_to_quoted!(inner) do
+    quoted =
+      case Code.string_to_quoted(inner) do
+        {:ok, q} -> q
+        {:error, _} -> raise ArgumentError, "&{#{inner}}: does not parse"
+      end
+
+    case quoted do
       {fun, _, args} when is_atom(fun) and is_list(args) ->
         if length(args) in Map.get(@arity, fun, []) and Enum.all?(args, &literal?/1),
           do: {fun, args},
@@ -143,8 +152,11 @@ defmodule RFD.Ref do
 
   def render!({:pin, [repo]}, ctx) do
     case entry!(ctx.lock, repo) do
-      {_, %{state: :placed, revision: rev}} when is_binary(rev) -> "`#{rev}`"
-      {key, _} -> raise ArgumentError, "pin #{key}: placed with no revision"
+      {key, %{state: :placed, revision: rev}} ->
+        if pin?(rev), do: "`#{rev}`", else: raise(ArgumentError, unpinned(key, rev))
+
+      {key, _} ->
+        raise ArgumentError, unpinned(key, nil)
     end
   end
 
@@ -154,6 +166,12 @@ defmodule RFD.Ref do
       :error -> raise ArgumentError, "measured #{inspect(key)} is not in #{@register}"
     end
   end
+
+  @doc "A pin is a full commit SHA or a tag; a branch name moves and is not one."
+  def pin?(rev), do: is_binary(rev) and rev =~ ~r"\A(?:[0-9a-f]{40}|refs/tags/.+)\z"
+
+  def unpinned(key, rev),
+    do: "pin #{key}: the manifest revision #{inspect(rev)} is not a commit SHA or refs/tags/ tag"
 
   defp entry!(lock, name) do
     hit =
@@ -211,11 +229,13 @@ defmodule RFD.Ref do
 
       case File.read(log) do
         {:ok, body} ->
-          unless String.contains?(body, num(m.value)),
+          stated = Regex.escape(num(m.value)) <> "\\s*" <> Regex.escape(m.unit)
+
+          unless body =~ Regex.compile!("(?<![\\d.])" <> stated <> "(?![\\w])"),
             do:
               raise(
                 ArgumentError,
-                "measured #{inspect(key)}: #{m.logbook} never states #{num(m.value)}"
+                "measured #{inspect(key)}: #{m.logbook} never states #{num(m.value)} #{m.unit}"
               )
 
         _ ->
@@ -226,15 +246,27 @@ defmodule RFD.Ref do
     end
   end
 
-  @doc "The decision an `abandoned_at` stub renders, once the SHA holds a source with a Decision."
-  def abandoned!(serial, sha, root \\ File.cwd!()) do
-    unless is_binary(sha) and git(root, ["rev-parse", "--verify", "--quiet", sha <> "^{commit}"]),
+  @doc """
+  The decision an `abandoned_at` stub renders. The SHA holds a source with a Decision; a shallow
+  clone or a tree outside git renders unverified, and `mix rfd.abandoned.check` refuses both.
+  """
+  def abandoned!(serial, sha, root \\ File.cwd!(), opts \\ []) do
+    unless is_binary(sha) and sha =~ ~r/\A[0-9a-f]{40}\z/,
+      do: raise(ArgumentError, "RFD #{serial}: abandoned_at #{inspect(sha)} is not a 40-hex SHA")
+
+    if opts[:verify] == true or history?(root), do: verify_abandoned!(serial, sha, root)
+    "The full argument is in git at `#{sha}`; `mix rfd.restore #{serial}` brings it back."
+  end
+
+  @doc "True in a full clone; false in a shallow one or outside git."
+  def history?(root), do: git(root, ["rev-parse", "--is-shallow-repository"]) == "false\n"
+
+  defp verify_abandoned!(serial, sha, root) do
+    unless git(root, ["rev-parse", "--verify", "--quiet", sha <> "^{commit}"]),
       do: raise(ArgumentError, "RFD #{serial}: abandoned_at #{inspect(sha)} is not a commit here")
 
     unless Enum.any?(sources_at(root, serial, sha), &decision?(root, sha, &1)),
       do: raise(ArgumentError, "RFD #{serial}: no source with a Decision at #{sha}")
-
-    "The full argument is in git at `#{sha}`; `mix rfd.restore #{serial}` brings it back."
   end
 
   @doc "The paths that held RFD `serial` at `sha`."
@@ -324,10 +356,11 @@ defmodule RFD.Ref.Snapshot do
           end)
       end
 
-    for {_, %{state: :placed, revision: nil}} = {k, _} <- repos,
+    for {k, %{state: :placed, revision: rev}} <- repos,
+        not RFD.Ref.pin?(rev),
         {:pin, [n]} <- calls,
         n == k or n == repos[k].path,
-        do: raise(ArgumentError, "pin #{k}: the manifest gives no revision")
+        do: raise(ArgumentError, RFD.Ref.unpinned(k, rev))
 
     %{
       manifest: %{repo: "V-Sekai-fire/contract-manifest-taskweft", commit: w.commit},

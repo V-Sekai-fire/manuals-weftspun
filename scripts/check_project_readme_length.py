@@ -133,7 +133,7 @@ def is_fork(project: Path) -> bool:
         ["git", "-C", str(project), "remote", "-v"],
         capture_output=True, text=True,
     )
-    return "V-Sekai-fire" not in done.stdout
+    return not re.search(r"github\.com[:/](V-Sekai-fire|chibifire-stages)/", done.stdout, re.I)
 
 
 def gate(root: Path) -> int:
