@@ -67,6 +67,8 @@ here corresponds to an entry.
 - **OpenComposite** as the route from OpenVR games to an OpenXR runtime: operator directive 2026-10-03; it swaps the user's OpenVR runtime for every OpenVR title at once, and an OXRSys SteamVR driver is the sanctioned route — see below
 - **Qt** in new code: operator directive 2026-10-03; desktop UI is interactor-panelspun (SDL3 + ThorVG), and existing Qt code in oxrsys stays until it is migrated — see below
 - **datasource-cassie intermediates** (`curves/`, `sketch_history/`, `sketch_graph/`): reformatted or CASSIE-processed copies of the sessions; `raw_data/`, the sketching app's own export, is the input — see below
+- Godot `override.cfg`: setting a Movie Maker size through it does not take (operator, 2026-10-04); a recording's size is the project's `.movie` override
+- OBS for recording a Godot run: it does not wait for the engine's startup, so a clip carries unbounded startup waits; Godot's Movie Maker records it (operator, 2026-10-04)
 
 ### Abliteration is blocked, and the model's own card is the argument
 
