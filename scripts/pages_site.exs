@@ -1,6 +1,7 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Gathers the rendered RFDs into a Jekyll source tree with an index, one row per RFD.
+# The status column carries emoji for state, drafting and details; titles stay plain text.
 #   elixir scripts/pages_site.exs <out-dir>
 [out] = System.argv()
 root = Path.expand("..", __DIR__)
@@ -14,6 +15,31 @@ theme: jekyll-theme-primer
 """
 
 File.write!(Path.join(out, "_config.yml"), config)
+
+states = %{
+  "prediscussion" => "📝", "ideation" => "💡", "discussion" => "💬", "published" => "📢",
+  "committed" => "✅", "abandoned" => "🪦", "moved" => "➡️"
+}
+
+status = fn readme_text, dir ->
+  state =
+    case Regex.run(~r/^\*\*State:\*\* (\w+)/m, readme_text) do
+      [_, s] -> Map.get(states, s, "❔")
+      _ -> "❔"
+    end
+
+  details = Path.join(dir, "DETAILS.md")
+  both = String.replace(readme_text <> " " <> if(File.exists?(details), do: File.read!(details), else: ""), ~r/\s+/, " ")
+
+  drafted =
+    cond do
+      String.contains?(both, "This RFD was drafted by an AI and read by a human before it shipped.") -> "🤖"
+      String.contains?(both, "This RFD was drafted by a human without AI help.") -> "✍️"
+      true -> ""
+    end
+
+  [state, drafted, if(File.exists?(details), do: "📎", else: "")] |> Enum.reject(&(&1 == "")) |> Enum.join(" ")
+end
 
 rows =
   for dir <- Path.wildcard(Path.join(root, "rfd/*/")) |> Enum.filter(&File.dir?/1) |> Enum.sort(),
@@ -33,15 +59,16 @@ rows =
       File.write!(Path.join([out, "rfd", slug, f]), text)
     end
 
+    readme_text = File.read!(readme)
+
     title =
-      readme
-      |> File.read!()
+      readme_text
       |> String.split("\n")
       |> Enum.find("", &String.starts_with?(&1, "# "))
       |> String.trim_leading("# ")
 
     link = "[#{String.slice(slug, 0, 4)}](rfd/#{slug}/)"
-    "| #{link} | #{String.replace(title, "|", "\\|")} |"
+    "| #{link} | #{status.(readme_text, dir)} | #{String.replace(title, "|", "\\|")} |"
   end
 
 File.mkdir_p!(Path.join(out, "logbook"))
@@ -63,8 +90,12 @@ The workspace's RFDs (also called requests for discussion, design docs or
 architecture decision records), rendered from their Elixir sources, with the
 logbook below and the [working agreements](page-CLAUDE.html).
 
-| RFD | title |
-| --- | --- |
+Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, ✅ committed,
+🪦 abandoned, ➡️ moved; 🤖 drafted by an AI and read by a human, ✍️ drafted by a
+human; 📎 has details.
+
+| RFD | status | title |
+| --- | --- | --- |
 #{Enum.join(rows, "\n")}
 
 ## Logbook
