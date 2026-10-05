@@ -3,10 +3,10 @@ name: Checks
 on:
   pull_request:
   merge_group:
-  # A push to main/main fills the cache. A run restores caches saved on its own branch
-  # or on main/main, so a cache saved by a pull request helps only that pull request.
+  # A push to main fills the cache. A run restores caches saved on its own branch
+  # or on main, so a cache saved by a pull request helps only that pull request.
   push:
-    branches: [main/main]
+    branches: [main]
   schedule:
     # Nightly sweep for orphans, so a branch pushed to after its merge
     # gets caught the next day rather than at the next unrelated push.
@@ -79,7 +79,7 @@ jobs:
         run: mix deps.get
       - run: pip install prek
       - run: mix local.hex --force && mix local.rebar --force && mix deps.get
-      # A push to main/main skips every step after these three, so its cache holds the
+      # A push to main skips every step after these three, so its cache holds the
       # compiled deps and the hook environments.
       - run: mix compile
       - working-directory: transport-shepherd
