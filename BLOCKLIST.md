@@ -1967,4 +1967,3 @@ graph and 12 with curvenet, while the session itself kept 190 patches found
 by the algorithm, because those polylines are CASSIE's input before its
 snapping and never meet at shared nodes. Replaying `raw_data/` stroke by
 stroke, in the session's order, is what the app saw.
-
