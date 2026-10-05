@@ -664,6 +664,8 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   SteamVR as the PC VR runtime the driver loads into and is tested in on this desk.
 - **Broadcast software:** OBS Studio and its plugins, without a row each: proprietary and GPL
   licences are fine, AGPL stays banned (operator, 2026-09-30; confirmed 2026-10-01).
+- **Profiling:** samply (MIT OR Apache-2.0, `mstange/samply`), a sampling system profiler, records
+  where a run's time goes, startup included; a dev tool, never shipped (operator, 2026-10-04).
 - **Shader compilation:** Slang (Apache-2.0 with LLVM exception, `shader-slang/slang`), one
   kernel compiled to SPIR-V, Metal and a CPU library, so GPU and CPU are measured on one source.
 - **Sign-in:** `wax_` (Apache-2.0, `tanguilp/wax`) verifies Uro's WebAuthn passkeys, and
