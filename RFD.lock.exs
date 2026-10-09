@@ -328,9 +328,7 @@
     },
     "kimodo-ggml" => %{
       default: "main",
-      state: :placed,
-      path: "3-interactor/kimodo-ggml",
-      revision: "main",
+      state: :archived,
       url: "https://github.com/V-Sekai-fire/kimodo-ggml",
       tip: "9e62d0ed6bd06fa2890ce92d752a40ae204f1f85"
     },
