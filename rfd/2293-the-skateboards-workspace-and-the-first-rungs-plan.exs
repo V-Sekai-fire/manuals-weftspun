@@ -308,7 +308,10 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   :: details The guests the pen ships
   The guests &{repo("transport-meshing-pen")} ships are the `*.elf` files
   tracked at its root, each described by the header of its `main.cpp`;
-  the ones it builds without shipping are named in its `.gitignore`.
+  the ones it builds without shipping are the rest of `tools/build.exs`'s
+  `@elfs`. `motion.elf` and `rfdetr_seg.elf` build in
+  &{repo("interactor-motion-guest")} and
+  &{repo("interactor-rfdetr-seg-guest")}, not in the pen.
   :: details Step 2. Draw
   - `stages/pipeline.gd` runs `INFER, RIG, AUTHOR, MESH, ATTACH, DONE`:
     `_mesh_done` goes to `ATTACH`, which emits `garment_ready` and the
