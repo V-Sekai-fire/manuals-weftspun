@@ -10,16 +10,16 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
 
   prose ~S"""
   :: decision
-  One credit system admits work to every bounded resource. Its core is one
-  rule: a request for `n` credits from a pool is granted `min(n, free)`, where
-  `free` is `cap` less `held`, and the grant comes back when the work ends. `Credits.acquire_bounded` in
-  the engine's `lean/Credits.lean` proves the rule keeps `held` at or below `cap`.
-  The core exposes one port. Each resource is an adapter that sets its pool's
-  cap from a measurement and chooses what a short grant means: wait, drop the
-  oldest, or refuse. Work stealing stays to move claims between agent pools.
-  No pool spans hosts (operator, 2026-10-09). The ledger is a Bao secrets
-  engine whose rule is Lean taskweft compiled to C, and a grant is a Bao lease
-  (operator, 2026-10-09, superseding the Elixir script).
+  One credit system admits work to every bounded resource. Its core is one rule:
+  a request for `n` credits from a pool is granted `min(n, free)`, where `free`
+  is `cap` less `held`, and the grant comes back when the work ends.
+  `Credits.acquire_bounded` in the engine's `lean/Credits.lean` proves the rule
+  keeps `held` at or below `cap`. The core exposes one port. Each resource is an
+  adapter that sets its pool's cap from a measurement and chooses what a short
+  grant means: wait, drop the oldest, or refuse. Work stealing stays to move
+  claims between agent pools. No pool spans hosts (operator, 2026-10-09). The
+  ledger is a Bao secrets engine whose rule is Lean taskweft compiled to C, and
+  a grant is a Bao lease (operator, 2026-10-09, superseding the Elixir script).
   :: problem
   The workspace bounds load in five places, and each one does it its own way.
   RFD 2294's queue is full at three open issues. RFD 2030 runs two or three CI
@@ -130,10 +130,11 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   :: details Milestones
   - **M1, the core and the desk adapter.** The engine with the four port
     calls, its tests and `scripts/e2e.sh` against `bao server -dev`, which
-    exist; the engine deployed on weftspun-bao; the desk adapter with its probe; `windows_build.ps1 -Jobs` fed from the CPU
-    grant. Exit: the self-test admits a job set that fits, makes a job wait
-    when it does not, and its control, a job that skips the ledger, is seen by
-    the probe as outside load and lowers the cap.
+    exist; the engine deployed on weftspun-bao; the desk adapter with its
+    probe; `windows_build.ps1 -Jobs` fed from the CPU grant. Exit: the
+    self-test admits a job set that fits, makes a job wait when it does not,
+    and its control, a job that skips the ledger, is seen by the probe as
+    outside load and lowers the cap.
   - **M2, the queue and CI adapters.** RFD 2294's depth and RFD 2030's matrix
     count read their caps from the ledger. Exit: a fourth issue is refused with
     the depth reported; a fourth matrix waits.
@@ -147,8 +148,8 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     desk pool is named for its host (`<host>/cpu`) and guards only that host's
     resource. The two bounds that cross hosts, the issue queue and the CI pool,
     are read from and enforced in the service that already owns their count.
-  - **Repository.** The engine is `V-Sekai-fire/service-bao-taskweft`, the
-    service RFD 2205 named for the Lean planner, so the ledger and the planner
-    share one plugin.
+  - **Repository.** The engine is the private service-bao-taskweft repository
+    in the V-Sekai-fire organization, the service RFD 2205 named for the Lean
+    planner, so the ledger and the planner share one plugin.
   """
 end
