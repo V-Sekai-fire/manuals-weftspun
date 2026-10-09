@@ -16,8 +16,9 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   `spec/CacheBackpressure.lean` proves the rule keeps `held` at or below `cap`.
   The core exposes one port. Each resource is an adapter that sets its pool's
   cap from a measurement and chooses what a short grant means: wait, drop the
-  oldest, or refuse. Work stealing stays, as the adapter that moves claims
-  between agent pools; the ledger bounds each pool (operator, 2026-10-09).
+  oldest, or refuse. Work stealing stays to move claims between agent pools.
+  No pool spans hosts, and the ledger is one script, not a repository
+  (operator, 2026-10-09).
   :: problem
   The workspace bounds load in five places, and each one does it its own way.
   RFD 2294's queue is full at three open issues. RFD 2030 runs two or three CI
@@ -28,10 +29,8 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   recorder, two chat clients and a VR game held the CPU at 100% and the VR GPU at
   95%, and the VR runtime's compositor watchdog killed the compositor twice.
   :: related
-  - RFD 2294, the work-stealing queue and its depth of three.
-  - RFD 2030, CI runners as a queueing system.
-  - RFD 2058, WebTransport stream credit.
-  - RFD 2302, guest work in frame slices: a frame's time is a pool.
+  - RFD 2294, the work-stealing queue; RFD 2030, CI runners as a queue.
+  - RFD 2058, WebTransport stream credit; RFD 2302, a frame's time as a pool.
   """
 
   details_title "one credit system with ports and adapters"
@@ -76,15 +75,16 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     for as long as it runs. A build passes its CPU grant to its compiler as the
     job count.
   - **The work-stealing queue.** One pool per agent, cap 3: RFD 2294's depth,
-    written as credits. Filing an issue acquires 1; closing it releases 1. A
-    steal is a release from the victim's pool and an acquire in the thief's, in
-    that order. Policy `refuse`, so a full queue reports its depth to the
-    operator, as RFD 2294 already says.
-  - **The CI runner pool.** One pool for the organisation, cap 3, in full
-    matrices: RFD 2030's habit, enforced. A push that triggers a matrix
-    acquires 1 before its workflow dispatches; the workflow's last job releases
-    it. Policy `wait`, with zero-information runs cancelled before they queue,
-    as RFD 2030 says.
+    written as credits. The issue tracker already owns the count, so `held` is
+    the agent's open issues, read from it, and the adapter keeps no copy.
+    Filing an issue past the cap is refused, and the queue reports its depth to
+    the operator, as RFD 2294 already says. A steal closes the claim in the
+    victim's queue before it opens one in the thief's.
+  - **The CI runner pool.** Cap 3, in full matrices: RFD 2030's habit,
+    enforced. The runner service already owns the queue, so the adapter sets
+    the cap there with three workflow concurrency slots and keeps no ledger of
+    its own. Policy `wait`, with zero-information runs cancelled before they
+    queue, as RFD 2030 says.
   - **The OXRSys video sender.** One pool per client, cap the sender queue's
     length. Policy `drop_oldest`, which is what the runtime does today; the
     adapter makes it observable.
@@ -118,10 +118,16 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     through `observe`. Exit: a client that stops reading shows `drop_oldest`
     counts in `observe`, and the runtime's frame time does not change.
 
-  :: details Open questions
-  - Where the core lives: its own repository on the interactor side, or in
-    `V-Sekai-fire/nif` beside the RECTGTN library of RFD 2304.
-  - Whether a pool spans hosts. The desk adapter is per host; the CI pool is
-    organisation-wide. A cross-host pool needs one owner of `held`.
+  :: details Home and reach
+  - **One host per ledger.** Each distributed system is more than one host, and
+    the aim is fewer of them. A pool's `cap` and `held` live on the host whose
+    resource they guard, in that host's ledger process, and nothing replicates
+    them. The two bounds that cross hosts, the issue queue and the CI pool,
+    are read from and enforced in the service that already owns their count.
+  - **No new repository.** The ledger is one Elixir script beside this
+    repository's other drivers, with the Lean model's witness vectors as its
+    self-test. It depends on nothing but Elixir, so a desk runs it from the
+    placed checkout. A second user that needs it as a library is the point at
+    which it moves.
   """
 end
