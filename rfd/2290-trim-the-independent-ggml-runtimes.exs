@@ -49,7 +49,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   | `motion-bricks-ggml` | 39,852 | 593 | 153 | 2026-09-09 | archived, vendored in motion-guest |
   | &{repo("kimodo-ggml")} | 6,453 | 95 | 0 | 2026-09-29 | archived, vendored in motion-guest |
   | &{repo("ggml")} | 432,459 | 2,157 | canonical | 2026-09-30 | kept, the library |
-  | &{repo("interactor-rf-detr-ggml")} | 436,645 | 2,260 | 2,133 | 2026-09-30 | kept, port and weights |
+  | &{repo("interactor-rf-detr-ggml")} | 436,645 | 2,260 | 2,133 | 2026-09-30 | kept, the port |
   | &{repo("contract-ggml-rd")} | 426,240 | 311 | the route | 2026-09-30 | kept, the route |
   :: details Why the five are free, by name
   Each row was searched for by path string and by name across every
@@ -65,8 +65,8 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
     from GitHub rather than from the checkout, so that build is unaffected.
     Its other mentions are `scratch_*.exs` probe scripts.
   - `motion-bricks-ggml`: the guest reads
-    `motion-guest/vendor/motion-bricks-ggml`, vendored at `e61da1f`, not
-    this row.
+    `motion-guest/vendor/motion-bricks-ggml`, vendored at a fixed commit,
+    not this row.
   :: details Guest repositories build their own ELFs
   Each guest ELF builds in its own repository through
   &{repo("contract-guest-runtime")}'s `cmake/guest_runtime.cmake`, which
@@ -76,14 +76,14 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   `-ffile-prefix-map`, so no ELF carries a checkout path.
 
   - &{repo("interactor-motion-guest")} builds `motion.elf` from
-    `vendor/kimodo-ggml` (vendored at `9e62d0e`, byte-identical to
-    kimodo-ggml's last commit) and `vendor/motion-bricks-ggml`, with
+    `vendor/kimodo-ggml` (vendored byte-identical to kimodo-ggml's
+    last commit) and `vendor/motion-bricks-ggml`, with
     `kimodo_weights.cpp` and `mb_runtime.cpp` beside them.
     `tools/motion_native` defaults `KIMODO_SRC` and `MB_SRC` to the same
     vendored trees.
   - &{repo("interactor-rfdetr-seg-guest")} builds `rfdetr_seg.elf` from
     `vendor/rf-detr-ggml`, the 14 `src/` files of
-    &{repo("interactor-rf-detr-ggml")} at `ca2aef7`.
+    &{repo("interactor-rf-detr-ggml")} at one fixed commit.
   - &{repo("interactor-rf-detr-ggml")} keeps the port itself, the
     `convert_*_to_gguf.py` converters, and the GGUF weights on its
     `v0.1.0-dev` release, which rfdetr-seg-guest pins by sha256.
@@ -104,7 +104,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
     &{repo("repository-riscv64-sysroot")}, with no `*-ggml` checkout.
     `tools/check_vendor.exs` refuses a planted line naming a `*-ggml`
     checkout in motion-guest, and a vendored file that differs from
-    `ca2aef7` in rfdetr-seg-guest.
+    that commit in rfdetr-seg-guest.
   - `tools/check_bintr.exs` in each guest repository runs the ELF in the
     pinned godot-sandbox addon with its native translation, asserts
     `is_binary_translated()` and outputs equal to the interpreter's, and
