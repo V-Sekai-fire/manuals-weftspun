@@ -12,13 +12,14 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   :: decision
   One credit system admits work to every bounded resource. Its core is one
   rule: a request for `n` credits from a pool is granted `min(n, free)`, where
-  `free` is `cap` less `held`, and the grant comes back when the work ends. `bp_bounded` in
-  `spec/CacheBackpressure.lean` proves the rule keeps `held` at or below `cap`.
+  `free` is `cap` less `held`, and the grant comes back when the work ends. `Credits.acquire_bounded` in
+  the engine's `lean/Credits.lean` proves the rule keeps `held` at or below `cap`.
   The core exposes one port. Each resource is an adapter that sets its pool's
   cap from a measurement and chooses what a short grant means: wait, drop the
   oldest, or refuse. Work stealing stays to move claims between agent pools.
-  No pool spans hosts, and the ledger is one script, not a repository
-  (operator, 2026-10-09).
+  No pool spans hosts (operator, 2026-10-09). The ledger is a Bao secrets
+  engine whose rule is Lean taskweft compiled to C, and a grant is a Bao lease
+  (operator, 2026-10-09, superseding the Elixir script).
   :: problem
   The workspace bounds load in five places, and each one does it its own way.
   RFD 2294's queue is full at three open issues. RFD 2030 runs two or three CI
@@ -47,9 +48,31 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     takes no grant back. New grants wait until `held` falls under it.
 
   The ledger never measures anything and never schedules anything. It holds
-  integers and the proof. The Lean model in `spec/CacheBackpressure.lean`
-  becomes the reference, and each implementation checks its grants against the
-  model's witness vectors. A grant that the model refuses is a failed test.
+  integers and the proof.
+
+  :: details The engine
+  The core runs inside Bao as the secrets engine `bao-plugin-taskweft`. The
+  rule is `lean/Credits.lean`, compiled to C by `lake` and linked through cgo,
+  so the code that admits work is the code the theorems cover. The Go side
+  holds storage, leases and waiting and never restates the arithmetic.
+
+  | Port call | Bao call |
+  |---|---|
+  | `acquire(pool, n)` | `write credits/acquire/<pool> n= ttl= wait=` |
+  | `release(grant)` | `lease revoke <lease_id>` |
+  | `set_cap(pool, cap)` | `write credits/pools/<pool> cap= policy=` |
+  | `observe(pool)` | `read credits/pools/<pool>` |
+
+  A lease gives three things the script had to build: Bao revokes a lease
+  once, so a second release is refused; a holder that dies without releasing
+  has its lease expire, which releases its credits with no reaper; and a
+  recurrent service renews its lease as its heartbeat. A shortfall returns
+  `granted: 0` and no lease.
+
+  The engine is the first Lean module of the replacement of the C++ planner in
+  Bao: RFD 2205's planner moves into the same plugin as Lean, with the full NIF
+  surface cross-checked against the C++ until the C++ is deleted (operator,
+  2026-10-09).
 
   :: details The port
   An adapter talks to the core through four calls: `acquire`, `release`,
@@ -105,9 +128,9 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   wait for the desk's credits.
 
   :: details Milestones
-  - **M1, the core and the desk adapter.** The ledger as an Elixir module with
-    the four port calls, checked against the Lean model's witness vectors; the
-    desk adapter with its probe; `windows_build.ps1 -Jobs` fed from the CPU
+  - **M1, the core and the desk adapter.** The engine with the four port
+    calls, its tests and `scripts/e2e.sh` against `bao server -dev`, which
+    exist; the engine deployed on weftspun-bao; the desk adapter with its probe; `windows_build.ps1 -Jobs` fed from the CPU
     grant. Exit: the self-test admits a job set that fits, makes a job wait
     when it does not, and its control, a job that skips the ledger, is seen by
     the probe as outside load and lowers the cap.
@@ -120,14 +143,12 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
 
   :: details Home and reach
   - **One host per ledger.** Each distributed system is more than one host, and
-    the aim is fewer of them. A pool's `cap` and `held` live on the host whose
-    resource they guard, in that host's ledger process, and nothing replicates
-    them. The two bounds that cross hosts, the issue queue and the CI pool,
+    the aim is fewer of them. Bao is already one, so the engine adds none. A
+    desk pool is named for its host (`<host>/cpu`) and guards only that host's
+    resource. The two bounds that cross hosts, the issue queue and the CI pool,
     are read from and enforced in the service that already owns their count.
-  - **No new repository.** The ledger is one Elixir script beside this
-    repository's other drivers, with the Lean model's witness vectors as its
-    self-test. It depends on nothing but Elixir, so a desk runs it from the
-    placed checkout. A second user that needs it as a library is the point at
-    which it moves.
+  - **Repository.** The engine is `V-Sekai-fire/service-bao-taskweft`, the
+    service RFD 2205 named for the Lean planner, so the ledger and the planner
+    share one plugin.
   """
 end
