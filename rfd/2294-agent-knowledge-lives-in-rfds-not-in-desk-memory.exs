@@ -298,10 +298,16 @@ rules below"
     forking it;
   - renders from meshes baked from the vector materials' data (signs, paving,
     bark), coarsened by LOD when over budget, so it works with the runtime vector
-    shader off; alpha-cut foliage cards are the one exception: they stay
-    two-triangle cards cut out at runtime, because baking 53,211 blossom cards as
-    geometry costs about 2.5M triangles even at blob detail (operator,
-    2026-10-01);
+    shader off; alpha-cut foliage cards bake too: each blossom card is its atlas
+    cell's outline, baked by `slug.elf` at 256 triangles a cell, and the cards go
+    into cluster LOD DAGs built by `remesh.elf`'s `cluster_lod` (meshoptimizer's
+    `clusterlod.h`), which `clod_select` cuts per frame, binary-translated, on
+    both standalone headsets (operator, 2026-10-10). Over the 48 valid orbit
+    views, the 53,211 cards are 13.6M triangles at full detail, and a 4 px cut
+    for a 1760 px eye at 100 degrees draws a mean of 39k and at most 122k. With
+    the cut, depth differs from the original on 0.16 % of the frame, and on
+    2.15 % without the cards. Translated, the cut takes a median 1.6 ms a view
+    on the desk, and 4.3 ms interpreted;
   - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
     adding detail to surfaces near the eye within the headset's GPU budget;
   - synthesizes finer detail only where the source is procedural;
@@ -326,7 +332,8 @@ rules below"
   view per frame, of which world geometry gets 250k (400k at most) and characters
   450k. A crowd of non-player characters holds 150k of the character share and
   drops to impostors first. One equal-error LOD threshold over the frame enforces
-  it, and the LODs come from Godot's own `generate_lods` on welded meshes.
+  it, and the LODs come from Godot's own `generate_lods` on welded meshes, except
+  the blossom cards, whose levels are the cluster LOD DAGs above.
   Avatars and characters cast their shadows from tapered capsules fitted per
   skeleton (#110), not from the shadow map; an untapered capsule keeps stock
   Godot's height and radius behaviour.
