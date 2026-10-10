@@ -260,6 +260,7 @@ defmodule Serials.VSekaiFabric do
       serial 2302, "guest-work-runs-in-frame-slices", flight_level: :l1
       serial 2303, "xr-technical-requirements-checklist", flight_level: :l1
       serial 2304, "one-lean-4-rectgtn-library-generates-the-planner", flight_level: :l2
+      serial 2305, "one-credit-system-with-ports-and-adapters", flight_level: :l2
       serial 2306, "operating-the-shared-windows-vr-desk", flight_level: :l1
       serial 2307, "recording-the-xr-pilot-stream-to-cineform", flight_level: :l1
     end
