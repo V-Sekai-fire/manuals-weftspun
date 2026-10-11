@@ -39,6 +39,7 @@ here corresponds to an entry.
 - `weftspun/rf-detr-keypoint-data`: **val2017-derived** — carries the whole blinded holdout, and 78% of it is licence-dirty. Validation only, never training. See below
 - **IREE** as a build target: a compiler rather than an execution provider, and it is not XLA — see below
 - **speculative decoders other than MTP-3** on the ggml language server: DFlash2 with any drafter, the Qwen3.8 drafter, other draft lengths and draft-free serving measured slower on every decider game with identical decisions — see below
+- **1-bit PTQ1_0 bodies** of Ternary Bonsai 2 on the ggml language server: operator directive 2026-10-11; the served body is the 2-bit PQ2_0 — see below
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
 - **See-Through checkpoints**: none carries a usable grant, and the depth one derives from OpenRAIL++-M — see below
 - **SMPL and every variant** as a body model: non-commercial without an MPG licence; SOMA-X to ANNY is the sanctioned bypass — see below
@@ -2004,3 +2005,18 @@ and no drafter 77.3. Each loses to MTP-3, so each is denied.
   once one is grafted).
 - Evidence: `C:/b/decider-bench/` on the desk (states, paired results, `stats.py`); the graft is
   `graft_mtp_local.py`, adapted from `decent-jawfish/bonsai-2-27b-mtp`'s `graft_mtp.py`.
+
+### 1-bit PTQ1_0 bodies of Ternary Bonsai 2 are blocklisted for the ggml language server
+
+Operator directive, 2026-10-11 ("blocklist 1bit ptq"). The ggml language server serves Ternary Bonsai 2 27B
+as the 2-bit PQ2_0 body (with MTP-3, see the row above), and the 1-bit PTQ1_0 files
+(`Ternary-Bonsai-2-27B-Uncensored-Heretic-PTQ1_0.gguf`, 5.9 GB against PQ2_0's 7.2 GB) are not to be served
+or benchmarked as candidates.
+
+- **What the code already says:** `interactor-language-ggml`'s CUDA path notes that the fp16-dequantize
+  plus cuBLAS fallback "is the source of PTQ1_0's extra error on CUDA", and keeps PTQ1_0 on the MMQ path at
+  every batch to avoid it; `contract-ggml-stablehlo` refuses PTQ1_0 matrix multiplies.
+- **Not measured here:** no decider or perplexity comparison of PTQ1_0 against PQ2_0 was run before the
+  directive; the 2026-10-11 Pareto sweep left PTQ1_0 out because of it.
+- **Exempt:** the conversion inputs that only pass through PTQ1_0 on the way to another format (the
+  2026-10-08 `.ninfer` conversion read `Heretic-PTQ1_0.gguf`).
