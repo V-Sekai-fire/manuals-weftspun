@@ -236,3 +236,53 @@ references:
       renders", trained on fal's own trainer. The page does not name the engine,
       the assets or the image count, so the grid is what is reusable and the
       corpus behind it is not reproducible from what is published.
+  - type: article
+    title: "Frontier Learning: Training LLM Reasoners at the Edge of Capability"
+    authors:
+      - family-names: Faro
+        given-names: Robin
+      - family-names: Ramesh
+        given-names: Shyam Sundhar
+      - family-names: Bogunovic
+        given-names: Ilija
+      - family-names: Lucchi
+        given-names: Aurelien
+    journal: arXiv
+    year: 2026
+    doi: "10.48550/arXiv.2609.35426"
+    abstract: >-
+      RFD 2309 takes its level search for the Alyx planner: per-problem regret
+      1[s >= 1] - s/n from rollouts already made, Zipfian replay with staleness,
+      uniform exploration and one-attribute mutation over a procedural
+      generator's attributes. The GRPO training step is not adopted. The DOI is
+      arXiv's, registered with DataCite (checked 2026-10-11); Crossref has no
+      record of it.
+  - type: article
+    title: "EditScore: Unlocking Online RL for Image Editing via High-Fidelity Reward Modeling"
+    authors:
+      - family-names: Luo
+        given-names: Xin
+      - family-names: Wang
+        given-names: Jiahao
+      - family-names: Wu
+        given-names: Chenyuan
+      - family-names: Xiao
+        given-names: Shitao
+      - family-names: Jiang
+        given-names: Xiyan
+      - family-names: Lian
+        given-names: Defu
+      - family-names: Zhang
+        given-names: Jiajun
+      - family-names: Liu
+        given-names: Dong
+      - family-names: Liu
+        given-names: Zheng
+    journal: arXiv
+    year: 2025
+    doi: "10.48550/arXiv.2509.23909"
+    abstract: >-
+      The row shape RFD 2309's dataset export follows: task_type, instruction,
+      images (original then edit), two 0 to 25 expected_scores and an evaluator
+      conversation, as in EditScore-Reward-Data (97.3k rows, apache-2.0). The
+      DOI is arXiv's, registered with DataCite (checked 2026-10-11).
