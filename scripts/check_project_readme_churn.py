@@ -29,7 +29,7 @@ KINDS = {
 STATUS = re.compile(r"^(status|state|progress|done|todo|wip|phase)$", re.I)
 MARKS = re.compile("[✅❌✔✖⏳\U0001f6a7]|\\b(?:TODO|WIP)\\b")
 CARD_HEADER = re.compile(r"\A---\r?\n.*?\r?\n---\r?\n", re.S)
-PINNED = re.compile(r"\b(dependenc|requirement|pins?\b|pinned\b)", re.I)
+PINNED = re.compile(r"\b(dependenc|requirement|pins?\b|pinned\b|provenance\b)", re.I)
 FLAG_LIST = 3
 
 # The READMEs that carried churny detail when this gate landed, each held at its finding count.
@@ -229,6 +229,7 @@ def self_test() -> int:
         ("a status mark in a list", clean + "\n- ✅ phase 1\n- WIP phase 2\n", False),
         ("TODO in prose after a table",
          clean + "\n| Name | Role |\n|---|---|\n| a | b |\n\nA TODO list app.\n", True),
+        ("a version in a provenance section", clean + "\n## Provenance\n\n- built with torch 2.11.0\n", True),
         ("a heading that says pinning is not a pin section",
          clean + "\n## Pinning notes\n\nBuilt against 4.5.1.\n", False),
         ("flags as plain list text", clean + "\n- --port N\n- --host H\n- --verbose\n", False),
