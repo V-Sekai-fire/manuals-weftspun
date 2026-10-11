@@ -264,6 +264,7 @@ defmodule Serials.VSekaiFabric do
       serial 2306, "operating-the-shared-windows-vr-desk", flight_level: :l1
       serial 2307, "recording-the-xr-pilot-stream-to-cineform", flight_level: :l1
       serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
+      serial 2309, "frontier-learning-for-the-alyx-planner", flight_level: :l1
     end
 
     deleted do
