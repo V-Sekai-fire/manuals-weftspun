@@ -59,14 +59,14 @@ def self_test(bands: dict) -> int:
 
 
 def main(argv: list) -> int:
-    bands = read_bands(SOURCE.read_text())
+    bands = read_bands(SOURCE.read_text(encoding="utf-8"))
     if "--self-test" in argv:
         return self_test(bands)
     paths = [pathlib.Path(a) for a in argv] or default_paths()
     found = []
     tags = 0
     for path in paths:
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         tags += len(TAG.findall(text))
         found += problems(text, bands, str(path.relative_to(ROOT) if path.is_absolute() else path))
     for line in found:
