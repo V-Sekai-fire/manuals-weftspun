@@ -546,7 +546,7 @@ as ours and the rest as forks. `--owner` adds another organisation for a
 workspace of its own. A hub card's YAML header is metadata and is not
 read. `--readme` checks README files outside a workspace, such as hub
 cards fetched for a sweep. A README fails on a
-port, a version outside a dependencies or pins section, a date, a branch
+port, a version outside a dependencies, pins or provenance section, a date, a branch
 name, a status table, a status mark in a table or list, or three or more
 flags outside fenced blocks. READMEs that carried such detail when the
 gate landed are listed in it at their finding count, and fail when the
