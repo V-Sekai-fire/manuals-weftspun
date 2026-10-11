@@ -128,12 +128,19 @@ def tagline(text: str) -> str:
     return ""
 
 
-def is_fork(project: Path) -> bool:
+OWNERS = ["V-Sekai-fire", "chibifire-stages", "chibifire"]
+
+
+def is_fork(project: Path, owners: list | None = None) -> bool:
+    """Not ours: no remote on our GitHub organisations or our Hugging Face namespace."""
+    names = "|".join(re.escape(o) for o in (owners or OWNERS))
+    ours = (rf"github\.com[:/]({names})/"
+            rf"|huggingface\.co/(datasets/|spaces/)?({names})/")
     done = subprocess.run(
         ["git", "-C", str(project), "remote", "-v"],
         capture_output=True, text=True,
     )
-    return not re.search(r"github\.com[:/](V-Sekai-fire|chibifire-stages)/", done.stdout, re.I)
+    return not re.search(ours, done.stdout, re.I)
 
 
 def gate(root: Path) -> int:

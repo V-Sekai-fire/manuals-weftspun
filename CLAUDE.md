@@ -540,8 +540,12 @@ RFD that owns the topic (operator, 2026-10-04: "the more technical details
 you write in the readme the more that will go stale").
 
 `scripts/check_project_readme_churn.py` reports that line across the
-workspace on the same projects; repositories under V-Sekai-fire and
-chibifire-stages count as ours and the rest as forks. A README fails on a
+workspace on the same projects; repositories under V-Sekai-fire,
+chibifire-stages and chibifire, on GitHub or the Hugging Face hub, count
+as ours and the rest as forks. `--owner` adds another organisation for a
+workspace of its own. A hub card's YAML header is metadata and is not
+read. `--readme` checks README files outside a workspace, such as hub
+cards fetched for a sweep. A README fails on a
 port, a version outside a dependencies or pins section, a date, a branch
 name, a status table, a status mark in a table or list, or three or more
 flags outside fenced blocks. READMEs that carried such detail when the
@@ -550,6 +554,7 @@ count rises or reaches zero. It needs a workspace, so it runs on a desk
 rather than in any repository's CI.
 
     python scripts/check_project_readme_churn.py
+    python scripts/check_project_readme_churn.py --readme <card>...
     python scripts/check_project_readme_churn.py --self-test
 
 ## How Responses Are Bounded

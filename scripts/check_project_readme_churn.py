@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Project READMEs carry nothing that goes stale when the code moves.
 
-    python scripts/check_project_readme_churn.py [--workspace DIR]
+    python scripts/check_project_readme_churn.py [--workspace DIR] [--owner ORG]...
+    python scripts/check_project_readme_churn.py --readme FILE...
     python scripts/check_project_readme_churn.py --self-test
 """
 import argparse
@@ -16,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import md_ast
-from check_project_readme_length import ROOT, is_fork
+from check_project_readme_length import OWNERS, ROOT, is_fork
 
 FLAG = re.compile(r"^--?[a-z][\w-]*(?:[ =].*)?$")
 KINDS = {
@@ -27,6 +28,7 @@ KINDS = {
 }
 STATUS = re.compile(r"^(status|state|progress|done|todo|wip|phase)$", re.I)
 MARKS = re.compile("[✅❌✔✖⏳\U0001f6a7]|\\b(?:TODO|WIP)\\b")
+CARD_HEADER = re.compile(r"\A---\r?\n.*?\r?\n---\r?\n", re.S)
 PINNED = re.compile(r"\b(dependenc|requirement|pins?\b|pinned\b)", re.I)
 FLAG_LIST = 3
 
@@ -76,9 +78,11 @@ GRANDFATHERED = {
     "4-entities/godot-sandbox-gdscript-compiler": 1,
     "4-entities/godot-vrm": 15,
     "4-entities/opentelemetry-godot-project": 1,
+    "5-repository/omnigen2-base-df5dca8a": 10,
     "6-datasource/anny-render-corpus": 3,
     "6-datasource/desync": 3,
     "6-datasource/foundationdb": 1,
+    "6-datasource/starforged-std-3001-appendix-e": 1,
     "7-service/burrito": 16,
     "7-service/cineform": 4,
     "7-service/cineform/thirdparty/cineform-sdk": 1,
@@ -89,6 +93,7 @@ GRANDFATHERED = {
 
 def findings(text: str) -> list[str]:
     """Each churny kind found outside fenced blocks, once per occurrence."""
+    text = CARD_HEADER.sub("", text, count=1)  # a hub card's YAML header is metadata, not prose
     out, section, flags = [], "", 0
     in_head, cells, item, cell = False, [], 0, False
     for tok in md_ast.tokens(text):
@@ -139,7 +144,20 @@ def scan(s: str, pinned: bool) -> list[str]:
             if not (kind == "version" and pinned) for m in rx.finditer(s)]
 
 
-def gate(root: Path, held: dict | None = None) -> int:
+def files(paths: list) -> int:
+    """READMEs outside a workspace, such as hub cards fetched for a sweep: no forks, nothing held."""
+    bad = 0
+    for p in paths:
+        found = findings(Path(p).read_text(encoding="utf-8", errors="replace"))
+        if found:
+            bad += 1
+            print(f"  FAIL {p}: " + "; ".join(found[:6])
+                  + (f"; +{len(found) - 6} more" if len(found) > 6 else ""))
+    print(f"{bad} of {len(paths)} READMEs fail.")
+    return 1 if bad else 0
+
+
+def gate(root: Path, held: dict | None = None, owners: list | None = None) -> int:
     held = GRANDFATHERED if held is None else held
     man = ET.parse(root / ".repo/manifests/default.xml").getroot()
     checked, missing, forks, bad, kept = 0, [], [], [], []
@@ -148,7 +166,7 @@ def gate(root: Path, held: dict | None = None) -> int:
         if not (root / path).is_dir():
             missing.append(path)
             continue
-        if is_fork(root / path):
+        if is_fork(root / path, owners):
             forks.append(path)
             continue
         rd = root / path / "README.md"
@@ -215,6 +233,10 @@ def self_test() -> int:
          clean + "\n## Pinning notes\n\nBuilt against 4.5.1.\n", False),
         ("flags as plain list text", clean + "\n- --port N\n- --host H\n- --verbose\n", False),
         ("a port in an HTML block", clean + "\n<div>localhost:8080</div>\n", False),
+        ("a hub card header is metadata",
+         "---\nlicense: mit\ntags:\n- built 2026-10-04 on port 8080\n---\n" + clean, True),
+        ("a date under a hub card header", "---\nlicense: mit\n---\n" + clean + "\nMeasured on 2026-10-04.\n", False),
+        ("a rule line is not a card header", clean + "\n---\n\nMeasured on 2026-10-04.\n\n---\n", False),
     ]
     fails = 0
     for label, text, want_pass in controls:
@@ -226,6 +248,12 @@ def self_test() -> int:
         del os.environ[var]
     with tempfile.TemporaryDirectory() as d:
         for url, want in (("https://github.com/V-Sekai-fire/x", False),
+                          ("https://github.com/chibifire/x", False),
+                          ("https://huggingface.co/chibifire/x", False),
+                          ("https://huggingface.co/datasets/chibifire/x", False),
+                          ("https://huggingface.co/spaces/chibifire/x", False),
+                          ("https://github.com/chibifire-other/x", True),
+                          ("https://huggingface.co/upstream/x", True),
                           ("https://github.com/upstream/x", True)):
             subprocess.run(["git", "init", "-q", d], check=True)
             subprocess.run(["git", "-C", d, "remote", "remove", "origin"], capture_output=True)
@@ -248,20 +276,39 @@ def self_test() -> int:
         ("a grandfathered README that gains churn",
          {"a": (own, churny + "Built on 2026-10-04.\n")}, {"a": 2}, 1),
         ("a grandfathered README that came clean", {"a": (own, clean)}, {"a": 2}, 1),
+        ("a hub dataset of ours is ours",
+         {"a": ("https://huggingface.co/datasets/chibifire/x", churny)}, {}, 1),
+        ("--owner adds an organisation", {"a": ("https://github.com/another-org/x", churny)}, {}, 1),
+        ("without --owner that organisation is a fork",
+         {"a": ("https://github.com/another-org/x", churny)}, {}, 0),
     ]
     for label, projects, held, want in runs:
+        owners = OWNERS + ["another-org"] if label.startswith("--owner") else None
         with tempfile.TemporaryDirectory() as d:
             workspace(Path(d), projects)
             with open(os.devnull, "w") as null:
                 saved, sys.stdout = sys.stdout, null
                 try:
-                    got = gate(Path(d), held)
+                    got = gate(Path(d), held, owners)
                 finally:
                     sys.stdout = saved
         if got != want:
             print(f"  FAIL {label}: got {got}, expected {want}")
             fails += 1
-    n = len(controls) + 3 + len(runs)
+    with tempfile.TemporaryDirectory() as d:
+        for label, text, want in (("--readme passes a clean card", clean, 0),
+                                  ("--readme fails a churny card", churny, 1)):
+            (Path(d) / "README.md").write_text(text)
+            with open(os.devnull, "w") as null:
+                saved, sys.stdout = sys.stdout, null
+                try:
+                    got = files([str(Path(d) / "README.md")])
+                finally:
+                    sys.stdout = saved
+            if got != want:
+                print(f"  FAIL {label}: got {got}, expected {want}")
+                fails += 1
+    n = len(controls) + 9 + len(runs) + 2
     if fails:
         print(f"{fails} of {n} controls failed")
         return 1
@@ -273,15 +320,21 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument("--self-test", action="store_true")
     ap.add_argument("--workspace", type=Path, help="the directory holding .repo")
+    ap.add_argument("--owner", action="append", default=[],
+                    help="another organisation whose repositories count as ours")
+    ap.add_argument("--readme", nargs="+", help="check these README files instead of a workspace")
     a = ap.parse_args(argv)
     if a.self_test:
         return self_test()
+    if a.readme:
+        return files(a.readme)
+    owners = OWNERS + a.owner
     if a.workspace:
-        return gate(a.workspace)
+        return gate(a.workspace, owners=owners)
     if ROOT is None:
         print("FAIL: no .repo above this checkout, so there is no workspace to check")
         return 1
-    return gate(ROOT)
+    return gate(ROOT, owners=owners)
 
 
 if __name__ == "__main__":
