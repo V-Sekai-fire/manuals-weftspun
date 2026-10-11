@@ -263,6 +263,7 @@ defmodule Serials.VSekaiFabric do
       serial 2305, "one-credit-system-with-ports-and-adapters", flight_level: :l2
       serial 2306, "operating-the-shared-windows-vr-desk", flight_level: :l1
       serial 2307, "recording-the-xr-pilot-stream-to-cineform", flight_level: :l1
+      serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
     end
 
     deleted do
