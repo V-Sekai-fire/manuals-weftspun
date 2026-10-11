@@ -318,3 +318,28 @@ from an entry that already works, not from the host-side name. A Godot `float` i
 C++ `double`; a new entry's signature copies a proven one before adding arguments.
 For a physics model, assert the contact count on a fixture with a known answer
 before trusting a zero — a filtered pair and an empty scene both report none.
+
+---
+
+## 15. A DOI missing from Crossref is not a missing DOI: validate against DataCite and Crossref
+
+Crossref and DataCite are separate DOI registries, and a reference checked against only
+one is wrongly reported as unverified or wrongly given no DOI:
+
+| source                              | registry                | example                                   |
+| ----------------------------------- | ----------------------- | ----------------------------------------- |
+| arXiv preprints (prefix `10.48550`) | DataCite                | `10.48550/arXiv.2609.35426`, Crossref 404 |
+| ACM, IEEE, Elsevier, JAIR, Springer | Crossref                | `10.1145/3453483.3454080`                 |
+| IJCAI before 2017                   | neither (no DOI issued) | Alford et al. 2016, task sharing          |
+| Machine Intelligence 5 (1970)       | neither (predates DOIs) | Plotkin; Reynolds                         |
+
+A `CITATION.cff` reference is valid when its DOI resolves at
+`https://api.datacite.org/dois/<doi>` or `https://api.crossref.org/works/<doi>`, and its
+title, authors, year, venue, volume and pages match that record field by field. A work in
+neither registry is cited without a DOI and says how it was checked (a proceedings
+abstract page, a volume's table of contents). `cffconvert --validate` also refuses two
+identical author entries, so authors who share a family name (Liu, Dong; Liu, Zheng) need
+their given names.
+
+**Guard:** query both registries before writing "no DOI"; run `cffconvert --validate`
+on every `CITATION.cff` change.
