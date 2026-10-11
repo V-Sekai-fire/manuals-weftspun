@@ -2004,4 +2004,3 @@ and no drafter 77.3. Each loses to MTP-3, so each is denied.
   once one is grafted).
 - Evidence: `C:/b/decider-bench/` on the desk (states, paired results, `stats.py`); the graft is
   `graft_mtp_local.py`, adapted from `decent-jawfish/bonsai-2-27b-mtp`'s `graft_mtp.py`.
-
