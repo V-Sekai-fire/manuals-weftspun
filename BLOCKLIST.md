@@ -38,6 +38,7 @@ here corresponds to an entry.
 - **Apple Neural Engine** as an execution target: 2 GiB weight ceiling at 2^31 bytes, against Metal's 8 GiB+ on the same part — see below
 - `weftspun/rf-detr-keypoint-data`: **val2017-derived** — carries the whole blinded holdout, and 78% of it is licence-dirty. Validation only, never training. See below
 - **IREE** as a build target: a compiler rather than an execution provider, and it is not XLA — see below
+- **speculative decoders other than MTP-3** on the ggml language server: DFlash2 with any drafter, the Qwen3.8 drafter, other draft lengths and draft-free serving measured slower on every decider game with identical decisions — see below
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
 - **See-Through checkpoints**: none carries a usable grant, and the depth one derives from OpenRAIL++-M — see below
 - **SMPL and every variant** as a body model: non-commercial without an MPG licence; SOMA-X to ANNY is the sanctioned bypass — see below
@@ -1976,3 +1977,31 @@ stroke, in the session's order, is what the app saw.
 `sketch_graph/` may grade a replay of `raw_data/` and never feeds one: a
 score against it is a comparison with CASSIE's snapping, not an input to the
 port (operator, 2026-10-05).
+
+### Speculative decoders other than MTP-3 are blocklisted for the ggml language server
+
+The standard language server is ggml-based (llama-prism, `V-Sekai-fire/interactor-language-ggml`) serving
+Ternary Bonsai 2 27B PQ2_0. Its speculative decoder is MTP with 3 draft tokens: ProCreations' Bonsai-trained
+MTP head (`ProCreations/Ternary-Bonsai-2-27B-MTP`, r3, Q8_0) grafted onto the served body's 851 tensors as
+`blk.64.*` (block_count 65, `nextn_predict_layers` 1), run with `--spec-type draft-mtp --spec-draft-n-max 3`.
+
+Measured 2026-10-11 on one RTX 4090, both arms the same grafted file, greedy, thinking off, one request at a
+time in a random order per state: 2,000 decision states from `Mapika/decider`'s games (Pong, Freeway,
+Breakout, FrozenLake, CliffWalking, Blackjack, MiniGrid Empty/LavaGap/DoorKey, BabyAI GoTo), 200 each.
+MTP-3 against DFlash2 (ProCreations' Bonsai DFlash2 drafter, 3 drafts):
+
+- **Latency:** DFlash2 took 1.03x (Pong) to 1.96x (MiniGrid Empty) the time of MTP-3 per decision, median of
+  paired ratios, every game significant after Holm (largest adjusted p 0.003, Wilcoxon signed-rank).
+- **Decisions:** identical on all 2,000 states; agreement with each game's teacher identical; no invalid reply.
+- **Acceptance:** MTP 67% of drafts, DFlash2 47%.
+
+Earlier the same day, on the Heretic-v2 body: the Qwen3.8 DFlash2 drafter with 7 drafts (the shipped
+default) decoded 88.0 tok/s at 22-34% acceptance, Bonsai DFlash2 with 7 drafts 84.5, with 3 drafts 103.9,
+and no drafter 77.3. Each loses to MTP-3, so each is denied.
+
+- **What it costs:** a server configured with any other decoder is slower for the same output.
+- **Exempt:** benchmarks that compare decoders, as this one did, and a body with no MTP head yet (use MTP-3
+  once one is grafted).
+- Evidence: `C:/b/decider-bench/` on the desk (states, paired results, `stats.py`); the graft is
+  `graft_mtp_local.py`, adapted from `decent-jawfish/bonsai-2-27b-mtp`'s `graft_mtp.py`.
+
