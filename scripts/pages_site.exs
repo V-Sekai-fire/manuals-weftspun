@@ -24,11 +24,13 @@ defmodule PagesSite do
     logs = logbook(root, dates)
     rfds = rfds(dates)
 
-    Enum.each(logs ++ rfds, &copy(&1, out))
+    slugs = Map.new(rfds, &{&1.serial, &1.href})
+    Enum.each(logs ++ rfds, &copy(&1, out, slugs))
 
-    for f <- @pages,
-        File.exists?(Path.join(root, f)),
-        do: File.cp!(Path.join(root, f), Path.join(out, "page-" <> f))
+    for f <- @pages, File.exists?(Path.join(root, f)) do
+      text = linked(File.read!(Path.join(root, f)), "", slugs, nil)
+      File.write!(Path.join(out, "page-" <> f), text)
+    end
 
     File.write!(Path.join(out, "_config.yml"), config())
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
@@ -96,12 +98,73 @@ defmodule PagesSite do
     end
   end
 
-  defp copy(%{files: files}, out) do
+  defp copy(%{files: files} = e, out, slugs) do
+    paired = length(files) == 2
+    up = String.duplicate("../", length(Path.split(hd(files) |> elem(1))) - 1)
+
     for {from, to} <- files do
       File.mkdir_p!(Path.dirname(Path.join(out, to)))
-      text = File.read!(from) |> String.replace("`DETAILS.md`", "[`DETAILS.md`](DETAILS.html)")
-      File.write!(Path.join(out, to), text)
+
+      text =
+        File.read!(from)
+        |> String.replace("`DETAILS.md`", "[`DETAILS.md`](DETAILS.html)")
+        |> linked(up, slugs, Map.get(e, :serial))
+
+      File.write!(Path.join(out, to), if(paired, do: nav(Path.basename(to), text), else: text))
     end
+  end
+
+  defp nav("README.md", text), do: under_title(text, "> **[Read the details →](DETAILS.html)**")
+  defp nav("DETAILS.md", text), do: under_title(text, "> **[← Back to the RFD](./)**")
+  defp nav(_, text), do: text
+
+  defp under_title(text, line) do
+    [title | rest] = String.split(text, "\n", parts: 2)
+    Enum.join([title, "", line, "", String.trim_leading(hd(rest ++ [""]))], "\n")
+  end
+
+  # Names a reader would click become links: RFD serials, the blocklist, org repositories.
+  @repo ~r{^(V-Sekai-fire|chibifire-smoke-water|chibifire-stages)/[A-Za-z0-9_.-]*[A-Za-z0-9_]$}
+
+  defp linked(text, up, slugs, own) do
+    {lines, _} =
+      text
+      |> String.split("\n")
+      |> Enum.map_reduce(false, fn line, fenced ->
+        cond do
+          String.starts_with?(String.trim_leading(line), "```") -> {line, not fenced}
+          fenced or String.starts_with?(line, "# ") -> {line, fenced}
+          true -> {link_line(line, up, slugs, own), fenced}
+        end
+      end)
+
+    Enum.join(lines, "\n")
+  end
+
+  defp link_line(line, up, slugs, own) do
+    line
+    |> String.split(~r/(`[^`]*`)/, include_captures: true)
+    |> Enum.map_join(fn
+      "`" <> _ = code ->
+        name = String.trim(code, "`")
+        if Regex.match?(@repo, name), do: "[#{code}](https://github.com/#{name})", else: code
+
+      prose ->
+        prose
+        |> then(
+          &Regex.replace(~r/(?<![\[\w\/])RFD (\d{4})(?![\]\w])/, &1, fn all, n ->
+            href = Map.get(slugs, String.to_integer(n))
+            if href && String.to_integer(n) != own, do: "[#{all}](#{up}#{href})", else: all
+          end)
+        )
+        |> then(
+          &Regex.replace(
+            ~r/(?<![\[\w\/`-])BLOCKLIST\.md(?![\]\w])/,
+            &1,
+            "[BLOCKLIST.md](#{up}page-BLOCKLIST.html)"
+          )
+        )
+    end)
   end
 
   # Records become groups, and groups become expanders.
