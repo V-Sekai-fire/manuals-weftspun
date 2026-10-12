@@ -35,7 +35,7 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   details_title "serving bonsai 2 with ninfer-all and dflash2"
 
   prose ~S"""
-  :: details This RFD was drafted by an AI and read by a human before it shipped.
+  :: details Sources
   Drafted on 2026-10-12 from the desk's A-B-A run, the live launcher and
   process read the same day, and the Linux host's spec sweep of 2026-10-11.
   The choice of engine and drafter is the operator's.
