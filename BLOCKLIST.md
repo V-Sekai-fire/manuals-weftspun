@@ -315,10 +315,36 @@ The bake still has to happen -- albedo, roughness and normal over the hm08 UV
 layout, metallic a constant zero -- and it now needs a renderer that a
 `pixi.toml` can pin.
 
-The replacement is not named here, because naming one without measuring it is
-how the last unpinnable dependency arrived. What a candidate has to show: it
-installs from a lockfile, it renders the same bytes twice on two machines, and
-the check for that ships with it.
+The replacement was not named until one was measured, because naming one without
+measuring it is how the last unpinnable dependency arrived. What a candidate had
+to show: it installs from a lockfile, it renders the same bytes twice on two
+machines, and the check for that ships with it.
+
+**Mitsuba 3 is the replacement** (operator, 2026-10-12), measured on the eye
+renders of RFD 2310:
+
+- It installs from a lockfile: `mitsuba` is a pinned PyPI dependency in the
+  render environment's `pixi.toml`, resolved into `pixi.lock`.
+- It renders on the GPU through its `cuda_ad_mono` variant and refuses to fall
+  back to the CPU.
+- Its film adds many samples per pixel with atomic floating-point adds, so the
+  default render differs run to run. Rendering one sample per pixel per pass
+  with a box filter and averaging the passes in a fixed order makes repeated
+  renders inside one process identical.
+- Separate processes on one GPU still differ in the float buffer, with or
+  without curves, most likely in the OptiX acceleration build. Their 8-bit
+  images are identical: three processes on an RTX 3090 gave one PNG hash.
+- Across GPU generations (RTX 3090 against RTX 4090) the float buffers differ by
+  at most 6.7e-4, a mean of 3.9e-8, and 1 of 160,000 pixels differs by one level
+  at 8 bits.
+
+So the bar is held at the precision the corpus stores. A corpus is 8-bit PNG
+rendered on one named GPU model, and its gate requires identical PNG bytes
+across separate processes on that model. A render on another GPU model may
+differ by at most one level in at most one pixel in ten thousand. The check
+ships with the render package (`determinism.py` and its Nushell drivers), and
+labels are computed from geometry in double precision, so they do not depend on
+the renderer at all.
 
 ### BRIA RMBG is blocklisted, and we already own the alternative
 

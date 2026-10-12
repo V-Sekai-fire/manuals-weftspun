@@ -105,7 +105,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   outcomes:
   | Action | Does |
   |---|---|
-  | `render_eye(code, seed)` | one Blender render of one eye |
+  | `render_eye(code, seed)` | one Mitsuba render of one eye |
   | `project_labels(render)` | the 34 landmarks and visibility from geometry |
   | `infer(checkpoint, image)` | the keypoint head's landmarks |
   | `score(pred, truth)` | success: every visible point within 0.05 iris diameters |
@@ -195,14 +195,24 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
     weakest, and it is the dimension closest to judging a landmark fit,
     so pretraining on EditScore's corpus aims there.
   - The renders and the scorer's training share the 3090 one at a time.
+  - The renderer is Mitsuba 3 on the GPU; Blender is blocklisted (BLOCKLIST.md,
+    which records Mitsuba's determinism against its bar). A render is one
+    sample per pixel per pass, averaged in a fixed order, stored as 8-bit PNG.
+  - The eyeball is an analytic sphere fitted to ANNY's eye helper, and the
+    iris and pupil are spherical caps on it, so their rings are exact. The
+    lids' landmarks are the root rows of ANNY's eyelash cards, which sit on
+    the lid margins, and the lashes render as tapered curves grown from them.
+  - R0 passed (2026-10-12): the render was looked at with its landmarks
+    drawn; a landmark moved 3 mm moves 26.8 pixels; removing the lashes
+    changes 18,245 pixels; a bright bead at a known point lands 0.44 pixels
+    from where the projection puts it. A render takes 0.38 s on the 3090 at
+    128 samples per pixel.
 
   :: details Open questions
   - Inference home: frameeyeosc's own Slang kernels, or a ggml-rd guest as
     RFD 2272 and RFD 2290 require. Unmeasured; R4's latency decides.
   - The headset camera's intrinsics and light positions, to be measured
     from recordings before R1's camera replaces R0's estimate.
-  - A render's cost on the 3090, which sizes a frontier step; R0 measures
-    it.
   - Whether Bonsai 2 scores eye-landmark overlays as well as photo edits;
     likely (about 0.7) after the baseline, unmeasured until R2's audit.
   - Whether a quantization-aware LoRA on a 27B ternary model fits the
