@@ -159,25 +159,53 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   back `(D)`; R3 on a checkpoint that skips the frontier step.
 
   :: details Where it runs
-  The shared Windows desk renders and trains on the RTX 3090, whose llama
-  server was stopped for it (operator, 2026-10-12). The RTX 4090 keeps
-  NInfer's Bonsai 2 on localhost, so decider jobs run on the desk. Every
-  job is a named scheduled task with a fixed log and a done file, after a
-  headroom check. Corpora are private datasets in ETNF parquet, constructed
-  and generated in separate manifests.
+  The shared Windows desk renders and trains on the RTX 3090. Its llama
+  server's launcher restarted it every minute, so the launcher is disabled
+  rather than the server only stopped (operator, 2026-10-12). The RTX 4090
+  keeps NInfer's Bonsai 2 on localhost, so decider and scorer jobs run on
+  the desk. Every job is a named scheduled task with a fixed log and a
+  done file, after a headroom check. Building geometry from ANNY is
+  offline preparation and runs on the CPU; rendering and training run on
+  the GPU. Corpora are private datasets in ETNF parquet, constructed and
+  generated in separate manifests. Each job ships as a package with a
+  pixi lock that pins Nushell and Python for every platform it runs on.
+
+  :: details Choices made since the plan
+  - Eyelashes: ANNY's `makehuman` topology keeps every base-mesh vertex,
+    eyelash helpers included, so posed lashes come from the model's own
+    output and their faces from the base mesh's eyelash groups.
+  - Iris and pupil: the eye material draws them as circles in the
+    eyeball's texture space at radii the renderer picks. Their landmarks
+    are those circles carried onto the mesh, exact by construction and
+    whole, hidden parts included.
+  - Lid landmarks: the skin's open edge around each eye, split into upper
+    and lower at the corners.
+  - The camera: R0 places a camera by estimate (mono, 400 by 400, close
+    below the eye, lights beside it standing in for the infrared ring),
+    named as an estimate in every row until recordings measure it.
+  - The served Bonsai 2 takes images: 8 of 8 answers right on drawn
+    scenes, including swapped ones a blind model gets wrong (measured,
+    2026-10-12).
+  - The scorer starts with signal. Frozen Bonsai 2, decider style, picks
+    the human-preferred edit on a stratified sample of EditReward-Bench in
+    291 of 350 pairs, 0.831 (95% interval 0.789 to 0.867) against 0.5 by
+    chance: prompt following 0.883, consistency 0.758, overall 0.855. Its
+    answers are A in 0.514 of pairs where the truth is A in 0.517, and the
+    same answers against shuffled truth score 0.477. Consistency is the
+    weakest, and it is the dimension closest to judging a landmark fit,
+    so pretraining on EditScore's corpus aims there.
+  - The renders and the scorer's training share the 3090 one at a time.
 
   :: details Open questions
   - Inference home: frameeyeosc's own Slang kernels, or a ggml-rd guest as
     RFD 2272 and RFD 2290 require. Unmeasured; R4's latency decides.
   - The headset camera's intrinsics and light positions, to be measured
-    from recordings before R1's camera is trusted.
-  - A render's cost on the 3090, which sizes a frontier step.
-  - Whether Bonsai 2 tells candidates apart at 400 by 400; likely (about
-    0.6), unmeasured until R2's audit.
-  - Whether the served Bonsai 2 build takes images at all; the decider
-    games ran it with vision on, so likely (about 0.7), unchecked here.
+    from recordings before R1's camera replaces R0's estimate.
+  - A render's cost on the 3090, which sizes a frontier step; R0 measures
+    it.
+  - Whether Bonsai 2 scores eye-landmark overlays as well as photo edits;
+    likely (about 0.7) after the baseline, unmeasured until R2's audit.
   - Whether a quantization-aware LoRA on a 27B ternary model fits the
-    3090's 24 GB beside the renders; unmeasured, so the renders and the
-    scorer's training run one at a time.
+    3090's 24 GB; unmeasured until the scorer rung S runs.
   """
 end
