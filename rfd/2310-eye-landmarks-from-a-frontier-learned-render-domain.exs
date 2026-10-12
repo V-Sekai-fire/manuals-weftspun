@@ -207,6 +207,23 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
     changes 18,245 pixels; a bright bead at a known point lands 0.44 pixels
     from where the projection puts it. A render takes 0.38 s on the 3090 at
     128 samples per pixel.
+  - R1 calibrates its camera and lights against real data: label-free
+    statistics of Gaze-in-Wild images (pupil size and position, brightness,
+    glints) are the target, and the Frame's own intrinsics and light positions
+    come later from its recordings (open question above).
+  - Bonsai 2 stays frozen for R1; the EditScore reward corpus is supervised
+    training data for the residual FSQ codebook and the RECTGTN planner's
+    methods, with no scorer pretraining. Open: what vector FSQ quantizes for
+    an EditScore row; default proposal is the frozen Bonsai pooled hidden
+    state if NInfer exposes embeddings.
+  - No Opus or other hosted model anywhere. R2's hardest one percent of
+    frames, whose Bonsai pick flips when candidate order changes, are
+    unlabelled; their estimated eye state maps to an FSQ level that earns
+    regret in the frontier buffer, so renders concentrate where real frames
+    are hard.
+  - RF-DETR starts from Apache-2.0 N detection weights with a new keypoint
+    head; the R2 audit uses planted wrong candidates only, no human check yet,
+    and is stated as unaudited.
 
   :: details Open questions
   - Inference home: frameeyeosc's own Slang kernels, or a ggml-rd guest as
