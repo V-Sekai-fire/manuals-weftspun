@@ -1,7 +1,7 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Builds the Pages source as one flow: sources -> records -> groups -> expanders -> files.
-# A masthead and the newest entries lead; the logbook and RFD archives follow, dated from git.
+# A masthead and the newest RFDs lead; the logbook and RFD archives follow, dated from git.
 #   mix run scripts/pages_site.exs <out-dir>
 defmodule PagesSite do
   @states ~w(prediscussion ideation discussion published committed moved abandoned)
@@ -130,7 +130,6 @@ defmodule PagesSite do
       end)
 
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
-    latest_logs = logs |> Enum.sort_by(& &1.date, :desc) |> Enum.take(5)
     latest_rfds = rfds |> Enum.sort_by(&{&1.date, &1.serial}, :desc) |> Enum.take(10)
 
     [
@@ -141,8 +140,6 @@ defmodule PagesSite do
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
-      "## Latest from the logbook",
-      Enum.map_join(latest_logs, "\n", &"- #{&1.date} · [#{&1.label}](#{&1.href})"),
       "## Recently changed RFDs",
       dated_table(latest_rfds),
       "## Archive",
