@@ -243,6 +243,13 @@ repos:
         files: \.(ex|exs)$
         pass_filenames: false
 
+      - id: release-tags-self-test
+        name: the release-tag gate still fails a typed, padded or shifted tag (RFD 2312)
+        entry: elixir scripts/check_release_tags.exs --self-test
+        language: system
+        files: ^scripts/check_release_tags\.exs$
+        pass_filenames: false
+
       - id: line-length-self-test
         name: the line-length gate still rejects a long added line and fixes the splittable ones
         entry: elixir scripts/check_line_length.exs --self-test
