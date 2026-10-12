@@ -265,6 +265,7 @@ defmodule Serials.VSekaiFabric do
       serial 2307, "recording-the-xr-pilot-stream-to-cineform", flight_level: :l1
       serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
       serial 2309, "frontier-learning-for-the-alyx-planner", flight_level: :l1
+      serial 2310, "eye-landmarks-from-a-frontier-learned-render-domain", flight_level: :l1
     end
 
     deleted do
