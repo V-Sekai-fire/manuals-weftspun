@@ -89,9 +89,20 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   converter is pure Python and runs on the CPU; the Mac produced this copy
   with recipe `bonsai2_27b_ternary` from the Heretic PQ2_0 body and the
   Bonsai-trained MTP and DFlash2 heads. The four sources and the artifact
-  are archived in the private dataset `chibifire/ninfer-bonsai2-heretic`. On
-  the desk it lives at `C:\ninfer-all-models\`, next to its
-  `.conversion.json`.
+  are published in the public dataset `chibifire/ninfer-bonsai2-heretic`
+  (operator, 2026-10-12). On the desk it lives at `C:\ninfer-all-models\`,
+  next to its `.conversion.json`.
+
+  Every input is Apache-2.0: Qwen3.8-27B, Ternary Bonsai 2 27B, the Heretic
+  v2 modification, the MTP and DFlash2 heads and the weights they adapt. The
+  dataset carries their licence and notice files, a root `NOTICE` that names
+  each author and states the conversion, and an Apache-2.0 card.
+
+  A published artifact names no host path. The converter records the
+  frequency ranking it reads by its repository-relative path, and a
+  workflow in the fork converts on a clean runner and fails on any of the
+  runner's directories in the artifact or its report, after a planted path
+  is caught. Before this, the ranking's absolute path sat in both files.
 
   The prebuilt engine reads only `t5_g128_fp16`, and ninfer-all reads only
   `t2_g128_fp16`. An artifact from one family does not load in the other.
@@ -170,5 +181,8 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   - DFlash2 at six and seven draft tokens is unmeasured.
   - The MSVC fixes are on a fork branch, not on the fork's `main`, and the
     Windows installer that would ship this build is not merged.
+  - The desk and the Mac still serve the earlier private conversion, whose
+    provenance carries the converting host's path. Swapping in the published
+    artifact needs a witness that it serves the same text at temperature 0.
   """
 end
