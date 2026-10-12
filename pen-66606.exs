@@ -19,7 +19,7 @@ defmodule Plan.Pen66606 do
     string_list("sites", [
       "1 weftspun request-for-discussion urn:oid:1.3.6.1.4.1.66606.1.1 decommissioned",
       "2 v-sekai-fabric request-for-discussion urn:oid:1.3.6.1.4.1.66606.1.2",
-      "3 v-sekai manuals urn:oid:1.3.6.1.4.1.66606.1.3",
+      "3 v-sekai-fire manuals urn:oid:1.3.6.1.4.1.66606.1.3",
       "4 fire manuals urn:oid:1.3.6.1.4.1.66606.1.4 decommissioned"
     ])
     string_list("sitesDecommissioned", [
@@ -28,7 +28,7 @@ defmodule Plan.Pen66606 do
       "1 decommissioned 2026-08-31. Its 165 allocated serials and 6 retired serials stay in place and stay citable; nothing is renumbered. New RFDs in this repository get 2NNN serials from site 2, whose register moved here on 2026-08-29 and was reactivated for that purpose. RFD 1000's DETAILS.md still carries the numbering rule, with a retraction paragraph next to the passage that named site 1 as the active register. When site 2 fills up, site 5 opens at arc 66606.1.5 under RFD 1000's rule; sites 3 and 4 stay reserved for date-named registers."
     ])
     string_list("sitesWithoutRegister", [
-      "3 names a decision by its date and allocates no serial",
+      "3 allocates 3NNN serials; its register lives in the private manuals that allocate from it",
       "4 names a decision by its date and allocates no serial"
     ])
 

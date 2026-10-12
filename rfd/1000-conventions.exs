@@ -57,8 +57,8 @@ rfd 1000, "Conventions", :published do
   An RFD number has four decimal digits.
 
   The first digit names the organization. This repository uses digit 1. The
-  fabric manuals use digit 2. `v-sekai/manuals` reserves digit 3 and `fire/manuals`
-  reserves digit 4. Neither has an RFD yet.
+  fabric manuals use digit 2. V-Sekai-fire's private manuals use digit 3
+  (operator, 2026-10-12). `fire/manuals` reserves digit 4 and has no RFD.
 
   The last three digits are the serial number. A new RFD takes the next unused
   serial under its own organization digit. A writer no longer checks another
@@ -95,11 +95,12 @@ rfd 1000, "Conventions", :published do
 
       66606.1.1    weftspun
       66606.1.2    v-sekai-fabric
-      66606.1.3    v-sekai
+      66606.1.3    v-sekai-fire
       66606.1.4    fire
 
-  `v-sekai/manuals` and `fire/manuals` both name a decision by its date rather
-  than by a serial, so digits 3 and 4 are reserved and hold nothing. A reserved
+  `fire/manuals` names a decision by its date rather than by a serial, so
+  digit 4 is reserved and holds nothing. Digit 3 allocates 3NNN serials, and
+  its register stays with the private manuals that allocate from it. A reserved
   digit costs one line here. An unreserved one costs what the collision above
   cost, which was 113 numbers meaning two documents at once.
 
@@ -111,8 +112,8 @@ rfd 1000, "Conventions", :published do
   purpose. The full argument, and the retraction of the 2026-08-29 sentence
   that promised no further allocations under 66606.1.2, is in
   `pen-66606.usda` `sitesDecommissioned`. When site 2 fills up, site 5 opens
-  at arc 66606.1.5 under this rule; sites 3 and 4 stay reserved for
-  date-named registers.
+  at arc 66606.1.5 under this rule; site 4 stays reserved for a
+  date-named register.
 
   The full identifier of an RFD is:
 
