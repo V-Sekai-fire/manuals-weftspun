@@ -266,6 +266,7 @@ defmodule Serials.VSekaiFabric do
       serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
       serial 2309, "frontier-learning-for-the-alyx-planner", flight_level: :l1
       serial 2310, "eye-landmarks-from-a-frontier-learned-render-domain", flight_level: :l1
+      serial 2311, "serving-bonsai-2-with-ninfer-all-and-dflash2", flight_level: :l1
     end
 
     deleted do
