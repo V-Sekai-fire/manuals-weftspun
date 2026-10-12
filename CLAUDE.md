@@ -870,7 +870,7 @@ a project absent from disk is counted; CI runs them with `--self-test`, because
 CI has no `repo` client.
 
 Parking work ends with the preflight at zero blocking. Unfinished work is
-pushed to a `feat/` branch first, so the sync parks the checkout instead of
+pushed to a `dev/` branch first, so the sync parks the checkout instead of
 stopping on it.
 
 ## The anti-entropy check

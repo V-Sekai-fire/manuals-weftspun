@@ -9,9 +9,9 @@ budget and parks work the same way every time"
 
   prose ~S"""
   :: decision
-  - Branches are `main/*`, `feat/*` or `archived/*`. A pushed
-    branch is renamed through the code host's rename call, which
-    keeps its pull request.
+  - Branches start with a stage: `dev/`, `beta/`, `rc/`, `release/` or
+    `archived/` (operator, 2026-10-12). A pushed branch is renamed
+    through the code host's rename call, which keeps its pull request.
   - Each RFD lands as one commit; a revision amends that commit
     before merge.
   - Maintenance takes at most a tenth of a session's budget.

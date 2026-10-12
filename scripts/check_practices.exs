@@ -11,7 +11,7 @@
 # Without --base the base is GATE_BASE, then PRE_COMMIT_FROM_REF, then @{upstream}; with
 # none of them the commits are a FAIL, not a skip. --exclude drops commits a fork's upstream
 # holds. GATE_PR adds the --pr check. GATE_BRANCH, else pre-push's PRE_COMMIT_REMOTE_BRANCH,
-# names the branch, which must be feat/* or archived/*.
+# names the branch, which must start with a stage: dev/, beta/, rc/, release/ or archived/.
 #
 # Exit codes: 0 every practice holds, 1 one does not or a source was unreadable, 2 bad usage.
 
@@ -163,12 +163,14 @@ defmodule Practices do
     bad == []
   end
 
+  @stages ["dev/", "beta/", "rc/", "release/", "archived/"]
+
   def branch_problems(name) do
     name = String.replace_prefix(name, "refs/heads/", "")
 
-    if String.starts_with?(name, ["feat/", "archived/"]),
+    if String.starts_with?(name, @stages),
       do: [],
-      else: ["branch #{name} is neither feat/* nor archived/*"]
+      else: ["branch #{name} is not dev/*, beta/*, rc/*, release/* or archived/*"]
   end
 
   def branch do
@@ -333,9 +335,15 @@ defmodule SelfTest do
     controls =
       controls ++
         [
-          {"a feat/ branch passes", Practices.branch_problems("feat/x") == []},
+          {"a dev/ branch passes", Practices.branch_problems("dev/x") == []},
+          {"a beta/ branch passes", Practices.branch_problems("beta/x") == []},
+          {"an rc/ branch passes", Practices.branch_problems("rc/x") == []},
+          {"a release/ branch passes", Practices.branch_problems("release/x") == []},
           {"an archived/ branch passes",
            Practices.branch_problems("refs/heads/archived/x") == []},
+          {"a feat/ branch is rejected", Practices.branch_problems("feat/x") != []},
+          {"a main/ branch is rejected", Practices.branch_problems("main/x") != []},
+          {"a bare name is rejected", Practices.branch_problems("devx") != []},
           {"a claude/ branch is rejected", Practices.branch_problems("claude/thread-x") != []},
           {"a fix/ branch is rejected", Practices.branch_problems("fix/x") != []}
         ]

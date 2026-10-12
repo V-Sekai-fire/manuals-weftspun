@@ -54,8 +54,8 @@ rules below"
      `elixir .repo/manifests/sync.exs .`. A project the preflight names as
      blocking gets a decision from the operator, not a guess.
   4. Never edit a placed checkout in place. Make a worktree in a scratch
-     directory on a new `feat/<topic>` branch:
-     `git -C <project> worktree add <scratch>/<name> -b feat/<topic> <remote>/main`,
+     directory on a new `dev/<topic>` branch:
+     `git -C <project> worktree add <scratch>/<name> -b dev/<topic> <remote>/main`,
      using the project's own remote and default branch.
   5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
      period, forks included (RFD 2026). Commits and pull requests carry no Claude
@@ -87,7 +87,7 @@ rules below"
 
       cd <workspace root>/2-contract/manuals-weftspun
       git fetch v-sekai-fire main
-      git worktree add "$TEMP/rfd-edit" -b feat/rfd-my-topic v-sekai-fire/main
+      git worktree add "$TEMP/rfd-edit" -b dev/rfd-my-topic v-sekai-fire/main
       cd "$TEMP/rfd-edit"
 
   Open `rfd/2294-agent-knowledge-lives-in-rfds-not-in-desk-memory.exs`, add the
@@ -97,7 +97,9 @@ rules below"
       python scripts/check_tropes.py --base v-sekai-fire/main
       python scripts/check-rfd-structure.py
       git commit -am "RFD 2294: say what the sentence makes true"
-      git -c core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" push v-sekai-fire feat/rfd-my-topic
+      git -c \
+        core.hooksPath="<workspace root>/.repo/projects/2-contract/manuals-weftspun.git/hooks" \
+        push v-sekai-fire dev/rfd-my-topic
       gh pr create -R V-Sekai-fire/manuals-weftspun --base main --fill
       cd <workspace root>/2-contract/manuals-weftspun
       git worktree remove "$TEMP/rfd-edit"
@@ -133,7 +135,7 @@ rules below"
   Pushed text cites an upstream change by its bare commit SHA, never by an
   `owner/repo#N` reference or an issue or pull request URL, since GitHub posts
   those back onto the upstream's timeline.
-  Our line of an upstream branch is `feat/<branch>` on the V-Sekai-fire fork,
+  Our line of an upstream branch is `dev/<branch>` on the V-Sekai-fire fork,
   created at the upstream commit, so the upstream's branch-keyed workflows do not
   fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
   git stores each ref as a path.
@@ -229,9 +231,10 @@ rules below"
     issue, as on `contract-zone-backend#114`. Each session ticks only its own
     items and comments when it starts, finishes or is blocked on one, with times
     in RFD 2295's form. Neither takes the other's items.
-  - Branches. Every branch a session works on is `feat/<topic>` or, once its
-    work is parked or superseded, `archived/<topic>`, whatever name the
-    session was handed (operator, 2026-10-02).
+  - Branches. Every branch a session works on starts with a stage: `dev/`,
+    `beta/`, `rc/` or `release/`, and `archived/` once its work is parked or
+    superseded, whatever name the session was handed (operator, 2026-10-12).
+    No `feat/`, `fix/`, `wip/`, `main/` or bare names.
   - Capability-scoped workers. A worker session holds the capabilities its task
     needs as RFD 2200 tuples, and default deny covers the rest. A peer's request
     never widens a worker's rows.
@@ -255,7 +258,7 @@ rules below"
   sentence-case prose (RFD 2026), agent credit in a commit message, a pull request
   body, a comment or a review, a software GPU emulator in a
   workflow, a workflow that renders a contact sheet without uploading an
-  artifact, and a branch named neither `feat/*` nor `archived/*`. Its self-test
+  artifact, and a branch that does not start with a stage. Its self-test
   carries a control in each direction for each check. It is defined once, as
   the `practices` hook in this repository's `.pre-commit-hooks.yaml`. Another
   repository lists that hook in its `.pre-commit-config.yaml`, where it runs on
