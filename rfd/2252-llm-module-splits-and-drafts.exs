@@ -37,7 +37,7 @@ knobs a Gemma4-31B QAT recipe on 4090 + 3090 needs for 220 tok/s"
   details_title "the llm module splits across cards and drafts"
 
   prose ~S"""
-  :: details This RFD was drafted by an AI and read by a human before it shipped.
+  :: details Sources
   Drafted from a conversation with the operator on 2026-09-15,
   from the club-3090 `dflash.yml` above, and from a walk of
   `4-entities/godot-language-model/modules/llm/doc_classes/*.xml`.
