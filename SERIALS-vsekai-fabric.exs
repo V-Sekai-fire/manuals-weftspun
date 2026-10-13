@@ -269,6 +269,7 @@ defmodule Serials.VSekaiFabric do
       serial 2311, "serving-bonsai-2-with-ninfer-all-and-dflash2", flight_level: :l1
       serial 2312, "release-tags-are-go-pseudo-versions", flight_level: :l1
       serial 2313, "the-full-loop-over-colour-passthrough", flight_level: :l2
+      serial 2314, "the-skintokens-space-viewer-runs-as-sandbox-guests", flight_level: :l2
     end
 
     deleted do
