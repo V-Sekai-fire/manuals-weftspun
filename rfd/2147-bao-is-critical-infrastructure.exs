@@ -11,13 +11,10 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   Bao's availability class rises to match its consumers'. Recovery
   becomes hands-off, not operator-with-1P.
 
-  1. **Replicas across zones, coordinated over FDB.** `ha_enabled = true`,
-     three Bao machines minimum (matching FDB's three-zone spread and
-     fault-tolerance-1 posture); consumers hit `weftspun-bao.internal`.
-  2. **Auto-unseal.** HA without auto-unseal is theatre. A fleet
-     restart returns the operator to the critical path. KMS-backed
-     seal wrapper removes the human from routine restarts; the Shamir
-     key in 1P stays as break-glass (RFD 2144 defect #11's day).
+  1. **Replicas on the FDB machines, coordinated over FDB.** `ha_enabled = true`,
+     one Bao beside each of the three weftspun-fdb machines (operator, 2026-10-13).
+  2. **Auto-unseal.** HA without auto-unseal is theatre. Until a KMS is
+     picked, each instance is unsealed by hand after it restarts (operator, 2026-10-13).
   3. **Consumers cache what they can.** A bearer held for a few
      minutes puts Bao in the critical path only at cache expiry.
   4. **No CDN proxy in front of workspace services.** CF-proxied
@@ -54,25 +51,50 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   follows the same pattern goes down with them. The single-machine
   posture that was fine as a convenience store is not fine as the
   switchboard.
+  :: details Colocated on the FDB machines
+  The operator chose on 2026-10-13 to run Bao on the three weftspun-fdb
+  machines instead of in its own app. The Fly plan in use includes
+  three `shared-cpu-1x` 256 MB machines and 3 GB of volumes; three FDB
+  machines plus a separate Bao machine overran both, and the separate
+  machine bought no redundancy. FDB keeps `double` redundancy and three
+  coordinators, so one machine may still be lost.
+
+  Each machine runs fdbserver, the backup agent, Bao, tailscaled and
+  sshd, at 512 MB. Measured on 2026-10-13 at 256 MB: an FDB machine used
+  about 130 MB, and the Bao machine about 130 MB, of which Bao was 77 MB,
+  tailscaled 26 MB and the plugin 18 MB. The two together do not fit in
+  the 207 MB a 256 MB machine leaves usable.
+
+  - The `weftspun-bao` app retires once the three instances serve. Its
+    volume held no secrets: Bao's storage is FDB, and the volume kept the
+    tailnet identity, the SSH host key and renewed listener certificates.
+  - Each instance advertises its own machine address as `api_addr` and
+    `cluster_addr`, so standbys forward to the active instance. Standbys
+    are not assumed to serve reads.
+  - Clients keep verifying the listener as `weftspun-bao.internal`; the
+    name in the certificate does not move with the app.
+  - One machine carries the existing tailnet state and keeps the
+    `weftspun-bao` node; the others join under their own names.
+  - The SSH tunnel port is balanced across all three machines, so they
+    share one host key, held as a secret rather than generated per
+    volume.
+  - The change is proved on a throwaway three-machine app before
+    weftspun-fdb is touched: an initialised test Bao, a secret written
+    and read back, one machine restarted and unsealed while the others
+    keep serving.
   :: details Replicas: 3 in sjc, coordinated over FDB
   OpenBao's FDB backend supports HA by leader election over the same
-  storage the writes go to. The Fly app pattern is one machine per zone,
-  mirroring FDB's own three-zone spread: `weftspun-bao` scales to 3,
-  each on `shared-cpu-1x` (256 MiB was enough for the single-instance
-  workload; 512 MiB is the ceiling to size for once cache and
-  per-connection state land). Consumers reach `weftspun-bao.internal`,
-  which Fly's DNS round-robins across live replicas.
+  storage the writes go to. One instance runs on each FDB machine, so
+  Bao spreads across the same three zones FDB does.
 
-  Standby replicas can either serve reads directly (`disable_performance_
-  standby = false`) or forward every request to the leader. Read-serving
-  standbys are the right choice given the read/write ratio the cert-auth
-  path establishes (many reads per one write), and standby-served reads
-  cannot go stale beyond FDB's read version, which is what we already
-  key cached grants on.
+  Standby replicas can either serve reads directly or forward every
+  request to the leader. Read-serving standbys would suit the read/write
+  ratio the cert-auth path establishes (many reads per one write); until
+  the fork is shown to serve reads from a standby, standbys forward.
 
   The 3-machine scale exposes one wrinkle: three machines mean three
   seal states, three unseal calls per fleet restart. This is the reason
-  auto-unseal is not optional.
+  auto-unseal stays the goal.
   :: details Auto-unseal: KMS wrapper, Shamir stays as break-glass
   Shamir with a manual share is the right seal for one-of-one, wrong for
   three-of-three. Options:
@@ -132,24 +154,20 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   :: details Migration path
   Enabling all of this on the live cluster is:
 
-  1. Update `service-openbao/config-fdb.hcl`: `ha_enabled = "true"`,
-     pick a `disable_performance_standby` value.
-  2. Add seal wrapper config for chosen KMS.
-  3. Bring up the KMS account and store its access key as a Fly secret
-     on `weftspun-bao` (the ONLY Fly secret that survives; every other
-     secret is in Bao itself).
-  4. `fly scale count 3 -a weftspun-bao`.
-  5. Cycle the machines one at a time; leader election handles the
-     handoff.
-  6. Retire the manual unseal path in scripts and runbooks (leave the
-     Shamir break-glass entry in RFD 2144's DR runbook).
+  1. Update `service-openbao/config-fdb.hcl`: `ha_enabled = "true"`.
+  2. Build one image carrying the FDB server and Bao, and deploy it to
+     the three weftspun-fdb machines one at a time, unsealing each.
+  3. Stop the `weftspun-bao` app, then destroy it once the three serve.
+  4. Later, add seal wrapper config for the chosen KMS, store its access
+     key as a Fly secret on weftspun-fdb, and retire the manual unseal
+     path (leave the Shamir break-glass entry in RFD 2144's runbook).
 
-  The blocker between now and step 1 is picking the KMS provider.
+  Steps 1 to 3 do not wait on the KMS. Step 4 waits on picking it.
   That is a policy question with two implications: cost surface and
   "which cloud can be the workspace's identity trust anchor". Neither
   this RFD nor RFD 2140 has decided.
   :: details Sub-decisions open
-  - 3 vs 5 replicas. 3 tolerates 1 loss, 5 tolerates 2. Match to FDB.
+  - 3 replicas, one per FDB machine (operator, 2026-10-13).
   - Standbys serve reads (`disable_performance_standby = false`) vs
     forward to leader. Read-heavy workload argues for serving.
   - Which KMS. Cost + trust-anchor decision.
