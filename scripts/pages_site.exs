@@ -115,7 +115,7 @@ defmodule PagesSite do
         |> linked(up, slugs, Map.get(e, :serial))
 
       text = if paired, do: nav(Path.basename(to), text), else: text
-      File.write!(Path.join(out, to), edit_from(e.source) <> text)
+      File.write!(Path.join(out, to), edit_from(e.source, index_of(to)) <> text)
     end
   end
 
@@ -263,7 +263,15 @@ defmodule PagesSite do
   end
 
   # The theme's edit link points at the generated copy; this one points at the tracked source.
-  defp edit_from(source), do: "---\nedit_source: #{source}\n---\n"
+  defp edit_from(source, permalink \\ nil) do
+    at = if permalink, do: "permalink: #{permalink}\n", else: ""
+    "---\nedit_source: #{source}\n#{at}---\n"
+  end
+
+  defp index_of("rfd/" <> _ = to),
+    do: if(Path.basename(to) == "README.md", do: "/#{Path.dirname(to)}/")
+
+  defp index_of(_), do: nil
 
   defp layout do
     ~S"""
