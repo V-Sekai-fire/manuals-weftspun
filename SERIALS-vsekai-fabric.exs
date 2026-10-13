@@ -271,6 +271,8 @@ defmodule Serials.VSekaiFabric do
       serial 2313, "the-full-loop-over-colour-passthrough", flight_level: :l2
       serial 2314, "the-skintokens-space-viewer-runs-as-sandbox-guests", flight_level: :l2
       serial 2315, "web-shaders-are-baked-by-the-browser-that-runs-them", flight_level: :l2
+      serial 2316, "bao-holds-a-bounded-set", flight_level: :l2
+      serial 2317, "a-browser-joins-a-webtransport-server-with-a-bao-ticket", flight_level: :l2
     end
 
     deleted do
