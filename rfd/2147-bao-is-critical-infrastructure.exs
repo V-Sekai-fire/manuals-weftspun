@@ -13,8 +13,8 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
 
   1. **Replicas on the FDB machines, coordinated over FDB.** `ha_enabled = true`,
      one Bao beside each of the three weftspun-fdb machines (operator, 2026-10-13).
-  2. **Auto-unseal.** HA without auto-unseal is theatre. Until a KMS is
-     picked, each instance is unsealed by hand after it restarts (operator, 2026-10-13).
+  2. **Auto-unseal.** A transit seal on a small Bao on the operator's Mac mini, which
+     unlocks itself from the macOS Keychain at boot (operator, 2026-10-13).
   3. **Consumers cache what they can.** A bearer held for a few
      minutes puts Bao in the critical path only at cache expiry.
   4. **No CDN proxy in front of workspace services.** CF-proxied
@@ -119,6 +119,32 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   An auto-unseal wrapper does not change the CRL-loop bug logged
   during the DR (Bao's authenticated paths going flaky after a
   particular sequence of issuer imports). That is a separate item.
+  :: details Transit seal on the Mac mini
+  The operator chose on 2026-10-13 to unseal the Fly instances from a
+  small Bao on the Mac mini, after declining to have the Fly instances
+  unseal each other from a key kept in Bao itself. The Mac is always on
+  and already on the tailnet; it holds no other Bao data.
+
+  - The seal Bao keeps file storage on the Mac and a transit key whose
+    only use is wrapping the Fly cluster's root key. Its own seal is a
+    static key read from the macOS Keychain when the launchd agent
+    starts, so a reboot of the Mac needs no approval. Anyone holding the
+    Mac's logged-in session can therefore unseal the Fly cluster; the
+    operator accepted that.
+  - The seal Bao listens only on the Mac's tailnet address, with mutual
+    TLS, and the tailnet policy lets only the Fly Bao nodes reach it.
+  - The Fly instances authenticate with a periodic orphan token limited
+    to encrypt and decrypt on that one key, held as a Fly secret.
+  - If the Mac is off or off the tailnet, a restarted Fly instance stays
+    sealed until it is back. The instances still running keep serving.
+  - After migration the Shamir key becomes a recovery key: it authorises
+    operations such as generating a root token, but it no longer
+    unseals. Losing the seal Bao would lose the Fly cluster, so its
+    storage and its static key are backed up to 1Password.
+  - The change is proved on a throwaway three-machine app first: a cold
+    start of all three unseals without a human, and a planted control
+    with the Mac's listener stopped must leave a restarted instance
+    sealed.
   :: details Consumer-side cache: what and for how long
   Every read against Bao is a Bao dependency. Two ends of the spectrum:
 
@@ -158,19 +184,16 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   2. Build one image carrying the FDB server and Bao, and deploy it to
      the three weftspun-fdb machines one at a time, unsealing each.
   3. Stop the `weftspun-bao` app, then destroy it once the three serve.
-  4. Later, add seal wrapper config for the chosen KMS, store its access
-     key as a Fly secret on weftspun-fdb, and retire the manual unseal
-     path (leave the Shamir break-glass entry in RFD 2144's runbook).
+  4. Stand up the seal Bao on the Mac mini, add a `seal "transit"` block
+     to the Fly config, and migrate with one last Shamir unseal
+     (`-migrate`). The Shamir key stays in 1Password as the recovery key.
 
-  Steps 1 to 3 do not wait on the KMS. Step 4 waits on picking it.
-  That is a policy question with two implications: cost surface and
-  "which cloud can be the workspace's identity trust anchor". Neither
-  this RFD nor RFD 2140 has decided.
+  A cloud KMS can replace the Mac later through the same seal migration.
   :: details Sub-decisions open
   - 3 replicas, one per FDB machine (operator, 2026-10-13).
   - Standbys serve reads (`disable_performance_standby = false`) vs
     forward to leader. Read-heavy workload argues for serving.
-  - Which KMS. Cost + trust-anchor decision.
+  - The seal provider: the Mac mini's transit Bao (operator, 2026-10-13).
   - Whether to write the CRL-loop fix (a separate bug) into this
     rollout or before it.
   :: details Sources
