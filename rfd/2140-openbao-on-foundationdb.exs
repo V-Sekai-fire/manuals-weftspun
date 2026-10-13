@@ -16,10 +16,10 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   with Commit/Rollback), and pins the FDB 7.3.79 Go binding
   (`headerVersion = 730`). Build tag `foundationdb`, `CGO_ENABLED=1`.
 
-  Deployment files in weftspun/service-openbao. The bao machine carries
-  only the FDB client library and connects to the cluster via a TLS
-  client certificate. Interface details and deploy measurements are
-  in DETAILS.md.
+  Deployment files in weftspun/service-openbao. Bao runs beside the FDB
+  server on each weftspun-fdb machine (RFD 2147) and reaches the cluster
+  as a TLS client. Interface details and deploy measurements are in
+  DETAILS.md.
   :: problem
   OpenBao dropped every storage plugin when it forked from Vault
   v1.14.x. The weftspun-fdb cluster already runs three machines with
@@ -65,20 +65,21 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   (`0074653ee011`, `headerVersion := 730`) resolved it. The Go pseudo-
   version is `v0.0.0-20260715201227-0074653ee011`.
   :: details The deploy
-  Fly app `weftspun-bao`, region sjc, `shared-cpu-1x`, 512 MB.
-  Dockerfile.fdb is a two-stage build: Go 1.27 on bookworm compiles
-  with the `foundationdb` build tag and CGO, then a slim runtime image
-  installs the FDB client library deb (not the server).
+  Since 2026-10-13 Bao runs on the three `weftspun-fdb` machines, one HA
+  instance beside each FDB server, at 512 MB each (RFD 2147). The image
+  layers the Bao image's binaries and plugins onto the FDB server image,
+  so the plugin catalog's hashes still match. Bao reads the server's own
+  cluster file and presents the machine's FDB leaf as its client
+  certificate, so it verifies the cluster with the rule the cluster uses.
 
-  The bao machine connects to the existing weftspun-fdb cluster (3
-  machines, double redundancy, mutual TLS per RFD 2134) over Fly 6PN.
-  It presents its own TLS client certificate (`fdb-bao.chibifire.com`)
-  and verifies the cluster with the same rule the cluster uses.
+  Listener binds `[::]:8200` (dual-stack). Each instance advertises its
+  machine address (`<machine-id>.vm.weftspun-fdb.internal`) as `api_addr`
+  and `cluster_addr`, so standbys forward to the active instance.
+  Clients verify the listener as `weftspun-bao.internal`.
 
-  Listener binds `[::]:8200` (dual-stack) so the machine is reachable
-  over 6PN from other apps in the org.
-
-  Storage: `auto_stop_machines = "suspend"`, `min_machines_running = 1`.
+  The first deploy was a separate `weftspun-bao` app on one machine,
+  built by `Dockerfile.fdb` with only the FDB client library. That app
+  is stopped and kept for rollback until the operator retires it.
   :: details What the co-located fdbserver was, and why it moved
   The first deploy ran a single-node fdbserver inside the bao machine
   on the same volume. That worked for initialization but carried no
