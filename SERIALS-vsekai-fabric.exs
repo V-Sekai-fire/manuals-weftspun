@@ -273,6 +273,7 @@ defmodule Serials.VSekaiFabric do
       serial 2315, "web-shaders-are-baked-by-the-browser-that-runs-them", flight_level: :l2
       serial 2316, "bao-holds-a-bounded-set", flight_level: :l2
       serial 2317, "a-browser-joins-a-webtransport-server-with-a-bao-ticket", flight_level: :l2
+      serial 2318, "the-avatar-space-is-built-smallest-joy-first", flight_level: :l2
     end
 
     deleted do
