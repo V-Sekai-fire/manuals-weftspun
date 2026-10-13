@@ -39,7 +39,7 @@ rig, Godot with SceneTreeMCP as assembly and render"
   details_title "image to godot character as an fbd"
 
   prose ~S"""
-  :: details This RFD was drafted by an AI and read by a human before it shipped.
+  :: details Sources
   Drafted from a screen-share of Tripo3D's post and a conversation
   with the operator on 2026-09-13. The mapping table below is the
   operator's decision, not the AI's.

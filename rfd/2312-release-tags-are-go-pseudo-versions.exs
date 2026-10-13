@@ -37,7 +37,7 @@ by time in a file listing and parses as a version in every package tool"
   details_title "release tags are go pseudo-versions"
 
   prose ~S"""
-  :: details This RFD was drafted by an AI and read by a human before it shipped.
+  :: details Sources
   Drafted on 2026-10-12 from the release inventory, the sort runs and the
   parser runs below, all taken the same day. The form and the "everywhere"
   bar are the operator's.
