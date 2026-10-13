@@ -28,11 +28,13 @@ defmodule PagesSite do
     Enum.each(logs ++ rfds, &copy(&1, out, slugs))
 
     for f <- @pages, File.exists?(Path.join(root, f)) do
-      text = linked(File.read!(Path.join(root, f)), "", slugs, nil)
+      text = edit_from(f) <> linked(File.read!(Path.join(root, f)), "", slugs, nil)
       File.write!(Path.join(out, "page-" <> f), text)
     end
 
     File.write!(Path.join(out, "_config.yml"), config())
+    File.mkdir_p!(Path.join(out, "_layouts"))
+    File.write!(Path.join(out, "_layouts/default.html"), layout())
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
     IO.puts("pages: #{length(logs)} logbook entries and #{length(rfds)} RFDs in #{out}")
   end
@@ -66,6 +68,7 @@ defmodule PagesSite do
         label: Enum.join(words, " "),
         href: "logbook/#{slug}.html",
         date: Map.get(dates, "logbook/#{slug}.md", ""),
+        source: "logbook/#{slug}.md",
         files: [{f, "logbook/#{slug}.md"}]
       }
     end
@@ -82,6 +85,7 @@ defmodule PagesSite do
 
       %{
         kind: :rfd,
+        source: "rfd/#{slug}.exs",
         group: to_string(d.state),
         serial: d.serial,
         label: "RFD #{d.serial}: #{d.title}",
@@ -110,7 +114,8 @@ defmodule PagesSite do
         |> String.replace("`DETAILS.md`", "[`DETAILS.md`](DETAILS.html)")
         |> linked(up, slugs, Map.get(e, :serial))
 
-      File.write!(Path.join(out, to), if(paired, do: nav(Path.basename(to), text), else: text))
+      text = if paired, do: nav(Path.basename(to), text), else: text
+      File.write!(Path.join(out, to), edit_from(e.source) <> text)
     end
   end
 
@@ -255,6 +260,47 @@ defmodule PagesSite do
       "✅ committed, ➡️ moved, 🪦 abandoned; " <>
       "🧑‍🦰 drafted by aria-fire-persona and read by a human, " <>
       "✍️ drafted by a human; 📎 has details."
+  end
+
+  # The theme's edit link points at the generated copy; this one points at the tracked source.
+  defp edit_from(source), do: "---\nedit_source: #{source}\n---\n"
+
+  defp layout do
+    ~S"""
+    <!DOCTYPE html>
+    <html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% seo %}
+        {% assign css = "/assets/css/style.css?v=" | append: site.github.build_revision %}
+        <link rel="stylesheet" href="{{ css | relative_url }}">
+        {% include head-custom.html %}
+      </head>
+      <body>
+        <div class="container-lg px-3 my-5 markdown-body">
+          {% if site.title and site.title != page.title %}
+          <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
+          {% endif %}
+
+          {{ content }}
+
+          {% if page.edit_source %}
+          <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+            This site is open source.
+            <a href="{{ site.github.repository_url }}/edit/main/{{ page.edit_source }}">
+              Improve this page</a>.
+          </div>
+          {% endif %}
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js"
+          integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="
+          crossorigin="anonymous"></script>
+        <script>anchors.add();</script>
+      </body>
+    </html>
+    """
   end
 
   defp config do
