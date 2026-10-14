@@ -18,7 +18,9 @@ entities-model-explorer, the gdscript compiler fork, godot-sandbox and the WebGP
   self-test sit on a separate console page. The first view is never black: a
   light backdrop, a sample model and a one-line hint. A colour checker
   stands in the world beside the model, and the lights are set so that it
-  reads its reference values.
+  reads its reference values. A shader that renders on GL is not edited to
+  fit WebGPU; the engine links its varyings the way GL does (operator,
+  2026-10-13).
   :: problem
   The Space must show a visitor's own model on their own GPU, with no
   server. The viewer must run the way the rigging guest will run, as a
@@ -69,6 +71,54 @@ entities-model-explorer, the gdscript compiler fork, godot-sandbox and the WebGP
     0.5 s to 35 s after load were measured for near-black pixels: the old
     console page was 99 % dark for its first 3 s, and both pages are now at
     most 3 %, which is text and the model's dark parts.
+  :: details Varyings on WebGPU
+  WebGPU guarantees 16 locations between the vertex and fragment stages. A
+  device gets 16 unless it asks for more, so the driver asks for the
+  adapter's full value. The public device survey at web3dsurvey.com shows
+  that this helps desktops only:
+  - every report offers at least 16, and 89 % offer at least 28;
+  - Windows, NVIDIA, AMD and Apple reports offer at least 28;
+  - only 1 to 6 % of Qualcomm Adreno reports offer 28, so a standalone
+    headset is taken to have 16. No headset was measured.
+  On the Mac mini, headless Chrome on Apple Metal 3 offers 28, gives 16 to a
+  device that does not ask, and 28 to one that does.
+
+  MToon passes three `vec3` varyings from the vertex stage to the fragment
+  stage. Under GL, Godot writes varyings with no location and the GL linker
+  matches them by name. The Mobile renderer on RenderingDevice pins its own
+  outputs to locations 0 to 14 and puts material varyings from 15, so MToon
+  needs locations 15 to 17, and the browser refuses the pipeline.
+
+  The operator asked for the engine to do what GL does, and for MToon to
+  stay as it is. The WebGPU driver renumbers the locations each shader uses
+  from 0, in the same order in every stage, before the shader becomes WGSL.
+  It bounds-checks every SPIR-V word it reads, because guest programs pass
+  raw SPIR-V. On the WebGPU driver, Godot's varying check counts only the
+  material's own varyings, as it does on GL. GL also packs small varyings
+  into one location; this does not, and a material with many varyings can
+  pass Godot's check and still fail in the browser.
+
+  The test drops Godette into the exported viewer, with a page script that
+  holds the device to 16 locations:
+
+  | Web template                  | Locations | Result                     |
+  | ----------------------------- | --------- | -------------------------- |
+  | With the renumbering          | 16        | draws, no pipeline errors  |
+  | Renumbering removed (control) | 16        | nothing drawn, two `tspace` locations refused |
+  | With the renumbering          | 28        | draws; 27 pixels differ from the 16 run |
+  :: details The engine branch's comments
+  The comments our WebGPU branch adds are held to 3 % of the non-blank lines
+  it adds over the fork's main, the rung `check_comment_ladder.exs` uses for
+  a peer codebase (operator, 2026-10-13). License headers are left out of
+  the count: every new file needs one, and they alone are 6.6 % of the added
+  lines. Whole comment blocks are kept or removed, and the ones kept say why
+  the code is the way it is. The branch went from 9.2 % to under 3 %.
+  :: details The viewer's own checks
+  The viewer's GDScript is formatted with gdformat, run by prek in a checks
+  workflow on every pull request and in the merge queue. The vendored MToon
+  addon is left out, so a pull from its upstream brings no diff. A format
+  change is checked by building every guest before and after it: only the
+  section that holds source line numbers may differ.
   :: details Colour and light
   The colour checker is a board standing on the floor to the model's right,
   at half the model's height, with two 24-patch charts. The top chart is
