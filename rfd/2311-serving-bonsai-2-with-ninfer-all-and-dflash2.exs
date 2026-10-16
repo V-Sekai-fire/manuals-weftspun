@@ -6,30 +6,30 @@ rfd 2311, "serving bonsai 2 with ninfer-all and dflash2", :discussion do
   flight_level :l1
   feature "the 4090 serves Ternary Bonsai 2 27B through ninfer-all with a DFlash2 drafter of five
 tokens, and this RFD is how to set that up again from nothing"
-  scope "the desk's RTX 4090, the V-Sekai-fire/ninfer-all fork, the t2 `.ninfer` artifact, the
-launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs the same engine"
+  scope "the Linux host's RTX 4090, the V-Sekai-fire/ninfer-all fork, the t2 `.ninfer` artifact,
+the systemd unit, the mTLS front and the Hermes provider; the Windows desk's sections are kept as
+the record"
 
   prose ~S"""
   :: decision
-  The 4090 language server is ninfer-all, built from the fork's
-  `dev/msvc-f16c-convert` branch, serving the t2 `bonsai2-27b-heretic.ninfer`
-  artifact with `--spec dflash2 --draft-tokens 5`. It replaces the prebuilt
-  sm_89 engine on MTP-3 that the desk ran before 2026-10-12. The server binds
-  loopback only, takes an API key, and is reached off the box through stunnel
-  with mutual TLS. The operator settled it on 2026-10-12 ("The ninfer with
-  dflash won"), after the A-B-A run in the details.
+  The 4090 language server is ninfer-all serving the t2
+  `bonsai2-27b-heretic.ninfer` artifact with `--spec dflash2 --draft-tokens 5`,
+  on the Linux host since the Windows desk was decommissioned on 2026-10-16.
+  The server binds loopback only, takes an API key, and is reached off the
+  box through stunnel with mutual TLS. On 2026-10-16 the Linux host met none
+  of those three. The operator chose the engine and drafter on 2026-10-12
+  ("The ninfer with dflash won") after the A-B-A run in the details.
   :: problem
-  No RFD decides how the 4090 serves Bonsai 2. The setup lived in one agent's
-  notes. The blocklist row that keeps MTP-3 is scoped to the ggml language
-  server, and it was measured on decider latency, so it neither covers nor
-  contradicts this engine. A rebuilt desk had nothing to follow.
+  No RFD decided how the 4090 serves Bonsai 2, and the setup lived in one
+  agent's notes. The desk this RFD first described is gone, and the Linux
+  host that replaced it serves without a key to anyone on the LAN.
   :: related
   - BLOCKLIST.md, "Speculative decoders other than MTP-3" and "1-bit
     PTQ1_0 bodies", both for the ggml language server on the 3090.
-  - RFD 2308, the Mac port of the same engine, which uses this server as
-    its parity reference.
-  - RFD 2306, operating the shared Windows VR desk; RFD 2310, the scorer
-    that calls this server.
+  - RFD 2308 (Mac ninfer port), which uses this server as its reference.
+  - RFD 2319 (endpoint certificates), where the front's certificate comes
+    from.
+  - RFD 2310 (eye-landmark scorer), which calls this server.
   """
 
   details_title "serving bonsai 2 with ninfer-all and dflash2"
@@ -38,7 +38,51 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   :: details Sources
   Drafted on 2026-10-12 from the desk's A-B-A run, the live launcher and
   process read the same day, and the Linux host's spec sweep of 2026-10-11.
-  The choice of engine and drafter is the operator's.
+  The choice of engine and drafter is the operator's. Amended on 2026-10-16
+  when the operator decommissioned the Windows desk: the Linux host was read
+  over SSH that day, and the sections from "Building the engine" to "Rolling
+  back" describe the desk and stay as the record.
+
+  :: details The Linux host, read 2026-10-16
+  Fedora 44, an RTX 3090 and an RTX 4090, both capped at 275 W. Tailnet name
+  `fedora.stonecat-ratio.ts.net`, address 100.112.127.19, agent identity
+  `fedora-9a6c28.agents.weftspun`. The host was reimaged before this read,
+  and the `fedora-108f7b` identity the Mac's stunnel client still names is
+  gone.
+
+  The systemd unit `ninfer-serve.service`, enabled, runs as user
+  `ninference`:
+
+      /usr/local/bin/ninfer-serve
+        /home/setup/Desktop/models/bonsai2-27b-heretic.ninfer
+        --host 0.0.0.0 --model-id bonsai2-27b --max-context 262144
+        --kv-capacity 262144 --kv-dtype rk8v4 --gdn-state-fp16
+        --spec dflash2 --draft-tokens 5
+
+  It holds about 16 GB of the 4090. The artifact is the same 9,520,051,456
+  bytes. The read found three gaps against the decision:
+
+  - It listens on `0.0.0.0:8080` with no `--api-key`. `GET /v1/models`
+    answers 200 without a key over the tailnet and over the LAN.
+  - It runs without `--vision`, so the vision witness cannot pass.
+  - No stunnel runs and the package is not installed. Hermes on the Mac
+    calls `http://100.112.127.19:8080/v1` in plain HTTP.
+
+  :: details The Linux front, planned
+  - The unit binds `127.0.0.1:8080`, adds `--vision`, and reads its key
+    from a file only `ninference` can read, so the key stays off the
+    command line other users can list.
+  - stunnel, from the Fedora package, runs as a systemd unit on
+    100.112.127.19:8443 and forwards to 127.0.0.1:8080. Its certificate is
+    the host's endpoint certificate from RFD 2319. It trusts the chibifire
+    Root, verifies the chain and admits one client name,
+    `mac-mini-fire-01b8f5.agents.weftspun`.
+  - The Mac's stunnel client `[ninfer]` connects to
+    port 8443 on `fedora.stonecat-ratio.ts.net` and checks that name, in place of
+    `fedora-108f7b`. Hermes provider `02` moves to
+    `http://127.0.0.1:18080/v1`, and the key comes from Bao.
+  - The witnesses below hold for this host with 18080 in place of 18091.
+    The ready control, 401 without the key, fails today.
 
   :: details The measurement
   One RTX 4090, the same launcher flags on every arm (`--max-context 262144`,
@@ -163,14 +207,15 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   startup on `--spec dflash2` and left the 4090 down until someone restored
   it by hand.
 
-  :: details The Linux host
-  The second 4090 host runs the same engine from the upstream container
+  :: details The Linux host before 2026-10-16
+  The second 4090 host ran the same engine from the upstream container
   image, binary `/opt/ninfer/sm86/ninfer-serve`, under the podman quadlet
   `ninfer-bonsai` with `--spec dflash2 --draft-tokens 5 --vision --kv-dtype
-  rk8v4 --max-context 262144` on 127.0.0.1:8080. Its own stunnel listens on
-  8443 for the same Mac, where it appears as 18080 and Hermes provider
+  rk8v4 --max-context 262144` on 127.0.0.1:8080. Its own stunnel listened on
+  8443 for the same Mac, where it appeared as 18080 and Hermes provider
   `bonsai-fedora`. The artifact cannot take `--lm-head-q6`; with it the
-  server crash-loops.
+  server crash-loops. The reimage removed the quadlet, the container and
+  stunnel; the 2026-10-16 read above is the host as it stands.
 
   :: details Open questions
   - The decider benchmark behind the MTP-3 blocklist row has not been run on
@@ -179,10 +224,12 @@ launcher task, the mTLS front and the Hermes provider; the Linux 4090 host runs 
   - MTP's upstream advantage is a second request lane
     (`--max-concurrency 2`). Every arm here served one request at a time.
   - DFlash2 at six and seven draft tokens is unmeasured.
-  - The MSVC fixes are on a fork branch, not on the fork's `main`, and the
-    Windows installer that would ship this build is not merged.
-  - The desk and the Mac still serve the earlier private conversion, whose
-    provenance carries the converting host's path. Swapping in the published
-    artifact needs a witness that it serves the same text at temperature 0.
+  - The MSVC fixes are on a fork branch, not on the fork's `main`. With the
+    desk gone, no Windows build is needed for this RFD.
+  - The desk and the Mac served the earlier private conversion, whose
+    provenance carries the converting host's path. Whether the Linux
+    host's copy is that one or the published artifact is unread; a
+    temperature-0 text witness decides it.
+  - Which commit `/usr/local/bin/ninfer-serve` was built from is unread.
   """
 end

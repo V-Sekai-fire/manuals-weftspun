@@ -252,6 +252,15 @@ rules below"
     the avatar (operator, 2026-10-02).
   - Replies. RFD 2295 owns their form: the calibrated confidence tag, ISO 8601
     times and intervals, and the known-unknown questions that close a plan.
+  - Outcomes. Every script, gate and helper reports each outcome as an
+    Elixir-shaped term on a line of its own: `{:ok, %{...}}`, or
+    `{:error, :reason_atom, %{...}}` with the facts a reader needs to act.
+    Nothing exits silently: a non-zero exit with no term is a defect, and so
+    is an `:ok` path that prints nothing. Machine output a caller parses (a
+    host name, a token) goes to stdout bare and the term goes to stderr
+    (operator, 2026-10-16). On 2026-10-16 `bao-active-host` exited 1 with
+    no output when every tailnet instance was a standby, which hid where
+    the leader was.
 
   `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
   commit authored or committed as the agent identity, a commit subject that is not
