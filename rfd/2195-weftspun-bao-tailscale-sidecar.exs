@@ -491,5 +491,41 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   its key, but does need the CN removed from the cert-auth allowlist
   until the new cert is issued, so the old cert can't be replayed if the
   key was leaked before it was gone.
+  :: details A sidecar that reports Online and moves no bytes
+  The leader's sidecar can hold a dead node identity without knowing it. On
+  2026-10-16 the active node's `tailscale status --json` reads
+  `BackendState: Running`, `Self.Online: true` and `Health: []`, while
+  `RxBytes` is 0, `CurAddr` is empty, and `tailscale ping` to the seal Bao's
+  desk times out. A standby on the same tailnet pongs that desk in 25 ms,
+  and the desk lists the leader's peer as offline. Nothing on the machine
+  reports a fault.
+
+  The HA shape turns that into a silent mint failure. A standby answers a
+  cert login with a redirect to the leader's Fly-internal address, which no
+  desk resolves, so `bao-active-host` finds two unsealed nodes and no leader,
+  prints nothing, and the git credential helper falls back to the lapsed
+  token in the keychain. The first visible symptom is a `git push` that
+  cannot read a username.
+
+  The fix is a new node identity for the same machine, and it leaves Bao
+  running:
+
+      tailscale up --force-reauth --authkey="$TS_AUTHKEY" \
+        --hostname=weftspun-bao --advertise-tags=tag:fly-bao --accept-dns=false
+
+  The flags are the colocated entrypoint's own, so they are read from it
+  rather than retyped. `TS_AUTHKEY` is reusable, so the secret already on
+  the machine serves. The node keeps its name and address under a new node
+  key, the ping returns, and the socat bridge on 8210 picks the new state up
+  on its next connection because it runs `tailscale nc` per connection.
+  Operator ruling, 2026-10-16: generate a new endpoint identity rather than
+  restart the machine.
+
+  Two gates follow from it. `bao-active-host` names an unsealed standby and
+  the leader it defers to on stderr instead of exiting silent, so a dead
+  leader reads as "every standby names the same unreachable leader" rather
+  than as "no node online". And a desk that reads `RxBytes: 0` with
+  `Online: true` on a node that has been up for days treats that as the
+  fault, not the health list.
   """
 end
