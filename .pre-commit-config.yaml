@@ -724,7 +724,7 @@ repos:
 
       - id: ci-rulesets
         name: every ruleset a document names exists
-        entry: bash -c 'python scripts/check_rulesets.py --self-test && python scripts/check_rulesets.py --repo "${GITHUB_REPOSITORY:?GITHUB_REPOSITORY unset}"'
+        entry: bash -c 'python scripts/check_rulesets.py --self-test && python scripts/check_rulesets.py'
         language: system
         pass_filenames: false
         always_run: true

@@ -4,7 +4,7 @@
 Reads the claimed ids out of CLAUDE.md and PITFALLS.md rather than restating them.
 
 Usage:
-    python check_rulesets.py [--repo owner/name]
+    python check_rulesets.py [--repo owner/name]   # else $GITHUB_REPOSITORY, else origin
     python check_rulesets.py --self-test
 """
 
@@ -127,6 +127,20 @@ def self_test():
     controls.append(("  control: the right id on the wrong repo does not satisfy it",
                      report(claims, {"V-Sekai-fire/other": {21131040: "main"}})[0][0] is False))
 
+    O = "V-Sekai-fire/manuals-weftspun"
+    controls.append(("the repository comes from the https origin",
+                     resolve_repo(None, None, f"https://github.com/{O}.git\n") == O))
+    controls.append(("the repository comes from the ssh origin",
+                     resolve_repo(None, None, f"git@github.com:{O}.git") == O))
+    controls.append(("  control: GITHUB_REPOSITORY wins over the origin",
+                     resolve_repo(None, "a/b", f"git@github.com:{O}.git") == "a/b"))
+    controls.append(("  control: --repo wins over GITHUB_REPOSITORY",
+                     resolve_repo("c/d", "a/b", "") == "c/d"))
+    controls.append(("  control: a non-GitHub origin names no repository",
+                     resolve_repo(None, None, "https://example.com/x/y.git") is None))
+    controls.append(("  control: no origin names no repository",
+                     resolve_repo(None, None, "") is None))
+
     ok = all(passed for _, passed in controls)
     for label, passed in controls:
         print(f"  {'ok  ' if passed else 'FAIL'} {label}")
@@ -135,9 +149,28 @@ def self_test():
     return 0 if ok else 1
 
 
+GITHUB_URL = re.compile(r"github\.com[:/]([\w.-]+/[\w.-]+?)(?:\.git)?/?$")
+
+
+def resolve_repo(flag, env, remote_url):
+    """owner/name from --repo, then GITHUB_REPOSITORY, then the origin URL; None when none says."""
+    if flag:
+        return flag
+    if env:
+        return env
+    m = GITHUB_URL.search((remote_url or "").strip())
+    return m.group(1) if m else None
+
+
+def origin_url():
+    r = subprocess.run(["git", "-C", str(ROOT), "remote", "get-url", "origin"],
+                       capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else ""
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", default="V-Sekai-fire/request-for-discussion")
+    ap.add_argument("--repo")
     ap.add_argument("--self-test", action="store_true")
     args = ap.parse_args()
 
@@ -152,7 +185,12 @@ def main():
             return 1
         texts[name] = p.read_text(encoding="utf-8")
 
-    claims = claimed_ids(texts, default_repo=args.repo)
+    repo = resolve_repo(args.repo, os.environ.get("GITHUB_REPOSITORY"), origin_url())
+    if repo is None:
+        print("FAIL no repository: pass --repo, set GITHUB_REPOSITORY, or add a GitHub origin")
+        return 1
+
+    claims = claimed_ids(texts, default_repo=repo)
     live_by_repo, errs = {}, []
     for repo in sorted({r for r, _ in claims} - {None}):
         live, e = live_rulesets(repo)
