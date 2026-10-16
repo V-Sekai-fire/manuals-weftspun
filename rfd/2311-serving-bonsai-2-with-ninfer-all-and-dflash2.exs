@@ -78,7 +78,7 @@ the record"
     Root, verifies the chain and admits one client name,
     `mac-mini-fire-01b8f5.agents.weftspun`.
   - The Mac's stunnel client `[ninfer]` connects to
-    `fedora.stonecat-ratio.ts.net:8443` and checks that name, in place of
+    port 8443 on `fedora.stonecat-ratio.ts.net` and checks that name, in place of
     `fedora-108f7b`. Hermes provider `02` moves to
     `http://127.0.0.1:18080/v1`, and the key comes from Bao.
   - The witnesses below hold for this host with 18080 in place of 18091.

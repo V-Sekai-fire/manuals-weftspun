@@ -194,8 +194,8 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   leader answers a login; a standby redirects to the leader's
   `<machine>.vm.weftspun-fdb.internal` address, which no desk resolves.
   Two of the three carried tailnet names that day (`weftspun-bao-3`,
-  `weftspun-bao-4`), both unsealed standbys, and the leader
-  (`0803267bd16708`) had none, so a desk asking the tailnet found no
+  `weftspun-bao-4`), both unsealed standbys, and the leader, the third
+  machine, had none, so a desk asking the tailnet found no
   leader and the desk helper exited without a word.
 
   The route that worked: read `sys/leader` from any instance (no token,

@@ -42,12 +42,16 @@ every stunnel or edge endpoint that serves under an agent identity"
   `pki-agents-v2`, which is how that mount was found.
 
   :: details The mounts
-  | mount | issuer | name constraints | role an agent may sign with |
-  | --- | --- | --- | --- |
-  | `pki-agents` | chibifire.com agent CA | `chibifire.com`, `agents.weftspun` | `agent-client`: client use only, 1 year |
-  | `pki-agents-v2` | chibifire.com agent CA v2 | the two above, `stonecat-ratio.ts.net`, `100.64.0.0/10` | `agent-endpoint` (this RFD) |
-  | `pki` | Intermediate CA v2 | none read | none; its key is unreadable on the node |
-  | `pki-listener` | bao listener CA | Bao's own names | Bao's listener only |
+  - `pki-agents`: issuer chibifire.com agent CA, constrained to `chibifire.com`
+    and `agents.weftspun`. An agent signs with `agent-client`: client use
+    only, 1 year.
+  - `pki-agents-v2`: issuer chibifire.com agent CA v2, constrained to the two
+    above, `stonecat-ratio.ts.net` and `100.64.0.0/10`. An agent signs with
+    `agent-endpoint` (this RFD).
+  - `pki`: issuer Intermediate CA v2, no constraints read. No agent role; its
+    key is unreadable on the node.
+  - `pki-listener`: issuer bao listener CA, constrained to Bao's own names.
+    Bao's listener only.
 
   Every issuer chains to the chibifire.com Root CA, so a client that trusts
   the Root (`~/.bao.d/server-ca.pem` on the Mac) verifies both agent CAs.
