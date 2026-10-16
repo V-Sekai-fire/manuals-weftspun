@@ -382,6 +382,14 @@ repos:
 
       # Churny literals in RFD prose (side paths, branches, PR numbers, SHAs, file:line)
       # are written as &{repo/file/pin/measured}; ci-rfd-literals holds the count against the base.
+      - id: rfd-literals
+        name: no RFD source adds a churny literal against origin/main
+        entry: bash -c 'elixir scripts/check_rfd_literals.exs --base "${GATE_BASE:-origin/main}"'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+
       - id: rfd-literals-self-test
         name: the RFD literal gate still fails on planted literals
         entry: elixir scripts/check_rfd_literals.exs --self-test
