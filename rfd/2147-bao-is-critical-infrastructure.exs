@@ -189,7 +189,35 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
      (`-migrate`). The Shamir key stays in 1Password as the recovery key.
 
   A cloud KMS can replace the Mac later through the same seal migration.
+  :: details A desk reaches the active instance
+  Read on 2026-10-16. The three instances elect one leader, and only the
+  leader answers a login; a standby redirects to the leader's
+  `<machine>.vm.weftspun-fdb.internal` address, which no desk resolves.
+  Two of the three carried tailnet names that day (`weftspun-bao-3`,
+  `weftspun-bao-4`), both unsealed standbys, and the leader
+  (`0803267bd16708`) had none, so a desk asking the tailnet found no
+  leader and the desk helper exited without a word.
+
+  The route that worked: read `sys/leader` from any instance (no token,
+  mTLS only), take the machine id out of `leader_address`, and run
+  `fly proxy 8200:8200 <id>.vm.weftspun-fdb.internal -a weftspun-fdb` as a
+  background process. The desk then uses `BAO_ADDR=https://127.0.0.1:8200`
+  with `BAO_TLS_SERVER_NAME=weftspun-bao.internal` and its agent
+  certificate. The proxy exits on its own after some minutes; a
+  `connection refused` on 127.0.0.1:8200 means restart it, not that Bao
+  is down.
+
+  The retired `weftspun-bao` app still exists, stopped. `fly proxy -a
+  weftspun-bao` fails with `host was not found in DNS` because nothing
+  runs there, and starting its machine brings up a second Bao against the
+  same FDB storage, which stops again within a minute. It was started
+  twice that day by mistake before the route above was found; it is not
+  started again, and its deletion is an open item.
   :: details Sub-decisions open
+  - Delete the retired `weftspun-bao` app and its volume, so a desk
+    cannot start a second Bao by mistake.
+  - Every instance joins the tailnet under its own name, or the leader's
+    name is published where a desk can read it without a Fly login.
   - 3 replicas, one per FDB machine (operator, 2026-10-13).
   - Standbys serve reads (`disable_performance_standby = false`) vs
     forward to leader. Read-heavy workload argues for serving.
