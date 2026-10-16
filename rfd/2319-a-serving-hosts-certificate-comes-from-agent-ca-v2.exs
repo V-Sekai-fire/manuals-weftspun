@@ -89,8 +89,8 @@ every stunnel or edge endpoint that serves under an agent identity"
   - **Signer.** `bao token capabilities pki-agents-v2/sign/agent-endpoint`
     under an agent cert login returns create and update.
 
-  The first two controls were run on 2026-10-16 and failed as planted. The
-  passing case waits on the role.
+  The first two controls were run on 2026-10-16 and failed as planted, and
+  the passing case ran the same day on the certificate below.
 
   :: details What went wrong first
   On 2026-10-16 the role was written on `pki-agents`, the mount the client
@@ -99,11 +99,19 @@ every stunnel or edge endpoint that serves under an agent identity"
   A role named `agent-endpoint` already existed there and was overwritten
   without being read, so its earlier settings are lost. The `csr-signer`
   policy gained `pki-agents/sign/agent-endpoint` in the same write. Both
-  are removed when the role moves to `pki-agents-v2`.
+  were removed later that day, when the role was written on `pki-agents-v2`.
 
-  :: details Open questions
-  - Whether `pki-agents-v2` already carries a role that signs server
-    certificates, the one the Mac's server certificate came from, is
-    unread. If it does, this RFD names it instead of adding one.
+  `pki-agents-v2` already carried `agent-endpoint` and `agent-client`, both
+  allowing `agents.weftspun`, `stonecat-ratio.ts.net` and tailnet addresses.
+  The existing `agent-endpoint` had a one-year ceiling and stored each
+  certificate; this RFD's write changed it to 90 days and `no_store`. The
+  Mac's own server certificate came from that role before the change.
+
+  :: details The first certificate
+  Serial `21:f0:0c:1d:94:8a:aa:74:f1:d5:6c:91:2c:dd:35:72:95:2a:1e:95`, for
+  `fedora-9a6c28.agents.weftspun`, issued 2026-10-16, valid to 2027-01-14,
+  signed by the Mac agent identity with no root token. The chain gate passed
+  and the use control failed as planted. It is installed on the host as
+  `~/.bao-creds/fedora-9a6c28/srv-fullchain.pem` beside its key.
   """
 end
