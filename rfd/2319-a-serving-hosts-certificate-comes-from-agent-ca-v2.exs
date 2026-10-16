@@ -111,11 +111,23 @@ every stunnel or edge endpoint that serves under an agent identity"
   certificate; this RFD's write changed it to 90 days and `no_store`. The
   Mac's own server certificate came from that role before the change.
 
-  :: details The first certificate
-  Serial `21:f0:0c:1d:94:8a:aa:74:f1:d5:6c:91:2c:dd:35:72:95:2a:1e:95`, for
-  `fedora-9a6c28.agents.weftspun`, issued 2026-10-16, valid to 2027-01-14,
-  signed by the Mac agent identity with no root token. The chain gate passed
-  and the use control failed as planted. It is installed on the host as
-  `~/.bao-creds/fedora-9a6c28/srv-fullchain.pem` beside its key.
+  The operator then requested the old settings back. Only the root token can
+  write the role, and it sits in the password manager, which routine work
+  does not use. The operator kept the 90-day role and had both certificates
+  rotated through it instead.
+
+  :: details The certificates in use
+  Both were rotated on 2026-10-16 with a fresh P-256 key made on each host
+  and signed by the Mac agent identity with no root token. Each is valid to
+  2027-01-14, passes the chain gate, and matches its key.
+  - `fedora-9a6c28.agents.weftspun`, serial `5d:9c:e6:f3`, at
+    `~/.bao-creds/fedora-9a6c28/srv-fullchain.pem`. It replaces serial
+    `21:f0:0c:1d`, issued earlier the same day, never served, and deleted
+    with its key.
+  - `mac-mini-fire-01b8f5.agents.weftspun`, serial `3e:dd:70:c0`, at
+    `~/.bao-creds/mac-mini-fire-01b8f5/srv-fullchain.pem`. It replaces
+    serial `60:1e:4b:98`, a one-year certificate from the old role. No
+    agent identity may revoke on `pki-agents-v2`, so that one stays valid
+    to 2027-10-12; nothing on the Mac reads it.
   """
 end
