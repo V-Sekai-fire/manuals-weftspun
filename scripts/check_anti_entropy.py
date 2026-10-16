@@ -54,7 +54,7 @@ check("  control: an underscore we picked is caught",
 # --- B. serials, enumerated both directions -------------------------------------------
 # A text read, where check-rfd-serials.py reads the same rows through the USD API; two
 # implementations disagreeing is the finding. The .exs source is tracked, the .usda is not.
-REGISTERS = ["SERIALS.exs", "SERIALS-vsekai-fabric.exs"]
+REGISTERS = ["SERIALS.exs", "SERIALS-vsekai-fabric.exs", "../manuals-smoke-water/SERIALS.exs"]
 absent = [f for f in REGISTERS if not (RFD/f).is_file()]
 check("every serial register present", not absent, f"{len(REGISTERS)} registers, absent: {absent or 'none'}")
 s = "\n".join((RFD/f).read_text(encoding="utf-8") for f in REGISTERS if (RFD/f).is_file())
