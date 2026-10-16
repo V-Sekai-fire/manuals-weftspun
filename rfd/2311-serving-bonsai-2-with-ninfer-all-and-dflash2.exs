@@ -16,13 +16,14 @@ the record"
   `bonsai2-27b-heretic.ninfer` artifact with `--spec dflash2 --draft-tokens 5`,
   on the Linux host since the Windows desk was decommissioned on 2026-10-16.
   The server binds loopback only, takes an API key, and is reached off the
-  box through stunnel with mutual TLS. On 2026-10-16 the Linux host met none
-  of those three. The operator chose the engine and drafter on 2026-10-12
-  ("The ninfer with dflash won") after the A-B-A run in the details.
+  box through stunnel with mutual TLS. The Linux host met none of those three
+  when read on 2026-10-16, and all three by the end of that day. The operator
+  chose the engine and drafter on 2026-10-12 ("The ninfer with dflash won")
+  after the A-B-A run in the details.
   :: problem
   No RFD decided how the 4090 serves Bonsai 2, and the setup lived in one
   agent's notes. The desk this RFD first described is gone, and the Linux
-  host that replaced it serves without a key to anyone on the LAN.
+  host that replaced it served without a key to anyone on the LAN.
   :: related
   - BLOCKLIST.md, "Speculative decoders other than MTP-3" and "1-bit
     PTQ1_0 bodies", both for the ggml language server on the 3090.
@@ -68,21 +69,62 @@ the record"
   - No stunnel runs and the package is not installed. Hermes on the Mac
     calls `http://100.112.127.19:8080/v1` in plain HTTP.
 
-  :: details The Linux front, planned
-  - The unit binds `127.0.0.1:8080`, adds `--vision`, and reads its key
-    from a file only `ninference` can read, so the key stays off the
-    command line other users can list.
-  - stunnel, from the Fedora package, runs as a systemd unit on
-    100.112.127.19:8443 and forwards to 127.0.0.1:8080. Its certificate is
-    the host's endpoint certificate from RFD 2319. It trusts the chibifire
-    Root, verifies the chain and admits one client name,
-    `mac-mini-fire-01b8f5.agents.weftspun`.
-  - The Mac's stunnel client `[ninfer]` connects to
-    port 8443 on `fedora.stonecat-ratio.ts.net` and checks that name, in place of
-    `fedora-108f7b`. Hermes provider `02` moves to
-    `http://127.0.0.1:18080/v1`, and the key comes from Bao.
-  - The witnesses below hold for this host with 18080 in place of 18091.
-    The ready control, 401 without the key, fails today.
+  :: details The Linux front, built 2026-10-16
+  Everything the server needs now lives under `/opt/ninfer`, so it no
+  longer depends on a checkout or the Desktop:
+
+  - `/opt/ninfer/models/bonsai2-27b-heretic.ninfer`, the same
+    9,520,051,456 bytes.
+  - `/opt/ninfer/lib`, 76 libraries (717 MB) the binary resolves: ffmpeg 7.1
+    and CUDA 13 from the pixi environment it was built in. The binary's
+    RPATH still names that environment's old path, which no longer exists,
+    so the unit sets `LD_LIBRARY_PATH=/opt/ninfer/lib`. The binary reports
+    `ninfer-serve 0.12.0-rtx3090+v0.6.0-rtx3090-1686-g305cd8bb`.
+  - Drop-ins under `/etc/systemd/system/ninfer-serve.service.d/`:
+    `10-libs.conf` sets the library path, `20-front.conf` sets
+    `CUDA_DEVICE_ORDER=PCI_BUS_ID`, reads `/etc/ninfer/env` (root, 0400)
+    and runs with `--host 127.0.0.1 --device 1 --api-key ${NINFER_API_KEY}
+    --vision`. The binary takes the key only on its command line, so it is
+    visible in `/proc` to a shell on the host; the network sees only the
+    front.
+  - `stunnel-ninfer.service` runs `/etc/stunnel/ninfer.conf` as a system
+    user `stunnel`, which the Fedora package does not create. It accepts on
+    100.112.127.19:8443 with the RFD 2319 certificate, and its `CAfile`
+    holds the Root and agent CA v2. With the Root alone it refused a client
+    that sends only its leaf.
+  - The key is also in Bao at
+    `secret/agents-own/mac-mini-fire-041138.agents.weftspun/bonsai-fedora-api-key`
+    and in the Mac's `~/.hermes/.env` as `BONSAI_FEDORA_API_KEY`.
+  - The Mac's `[ninfer]` client connects to `fedora.stonecat-ratio.ts.net`
+    and checks that name. The desk sections are removed, kept in
+    `stunnel.conf.bak-desk-20261016`.
+
+  Witnesses, read 2026-10-16 from the Mac:
+
+  | check | result | control | result |
+  | --- | --- | --- | --- |
+  | ready, with key, via 18080 | 200 | without key | 401 |
+  | bind | `127.0.0.1:8080` | `100.112.127.19:8080` from the Mac | refused |
+  | mTLS, `mac-mini-fire-01b8f5` | accepted, forwarded | no client cert | refused |
+  |  |  | `mac-mini-fire-041138`, same CA | refused, subject check |
+  | completion via 18080 | answered | | |
+
+  The vision and speed witnesses are not yet run on this host.
+
+  :: details What went wrong building it
+  The first read that day found `~/Desktop` cleared at 06:36: the
+  `ninfer-all` checkout and the `models` directory were in the Trash. The
+  server kept serving because the running process held both open. The first
+  restart into the new unit failed with `startup failed | inspecting
+  artifact` because the model path no longer existed, and the fallback came
+  up on the 3090 because `CUDA_DEVICE_ORDER=PCI_BUS_ID` made device 0 the
+  3090. A second attempt reran an unedited script. The 4090 served nothing
+  from 09:51:51 to 09:53:35 PDT, about a minute and three quarters, until the
+  artifact was copied out of the Trash to `/opt/ninfer/models`.
+
+  The unit, drop-ins and stunnel files exist only on the host. A reimage
+  removes them, as it removed the podman quadlet before; placing them in a
+  repository is an open item.
 
   :: details The measurement
   One RTX 4090, the same launcher flags on every arm (`--max-context 262144`,
