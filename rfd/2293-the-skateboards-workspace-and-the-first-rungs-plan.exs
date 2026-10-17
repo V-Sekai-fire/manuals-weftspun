@@ -218,8 +218,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     The Frame pulls the Windows release with `curl` over `ssh frame`
     into `~/rfd2287/godot-dbl`; this Mac pulls the macOS one.
   - Linux x86_64 double, the servers' build, comes only from the
-    workflow: there is no Linux machine on the desk any more (the WSL
-    Fedora is deleted), so the matrix's `linux-x86_64` job is the one
+    workflow: the matrix's `linux-x86_64` job is the servers' one
     Linux build, it runs `--headless` in the Fly image, and the pen's
     headless gates run on the `ubuntu` runner. The Frame's own Linux
     path, the compatibility layer's missing XCursor and xkbcommon, is
