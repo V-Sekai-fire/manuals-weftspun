@@ -16,8 +16,9 @@ budget and parks work the same way every time"
     `godot-` or `vendor-` (operator, 2026-10-13).
   - `dev/` becomes `beta/` once every latest check on the tip passed,
     the minimum bar (operator, 2026-10-13).
-  - Each RFD lands as one commit; a revision amends that commit
-    before merge.
+  - A `dev/` branch ends as a pull request or in `archived/`; a fork keeps its
+    `dev/`, `beta/`, `rc/` and `release/` branches (operator, 2026-10-17).
+  - Each RFD lands as one commit; a revision amends it before merge.
   - Maintenance takes at most a tenth of a session's budget.
   - Parked work is committed and pushed with its known defects
     named in the message, and the checkout is detached so
@@ -49,6 +50,30 @@ budget and parks work the same way every time"
   that names branches, such as the assembly config, is updated in the
   same session, because the code host redirects a renamed branch's
   web links but not a `git fetch` of the old name.
+  """
+
+  details "How a dev branch ends", ~S"""
+  Sort each `dev/` branch by what it holds that the default branch
+  lacks: `git cherry -v` against the default branch, and a trial merge
+  with `git merge-tree --write-tree`.
+
+  - Work the default branch lacks that merges cleanly goes to a pull
+    request as it stands.
+  - A branch whose commits the default branch mostly holds keeps only
+    its `+` commits. They are cherry-picked onto a new `dev/<x>` off the
+    default branch for a pull request, and the old branch is renamed to
+    `archived/`, since a merge from a stale base conflicts.
+  - Work in progress that was never built is renamed to `archived/`.
+    A pull request would ask CI to judge code its author has not run.
+
+  A fork keeps every `dev/`, `beta/`, `rc/` and `release/` branch: its
+  work still goes to a pull request, but the branch is neither renamed
+  to `archived/` nor deleted when the pull request merges.
+
+  Before renaming, check that the `archived/` name is free and that no
+  pull request has the branch as its head. After a pull request merges,
+  cancel the merged branch's queued runs: they hold runners that the
+  default branch's own run needs.
   """
 
   details "How a branch is promoted", ~S"""
