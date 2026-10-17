@@ -385,6 +385,73 @@ rules below"
   Linux zone servers and never reaches the headset. The compatibility layer runs
   that same Windows build, so the Windows desk is where it is tested. RFD 2293
   builds the libraries.
+  :: details Translations linked into the addon, one bake per platform
+  A translation can be compiled into the addon library of its platform instead of
+  being loaded as a library at run time. On the web this is the only route that
+  works: Chrome refuses to compile a WebAssembly module larger than 8 MB on the main
+  thread, and a game's translation is larger. The desktop builds of the same game
+  use the same route. The addon keeps each platform's translation objects in a
+  folder of their own, `src/bintr/<platform>.<arch>/`.
+
+  Each platform bakes its own C. The game runs once on that platform with the
+  emitter on, and the emitted C is compiled for that platform. The program hash
+  covers the machine layout as well as the program, so C baked on one platform
+  does not match on another. Windows and Linux on x86_64 share a layout and a
+  hash, and each still compiles its own copy. One bake of the SolidCraft guest
+  is 32 C files, 336 MB of C for 16.2 MB of RISC-V code.
+
+  A change to the host's system calls leaves the guest's translation as it was,
+  so the compiled objects and the hash stay valid and only a relink is needed.
+  :: details Building the desktop libraries
+  Linux x86_64 is built and tested in WSL Ubuntu 22.04 on the Windows desk, not in
+  a container on the Mac (operator, 2026-10-16). The library needs glibc 2.35, the
+  floor the Godot template already sets. macOS arm64 is cross-built in the same WSL
+  with osxcross and the macOS 15.4 SDK packed from the Mac (operator, 2026-10-16).
+  Ubuntu's clang 14 cannot parse that SDK's libc++ headers, so osxcross is built
+  with clang 18, and clang 18 is the `clang` on the PATH, because the osxcross
+  wrapper calls plain `clang`. Windows x86_64 is cross-built with MinGW on the Mac.
+  Steps that run in WSL go in a script file on the Windows side, which `wsl.exe`
+  runs as root with `sh` from `/mnt/c/`. Nested quoting from `cmd` into WSL
+  returns empty output.
+
+  Compiling the 32 translation units took 158 s for macOS on the Mac, 348 s for
+  Windows on the Mac and 590 s for Linux in WSL on the desk.
+  :: details What a Linux guest needs from a Windows host
+  A Rust guest linked against static glibc failed on the Windows host, translated
+  and interpreted alike, and so did the released addon. The emulator's Windows
+  host answered four system calls differently from its Linux host:
+
+  - `brk` did not keep the new break. Static glibc puts the main thread's
+    thread-local block at the first break, so the heap handed out memory inside it
+    and, later, an address in read-only data. This was the crash.
+  - `clock_gettime` wrote the host's own `timespec`, a 32-bit nanosecond field with
+    padding, where the 64-bit guest reads two 64-bit fields.
+  - Error numbers above `ERANGE` follow the Windows C runtime (`ENOSYS` is 40, where
+    Linux has 38). glibc chooses its `rseq` and `clone3` fallbacks on `ENOSYS`, so
+    the host now maps errors to the Linux numbers in one header.
+  - `sched_getaffinity` was missing. The Linux and macOS hosts report one CPU, and
+    the Windows host now does the same.
+
+  The first three fixes left the crash in place. A dump of the guest registers and
+  the page's permissions at the fault found the break. The fixes are in our libriscv
+  fork, and the addon takes them with Linux's `ENOSYS` for an unknown system call.
+  :: details What was measured
+  Each target built one sphere of 672 triangles in the guest's self-test, with the
+  translated and the interpreted build started one after the other, twice, on a
+  machine with no other load (2026-10-17). Times are in milliseconds.
+
+  | target | translated | interpreted |
+  |---|---|---|
+  | macOS arm64, Mac mini, osxcross build | 40.3 to 42.0 | 214.7 to 293.5 |
+  | Windows x86_64, the desk | 61.2 to 62.0 | 454.2 to 491.7 |
+  | Linux x86_64, WSL on the same desk | 114.4 to 131.9 | 583.8 to 595.3 |
+  | web, Chrome on the Mac, tab in front | 79 to 110 | 442 to 472 |
+
+  The same macOS translation built with Apple clang took 69.5 to 72.4 ms against
+  37.7 to 38.4 ms from osxcross with clang 18, so the osxcross build is the one that
+  ships. The cause of that difference is not measured. Readings taken while another
+  build ran on the same machine overstated the gap: Windows interpreted read 848 to
+  907 ms then.
   :: details The headset
   Tests and gates run on the Windows desk or as renders on the Mac, not in the
   headset the operator wears. A run, a runtime restart or a capture in the headset
