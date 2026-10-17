@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2305, "one credit system with ports and adapters", :discussion do
-  flight_level :l2
   feature "every bounded resource in the workspace admits work through one credit ledger"
   scope "desk jobs, the work-stealing issue queue, the CI runner pool, the OXRSys video sender,
 the datasource-store dirty-page buffer and the WebTransport stream budget"
