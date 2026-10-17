@@ -57,6 +57,12 @@ rfd 2298, "the first rung's dev.next", :discussion do
   - no hand-placed colliders: every collider decomposed from its mesh
     by CoACD running as a godot-sandbox guest ELF over ggml-rd and
     compute-rd, and handed to the MuJoCo guest;
+  - the SolidCraft game Space reported stuck at load in the operator's
+    Chrome on the Mac (2026-10-17), with a shader asking for 17 sampled
+    textures where the WebGPU adapter allows 16
+    (`maxSampledTexturesPerShaderStage`). A fresh Chrome profile loaded and
+    played it on the same Mac, so the cause is not found. It is parked until
+    a run reproduces it;
   - the headset path: the Frame streaming from the desktop over oxrsys,
     and the extra companion controllers.
   :: details Which features are likely to bring joy
