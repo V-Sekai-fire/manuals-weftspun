@@ -19,7 +19,8 @@ the record"
   box through stunnel with mutual TLS. The Linux host met none of those three
   when read on 2026-10-16, and all three by the end of that day. The operator
   chose the engine and drafter on 2026-10-12 ("The ninfer with dflash won")
-  after the A-B-A run in the details.
+  after the A-B-A run in the details. Since 2026-10-17 the host's Windows
+  boot serves both cards too, and the Mac reaches either through one port.
   :: problem
   No RFD decided how the 4090 serves Bonsai 2, and the setup lived in one
   agent's notes. The desk this RFD first described is gone, and the Linux
@@ -42,7 +43,9 @@ the record"
   The choice of engine and drafter is the operator's. Amended on 2026-10-16
   when the operator decommissioned the Windows desk: the Linux host was read
   over SSH that day, and the sections from "Building the engine" to "Rolling
-  back" describe the desk and stay as the record.
+  back" describe the desk and stay as the record. Amended on 2026-10-17
+  when the same tower's Windows side was set up on both cards from the
+  fork's `v-sekai/desk/` scripts.
 
   :: details The Linux host, read 2026-10-16
   Fedora 44, an RTX 3090 and an RTX 4090, both capped at 275 W. Tailnet name
@@ -110,6 +113,53 @@ the record"
   | completion via 18080 | answered | | |
 
   The vision and speed witnesses are not yet run on this host.
+
+  :: details The Windows side of the tower, built 2026-10-17
+  The tower is `DESKTOP-CME56A7` when booted into Windows, tailnet address
+  100.93.160.103, agent identity `windows-229dd3.agents.weftspun`. One OS is
+  up at a time. It serves the published artifact on both
+  cards, one build per card, because one ninfer-all build compiles for one
+  CUDA architecture:
+
+  | card | build | local port | tunnel port | Mac port |
+  | --- | --- | --- | --- | --- |
+  | 4090 | sm_89 | 8091 | 8443 | 18091 |
+  | 3090 | sm_86 | 8092 | 8444 | 18092 |
+
+  - Hosted runners build both. The fork workflow `V-Sekai Windows build`
+    takes the architecture as input and uploads `dist-windows-sm<arch>`.
+    The sm_86 build came from run 39051722320, the sm_89 build from the MSI
+    workflow's run 38983618197. Each took about 2 h 50 min.
+  - `nu v-sekai/desk/deploy.nu <card>` on the Mac runs `install.nu` on the
+    tower. It checks the model's sha256 and every file of the build against
+    its `SHA256SUMS`, installs into `C:/ninfer-<card>`, writes the launcher
+    and its logon task, starts the server, and writes one stunnel section
+    per installed card. A second run on the same card rewrites the same
+    files.
+  - The launcher has the flags of "The launcher" below. It finds the card
+    by name with `CUDA_DEVICE_ORDER=PCI_BUS_ID`, and it restarts the server
+    10 s after it exits. Both cards read one key file.
+  - The tunnel uses the tower's RFD 2319 serving certificate and admits only
+    `mac-mini-fire-01b8f5`.
+  - On the Mac, a LiteLLM proxy (launchd `com.chibifire.model-router`) is
+    the one Hermes provider, `bonsai`. Model `bonsai` goes to the least busy
+    of the four servers and skips one that is down for 60 s. A name per card
+    selects one server.
+
+  Witnesses, read 2026-10-17 from the Mac through each tunnel:
+
+  | check | 4090 | 3090 |
+  | --- | --- | --- |
+  | no key, wrong key, key | 401, 401, 200 | 401, 401, 200 |
+  | decode, 512-token code answer, temperature 0 | 302-309 tok/s | 246 tok/s |
+  | the vision probe | passes | passes |
+  | rerun with `--keep-build` | same answer sha256 | not rerun |
+
+  The 4090 server stopped between 10:29 and 15:28 that day with no line in
+  its log, and the tower did not reboot. The cause is unread. The restart
+  loop came after it: ending the process brought the server back in 28 s.
+  Later runs decoded 225 and 160 tok/s while other desktop programs held
+  the cards. Whether those programs caused the drop is unmeasured.
 
   :: details What went wrong building it
   The first read that day found `~/Desktop` cleared at 06:36: the
@@ -266,8 +316,10 @@ the record"
   - MTP's upstream advantage is a second request lane
     (`--max-concurrency 2`). Every arm here served one request at a time.
   - DFlash2 at six and seven draft tokens is unmeasured.
-  - The MSVC fixes are on a fork branch, not on the fork's `main`. With the
-    desk gone, no Windows build is needed for this RFD.
+  - Windows builds now come from the fork's `main` on hosted runners, so the
+    `dev/msvc-f16c-convert` branch is no longer the build source.
+  - The Linux host's unit, drop-ins and stunnel files are still in no
+    repository. The Windows side's files are in `v-sekai/desk/`.
   - The desk and the Mac served the earlier private conversion, whose
     provenance carries the converting host's path. Whether the Linux
     host's copy is that one or the published artifact is unread; a
