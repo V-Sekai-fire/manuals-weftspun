@@ -235,7 +235,7 @@ defmodule Serials.VSekaiFabric do
       serial 2277, "curvenet-cage-refit-and-unified-expressions-in-modular-avatar",
         flight_level: :l2
 
-      serial 2278, "voxel-remeshing-for-cages-and-solids", flight_level: :l1
+      serial 2278, "voxel-remeshing-for-cages-and-solids"
       serial 2279, "one-deform-surface-over-curvenets"
       serial 2280, "pixal3d-latents-as-mesh-tokens", flight_level: :l1
       serial 2281, "face-shapes-from-three-sources", flight_level: :l1
@@ -260,7 +260,7 @@ defmodule Serials.VSekaiFabric do
       serial 2302, "guest-work-runs-in-frame-slices", flight_level: :l1
       serial 2303, "xr-technical-requirements-checklist", flight_level: :l1
       serial 2304, "one-lean-4-rectgtn-library-generates-the-planner", flight_level: :l2
-      serial 2305, "one-credit-system-with-ports-and-adapters", flight_level: :l2
+      serial 2305, "one-credit-system-with-ports-and-adapters"
       serial 2306, "operating-the-shared-windows-vr-desk", flight_level: :l1
       serial 2307, "recording-the-xr-pilot-stream-to-cineform", flight_level: :l1
       serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
@@ -270,7 +270,7 @@ defmodule Serials.VSekaiFabric do
       serial 2312, "release-tags-are-go-pseudo-versions", flight_level: :l1
       serial 2313, "the-full-loop-over-colour-passthrough", flight_level: :l2
       serial 2314, "the-skintokens-space-viewer-runs-as-sandbox-guests", flight_level: :l2
-      serial 2315, "web-shaders-are-baked-by-the-browser-that-runs-them", flight_level: :l2
+      serial 2315, "web-shaders-are-baked-by-the-browser-that-runs-them"
       serial 2316, "bao-holds-a-bounded-set", flight_level: :l2
       serial 2317, "a-browser-joins-a-webtransport-server-with-a-bao-ticket", flight_level: :l2
       serial 2318, "the-avatar-space-is-built-smallest-joy-first", flight_level: :l2

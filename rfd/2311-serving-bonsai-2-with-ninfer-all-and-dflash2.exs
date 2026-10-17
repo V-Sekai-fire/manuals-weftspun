@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2311, "serving bonsai 2 with ninfer-all and dflash2", :discussion do
+rfd 2311, "serving bonsai 2 with ninfer-all and dflash2", :committed do
   flight_level :l1
   feature "the 4090 serves Ternary Bonsai 2 27B through ninfer-all with a DFlash2 drafter of five
 tokens, and this RFD is how to set that up again from nothing"

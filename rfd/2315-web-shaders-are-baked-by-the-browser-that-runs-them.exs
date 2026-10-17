@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2315, "web shaders are baked by the browser that runs them", :discussion do
-  flight_level :l2
   feature "a web export ships the shader cache the browser itself writes, so a first visit
 converts almost no shaders"
   scope "the WebGPU web template of our entities-godot fork, its shader cache, the export
