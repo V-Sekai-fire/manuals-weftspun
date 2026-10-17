@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2235, "An ACP agent that plans with taskweft and executes through the editor", :discussion do
+rfd 2235, "An ACP agent that plans with taskweft and executes through the editor", :committed do
   flight_level :l2
 
   feature "a no-model Agent Client Protocol agent: a deterministic " <>

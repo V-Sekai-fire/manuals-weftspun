@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2312, "release tags are go pseudo-versions", :discussion do
+rfd 2312, "release tags are go pseudo-versions", :committed do
   flight_level :l1
   feature "a release tag is the Go pseudo-version of the commit it points at, so every tag sorts
 by time in a file listing and parses as a version in every package tool"
