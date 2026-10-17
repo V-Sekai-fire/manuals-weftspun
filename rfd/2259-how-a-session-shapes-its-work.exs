@@ -16,9 +16,9 @@ budget and parks work the same way every time"
     `godot-` or `vendor-` (operator, 2026-10-13).
   - `dev/` becomes `beta/` once every latest check on the tip passed,
     the minimum bar (operator, 2026-10-13).
-  - A `dev/` branch ends as a pull request or in `archived/` (operator, 2026-10-17).
-  - Each RFD lands as one commit; a revision amends that commit
-    before merge.
+  - A `dev/` branch ends as a pull request or in `archived/`; a fork keeps its
+    `dev/`, `beta/`, `rc/` and `release/` branches (operator, 2026-10-17).
+  - Each RFD lands as one commit; a revision amends it before merge.
   - Maintenance takes at most a tenth of a session's budget.
   - Parked work is committed and pushed with its known defects
     named in the message, and the checkout is detached so
@@ -65,6 +65,10 @@ budget and parks work the same way every time"
     `archived/`, since a merge from a stale base conflicts.
   - Work in progress that was never built is renamed to `archived/`.
     A pull request would ask CI to judge code its author has not run.
+
+  A fork keeps every `dev/`, `beta/`, `rc/` and `release/` branch: its
+  work still goes to a pull request, but the branch is neither renamed
+  to `archived/` nor deleted when the pull request merges.
 
   Before renaming, check that the `archived/` name is free and that no
   pull request has the branch as its head. After a pull request merges,
