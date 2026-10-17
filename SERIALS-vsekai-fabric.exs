@@ -275,6 +275,7 @@ defmodule Serials.VSekaiFabric do
       serial 2317, "a-browser-joins-a-webtransport-server-with-a-bao-ticket", flight_level: :l2
       serial 2318, "the-avatar-space-is-built-smallest-joy-first", flight_level: :l2
       serial 2319, "a-serving-hosts-certificate-comes-from-agent-ca-v2", flight_level: :l1
+      serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
     end
 
     deleted do
