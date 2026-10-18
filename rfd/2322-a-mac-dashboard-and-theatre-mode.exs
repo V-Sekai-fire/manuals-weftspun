@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2322, "a Mac dashboard with a launcher and theatre mode", :discussion do
+rfd 2322, "a Mac dashboard and theatre mode", :discussion do
   flight_level :l1
-  feature "one OpenXR app on the Mac that shows a launcher of the apps OXRSys Home lists and a
+  feature "one OpenXR app on the Mac that shows a dashboard of the apps OXRSys Home lists and a
 theatre mode that puts a website on a large screen in the headset, recorded from the stream"
   scope "XR Pilot's Apple clients (`oxrsys/clients/Apple/`), its macOS app disk image, and the
 recording path of RFD 2307"
@@ -12,18 +12,18 @@ recording path of RFD 2307"
   prose ~S"""
   :: decision
   The Mac gets a dashboard: one OpenXR app that runs on OXRSys with Metal. It
-  opens on a launcher of the apps OXRSys Home already lists, and its theatre
+  opens on tiles for the apps OXRSys Home already lists, and its theatre
   mode shows one website on a large flat screen in front of the wearer
   (operator, 2026-10-17). The app draws the screen into its own projection
   layer, so the runtime does not change. A theatre session is recorded from
   the runtime's stream as RFD 2307 states, not by a screen capture.
 
   It is built smallest first: theatre mode with a fixed address and a
-  recording, then pointer input, then the launcher.
+  recording, then pointer input, then the dashboard tiles.
   :: problem
   The operator wants to record a website shown in theatre mode on the Mac.
   On the Windows desk, the VR platform's dashboard has a theatre screen. The Mac has a
-  desktop launcher and a simulator window, and nothing shows a page in the
+  desktop app list and a simulator window, and nothing shows a page in the
   headset.
   :: related
   - RFD 2307, recording the XR Pilot stream: how the session is recorded.
@@ -36,7 +36,7 @@ recording path of RFD 2307"
   prose ~S"""
   :: details Sources
   Drafted on 2026-10-17 from XR Pilot's main branch as read that day and the
-  operator's choice of a launcher and theatre mode over the Windows desk and
+  operator's choice of a dashboard and theatre mode over the Windows desk and
   over a desktop recording.
 
   :: details What XR Pilot holds today
@@ -61,7 +61,7 @@ recording path of RFD 2307"
     into both eyes with the head pose of the frame.
   - Input, second step: a controller ray hits the screen, and the trigger
     sends a mouse click to the page at that point.
-  - Launcher, third step: tiles for the apps in OXRSys Home's saved list. A
+  - Dashboard tiles, third step: one tile per app in OXRSys Home's saved list. A
     tile starts the app the way OXRSys Home does, and the dashboard ends
     its own session first.
   - The address comes from the command line for the first step.
@@ -75,7 +75,7 @@ recording path of RFD 2307"
     before it.
   - Whether the runtime's Metal path accepts the swapchain format the app
     asks for. The first run reports the formats the runtime offers.
-  - How the launcher hands the headset from one app to the next without the
+  - How the dashboard hands the headset from one app to the next without the
     client dropping. Settled at the third step.
 
   :: details Gates and controls
@@ -89,7 +89,7 @@ recording path of RFD 2307"
   - Input gate, second step: a scripted click on a test page's button
     changes the page, read back from the stream. Control: a click off the
     button changes nothing.
-  - Launcher gate, third step: a tile starts a test app, whose frames reach
+  - Dashboard gate, third step: a tile starts a test app, whose frames reach
     the stream. Control: a tile for a missing bundle shows an error and
     starts nothing.
   - Each gate runs through the simulator, driven as RFD 2320 states, so no
