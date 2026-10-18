@@ -95,6 +95,21 @@ rfd 1136, "Views are named in the ecosystem's camera vocabulary", :discussion do
 
   Views 3, 4, 6 and 7 have no exact phrase and take the band that holds
   them. View 0 has neither.
+  :: details Framing an orbit still on the sequence
+  An orbit still of an avatar uses this sequence through `render_view.py`'s
+  `camera()`, imported rather than rewritten (operator, 2026-10-17). The
+  derived radius fits the unit cube's bounding sphere, so a T-pose avatar
+  fills little of the frame. The frame is not wasted (operator,
+  2026-10-17): keep each view's direction, pan the eye and the target
+  together across the image plane until the projected avatar is centred,
+  then move the eye along the same ray until its widest projected extent
+  spans 94% of the frame. The sidecar records the moved target and says
+  the view was filled.
+
+  View 0 looks straight up at pitch -90. An up vector parallel to the
+  view ray makes the look-at degenerate and the frame renders empty, so
+  that one view takes a different up vector. Its eye position does not
+  change.
   :: details The grid as constructed training data, and the rule it collides with
   The proposal is to render the ANNY corpus through all 96 poses, pairing
   each render with the prompt that names it. The provenance is better than
