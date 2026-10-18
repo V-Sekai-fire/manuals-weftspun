@@ -75,6 +75,7 @@ here corresponds to an entry.
 - libsecret's `secret-tool` and the Secret Service providers behind it (gnome-keyring, KWallet) as a secret store (operator, 2026-10-05)
 - CompCert: the INRIA Non-Commercial License Agreement forbids commercial use, and the alternative is a paid AbsInt agreement; Trust-Lean's C is compiled by the ordinary toolchains (operator, 2026-10-05)
 - The closed-source game engine editor, driven by an agent on the Mac mini: no agent there opens, drives or installs it, on the Mac or on the Windows desk over SSH. With the editor open on the desk, Bonsai 2 decode fell from 309 to 225 tok/s on the 4090 and from 246 to 160 tok/s on the 3090; the cause is suspected, not proven. The operator's own use at the desk is not covered (operator, 2026-10-17)
+- **CockroachDB** as a store: operator directive 2026-10-18 ("Retire crdb"); FoundationDB is the one transactional store, and SQLite on FoundationDB pages (`datasource-store`) takes the relational work — see below
 
 ### Abliteration is blocked, and the model's own card is the argument
 
@@ -2047,3 +2048,25 @@ or benchmarked as candidates.
   directive; the 2026-10-11 Pareto sweep left PTQ1_0 out because of it.
 - **Exempt:** the conversion inputs that only pass through PTQ1_0 on the way to another format (the
   2026-10-08 `.ninfer` conversion read `Heretic-PTQ1_0.gguf`).
+
+### CockroachDB is blocklisted, and FoundationDB is the one store
+
+Operator directive, 2026-10-18 ("Retire crdb"). The workspace ran two transactional
+databases: CockroachDB behind the zone backend and two Elixir agents, and FoundationDB
+under `datasource-store` and OpenBao. A second database is a second set
+of failure modes, certificates and deploys. FoundationDB stays. A service that needs SQL
+opens SQLite with its pages in FoundationDB (`weft_fdb_vfs`).
+
+- **What is blocked:** CockroachDB as a dependency of any new code, a new CockroachDB
+  deploy, and new migrations against it.
+- **Still on CockroachDB (code search, 2026-10-18):** `contract-zone-backend` (Ecto repo,
+  `docker/crdb/`, its Fly config), `interactor-taskweft-mmog-agent` (Ecto repo, `crdb.container`,
+  `crdb_cert_writer.ex`), `interactor-residual-fsq-recommender` (`remote_store.ex`),
+  `interactor-vertex` (compose and Kubernetes files), `service-multiplayer-fabric-hosting`
+  and `service-docker-multiplayer-fabric` (compose stacks), `transport-multiplayer-fabric-gateway`.
+  Each moves to SQLite on FoundationDB or is archived. Until then, a fix to it is not new code.
+- **Archive once nothing reads them:** `service-multiplayer-fabric-crdb` (the Fly deploy) and
+  `service-dokku-cockroachdb` (the dokku plugin). The operator stops the Fly app; no agent does.
+- **Not affected:** RFD 2006 and RFD 2075 are abandoned already, and records that name
+  CockroachDB (`contract-multiplayer-fabric-archive`, the TLA+ model of parallel commits) stay
+  as history.
