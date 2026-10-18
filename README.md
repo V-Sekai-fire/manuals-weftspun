@@ -13,6 +13,12 @@ Each RFD and each serial register is an Elixir source that checks its own shape 
 
 The remaining gates run as prek hooks.
 
+## Write a new RFD
+
+    mix rfd.next <slug>
+
+It prints the next free serial, the register row to add, the file name and the branch name.
+
 ## Licence
 
 Apache-2.0 OR MIT; see `LICENSE-APACHE` and `LICENSE-MIT`.
