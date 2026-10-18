@@ -434,6 +434,15 @@ rules below"
   zip started translated and printed `RESULT PASS` on its own system on
   2026-10-17. The web game's slowest frame in the first round read 139 to
   145 ms before and after the change.
+
+  The SkinTokens viewer's packages hold the rig model, about 1.3 GB each,
+  more than a Space can hold. They are files of a public model repository
+  on Hugging Face, and the auto-rig Space links that repository's `main`.
+  A dev release puts the same files on its `dev` branch, so visitors keep
+  the files on `main` until the operator promotes it (operator, 2026-10-18).
+  Each upload is checked by comparing the repository's file hashes with the
+  package's `SHA256SUMS`, and the Space page's SHA-256 lines change in the
+  same pass.
   :: details What a Linux guest needs from a Windows host
   A Rust guest linked against static glibc failed on the Windows host, translated
   and interpreted alike, and so did the released addon. The emulator's Windows
