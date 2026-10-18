@@ -16,6 +16,10 @@ solids, rolled on survey tables, and it carries wear from round to round"
   after five rounds, and each side earns scrip per round, as in the Gyre setting.
   The operator asked for more Frames, game feel, the Gyre flavour and readability
   on 2026-10-17.
+
+  Each Frame also has one of three roles, melee, range or cyber, that beat each
+  other as in rock, paper, scissors. The operator requested the roles on
+  2026-10-18.
   :: problem
   Each unit was one solid: a box, a cylinder, a sphere or a torus. Units had no
   identity, every round started from zero, and nothing on screen said which unit
@@ -63,6 +67,29 @@ solids, rolled on survey tables, and it carries wear from round to round"
   tag, a little of its side's colour shows even in shade, and the end of a round
   shows the Frames left and the scrip earned.
 
+  :: details Roles
+  Melee beats range, range beats cyber and cyber beats melee. A hit on the role
+  the attacker beats does 1.6 times its damage, a hit on the role that beats it
+  does 0.6 times, and a hit on the same role does its normal damage. Reach puts
+  the roles in order: melee hits at the reach of its body, cyber at 3.8 m and
+  range at 7 m, so a range Frame shoots a cyber Frame before the cyber Frame can
+  answer, and a melee Frame has to close the gap to a range Frame.
+
+  - Melee: 1.25 times the health, 1.15 times the speed, an attack every 0.8 s,
+    and a shield in front. Its hits push the target back.
+  - Range: 0.75 times the health, 0.8 times the damage, 0.9 times the speed, an
+    attack every 1.1 s, and a barrel at the shoulder. Each shot is a small
+    sphere that flies to the target.
+  - Cyber: 0.95 times the health, 0.7 times the damage, an attack every 1.0 s,
+    and a dish on top. Each hit adds 0.7 s to the target's next attack and shows
+    a ring that spreads over the target.
+
+  The role's parts come from the same catalog of guest solids and merge into the
+  Frame's one mesh, but they do not count toward its health, damage or reach.
+  Each squad's draft holds every role at least once, so every round shows the
+  triangle; the other two places draw a role at random from the round's seed.
+  The name tag shows the role before the species.
+
   :: details What was measured
   The change is in the game script only, so the guest and every translation hash
   stayed valid. On 2026-10-17 the web build and the macOS, Windows and Linux zips
@@ -71,5 +98,17 @@ solids, rolled on survey tables, and it carries wear from round to round"
   web game's slowest frame in the first round read 139 to 145 ms before and
   after. Native frame times on the Mac were not compared: other jobs on the same
   machine made them vary more than the change.
+
+  On 2026-10-18 the roles changed the game script only, again. The self-test
+  first checks the triangle: every role beats exactly one other and loses to
+  exactly one. A control table in which melee loses to both others must fail
+  the same check, and it does. The macOS, Windows and Linux zips and the web
+  build in a desktop browser then printed the same two rounds, with the same
+  winners and the same damage per pair of roles, and `RESULT PASS`. In round 1,
+  range did 303 damage to cyber and cyber did 57 to range. The web game's
+  slowest frame in round 1 read 150 ms with the roles and 134 ms without them,
+  one run each in the same browser, so the difference is not measured past
+  noise. The release kept its tag, because the guest did not change; its zips
+  and SHA256SUMS were replaced.
   """
 end
