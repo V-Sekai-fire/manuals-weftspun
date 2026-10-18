@@ -52,7 +52,10 @@ rules below"
      `6-datasource/`, `7-service/`. `repo list` shows what is placed.
   3. Sync with `elixir .repo/manifests/sync.exs . --preflight` first, then
      `elixir .repo/manifests/sync.exs .`. A project the preflight names as
-     blocking gets a decision from the operator, not a guess.
+     blocking gets a decision from the operator, not a guess. One that
+     blocks because another session works in it moves its branch to a
+     worktree, uncommitted edits carried by `git stash`, and then syncs
+     (operator, 2026-10-18).
   4. Never edit a placed checkout in place. Make a worktree in a scratch
      directory on a new `dev/<topic>` branch:
      `git -C <project> worktree add <scratch>/<name> -b dev/<topic> <remote>/main`,

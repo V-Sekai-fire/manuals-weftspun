@@ -873,6 +873,11 @@ Parking work ends with the preflight at zero blocking. Unfinished work is
 pushed to a `dev/` branch first, so the sync parks the checkout instead of
 stopping on it.
 
+A checkout that blocks because another session is working in it is not
+waited on (operator, 2026-10-18). Detach it, add a worktree on its branch in
+the scratch directory, carry any uncommitted edits across with `git stash`,
+and sync. The session continues in the worktree.
+
 ## The anti-entropy check
 
 > An anti-entropy check is a background process in distributed computer systems

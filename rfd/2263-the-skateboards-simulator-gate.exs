@@ -52,9 +52,24 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   :: details The graph is CASSIE's, ported literally
   The sketch graph and its cycle detection are a literal port of
   CASSIE's C# (`Graph`, `CycleDetection`, `Node`, `Segment`, `Cycle`),
-  not a reimplementation. The C++ guest (`interactor-curvenet`,
-  `feat/cassie-graph-port`) is checked event for event against a
-  literal Python port of the same classes: 425 of 425 events agree.
+  not a reimplementation. The C++ guest (`interactor-curvenet`) is
+  checked event for event against a literal Python port of the same
+  classes: 425 of 425 events agree.
+
+  The reference for the port is CASSIE's own C# run under dotnet, not
+  a reading of it (operator, 2026-10-18). `interactor-curvenet` vendors
+  26 of the original C# files and compiles them against a stand-in for
+  the engine math types, in 32-bit float. A replay drives both graphs
+  with the same calls, and a compare tool reports per event where they
+  disagree and how each matches the faces the session log records.
+  Its self-test switches off the mirrored tap on a session that taps
+  with mirroring on, and fails unless the compare sees a difference.
+
+  The port finds the correct faces, not CASSIE's (operator,
+  2026-10-18): when a new stroke passes through an existing node, the
+  cycles at that node are checked again. CASSIE skips that check and
+  leaves two faces merged into one. A match-CASSIE mode keeps the
+  original behaviour, and the event counts below are measured in it.
   :: details Replaying a recorded session
   A recorded CASSIE session replays CASSIE's own recorded intersection
   constraints as the junctions, never a merge distance and never a
@@ -72,6 +87,19 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   | Session | Patches logged | Alive at the end | Port's cycles | Exact |
   | --- | --- | --- | --- | --- |
   | dress | 225 | 104 | 103 | 101 |
+
+  Per event, against the faces the log records, on the 42 train
+  sessions:
+
+  | Graph | Events that match the log, of 3,563 |
+  | --- | --- |
+  | CASSIE's C# | 3,129 |
+  | the C++ port | 3,116 |
+
+  The two graphs disagree on 52 events in 14 sessions; those are port
+  defects. On dress they agree on every event, and both match 116 of
+  138: the events that miss the log miss it with CASSIE's own graph
+  too, so their cause is in the replay's inputs, not in the port.
   :: details What may still break
   - The runtime's button bits map to OpenXR paths the pen's action
     map may not expect; the symptom is the wrong number of openings.
