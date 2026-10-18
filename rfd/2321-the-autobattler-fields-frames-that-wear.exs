@@ -19,7 +19,8 @@ solids, rolled on survey tables, and it carries wear from round to round"
 
   Each Frame also has one of three roles, melee, range or cyber, that beat each
   other as in rock, paper, scissors. The operator requested the roles on
-  2026-10-18.
+  2026-10-18. Each role and the plant also need a prop in a mirrored arena:
+  cover, a relay per side or soil. The operator requested them the same day.
   :: problem
   Each unit was one solid: a box, a cylinder, a sphere or a torus. Units had no
   identity, every round started from zero, and nothing on screen said which unit
@@ -90,6 +91,38 @@ solids, rolled on survey tables, and it carries wear from round to round"
   triangle; the other two places draw a role at random from the round's seed.
   The name tag shows the role before the species.
 
+  :: details What the world gives each role
+  Each role and the plant now need something in the arena, so a sim shows
+  what the world adds and what it takes away. The operator requested these
+  props on 2026-10-18, for every role at once so that no role is the only one
+  that depends on the world.
+
+  - Range needs a clear line. Five cover blocks stand in the middle. A range
+    Frame does not shoot through cover; it walks around the block until the
+    line is clear. Every Frame walks around cover, not through it.
+  - Cyber needs its relay. Each side has a relay mast, with its reach drawn as
+    a faint disc on the floor. A cyber Frame jams only within 6.5 m of its own
+    standing relay; away from it, the hit does half damage and no jam. A cyber
+    Frame waits at the edge of the disc while friends who are not cyber still
+    fight. Any Frame can attack the enemy relay (160 health). A relay that goes
+    down stays down until the next round.
+  - Melee needs open ground. Within 0.9 m of cover a melee Frame moves at 0.6
+    times its speed and its hits do not push the target back.
+  - A plant needs soil. It regrows (4 health per second) only on one of four
+    soil patches. Below half health it walks to the nearest patch and stays
+    until it is nearly whole.
+
+  Equity is a property of the layout: each prop has a twin of the same shape at
+  the mirror place across the middle line, side 0's relay is on side 0's half,
+  and a tie in which way to walk round cover goes the same way for both
+  sides. The self-test checks the mirror and fails when one block is moved
+  0.5 m (the control). It also checks that a line through the middle block is
+  blocked and a line past the blocks is clear. Each round prints a `WORLD`
+  line: seconds range Frames spent with no clear line, cyber hits with and
+  without the relay, seconds melee Frames spent beside cover, seconds plants
+  spent on soil, and each relay's health. `--rounds=N` with `--selftest` runs
+  N rounds for a longer sim.
+
   :: details What was measured
   The change is in the game script only, so the guest and every translation hash
   stayed valid. On 2026-10-17 the web build and the macOS, Windows and Linux zips
@@ -110,5 +143,21 @@ solids, rolled on survey tables, and it carries wear from round to round"
   one run each in the same browser, so the difference is not measured past
   noise. The release kept its tag, because the guest did not change; its zips
   and SHA256SUMS were replaced.
+
+  On 2026-10-18 the world props changed the game script only, a third time.
+  The self-test printed `WORLD mirror=true control=false line_through=false
+  line_beside=true` on each system. The macOS, Windows and Linux zips and the
+  web build in a desktop browser printed the same `ROUND`, `DAMAGE` and
+  `WORLD` lines for the four rounds they share; the web run went on to nine
+  rounds and the macOS run to twelve. Over the twelve rounds each side won
+  six. Per round, range Frames spent 0.3 to 3.0 s with no clear line, melee
+  Frames spent 1.2 to 9.0 s beside cover, and cyber Frames landed 1 to 17 hits
+  with the relay and 0 to 13 without it. Plants stood on soil in four of the
+  twelve rounds, for up to 8.0 s; plants are 2 in 100 of the species rolls, so
+  a sim that wants to read the soil rule needs many rounds. No relay went down
+  in the twelve rounds (the lowest read 103 of 160). The first version moved a blocked range
+  Frame sideways only, and in one round two range Frames stayed blocked for
+  34 s until the 45 s limit ended it. A blocked range Frame now walks around
+  the block, and no round of the twelve reached the limit.
   """
 end
