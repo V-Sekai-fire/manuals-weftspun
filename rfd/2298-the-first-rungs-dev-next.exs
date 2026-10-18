@@ -63,6 +63,11 @@ rfd 2298, "the first rung's dev.next", :discussion do
     (`maxSampledTexturesPerShaderStage`). A fresh Chrome profile loaded and
     played it on the same Mac, so the cause is not found. It is parked until
     a run reproduces it;
+  - a recording of two minutes or more of the SolidCraft game playing
+    itself, recorded with the house recorder at 4K and CineForm (operator,
+    2026-10-17). The first try stopped when the Mac asked for approval to
+    open the recorder the first time, and nothing was recorded. It waits
+    for that approval;
   - the headset path: the Frame streaming from the desktop over oxrsys,
     and the extra companion controllers.
   :: details Which features are likely to bring joy
