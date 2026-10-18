@@ -276,6 +276,7 @@ defmodule Serials.VSekaiFabric do
       serial 2318, "the-avatar-space-is-built-smallest-joy-first", flight_level: :l2
       serial 2319, "a-serving-hosts-certificate-comes-from-agent-ca-v2", flight_level: :l1
       serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
+      serial 2321, "the-autobattler-fields-frames-that-wear"
     end
 
     deleted do
