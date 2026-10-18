@@ -278,6 +278,7 @@ defmodule Serials.VSekaiFabric do
       serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
       serial 2321, "the-autobattler-fields-frames-that-wear"
       serial 2322, "a-mac-dashboard-and-theatre-mode", flight_level: :l1
+      serial 2323, "frontier-learning-picks-the-stores-adversarial-runs"
     end
 
     deleted do
