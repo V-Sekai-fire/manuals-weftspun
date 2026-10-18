@@ -3,9 +3,9 @@
 use RFD.DSL
 
 rfd 2323, "frontier learning picks the store's adversarial runs", :discussion do
-  feature "the SQLite on FoundationDB store's crash, fence and cluster attacks are levels whose
-regret is measured on a planted defect, and a clean run on the real store counts only after its
-attack is shown to find that defect"
+  feature "the SQLite on FoundationDB store's timing, crash, fence and cluster attacks are levels
+whose regret is measured on a planted defect, and a clean run on the real store counts only after
+its attack is shown to find that defect"
   scope "the store's attack programs and `qa/` cluster runs, a level scheduler beside the crash
 search in `witness/`, and the run records it keeps"
 
@@ -22,12 +22,12 @@ search in `witness/`, and the run records it keeps"
   when the planted kill rate rises. A clean run on the real store counts
   only after its level killed the planted defect in each of its last eight
   runs, or the crash search covered its whole space. A witness on the real
-  store is a defect, and it becomes a permanent level.
+  store is a defect. Lanes fill performance first, then round trip (data
+  written reads back whole), then security (operator, 2026-10-18).
   :: problem
-  A clean run cannot say whether the store is sound or the attack is weak.
-  The cluster run's negative control left all 200 keys readable under single
-  redundancy, so its zone kill is uncontrolled. Against a sound store every
-  level scores zero, so regret on the real store alone gives no signal.
+  A clean run cannot say whether the store is sound or the attack is weak:
+  the commit stage's crash band found a planted torn commit in 2 to 7 of 8
+  runs. Against a sound store every level scores zero.
   :: related
   - RFD 2309, frontier learning for the alyx planner: the loop this reuses.
   - RFD 2109, two tiers with FoundationDB as the store: the store attacked.
@@ -41,26 +41,34 @@ search in `witness/`, and the run records it keeps"
   attack programs, the commit stage script, the soak script, `qa/README.md`
   and the crash search in `witness/CrashSearch.lean`. The operator's request
   was to apply frontier learning to adversarial testing of SQLite on
-  FoundationDB.
+  FoundationDB, then to triage performance first, round trip second and
+  security third, with performance levels that have a baseline and a planted
+  slow path. The measurements below are from the store's frontier branch on
+  the same day.
 
   :: details Why one target gives no signal
   RFD 2309's learner is a policy that sometimes succeeds. Here the learner is
-  the attack, and its success is a witness: a torn commit, a lost key, a
-  superseded writer whose write landed, or a cluster that answered without a
-  quorum. A sound store gives every level `s = 0`, so every level reads as
-  impossible and regret is zero everywhere. That is the result we want from
-  the store, and it teaches the attack nothing.
+  the attack, and its success is a witness: a slow commit, a torn commit, a
+  lost key, a superseded writer whose write landed, or a cluster that answered
+  without a quorum. A sound store gives every level `s = 0`, so every level
+  reads as impossible and regret is zero everywhere. That is the result we
+  want from the store, and it teaches the attack nothing.
 
   The planted target restores the gradient. It is the same build with one
   defect switched on, so a level's kill rate on it is how well that attack
   finds that defect. A level between none and all of its runs is the frontier
   the paper samples from.
 
+  The cluster run's negative control left all 200 keys readable under single
+  redundancy, so its zone kill is uncontrolled. It is the same failure as the
+  crash band in the first runs below: an attack that finds its defect by luck.
+
   :: details The levels
   | Level | Planted defect | Witness |
   |---|---|---|
-  | crash at a commit | one transaction per page write | two distinct row values |
-  | kill at a delay | one transaction per page write | two distinct row values |
+  | commit rate | `WEFT_PLANT_SLOW_COMMIT=1` | under 97% of the slowest real run |
+  | crash at a commit | `WEFT_PLANT_TORN_COMMIT=1` | two distinct row values |
+  | kill at a delay | `WEFT_PLANT_TORN_COMMIT=1` | two distinct row values |
   | fence read | `WEFT_PLANT_STALE_VIEW=1` | a stale read accepted |
   | superseded writer | the fence check skipped | a superseded write lands |
   | handoff | the commit kept in the writer's cache | the reader sees fewer rows |
@@ -69,15 +77,21 @@ search in `witness/`, and the run records it keeps"
   | quorum loss | none yet | a write accepted without quorum |
   | loss and restore | the restore skipped | zero keys after restore |
 
-  The attributes: rows and a crash point or delay band for crash and kill;
-  readers and cache for fence read; connections for the superseded writer;
-  grants and a crash point band for the parallel commit; keys, shards and an
-  aimed or named zone for the zone kill.
+  The attributes: rows and repetitions for the commit rate; rows and a crash
+  point or delay band for crash and kill; readers and cache for fence read;
+  connections for the superseded writer; grants and a crash point band for
+  the parallel commit; keys, shards and an aimed or named zone for the zone
+  kill.
 
-  Only the stale view and `single` redundancy exist as switches today. The
-  others are new planted switches, each inert unless its variable is set, in
-  the same shape as `WEFT_PLANT_STALE_VIEW`. A level with no planted defect
-  cannot be calibrated, and the report counts it under that name.
+  The slow commit adds one read round trip before each commit. The torn
+  commit makes each page visible in its own transaction. Those two, the stale
+  view and `single` redundancy exist as switches. The others are new planted
+  switches, each inert unless its variable is set. A level with no planted
+  defect cannot be calibrated, and the report counts it under that name.
+
+  A timed level's first three real runs are its baseline and are not judged.
+  After that, a run is slow when its rate is under 97% of the slowest of the
+  last eight real runs.
 
   :: details What each class does
   - Unknown, never run: one is explored per change, oldest first.
@@ -94,36 +108,86 @@ search in `witness/`, and the run records it keeps"
     lane, keeps its database under its own name, and becomes an escape row
     and a level that runs on every change.
 
+  Inside each lane, levels are taken in the triage order first: performance,
+  round trip, security. Priority orders the levels within a family.
+
   :: details Mutation
   One attribute moves per proposal, to the neighbour the frontier needs.
-  For the zone kill: more data until it spans several shards, then a kill
-  aimed at the team that holds the keys, which is the fix `qa/README.md`
-  names for the uncontrolled control. For a crash or kill: a narrower band
-  around the points where witnesses were found, and the next commit size in
-  the crash search's list. For a parallel commit: a band around the two crash
-  points the protocol is built around. For fence, superseded writer and
-  handoff: one more reader, connection or row batch. A proposal is kept only
-  if the planted kill rate rises over the next window and the real store
-  stays clean.
+  For the commit rate: two more repetitions, so the median is less noisy.
+  For a crash or kill: each half of the band, and the next commit size in
+  the crash search's list. For the zone kill: more data until it spans
+  several shards, then a kill aimed at the team that holds the keys, which
+  is the fix `qa/README.md` names for the uncontrolled control. For a
+  parallel commit: a band around the two crash points the protocol is built
+  around. For fence, superseded writer and handoff: one more reader,
+  connection or row batch. A proposal is dropped once its window is full and
+  its kill rate is no higher than its parent's.
 
   :: details Where it runs
-  The scheduler is Lean, in the store's `witness/` package beside the crash
-  search, because the crash search is already the oracle: it runs one
-  process per candidate, memoizes the answer and reports whether it covered
-  the range. The attack programs stay C, and the cluster runs stay where they
-  are. One run is one record: level, target, attributes, drawn parameter,
-  outcome and seconds, in a ZStandard parquet. A witness's text sits in its
-  own relation, so a clean run carries no empty field.
+  The scheduler is Lean, `witness/Frontier.lean` in the store's `witness/`
+  package beside the crash search. The attack programs stay C, and the
+  cluster runs stay where they are. One run is one record: level, target,
+  drawn parameter, outcome, value and milliseconds. A witness's text sits in
+  its own relation, so a clean run carries no empty field. The first runs
+  keep them as tab separated text beside the scheduler; ZStandard parquet is
+  the target once the record set grows.
 
   :: details The scheduler's own controls
   - A level that never finds its planted defect classifies as blind.
   - A level that finds it eight times in eight classifies as calibrated.
+  - One miss in eight leaves a level on the frontier with regret.
   - A planted witness on the real target produces an escape row.
   - A calibrated level whose cost is planted at 100 times leaves the per
     change lane by name.
   - Shuffled records give the same plan.
-  - A record with more successes than runs is rejected.
-  - A zero budget gives an empty lane, which is a failure.
+  - A record naming a level the scheduler cannot decode is rejected.
+  - A zero budget gives an empty lane.
+  - Performance is picked before round trip, and round trip before security.
+  - A timed run inside the baseline's spread is not slow, and one well under
+    it is.
+  - A frontier level proposes a split band and a bigger commit.
+  - A mutation whose kill rate does not rise is dropped.
+
+  A planted scheduler defect, `classify` never answering calibrated, failed
+  three of the eleven controls that existed then.
+
+  :: details First runs
+  Fedora 44 under WSL on the Windows desk, FoundationDB 7.3.76 with one
+  process, single redundancy and the memory engine. Two runs of three and
+  five generations; the records are in the store's `witness/records/`.
+  - The commit rate's baseline was 213 to 230 commits a second. With the slow
+    commit planted it was 167 to 204, and the level calibrated at 8 of 8.
+  - The first run stopped on a false escape: 210 a second was judged slow
+    against a median of 224, inside the baseline's own spread. The rule now
+    judges against the slowest recent real run.
+  - The commit stage's crash band, 400 rows at points 6 to 21, found the torn
+    commit in 4 to 7 of 8 runs in the first run, and the second ended at 2.
+    Splitting the band did not help: the halves stayed between 3 and 6. The
+    bigger commit did: 2000 rows at points 6 to 21 found it 8 of 8.
+  - 8 rows at points 1 to 30 found it 0 of 8. One page per round leaves
+    nothing to tear, so the level is blind.
+  - 2000 rows at points 6 to 80 was 8 of 8 in the first run and 7 of 8 in the
+    second, so calibration is a window, not a property a level keeps.
+  - Fence reads, writer and reader, were 8 of 8 on the stale view plant.
+  - No real store run was a witness in the second run.
+
+  :: details Triage
+  Performance:
+  - Keep. A commit costs about 4.5 ms here, against the 1.1 ms round trip the
+    benchmark's notes record. The latency probe read 1.8 ms to start a
+    transaction and 2.0 ms to commit, and every commit starts a fresh one.
+    Measure on the served cluster before changing the commit path.
+  - Keep. The timing check's margin is thin: the slowest real run was 213 and
+    the fastest planted one 204. The mutation to three repetitions is next.
+
+  Round trip:
+  - Keep. Move the commit stage's crash stage to 2000 rows at points 6 to 21,
+    the level that calibrated.
+  - Defer. The handoff level has no planted defect yet.
+
+  Security:
+  - Defer. The superseded writer has no planted defect yet.
+  - Park. Quorum loss needs a planted cluster that answers without a quorum.
 
   :: details What it cannot test
   One machine stops processes and does not cut networks. A partition, the
@@ -134,7 +198,6 @@ search in `witness/`, and the run records it keeps"
   :: details Open questions
   - The per change budget for the real store lane. 120 s is the default
     until a measured run says otherwise.
-  - Which host runs the soak lane. It needs a FoundationDB server, and the
-    Mac desk has none.
+  - Which host runs the soak lane in CI. The Fedora WSL desk runs it now.
   """
 end
