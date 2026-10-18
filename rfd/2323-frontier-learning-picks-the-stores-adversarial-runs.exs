@@ -26,8 +26,8 @@ search in `witness/`, and the run records it keeps"
   written reads back whole), then security (operator, 2026-10-18).
   :: problem
   A clean run cannot say whether the store is sound or the attack is weak:
-  the commit stage's crash band found a planted torn commit in 2 to 7 of 8
-  runs. Against a sound store every level scores zero.
+  one crash point drawn from 6 to 21 at 400 rows found a planted torn commit
+  in 2 to 7 of 8 runs. Against a sound store every level scores zero.
   :: related
   - RFD 2309, frontier learning for the alyx planner: the loop this reuses.
   - RFD 2109, two tiers with FoundationDB as the store: the store attacked.
@@ -164,6 +164,10 @@ search in `witness/`, and the run records it keeps"
     commit in 4 to 7 of 8 runs in the first run, and the second ended at 2.
     Splitting the band did not help: the halves stayed between 3 and 6. The
     bigger commit did: 2000 rows at points 6 to 21 found it 8 of 8.
+  - Correction. Each frontier run draws one crash point, so those rates are
+    per point, not per stage. The commit stage walks six fixed points, and at
+    400 rows 3 of the 6 tore in each of five walks, so the stage did catch
+    the plant. At 2000 rows all 6 tore in each of five walks.
   - 8 rows at points 1 to 30 found it 0 of 8. One page per round leaves
     nothing to tear, so the level is blind.
   - 2000 rows at points 6 to 80 was 8 of 8 in the first run and 7 of 8 in the
@@ -181,8 +185,11 @@ search in `witness/`, and the run records it keeps"
     the fastest planted one 204. The mutation to three repetitions is next.
 
   Round trip:
-  - Keep. Move the commit stage's crash stage to 2000 rows at points 6 to 21,
-    the level that calibrated.
+  - Done. The commit stage walks its six crash points at 2000 rows, then walks
+    them again with the torn commit planted and fails unless one tears. Each
+    run uses fresh database names: a database torn by an earlier planted walk
+    makes the writer fail, which would count as a tear the plant did not
+    cause.
   - Defer. The handoff level has no planted defect yet.
 
   Security:
