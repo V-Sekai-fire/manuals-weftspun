@@ -416,6 +416,24 @@ rules below"
 
   Compiling the 32 translation units took 158 s for macOS on the Mac, 348 s for
   Windows on the Mac and 590 s for Linux in WSL on the desk.
+  :: details Where the desktop builds ship
+  The macOS, Windows and Linux zips are assets of a GitHub release of the
+  guest's repository, tagged by RFD 2312, and the game Space links to them
+  (operator, 2026-10-17). The Space keeps the web game and the page. A Space
+  holds at most 1 GB, and every earlier upload of the zips still counted
+  in its history: the upload of three zips of 69, 84 and 91 MB was refused
+  at the limit. The Space history was squashed to one commit to free it,
+  and the upload script now deletes any zip from the Space.
+
+  The page shows the downloads on its first slide and the web game on its
+  last slide, as a preview (operator, 2026-10-17). The preview starts its
+  download only when that slide opens.
+
+  A change to the game script alone leaves the guest and every translation
+  hash as they were, so only the `.pck` of each zip is replaced. Each new
+  zip started translated and printed `RESULT PASS` on its own system on
+  2026-10-17. The web game's slowest frame in the first round read 139 to
+  145 ms before and after the change.
   :: details What a Linux guest needs from a Windows host
   A Rust guest linked against static glibc failed on the Windows host, translated
   and interpreted alike, and so did the released addon. The emulator's Windows
