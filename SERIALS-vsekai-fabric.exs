@@ -277,6 +277,7 @@ defmodule Serials.VSekaiFabric do
       serial 2319, "a-serving-hosts-certificate-comes-from-agent-ca-v2", flight_level: :l1
       serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
       serial 2321, "the-autobattler-fields-frames-that-wear"
+      serial 2322, "a-mac-dashboard-with-a-launcher-and-theatre-mode", flight_level: :l1
     end
 
     deleted do
