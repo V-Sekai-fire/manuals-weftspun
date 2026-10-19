@@ -193,6 +193,13 @@ solids, rolled on survey tables, and it carries wear from round to round"
     start and walk in pairs. Headless
     players replay recorded head and hand tracks, since tracked motion has
     sensor jitter a script lacks. Every report is split by class.
+  - Scenes. Crowds come as the scenes people make: a shopping street, a
+    standing concert, a seated stadium with a wave, a queue, a scramble
+    crossing, a dance floor, a parade, a festival plaza, a theatre, a picnic
+    lawn, an exit through one door, and a ring of players talking. Each
+    scene's density and pace come from footage counted the way the
+    blue-hour street walk was, and in social scenes most of the crowd is
+    tracked players.
   - Oracle. Each headless client decodes its rows, moves Frames along their
     sent velocity between rows, and compares what it holds with the server's
     replay of the same seeds. It reports the worst position error and how
@@ -212,7 +219,11 @@ solids, rolled on survey tables, and it carries wear from round to round"
   On rows generated for the test, sent as the gap from the client's own
   prediction, props at rest cost 0.31 bytes a row, pedestrians 2.16 and
   tracked points 3.96. Walkers that never stop cost 0.47, which flatters
-  prediction, so the bench uses pedestrians and never zombies. The budget
+  prediction, so the bench uses pedestrians and never zombies. Scripted
+  scenes flatter it the same way: a scripted queue, wave or crossing cost
+  0.31 to 0.34, the price of a prop at rest, and a scripted concert 2.04.
+  Scenes are replayed from recorded motion where a licence allows, and a
+  scene full of players costs what their tracked heads and hands cost. The budget
   gives players near each other the first share, and the bench sets the split
   from recorded traffic.
 
