@@ -79,6 +79,13 @@ corpus only when all four hold:
 4. Evaluation uses real or constructed data only. A model measured on its own
    generation distribution has not been measured.
 
+A discriminator is the exception to condition 4. A reward or scoring model
+(EditScore is the reference case) exists to judge generated outputs, so
+generated outputs are its real inputs. It is evaluated on a held-out split of
+generated data, such as shard 90 of `chibifire/editscore-reward-train`.
+Conditions 1 to 3 still hold for it. Operator, 2026-10-18: "rescind block the
+idea is we're trying to get a better discriminator".
+
 `EasyDiffusion outputs` and `seethrough PSDs` stay blocklisted below —
 those are secondary generation with no recorded provenance, which is
 condition 1 failing.
