@@ -43,7 +43,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   | row | lines | files | vendored | last commit | state |
   |---|---|---|---|---|---|
   | `stable-diffusion-ggml` | 755,287 | 3,824 | 3,421 | 2026-09-15 | unplaced |
-  | `skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | archived, in skintokens-guest |
+  | `skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | unplaced |
   | &{repo("interactor-nx-ggml")} | 426,704 | 2,180 | 2,134 | 2026-08-21 | unplaced |
   | `pixal3d-ggml` | 40,727 | 87 | 0 | 2026-09-09 | unplaced |
   | `motion-bricks-ggml` | 39,852 | 593 | 153 | 2026-09-09 | archived, vendored in motion-guest |
@@ -56,11 +56,8 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   CMakeLists.txt, .cmake, .sh, .exs, .ex, .toml, .yml and .py in the placed
   tree.
 
-  - `stable-diffusion-ggml` and `pixal3d-ggml`: nothing outside each row
-    names it.
-  - `skin-tokens-ggml`: the guest reads
-    `skintokens-guest/vendor/skin-tokens-ggml`, vendored at the commit its
-    `UPSTREAM` file names, not this row. It also appears in
+  - `stable-diffusion-ggml`, `skin-tokens-ggml` and `pixal3d-ggml`: nothing
+    outside each row names it. `skin-tokens-ggml` appears in
     `ggml-rd/guest/ggml_test/app_graphs` as a comment and a CITATION.cff,
     which is a citation and not a build input.
   - `nx-ggml`: `trellis2-ex`'s mix.exs takes it as
@@ -87,9 +84,6 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   - &{repo("interactor-rfdetr-seg-guest")} builds `rfdetr_seg.elf` from
     `vendor/rf-detr-ggml`, the 14 `src/` files of
     &{repo("interactor-rf-detr-ggml")} at one fixed commit.
-  - The SkinTokens guest repository builds `skintokens.elf` from
-    `vendor/skin-tokens-ggml`, the `src/` and `include/` of
-    `skin-tokens-ggml` at one fixed commit.
   - &{repo("interactor-rf-detr-ggml")} keeps the port itself, the
     `convert_*_to_gguf.py` converters, and the GGUF weights on its
     `v0.1.0-dev` release, which rfdetr-seg-guest pins by sha256.
