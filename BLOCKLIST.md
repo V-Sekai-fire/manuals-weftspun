@@ -38,6 +38,7 @@ here corresponds to an entry.
 - **Apple Neural Engine** as an execution target: 2 GiB weight ceiling at 2^31 bytes, against Metal's 8 GiB+ on the same part — see below
 - `weftspun/rf-detr-keypoint-data`: **val2017-derived** — carries the whole blinded holdout, and 78% of it is licence-dirty. Validation only, never training. See below
 - **IREE** as a build target: a compiler rather than an execution provider, and it is not XLA — see below
+- **zombies** as network test traffic: they walk straight and never stop, which flatters prediction — use pedestrians, see below
 - **speculative decoders other than MTP-3** on the ggml language server: DFlash2 with any drafter, the Qwen3.8 drafter, other draft lengths and draft-free serving measured slower on every decider game with identical decisions — see below
 - **1-bit PTQ1_0 bodies** of Ternary Bonsai 2 on the ggml language server: operator directive 2026-10-11; the served body is the 2-bit PQ2_0 — see below
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
@@ -2070,3 +2071,17 @@ opens SQLite with its pages in FoundationDB (`weft_fdb_vfs`).
 - **Not affected:** RFD 2006 and RFD 2075 are abandoned already, and records that name
   CockroachDB (`contract-multiplayer-fabric-archive`, the TLA+ model of parallel commits) stay
   as history.
+
+### Zombies are blocklisted as network test traffic, and prediction is why
+
+A row that carries only the gap from the client's own prediction is nearly
+free for anything that keeps its heading and pace. A zombie crowd does both:
+on rows generated for RFD 2321's bench, sent that way and compressed with
+zstd at level 3, 64 such walkers cost 0.47 bytes a row. Pedestrians who stop,
+start, ease their pace and walk in pairs cost 2.16, about four and a half
+times as much, and tracked heads and hands cost 3.96. A budget sized on
+zombies would be too small for the people the game actually holds.
+
+The game holds pedestrians, players and props, not zombies (operator,
+2026-10-19). Network tests use pedestrian motion, recorded where a recording
+with a clean licence exists, and report every class apart.
