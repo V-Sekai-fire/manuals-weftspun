@@ -9,15 +9,16 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
 
   prose ~S"""
   :: decision
-  Each garment in the second-hand fashion dataset becomes a garment on ANNY
-  (the reference rig), made two ways and compared. The draft route traces
-  the flat-lay photo at the tape's scale into front and back pattern
-  pieces, sews them and drapes them on the GPU. The mesh route makes a mesh
+  Each second-hand garment becomes a garment on ANNY (the reference rig),
+  made two ways and compared. The draft route fits the nearest
+  GarmentCodeData sewing pattern to the photo's outline at the tape's
+  scale, sews it and drapes it on the GPU. The mesh route makes a mesh
   from the photo with TRELLIS.2 or Pixal3D and fits it onto the body. A try
   passes when the drape gates pass and EditScore rates the render against
   the photo above a bar. Frontier learning picks which garments to practise
   and keeps a change to the drafting rules only when the pass rate rises.
-  Rung 1 is ten garments from the eval split (operator, 2026-10-19).
+  Rung 1 is a balanced draw from train: two garments for each category and
+  type group (operator, 2026-10-19).
   :: problem
   The avatar has no wardrobe. The dataset holds 32,036 real garments, each
   photographed flat, front and back, with a size, a type and a cut. Nothing
@@ -26,6 +27,7 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
   - Nauman et al., Second-Hand Fashion Dataset (doi 10.5281/zenodo.13788681), CC-BY-4.0
   - Faro et al., Frontier Learning (doi 10.48550/arXiv.2609.35426)
   - Luo et al., EditScore (doi 10.48550/arXiv.2509.23909)
+  - Korosteleva et al., GarmentCodeData v2 (doi 10.3929/ethz-b-000690432), CC-BY-4.0
   :: related
   - RFD 2309 (frontier learning, Alyx planner): levels and regret.
   """
@@ -45,8 +47,8 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
   photo, a back photo, type, cut, size, pattern, colours and material.
   Each photo is 1280 by 720, top down, on a table marked with a measuring
   tape, and the garment lies on its side with the collar to the right.
-  - train: 28,474 garments, the source for practice.
-  - eval: 298 gold garments, for rung 1 and for looking at.
+  - train: 28,474 garments, the source for rung 1 and for practice.
+  - eval: 298 gold garments, for looking at.
   - test: 3,164 garments, blinded. Never read, never used to pick a rule.
 
   Eval is 295 women's garments, almost all upper body: top 95, T-shirt 37,
@@ -88,7 +90,7 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
     the avatar in this garment", and the front render is the result. The
     pass bar is set on rung 1 and then frozen.
 
-  :: details What rung 1 has measured
+  :: details What a first look at ten eval garments measured
   Ten eval garments, all from one collection station: two tops, a shirt, a
   cardigan, a dress, two T-shirts, a tank top, a sweater and a blouse. The
   tape's scale moves between photo sessions at the same station: about 7.6
@@ -118,8 +120,38 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
   A gate that passes with its control also passing counts as a FAIL.
 
   :: details Rung 1
-  Ten eval garments, at most two per type, both routes each. Report per
-  garment: gates, EditScore, wall time, and a render beside the photo. The
-  result sets the pass bar and the first rules to tune.
+  A balanced draw from train: two garments for each category and type
+  group, both routes each (operator, 2026-10-19). The eval split is 295 of
+  298 women's garments, so it is not used to pick rung 1. Labels are
+  folded before grouping: case, and the spellings `Jacker`, `ladys` and
+  `Nightgown`. All 28,474 train garments map to a cell.
+
+  - Categories: women's, men's, children's, unisex.
+  - Type groups: tops (top, T-shirt, tank top, blouse, shirt, training
+    top), knitwear (sweater, cardigan, hoodie), dresses and sleepwear,
+    outerwear (jackets, blazer, vest), trousers (trousers, jeans, shorts,
+    tights), skirts.
+
+  The 24 cells hold from 1 garment (unisex skirts) to 8,156 (women's
+  tops); children's tops hold 1,498 and men's tops 1,891. Seed 2325 draws
+  47 garments: two from each cell, one from the unisex skirt cell. Report
+  per garment: gates, EditScore, wall time, and a render beside the photo.
+  The result sets the pass bar and the first rules to tune.
+
+  :: details GarmentCodeData as the starting pattern
+  GarmentCodeData v2 (ETH Zurich, 2024) holds 115,191 sewing patterns,
+  each draped on a neutral body and on a sampled body: upper garments,
+  skirts, pants, jumpsuits and dresses. Its record states CC BY 4.0, with
+  attribution and no share-alike. The draft route starts each garment
+  from the nearest pattern of its type and resizes its panels to the
+  traced outline, so a photo never has to be split into pieces from
+  nothing. Only the pattern specifications are used.
+  - The body meshes are not used: ANNY is the body.
+  - GarmentMeasurements, the measuring code, is GPL-3.0 and is not used.
+  - The body model behind it is fitted to the European subset of CAESAR,
+    1,700 adult scans. Its authors state that it covers healthy European
+    and North American adults, with no children. The patterns are drafted
+    for adults, so children's garments start from a pattern scaled down
+    to the child's measures, and that is a level of its own.
   """
 end
