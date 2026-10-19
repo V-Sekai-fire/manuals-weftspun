@@ -74,9 +74,14 @@ download Space"
   inside each of the three packages and remove `--download-weights`. The program
   already casts to BF16 on load, so the stored tensors equal the ones it runs.
 
-  - Gate: on the same card, the rung 1 package's edit of the test image has the same
-    SHA-256 as the current package's edit.
-  - Control: the `--no-lora` edit has a different SHA-256, so the check sees a change.
+  - Byte identity cannot gate it: the same package, weights and seed on the same card
+    gave a different PNG on each of seven runs, in two close variants.
+  - Gate: the BF16 edits differ from the FP32 edits by no more than the FP32 edits
+    differ from each other. Measured on a 24 GiB card, mean absolute difference over
+    255 levels: FP32 against FP32 0.37 to 0.42 within a variant and 1.58 to 1.61
+    across; BF16 against FP32 0.36 to 0.45 within and 1.53 to 1.62 across.
+  - Control: the same edit without the LoRA differs by 26.2 to 26.4, so the check sees
+    a real change.
   - Offline gate: the package edits with networking off on Windows and in Linux.
     Control: the current package without `w/` fails the same run.
 
