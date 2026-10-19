@@ -15,6 +15,9 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
   Do not hide the retarget. A single VRM output makes the model look
   wrong when the retarget is what failed.
 
+  Generated clips also go out as VRMA files in a clip-library repository,
+  with a contact sheet of each clip on ANNY (operator, 2026-10-19).
+
   See `DETAILS.md` for the model's memory, the `predict()` interface,
   and the motion validation gate this model image runs.
   :: problem
@@ -50,6 +53,23 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
 
   `target_rig` is optional. Without it the model image returns SOMA
   only, and it runs no retarget.
+  :: details The clip library
+  The library takes the SOMA result, not a retarget. Each clip poses SOMA-X
+  with the ANNY identity, goes through OpenUSD as the intermediate, and is
+  written as one VRMA file. The VRMA skeleton holds only humanoid bones at
+  the SOMA T-pose. A SOMA joint with no humanoid bone, such as the second
+  neck joint or a finger metacarpal, folds into the next humanoid bone, so
+  every humanoid bone keeps its world pose.
+
+  The bone map: spine, chest and upper chest come from the three spine
+  joints; arm and forearm become upper and lower arm; leg and shin become
+  upper and lower leg. Finger joints two to four become proximal,
+  intermediate and distal, and the thumb's three joints become metacarpal,
+  proximal and distal.
+
+  The contact sheet renders each clip on ANNY at a view from the
+  `sphere_hammersley_sequence` camera sequence. A VRMA loader with a
+  swapped-clip control checks each file.
   :: details The validation gate
   RFD 1007 records the motion validation. A motion that leaves the floor
   or that inverts a knee must fail here, and not in the viewport.
