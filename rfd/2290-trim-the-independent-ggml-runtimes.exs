@@ -43,7 +43,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   | row | lines | files | vendored | last commit | state |
   |---|---|---|---|---|---|
   | `stable-diffusion-ggml` | 755,287 | 3,824 | 3,421 | 2026-09-15 | unplaced |
-  | `skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | archived, vendored in skintokens-guest |
+  | `skin-tokens-ggml` | 437,355 | 2,211 | 2,136 | 2026-09-11 | archived, in skintokens-guest |
   | &{repo("interactor-nx-ggml")} | 426,704 | 2,180 | 2,134 | 2026-08-21 | unplaced |
   | `pixal3d-ggml` | 40,727 | 87 | 0 | 2026-09-09 | unplaced |
   | `motion-bricks-ggml` | 39,852 | 593 | 153 | 2026-09-09 | archived, vendored in motion-guest |
@@ -87,7 +87,7 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   - &{repo("interactor-rfdetr-seg-guest")} builds `rfdetr_seg.elf` from
     `vendor/rf-detr-ggml`, the 14 `src/` files of
     &{repo("interactor-rf-detr-ggml")} at one fixed commit.
-  - `interactor-skintokens-guest` builds `skintokens.elf` from
+  - The SkinTokens guest repository builds `skintokens.elf` from
     `vendor/skin-tokens-ggml`, the `src/` and `include/` of
     `skin-tokens-ggml` at one fixed commit.
   - &{repo("interactor-rf-detr-ggml")} keeps the port itself, the
