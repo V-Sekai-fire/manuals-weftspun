@@ -96,4 +96,4 @@ to the ground. The walks give density counts by scene.
 | `-zdrM_QtBds` | 7 | 1080 | KOSMOS Festival - Walk Trough Decos 1 |
 | `IPpzNQjaDsY` | 4 | 720 | Rock Concert Crowd HD loop |
 
-82 videos. The search also returned non-CC results, dropped here.
+82 videos, every one the search returned.
