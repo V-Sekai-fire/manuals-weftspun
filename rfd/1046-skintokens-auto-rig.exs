@@ -18,6 +18,10 @@ rfd 1046, "Model image for skintokens_auto_rig", :discussion do
   UVs and blend shapes stay, and the rest clip is `RESET` (operator,
   2026-10-18).
 
+  A generated skeleton stops at 256 joints, the count the skin codes cover.
+  Twist helpers keep each vertex within four weights and stay on a limb only
+  where the measured motion error falls (operator, 2026-10-19).
+
   See `DETAILS.md` for the model's memory, the `predict()` interface,
   why `UsdSkel` beats a GLB skin, and the joint order trap between VRM
   and USD.
@@ -96,6 +100,51 @@ rfd 1046, "Model image for skintokens_auto_rig", :discussion do
   - Seven models open in Godot with their materials and `RESET`, and the
     Khronos glTF validator reports zero errors on each. Before the bounds
     fix, it reported missing bounds on 640 blend-shape positions.
+  :: details The joint cap
+  The skeleton grammar used to drop a beam only after its skeleton ended, so
+  a skeleton could grow past the 256 joints the skin codes cover. On one
+  humanoid test model, ten sampled beams ran for 41 minutes, reached 371
+  joints and failed at the token limit. At 256 joints the grammar now allows
+  only the end-of-skeleton token, so such a run fails fast. A unit test
+  checks the allowed tokens below and at the cap, and the same test with the
+  cap removed fails.
+
+  The command-line rig defaults to the viewer's settings: one beam,
+  temperature 0. With those settings the same model came out with 52 joints
+  on the CPU and on Metal, and with 206 joints on Vulkan through MoltenVK.
+  The Vulkan backend is the open defect, and its cause is not found yet.
+  :: details Twist helpers
+  The method follows SOMA-X: four helpers on each upper arm, forearm, thigh
+  and shin, at 0.05, 1/3, 2/3 and 0.95 of the segment. Each helper takes that
+  fraction of the end joint's twist. An upper segment also undoes the rest
+  of its start joint's own twist, so the shoulder and the hip do not wring.
+  The start joint's weight is split among the helpers by where the vertex
+  lies along the segment. The split is one tensor graph on the rig's own
+  device.
+
+  A VRM viewer skins with four weights per vertex (operator, 2026-10-19), so
+  the step never drops another joint's weight to make room. A vertex with no
+  free slot gives its share to the nearer helper only. A unit test puts a full
+  four-weight vertex mid-forearm; the earlier keep-the-four-largest rule
+  drops three joints there and fails it.
+
+  The score is the worst-frame first-percentile triangle area, posed over
+  rest, so 1.0 is no shrink. On one humanoid test model with a dance clip:
+  - No helpers: thighs 0.50, shins 0.73, upper arms 0.15, forearms 0.15.
+  - Helpers on every limb: thighs 0.43, shins 0.74, upper arms 0.28,
+    forearms 0.27.
+  - Helpers that follow their start joint without turning score the same as
+    no helpers on every limb. That is the control for the measure.
+  - Twist directions flipped per limb all scored worse. Flipped arms put the
+    forearms at 0.08, so the written direction is the right one.
+
+  The thighs lose for reasons a pure twist test does not see. In the dance,
+  thigh motion is mostly swing. Also 206 of the 4,231 thigh vertices carry up
+  to 13% hand or arm weight from the generated rig, so the arm helpers pull
+  them. A rig-time check that turns each limb by 45 and 90 degrees keeps the
+  thigh helpers (0.27 to 0.61), while the dance loses. A limb's helpers are
+  therefore judged on a set of generated clips, and they stay only where the
+  error over that set falls.
   :: details The joint order trap
   VRM names its humanoid joints. USD does not, and it keeps an ordered
   array. The mapping between them must live in the layer as metadata,
