@@ -71,11 +71,14 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - joint anchor: a keypoint, a skeleton joint by name and an offset in that joint's frame,
     for a skeleton without a mesh. A skeleton without that joint has no row, and the
     report names the keypoint as absent.
-  - expression map: a face keypoint layout and the Unified Expressions weight it gives;
-    then each Unified Expressions name to the 52 facial actions, and each facial action to
-    SOMA-X's FACS action units. Shapes the 52 facial actions lack, such as cheek puffs and
-    the tongue, map from Unified Expressions to SOMA-X's extra shapes in a table of their
-    own. Each step is its own table, so any one can be replaced.
+  - expression map, one table per step so any step can be replaced:
+    - the ANNY and SOMA-X fitter solves the 68 face keypoints for the 52 facial action
+      weights, the face pose of Table E.13 in our appendix-E dataset;
+    - each Unified Expressions name maps to the 52 facial actions, through the headfit's
+      catalog (RFD 2275);
+    - each facial action maps to SOMA-X's FACS action units;
+    - shapes the 52 facial actions lack, such as cheek puffs and the tongue, map from
+      Unified Expressions to SOMA-X's extra shapes.
   - support: an interned name and a frame. A support that moves (a bike, a moped, a car, a
     train) carries its frame per frame.
   - support allows: a support and one of walk, sit, ride, hold.
@@ -87,11 +90,15 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - weight: a keypoint and a number. Every weight is 1 until the supports model sets it.
 
   :: details What makes a surface walkable
-  The first rule is measured geometry, so a test can check it:
-  - the surface faces up within a slope limit,
-  - a step to it rises or drops no more than a step limit,
-  - there is standing-height clearance above it,
+  The first rule is measured geometry, so a test can check it. Its limits come from the
+  body tables of our appendix-E dataset, not from an engine's defaults (operator,
+  2026-10-19):
+  - the surface faces up within 20 degrees, the normal ankle dorsiflexion of Table E.3-3;
+  - a step to it rises or drops no more than a step limit;
+  - there is 196 cm of clearance above it, the 99th-percentile male stature of Table E.2-1;
   - there is at least a foot's length of flat area.
+  Table E.2-1 has no knee height and no foot length, so the step limit and the flat area
+  wait for those rows (see What is not known).
   The keypoint supports model then learns walk from where feet land: in Kimodo clips, in
   the motion matching clips, and in the frontier runs of RFD 2309. A learned rule replaces
   a measured one only when it predicts the landed feet better on held-out clips.
@@ -115,11 +122,11 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   the stand-up clip to itself must fail the sit gate.
 
   :: details What is not known
-  - The slope, step and clearance limits. The first step reads them from the engine's
-    navigation defaults and the motion matching clips' landed feet, then the operator sets
-    them.
-  - Where the face-points-to-Unified-Expressions mapping lives, and which keypoint
-    distances it reads. The first step finds it and records it as the expression map.
+  - The step limit and the flat area. Table E.2-1 has no knee height or foot length. The
+    first step adds both rows to the appendix-E dataset from the national surveys it
+    already cites, with their percentile columns.
+  - Whether a 20 degree slope is the right reading of ankle dorsiflexion. The first check
+    compares it with the steepest ground under landed feet in the motion matching clips.
   - How the keypoint supports model reads its training rows. RFD 2309's rows are
     EditScore-shaped; the first step writes one contact row in that shape and checks it
     round-trips.
