@@ -90,15 +90,13 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - weight: a keypoint and a number. Every weight is 1 until the supports model sets it.
 
   :: details What makes a surface walkable
-  The first rule is measured geometry, so a test can check it. Its limits come from the
-  body tables of our appendix-E dataset, not from an engine's defaults (operator,
-  2026-10-19):
-  - the surface faces up within 20 degrees, the normal ankle dorsiflexion of Table E.3-3;
+  The first rule is measured geometry, so a test can check it. Its limits are read from
+  the body tables of our appendix-E dataset, never from an engine's defaults, and no
+  number is calculated into the tables or into this RFD (operator, 2026-10-19):
+  - the surface faces up within a slope limit;
   - a step to it rises or drops no more than a step limit;
-  - there is 196 cm of clearance above it, the 99th-percentile male stature of Table E.2-1;
+  - there is standing-height clearance above it;
   - there is at least a foot's length of flat area.
-  Table E.2-1 has no knee height and no foot length, so the step limit and the flat area
-  wait for those rows (see What is not known).
   The keypoint supports model then learns walk from where feet land: in Kimodo clips, in
   the motion matching clips, and in the frontier runs of RFD 2309. A learned rule replaces
   a measured one only when it predicts the landed feet better on held-out clips.
@@ -122,11 +120,8 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   the stand-up clip to itself must fail the sit gate.
 
   :: details What is not known
-  - The step limit and the flat area. Table E.2-1 has no knee height or foot length. The
-    first step adds both rows to the appendix-E dataset from the national surveys it
-    already cites, with their percentile columns.
-  - Whether a 20 degree slope is the right reading of ankle dorsiflexion. The first check
-    compares it with the steepest ground under landed feet in the motion matching clips.
+  - Which table rows give each walkable limit. The appendix-E tables hold stature and ankle
+    range of motion, but no knee height or foot length.
   - How the keypoint supports model reads its training rows. RFD 2309's rows are
     EditScore-shaped; the first step writes one contact row in that shape and checks it
     round-trips.
