@@ -187,6 +187,11 @@ solids, rolled on survey tables, and it carries wear from round to round"
     each a round of ten Frames on its own seed, with headless players placed
     so their view holds from tens to thousands of Frames. Arenas start a few
     ticks apart, so hits, breaks and round ends spread over time.
+  - Classes. The zone carries what the game carries, not one kind of mover:
+    Frames on scripted moves, players' tracked heads and hands, props at
+    rest that change only when touched, and crowds of walkers. Headless
+    players replay recorded head and hand tracks, since tracked motion has
+    sensor jitter a script lacks. Every report is split by class.
   - Oracle. Each headless client decodes its rows, moves Frames along their
     sent velocity between rows, and compares what it holds with the server's
     replay of the same seeds. It reports the worst position error and how
@@ -202,6 +207,12 @@ solids, rolled on survey tables, and it carries wear from round to round"
     for plain zstd, for patch-from against the last row the client
     acknowledged, and for each dictionary size, and the oracle's errors.
     Saves go through the store's latest-wins thread and report save age.
+
+  On rows generated for the test, sent as the gap from the client's own
+  prediction, walkers cost 0.47 bytes a row, props at rest 0.31 and tracked
+  points 3.96, so a player's own hands cost about eight times a zombie. The
+  budget gives players near each other the first share, and the bench sets
+  the split from recorded traffic.
 
   Each measurement has a planted defect that must show in the report:
 
