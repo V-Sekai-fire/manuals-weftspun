@@ -32,13 +32,19 @@ def tokens(text):
     return MarkdownIt("commonmark").enable("table").parse(_document(text))
 
 
-def prose(text):
-    """Text a reader reads: no code blocks, no urls, no html, no table pipes."""
+def prose(text, tables=True):
+    """Text a reader reads: no code blocks, no urls, no html, no table pipes.
+
+    tables=False also drops table cells: a table holds records, not prose."""
     out = []
+    in_table = False
     for token in tokens(text):
+        if token.type in ("table_open", "table_close"):
+            in_table = token.type == "table_open"
+            continue
         if token.type in ("fence", "code_block", "html_block"):
             continue
-        if token.type != "inline":
+        if token.type != "inline" or (in_table and not tables):
             continue
         for child in token.children or ():
             if child.type == "text":
