@@ -279,6 +279,7 @@ defmodule Serials.VSekaiFabric do
       serial 2321, "the-autobattler-fields-frames-that-wear"
       serial 2322, "a-mac-dashboard-and-theatre-mode", flight_level: :l1
       serial 2323, "frontier-learning-picks-the-stores-adversarial-runs"
+      serial 2324, "omnigen2-editscore-desktop-offline-small-fast", flight_level: :l1
     end
 
     deleted do
