@@ -221,13 +221,13 @@ defmodule Serials.VSekaiFabric do
       serial 2263, "the-skateboards-simulator-gate", flight_level: :l1
       serial 2264, "mesh-repair-by-voxel-remesh", flight_level: :l1
       serial 2265, "curvenet-on-compute-rd", flight_level: :l1
-      serial 2266, "simulator-runtime-on-linux", flight_level: :l1
+      serial 2266, "simulator-runtime-on-linux"
       serial 2267, "persona-npcs-in-ported-scenes"
       serial 2268, "the-recommender-is-a-decision-model", flight_level: :l1
       serial 2269, "curvenet-parity-gate-is-interval-arithmetic", flight_level: :l1
       serial 2271, "headset-eye-tracking-to-social-vr-without-a-bridge"
       serial 2272, "rf-detr-segmentation-as-a-sandbox-guest-on-ggml-rd", flight_level: :l1
-      serial 2273, "accepting-person-masks-depth-before-judge", flight_level: :l1
+      serial 2273, "accepting-person-masks-depth-before-judge"
       serial 2274, "curvenet-crossings-via-mujoco-guest", flight_level: :l1
       serial 2275, "unified-expressions-by-fitting-a-parametric-head"
       serial 2276, "kusudama-governs-a-ggml-rd-persona-policy"
@@ -239,7 +239,7 @@ defmodule Serials.VSekaiFabric do
       serial 2279, "one-deform-surface-over-curvenets"
       serial 2280, "pixal3d-latents-as-mesh-tokens", flight_level: :l1
       serial 2281, "face-shapes-from-three-sources", flight_level: :l1
-      serial 2282, "pose-correctives-as-bones", flight_level: :l1
+      serial 2282, "pose-correctives-as-bones"
       serial 2283, "play-mode-verification-by-recording", flight_level: :l1
       serial 2284, "a-quest-variant-by-sandbox-guests", flight_level: :l1
       serial 2285, "unship-the-web-demo-and-xr-paths"
@@ -281,6 +281,8 @@ defmodule Serials.VSekaiFabric do
       serial 2323, "frontier-learning-picks-the-stores-adversarial-runs"
       serial 2324, "omnigen2-editscore-desktop-offline-small-fast", flight_level: :l1
       serial 2325, "second-hand-garments-for-the-avatar", flight_level: :l1
+      serial 2326, "the-zone-sends-every-entity-in-view-under-a-byte-budget"
+      serial 2327, "keypoints-supports-and-contacts", flight_level: :l1
     end
 
     deleted do

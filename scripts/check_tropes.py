@@ -63,7 +63,7 @@ def in_scope(path: str) -> bool:
 
 
 def count_tropes(text: str) -> tuple[int, dict[str, int]]:
-    readable = md_ast.prose(text)
+    readable = md_ast.prose(text, tables=False)
     per = {name: len(rx.findall(readable)) for name, rx in TELLS.items()}
     return sum(per.values()), per
 
@@ -182,6 +182,18 @@ def self_test() -> int:
             "See the deployment notes:\n\n- first item\n- second item\n- third item\n",
             "em_dash_join",
             0,
+        ),
+        (
+            "a dataset table's cells are records, not prose",
+            "| id | title |\n|---|---|\n| `a1` | Walking in CORK - 4K 60fps |\n",
+            "em_dash_join",
+            0,
+        ),
+        (
+            "prose after a dataset table is still read",
+            "| id | title |\n|---|---|\n| `a1` | Walking in CORK |\n\nThe gate ran — every control fired.\n",
+            "em_dash_join",
+            1,
         ),
         ("counting announcement", "It shapes the checks in three ways.", "counting_announcement", 1),
         ("prose that mentions three ways", "Three ways lead there.", "counting_announcement", 0),
