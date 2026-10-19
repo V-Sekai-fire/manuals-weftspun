@@ -189,7 +189,8 @@ solids, rolled on survey tables, and it carries wear from round to round"
     ticks apart, so hits, breaks and round ends spread over time.
   - Classes. The zone carries what the game carries, not one kind of mover:
     Frames on scripted moves, players' tracked heads and hands, props at
-    rest that change only when touched, and crowds of walkers. Headless
+    rest that change only when touched, and crowds of pedestrians who stop,
+    start and walk in pairs. Headless
     players replay recorded head and hand tracks, since tracked motion has
     sensor jitter a script lacks. Every report is split by class.
   - Oracle. Each headless client decodes its rows, moves Frames along their
@@ -209,10 +210,11 @@ solids, rolled on survey tables, and it carries wear from round to round"
     Saves go through the store's latest-wins thread and report save age.
 
   On rows generated for the test, sent as the gap from the client's own
-  prediction, walkers cost 0.47 bytes a row, props at rest 0.31 and tracked
-  points 3.96, so a player's own hands cost about eight times a zombie. The
-  budget gives players near each other the first share, and the bench sets
-  the split from recorded traffic.
+  prediction, props at rest cost 0.31 bytes a row, pedestrians 2.16 and
+  tracked points 3.96. Walkers that never stop cost 0.47, which flatters
+  prediction, so the bench uses pedestrians and never zombies. The budget
+  gives players near each other the first share, and the bench sets the split
+  from recorded traffic.
 
   Each measurement has a planted defect that must show in the report:
 
