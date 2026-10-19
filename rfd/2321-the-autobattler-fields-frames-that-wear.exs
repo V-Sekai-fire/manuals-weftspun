@@ -5,7 +5,7 @@ use RFD.DSL
 rfd 2321, "the autobattler fields Frames that wear", :committed do
   feature "each fighter in the SolidCraft autobattler is a Frame put together from guest
 solids, rolled on survey tables, and it carries wear from round to round"
-  scope "the SolidCraft autobattler game Space: its game script and its page"
+  scope "the SolidCraft autobattler: its game script, its page and its zone version"
 
   prose ~S"""
   :: decision
@@ -21,6 +21,8 @@ solids, rolled on survey tables, and it carries wear from round to round"
   other as in rock, paper, scissors. The operator requested the roles on
   2026-10-18. Each role and the plant also need a prop in a mirrored arena:
   cover, a relay per side or soil. The operator requested them the same day.
+  On 2026-10-19 the operator requested that the game also run as a fabric zone
+  that headsets join, with the store kept off every frame and every tick.
   :: problem
   Each unit was one solid: a box, a cylinder, a sphere or a torus. Units had no
   identity, every round started from zero, and nothing on screen said which unit
@@ -122,6 +124,57 @@ solids, rolled on survey tables, and it carries wear from round to round"
   without the relay, seconds melee Frames spent beside cover, seconds plants
   spent on soil, and each relay's health. `--rounds=N` with `--selftest` runs
   N rounds for a longer sim.
+
+  :: details Zone server and VR mode
+  The zone, its transport and its crash journal are those of RFD 2287, the
+  first rung. The round is deterministic: one seed gives the same `ROUND`, `DAMAGE` and
+  `WORLD` lines on the web and on the three desktop systems. That makes the game
+  a fit for an authoritative zone. The zone server runs the round headless, and
+  every client shows the same round.
+
+  Three loops run at three rates, and only the last touches the store.
+
+  - The headset renders at 144 Hz, a frame every 6.9 ms. It predicts poses
+    locally and never waits on the network or on a commit.
+  - The zone runs the round at a fixed tick. At the start of a round it sends
+    the seed and both drafts on a reliable stream. Each tick it sends every
+    Frame's place and health as datagrams, where the next tick replaces a lost
+    one, and hits, breaks and the round's end on the reliable stream. The zone
+    and transport are those of &{repo("interactor-fabric-zone")}.
+  - After a tick, the zone hands its SQLite journal image to a save thread if
+    it changed. The save thread writes the image to SQLite on FoundationDB
+    (&{repo("datasource-store")}) and keeps only the newest one: a save that is
+    still in flight when the next is ready is replaced, not queued. A slow
+    commit makes the stored image older; it never holds a tick or a frame.
+
+  The store's place in the third loop comes from a measurement. On 2026-10-19,
+  sixteen players committing one row 20 times a second waited 5.5 to 6.0 ms
+  for the median commit on the Windows desk's FoundationDB under WSL, and over
+  one player-day the worst waits reached 3.3 to 4.7 s. A typical commit is
+  already a whole frame at 144 Hz, and the worst is hundreds of frames.
+
+  The zone version lives in a new interactor repository, named
+  interactor-solidcraft-zone and placed in the goal manifest when it is made. The
+  game's Godot project moves there as the one source, with a zone-server mode
+  and a headset mode. The Space keeps the web build and the downloads, built
+  from that repository. The guest kernel and the zone repository stay as they
+  are and are used as dependencies.
+
+  Each step has a check, and each check has a control.
+
+  - The Space's web build prints the same lines after the move as before it.
+  - Two headless clients beside a zone server print the server's `ROUND`,
+    `DAMAGE` and `WORLD` lines. A client given another seed must differ.
+  - The headset mode runs under the XR Pilot desktop runtime, which an agent
+    drives with no person in a headset.
+  - The save thread reports the age of the newest stored image over a
+    player-day: its worst and how often it passes 1, 2 and 5 s. The planted
+    slow commit must raise it.
+
+  Three choices are open: the zone's tick rate, whether the headset client is
+  the V-Sekai client or a scene in the game's own project, and which host runs
+  FoundationDB in production. A run on a plain Linux runner, pending on
+  2026-10-19, says whether the multi-second waits come from the WSL host.
 
   :: details What was measured
   The change is in the game script only, so the guest and every translation hash
