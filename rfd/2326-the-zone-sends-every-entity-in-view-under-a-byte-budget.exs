@@ -26,7 +26,7 @@ packet, at a rate set by a per-player byte budget rather than a fixed slice"
   payload at offset 44, where the spec has micrometre integers, rotation and
   42 bytes at offset 58. The logbook's measured 0.349 Mbit/s a player came
   from a bench with a 64-row cap and zstd that the zone does not have. A
-  horde puts thousands of zombies in view, and 64 rows cannot carry them.
+  busy street puts thousands of people in view, and 64 rows cannot carry them.
   :: related
   - RFD 2287, the first rung: the zone and transport this changes.
   - RFD 2321, the autobattler as a zone: the first game on this path.
@@ -53,7 +53,8 @@ packet, at a rate set by a per-player byte budget rather than a fixed slice"
   against the last row the player acknowledged, compressed with zstd.
 
   On traffic generated for the test (64 walkers at 5 km/h in the spec's
-  packet), absolute rows compressed 4.3 times and deltas against the previous
+  packet, which flatter prediction and are why zombies are blocklisted as
+  test traffic), absolute rows compressed 4.3 times and deltas against the previous
   row 8.6 times, about 11 bytes a row. A trained zstd dictionary added nothing
   at 6.4 kB messages. At 11 bytes, 2000 entities in view with the near band
   at 20 Hz and the rest at 2 Hz is about 0.45 Mbit/s. Recorded zone traffic
@@ -63,7 +64,7 @@ packet, at a rate set by a per-player byte budget rather than a fixed slice"
   The busiest street measured, a 53-minute walk at blue hour, held at most 16
   people that RF-DETR keypoints found at 1280 pixels wide, and about 40 by
   eye in the busiest frame. A tiled count at full resolution sets the real
-  maximum; the budget is sized to that maximum with a buffer, and a horde
+  maximum; the budget is sized to that maximum with a buffer, and a crowd
   scene is sized on top.
 
   :: details The five constants
@@ -87,7 +88,7 @@ packet, at a rate set by a per-player byte budget rather than a fixed slice"
   :: details Kept
   The 60 Hz simulation: the logbook's runs at 60 and 120 Hz part at tick 0,
   so a change is a new simulation. The 100-byte row, as the spec emits it.
-  The 50 migrations a tick: a sprinting horde crossing a 100-metre seam is about
+  The 50 migrations a tick: a running crowd crossing a 100-metre seam is about
   20 a tick at 60 Hz. zstd level 3, with no dictionary until recorded traffic
   shows one helps.
   """
