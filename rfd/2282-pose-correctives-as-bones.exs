@@ -13,7 +13,6 @@ rfd 2282, "pose correctives as bones", :ideation do
   ---
   """
 
-  flight_level :l1
   feature "a body whose proportions and joint correctives are pure pose:
 bone lengths, girth adjusters and constraint-driven helper bones, no blend shapes"
   scope "SOMA-X's corrective MLP as a ggml-rd guest; RFD 2279's

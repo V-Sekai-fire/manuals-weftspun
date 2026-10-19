@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2266, "The simulator runtime runs on Linux", :discussion do
-  flight_level :l1
   feature "the first testable release's simulator gate builds and runs on Linux, on
 hardware the operator owns, off the macOS runner"
   scope "the OXRSys runtime build and the transport-meshing-pen replay gate"

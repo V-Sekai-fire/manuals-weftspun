@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2273, "accepting person masks: depth before a judge", :discussion do
-  flight_level :l1
   feature "a person mask is accepted by agreement with a depth edge, not by
 a vision-language judge"
   scope "datasource-anny-render-corpus PR #41: instance, edge and acceptance
