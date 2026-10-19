@@ -171,10 +171,49 @@ solids, rolled on survey tables, and it carries wear from round to round"
     player-day: its worst and how often it passes 1, 2 and 5 s. The planted
     slow commit must raise it.
 
-  Three choices are open: the zone's tick rate, whether the headset client is
-  the V-Sekai client or a scene in the game's own project, and which host runs
-  FoundationDB in production. A run on a plain Linux runner, pending on
-  2026-10-19, says whether the multi-second waits come from the WSL host.
+  The zone simulates at 60 Hz and sends rows under RFD 2326's byte budget.
+  Two choices are open: whether the headset client is the V-Sekai client or a
+  scene in the game's own project, and which host runs FoundationDB in
+  production. A run on a plain Linux runner, pending on 2026-10-19, says
+  whether the multi-second waits come from the WSL host.
+
+  :: details The autobattler is the network test bench
+  RFD 2326's numbers so far come from walkers generated for the test, whose
+  rows never repeat. The autobattler gives real traffic with an answer key.
+  One seed fixes every round, so the server's replay of a seed is the truth
+  for every row a client receives, at every tick.
+
+  - Scale. One zone runs many arenas side by side, from one to a few hundred,
+    each a round of ten Frames on its own seed, with headless players placed
+    so their view holds from tens to thousands of Frames. Arenas start a few
+    ticks apart, so hits, breaks and round ends spread over time.
+  - Oracle. Each headless client decodes its rows, moves Frames along their
+    sent velocity between rows, and compares what it holds with the server's
+    replay of the same seeds. It reports the worst position error and how
+    long a Frame stayed wrong. A client must never hold a Frame the replay
+    says has left, or a value that was never sent.
+  - Link. Between server and clients sits a relay that drops and delays
+    datagrams: no loss, 1% and 5%, at 50, 100 and 200 ms of round trip.
+  - Record. The relay writes every message it passes. The recordings are
+    the corpus for the static zstd dictionary: dictionaries built from them
+    at 1, 8, 64, 256 and 1024 MB are measured on held-out recordings in
+    bytes per row, and the size stops growing where the gain flattens.
+  - Report. Bytes per player per second against the budget, bytes per row
+    for plain zstd, for patch-from against the last row the client
+    acknowledged, and for each dictionary size, and the oracle's errors.
+    Saves go through the store's latest-wins thread and report save age.
+
+  Each measurement has a planted defect that must show in the report:
+
+  - the budget ignored, which must push bytes per second over it;
+  - a client holding another dictionary version, which must fail to
+    decode and never decode wrong values;
+  - the clock counter per row, which must make a client order rows wrong
+    past 256 rows in a tick;
+  - the velocity scale read per tick, which must raise position error;
+  - a dropped leave message, which must leave a Frame the replay has
+    removed;
+  - the store's slow commit, which must raise save age and nothing else.
 
   :: details What was measured
   The change is in the game script only, so the guest and every translation hash
