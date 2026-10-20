@@ -17,9 +17,9 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   RFD 2302's budget, and the program reaches the engine through NIFs over
   the sandbox API, each a capability of RFD 2288. Rung 2, gated, loads the
   VM's ahead-of-time riscv64 native chunk and is kept only if the measured
-  instruction count per solve falls. The rule that new guest code is Lean
-  4 stands; this records the route for the day the operator names an
-  Elixir program that belongs in a guest. Nothing builds until then.
+  instruction count per solve falls. New guest code is Lean 4 or a BEAM
+  program on this route (operator, 2026-10-20); C++ stays legacy only.
+  The first program to take the route is not yet named.
   :: problem
   Elixir owns the coordinators, the gate runners and the release tools, and
   every guest today is C++ or Lean 4. When a coordinator's logic has to run
@@ -73,8 +73,8 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   - Keep Elixir on the host and embed the engine from the BEAM through a
     NIF (RFD 2154). This is the route when the program is a coordinator
     that drives the engine, and it stays the default for coordinators.
-  - A rewrite in Lean 4. This is the standing rule for new guest code and
-    the route when the program is compute.
+  - A rewrite in Lean 4. The other permitted language for new guest code,
+    and the route when the program is compute.
   - The small VM, generic UNIX platform, static riscv64. Chosen as the
     route for an Elixir program that must run inside the sandbox.
 
@@ -176,9 +176,9 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   as every other Elixir project here does.
 
   :: details What is not known
-  - Which Elixir program is first, if any. The ruling that picks one also
-    settles whether it is compute (Lean by rule) or coordination (host
-    BEAM by RFD 2154). This RFD designs the route only.
+  - Which Elixir program is first. Naming it also settles whether it is
+    compute or coordination; a coordinator that only drives the engine
+    still has the host route of RFD 2154.
   - Whether the godot-sandbox host carries `ppoll` (or `poll`) and
     anonymous `mmap` with `mremap`. rvlinux does; the host installs its
     own table. First step: run rung 0 inside the pinned engine, not only
