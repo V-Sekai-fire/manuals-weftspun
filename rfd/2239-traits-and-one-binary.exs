@@ -397,7 +397,7 @@ rfd 2239,
   in-tree conversion commits against it.
 
   **Where entities-godot-cineform lives and how it is placed.**
-  &{repo("entities-godot-cineform")} builds the CineForm `MovieWriter` as
+  &{repo("contract-cineform-movie-writer")} builds the CineForm `MovieWriter` as
   a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
   API in Godot 4.5, with clang 23 on its default branch; `default.xml` places
   it, and RFD 2287's recordings go through it.

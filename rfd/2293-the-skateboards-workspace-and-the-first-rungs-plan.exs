@@ -82,7 +82,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     (the port source for steps 4 to 7),
     &{repo("entities-godot-sandbox", planned: "4-entities")} at `b1118e5`,
     &{repo("entities-sakuragaoka-station")} (the Godot port),
-    &{repo("entities-godot-cineform")}, &{repo("godot_openvr")} at its
+    &{repo("contract-cineform-movie-writer")}, &{repo("godot_openvr")} at its
     manifest revision, `godot-vrm`,
     &{repo("entities-godot-sandbox-gdscript-compiler")}.
   - 5-repository: &{repo("repository-riscv64-sysroot")};
