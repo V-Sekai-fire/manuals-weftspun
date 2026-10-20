@@ -132,11 +132,14 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
     motion matching does, over at least half the clip. The last 0.2 s fade into the first
     frame's pose. The root keeps its travel: each pass adds one loop's move and turn.
   - The guest's clip record carries a loop flag. A loop's time wraps at its end and the end
-    forces no search. A search never picks the playing clip at an earlier time; a loop
-    reaches its start only by wrapping.
+    forces no search. A search never picks a pose played in the last 2 s, in any clip; a loop
+    reaches its start only by wrapping. Measured with the cut clips but without this rule, a
+    run at 3.5 m/s went back and forth between two motion-capture clips every 0.3 s, replaying
+    the same 0.3 s of each.
   Gates: each seam, with the travel carried, moves no more than one ordinary frame step,
-  measured by joint angle as for the joins above; a 60 s walk-mode run at 144 Hz goes back
-  in time inside a clip only at a loop's wrap; two runs of the same steps print the same
+  measured by joint angle as for the joins above, against the 95th percentile of the clip's
+  own frame steps; a 60 s walk-mode run at 144 Hz returns to a pose played in the last 2 s
+  only at a loop's wrap; two runs of the same steps print the same
   course positions, and per-step results match at 30, 60 and 144 Hz. Controls: the uncut
   10 s jog played as a loop must fail the seam gate; today's clips must fail the run gate;
   a second run started one frame late must differ.
@@ -145,8 +148,9 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - Whether going back in time causes the difference between two untraced runs of the same
     steps, up to 2 cm, about a nickel's width. Two traced runs matched frame for frame. The
     first step repeats the untraced pair once the loops land.
-  - Whether every steady prompt has a clean seam. The cut reports each clip's seam distance;
-    a clip over the gate stays a one-shot and is named in the report.
+  - Of 33 steady clips, 29 cut within the gate. The standing and crouching idles and the
+    two crawl turns stay one-shots, with seams of 3.6, 0.4, 5.4 and 9.0 degrees against
+    ordinary steps of 2.8, 0.3, 4.2 and 5.3 degrees.
   - Which table rows give each walkable limit. The appendix-E tables hold stature and ankle
     range of motion, but no knee height or foot length.
   - How the keypoint supports model reads its training rows. RFD 2309's rows are
