@@ -1,7 +1,7 @@
 # Written by `mix rfd.refs.update`; RFD prose resolves &{...} against it.
 %{
   manifest: %{
-    commit: "e0094faba65a06d25bf65277da32be4ca01b56fc",
+    commit: "198b4eeee3d22c25b5817382b73c7a121118d793",
     repo: "V-Sekai-fire/contract-manifest-taskweft"
   },
   repos: %{
@@ -12,7 +12,7 @@
       path: "3-interactor/av1mkv",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-av1mkv",
-      tip: "3c0fbecc215362d31f4d59e52f0b73db7825d703"
+      tip: "05f20ee5b2d7d3160fa35235245c6a28b7787ca6"
     },
     "entities-godot-sandbox-gdscript-compiler" => %{
       default: "main",
@@ -20,7 +20,7 @@
       path: "4-entities/godot-sandbox-gdscript-compiler",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/entities-godot-sandbox-gdscript-compiler",
-      tip: "156631a8dec2f8f29f61b86038de67eb00e3233c"
+      tip: "fdbef5d010acccfaa4e9b88cab531105edaf5b7d"
     },
     "interactor-voice" => %{
       default: "main",
@@ -28,7 +28,7 @@
       path: "3-interactor/voice",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-voice",
-      tip: "7d35038f8bb8239bea28ffd0176860400dc50a7e"
+      tip: "9d331d4dcc2a52f7eb55c7c6304817af09421eec"
     },
     "chibifire/starforged-std-3001-appendix-e" => %{
       default: "main",
@@ -36,7 +36,7 @@
       path: "6-datasource/starforged-std-3001-appendix-e",
       revision: "main",
       url: "https://huggingface.co/datasets/chibifire/starforged-std-3001-appendix-e",
-      tip: "2dcc6877f6047414bcc34448b043ead589d4ce5c"
+      tip: "6b65d8c6368e0f146fc22bf0796751737c94054f"
     },
     "nif" => %{
       default: "main",
@@ -68,7 +68,7 @@
       path: "2-contract/bootstrap",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-bootstrap",
-      tip: "a1ae55e2e4b99d741d91ca1e201169016b8e5a8e"
+      tip: "996822977e15d1c59c1b7faac76f2cd738a98a7d"
     },
     "contract-anny-kernels" => %{
       default: "main",
@@ -76,7 +76,7 @@
       path: "2-contract/anny-kernels",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-anny-kernels",
-      tip: "52b60f401dde7b9344dc3f84e7e1a8a809b64e2f"
+      tip: "1ac8ff21a31a631bada74c51e757e99772d2be8a"
     },
     "service-godot-build" => %{
       default: "main",
@@ -84,7 +84,7 @@
       path: "7-service/godot-build",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/service-godot-build",
-      tip: "843ba6d7bb9c049ef818640802c16a1ed6562976"
+      tip: "cd01a53443763b981a58a847ee779d2f532dcd15"
     },
     "interactor-usd-guest" => %{
       default: "main",
@@ -92,7 +92,7 @@
       path: "3-interactor/usd-guest",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-usd-guest",
-      tip: "4125bcc267e345ae62c9177554b082edd2924a4d"
+      tip: "c4e4743f3cc9b8171c4a59aa545bfd83e51528b6"
     },
     "entities-anny-creator" => %{
       default: "main",
@@ -108,7 +108,7 @@
       path: "6-datasource/foundationdb",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/datasource-foundationdb",
-      tip: "f61eaebf6a565fdc265bdb41ae2a27c03962fd67"
+      tip: "511db35cb0837e7d524e97b53674115be3bfc127"
     },
     "character-marocchino" => %{
       default: "main",
@@ -140,7 +140,7 @@
       path: "3-interactor/nx-ggml",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-nx-ggml",
-      tip: "e0b189535e9c08e6fb1d9c0c70e7a1527addf855"
+      tip: "c6f7b34bc06f2c5682a5e059665c636429a7d55d"
     },
     "character-mille-mire-feuille" => %{
       default: "main",
@@ -156,7 +156,7 @@
       path: "4-entities/egit",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/egit",
-      tip: "ad394ddb413c9642f69686cc072d0f6605612346"
+      tip: "66066a43747d4d057a22b540d74fb643ecc764fe"
     },
     "frame-controller-sim" => %{
       default: "main",
@@ -172,15 +172,15 @@
       path: "2-contract/manuals-weftspun",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/manuals-weftspun",
-      tip: "3de1531821a6228f85d02b24de7e3f22bfbf0b7d"
+      tip: "7a392a0f80b3bb05d420c1d8d7db046cd342d6a6"
     },
     "entities-godot-cineform" => %{
       default: "main",
       state: :placed,
-      path: "4-entities/godot-cineform",
+      path: "2-contract/cineform-movie-writer",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/entities-godot-cineform",
-      tip: "6caca0193925e8b274756e67bf591f6fb9e41083"
+      tip: "f1a456b6f2bc097c745c955dea867b6e13af84a8"
     },
     "contract-anny-keypoint-anchors" => %{
       default: "main",
@@ -196,7 +196,7 @@
       path: "2-contract/ggml-rd",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-ggml-rd",
-      tip: "8361d7c90f20674d7e6b6b615969dc0f33dccc0b"
+      tip: "357caf91b27569983a471f83015ffc175ff94a3f"
     },
     "interactor-kimodo-text-to-motion" => %{
       default: "main",
@@ -204,7 +204,7 @@
       path: "3-interactor/kimodo-text-to-motion",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-kimodo-text-to-motion",
-      tip: "a62f46b0f14a0522ed398d37b6afae163e0c9777"
+      tip: "2792458b798c2d57ff04134371b55c30400dee0f"
     },
     "interactor-soma-x" => %{
       default: "main",
@@ -220,13 +220,13 @@
       path: "2-contract/guest-common",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-guest-common",
-      tip: "cff173f3230896c2a426ccec35bd8bc78ce0598a"
+      tip: "1ea61e04bd8e91dfabbf9f36c58de736e5540077"
     },
     "datasource-cassie" => %{
       default: "master",
       state: :placed,
       path: "6-datasource/cassie",
-      revision: "ed6870db441ece00701979db67190972deeff59b",
+      revision: "master",
       url: "https://github.com/v-sekai/datasource-cassie",
       tip: "ed6870db441ece00701979db67190972deeff59b"
     },
@@ -236,7 +236,7 @@
       path: "7-service/cineform",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/service-cineform",
-      tip: "2a7083f301af375b4d6c4f3f4471eba821b0c5b1"
+      tip: "d6796c712234fdcf6bdee446c7869b264f525b58"
     },
     "entities-sakuragaoka-station" => %{
       default: "main",
@@ -244,7 +244,7 @@
       path: "4-entities/sakuragaoka-station",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/entities-sakuragaoka-station",
-      tip: "fe9101af4375c43f6e0072b727734cb2960b1473"
+      tip: "6cf14f02b1ab24ef0b2e8ff467d839b66d77279f"
     },
     "transport-meshing-pen" => %{
       default: "main",
@@ -252,7 +252,7 @@
       path: "1-transport/meshing-pen",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/transport-meshing-pen",
-      tip: "f1c899671e4bbf8b195a83d195304b2d70eae3e4"
+      tip: "2b57bc97f5dda6c880ec179b5f1df6b275e9b20f"
     },
     "transport-central-launcher" => %{
       default: "main",
@@ -260,7 +260,7 @@
       path: "1-transport/central-launcher",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/transport-central-launcher",
-      tip: "3a6bad8411e1900ed78f612a031f89cb4f2ce2ed"
+      tip: "fb961f3d0b9766cba66c2b9700874b1042b8b9e2"
     },
     "repository-riscv64-sysroot" => %{
       default: "main",
@@ -276,15 +276,15 @@
       path: "3-interactor/taskweft-godot-sandbox",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-taskweft-godot-sandbox",
-      tip: "091e3aa9efecadf7930c5aaa96bb0737c71718af"
+      tip: "b94aee9a0d52dd2ce05cc692a4e8094b55aaf820"
     },
     "entities-godot" => %{
       default: "main",
       state: :placed,
-      path: "4-entities/godot-fabric",
-      revision: "refs/tags/v2026.10.01.0014-main-fabric-0.2.4",
+      path: "4-entities/godot-cineform",
+      revision: "dev/cineform",
       url: "https://github.com/V-Sekai-fire/entities-godot",
-      tip: "fa43fc22fc68e0bc9e217b42c796826569f5d924"
+      tip: "1249dfc65fdba17f458da0330ed9accf5421757b"
     },
     "godot_openvr" => %{
       default: "main",
@@ -292,13 +292,13 @@
       path: "4-entities/godot-openvr",
       revision: "feat/frame-devices",
       url: "https://github.com/V-Sekai-fire/godot_openvr",
-      tip: "b8ae0bef22d231a3866f23c2456e9ef2e97adebe"
+      tip: "04c84ba1654ba6f9bb974a065bbb23aabf627a52"
     },
     "pyrowave" => %{
       default: "main",
       state: :placed,
       path: "3-interactor/pyrowave-upstream",
-      revision: "89f7e47d4abbf650c91fae766728af866c5e32a0",
+      revision: "main",
       url: "https://github.com/V-Sekai-fire/pyrowave",
       tip: "c227a4c90c8cd5e1eca4c28550f05093dc651eb1"
     },
@@ -308,7 +308,7 @@
       path: "2-contract/zone-backend",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-zone-backend",
-      tip: "cb8c266ffdb7b8b5da3684de7c6d0b0df5dab9a4"
+      tip: "c803f77ad2b046a8fe8afb3c638ba8b4e0dd0c42"
     },
     "interactor-drape" => %{
       default: "main",
@@ -316,7 +316,7 @@
       path: "3-interactor/drape",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-drape",
-      tip: "50f72214ef618e079bf18a5a4559aaa2ecdb97de"
+      tip: "923c9b0d77e438f556f8865143bd5f9e6a63b8f6"
     },
     "interactor-curvenet" => %{
       default: "main",
@@ -324,7 +324,7 @@
       path: "3-interactor/curvenet",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-curvenet",
-      tip: "85c4599cffee171acafa8c0196f2e56d9643702f"
+      tip: "ff39ee7ae9bbf02afb90defe204bc147f66dec69"
     },
     "kimodo-ggml" => %{
       default: "main",
@@ -360,7 +360,7 @@
       default: "main",
       state: :placed,
       path: "3-interactor/moge-upstream",
-      revision: "74fbce054ebed49800de42d0ad0e83495065719a",
+      revision: "main",
       url: "https://github.com/V-Sekai-fire/MoGe",
       tip: "1bb5557171d4634d2c792b7af2e8ecca5147e991"
     },
@@ -370,13 +370,13 @@
       path: "2-contract/lbfgsb",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-lbfgsb",
-      tip: "7059e066694e5df558e9a1c0ca8c64fc2e11b0c5"
+      tip: "5fe35817f02b4ad7bc552556295d4636af65cea6"
     },
     "sakuragaoka-station" => %{
       default: "main",
       state: :placed,
       path: "3-interactor/sakuragaoka-station-upstream",
-      revision: "4112f57208b7e29998344ca71fef74202c2b2bdd",
+      revision: "main",
       url: "https://github.com/V-Sekai-fire/sakuragaoka-station",
       tip: "f7cf5ac562149d1454da9b8f0b0d15a847d54226"
     },
@@ -386,7 +386,7 @@
       path: "3-interactor/editscore-lora-qwen3vl-4b",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-editscore-lora-qwen3vl-4b",
-      tip: "cea684045282bd76e9390a08a8b28e623b5237b9"
+      tip: "41469ab5ed762722e61107b8bb9834156db98eff"
     },
     "interactor-taskweft" => %{
       default: "main",
@@ -394,7 +394,7 @@
       path: "3-interactor/taskweft",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-taskweft",
-      tip: "be6aed355c4e353169889b2a14416fd15a0b4ecf"
+      tip: "2da68334bea3edc1837cb92a02d5b597d232b077"
     },
     "contract-guest-runtime" => %{
       default: "main",
@@ -402,7 +402,7 @@
       path: "2-contract/guest-runtime",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-guest-runtime",
-      tip: "65a3c785f4e177aa5943317e6bdb13ff2554ecc2"
+      tip: "1d8341825ac6fcfa8b8b2a11ae908e5d6aa71b33"
     },
     "interactor-motion-guest" => %{
       default: "main",
@@ -410,7 +410,7 @@
       path: "3-interactor/motion-guest",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-motion-guest",
-      tip: "166587ca94c7e7ff1a03c061833aed111940d79b"
+      tip: "54ac95f5e16e7650f2c34ccfa413f5d26c80886d"
     },
     "interactor-taskweft-nmm-personas" => %{
       default: "main",
@@ -418,7 +418,7 @@
       path: "3-interactor/taskweft-nmm-personas",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-taskweft-nmm-personas",
-      tip: "b1d81e7e205f1b538a3bc9af2ffbdd72f4f1f3ca"
+      tip: "476555a8a38eb562687a45effc569dcbebe70c5b"
     },
     "interactor-mujoco-sandbox-demo" => %{
       default: "main",
@@ -426,7 +426,7 @@
       path: "3-interactor/mujoco-sandbox-demo",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-mujoco-sandbox-demo",
-      tip: "5d1fc56dc4b01c8a2e67965621922b474833302f"
+      tip: "beedd2b40c97eea2e6420579665eaf3b9ec7cb76"
     },
     "interactor-rfdetr-seg-guest" => %{
       default: "main",
@@ -434,7 +434,7 @@
       path: "3-interactor/rfdetr-seg-guest",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-rfdetr-seg-guest",
-      tip: "674953880f3e1d5beaecb63f5b40e75319c6b096"
+      tip: "a99e4c865f19421215ea38d5927639b1765c6618"
     },
     "service-taskweft-bao" => %{state: :planned, side: "7-service"},
     "contract-hm08-partition" => %{
@@ -451,7 +451,7 @@
       path: "2-contract/sinew-align",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/contract-sinew-align",
-      tip: "81adca7e4c4bd1b2b83026fc064f6cb1dfaee072"
+      tip: "62f5a3eeeff38254647ec04a2f8bad41f595f5bb"
     },
     "interactor-lasso" => %{
       default: "main",
@@ -459,7 +459,7 @@
       path: "3-interactor/lasso",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-lasso",
-      tip: "bbbc6b4372ea726c604f71197a04fc6c470fab23"
+      tip: "4d97b360efc675402e54fec2355c20ea0a9cb29b"
     },
     "interactor-cineform" => %{
       default: "main",
@@ -467,7 +467,7 @@
       path: "3-interactor/cineform",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-cineform",
-      tip: "4f9980c14e8bd2515b58244123c767ed0617eac8"
+      tip: "836182d6f961ca786ed91388fa8b3333bd2e79b4"
     },
     "service-sqlar-cas" => %{state: :planned, side: "7-service"},
     "transport-usbip-frame" => %{
@@ -483,9 +483,9 @@
       default: "main",
       state: :placed,
       path: "2-contract/trust-lean",
-      revision: "refs/tags/v3.0.0-fire.2",
+      revision: "main",
       url: "https://github.com/V-Sekai-fire/trust-lean",
-      tip: "0e82d3c239b8f548577fd87368aae5f35f788f5b"
+      tip: "39a6c2672d2b32ad3acce34b3126ab6593d3cc93"
     },
     "interactor-rf-detr-ggml" => %{
       default: "main",
@@ -493,7 +493,7 @@
       path: "3-interactor/rf-detr-ggml",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-rf-detr-ggml",
-      tip: "ca2aef72406ccacccae2e3625f3595706459809f"
+      tip: "707c322554fd5ec669771cb27db389bdfa478262"
     },
     "interactor-fabric-zone" => %{
       default: "main",
@@ -501,7 +501,7 @@
       path: "3-interactor/fabric-zone",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-fabric-zone",
-      tip: "c37b4e7584a18e53043085ba5b9742c73b5aa9b3"
+      tip: "6010098a0ab867ab9b895dfe713be3051b16d975"
     },
     "service-zone" => %{state: :planned, side: "7-service"},
     "service-openbao" => %{
@@ -510,7 +510,7 @@
       path: "7-service/openbao",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/service-openbao",
-      tip: "f2d9154a3b707ca5bccab0045419a7bf8610239c"
+      tip: "a80cb3d81cf7352fd42adf74ebd4d99ce8e6ea00"
     },
     "datasource-store" => %{
       default: "main",
@@ -518,7 +518,7 @@
       path: "6-datasource/store",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/datasource-store",
-      tip: "4970bc04690d50d051093ba587e06abb0f46daf5"
+      tip: "abb688b70be3dc160c2cf5f32ff7d8e05da799ba"
     },
     "interactor-flow" => %{
       default: "main",
@@ -526,7 +526,7 @@
       path: "3-interactor/datasource-flow",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-flow",
-      tip: "916379ba4c997788754ee49988a873f5fc27beaf"
+      tip: "5b4dcda095b7f062bc2e40b8950ce94e55ddcdd1"
     }
   },
   files: %{
