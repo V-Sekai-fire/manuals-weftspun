@@ -177,7 +177,7 @@ rules below"
   :: details Video
   Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
   WebM is made: videos are uploaded by hand, and a WebM does not play on every
-  desk. It is recorded as `.cfhd` through &{repo("entities-godot-cineform")} at double
+  desk. It is recorded as `.cfhd` through &{repo("contract-cineform-movie-writer")} at double
   precision and delivered by &{repo("interactor-av1mkv")}'s `deliver.exs`, which writes
   only those two files; no master is MJPEG. Nothing records
   through the encoder BLOCKLIST.md bars or through the desktop driver's own

@@ -1,8 +1,38 @@
 # Written by `mix rfd.refs.update`; RFD prose resolves &{...} against it.
 %{
   manifest: %{
-    commit: "198b4eeee3d22c25b5817382b73c7a121118d793",
+    commit: "f09701b076c9b8612e2d878fcacbb2788d0b3ed1",
     repo: "V-Sekai-fire/contract-manifest-taskweft"
+  },
+  files: %{
+    {"MoGe", "moge/model/v3.py"} => %{contains: []},
+    {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
+    {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
+    {"egit", "c_src/git_branch.hpp"} => %{contains: []},
+    {"egit", "c_src/git_checkout.hpp"} => %{contains: []},
+    {"egit", "c_src/git_merge.hpp"} => %{contains: []},
+    {"egit", "c_src/git_status.hpp"} => %{contains: []},
+    {"interactor-anny", "src/anny/models/soma.py"} => %{contains: []},
+    {"interactor-anny", "test/test_soma.py"} => %{contains: []},
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py"} => %{
+      contains: []
+    },
+    {"interactor-soma-x", "soma/identity_model.py"} => %{contains: []},
+    {"interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp"} => %{
+      contains: []
+    }
   },
   repos: %{
     "entities-godot-sandbox" => %{state: :planned, side: "4-entities"},
@@ -61,6 +91,14 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/anny-render-corpus",
       tip: "9525d608a5bc2d7fcf0ce6536f24bc271475aefc"
+    },
+    "contract-cineform-movie-writer" => %{
+      default: "main",
+      state: :placed,
+      path: "2-contract/cineform-movie-writer",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/contract-cineform-movie-writer",
+      tip: "f1a456b6f2bc097c745c955dea867b6e13af84a8"
     },
     "contract-bootstrap" => %{
       default: "main",
@@ -173,14 +211,6 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/manuals-weftspun",
       tip: "7a392a0f80b3bb05d420c1d8d7db046cd342d6a6"
-    },
-    "entities-godot-cineform" => %{
-      default: "main",
-      state: :placed,
-      path: "2-contract/cineform-movie-writer",
-      revision: "main",
-      url: "https://github.com/V-Sekai-fire/entities-godot-cineform",
-      tip: "f1a456b6f2bc097c745c955dea867b6e13af84a8"
     },
     "contract-anny-keypoint-anchors" => %{
       default: "main",
@@ -527,36 +557,6 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-flow",
       tip: "5b4dcda095b7f062bc2e40b8950ce94e55ddcdd1"
-    }
-  },
-  files: %{
-    {"MoGe", "moge/model/v3.py"} => %{contains: []},
-    {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
-    {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
-    {"egit", "c_src/git_branch.hpp"} => %{contains: []},
-    {"egit", "c_src/git_checkout.hpp"} => %{contains: []},
-    {"egit", "c_src/git_merge.hpp"} => %{contains: []},
-    {"egit", "c_src/git_status.hpp"} => %{contains: []},
-    {"interactor-anny", "src/anny/models/soma.py"} => %{contains: []},
-    {"interactor-anny", "test/test_soma.py"} => %{contains: []},
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py"} => %{
-      contains: []
-    },
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py"} => %{
-      contains: []
-    },
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py"} => %{
-      contains: []
-    },
-    {"interactor-kimodo-text-to-motion", "scripts/verify_projection.py"} => %{
-      contains: []
-    },
-    {"interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py"} => %{
-      contains: []
-    },
-    {"interactor-soma-x", "soma/identity_model.py"} => %{contains: []},
-    {"interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp"} => %{
-      contains: []
     }
   }
 }
