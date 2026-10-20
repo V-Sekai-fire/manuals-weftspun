@@ -143,11 +143,14 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   course positions, and per-step results match at 30, 60 and 144 Hz. Controls: the uncut
   10 s jog played as a loop must fail the seam gate; today's clips must fail the run gate;
   a second run started one frame late must differ.
+  Measured in the viewer's 26 s course run at 144 Hz: the old guest returned to a pose
+  played in the last 2 s 29 times, the new one never. Two runs print the same course
+  positions to 0.1 mm, well under a credit card's thickness, at all 104 sampled frames.
+  An earlier comparison that showed them up to 2 cm apart, about a nickel's width, sampled
+  frames counted from the program's start, so a walk that began one frame later was
+  sampled at other moments.
 
   :: details What is not known
-  - Whether going back in time causes the difference between two untraced runs of the same
-    steps, up to 2 cm, about a nickel's width. Two traced runs matched frame for frame. The
-    first step repeats the untraced pair once the loops land.
   - Of 33 steady clips, 29 cut within the gate. The standing and crouching idles and the
     two crawl turns stay one-shots, with seams of 3.6, 0.4, 5.4 and 9.0 degrees against
     ordinary steps of 2.8, 0.3, 4.2 and 5.3 degrees.
