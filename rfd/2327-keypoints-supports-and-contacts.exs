@@ -26,14 +26,14 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - A contact puts one keypoint on one support for a span of frames; getting on or off is
     a change of support. The keypoint supports model (RFD 2309's search) sets each
     keypoint's weight and predicts contacts; until then every weight is 1.
+  - Steady gaits loop through a faded seam; the rest stay one-shots (operator, 2026-10-19).
   :: problem
   Each system has private keypoints: motion matching measures two feet and the hips on one
   flat ground, the clip cut keeps a one-shot on the spot, the detector emits 17 COCO points.
   None can say a body is seated, which surface carries a foot, or that a rider moves with a
   moped. The first user is a sit-and-stand clip, which Kimodo will not make from one prompt.
   :: related
-  - RFD 1143 (keypoints to ANNY) records the joint-count gap between keypoint sets.
-  - RFD 2275 is the face, RFD 2310 another set, RFD 2309 the search behind the supports model.
+  - RFD 1143 (keypoints to ANNY), RFD 2275 (face), RFD 2310 (eyes), RFD 2309 (the search).
   """
 
   details_title "Keypoints, supports and contacts"
@@ -119,7 +119,34 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   the fade; the seat contact moves less than 2 cm over the seated join. Control: joining
   the stand-up clip to itself must fail the sit gate.
 
+  :: details Steady gaits loop through a seam
+  In a 26 s walk-mode run at 144 Hz the matched pose went back in time inside one clip 31
+  times. Jogging on, the search reached the end of a stride of a 65 s motion-capture jog
+  every 0.72 s and picked that stride's start again. The guest also searches whenever a clip
+  runs out, so each 10 s Kimodo clip ends in a forced search.
+  - The steady gaits are rows in the motion set's data, one clip name each: standing and
+    crouching idles, walks at three speeds, back, sideways and diagonal walks, curves and
+    circles, jogs, runs and sprints, crouch walks and crawls. The rest stay one-shots.
+  - The cut picks the first and last frames of a run of whole strides the way the clip join
+    does: keypoint positions in the hips' frame and their speeds, scaled and weighted as
+    motion matching does, over at least half the clip. The last 0.2 s fade into the first
+    frame's pose. The root keeps its travel: each pass adds one loop's move and turn.
+  - The guest's clip record carries a loop flag. A loop's time wraps at its end and the end
+    forces no search. A search never picks the playing clip at an earlier time; a loop
+    reaches its start only by wrapping.
+  Gates: each seam, with the travel carried, moves no more than one ordinary frame step,
+  measured by joint angle as for the joins above; a 60 s walk-mode run at 144 Hz goes back
+  in time inside a clip only at a loop's wrap; two runs of the same steps print the same
+  course positions, and per-step results match at 30, 60 and 144 Hz. Controls: the uncut
+  10 s jog played as a loop must fail the seam gate; today's clips must fail the run gate;
+  a second run started one frame late must differ.
+
   :: details What is not known
+  - Whether going back in time causes the difference between two untraced runs of the same
+    steps, up to 2 cm, about a nickel's width. Two traced runs matched frame for frame. The
+    first step repeats the untraced pair once the loops land.
+  - Whether every steady prompt has a clean seam. The cut reports each clip's seam distance;
+    a clip over the gate stays a one-shot and is named in the report.
   - Which table rows give each walkable limit. The appendix-E tables hold stature and ankle
     range of motion, but no knee height or foot length.
   - How the keypoint supports model reads its training rows. RFD 2309's rows are
