@@ -151,8 +151,8 @@ defmodule RFD.Ref do
 
   def render!({:pin, [repo]}, ctx) do
     case entry!(ctx.lock, repo) do
-      {key, %{state: :placed, revision: rev}} ->
-        if pin?(rev), do: "`#{rev}`", else: raise(ArgumentError, unpinned(key, rev))
+      {_key, %{state: :placed, revision: rev}} when is_binary(rev) ->
+        "`#{rev}`"
 
       {key, _} ->
         raise ArgumentError, unpinned(key, nil)
@@ -166,10 +166,8 @@ defmodule RFD.Ref do
     end
   end
 
-  def pin?(rev), do: is_binary(rev) and rev =~ ~r"\A(?:[0-9a-f]{40}|refs/tags/.+)\z"
-
   def unpinned(key, rev),
-    do: "pin #{key}: the manifest revision #{inspect(rev)} is not a commit SHA or refs/tags/ tag"
+    do: "pin #{key}: the manifest places no revision #{inspect(rev)} for it"
 
   defp entry!(lock, name) do
     hit =
@@ -263,7 +261,6 @@ defmodule RFD.Ref do
       do: raise(ArgumentError, "RFD #{serial}: no source with a Decision at #{sha}")
   end
 
-  @doc "The paths that held RFD `serial` at `sha`."
   def sources_at(root, serial, sha) do
     re = ~r{(^|/)#{serial}-[^/]+(\.exs$|/(README|DETAILS|index)\.md$)}
 
@@ -349,12 +346,6 @@ defmodule RFD.Ref.Snapshot do
             %{contains: Enum.uniq(f.contains ++ wanted)}
           end)
       end
-
-    for {k, %{state: :placed, revision: rev}} <- repos,
-        not RFD.Ref.pin?(rev),
-        {:pin, [n]} <- calls,
-        n == k or n == repos[k].path,
-        do: raise(ArgumentError, RFD.Ref.unpinned(k, rev))
 
     %{
       manifest: %{repo: "V-Sekai-fire/contract-manifest-taskweft", commit: w.commit},

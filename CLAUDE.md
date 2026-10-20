@@ -474,7 +474,8 @@ a call follows it, so `&{:ok, &1}` stays prose. They resolve against
 `RFD.lock.exs`, which `mix rfd.refs.update` writes from the manifest and
 each repository's default branch, and against `MEASUREMENTS.exs`, whose
 value and unit must appear together in the logbook entry each names. A
-pin is a full commit SHA or a `refs/tags/` tag; a branch revision fails.
+pin renders the revision the manifest places, a commit SHA, a `refs/tags/`
+tag or a branch (operator, 2026-10-20: rows follow branches).
 A reference missing from the lock fails the render, and
 `mix rfd.refs.check`, which CI runs, fails when the lock no longer
 matches contract-manifest-taskweft's default branch: a repository

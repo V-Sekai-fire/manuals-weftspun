@@ -66,13 +66,10 @@ defmodule RFDRefTest do
     end
   end
 
-  test "pin renders the revision; an unknown or unpinned repo raises" do
+  test "pin renders the revision, branch included; an unknown or unplaced repo raises" do
     assert render(~S|&{pin("transport-pen")}|) == "`refs/tags/v1.2.0`"
     assert_raise ArgumentError, fn -> render(~S|&{pin("contract-bare")}|) end
-
-    assert_raise ArgumentError, ~r/not a commit SHA/, fn ->
-      render(~S|&{pin("contract-branch")}|)
-    end
+    assert render(~S|&{pin("contract-branch")}|) == "`main`"
 
     assert_raise ArgumentError, fn -> render(~S|&{pin("nope")}|) end
   end
