@@ -134,7 +134,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - The guest's clip record carries a loop flag. A loop's time wraps at its end and the end
     forces no search. A search never picks a pose played in the last 2 s, in any clip; a loop
     reaches its start only by wrapping. Measured with the cut clips but without this rule, a
-    run at 3.5 m/s went back and forth between two motion-capture clips every 0.3 s, replaying
+    steady run went back and forth between two motion-capture clips every 0.3 s, replaying
     the same 0.3 s of each.
   Gates: each seam, with the travel carried, moves no more than one ordinary frame step,
   measured by joint angle as for the joins above, against the 95th percentile of the clip's
