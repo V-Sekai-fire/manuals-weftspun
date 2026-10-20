@@ -284,6 +284,7 @@ defmodule Serials.VSekaiFabric do
       serial 2326, "the-zone-sends-every-entity-in-view-under-a-byte-budget"
       serial 2327, "keypoints-supports-and-contacts", flight_level: :l1
       serial 2328, "finger-skin-weights-from-a-fitted-anny-hand", flight_level: :l1
+      serial 2330, "elixir-on-a-guest-through-a-small-beam"
     end
 
     deleted do
