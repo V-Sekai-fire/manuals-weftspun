@@ -109,6 +109,22 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
   the palm. The floor is ANNY's own hand with its MPFB weights, scored when
   rung 1 loads them.
 
+  :: details Rung 1: measured, and it fails
+  ANNY's hand was moved, turned and scaled onto the test avatar's hand
+  (a similarity fit on 16 joints, worst joint 14.6 mm after it), then
+  each finger bone was turned and stretched onto the avatar's joints.
+  Each avatar hand vertex took ANNY's weights from the nearest posed ANNY
+  skin, scaled by the hand weight it already had. The score rose from
+  7.26 to 31.76 degrees per millimetre. Matching skin by where it sits
+  along and around a bone, rather than by nearest surface, gave 37.95.
+
+  The floor explains it. ANNY's own body, with its own MPFB weights,
+  scores 65.93 (its rigid control 111.11), and 65.93 again counting only
+  the back of the hand. By this score ANNY's finger weights crease more
+  than the auto-rig's, so copying them cannot lower it. Rung 1 does not
+  pass, and rung 2 (shape) cannot fix weights that are sharper at the
+  source. Measured 2026-10-20.
+
   :: details Gates and controls
   - Test avatars: the CC-BY-4.0 test avatar, Mire and Marocchino
     (Apache-2.0), and the MIT VRM 1.0 sample. Each is auto-rigged first, so
