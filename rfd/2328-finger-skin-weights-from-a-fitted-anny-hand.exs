@@ -79,14 +79,35 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
 
   :: details The crease score
   The avatar is posed in a fist by its own skeleton: every finger joint
-  bends 70 degrees about its curl axis (the thumb 40), with linear blend
-  skinning. Around each knuckle, the faces within half the finger segment's
-  length are read. The score of a knuckle is the largest change of dihedral
-  angle across an edge there, from rest to fist: a crease is a few edges
-  that fold sharply, a round bend spreads the fold over many. A hand's
-  score is the mean over its 30 knuckles; lower is rounder. The skin's
-  distance to the joint is also checked, so a fix cannot hide a crease by
-  collapsing the knuckle.
+  bends 70 degrees toward the palm (the thumb 40), with linear blend
+  skinning. The palm is the side of the finger plane the thumb sits on.
+  Around each knuckle, the faces within half a finger segment of the
+  nearest skin are read. The score of a knuckle is the sharpest fold
+  across a pair of faces there: the change of their angle from rest to
+  fist, divided by the distance between their centres, in degrees per
+  millimetre. A crease folds much over a short span; a round bend spreads
+  it, and a coarse mesh bent like a fine one scores the same. A hand's
+  score is the mean over its 30 knuckles; lower is rounder. A knuckle with
+  no faces to read is named, never skipped. How far the skin caves toward
+  each joint is reported beside it. The tool is
+  `entities-model-explorer/tools/finger_crease.gd`.
+
+  :: details Rung 0: the baseline
+  Mean degrees per millimetre over 30 knuckles, the auto-rig's weights
+  against the rigid control (each vertex wholly on its largest-weight
+  bone), measured 2026-10-19:
+  - CC-BY-4.0 test avatar: 7.26 against 42.72.
+  - Mire: 7.45 against 28.74.
+  - MIT VRM 1.0 sample: 10.59 against 34.93.
+  - Marocchino: 28.39 against 66.09.
+
+  Every avatar's rigid control scores worse, so the score sees a crease.
+  Two references did not serve as a floor. The SOMA mesh with ANNY's
+  identity, as retargeted in the stage scratch, scores 45.87: its weights
+  there are not ANNY's own MPFB weights. The test avatar's artist rig rests
+  with its fingers already curled, so a 70 degree fist overbends it into
+  the palm. The floor is ANNY's own hand with its MPFB weights, scored when
+  rung 1 loads them.
 
   :: details Gates and controls
   - Test avatars: the CC-BY-4.0 test avatar, Mire and Marocchino
@@ -102,8 +123,8 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
     little swapped) fails the landmark residual.
 
   :: details Rungs
-  - Rung 0: the crease score and its controls, and the baseline on every
-    test avatar.
+  - Rung 0 (done): the crease score and its controls, and the baseline on
+    every test avatar.
   - Rung 1: transfer with ANNY's hand placed by the similarity and the
     joint angles only, no shape targets.
   - Rung 2: the full fit with the hand targets.
