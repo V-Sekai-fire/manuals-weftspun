@@ -26,14 +26,14 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - A contact puts one keypoint on one support for a span of frames; getting on or off is
     a change of support. The keypoint supports model (RFD 2309's search) sets each
     keypoint's weight and predicts contacts; until then every weight is 1.
+  - Steady gaits loop; joins keep a learned gait phase (operator, 2026-10-19).
   :: problem
   Each system has private keypoints: motion matching measures two feet and the hips on one
   flat ground, the clip cut keeps a one-shot on the spot, the detector emits 17 COCO points.
   None can say a body is seated, which surface carries a foot, or that a rider moves with a
   moped. The first user is a sit-and-stand clip, which Kimodo will not make from one prompt.
   :: related
-  - RFD 1143 (keypoints to ANNY) records the joint-count gap between keypoint sets.
-  - RFD 2275 is the face, RFD 2310 another set, RFD 2309 the search behind the supports model.
+  - RFD 1143 (keypoints to ANNY), RFD 2275 (face), RFD 2310 (eyes), RFD 2309 (the search).
   """
 
   details_title "Keypoints, supports and contacts"
@@ -119,7 +119,49 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   the fade; the seat contact moves less than 2 cm over the seated join. Control: joining
   the stand-up clip to itself must fail the sit gate.
 
+  :: details Steady gaits loop through a seam
+  A gait is cyclic: playing back to an earlier stride, in the same clip or in another, is an
+  ordinary join when the phase matches (operator, 2026-10-19). What breaks a walk is a join
+  out of phase. In 60 s runs at 144 Hz of the guest with no phase rule, 21 of 26 walking
+  joins and 35 of 80 jogging joins went back in time; one in each was out of phase, by 0.14
+  and 0.45 of a cycle.
+  - Every frame of the motion set gets a gait phase, 0 to 1 over one cycle, or none outside a
+    cycle. A join between two cycling poses keeps the phase within 0.06 of a cycle; out of
+    phase, the clip plays on, or, when it must change, the best pose in phase is taken.
+  - The phase is learned as WalkTheDog does (SIGGRAPH 2024; Li, Starke, Ye and
+    Sorkine-Hornung): a vector-quantized periodic autoencoder gives each frame a curve of the
+    phase manifold, a phase, an amplitude and a frequency, without labels (operator,
+    2026-10-19). It is trained on our own motion set on our own card; the published weights
+    were trained on other motion sets and are not used. The per-frame records sit next to
+    each clip, and the guest reads them as data.
+  - Until the learned phase lands, the guest counts phase from left-foot strikes. It covers
+    78% of the frames, and misses poses such as the start of a run that slows to a walk.
+  - The steady gaits are rows in the motion set's data, one clip name each. A loop runs from
+    one phase zero to a later one at least two cycles on, every frame between in a cycle, so
+    it is whole strides and never a stretch of standing; of those runs the smallest seam
+    wins. The last 0.2 s fade into the frames before the start, moved on by one pass's turn
+    and shift. The guest's clip record carries a loop flag: a loop wraps at its end, and the
+    end forces no search.
+  Gates: every join between cycling poses keeps the phase within 0.06 of a cycle; each seam
+  moves no more than one ordinary frame step, by joint angle, against the 95th percentile of
+  the clip's own steps; the learned phase puts each foot strike within 0.06 of a cycle of
+  the same phase across the set; two runs of the same steps print the same course
+  positions. Controls: the guest with the phase rule off fails the join gate; uncut clips
+  played as loops fail the seam gate; a learned phase shifted by a quarter cycle fails the
+  strike gate; a second run started one frame late must differ.
+  Two runs print the same course positions to 0.1 mm, well under a credit card's thickness,
+  at all 104 sampled frames. An earlier comparison that showed them up to 2 cm apart, about
+  a nickel's width, sampled frames counted from the program's start, so a walk that began
+  one frame later was sampled at other moments.
+
   :: details What is not known
+  - Of 33 steady clips, 23 cut as loops. The idles and the crawl turns have no two whole
+    cycles; the run, sprint and steady-run clips have none either, since the run and sprint
+    clips run, stand for seconds, and run again; three more have seams over their ordinary
+    step.
+  - Whether a shallow periodic autoencoder trained on our 59,078 frames keeps walking,
+    jogging, running, crouching and crawling on separate curves. The first step trains it
+    and reports which clips land on which curve.
   - Which table rows give each walkable limit. The appendix-E tables hold stature and ankle
     range of motion, but no knee height or foot length.
   - How the keypoint supports model reads its training rows. RFD 2309's rows are
