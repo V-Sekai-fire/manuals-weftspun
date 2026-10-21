@@ -8,12 +8,12 @@ rfd 2199, "Real 4-bit QAT with Hailo as target hardware", :discussion do
 
   prose ~S"""
   :: preamble
-  Parked 2026-09-04 for two reasons the same day. First: Hailo USB firmware stuck in bootloader
-  from a partial update; operator parked rather than requiring admin recovery. Second: the
-  ViT-base BN backbone accuracy delta measured 4.57% under the on-device pipeline (too large to
-  ship), and the vendor fork the measurement ran under cannot be published, so the on-device QAT
-  path at this backbone is not viable. Un-park requires firmware recovery, a resolved BN
-  measurement on a publishable backbone, and a named use case. See `[[hailo-ugen300-shelved]]`
+  Not active: parked 2026-09-04 and waiting on firmware. The Hailo USB was left stuck in a
+  bootloader after a partial update, and the operator parked the RFD rather than forcing an
+  admin recovery. Until that firmware recovers the on-device path is gated; the ViT-base BN
+  backbone measured a 4.57% accuracy drop under it and the measurement fork is not
+  publishable, so the on-device QAT path at this backbone is not viable. Un-park when the
+  firmware is back and a publishable backbone is available. See `[[hailo-ugen300-shelved]]`
   and `logbook-rfd-2199-vit-base-bn-pick-provenance.md`.
   :: decision
   Build real 4-bit QAT infrastructure with Hailo as the deployment target. Int4 only. Int8 QAT
