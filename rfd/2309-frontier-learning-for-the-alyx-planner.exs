@@ -105,7 +105,7 @@ Pilot MCP `plan` tool as the rollout driver, and the frozen local Bonsai 2 model
   - Any MCP client plays the problems with `plan`; `tools/export_corpus.py`
     brings the traces into the corpus and the dataset export.
 
-  :: details Gates
+  :: details Guards
   - Phase 1: 30 steps, with per-level success curves and the buffer's path.
   - Phase 2: domain changes that raise frontier success, and methods that
     recur across successful rollouts of hard levels.
