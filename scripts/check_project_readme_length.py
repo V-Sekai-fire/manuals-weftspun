@@ -18,6 +18,8 @@ existing "every README <= 40 lines" check over RFDs.
     python scripts/check_project_readme_length.py
     python scripts/check_project_readme_length.py --self-test
 """
+from __future__ import annotations
+
 import argparse
 import os
 import re
