@@ -363,6 +363,13 @@ repos:
         files: '^(rfd/[0-9]{4}-[^/]+\.exs|SERIALS[^/]*\.exs|lib/.*|test/.*|mix\.exs)$'
         pass_filenames: false
 
+      - id: rfd-dsl-rectgtn
+        name: every RFD's rectgtn problem matches its source
+        entry: mix rfd.rectgtn --check
+        language: system
+        files: '^(rfd/[0-9]{4}-[^/]+\.exs|rectgtn/.*|lib/.*|test/.*|mix\.exs)$'
+        pass_filenames: false
+
       # A `verbs_from` resolves only once every source is loaded, so the vocabulary check is
       # corpus-wide rather than per-file. It reads CLAUDE.md's fenced block as well.
       - id: rfd-dsl-rebac
