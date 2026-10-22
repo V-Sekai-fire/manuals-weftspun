@@ -658,6 +658,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Eye tracking:** `frame-eye-osc` (MIT), a Lean 4 program from `V-Sekai-fire/frame-eye-osc`
   that runs on the headset, reads the eye-tracking service's shared memory and sends OSC to the
   social-VR client (RFD 2271).
+- **Marker suit:** the SOMA muscle-anatomy code (MIT, `edualvarado/SOMA`), read and run only:
+  its suit template, marker detection, triangulation and tracking, for the ChArUco capture suit
+  (RFD 2332). Its SKIM captures are not covered until their terms are read (operator,
+  2026-10-22).
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
 - **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA's

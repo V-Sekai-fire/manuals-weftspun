@@ -23,7 +23,7 @@ registration of tracked corners to an ANNY fit"
   - The template is generated from the detector's own board object, 49 squares by 65, with
     every marker drawn as vector modules.
   - The paper's SKIM captures are not used until their terms are read.
-  - The code is used once the allowlist names it.
+  - The allowlist names the code, read and run only (operator, 2026-10-22).
   :: problem
   SOMA-X predicts pose-dependent surface correctives (RFD 2282), and nothing here measures
   where the skin goes, so the correctives have no target. A joint fit (RFD 2327) says nothing
