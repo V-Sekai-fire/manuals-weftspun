@@ -31,7 +31,7 @@ defmodule Plan.FourloopsPlan do
       "3-interactor/pose-consensus/python/soma_referee.py",
       "3-interactor/voxhammer-image-mesh-editing/server.py",
       "3-interactor/pixal3d-image-to-textured-mesh/server.py",
-      "CLAUDE.md",
+      "AGENTS.md",
       "rfd/1144-image-to-omnigen2/DETAILS.md",
       "rfd/1147-what-editscore-costs-and-returns/DETAILS.md"
     ])
