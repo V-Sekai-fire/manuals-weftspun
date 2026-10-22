@@ -286,6 +286,7 @@ defmodule Serials.VSekaiFabric do
       serial 2328, "finger-skin-weights-from-a-fitted-anny-hand", flight_level: :l1
       serial 2329, "learned-gait-phase", flight_level: :l1
       serial 2330, "elixir-on-a-guest-through-a-small-beam"
+      serial 2331, "flex-20-min-2026-10-21"
       serial 2332, "a-marker-suit-measures-the-skin-soma-x-predicts", flight_level: :l1
     end
 
