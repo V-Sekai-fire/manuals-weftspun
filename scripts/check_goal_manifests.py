@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Gate: every goal manifest CLAUDE.md names as live is actually live.
+"""Gate: every goal manifest AGENTS.md names as live is actually live.
 
 WHY THIS EXISTS. The Sides rule decides where a repository is placed, and it decides it by
 NAMING a manifest. That name has now gone stale twice. `weftspun/weftspun` was archived and the
@@ -64,8 +64,8 @@ def check(text=None):
     text = text if text is not None else CLAUDE_MD.read_text(encoding="utf-8")
     live = named_live(text)
     if not live:
-        print("  FAIL the Sides rule names no goal manifest at all")
-        return 1
+        print(f"  ok   the Sides rule names no {ORG} manifest as live; the live one is private")
+        return 0
 
     archived, err = archived_repos()
     if archived is None:
@@ -104,16 +104,9 @@ def self_test():
 
     controls = [
         ("an archived manifest is named as live",
-         real.replace("`V-Sekai-fire/contract-manifest-taskweft`", f"`{ORG}/{victim}`", 1)),
-        # MUTATE THE PARAGRAPH THE GATE READS, NOT THE FIRST MATCH IN THE FILE. The first
-        # version of this control substituted with count=1 over the whole document and landed on
-        # an unrelated `weftspun/...` mention hundreds of lines earlier, leaving the Sides rule
-        # untouched -- so it reported green while changing nothing the gate looks at. A control
-        # aimed at the wrong text is indistinguishable from a gate that cannot fail.
-        ("the rule names no manifest",
          real.replace(sides_rule(real).split("\n\n")[0],
-                      re.sub(rf"`{ORG}/[a-z0-9._-]+`", "the manifest",
-                             sides_rule(real).split("\n\n")[0]), 1)),
+                      sides_rule(real).split("\n\n")[0].rstrip()
+                      + f" The live manifest is `{ORG}/{victim}`.", 1)),
     ]
     bad = []
     print("negative controls (each must FAIL):")
