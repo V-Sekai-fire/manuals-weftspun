@@ -91,5 +91,19 @@ registration of tracked corners to an ANNY fit"
   - The SKIM data's licence: it is a separate download, and its terms are not read.
   - Whether 22 mm markers resolve at the desk's camera distance and resolution.
   - The 2310 against 1593 marker count.
+
+  :: details Markers lost at seams, and a pattern that recovers them
+  A suit is cut into panels, so a marker across a seam does not decode. SOMA accepts the loss:
+  each marker is read on its own, its corners give a skin point, and 120 cameras cover the gaps.
+  The meshing pen's rendered suit (panels from the engine's xatlas) shows the same loss. At
+  1.1 m the detector reads 15 of the 210 markers in view on Maro's side and 65 of 342 from the
+  front. Every marker read is the one the UV map puts there; a mirrored image reads 2 right of 18.
+
+  If 22 mm markers do not resolve at the desk's distance, the open fix is a pattern in which
+  any small window is unique on the sheet (a perfect map, or De Bruijn torus), so a lost cell
+  is recovered from its neighbours. Read at the marker level, the existing board already
+  behaves this way: SOMA's `refine_outlier_ids` takes a detection's identity from its
+  neighbours. A denser bit-level or multi-scale map would leave SOMA's detector and template,
+  so it waits on the distance test, and would amend this RFD.
   """
 end
