@@ -120,7 +120,8 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      materializes in the players' zone, each client fetches it by the
      hash, then its ownership hands over. Check: exactly one zone owns
      the garment at every frame; a fetched garment's chunks match its
-     index, with a control that corrupts one chunk and must be caught.
+     index, with a control that corrupts one chunk and must be caught;
+     the handover is timed as below.
   7. **Talk.** `voice.elf`, the Opus codec as a guest, sends its packets
      as WebTransport datagrams, played at the speaker's avatar. Check:
      speech round-trips between the two clients; the Lean tests check
@@ -188,6 +189,73 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   humanoid bone map (53 roles): &{repo("character-mille-mire-feuille")}
   for the headset player and &{repo("character-marocchino")}
   for the desktop player.
+  :: details Timing the garment handover
+  The store and the backend stay together in one region, and the zones
+  run on a server near the players (operator, 2026-10-23). The round
+  trip from a player's desk to the store's region measured 22 to 28 ms,
+  so the handover is the step that crosses it, and the rung times it.
+  Running several servers is expected: a system that tolerates faulty or
+  lying members needs more machines to match one machine's reliability,
+  so the measure is per server and per leg, never a count to minimise
+  (operator, 2026-10-23).
+
+  The time runs from the worker zone finishing the garment to its ghost
+  drawn in the players' zone, split by leg: the store commit, the
+  ownership handover, and the fetch by hash. The load is a replay of
+  recorded pen strokes with the players' recorded head and hand tracks,
+  pauses included, never scripted motion. It holds for 5 minutes and is
+  judged on the 95th and 99th percentiles, never on a mean.
+
+  - A zone confirms a handover only after the store commits it; writes
+    may group into one commit, and every waiter waits for that commit.
+  - The zone's tick never waits on the store.
+  - A player who pauses keeps their session; the replay's pauses must
+    not cause a reconnect.
+  - The report names what stopped the run: tick time, memory, the
+    store commit, or sessions.
+  - The first run on a new host repeats a reference build, so a change
+    of machine is not read as a change of code.
+
+  Checks, each with a control that must fail:
+
+  - The legs add up to the measured total; a control that adds a delay
+    to the store commit must show up in that leg and nowhere else.
+  - No player sees a garment confirmed before its commit; a control
+    that confirms first must be caught.
+  - The replay is not the bottleneck: the replay host's own load is
+    reported beside the zone's, and a control that throttles the replay
+    must be named as the limit.
+
+  The pass limits are not set yet: the first sustained run measures
+  them, and the operator sets them from it.
+  :: details Frontier learning picks the timing runs
+  The timing runs are levels in RFD 2309's sense, scheduled the way RFD
+  2323 schedules the store's attacks. A level is a load template with fixed
+  attributes: players, the recorded replay, the zone's distance from the
+  store, the commit group size, and the injected round trip and loss. A
+  problem is one 5 minute run with a drawn seed and replay offset.
+
+  Each level runs on the rung as it is and on the rung with that level's
+  defect planted:
+
+  | Level | Planted defect | Found when |
+  | --- | --- | --- |
+  | store commit leg | a delay added to each commit | that leg's 95th percentile moves |
+  | confirm order | confirm sent before the commit | a garment seen before its commit |
+  | tick isolation | the tick waits on the store | a tick over its budget |
+  | paused players | a short idle timeout | a reconnect during a pause |
+  | replay limit | the replay host throttled | the replay named as the limit |
+
+  On the planted target, success is the defect found. Regret
+  `1[s ≥ 1] − s/n` over the last eight runs is high when the level finds
+  its defect only some of the time, so its result is luck. Mutation moves
+  one attribute, kept only when the planted find rate rises. A clean run on
+  the real rung counts only after its level found the planted defect in
+  each of its last eight runs. A finding on the real rung is never averaged
+  into a rate: it stops the lane and becomes a level that runs every time.
+
+  The percentiles the pass limits come from are read only from calibrated
+  levels, so a limit is never set from a load that could not see a slow leg.
   :: details What the rung leaves out
   | Left out | Why | The rung that takes it |
   | --- | --- | --- |
