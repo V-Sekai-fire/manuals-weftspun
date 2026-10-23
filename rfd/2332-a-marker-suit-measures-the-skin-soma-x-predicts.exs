@@ -90,8 +90,8 @@ registration of tracked corners to an ANNY fit"
     identity comes from its neighbours' IDs (`refine_outlier_ids`, `resolve_conflicts`).
   - The canonical step detects markers on the unwrapped skin texture and fixes four wrong
     IDs by hand.
-  - The paper's supplement reports 2310 markers on the suit. This RFD has not reconciled that
-    count with the template's 1593.
+  - The paper's supplement reports 2310 markers on the suit, with IDs used at most twice and
+    told apart by an instance index. The template's 1593 is a smaller layout of the same scheme.
 
   :: details What the template gets wrong
   The script renders each marker as a 22-pixel image and stretches it to 22 mm. Six modules
@@ -123,7 +123,6 @@ registration of tracked corners to an ANNY fit"
   - How many calibrated cameras the desk can field; the paper captures with 120.
   - The SKIM data's licence: it is a separate download, and its terms are not read.
   - Whether 22 mm markers resolve at the desk's camera distance and resolution.
-  - The 2310 against 1593 marker count.
 
   :: details Markers lost at seams, and a pattern that recovers them
   A suit is cut into panels, so a marker across a seam does not decode. SOMA accepts the loss:
@@ -132,11 +131,17 @@ registration of tracked corners to an ANNY fit"
   1.1 m the detector reads 15 of the 210 markers in view on Maro's side and 65 of 342 from the
   front. Every marker read is the one the UV map puts there; a mirrored image reads 2 right of 18.
 
-  If 22 mm markers do not resolve at the desk's distance, the open fix is a pattern in which
-  any small window is unique on the sheet (a perfect map, or De Bruijn torus), so a lost cell
-  is recovered from its neighbours. Read at the marker level, the existing board already
-  behaves this way: SOMA's `refine_outlier_ids` takes a detection's identity from its
-  neighbours. A denser bit-level or multi-scale map would leave SOMA's detector and template,
-  so it waits on the distance test, and would amend this RFD.
+  The print keeps SOMA's board as it is, so SOMA's detector reads it unchanged, and adds
+  two coarser position levels on top. Each 60 mm and 120 mm cell carries one bit of a perfect
+  map (every 4 by 4 window unique on the sheet) as a shift in the level of its squares. On a
+  flat sheet with OpenCV's full ChArUco detector, the board reads the same markers and
+  corners with the levels as without them, and the levels still place a window at a pixel per
+  square, where no marker decodes.
+
+  On the bodies the levels do not yet carry. From a lighthouse stand (1080p, 90 degree lens,
+  3 m out) no marker decodes even in a clean render; the levels place 5% of the visible
+  squares clean and none once the frame is degraded as a cheap 60 or 120 fps camera. A 240 mm
+  window is larger than most panels. The meshing pen's `suit-sim` records these frames with
+  their truth renders, and the cell size and level strength are open until it improves on them.
   """
 end
