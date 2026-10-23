@@ -1,0 +1,22 @@
+# Copyright (c) 2026 K. S. Ernest (iFire) Lee
+# SPDX-License-Identifier: MIT
+#
+# A build artifact of `mix rfd.rectgtn` (RFD 2292), composed with ../organization.ex:
+# rfd/2333-a-desk-reaches-foundationdb-only-through-bao.exs
+defmodule Rfd2333 do
+  use Taskweft.DSL
+
+  @name "rfd_2333"
+  @source "weftspun_organization"
+
+  @variables %{
+    rfd_state: %{type: :int, init: %{"2333": 2}},
+    step_state: %{type: :int, init: %{}},
+    flight_level: %{type: :int, init: %{"2333": 1}}
+  }
+
+  @todo_list [
+    ["prepare", "2333"],
+    ["land", "2333"]
+  ]
+end
