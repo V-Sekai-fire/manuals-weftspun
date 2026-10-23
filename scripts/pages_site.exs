@@ -14,7 +14,7 @@ defmodule PagesSite do
     "abandoned" => "🪦",
     "moved" => "➡️"
   }
-  @pages ~w(README.md CLAUDE.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
+  @pages ~w(README.md AGENTS.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
 
   def main([out]) do
     root = Path.expand("..", __DIR__)

@@ -105,7 +105,7 @@ defmodule Mix.Tasks.Rfd.Rebac do
                 RFD.ReBAC.problems(r, known),
             do: "RFD #{serial}: #{reason}"
       end) ++
-        Enum.flat_map(if(docs == [], do: ["CLAUDE.md"], else: docs), fn path ->
+        Enum.flat_map(if(docs == [], do: ["AGENTS.md"], else: docs), fn path ->
           for reason <- RFD.ReBAC.document_problems(File.read!(path), all_verbs),
               do: "#{path}: #{reason}"
         end)

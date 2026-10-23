@@ -14,7 +14,7 @@ defmodule Rfd1122PlanGate do
   @default_plan Path.join(@repo, "apparatus/1122-the-wholebody-gap/rfd1122-plan.exs")
   @sources [
     "BLOCKLIST.md",
-    "CLAUDE.md",
+    "AGENTS.md",
     "rfd/1142-the-mac-against-the-ugen300.exs",
     "logbook/logbook-rfd1122-hailo-first-rerank.md",
     "logbook/logbook-rfd1142-neural-engine-against-the-ugen300.md",
