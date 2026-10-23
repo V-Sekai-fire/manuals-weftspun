@@ -156,7 +156,8 @@ folders.
 
 **Sides.** Every repository sits on a side of the hexagon, and the `default.xml`
 of the goal manifest it is checked out through is what decides which. There is
-**one live goal manifest**, `V-Sekai-fire/contract-manifest-taskweft`. A new repository is
+**one live goal manifest**. It is private and not named here (operator, 2026-10-23); no
+`V-Sekai-fire` manifest is live. A new repository is
 placed when it is added, not later: an unplaced project is the drift the six
 words exist to stop.
 
