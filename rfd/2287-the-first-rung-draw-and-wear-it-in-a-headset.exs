@@ -194,6 +194,10 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   run on a server near the players (operator, 2026-10-23). The round
   trip from a player's desk to the store's region measured 22 to 28 ms,
   so the handover is the step that crosses it, and the rung times it.
+  Running several servers is expected: a system that tolerates faulty or
+  lying members needs more machines to match one machine's reliability,
+  so the measure is per server and per leg, never a count to minimise
+  (operator, 2026-10-23).
 
   The time runs from the worker zone finishing the garment to its ghost
   drawn in the players' zone, split by leg: the store commit, the
