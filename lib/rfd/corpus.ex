@@ -141,7 +141,7 @@ defmodule RFD.Corpus do
   end
 
   defp documents(root) do
-    for name <- ~w(CLAUDE.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md),
+    for name <- ~w(AGENTS.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md),
         File.exists?(Path.join(root, name)),
         into: %{},
         do: {name, File.read!(Path.join(root, name))}

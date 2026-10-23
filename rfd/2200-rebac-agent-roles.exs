@@ -57,9 +57,9 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   after `#`. Default deny already covers what no row names; a denial row
   answers a question an agent would otherwise have to ask.
   :: details Tuples in a document
-  `CLAUDE.md` carries the desk agent's tuples in a fenced `rebac` block,
+  `AGENTS.md` carries the desk agent's tuples in a fenced `rebac` block,
   one row per line, with a note or a reason after `#`. The block is
-  rendered from the `renders_into "CLAUDE.md"` rows declared here, so the
+  rendered from the `renders_into "AGENTS.md"` rows declared here, so the
   document holds no second copy to drift from.
 
   `mix rfd.rebac` holds every block in the corpus against the vocabulary,
@@ -189,7 +189,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
          "the subject uses the object as compute, which no Bao policy gates (RFD 2202)"
 
     verb :trusts, "the subject reads the object as a source it does not verify again (RFD 2239)"
-    renders_into "CLAUDE.md", subject: "desk-agent"
+    renders_into "AGENTS.md", subject: "desk-agent"
     relate "desk-agent", :runs_on, "windows-desktop"
 
     relate "desk-agent",

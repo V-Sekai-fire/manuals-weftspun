@@ -67,7 +67,7 @@ repos:
         name: RFD 1122's plan agrees with its graph and with the documents citing it
         entry: elixir scripts/check_rfd1122_plan.exs --self-test
         language: system
-        files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|CLAUDE\.md|BLOCKLIST\.md|rfd/1142-the-mac-against-the-ugen300\.exs|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
+        files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|AGENTS\.md|BLOCKLIST\.md|rfd/1142-the-mac-against-the-ugen300\.exs|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
         pass_filenames: false
 
       # The four loops are described twice on purpose: `fourloops-plan.usda` is the task
@@ -176,10 +176,10 @@ repos:
       # here. The first version matched pipes in RFD 2200's rendered table, which made a build
       # artifact the authority for the vocabulary; RFD 2291 made it a declaration instead.
       - id: rebac
-        name: the rebac block in CLAUDE.md uses only the verbs RFD 2200 declares
+        name: the rebac block in AGENTS.md uses only the verbs RFD 2200 declares
         entry: elixir scripts/check_rebac.exs
         language: system
-        files: ^(CLAUDE\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs|lib/rfd/rebac\.ex)$
+        files: ^(AGENTS\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs|lib/rfd/rebac\.ex)$
         pass_filenames: false
 
       - id: rebac-self-test
@@ -201,7 +201,7 @@ repos:
         entry: python scripts/check_blocklist_detail.py
         additional_dependencies: ["markdown-it-py==3.0.0"]
         language: python
-        files: ^(CLAUDE\.md|BLOCKLIST\.md|scripts/check_blocklist_detail\.py)$
+        files: ^(AGENTS\.md|BLOCKLIST\.md|scripts/check_blocklist_detail\.py)$
         pass_filenames: false
 
       - id: blocklist-detail-self-test
@@ -376,7 +376,7 @@ repos:
         name: every rebac block states tuples over verbs an RFD declares
         entry: mix rfd.rebac
         language: system
-        files: '^(rfd/[0-9]{4}-[^/]+\.exs|CLAUDE\.md|lib/.*|test/.*|mix\.exs)$'
+        files: '^(rfd/[0-9]{4}-[^/]+\.exs|AGENTS\.md|lib/.*|test/.*|mix\.exs)$'
         pass_filenames: false
 
       # The DSL's own controls: six known-broken documents must be refused.

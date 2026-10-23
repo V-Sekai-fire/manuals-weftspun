@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCS = ("CLAUDE.md", "PITFALLS.md")
+DOCS = ("AGENTS.md", "PITFALLS.md")
 
 CLAIM = re.compile(r"ruleset\s*\(?\s*(?:id\s*)?(\d{5,})", re.I)
 RETRACTED = re.compile(r"\bretract(?:ed|s|ion)?\b", re.I)

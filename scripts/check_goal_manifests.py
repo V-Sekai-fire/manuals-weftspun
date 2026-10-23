@@ -30,7 +30,7 @@ import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
-CLAUDE_MD = HERE.parent / "CLAUDE.md"
+CLAUDE_MD = HERE.parent / "AGENTS.md"
 ORG = "V-Sekai-fire"
 
 

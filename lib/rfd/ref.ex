@@ -195,9 +195,9 @@ defmodule RFD.Ref do
 
   defp anchor(_, _), do: ""
 
-  @doc "CLAUDE.md's household anchors, smallest first, read from its `Useful anchors:` sentence."
+  @doc "AGENTS.md's household anchors, smallest first, read from its `Useful anchors:` sentence."
   def anchors!(root) do
-    text = File.read!(Path.join(root, "CLAUDE.md"))
+    text = File.read!(Path.join(root, "AGENTS.md"))
 
     case String.split(text, "Useful anchors:", parts: 2) do
       [_, rest] ->
@@ -208,7 +208,7 @@ defmodule RFD.Ref do
             do: {String.trim(name), String.to_float(if(mm =~ ".", do: mm, else: mm <> ".0"))}
 
       _ ->
-        raise ArgumentError, "CLAUDE.md states no `Useful anchors:`"
+        raise ArgumentError, "AGENTS.md states no `Useful anchors:`"
     end
     |> Enum.sort_by(&elem(&1, 1))
   end
