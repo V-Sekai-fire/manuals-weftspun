@@ -43,7 +43,7 @@ defmodule ReBACGate do
   def run(argv) do
     case OptionParser.parse(argv, strict: [doc: :string, rfd: :string, self_test: :boolean]) do
       {[self_test: true], [], []} -> self_test()
-      {opts, [], []} -> gate(opts[:doc] || "CLAUDE.md", opts[:rfd] || @rfd)
+      {opts, [], []} -> gate(opts[:doc] || "AGENTS.md", opts[:rfd] || @rfd)
       _ -> usage()
     end
   end
