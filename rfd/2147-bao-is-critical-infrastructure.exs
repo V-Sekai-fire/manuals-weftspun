@@ -25,25 +25,25 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   Details, sub-decisions, migration in `DETAILS.md`. S2147.
   :: problem
   Bao was one machine, Shamir seal single share, operator+1P recovery
-  per restart. RFD 2140's `ha_enabled = "false"` fit that framing. RFD
-  2146 then moved every routine credential read, coordination write,
+  per restart. RFD66606-2140's `ha_enabled = "false"` fit that framing.
+  RFD66606-2146 then moved every routine credential read, coordination write,
   and policy check onto Bao. Every consumer now depends on Bao being
-  up, and RFD 2140's reliability budget is smaller than what routes
+  up, and RFD66606-2140's reliability budget is smaller than what routes
   through Bao now needs.
   :: related
-  RFD 2140, 2144, 2145, 2146.
+  RFD66606-2140, RFD66606-2144, RFD66606-2145, RFD66606-2146.
   """
 
   details_title "Bao is critical infrastructure now"
 
   prose ~S"""
   :: details Why HA now, not before
-  RFD 2140 chose `ha_enabled = "false"` when Bao was one machine and one
+  RFD66606-2140 chose `ha_enabled = "false"` when Bao was one machine and one
   operator. Under that arrangement, Bao being down meant one thing was
   down: the Bao API. Everything else routed around Bao by holding its
   credentials in Fly secrets or 1P.
 
-  RFD 2146 turned that inside out. Every consumer now authenticates to
+  RFD66606-2146 turned that inside out. Every consumer now authenticates to
   Bao with its per-service cert, reads its credentials from Bao at
   runtime, and coordinates state through Bao's KV. When Bao goes down,
   the DNS-editing path goes down, the R2-write path goes down, the FDB
@@ -114,7 +114,7 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   account of any of the three big providers; standing one up is the
   tax. Fly does not offer a first-party KMS at this scale. The Shamir
   key in 1P stays as break-glass for the day the KMS itself is the
-  outage (RFD 2144 defect #11's day).
+  outage (RFD66606-2144 defect #11's day).
 
   An auto-unseal wrapper does not change the CRL-loop bug logged
   during the DR (Bao's authenticated paths going flaky after a
@@ -149,7 +149,7 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   Every read against Bao is a Bao dependency. Two ends of the spectrum:
 
   - Never cache. Simple, correct, hot dependency on Bao.
-  - Cache forever. Wrong for rotating secrets (RFD 2145 leaves at
+  - Cache forever. Wrong for rotating secrets (RFD66606-2145 leaves at
     90 days; a hot bearer at hour 720 leaks past its rotation).
 
   The middle: cache for a duration shorter than the shortest thing the
@@ -229,7 +229,7 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
     election on the shared FDB cluster).
   - Vault auto-unseal precedent for the KMS wrapper pattern
     (`cloud kms auto-unseal`, applies unchanged to OpenBao forks).
-  - RFD 2140 (Bao on FDB, this raises its ambition), 2144 (defect
+  - RFD66606-2140 (Bao on FDB, this raises its ambition), 2144 (defect
     #11: the without-auto-unseal failure mode), 2145 (leaf and CA
     rotation cadence this HA has to survive), 2146 (the capability
     topology this now underwrites).

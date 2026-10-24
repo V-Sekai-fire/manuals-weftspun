@@ -8,7 +8,7 @@ rfd 2204, "RECTGTN fleet coordination", :discussion do
 query against one shared fleet domain, rather than by reading prose
 relayed from the coordinator"
   scope "every session that participates in the coordinate-agents
-ceremony (RFD 2201); the Taskweft engine already in tree; a new
+ceremony (RFD66606-2201); the Taskweft engine already in tree; a new
 fleet-domain document"
 
   prose ~S"""
@@ -29,9 +29,9 @@ fleet-domain document"
   so a peer that reranks does it by hand, a peer that finishes an item
   (continues in `DETAILS.md`)
   :: related
-  - RFD 2200 (ReBAC agent roles), supplies the relation vocabulary the
+  - RFD66606-2200 (ReBAC agent roles), supplies the relation vocabulary the
     fleet domain reuses.
-  - RFD 2201 (coordinate-agents ceremony), step 3 gets the one-line
+  - RFD66606-2201 (coordinate-agents ceremony), step 3 gets the one-line
   (continues in `DETAILS.md`)
   """
 
@@ -50,7 +50,7 @@ fleet-domain document"
 
   One per live peer CN, `hero.<mps-suffix>.agents.weftspun`,
   `anchor.<mps-suffix>.agents.weftspun`, and so on. The CN is the full
-  form under `agents/<cn>.agents.weftspun` per RFD 2195. Session-local
+  form under `agents/<cn>.agents.weftspun` per RFD66606-2195. Session-local
   aliases (HERO / ANCHOR / SIDEKICK / HERD) are not entities in the
   domain, the CN is the address.
 
@@ -192,14 +192,14 @@ fleet-domain document"
   `discussion`. If all pass, the RFD moves to `published` and the
   ceremony's step 3 flips in one commit.
   :: details Compute-lease broker
-  RFD 2202 named "compute-lease broker" as future work. This RFD is
+  RFD66606-2202 named "compute-lease broker" as future work. This RFD is
   that broker in miniature: a peer's `may-use--gpu` edge is a lease,
   and the assignment row's `expires_at` caveat is its TTL. When the
   caveat expires, `Coordinator.pick` no longer sees the row and the
   next `plan` reassigns the GPU. No new Sentinel, no new engine, the
   caveat primitive plus the planner's own capability check are enough.
   :: details Migration
-  - **RFD 2201 step 3**: swap the free-form message for
+  - **RFD66606-2201 step 3**: swap the free-form message for
     `Coordinator.snapshot |> pick |> publish`. The `SendMessage` still
     fires (operator-visible), but its body is generated from the
     assignment row rather than composed by hand.
@@ -233,7 +233,7 @@ fleet-domain document"
     reader can inspect the planner's output without an Elixir toolchain.
   :: details From the README, moved here on 2026-09-07
   **Coordinator adapter as an Elixir module:** retracted 2026-09-05,
-  see [RFD 2205](../2205-taskweft-in-bao/README.md), superseded by
+  see [RFD66606-2205](../2205-taskweft-in-bao/README.md), superseded by
   an in-Bao database-plugin (Go binary, cgo-linked C++ planner) that
   callers reach via `bao read taskweft/creds/<goal_id>`. This RFD's
   "fleet-domain document" scope stays live; the "adapter" scope
@@ -253,13 +253,13 @@ fleet-domain document"
   planner, no new SQL layer, no port of RECTGTN into Bao; the engine is
   the ground-truth solver and the fleet is a domain that feeds it.
 
-  The seven-step coordinate-agents ceremony (RFD 2201) stays. One line
+  The seven-step coordinate-agents ceremony (RFD66606-2201) stays. One line
   of step 3 ("notify peers") becomes `Coordinator.snapshot |>
   Coordinator.pick(self) |> Coordinator.publish(self)`. Determinism
   against the shared snapshot removes the need to relay next-item picks
   in prose. Assignment rows carry a `SqlarCas.Caveat` with
   `{"type":"expires_at","at":start+duration}`, the compute-lease broker
-  RFD 2202 named as future work, filled by reusing the caveat primitive
+  RFD66606-2202 named as future work, filled by reusing the caveat primitive
   that already exists in service-sqlar-cas.
   :: details Problem
   Peer sessions coordinate through three ad-hoc channels: Bao rows, free-
@@ -268,7 +268,7 @@ fleet-domain document"
   so a peer that reranks does it by hand, a peer that finishes an item
   picks the next one from a board it interprets alone, and the operator
   carries the priority ordering in their head each turn. The
-  `may-use--<device>` tuples RFD 2202 introduced are documentation only:
+  `may-use--<device>` tuples RFD66606-2202 introduced are documentation only:
   nothing gates work on them. When two peers want the same GPU or the
   same HF repo, prose adjudicates.
   :: details Non-goals
@@ -280,15 +280,15 @@ fleet-domain document"
   the engine's search bounds already surface a "no assignable Task"
   answer rather than looping.
   :: details Related
-  - RFD 2200 (ReBAC agent roles), supplies the relation vocabulary the
+  - RFD66606-2200 (ReBAC agent roles), supplies the relation vocabulary the
     fleet domain reuses.
-  - RFD 2201 (coordinate-agents ceremony), step 3 gets the one-line
+  - RFD66606-2201 (coordinate-agents ceremony), step 3 gets the one-line
     hook; the other six steps are unchanged.
-  - RFD 2202 (ReBAC Bao enforcement), this RFD fills the compute-lease
-    broker gap RFD 2202 named as future work.
-  - RFD 2195 (weftspun-bao), the Bao row shape the coordinator reads
+  - RFD66606-2202 (ReBAC Bao enforcement), this RFD fills the compute-lease
+    broker gap RFD66606-2202 named as future work.
+  - RFD66606-2195 (weftspun-bao), the Bao row shape the coordinator reads
     from and writes back to.
-  - Taskweft engine RFDs 0005 (unify capabilities with ReBAC) and 0008
+  - Taskweft engine RFD66606-0005 (unify capabilities with ReBAC) and 0008
     (MCP public API), the surfaces the fleet uses without modification.
   """
 end

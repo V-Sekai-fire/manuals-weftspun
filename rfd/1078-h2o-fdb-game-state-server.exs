@@ -16,8 +16,8 @@ rfd 1078, "An H2O/FoundationDB game-state server", :moved do
   attest_in :none
 
   related ~S"""
-  RFD 1077 gives the CDN question that raised this one. RFD 1061 and
-  RFD 1062 name `multiplayer-fabric-godot` as the asset-streaming
+  RFD66606-1077 gives the CDN question that raised this one. RFD66606-1061 and
+  RFD66606-1062 name `multiplayer-fabric-godot` as the asset-streaming
   transport's other consumer, and a candidate home for this server.
   """
 end

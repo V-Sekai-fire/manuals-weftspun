@@ -11,7 +11,7 @@ search in `witness/`, and the run records it keeps"
 
   prose ~S"""
   :: decision
-  The store's attacks are levels in RFD 2309's sense: an attack template
+  The store's attacks are levels in RFD66606-2309's sense: an attack template
   with fixed attributes (fault, commit size, writers, redundancy). A problem
   is one run with a drawn crash point, delay or seed. Each level runs on the
   store as it is, and on the store with that level's defect planted.
@@ -29,8 +29,8 @@ search in `witness/`, and the run records it keeps"
   one crash point drawn from 6 to 21 at 400 rows found a planted torn commit
   in 2 to 7 of 8 runs. Against a sound store every level scores zero.
   :: related
-  - RFD 2309, frontier learning for the alyx planner: the loop this reuses.
-  - RFD 2109, two tiers with FoundationDB as the store: the store attacked.
+  - RFD66606-2309, frontier learning for the alyx planner: the loop this reuses.
+  - RFD66606-2109, two tiers with FoundationDB as the store: the store attacked.
   """
 
   details_title "levels, targets and the controls on the scheduler"
@@ -47,7 +47,7 @@ search in `witness/`, and the run records it keeps"
   the same day.
 
   :: details Why one target gives no signal
-  RFD 2309's learner is a policy that sometimes succeeds. Here the learner is
+  RFD66606-2309's learner is a policy that sometimes succeeds. Here the learner is
   the attack, and its success is a witness: a slow commit, a torn commit, a
   lost key, a superseded writer whose write landed, or a cluster that answered
   without a quorum. A sound store gives every level `s = 0`, so every level
@@ -101,7 +101,7 @@ search in `witness/`, and the run records it keeps"
     its defect. It is not rerun until the attack changes.
   - Calibrated, all of the last eight on the planted target: it runs on the
     real store. Its regret is zero on both targets, so the per change lane
-    picks by RFD 2309's staleness term per second of cost, within budget.
+    picks by RFD66606-2309's staleness term per second of cost, within budget.
   - Proven, the crash search reported that it covered every candidate: it
     leaves the per change lane and runs before a release.
   - A witness on the real store is never averaged into a rate. It stops the

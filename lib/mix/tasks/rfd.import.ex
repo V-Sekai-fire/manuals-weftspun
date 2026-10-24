@@ -115,8 +115,11 @@ defmodule RFD.Import do
     [title_line | rest] = String.split(head, "\n")
 
     %{"serial" => serial, "title" => title} =
-      Regex.named_captures(~r/^# RFD (?<serial>\d{4}): (?<title>.*)$/, title_line) ||
-        raise(ArgumentError, "README title is not `# RFD NNNN: title`: #{inspect(title_line)}")
+      Regex.named_captures(~r/^# RFD(?: |66606-)(?<serial>\d{4}): (?<title>.*)$/, title_line) ||
+        raise(
+          ArgumentError,
+          "README title is not `# RFD66606-NNNN: title`: #{inspect(title_line)}"
+        )
 
     meta = metadata(rest)
     details_path = Path.join(dir, "DETAILS.md")
@@ -177,8 +180,11 @@ defmodule RFD.Import do
 
     {title, body_lines} =
       case lines do
-        ["# RFD " <> rest | tail] -> {String.replace(rest, ~r/^\d{4} details: /, ""), tail}
-        _ -> {nil, lines}
+        ["# RFD" <> rest | tail] ->
+          {String.replace(rest, ~r/^(?: |66606-)\d{4} details: /, ""), tail}
+
+        _ ->
+          {nil, lines}
       end
 
     preamble = body_lines |> Enum.join("\n") |> strip_canary() |> blank_to_nil()
@@ -346,8 +352,8 @@ defmodule RFD.Import do
     # Copyright (c) 2026 K. S. Ernest (iFire) Lee
     # SPDX-License-Identifier: MIT
     #
-    # RFD #{doc.serial}. `mix rfd.render` renders rfd/#{slug}/README.md and
-    # DETAILS.md from this file; the Markdown is a build artifact (RFD 2232).
+    # RFD66606-#{doc.serial}. `mix rfd.render` renders rfd/#{slug}/README.md and
+    # DETAILS.md from this file; the Markdown is a build artifact (RFD66606-2232).
     defmodule RFD#{doc.serial} do
       use RFD.DSL
 

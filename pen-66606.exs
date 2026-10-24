@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # `mix rfd.plan` renders pen-66606.usda from this file; the layer is a
-# build artifact (RFD 2232, extended to the apparatus plans).
+# build artifact (RFD66606-2232, extended to the apparatus plans).
 defmodule Plan.Pen66606 do
   use RFD.Plan
 

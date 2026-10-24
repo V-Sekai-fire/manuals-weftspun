@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Every RFD README's State field is one of the canonical values RFD 1000 lists.
+"""Every RFD README's State field is one of the canonical values RFD66606-1000 lists.
 
-RFD 1000 enumerates seven states: prediscussion, ideation, discussion,
+RFD66606-1000 enumerates seven states: prediscussion, ideation, discussion,
 published, committed, abandoned, moved. Four RFDs on 2026-09-03 carried
 a parenthetical annotation after the value ("discussion (implemented
 2026-09-01...)"), which is neither canonical nor parseable by strict
 tooling. This gate refuses that shape.
 
-The state list is read out of RFD 1000 rather than restated, so this
+The state list is read out of RFD66606-1000 rather than restated, so this
 gate and the document cannot drift.
 
 Run --self-test to see the check reject a known-bad shape and pass on
@@ -84,27 +84,27 @@ def _self_test() -> int:
     with tempfile.TemporaryDirectory() as t:
         os.makedirs(os.path.join(t, "rfd", "1000-conventions"))
         open(os.path.join(t, "rfd", "1000-conventions", "README.md"), "w").write(
-            "# RFD 1000\n\nEach RFD has a state: prediscussion, ideation, "
+            "# RFD66606-1000\n\nEach RFD has a state: prediscussion, ideation, "
             "discussion, published, committed, abandoned, or moved.\n"
         )
         # positive control: clean State field
         os.makedirs(os.path.join(t, "rfd", "1001-ok"))
         open(os.path.join(t, "rfd", "1001-ok", "README.md"), "w").write(
-            "# RFD 1001\n\n**State:** discussion\n"
+            "# RFD66606-1001\n\n**State:** discussion\n"
         )
         bad = scan(t)
         assert bad == [], f"positive control failed: {bad}"
         # negative control: parenthetical annotation
         os.makedirs(os.path.join(t, "rfd", "1002-bad"))
         open(os.path.join(t, "rfd", "1002-bad", "README.md"), "w").write(
-            "# RFD 1002\n\n**State:** discussion (implemented 2026-09-01)\n"
+            "# RFD66606-1002\n\n**State:** discussion (implemented 2026-09-01)\n"
         )
         bad = scan(t)
         assert len(bad) == 1 and bad[0][0] == "1002-bad", f"negative control failed: {bad}"
         # negative control 2: unknown state
         os.makedirs(os.path.join(t, "rfd", "1003-unknown"))
         open(os.path.join(t, "rfd", "1003-unknown", "README.md"), "w").write(
-            "# RFD 1003\n\n**State:** invented\n"
+            "# RFD66606-1003\n\n**State:** invented\n"
         )
         bad = scan(t)
         names = sorted(b[0] for b in bad)

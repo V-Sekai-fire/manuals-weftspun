@@ -23,7 +23,7 @@ against the dataforged repo"
   `github.com/rsek/dataforged`, carries a mixed licence:
   :: related
   - CLAUDE.md's existing `CC-BY-SA` row, same shape, same argument.
-  - RFD 2205 (Taskweft in Bao), the Starforged play surface whose
+  - RFD66606-2205 (Taskweft in Bao), the Starforged play surface whose
     corpus is the concrete case.
   - Codebase: `2-contract/manuals-weftspun/scripts/build_starforged_hf.py`
     and `build_starforged_sqlite.py`, the reference filter
@@ -153,7 +153,7 @@ against the dataforged repo"
   of a source is different from shipping its content.
   :: details Related
   - CLAUDE.md's existing `CC-BY-SA` row, same shape, same argument.
-  - RFD 2205 (Taskweft in Bao), the Starforged play surface whose
+  - RFD66606-2205 (Taskweft in Bao), the Starforged play surface whose
     corpus is the concrete case.
   - Codebase: `2-contract/manuals-weftspun/scripts/build_starforged_hf.py`
     and `build_starforged_sqlite.py`, the reference filter

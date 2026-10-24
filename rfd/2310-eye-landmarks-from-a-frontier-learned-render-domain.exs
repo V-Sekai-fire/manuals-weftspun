@@ -15,12 +15,12 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   An RF-DETR keypoint head places 34 landmarks per eye, each with a
   visibility: 9 on each lid, 8 on the whole iris and 8 on the pupil rim.
   frameeyeosc turns them into openness, widening, squint and pupil size
-  (RFD 2271). Training data is constructed ANNY eye renders with
+  (RFD66606-2271). Training data is constructed ANNY eye renders with
   eyelashes, varied through SOMA-X by ANNY phenotypes, HMR identities and
   GMR motion, plus Gaze-in-Wild infrared frames picked and scored by
   Ternary Bonsai 2 (2-bit), first pretrained as a scorer on EditScore's
   reward corpus. Rows take
-  EditScore's shape (RFD 2309). The pipeline is a RECTGTN domain whose
+  EditScore's shape (RFD66606-2309). The pipeline is a RECTGTN domain whose
   actions and methods are residual FSQ codes; frontier learning picks the
   levels and `compress` learns new methods from the traces (operator,
   2026-10-12).
@@ -29,7 +29,8 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   non-commercial, and TEyeD states no licence. The community fork's eye
   vision is about ten thousand lines of rules tuned on its own recordings.
   :: related
-  RFD 2271, 2309, 2304, 2203, 2192, 2272, 2290, 2161, 2178, 2295.
+  RFD66606-2271, RFD66606-2309, RFD66606-2304, RFD66606-2203, RFD66606-2192, RFD66606-2272,
+  RFD66606-2290, RFD66606-2161, RFD66606-2178, RFD66606-2295.
   """
 
   details_title "eye landmarks from a frontier-learned render domain"
@@ -55,7 +56,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   for generated data hold: model, checkpoint and prompt recorded with each
   row; a separate manifest; never the only distribution; evaluation on real
   or constructed data only. Training starts from Apache-designated RF-DETR
-  weights, not the separately hosted keypoint preview (RFD 2192).
+  weights, not the separately hosted keypoint preview (RFD66606-2192).
 
   :: details References
   - Faro et al., Frontier Learning (doi 10.48550/arXiv.2609.35426)
@@ -82,7 +83,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   desk's RTX 4090; the EditScore model itself is not used. Before any eye
   row it is pretrained as a reward model on EditScore-Reward-Data (97,256
   rows, Apache-2.0: task type, instruction, images, two expected scores,
-  an evaluator conversation) with a quantization-aware LoRA (RFD 2178), and
+  an evaluator conversation) with a quantization-aware LoRA (RFD66606-2178), and
   measured on EditReward-Bench against the scores the EditScore authors
   published. Eye rows then use the same shape: the instruction names the
   landmarks, the images are the frame and the frame with a candidate fit
@@ -101,7 +102,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
 
   :: details The RECTGTN domain
   The pipeline is a `plan` domain in XR Pilot's JSON acting DSL, run by the
-  one RECTGTN library (RFD 2304). Actions are tool calls with constructed
+  one RECTGTN library (RFD66606-2304). Actions are tool calls with constructed
   outcomes:
   | Action | Does |
   |---|---|
@@ -134,12 +135,12 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   frameeyeosc already sends for an avatar's binary parameters.
 
   :: details Frontier learning here
-  RFD 2309's loop with one change: the policy is the keypoint head's
+  RFD66606-2309's loop with one change: the policy is the keypoint head's
   weights, not a frozen domain. Success `s` counts the passing renders of a
   problem's `n` noise draws; regret `1[s ≥ 1] − s/n` is zero for impossible
   and mastered problems. Level draws, replay, exploration and mutation keep
   the paper's values until a step's measured cost says otherwise. Renders
-  are procedural, which removes the limit RFD 2309 states for Alyx;
+  are procedural, which removes the limit RFD66606-2309 states for Alyx;
   Gaze-in-Wild frames have no level, so they are a fixed real mix, and the
   frames whose candidates disagree most go to the decider first.
 
@@ -227,7 +228,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
 
   :: details Open questions
   - Inference home: frameeyeosc's own Slang kernels, or a ggml-rd guest as
-    RFD 2272 and RFD 2290 require. Unmeasured; R4's latency decides.
+    RFD66606-2272 and RFD66606-2290 require. Unmeasured; R4's latency decides.
   - The headset camera's intrinsics and light positions, to be measured
     from recordings before R1's camera replaces R0's estimate.
   - Whether Bonsai 2 scores eye-landmark overlays as well as photo edits;

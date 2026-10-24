@@ -26,11 +26,11 @@ V-Sekai client and server that host the loop"
   and to be with people (8). One asked for emotes; none for rendered
   clips, hair motion or faces.
   :: related
-  - RFD 2263 and RFD 2287, the active release's simulator gate and first rung.
-  - RFD 2234 (dress-on pipeline), the loop the releases ride on.
-  - RFD 1053 (OpenUSD as the internal format).
-  - RFD 2229 (interchangeable parts), the rule new parts answer to.
-  - RFD 2267 (persona NPCs in ported scenes), a parked content idea behind
+  - RFD66606-2263 and RFD66606-2287, the active release's simulator gate and first rung.
+  - RFD66606-2234 (dress-on pipeline), the loop the releases ride on.
+  - RFD66606-1053 (OpenUSD as the internal format).
+  - RFD66606-2229 (interchangeable parts), the rule new parts answer to.
+  - RFD66606-2267 (persona NPCs in ported scenes), a parked content idea behind
     the releases, not one of them.
   """
 
@@ -47,8 +47,8 @@ V-Sekai client and server that host the loop"
     two hats).
   - **First testable release.** Can a person draw an outfit, wear it,
     and show it to someone who talks with them? The simulator first, a
-    replayed sketch (RFD 2263); then the first rung, two people in one
-    zone with the garment made on a worker zone (RFD 2287). Active.
+    replayed sketch (RFD66606-2263); then the first rung, two people in one
+    zone with the garment made on a worker zone (RFD66606-2287). Active.
   - **Shareable release.** Will people save, share and wear what they made
     where others see it? The same creators and whoever they share with,
     phones included. Next: save as OpenUSD, export VRM, wear it and move

@@ -30,13 +30,13 @@ rfd 1147, "What EditScore costs and returns", :published do
   EditScore is the `score` stage of every loop in `fourloops-plan.usda`.
   Loops 1 through 4 each name it, and loop 1 pairs it with the Referee.
 
-  Its measurements were written into RFD 1144 because loop 2 is the
+  Its measurements were written into RFD66606-1144 because loop 2 is the
   smallest loop that exercises it. That put a figure belonging to four
   loops inside the document for one of them, so a reader of loop 3 had to
   know to look in loop 2 for what the scorer costs.
   :: related
-  RFD 1143 through RFD 1146 are the four loops that score with it. RFD
-  1122 is the goal they serve.
+  RFD66606-1143 through RFD66606-1146 are the four loops that score with it.
+  RFD66606-1122 is the goal they serve.
   """
 
   details_title "What EditScore costs and returns"
@@ -72,7 +72,7 @@ rfd 1147, "What EditScore costs and returns", :published do
   carries 8.6 as `editscorePeakGib1024`.
 
   The seconds are a range rather than a median, and deliberately. The run-to-run
-  spread at 512 is wider than the gap between the two OmniGen2 precisions RFD 1144
+  spread at 512 is wider than the gap between the two OmniGen2 precisions RFD66606-1144
   reports, so a single figure would imply a resolution these runs do not support.
   :: details Why this lives in its own document
   Every loop in `fourloops-plan.usda` names EditScore as its `score` stage, and
@@ -80,7 +80,7 @@ rfd 1147, "What EditScore costs and returns", :published do
   answer different questions. A figure that four loops depend on belongs beside
   none of them in particular.
 
-  It was in RFD 1144 first, on the reasoning that loop 2 is the smallest loop
+  It was in RFD66606-1144 first, on the reasoning that loop 2 is the smallest loop
   exercising the scorer and so its numbers were the plan's. That reasoning holds
   for OmniGen2, which loops 2 and 3 use and loops 1 and 4 do not. It does not hold
   for a stage all four share.

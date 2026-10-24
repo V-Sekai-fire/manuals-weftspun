@@ -1,6 +1,6 @@
 # Logbook: the backup reaches Tigris through the SNI hop
 
-Question: RFD 2134 left the cluster backup blocked on Tigris requiring
+Question: RFD66606-2134 left the cluster backup blocked on Tigris requiring
 SNI that FoundationDB's blobstore client never sends, and named a
 versitygw sidecar as the path. What actually shipped, and is data in
 the bucket?
@@ -12,7 +12,7 @@ eleven config lines with no second S3 implementation in the path.
 
 ## The apparatus
 
-weftspun-fdb on Fly (3 machines, double, mutual TLS per RFD 2134),
+weftspun-fdb on Fly (3 machines, double, mutual TLS per RFD66606-2134),
 datasource-store PRs #4 and #5, foundationdb-clients 7.3.76, stunnel4
 from bookworm, Tigris bucket `weftspun-fdb-blob` provisioned by
 `fly storage create` (which sets the AWS_* secrets the entrypoint

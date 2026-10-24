@@ -1,6 +1,6 @@
 # Apparatus 2251: image to godot character as an fbd
 
-Runs the RFD 2251 character workflow end to end from Elixir through the
+Runs the RFD66606-2251 character workflow end to end from Elixir through the
 assembled Godot binary. Seven FBD blocks, six laddered rungs, each block
 backed by an existing entities-godot module method or plain Godot API.
 
@@ -25,7 +25,7 @@ generated-synthetic corollary in `CLAUDE.md` does not apply.
 | 5 | `expressions` | plain Godot API | `MeshInstance3D.set_blend_shape_value` per named blend shape |
 | 6 | `render` | plain Godot API | `SubViewport` + `Camera3D` + `Image.save_png` |
 
-The 7th block from RFD 2251, `prepare_reference`, is the operator's
+The 7th block from RFD66606-2251, `prepare_reference`, is the operator's
 responsibility: one image in, three-part-scoped crops out, done outside
 the runner.
 
@@ -40,7 +40,7 @@ the runner.
 3. A skin-tokens bundle GGUF for the rig block.
 4. A kimodo motion GGUF and text GGUF for the animate block.
 5. `interactor-taskweft-function-block-diagram-teacher` compiled with
-   the RFD 2251 runner branches merged.
+   the RFD66606-2251 runner branches merged.
 
 ## Run
 
@@ -71,13 +71,13 @@ pointing nowhere.
 
 The upstream workflow this apparatus mirrors is Tripo3D's GPT-6 Astra
 character workflow, read 2026-09-13. The article stays behind its
-copyright; RFD 2251 carries the mapping table between their steps and
+copyright; RFD66606-2251 carries the mapping table between their steps and
 the modules the workspace already carries.
 
 ## What this workflow does not do
 
 Multi-part assembly (the current pass is body + one head; hair is a
 later rung), continuous blendshape blending (only discrete named
-targets), physics-based hair or cloth (RFD 2249 handles cloth in its
+targets), physics-based hair or cloth (RFD66606-2249 handles cloth in its
 own binary), motion retargeting between the kimodo skeleton and the
 rigged mesh (motion JSON is written for a downstream step).

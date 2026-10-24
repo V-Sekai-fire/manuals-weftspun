@@ -138,7 +138,7 @@ The second is the 7840U's own XDNA1 NPU, and nothing in this workspace knew it w
 **The Hailo was power-starved, and moving it to a USB4 dock cleared it.** On the first
 port `hailortcli` warned: *"USB-C source electrical current advertised: 1.5A. The module may
 run in reduced-performance mode."* On the dock the device re-enumerated from `usb/001:001`
-to `usb/001:009` and the warning stopped. RFD 1130 exists to report what the device
+to `usb/001:009` and the warning stopped. RFD66606-1130 exists to report what the device
 delivers, and a figure taken on the first port would have been a figure about a cable.
 
 **The evidence is the absence of the firmware's own flag, not a power reading**, and that
@@ -151,7 +151,7 @@ than a measured current and is what we have.
 **The comparison that would have settled it is now gone.** No throughput was taken at 1.5A
 before the move, so the cost of the power limit cannot be quantified from here. Recovering
 it means deliberately plugging back into the 1.5A port and benchmarking both, which is
-worth an hour if RFD 1130 wants the delta rather than just a good number.
+worth an hour if RFD66606-1130 wants the delta rather than just a good number.
 
 Extended identify, for the record: `HAILO10H`, firmware 5.3.2 (release,app), boot source
 FLASH, LCS 5, board SKU-ID 8, chip serial `F8FBFDDB7CD6F769D3CE75F9`.
@@ -272,7 +272,7 @@ arrow, evaluation-only, and **published**, so it is not blinded the way
 `chibifire/gemma4-31b-it-qat-q4_0-unquantized-1e4d8bee` were created while the 31B path
 looked settled. All three were deleted at 0 bytes and verified gone. A repository is cheap
 to make and it advertises a decision; making one before the decision is the same error as
-measuring throughput on a model that fails RFD 1128.
+measuring throughput on a model that fails RFD66606-1128.
 
 ## No money was spent
 

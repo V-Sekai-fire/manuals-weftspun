@@ -1,12 +1,12 @@
-"""See-Through layer decomposition. RFD 1044.
+"""See-Through layer decomposition. RFD66606-1044.
 
-Nine networks. RFD 1030 lists them, and domain.ex orders them.
+Nine networks. RFD66606-1030 lists them, and domain.ex orders them.
 
 This file holds no pipeline order. It maps each action name in the
 domain to one function, and it runs the plan the planner returns. A
 pipeline change therefore edits domain.ex, and not this file.
 
-The planner is taskweft. See RFD 1037.
+The planner is taskweft. See RFD66606-1037.
 """
 
 import json
@@ -93,7 +93,7 @@ class Predictor(BasePredictor):
 
         `plan` takes `plan_json` and `fail_step`, and it returns a new
         tail. The work before the failure stands, thus a lost decode
-        does not repeat the diffusion. RFD 1037 records that this is
+        does not repeat the diffusion. RFD66606-1037 records that this is
         the reason a composite is a domain.
         """
         raise NotImplementedError("Call taskweft plan with plan_json and fail_step.")

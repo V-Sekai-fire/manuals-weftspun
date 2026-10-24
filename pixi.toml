@@ -1,4 +1,4 @@
-# The RFD gates' environment and RFD 1142's apparatus, declared, because until
+# The RFD gates' environment and RFD66606-1142's apparatus, declared, because until
 # now the gates had a `requirements.txt` and no environment to install it into.
 
 [workspace]
@@ -30,7 +30,7 @@ python = "3.11.*"
 markdown-it-py = "==3.0.0"
 jsonschema = "==4.23.0"
 usd-core = "==26.8"
-# RFD 1166 ranks by STAR, and a hand-rolled runoff is a claim about STAR rather
+# RFD66606-1166 ranks by STAR, and a hand-rolled runoff is a claim about STAR rather
 # than STAR. `check_rfd1166_rank.py` recomputes the table against the reference
 # implementation, so the document and the method cannot disagree.
 starvote = "*"
@@ -40,7 +40,7 @@ prek = "*"
 
 # THE ANE FEATURE, SEPARATE FROM THE GATES ON PURPOSE.
 #
-# RFD 1142 measures what the Neural Engine can address. That needs coremltools
+# RFD66606-1142 measures what the Neural Engine can address. That needs coremltools
 # and a torch to build a graph with, and neither belongs in an environment whose
 # job is to parse CommonMark. The gates are a measuring instrument for the
 # documents and should not move because a converter did.
@@ -91,7 +91,7 @@ onnxruntime = "*"
 scikit-learn = ">=1.4,<=1.5.1"
 torch = { version = ">=2.6", index = "https://download.pytorch.org/whl/cpu" }
 
-# THE LITERT FEATURE. RFD 1142 measured Core ML's Metal path at 6.97 TFLOP/s fp16;
+# THE LITERT FEATURE. RFD66606-1142 measured Core ML's Metal path at 6.97 TFLOP/s fp16;
 # this measures LiteRT's against it, on the same ConvStack and the same MACs
 # convention, so the two rows compose.
 #

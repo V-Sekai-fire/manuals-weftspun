@@ -35,7 +35,7 @@ rfd 2137, "RFD reports share one sheet", :discussion do
   beside numbers, controls named) have no slot a page reminds an author
   to fill.
   :: section Verification
-  The worked example filling the slots is RFD 2134, so the template is
+  The worked example filling the slots is RFD66606-2134, so the template is
   demonstrated by a report that shipped rather than by lorem.
   """
 end

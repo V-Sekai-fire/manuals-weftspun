@@ -35,7 +35,7 @@ rfd 1137, "A frame set is delivered as one CineForm clip", :discussion do
   `.cff` beside it. The encoder for one was in the workspace and had never
   been built, and the first attempt reached for a tool that is LGPL.
   :: related
-  RFD 1136 enumerates the poses that make such a sweep. See `DETAILS.md`
+  RFD66606-1136 enumerates the poses that make such a sweep. See `DETAILS.md`
   for the measurements and what the clip does to a frame hash.
   """
 

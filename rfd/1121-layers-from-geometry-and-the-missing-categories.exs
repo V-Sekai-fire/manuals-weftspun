@@ -16,9 +16,9 @@ rfd 1121,
   Split the corpus into two halves, each with its own truth condition. **Half A is the modelled
   half.** Render hm08 groups as depth-ordered layers. Nothing generates and no pixel is inpainted.
   It needs a `body` sub-partition into head and neck tags, proved in Lean. Clothing belongs here
-  too: hm08 carries tights, skirt and hair as proxies, cloth-fit retargets an authored garment onto
-  them without intersections under MIT, and a dressed render differenced against an undressed one
-  gives the layer exactly. The five absent worn tags want a proxy each.
+  too: hm08 carries tights, skirt and hair as proxies, cloth-fit retargets an authored garment
+  onto them without intersections under MIT, and a dressed render differenced against an undressed
+  one gives the layer exactly. The five absent worn tags want a proxy each.
 
   **Half B is the missing half.** Build the geometry first and render it second; the order is the
   whole decision. Qwen-Image supplies appearance under its Apache-2.0 depth ControlNet, a 3D lift
@@ -37,8 +37,8 @@ rfd 1121,
   That route covers only what ANNY models, and ANNY models a body: hm08 has 12 named groups, ten
   tags have no geometry, and `body` is one 13,380-vertex block with no face, ears, nose or neck.
   :: related
-  RFD 1006 places the See-Through stage, RFD 1030 lists its models, RFD 1048 the VoxHammer splice
-  guard, RFD 1110 the handoff shape, RFD 1122 the keypoints that carry a layer between poses.
+  RFD66606-1006 has the See-Through stage, RFD66606-1030 its models, RFD66606-1048 the VoxHammer
+  splice guard, RFD66606-1110 the handoff shape, RFD66606-1122 the keypoints across poses.
   """
 
   details_title "Layers come from geometry, and the missing categories come from a multiview rebuild"
@@ -249,7 +249,7 @@ rfd 1121,
      tag mapping. This mapping is inferred, not true by construction, so it is checked against
      the hm08 group index that stage 1 rendered.
   6. **Edit one category under a mask.** VoxHammer adds or replaces one tag. Its splice step
-     runs before the decode, so geometry outside the mask does not move. RFD 1048 states this
+     runs before the decode, so geometry outside the mask does not move. RFD66606-1048 states this
      guard.
   7. **Render the layers.** Repeat stage 1 on the rebuilt mesh. Now every tag has geometry, so
      the depth order gives the layers, and nothing is inpainted.
@@ -446,8 +446,8 @@ rfd 1121,
 
   **A 2D garment layer composites only in the pose it was drawn in.** The kimono art that prompted
   this is A-pose, and it lands on an A-pose body and nowhere else. Carrying it to another pose
-  needs a dense correspondence over the body, which is what RFD 1122's 104 points are for. The two
-  RFDs meet here rather than merely citing each other.
+  needs a dense correspondence over the body, which is what RFD66606-1122's 104 points are for.
+  The two RFDs meet here rather than merely citing each other.
 
   **Reproducibility has a floor on the GPU.** `cuda_ad_rgb` is byte-identical at 16 samples per
   pixel and stops being so above it, with the disagreement growing as samples rise, 5.8e-11 mean
@@ -680,7 +680,7 @@ rfd 1121,
   The exception is genuine but narrow. Tunnelling that ends on the wrong side, a sleeve through
   an arm, staying there, is a final-state failure and CCD does prevent it. That failure is far
   cheaper to detect than to prevent, and the detector already exists for another reason: body
-  pixels inside the garment layer, at render time, free. Rule 4 of RFD 1122 already sets the
+  pixels inside the garment layer, at render time, free. Rule 4 of RFD66606-1122 already sets the
   policy, that a failure is discarded rather than fixed, and a corpus can afford to drop frames.
 
   Two things worth knowing before treating this as settled. IPC's guarantee is conditional on an

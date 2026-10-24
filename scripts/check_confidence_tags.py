@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Fail any confidence tag whose word is off RFD 2295's scale or whose p falls outside the word's band.
+"""Fail any confidence tag whose word is off RFD66606-2295's scale or whose p falls outside the word's band.
 
-The bands are read from RFD 2295's source, so the scale and this gate cannot disagree.
+The bands are read from RFD66606-2295's source, so the scale and this gate cannot disagree.
     python scripts/check_confidence_tags.py [paths...]
     python scripts/check_confidence_tags.py --self-test
 """

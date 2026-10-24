@@ -28,15 +28,15 @@ rfd 1142, "The Mac against the UGen300", :discussion do
 
   `DETAILS.md` has the apparatus, `SKILL.md` the order.
   :: problem
-  RFD 1130 sequences the plan around the UGen300, an 8 GiB Hailo-10H
+  RFD66606-1130 sequences the plan around the UGen300, an 8 GiB Hailo-10H
   behind USB, and the Mac was written off as the weak node on a figure
   that could not support it: `rfd1122-plan.usda` recorded
   `neuralEngineUsefulForBackbone = 0` from an ONNX Runtime CoreML run
   that partitions per operator and logged no placement. Which engine the
   Mac would even use went unasked.
   :: related
-  RFD 1128 asks whether four bits survive, RFD 1129 whether the operators
-  compile, RFD 1130 what the device delivers. RFD 1122 is the goal.
+  RFD66606-1128 asks whether four bits survive, RFD66606-1129 whether the operators
+  compile, RFD66606-1130 what the device delivers. RFD66606-1122 is the goal.
   """
 
   details_title "The Mac against the UGen300"
@@ -202,7 +202,7 @@ rfd 1142, "The Mac against the UGen300", :discussion do
      assumes one INT4 operation is worth one fp16 operation. It does less. The comparison
      is generous to the Hailo, and it only holds under 2 GiB.
   2. **The Hailo column is derived.** No UGen300 is attached to this machine and none of
-     its rows were observed. RFD 1130 exists to replace them.
+     its rows were observed. RFD66606-1130 exists to replace them.
   3. **0.86 is an upper bound, and it is this device's.** A 3x3 stride-1 stack is the
      friendliest shape either part sees. Carrying 0.86 across to the Hailo would be
      assuming what the plan already declines to assume at 0.3.
@@ -257,7 +257,7 @@ rfd 1142, "The Mac against the UGen300", :discussion do
   free reference and the chosen pairing is printed, so the assignment is auditable.
   :: details What this does NOT resolve
   The UGen300 column stays derived. Its fp16 rate is halved from its 20 TOPS INT8 row
-  rather than read from a datasheet, no such part is attached to this machine, and RFD 1130
+  rather than read from a datasheet, no such part is attached to this machine, and RFD66606-1130
   exists to replace those rows. The physical device is expected, and until it lands every
   Hailo figure here predicts rather than reports.
 

@@ -189,13 +189,13 @@ did not run.
     plan(domain: "cineform_delivery", problem: "…/problem.ex")
 
 taskweft is at github.com/V-Sekai-fire/interactor-taskweft and serves `plan` and
-`validate` over MCP. RFD 1037 gives the DSL and the type rules: there
+`validate` over MCP. RFD66606-1037 gives the DSL and the type rules: there
 is no `:string`, so a subject, a rig and a file handle are each `:ref`.
 Both files are real Elixir, so `Code.string_to_quoted/1` checks them
 with no planner, which is the check to run before asking for a plan.
 
 Write the solved plan to `plan.ex` beside the domain and regenerate it
-when the domain changes. A hand-written plan is allowed: RFD 1037 said
+when the domain changes. A hand-written plan is allowed: RFD66606-1037 said
 never, and retracted that on 2026-08-25, because the planner serves over
 MCP and a desk that cannot reach it was left with a domain it could not
 run. Say in the file which way it was made. The guards still hold at run

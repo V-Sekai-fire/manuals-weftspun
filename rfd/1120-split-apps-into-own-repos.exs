@@ -27,14 +27,14 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   :: problem
   `weftspun-3d-studio` held three independently deployed apps
   (`weftspun_studio`, `character_taxonomy`, `usd_viewer_app`) under one
-  `apps/` directory (RFD 1076), plus a large vendored browser client
+  `apps/` directory (RFD66606-1076), plus a large vendored browser client
   and a companion APK under `thirdparty/`. A monorepo checkout, one
   `scripts/ci.sh` building all three, and one shared self-hosted
   deploy script no longer matched three apps with three separate Fly
   deploy targets and no code sharing between them.
   :: related
-  RFD 1058 gives the Quadlet deploy this split's `deploy/` move
-  adapts. RFD 1060 and RFD 1076 give the repo-layout history this RFD
+  RFD66606-1058 gives the Quadlet deploy this split's `deploy/` move
+  adapts. RFD66606-1060 and RFD66606-1076 give the repo-layout history this RFD
   continues.
   """
 
@@ -52,11 +52,11 @@ rfd 1120, "Split apps/ into their own repos", :committed do
 
   `git subtree split --prefix=apps/<app>` only carries history for
   commits where that content already lived under `apps/<app>/`. Each
-  new repo's history starts at RFD 1076's move into `apps/`, not the
+  new repo's history starts at RFD66606-1076's move into `apps/`, not the
   project's full history; the fuller history stays in
   `weftspun-3d-studio`'s own git log.
   :: details The `/opt/weftspun/<repo>/` convention
-  The self-hosted Quadlet deploy (RFD 1058) used to `rsync` one
+  The self-hosted Quadlet deploy (RFD66606-1058) used to `rsync` one
   monorepo checkout to `/opt/weftspun/src`, and every `.build` unit's
   `File=` path pointed inside it. With three repos, `weftspun-studio`'s
   own `scripts/deploy-weftspun-quadlet.sh` now:
@@ -83,7 +83,7 @@ rfd 1120, "Split apps/ into their own repos", :committed do
     `weftspun-3d-studio` along with the last hook that file had; each
     split repo needs its own CI, not yet built.
   - `scripts/push_gallery_to_vgw.exs`: pushed proof assets to
-    versitygw's S3 API. Already dead before this split, since RFD 1079
+    versitygw's S3 API. Already dead before this split, since RFD66606-1079
     removed versitygw.
   :: details Open work
   Each split repo needs its own CI (JS test and build for

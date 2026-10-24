@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Nothing tracked lives under rfd/NNNN-slug/.
 
-RFD 2232 renders README.md and DETAILS.md there from rfd/NNNN-slug.exs, so the
+RFD66606-2232 renders README.md and DETAILS.md there from rfd/NNNN-slug.exs, so the
 directory is build output and `rm -rf rfd/*/` should cost a render and nothing
 else. On 2026-09-07 it cost 65 tracked files, because apparatus had been landing
-beside the renders for months. RFD 1000 puts apparatus in apparatus/NNNN-slug/.
+beside the renders for months. RFD66606-1000 puts apparatus in apparatus/NNNN-slug/.
 
 Run --self-test to see the check reject a planted tree and pass on a clean one.
 """

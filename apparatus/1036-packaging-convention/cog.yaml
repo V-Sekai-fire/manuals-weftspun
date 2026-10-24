@@ -1,5 +1,5 @@
 # Template. Copy this into each model folder, and change the marked
-# lines. RFD 1036 records the rules this file follows.
+# lines. RFD66606-1036 records the rules this file follows.
 build:
   gpu: true
   cuda: "12.4"
@@ -25,7 +25,7 @@ build:
 
 predict: "predict.py:Predictor"
 
-# Not read by Cog. Read by a human, and by RFD 1026.
+# Not read by Cog. Read by a human, and by RFD66606-1026.
 x-weftspun:
   model_id: "example_model_id"
   license: "MIT"

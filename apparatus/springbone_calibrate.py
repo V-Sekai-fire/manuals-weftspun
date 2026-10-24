@@ -4,7 +4,7 @@
 
 Reads the editor recording's extracted features, rebuilds the same rig in
 MuJoCo, and solves for the (stiffness, damping) reproducing each chain. See
-RFD 2247 and logbook-springbone-mujoco-two-wrong-metrics for why the original
+RFD66606-2247 and logbook-springbone-mujoco-two-wrong-metrics for why the original
 constants were misassigned rather than merely unfitted.
 """
 

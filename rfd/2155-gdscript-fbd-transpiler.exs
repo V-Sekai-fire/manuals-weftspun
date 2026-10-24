@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2155, "GDScript <-> IEC 61131-3 FBD transpiler", :prediscussion do
   feature "bidirectional transpile between GDScript and PLCopen FBD
-(RFD 2150): Godot users author in a familiar language, taskweft renders
+(RFD66606-2150): Godot users author in a familiar language, taskweft renders
 RECTGTN-produced FBD back as GDScript for humans"
   scope "taskweft, new sibling `taskweft-gdscript-fbd`"
 
@@ -14,14 +14,14 @@ RECTGTN-produced FBD back as GDScript for humans"
   the first taskweft user names a GDScript-authored domain. `DETAILS.md`
   carries the UdonSharp study and the GDScript subset covered stage 1.
   :: problem
-  RFD 2150's target is PLCopen FBD. Godot devs author in GDScript.
+  RFD66606-2150's target is PLCopen FBD. Godot devs author in GDScript.
   The gap is what Merlin's **UdonSharp** solved for VRChat: Udon is a
   node graph, C# is a familiar language, UdonSharp compiles C# to Udon
   so the author never sees the graph unless they want to. Taskweft has
   the same shape:
 
-  1. **GDScript author**: `.gd` -> transpiler -> FBD -> RFD 2150
-     compile -> RFD 2154 loads into Godot Sandbox.
+  1. **GDScript author**: `.gd` -> transpiler -> FBD -> RFD66606-2150
+     compile -> RFD66606-2154 loads into Godot Sandbox.
   2. **FBD reader**: compiled RECTGTN plan renders back as `.gd` for
      humans debugging the state machine in Godot's editor.
 
@@ -33,6 +33,6 @@ RECTGTN-produced FBD back as GDScript for humans"
   :: references
   1. UdonSharp: https://github.com/vrchat-community/UdonSharp
   2. SafeGDScript: https://libriscv.no/blog/godot-sandbox-fortytwo/
-  3. RFD 2148, 2145, 2149
+  3. RFD66606-2148, RFD66606-2145, RFD66606-2149
   """
 end

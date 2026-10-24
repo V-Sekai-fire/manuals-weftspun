@@ -1,6 +1,6 @@
 # Logbook: LLaDA-1.5 denoising steps against speed and coherence (2026-08-31)
 
-**Related:** RFD 2198 (LLaDA-o speed work). The measurement was first kept in the
+**Related:** RFD66606-2198 (LLaDA-o speed work). The measurement was first kept in the
 `interactor-llada-diffusion-lm` README at `fb75914` and moved here when that README was cut
 back to what the repository is.
 

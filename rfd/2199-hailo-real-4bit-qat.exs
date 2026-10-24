@@ -30,6 +30,6 @@ rfd 2199, "Real 4-bit QAT with Hailo as target hardware", :discussion do
   shape has no framework support for our generative models; the only real-QAT FOSS today is
   Gemma 4 QAT (language-only). This RFD closes that gap.
   :: related
-  RFD 2186, RFD 2198, PR #256, PR #257, `[[hailo-ugen300-shelved]]`.
+  RFD66606-2186, RFD66606-2198, PR #256, PR #257, `[[hailo-ugen300-shelved]]`.
   """
 end

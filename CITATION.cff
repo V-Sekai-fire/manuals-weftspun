@@ -251,7 +251,7 @@ references:
     year: 2026
     doi: "10.48550/arXiv.2609.35426"
     abstract: >-
-      RFD 2309 takes its level search for the Alyx planner: per-problem regret
+      RFD66606-2309 takes its level search for the Alyx planner: per-problem regret
       1[s >= 1] - s/n from rollouts already made, Zipfian replay with staleness,
       uniform exploration and one-attribute mutation over a procedural
       generator's attributes. The GRPO training step is not adopted. The DOI is
@@ -282,7 +282,7 @@ references:
     year: 2025
     doi: "10.48550/arXiv.2509.23909"
     abstract: >-
-      The row shape RFD 2309's dataset export follows: task_type, instruction,
+      The row shape RFD66606-2309's dataset export follows: task_type, instruction,
       images (original then edit), two 0 to 25 expected_scores and an evaluator
       conversation, as in EditScore-Reward-Data (97.3k rows, apache-2.0). The
       DOI is arXiv's, registered with DataCite (checked 2026-10-11).

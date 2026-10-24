@@ -1,12 +1,12 @@
-# RFD 1122's plan apparatus outlives the RFD
+# RFD66606-1122's plan apparatus outlives the RFD
 
-RFD 1122, the wholebody gap, is abandoned. Serial 1122 sits in `SERIALS.exs`'s
+RFD66606-1122, the wholebody gap, is abandoned. Serial 1122 sits in `SERIALS.exs`'s
 `deleted` block and commit 830a1c4 removed its README and DETAILS outright, which is
 what the retraction rule asks for.
 
 Its plan did not go with it, or should not have. `rfd1122-plan.usda` is cited by name
 for numbers that live documents still rest on. `BLOCKLIST.md` settles
-`neuralEngineUsefulForBackbone = 0` from it. RFD 1142's README and DETAILS take 1685.1
+`neuralEngineUsefulForBackbone = 0` from it. RFD66606-1142's README and DETAILS take 1685.1
 ms from it. `scripts/ane_bench.py` names it in its own docstring for the two booleans
 that bound the M2Pro scope. Deleting the RFD deleted the file those five citations
 point at, and nothing reported that, because a citation is prose and prose is not
@@ -36,12 +36,12 @@ property holds again:
 The plan graph is six layers deep, and nine of the ten tasks are critical. One task has slack.
 
 These are transcriptions, not measurements. Nothing here was observed today. Each value
-is what the stage states, and the stage is what RFD 1142 and `BLOCKLIST.md` were already
+is what the stage states, and the stage is what RFD66606-1142 and `BLOCKLIST.md` were already
 reading when the RFD that reviewed them was removed.
 
 ## What this does not settle
 
 Whether the numbers are right. The gate checks that the stage and a reviewed document
-agree, and a wrong value stated identically in both still passes. RFD 1122 is abandoned,
+agree, and a wrong value stated identically in both still passes. RFD66606-1122 is abandoned,
 so no live document argues for these values; they are preserved because other documents
 depend on them, which is a weaker claim than the RFD made.

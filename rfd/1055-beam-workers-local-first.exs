@@ -9,9 +9,9 @@ rfd 1055, "BEAM workers, local first", :discussion do
   prose ~S"""
   :: decision
   Blocklist Replicate. Run the worker on this box's own 4090 first, in
-  plain Docker images, on RFD 1058's existing Quadlets. vast.ai stays
+  plain Docker images, on RFD66606-1058's existing Quadlets. vast.ai stays
   priced and ready, the next tier once this box stops being enough, per
-  RFD 1062's Gall's law, not the immediate plan.
+  RFD66606-1062's Gall's law, not the immediate plan.
 
   The BEAM owns the queue, the retries, and the state, no Python
   involved, whichever host runs it.
@@ -29,21 +29,21 @@ rfd 1055, "BEAM workers, local first", :discussion do
   **The price is a markup, and the retention terms are Replicate's,
   not ours.** Replicate bills per second above the cost of the card,
   volume and long jobs make that worse, and a job's data lives as long
-  as Replicate's own terms say, not RFD 1058's zero-trust design.
+  as Replicate's own terms say, not RFD66606-1058's zero-trust design.
 
   **The boundary leaked into the repository.** It produced a duplicate
   application in `cms/`, and a passthrough whose model map was empty,
   thus every job answered 400.
   :: related
-  RFD 1036 gives the image convention. RFD 1027 gives the GPU tier.
-  RFD 1040 records the first worker. RFD 1019 records the core.
+  RFD66606-1036 gives the image convention. RFD66606-1027 gives the GPU tier.
+  RFD66606-1040 records the first worker. RFD66606-1019 records the core.
   """
 
   details_title "BEAM workers, local first"
 
   prose ~S"""
   :: details What was considered, and when it applies
-  This project owns an RTX 4090, in this box. RFD 1062's Gall's law
+  This project owns an RTX 4090, in this box. RFD66606-1062's Gall's law
   applies here first: rent a card only after the owned one is the
   bottleneck. The table below prices the rented tier, for the day this
   box stops being enough, not for today.
@@ -55,7 +55,7 @@ rfd 1055, "BEAM workers, local first", :discussion do
   | Google    | TPU spot   |    $0.60 | Needs XLA, breaks CUDA           |
   | Replicate | Serverless |     high | Hostile to the BEAM, blocklisted |
 
-  The TPU row also disagrees with RFD 1019 now. That RFD first selected
+  The TPU row also disagrees with RFD66606-1019 now. That RFD first selected
   EXLA, which is XLA. Torchx replaced it, because XLA publishes no
   Windows archive, and Torchx binds LibTorch and CUDA.
   :: details Two host tiers, for the rented future, not the local present
@@ -70,25 +70,25 @@ rfd 1055, "BEAM workers, local first", :discussion do
   :: details Phase 1: unify the repository
   1. Commit the CockroachDB fixes and the let-it-crash pass. Done in
      `e1a4767b`. The Torchx swap in that commit is reverted, and
-     RFD 1056 records why.
+     RFD66606-1056 records why.
   2. Delete `cms/`, and fold the planning documents, the `Planner` port,
      and `TaskweftPlanner` into `weftspun_studio`. Done in `c2d659f7`.
-     That settles the overlap RFD 1023 and RFD 1054 carried.
+     That settles the overlap RFD66606-1023 and RFD66606-1054 carried.
   3. Remove the Replicate passthrough and `ReplicateJobs`. Open, and see
      below.
-  4. Abandon the Cog build. Done in `06c5c4ba`. RFD 1036 selects plain
-     Docker, and RFD 1040 records a contract stage tested in Docker.
+  4. Abandon the Cog build. Done in `06c5c4ba`. RFD66606-1036 selects plain
+     Docker, and RFD66606-1040 records a contract stage tested in Docker.
   :: details Replicate is blocklisted, and the passthrough is tolerated, not kept
   Replicate is blocklisted on two grounds: the per-second markup, and
   retention terms this project does not set and cannot audit. No new
-  dependency on Replicate is acceptable, matching the RFD 1028 gate's
+  dependency on Replicate is acceptable, matching the RFD66606-1028 gate's
   own shape for a blocklisted model license.
 
   Step 3 removes the only path from the router to a model. Nothing
   replaces it yet, because Phase 2 has not run. `ReplicateJobs` keeps
   running in code today, an explicit, temporary exception, not an
   endorsement, until this box's own worker answers `/predict`. Then the
-  adapter changes host and keeps its port, which is what RFD 1023
+  adapter changes host and keeps its port, which is what RFD66606-1023
   makes possible.
 
   `Ports.JobSink` and `Ports.JobSource` do not change. A local adapter
@@ -96,15 +96,15 @@ rfd 1055, "BEAM workers, local first", :discussion do
   host runs the model. A rented adapter, later, does the same.
   :: details Phase 2: deploy the compute, on this box
   1. Write a `Dockerfile` for `weftspun_studio` with Elixir and CUDA.
-  2. Run it on this box's own RTX 4090, through RFD 1058's Quadlets,
+  2. Run it on this box's own RTX 4090, through RFD66606-1058's Quadlets,
      already built and verified running. No instance to rent.
   3. Measure the inference speed, and cluster the router with the
      worker.
   :: details One image, or one per model
   This RFD proposes a unified image that holds the application and the
-  weights. RFD 1036 keeps one model per image.
+  weights. RFD66606-1036 keeps one model per image.
 
-  The two disagree, and the weights decide it. RFD 1026 sums the catalog
+  The two disagree, and the weights decide it. RFD66606-1026 sums the catalog
   at 116.45 GB. One image that carried all of it would take an hour to
   pull, and a change to one model would rebuild every other.
 

@@ -28,7 +28,7 @@ inspect an intermediate"
   default Claude look concludes, correctly, that nobody picked a
   palette. Picking one, any of the six above, closes that reading.
   :: related
-  - RFD 2206 (video-call VRM portrait), the shipped surface this
+  - RFD66606-2206 (video-call VRM portrait), the shipped surface this
     palette was first applied to.
   - Codebase: `7-service/service-sqlar-cas/docs/index.html`, the
     reference Nord application in this workspace.
@@ -143,7 +143,7 @@ inspect an intermediate"
   Nord specifically, the peers exist for cases where a different
   palette reads better on the subject.
   :: details Related
-  - RFD 2206 (video-call VRM portrait), the shipped surface this
+  - RFD66606-2206 (video-call VRM portrait), the shipped surface this
     palette was first applied to.
   - Codebase: `7-service/service-sqlar-cas/docs/index.html`, the
     reference Nord application in this workspace.

@@ -37,7 +37,7 @@ rfd 1131, "Emulating the operators an edge compiler refuses", :discussion do
   on the host, which is what Hailo's own DETR does and what 50 of its 127 zoo configs do.
   A cut costs a USB round trip per frame and a host pipeline that has to exist.
   :: related
-  RFD 1122 is the corpus this detector trains on. `weftspun/lean-deform-exact` proves the
+  RFD66606-1122 is the corpus this detector trains on. `weftspun/lean-deform-exact` proves the
   deformable rewrite. `DETAILS.md` carries the procedures and the traps.
   """
 

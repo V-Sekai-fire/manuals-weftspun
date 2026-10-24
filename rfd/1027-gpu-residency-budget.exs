@@ -11,14 +11,14 @@ rfd 1027, "GPU tier per model", :committed do
   Size each model on its own. The question is which GPU tier one model
   needs, and not whether a set of models co-resides.
 
-  Two numbers decide the tier: the weights RFD 1026 gives per model,
+  Two numbers decide the tier: the weights RFD66606-1026 gives per model,
   and the activation peak, which depends on the resolution and the
   batch size.
 
   Every model in the catalog reaches a 24 GB card. The workspace
   standardizes on **QAFT 4-bit** as the default weights format where
   upstream ships one (Gemma-4-12B QAT Q4_0 is the canonical example
-  and reasoning core per RFD 2169). Models without a QAFT release run
+  and reasoning core per RFD66606-2169). Models without a QAFT release run
   at published precision (bf16) with staged loading. See `DETAILS.md`.
 
   Committed 2026-09-02: 24-GB tier and QAFT-first rule settled.
@@ -32,11 +32,11 @@ rfd 1027, "GPU tier per model", :committed do
 
   That question came from hardware this project does not have. CLAUDE.md
   now names the local desktop GPU as the only compute; each model runs
-  in its own container per RFD 1036, so two never compete for one
+  in its own container per RFD66606-1036, so two never compete for one
   device. The old finding was an artifact.
   :: related
-  RFD 1025 gives the arithmetic. RFD 1026 gives the memory per model.
-  RFD 1036 gives the packaging that sets the tier.
+  RFD66606-1025 gives the arithmetic. RFD66606-1026 gives the memory per model.
+  RFD66606-1036 gives the packaging that sets the tier.
   """
 
   details_title "GPU tier per model"
@@ -57,7 +57,7 @@ rfd 1027, "GPU tier per model", :committed do
   | OmniGen2                         |  bf16  |   ~4 GB |   ~4 GB | 24 GB |
 
   *Wan-VACE at bf16 exceeds 24 GB total; runs staged (encoder/UNet/decoder freed in turn) with
-  peak ~8 GB. No QAFT release upstream (RFD 2139 survey).
+  peak ~8 GB. No QAFT release upstream (RFD66606-2139 survey).
 
   ### 3D + rigging
 
@@ -70,7 +70,7 @@ rfd 1027, "GPU tier per model", :committed do
   | SkinTokens (auto rig)            |  bf16  |  1.0 GB |  1.0 GB | 24 GB |
   | Kimodo (text -> motion)          |  bf16  |  0.6 GB |  0.6 GB | 24 GB |
 
-  VoxHammer's 0.0 GB row is per RFD 1162, it holds no weights and
+  VoxHammer's 0.0 GB row is per RFD66606-1162, it holds no weights and
   inherits placement.
 
   ### Vision heads
@@ -86,11 +86,11 @@ rfd 1027, "GPU tier per model", :committed do
   | ------------------------------ | :----: | ------: | ------: | ----- |
   | Qwen3-TTS-12Hz-1.7B-Base       |  bf16  |  ~3.4 GB| ~3.4 GB | 24 GB |
 
-  ### ASR panel VRAM (panel definition per RFD 1102 catalog)
+  ### ASR panel VRAM (panel definition per RFD66606-1102 catalog)
 
-  Rows carry per-track VRAM only; the panel roster is RFD 1102's job.
-  The panel narrowed from twelve tracks per RFD 2179 (Whisper drop),
-  RFD 2180 (gemma-auto drop), RFD 2181 (allosaurus-rus drop);
+  Rows carry per-track VRAM only; the panel roster is RFD66606-1102's job.
+  The panel narrowed from twelve tracks per RFD66606-2179 (Whisper drop),
+  RFD66606-2180 (gemma-auto drop), RFD66606-2181 (allosaurus-rus drop);
   Whisper, ipa-whisper and allosaurus-rus rows are gone with them.
 
   | Model                          | Format | Weights | Peak    | Tier  |
@@ -102,21 +102,21 @@ rfd 1027, "GPU tier per model", :committed do
   | allosaurus (universal + eng)   |  bf16  |  ~0.1 GB| ~0.1 GB | 24 GB |
 
   Panel runs in one container that loads/frees each track in turn per
-  RFD 1036's staging rule; peak is the largest single track (~6 GB).
+  RFD66606-1036's staging rule; peak is the largest single track (~6 GB).
 
   Removed rows relative to the earlier draft: `qwen_q4_k_m_image_edit`
   (Qwen-Image-Edit blocklisted); `krea2_turbo_text_to_image` (Krea 2
   blocklisted); `seethrough_layer_decomposition` (See-Through checkpoints
   blocklisted); `worldmirror2_reconstruct` + `triposplat_image_to_splat`
-  (RFDs 1051/1052 abandoned); `p3sam_mesh_segmentation` (P3-SAM
-  blocklisted, replaced by rf-detr-Seg per RFD 1168).
+  (RFD66606-1051/1052 abandoned); `p3sam_mesh_segmentation` (P3-SAM
+  blocklisted, replaced by rf-detr-Seg per RFD66606-1168).
 
   Every surviving model reaches a 24 GB card. Wan-VACE reaches it
   staged; every other model reaches it flat.
   :: details QAFT-first is the rule
   QAFT 4-bit (quantization-aware fine-tuning) is preferred where
   upstream ships one. Only Gemma ships true QAFT for the current stack;
-  Wan-VACE, Pixal3D, VoxHammer, MoGe-3 do not, per RFD 2139's 2026-09-01
+  Wan-VACE, Pixal3D, VoxHammer, MoGe-3 do not, per RFD66606-2139's 2026-09-01
   survey. Those run at published precision (bf16) with staged loading.
 
   CLAUDE.md's 2026-09-02 retraction of Condition 5 lifts the earlier
@@ -129,7 +129,7 @@ rfd 1027, "GPU tier per model", :committed do
   would need an 80 GB card.
 
   See-Through holds 9.82 GB and peaks at 5.13 GB, for the same reason.
-  RFD 1044 makes the load and the unload real actions, thus the peak is
+  RFD66606-1044 makes the load and the unload real actions, thus the peak is
   a planning result.
 
   A model image that loads every stage at once pays for a larger card every

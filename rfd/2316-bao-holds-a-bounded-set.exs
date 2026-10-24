@@ -25,10 +25,10 @@ the plugins built for it"
   dynamic secret, so an engine on the defaults grows with its traffic until a
   write fails.
   :: related
-  - RFD 2140, Bao on FDB.
-  - RFD 2147, Bao is critical infrastructure now.
-  - RFD 2200, ReBAC agent roles.
-  - RFD 2317, the first engine held to this rule.
+  - RFD66606-2140, Bao on FDB.
+  - RFD66606-2147, Bao is critical infrastructure now.
+  - RFD66606-2200, ReBAC agent roles.
+  - RFD66606-2317, the first engine held to this rule.
   """
 
   details_title "Bao holds a bounded set"

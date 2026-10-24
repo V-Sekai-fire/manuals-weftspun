@@ -34,7 +34,7 @@ rfd 1153, "Judging matte quality", :published do
   each image, so the judge was reading the photograph rather than the cutout, and a
   twin panel of cutout beside alpha returned exactly 8.00 for all eighteen.
   :: related
-  RFD 1152 selects the background remover this judges. RFD 1006 covers layer
+  RFD66606-1152 selects the background remover this judges. RFD66606-1006 covers layer
   decomposition.
   """
 
@@ -130,11 +130,11 @@ rfd 1153, "Judging matte quality", :published do
 
   Alpha error, SAD, MSE, gradient, connectivity against ground truth, is the
   field's instrument for that, and it settled the model choice unambiguously in a
-  single run where the judge needed 48 to reach a weak correlation. RFD 1152
+  single run where the judge needed 48 to reach a weak correlation. RFD66606-1152
   records that result.
   :: details What this does not establish
   **The between-backend ordering**, for the reasons above. Model selection was
-  settled separately, against ground truth: see RFD 1152.
+  settled separately, against ground truth: see RFD66606-1152.
   :: details No rationales
   Every fault carries `reasoning: "concise"`. The Apple-silicon backbone prefills
   the assistant turn as far as `{"reasoning": "concise", "score": [` so that only

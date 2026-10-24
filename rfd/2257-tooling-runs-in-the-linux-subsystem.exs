@@ -24,8 +24,8 @@ and the pixi environments the gates run in"
   Bao CLI existed on only one. Under NAT the subsystem had no IPv6,
   so it could not reach Bao's public tunnel address at all.
   :: related
-  - RFD 2255 (SSH tunnel to Bao), the path IPv6 opened.
-  - RFD 2016 (checking sccache), whose cross-shell driver this
+  - RFD66606-2255 (SSH tunnel to Bao), the path IPv6 opened.
+  - RFD66606-2016 (checking sccache), whose cross-shell driver this
     rule changes.
   """
 

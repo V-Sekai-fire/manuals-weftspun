@@ -4,13 +4,19 @@ use RFD.DSL
 
 rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   feature "documentation retraction"
-  scope "RFDs 2164, 2178, 1102, 1027; CITATION.cff;\n`emit_10track_panel.py`"
+  scope "RFD66606-2164, RFD66606-2178, RFD66606-1102, RFD66606-1027; CITATION.cff;
+`emit_10track_panel.py`"
 
   prose ~S"""
   :: decision
   Drop all three Whisper models (whisper-large-v3, ipa-whisper-small, ipa-whisper-base) from the ASR panel; the panel drops from 12 tracks to 9, and Whisper is not replaced.
   :: problem
-  RFD 2164 (Rung 1 corpus)'s 12-track panel carries whisper-large-v3, ipa-whisper-small, ipa-whisper-base. whisper-large-v3 dominates panel wall-time (several seconds each on MPS versus sub-second for Voxtral and Parakeet); the ipa-whisper variants share that latency, and the IPA slot is already served by Voxtral-IPA and Gemma-IPA. A 15-clip WER pass across the surviving text tracks (DETAILS.md) puts whisper-large-v3 at 0.339 mean, beating Parakeet (0.501) and wav2vec2 (0.571); Voxtral leads at 0.000. The reason to drop is latency, not accuracy.
+  RFD66606-2164 (Rung 1 corpus)'s 12-track panel carries whisper-large-v3, ipa-whisper-small,
+  ipa-whisper-base. whisper-large-v3 dominates panel wall-time (several seconds each on MPS versus
+  sub-second for Voxtral and Parakeet); the ipa-whisper variants share that latency, and the IPA
+  slot is already served by Voxtral-IPA and Gemma-IPA. A 15-clip WER pass across the surviving
+  text tracks (DETAILS.md) puts whisper-large-v3 at 0.339 mean, beating Parakeet (0.501) and
+  wav2vec2 (0.571); Voxtral leads at 0.000. The reason to drop is latency, not accuracy.
   :: section Panel after the drop
     text-track    Parakeet TDT 0.6B v3, Voxtral Mini 3B, wav2vec2,
                   Gemma-4-12B auto
@@ -21,7 +27,8 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
 
   Follow-ups: `emit_10track_panel.py` drops the whisper backends; downstream RFDs and CITATION.cff drop Whisper entries. Gemma-auto shipped empty transcripts on all 15 clips (WER 1.000); separate follow-up to fix or drop.
   :: related
-  Retracts three rows from RFD 2164 (Rung 1 corpus); amends RFD 2178 (QAFT stack plan), three Class B rungs go.
+  Retracts three rows from RFD66606-2164 (Rung 1 corpus); amends RFD66606-2178 (QAFT stack plan),
+  three Class B rungs go.
   """
 
   details_title "Drop all Whisper models from the ASR panel"
@@ -67,7 +74,7 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   accuracy. The operator's initial "bad accuracy" observation was
   partially wrong; Whisper's problem is speed.
 
-  **Parakeet is the workspace's stated CC-BY-4.0 canonical (RFD 2164)
+  **Parakeet is the workspace's stated CC-BY-4.0 canonical (RFD66606-2164)
   but sits at 0.501 mean WER**, worse than Whisper. Kept because the
   canonical-judge choice was made on license grounds, not accuracy
   alone; Voxtral is the accuracy-first alternate.

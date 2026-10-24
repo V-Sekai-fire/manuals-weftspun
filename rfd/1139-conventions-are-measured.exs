@@ -34,7 +34,7 @@ rfd 1139, "Scale, up, forward and handedness are measured", :discussion do
   same pixels, reports the same residual and passes the referee, because
   both measure reprojection.
   :: related
-  RFD 1134 records the fits these were written against. RFD 1137 encodes
+  RFD66606-1134 records the fits these were written against. RFD66606-1137 encodes
   the render order they guard.
   """
 end

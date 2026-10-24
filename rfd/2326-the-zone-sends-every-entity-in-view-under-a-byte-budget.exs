@@ -28,8 +28,8 @@ packet, at a rate set by a per-player byte budget rather than a fixed slice"
   from a bench with a 64-row cap and zstd that the zone does not have. A
   busy street puts thousands of people in view, and 64 rows cannot carry them.
   :: related
-  - RFD 2287, the first rung: the zone and transport this changes.
-  - RFD 2321, the autobattler as a zone: the first game on this path.
+  - RFD66606-2287, the first rung: the zone and transport this changes.
+  - RFD66606-2321, the autobattler as a zone: the first game on this path.
   """
 
   details_title "the budget, the five constants and their checks"

@@ -20,9 +20,11 @@ rfd 2300, "sinew-sim rung ladder", :discussion do
   Transformer) render and mean per-joint position error (MPJPE) runs these rungs
   cite.
   :: related
-  - RFD 2203, the ANNY-SOMA corpus; RFD 2190, the rig extrinsics; RFD 2191, the solver residual.
-  - RFD 2189, the stick-figure sanity check; RFD 2192, the keypoint-weights licence check.
-  - RFD 1143, keypoints to ANNY; RFD 1045, Kimodo text-to-motion.
+  - RFD66606-2203, the ANNY-SOMA corpus; RFD66606-2190, the rig extrinsics; RFD66606-2191, the
+    solver residual.
+  - RFD66606-2189, the stick-figure sanity check; RFD66606-2192, the keypoint-weights licence
+    check.
+  - RFD66606-1143, keypoints to ANNY; RFD66606-1045, Kimodo text-to-motion.
   """
 
   details_title "sinew-sim rung ladder"

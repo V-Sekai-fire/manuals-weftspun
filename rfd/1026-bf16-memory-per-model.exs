@@ -8,10 +8,10 @@ rfd 1026, "bf16 memory per model", :published do
 
   prose ~S"""
   :: decision
-  Apply the rule from RFD 1025 to each catalog model. Treat the
+  Apply the rule from RFD66606-1025 to each catalog model. Treat the
   estimated rows as an upper bound for planning.
 
-  RFD 1027 permits two formats. bf16 holds one parameter in 2 bytes, and
+  RFD66606-1027 permits two formats. bf16 holds one parameter in 2 bytes, and
   Q4_K_M holds one in about 0.55 bytes. `DETAILS.md` gives both, per
   model.
 
@@ -28,8 +28,8 @@ rfd 1026, "bf16 memory per model", :published do
   The backend must decide which models stay resident. That decision
   needs a number per model.
   :: related
-  RFD 1025 gives the arithmetic. RFD 1027 gives the totals and the
-  consequence. RFD 1030 breaks down the See-Through row.
+  RFD66606-1025 gives the arithmetic. RFD66606-1027 gives the totals and the
+  consequence. RFD66606-1030 breaks down the See-Through row.
   """
 
   details_title "bf16 memory per model"
@@ -57,7 +57,7 @@ rfd 1026, "bf16 memory per model", :published do
   VoxHammer carries no weights of its own. It edits with the TRELLIS.2
   backbone, thus its cost is the TRELLIS.2 cost.
   `weftspun_image_to_world` runs TripoSplat and then TRELLIS.2. Its cost
-  is the sum of those two. RFD 1033 covers the geometric algorithms,
+  is the sum of those two. RFD66606-1033 covers the geometric algorithms,
   which hold no weights at all.
 
   The blocklisted Hunyuan models add 9.2 GB. The shape model holds

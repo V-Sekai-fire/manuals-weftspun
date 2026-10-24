@@ -30,7 +30,7 @@ rfd 1145, "The stylized-to-OmniGen2 loop", :published do
   comes from, and that is a licensing question before it is a technical
   one.
   :: related
-  RFD 1143, RFD 1144 and RFD 1146 are the other three loops. RFD 1122 is
+  RFD66606-1143, RFD66606-1144 and RFD66606-1146 are the other three loops. RFD66606-1122 is
   the goal that the four serve.
   """
 end

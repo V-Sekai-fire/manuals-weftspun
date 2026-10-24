@@ -1,5 +1,5 @@
 # Q4_K_M only. Never add a bf16 variant: that build needs 54.0 GB,
-# and RFD 1043 records why it must not exist.
+# and RFD66606-1043 records why it must not exist.
 build:
   gpu: true
   cuda: "12.4"

@@ -21,11 +21,11 @@ loader path, memory `consolidate-interchangeable-parts`"
 
   `DETAILS.md` carries the full text of this RFD.
   :: related
-  - RFD 2188 (one ggml across workspace), the reference
+  - RFD66606-2188 (one ggml across workspace), the reference
     consolidation this RFD generalises.
-  - RFD 2210 (L3 atelier shipping surface), the arc that
+  - RFD66606-2210 (L3 atelier shipping surface), the arc that
     produced the directive.
-  - RFD 2211 (base tree entities-godot-sandbox), picked the tree
+  - RFD66606-2211 (base tree entities-godot-sandbox), picked the tree
     the trim in `weftspun-keypoint#101` acted on.
   - Memory `consolidate-interchangeable-parts`, the operator
     directive + how-to-apply, kept as the working memory next to
@@ -65,7 +65,7 @@ loader path, memory `consolidate-interchangeable-parts`"
 
   Two mechanisms already carry the rule for specific interfaces:
 
-  - &{repo("ggml")} (RFD 2188) as the single ggml source every
+  - &{repo("ggml")} (RFD66606-2188) as the single ggml source every
     consumer links.
   - &{repo("manuals-weftspun")} (this repo) as the single
     workspace-doctrine mount, reached from `weftspun-keypoint` via
@@ -80,7 +80,7 @@ loader path, memory `consolidate-interchangeable-parts`"
       3-interactor/ggml-seethrough        remote=weftspun  rev=3404c951
       2-contract/ggml                     remote=weftspun  rev=weftspun-consolidated
 
-  **RFD 2188 named &{repo("ggml")} as the single ggml source
+  **RFD66606-2188 named &{repo("ggml")} as the single ggml source
   workspace-wide.** The manifest still ships three checkouts. Two
   of them (`trellis2cpp/ggml`, `ggml-seethrough`) are consumers
   still pinned to their own ggml revisions rather than reading
@@ -106,15 +106,15 @@ loader path, memory `consolidate-interchangeable-parts`"
 
   Three ggml-graph-in-C++ shapes with three separate build
   systems. All target the same interface: a C API that Godot's
-  `modules/motionbricks/` (RFD 2212) wraps for scene-graph access.
+  `modules/motionbricks/` (RFD66606-2212) wraps for scene-graph access.
   Consolidation candidate: one `ggml-godot-module-kit` that all
   three link, replacing three per-project CMake `if(NATIVE_WEBGPU)`
   branches with one shared fragment.
 
   Not urgent; the three projects are early enough that their build
-  systems haven't diverged much. RFD 2188 shared source + a small
+  systems haven't diverged much. RFD66606-2188 shared source + a small
   build-fragment consolidation covers most of it. Concrete work is
-  a follow-up L2 once RFD 2212's `modules/motionbricks` lands.
+  a follow-up L2 once RFD66606-2212's `modules/motionbricks` lands.
 
   ### Manifests-of-manifests
 
@@ -130,7 +130,7 @@ loader path, memory `consolidate-interchangeable-parts`"
      parallel part. Add a section to `check_rfd_structure.py`
      requiring an "Alternatives considered" or "Substitutes for"
      paragraph when the RFD's frontmatter is tagged as adding a
-     module/fork/bundle-format. Draft in a follow-up PR; RFD 1000
+     module/fork/bundle-format. Draft in a follow-up PR; RFD66606-1000
      carries the structure list this gate reads from.
   2. **Manifest-scan gate.** `scripts/check_manifest_dupes.py`
      (new) reads the live goal manifest, groups by name/path/
@@ -140,11 +140,11 @@ loader path, memory `consolidate-interchangeable-parts`"
      the two-manifest state that exists during a manifest cutover
     , the gate reports both, doesn't fail on the presence.
   :: details Related
-  - RFD 2188 (one ggml across workspace), the reference
+  - RFD66606-2188 (one ggml across workspace), the reference
     consolidation this RFD generalises.
-  - RFD 2210 (L3 atelier shipping surface), the arc that
+  - RFD66606-2210 (L3 atelier shipping surface), the arc that
     produced the directive.
-  - RFD 2211 (base tree entities-godot-sandbox), picked the tree
+  - RFD66606-2211 (base tree entities-godot-sandbox), picked the tree
     the trim in `weftspun-keypoint#101` acted on.
   - Memory `consolidate-interchangeable-parts`, the operator
     directive + how-to-apply, kept as the working memory next to

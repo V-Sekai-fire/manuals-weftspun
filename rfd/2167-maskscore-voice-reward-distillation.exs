@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2167, "Voice-clone reward-model distillation", :discussion do
   feature "distill the wavlm_cos + voxtral_wer scoring signal from
-RFD 2164.3 into a fast reward model usable in RL fine-tuning of voice
+RFD66606-2164.3 into a fast reward model usable in RL fine-tuning of voice
 models. Parallels EditScore for image edits."
   scope "`6-datasource/anny-render-corpus`"
 
@@ -17,7 +17,7 @@ models. Parallels EditScore for image edits."
   raw audio, then freeze it as the reward signal for RL fine-tuning.
 
     base       Gemma-4-12B QAT Q4_0 (Apache-2.0, already local)
-    training   pairwise ranking on 150 rank pairs from RFD 2164
+    training   pairwise ranking on 150 rank pairs from RFD66606-2164
     input      (reference_audio, target_text, candidate_audio)
     output     scalar reward; ~50 ms per pair on MPS
     loss       Bradley-Terry on the 10-rank ladders
@@ -25,7 +25,7 @@ models. Parallels EditScore for image edits."
   Same Gemma serves image + voice reward roles (subsumes the parked
   Qwen3-VL -> Gemma swap).
   :: problem
-  The 10-rank voice-clone ladder from RFD 2164.2 has a real gradient
+  The 10-rank voice-clone ladder from RFD66606-2164.2 has a real gradient
   (measured: identity 0.92 -> pitch-shift 0.70 -> wrong subject 0.75 on
   wavlm_cos; canonical 0.07 WER -> wrong text 1.94), but the scoring
   path is too slow to serve as an RL reward. Voxtral inference takes

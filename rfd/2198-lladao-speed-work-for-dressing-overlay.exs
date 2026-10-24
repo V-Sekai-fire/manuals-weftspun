@@ -10,7 +10,7 @@ inference-time dressing overlay generator"
 
   prose ~S"""
   :: decision
-  LLaDA-o becomes a candidate primary generator for RFD 2186's dressing
+  LLaDA-o becomes a candidate primary generator for RFD66606-2186's dressing
   overlay, contingent on shipping-viable speed. Current bf16 sharded on
   two GPUs is a measurement substrate: ~1000 s per edit vs OmniGen2's
   ~72 s. Three levers, ordered by session-cost per expected impact:
@@ -31,7 +31,7 @@ inference-time dressing overlay generator"
   not close the gap (`logbook-lumina2-distill-n1000-shelved`). The
   obstacle to LLaDA-o is speed, not quality; this RFD scopes closing it.
   :: related
-  RFD 2186, RFD 2183, RFD 1170 (LLaDA-o stays shelved there: different
+  RFD66606-2186, RFD66606-2183, RFD66606-1170 (LLaDA-o stays shelved there: different
   target). Memory `[[llada-diffusion-lm-shelved]]`. Logbook
   `logbook-lladao-n1-quality-beats-omnigen2.md`.
   """

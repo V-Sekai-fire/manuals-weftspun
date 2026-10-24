@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: MIT
 #
 # See-Through layer decomposition, as a RECTGTN HTN domain.
-# RFD 1044 records why this pipeline is a domain and not a script.
+# RFD66606-1044 records why this pipeline is a domain and not a script.
 #
-# Nine networks. RFD 1030 lists them with their memory. The guards
+# Nine networks. RFD66606-1030 lists them with their memory. The guards
 # below state the order, thus a reader sees what waits on what.
 #
 # a_load and a_unload are real actions on purpose. The peak memory is
@@ -44,7 +44,7 @@ defmodule SeethroughLayerDecomposition do
         psd: ""
       }
     },
-    # Which component is resident. RFD 1027 caps the total.
+    # Which component is resident. RFD66606-1027 caps the total.
     loaded: %{
       type: :bool,
       init: %{

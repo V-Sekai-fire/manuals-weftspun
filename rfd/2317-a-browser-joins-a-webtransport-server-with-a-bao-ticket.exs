@@ -26,10 +26,10 @@ Bao identity and PKI mount the server uses"
   credential that is short-lived, tied to that browser, and issued by Bao
   without growing Bao's storage.
   :: related
-  - RFD 2316, Bao holds a bounded set.
-  - RFD 2256, WebTransport inside a sandbox guest, the QUIC stack.
-  - RFD 2200, ReBAC agent roles.
-  - RFD 2142, zero-trust service TLS via OpenBao PKI.
+  - RFD66606-2316, Bao holds a bounded set.
+  - RFD66606-2256, WebTransport inside a sandbox guest, the QUIC stack.
+  - RFD66606-2200, ReBAC agent roles.
+  - RFD66606-2142, zero-trust service TLS via OpenBao PKI.
   """
 
   details_title "a browser joins a WebTransport server with a Bao ticket"
@@ -66,7 +66,7 @@ Bao identity and PKI mount the server uses"
     user's profile, and its own Bao login, whose policy reaches only
     `wt/ticket` and `wt/keys`. It cannot sign a ticket.
   - The engine: the signing key, which never leaves Bao storage, and the
-    tuples. Per RFD 2316 it stores one key entry, its configuration and the
+    tuples. Per RFD66606-2316 it stores one key entry, its configuration and the
     tuples the operator writes, and nothing per ticket.
   - The network: nothing. The server's certificate is pinned by hash; the
     hash is served over the Fly app's HTTPS.
@@ -81,7 +81,7 @@ Bao identity and PKI mount the server uses"
     a key not in `wt/keys` are refused;
   - a valid ticket with a proof from another key is refused;
   - a signed-in user with no tuple gets no ticket;
-  - the RFD 2316 growth gate on 1,000 tickets, with its storing control;
+  - the RFD66606-2316 growth gate on 1,000 tickets, with its storing control;
   - the page connects only when the pinned hash matches, and a page pinned
     to another hash fails to connect.
   :: details Steps that need the operator

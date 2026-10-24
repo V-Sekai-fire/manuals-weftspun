@@ -11,27 +11,27 @@ rfd 2241,
 
   prose ~S"""
   :: decision
-  Three of nine camera positions from one trial, visual only, read by byte range
-  rather than downloaded. Keypoints from the validated RF-DETR head, per-frame
-  metric geometry from MoGe-3. Both halves of the label are inferred, so the
-  corpus is generated synthetic under the four conditions the agreements set.
-  The fourth cannot be met by holding out subjects, because a held-out MoGe
-  label is still a MoGe label, so **the evaluation arm is constructed**: ANNY
-  bodies rendered through the existing pipeline. Parked 2026-09-08.
+  Three of nine camera positions from one trial, visual only, read by byte range rather than
+  downloaded. Keypoints from the validated RF-DETR head, per-frame metric geometry from MoGe-3.
+  Both halves of the label are inferred, so the corpus is generated synthetic under the four
+  conditions the agreements set. The fourth cannot be met by holding out subjects, because a
+  held-out MoGe label is still a MoGe label, so **the evaluation arm is constructed**: ANNY bodies
+  rendered through the existing pipeline. Parked 2026-09-08.
   :: problem
-  Operator, 2026-09-08: "can you do the cineform audio leg. I want to train
-  audio and video leg with detr keypoint and audio-pose, but I can't pay for
-  both this and the fbd trait work."
+  Operator, 2026-09-08: "can you do the cineform audio leg. I want to train audio and video leg
+  with detr keypoint and audio-pose, but I can't pay for both this and the fbd trait work."
 
-  So the leg had to fit beside the FBD trait work rather than compete with it,
-  and answer for labels no human checked. An earlier draft triangulated across
-  calibrated views; that was wrong, and the retraction is kept.
+  So the leg had to fit beside the FBD trait work rather than compete with it, and answer for
+  labels no human checked. An earlier draft triangulated across calibrated views; that was wrong,
+  and the retraction is kept.
   :: references
   - `IS2AI/SpeakingFaces`, CC BY 4.0 with MIT code, DOI 10.3390/s21103465, Hub revision `eb2f8226`
-  - RF-DETR's keypoint head, Apache-2.0 in the Nano family; the object-detection head stays blocklisted
-  - MoGe-3, placed at &{repo("MoGe")} and pinned at &{pin("MoGe")}; RFD 1123 for CineForm
+  - RF-DETR's keypoint head, Apache-2.0 in the Nano family; the object-detection head stays
+    blocklisted
+  - MoGe-3, placed at &{repo("MoGe")} and pinned at &{pin("MoGe")}; RFD66606-1123 for CineForm
   :: related
-  - RFD 2239 records the identity drop and this park; RFD 2234 the renderer the constructed arm reuses.
+  - RFD66606-2239 records the identity drop and this park; RFD66606-2234 the renderer the
+    constructed arm reuses.
   """
 
   details_title "The audio and video leg: keypoints and monocular geometry over a speech corpus, evaluated on constructed bodies"

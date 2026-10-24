@@ -8,10 +8,10 @@ rfd 1025, "Model memory arithmetic", :published do
 
   prose ~S"""
   :: decision
-  Compute the memory from the parameter count. RFD 1026 records the
+  Compute the memory from the parameter count. RFD66606-1026 records the
   result per model.
   :: problem
-  RFD 1016 says what each model is. It does not say what each model
+  RFD66606-1016 says what each model is. It does not say what each model
   costs. A reader cannot size a machine from the inventory alone.
   :: section The rule
   bf16 holds one parameter in 2 bytes. The weight bytes are therefore
@@ -28,8 +28,8 @@ rfd 1025, "Model memory arithmetic", :published do
   See `DETAILS.md` for the three costs that come after the weights,
   and the safe rule for one resident model.
   :: related
-  RFD 1016 lists the models. RFD 1026 applies this rule to each one.
-  RFD 1034 checks the rule against a measured model.
+  RFD66606-1016 lists the models. RFD66606-1026 applies this rule to each one.
+  RFD66606-1034 checks the rule against a measured model.
   """
 
   details_title "Model memory arithmetic"

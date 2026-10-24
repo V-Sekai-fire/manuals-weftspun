@@ -35,7 +35,7 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   'drjit'`, because it called the `anny` environment for a renderer that
   only the default environment carries. The notebook cannot show that.
   :: related
-  RFD 1134 tests these notebooks in the browser, which is how the missing
+  RFD66606-1134 tests these notebooks in the browser, which is how the missing
   renderer was found.
   """
 end

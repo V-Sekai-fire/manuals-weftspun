@@ -29,7 +29,7 @@ rfd 2325, "second-hand garments for the avatar", :discussion do
   - Luo et al., EditScore (doi 10.48550/arXiv.2509.23909)
   - Korosteleva et al., GarmentCodeData v2 (doi 10.3929/ethz-b-000690432), CC-BY-4.0
   :: related
-  - RFD 2309 (frontier learning, Alyx planner): levels and regret.
+  - RFD66606-2309 (frontier learning, Alyx planner): levels and regret.
   """
 
   details_title "second-hand garments for the avatar"

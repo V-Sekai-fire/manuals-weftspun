@@ -86,7 +86,7 @@ a run still going, and reporting it as the peak was wrong.
     to use Quantization-Aware Fine-Tuning with lower batch size.
 
 Quantization-aware fine-tuning is training: four epochs of gradient
-steps over the calibration set, which is why RFD 1164 says a
+steps over the calibration set, which is why RFD66606-1164 says a
 calibration set is training data. It exhausted the 3090's 24 GiB at
 the default batch after about thirty minutes of epoch 1 of 4.
 
@@ -103,7 +103,7 @@ not a cheaper one.
 
 ## The rented card
 
-RunPod, REST at `rest.runpod.io/v1`, per RFD 1140. Requested 48 GiB;
+RunPod, REST at `rest.runpod.io/v1`, per RFD66606-1140. Requested 48 GiB;
 received an A40 with 46068 MiB, 503 GB of system memory and 96 vCPU,
 at 0.44 US dollars an hour. Ubuntu 22.04, Python 3.10.12, which
 matches the container's own pair.

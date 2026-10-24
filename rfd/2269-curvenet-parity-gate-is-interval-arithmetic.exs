@@ -21,7 +21,7 @@ Lean-authored curvenet kernel meets"
   driver agrees. Byte-identical output across drivers is not the contract, because
   it cannot be met. Detail is in DETAILS.md.
   :: problem
-  RFD 2265 assumed the gate could require byte-identical output from the CPU
+  RFD66606-2265 assumed the gate could require byte-identical output from the CPU
   oracle and the GPU kernel. It cannot. Byte-exactness across implementations
   holds only for a fixed pair of a compiler and a driver, and no single driver
   matches the CPU emit for every kernel. The `sqrt`-bearing kernels diverge on
@@ -30,10 +30,11 @@ Lean-authored curvenet kernel meets"
   into a fused one against the shader's own no-contraction request. A gate keyed
   to one driver's bits certifies that driver, not the port.
   :: related
-  - RFD 2265 (curvenet on compute-rd) states the gate as byte-parity; this RFD
+  - RFD66606-2265 (curvenet on compute-rd) states the gate as byte-parity; this RFD
     replaces that premise. The staging, the dispatch shape and the canonical
     ordering it describes are unchanged.
-  - RFD 2263 (the first testable release's simulator gate) is the loop the port keeps at 90Hz.
+  - RFD66606-2263 (the first testable release's simulator gate) is the loop the port keeps at
+    90Hz.
   """
 
   details_title "The curvenet parity gate is interval arithmetic"

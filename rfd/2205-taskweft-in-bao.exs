@@ -20,17 +20,17 @@ the browser-side WASM parity target"
 
   `DETAILS.md` carries the full text of this RFD.
   :: problem
-  RFD 2204 named the fleet-coordination shape; the plan-mode session
+  RFD66606-2204 named the fleet-coordination shape; the plan-mode session
   of 2026-09-05 iterated three approaches before landing here. Two
   earlier shapes are retracted, deliberately, retraction pointers
   below.
   :: related
-  - RFD 2204 (RECTGTN fleet coordination), the domain document
+  - RFD66606-2204 (RECTGTN fleet coordination), the domain document
     shape the plugin queries. This RFD supersedes its "coordinator
     adapter" section with a one-line pointer, per CLAUDE.md doctrine.
-  - RFD 2140 (OpenBao on FoundationDB), the storage backend the
+  - RFD66606-2140 (OpenBao on FoundationDB), the storage backend the
     plugin's SQLite fixture sits on top of.
-  - RFD 2142 (Bao PKI zerotrust), the cert-auth path peers use.
+  - RFD66606-2142 (Bao PKI zerotrust), the cert-auth path peers use.
   (continues in `DETAILS.md`)
   """
 
@@ -126,7 +126,7 @@ the browser-side WASM parity target"
   the request's authenticated identity. A caller whose group lacks
   the capability gets `403` from Bao and the cgo hop never runs.
   "Documentary → enforced" in one plugin, the compute-lease broker
-  RFD 2202 named as future work.
+  RFD66606-2202 named as future work.
   :: details Storage: SQLite, not KV
   The git-tracked file
   `rectgtn/fleet.jsonld` in &{repo("manuals-weftspun")} remains the
@@ -179,7 +179,7 @@ the browser-side WASM parity target"
   The browser demo already shipping in
   `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} (`sql-wasm.js` + Range-fetch
   `persona.sqlite`) loads `taskweft.wasm` alongside and calls
-  `plan(domainJson, skipJson)` on it. See RFD 2204's Starforged demo
+  `plan(domainJson, skipJson)` on it. See RFD66606-2204's Starforged demo
   section for the game-loop shape.
 
   Parity is a hard verification target, same domain + same skip
@@ -250,7 +250,7 @@ the browser-side WASM parity target"
   - **WASM / plugin parity**: same domain + same skip state → same
     plan JSON in both hosts, byte-for-byte. Recorded as a fixture
     under `test/parity/` that both harnesses read.
-  - **Blast-radius awareness** (RFD 2147): a plugin crash restarts
+  - **Blast-radius awareness** (RFD66606-2147): a plugin crash restarts
     the subprocess without taking Bao down (Bao's plugin process
     model); a planner-domain load failure returns `500` from `creds`
     reads, and the peer falls back to the pre-plugin ad-hoc
@@ -268,7 +268,7 @@ the browser-side WASM parity target"
     stable across the swap; callers see no change. Trigger: when the
     plugin's cgo hop shows up as a hot path in tracing, or when the
     Bao container's clang dependency becomes a supply-chain concern.
-  - **Starforged domain** (RFD 2204 test-vector corpus), a second
+  - **Starforged domain** (RFD66606-2204 test-vector corpus), a second
     domain loaded into the same plugin, exercising deeper method
     alternatives and stochastic move outcomes. Drives the VRM demo's
     decision-point control surface.
@@ -291,7 +291,7 @@ the browser-side WASM parity target"
      `expires_at`, so global time for durations is satisfied by
      construction. `may-use--<device>` ReBAC tuples become ENFORCED
      at read-time via Bao's own capability check (fills the compute-
-     lease broker gap RFD 2202 named as future work).
+     lease broker gap RFD66606-2202 named as future work).
   2. **CDN + WASM**, emcc-built `taskweft.wasm` loaded from GitHub
      Pages, reading a static `fleet.sqlite` via HTTP `Range: bytes=0-`
      the same way `service-sqlar-cas/docs/`'s persona demo already
@@ -304,7 +304,7 @@ the browser-side WASM parity target"
   `secret/taskweft/db/fleet` after CI's mirror step. **One file, two
   hosts, one planner.**
   :: details Problem
-  RFD 2204 named the fleet-coordination shape; the plan-mode session
+  RFD66606-2204 named the fleet-coordination shape; the plan-mode session
   of 2026-09-05 iterated three approaches before landing here. Two
   earlier shapes are retracted, deliberately, retraction pointers
   below.
@@ -328,27 +328,27 @@ the browser-side WASM parity target"
   - **`router.ex` mTLS auth extension:** retracted with the bridge.
     Nothing calls MCP any more.
   :: details Non-goals
-  Not a pure-Go port of the planner (RFD 2006 sized it at ~7000 LOC
+  Not a pure-Go port of the planner (RFD66606-2006 sized it at ~7000 LOC
   and 8–12 weeks; cgo is 3–5 days). Not a rewrite of the RECTGTN
   schema. Not a scheduler; not a hook. The plugin does not extend
   Bao's storage surface, plan and skip state live in a SQLite blob
   served by the sibling sqlite-fdb secrets engine, not in KV rows
   under a separate mount.
   :: details Related
-  - RFD 2204 (RECTGTN fleet coordination), the domain document
+  - RFD66606-2204 (RECTGTN fleet coordination), the domain document
     shape the plugin queries. This RFD supersedes its "coordinator
     adapter" section with a one-line pointer, per CLAUDE.md doctrine.
-  - RFD 2140 (OpenBao on FoundationDB), the storage backend the
+  - RFD66606-2140 (OpenBao on FoundationDB), the storage backend the
     plugin's SQLite fixture sits on top of.
-  - RFD 2142 (Bao PKI zerotrust), the cert-auth path peers use.
-  - RFD 2146 (Bao is the secret store), the policy discipline any
+  - RFD66606-2142 (Bao PKI zerotrust), the cert-auth path peers use.
+  - RFD66606-2146 (Bao is the secret store), the policy discipline any
     new mount inherits.
-  - RFD 2147 (Bao is critical infrastructure), the blast-radius bar
+  - RFD66606-2147 (Bao is critical infrastructure), the blast-radius bar
     a new plugin must meet.
-  - RFD 2195 (weftspun-bao Tailscale sidecar), the deploy shape
+  - RFD66606-2195 (weftspun-bao Tailscale sidecar), the deploy shape
     this plugin ships alongside.
-  - RFD 2202 (ReBAC Bao enforcement), this RFD fills the
-    compute-lease broker gap RFD 2202 named as future work.
+  - RFD66606-2202 (ReBAC Bao enforcement), this RFD fills the
+    compute-lease broker gap RFD66606-2202 named as future work.
   - Sibling plugin scaffold: &{repo("service-bao-sqlite-fdb")},
     the layout the new plugin copies verbatim.
   """

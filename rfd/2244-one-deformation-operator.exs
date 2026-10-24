@@ -20,7 +20,7 @@ rfd 2244, "One deformation operator over corners, not one stage per category", :
   applied: the pipeline asks *which corners, which drivers*, not *what kind of
   thing is this*.
   :: problem
-  RFD 2186 and RFD 2187 describe the same machine twice: same base mesh, same
+  RFD66606-2186 and RFD66606-2187 describe the same machine twice: same base mesh, same
   training pattern, disjoint slices of one taxonomy, each citing the other as
   "parallel". Their only stated difference is update rate, which belongs to the
   caller and not the operator. Two stages built on it duplicate the schema, the
@@ -64,7 +64,7 @@ rfd 2244, "One deformation operator over corners, not one stage per category", :
   once. The cost is that the schema must carry a corner set and a driver set
   explicitly, where two special-cased stages could leave them implicit.
   :: details What this does not decide
-  It does not decide which generator produces the targets. RFD 2186 and RFD 2187
+  It does not decide which generator produces the targets. RFD66606-2186 and RFD66606-2187
   both named one; this RFD deliberately does not, because the operator is
   indifferent to where a blendshape basis came from and the generator question has
   its own measurements pending.
@@ -106,11 +106,11 @@ rfd 2244, "One deformation operator over corners, not one stage per category", :
   partition between the two operators has to be drawn before either ships.
   """
 
-  references ["RFD 1083", "RFD 2186", "RFD 2187"]
+  references ["RFD66606-1083", "RFD66606-2186", "RFD66606-2187"]
 
   related ~S"""
-  Supersedes RFD 2186 and RFD 2187, both retracted to this RFD. RFD 1083 is the
-  export surface; RFD 2183 consumes what this produces; RFD 2184 applies once
+  Supersedes RFD66606-2186 and RFD66606-2187, both retracted to this RFD. RFD66606-1083 is the
+  export surface; RFD66606-2183 consumes what this produces; RFD66606-2184 applies once
   rather than twice. `DETAILS.md` carries the argument.
   """
 end

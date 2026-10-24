@@ -3,7 +3,7 @@
 Session of 2026-09-05. The plan-mode file at
 `~/.claude/plans/quirky-dazzling-ripple.md` opened with one
 approach for the peer-coordination surface and walked through
-four redirects before landing on the shape RFD 2205 codified.
+four redirects before landing on the shape RFD66606-2205 codified.
 Recorded here because the retractions are institutional memory
 CLAUDE.md's "retractions stay next to what they retract" rule
 tells us to preserve.
@@ -15,7 +15,7 @@ tells us to preserve.
 | 1 | `coordinator.ex` Elixir adapter, standalone, reads Bao and calls `Taskweft.plan` out-of-process | no answer for global time across peer clocks; no ReBAC enforcement path |
 | 2 | in-Bao Taskweft engine (Bao plugin fronting Taskweft) | operator picked the type — database plugin, not secrets — for the native lease lifecycle |
 | 3 | thin HTTPS bridge to `taskweft-mcp.fly.dev` | operator: "low dependency and only requires REST commands and can be lifted to work in a github cdn with range queries and sqlite" |
-| 4 | cgo-linked C++ embedded in the plugin | shipped as RFD 2205 |
+| 4 | cgo-linked C++ embedded in the plugin | shipped as RFD66606-2205 |
 | 5 | (same) — database plugin type declaration confirmed | shipped |
 
 ## What survived
@@ -31,9 +31,9 @@ tells us to preserve.
 ## What got retracted (with pointers)
 
 - **`coordinator.ex` Elixir adapter as primary:** retracted
-  2026-09-05, see RFD 2205. Pointer left on RFD 2204's README.
+  2026-09-05, see RFD66606-2205. Pointer left on RFD66606-2204's README.
 - **thin HTTPS bridge to `taskweft-mcp.fly.dev`:** retracted
-  2026-09-05, superseded by cgo-linked C++ in RFD 2205.
+  2026-09-05, superseded by cgo-linked C++ in RFD66606-2205.
 - **`router.ex` mTLS auth extension:** retracted with the
   bridge — nothing calls MCP any more.
 - **`SqlarCas.Caveat` wrapping on assignment rows:** retracted
@@ -45,7 +45,7 @@ tells us to preserve.
 
 Every retraction leaves a one-line pointer at its former section,
 per CLAUDE.md's "How Retracted RFD Topics Are Deleted" doctrine.
-The bodies moved to logbook + RFD 2205's Retractions section
+The bodies moved to logbook + RFD66606-2205's Retractions section
 rather than staying in place — RFDs record decisions, and a
 retracted decision that keeps sitting in the RFD reads as current
 to a fresh reader.
@@ -62,7 +62,7 @@ walks the same road again.
 
 ## Related
 
-- RFD 2204 (RECTGTN fleet coordination) — the fleet-domain
+- RFD66606-2204 (RECTGTN fleet coordination) — the fleet-domain
   scope that survived.
-- RFD 2205 (Taskweft in Bao) — the plugin scope that landed.
-- RFD 2202 (ReBAC Bao enforcement) — the gap this design closed.
+- RFD66606-2205 (Taskweft in Bao) — the plugin scope that landed.
+- RFD66606-2202 (ReBAC Bao enforcement) — the gap this design closed.

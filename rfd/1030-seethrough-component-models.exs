@@ -15,7 +15,7 @@ rfd 1030, "See-Through component models", :published do
   bf16 is the ceiling while GGUF is the floor.
 
   **WITHDRAWN 2026-08-29 as a deployment plan, kept as a component map.**
-  RFD 1166 dropped See-Through from the candidate ranking on licensing:
+  RFD66606-1166 dropped See-Through from the candidate ranking on licensing:
   the checkpoints named below state no licence, and the depth component
   derives from an OpenRAIL++-M model. The table remains accurate about
   what the project is made of and is no longer a plan to run it.
@@ -23,8 +23,8 @@ rfd 1030, "See-Through component models", :published do
   The `seethrough_layer_decomposition` entry names one task. The task
   runs nine models. One catalog row hides that fact.
   :: related
-  RFD 1006 records the layer decomposition design. RFD 1019 selects the
-  same ggml runtime for the Elixir core. RFD 1026 carries the single
+  RFD66606-1006 records the layer decomposition design. RFD66606-1019 selects the
+  same ggml runtime for the Elixir core. RFD66606-1026 carries the single
   catalog row that this RFD breaks down.
   """
 
@@ -45,8 +45,8 @@ rfd 1030, "See-Through component models", :published do
   | lama           | LaMa                | Inpaints hidden area |    0.051 B | 0.10 GB |
   | **total**      |                     |                      |  **4.9 B** | 9.82 GB |
   :: details Two runtimes
-  Replicate runs the Cog model from RFD 1006, in bf16. There is no DGX,
-  per RFD 1027 and RFD 1036. see-through.cpp runs the same models on a
+  Replicate runs the Cog model from RFD66606-1006, in bf16. There is no DGX,
+  per RFD66606-1027 and RFD66606-1036. see-through.cpp runs the same models on a
   local machine, with ggml and a Vulkan backend. It reads GGUF weights
   and writes a layered PSD. It needs no Replicate connection, and it
   uses the Apache 2.0 license.

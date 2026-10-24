@@ -20,8 +20,8 @@ Simulator through cua-driver, in the background"
   The simulator is a desktop window. Without a way for an agent to see it and
   give it input, every simulator run needed a person at the keyboard.
   :: related
-  - RFD 2263, the simulator gate: OXRSys is the runtime this drives.
-  - RFD 2235, the agent that plans with taskweft through the editor, done in
+  - RFD66606-2263, the simulator gate: OXRSys is the runtime this drives.
+  - RFD66606-2235, the agent that plans with taskweft through the editor, done in
     desktop mode through XR Pilot's plan tool.
   """
 

@@ -9,8 +9,8 @@ godot-sandbox loads. Spirit of UdonSharp and SafeGDScript."
 
   prose ~S"""
   :: decision
-  New repo `taskweft-fbd-compiler`, Lean 4 v4.34.0-rc1 (matches RFD
-  2144), MIT. Pipeline:
+  New repo `taskweft-fbd-compiler`, Lean 4 v4.34.0-rc1 (matches
+  RFD66606-2144), MIT. Pipeline:
 
       PLCopen FBD XML
         -> Lean 4 parser (Std.Xml, stdlib only)
@@ -23,17 +23,17 @@ godot-sandbox loads. Spirit of UdonSharp and SafeGDScript."
   **GDScript I/O:** `get_variable`/`set_variable` for state,
   `sandbox.call('fn', args)` for actions.
 
-  RFD 2156 is the parallel GDScript-side path. `DETAILS.md` carries
+  RFD66606-2156 is the parallel GDScript-side path. `DETAILS.md` carries
   AST, ABI, staging.
   :: problem
-  RFDs 2154-2151 reach godot-sandbox through GDScript. There's no
+  RFD66606-2154-2151 reach godot-sandbox through GDScript. There's no
   compiler for the direct path: FBD in, ELF out. A verified compiler
   in Lean 4 would carry proofs the ELF's state graph matches the
   FBD's own, not just tests.
   :: references
   1. godot-sandbox: https://github.com/libriscv/godot-sandbox
   2. UdonSharp: https://github.com/vrchat-community/UdonSharp
-  3. RFD 2149, 2145, 2149, 2150, 2151
+  3. RFD66606-2149, RFD66606-2145, RFD66606-2149, RFD66606-2150, RFD66606-2151
   """
 
   details_title "Lean 4 FBD -> RISC-V ELF compiler"
@@ -41,13 +41,13 @@ godot-sandbox loads. Spirit of UdonSharp and SafeGDScript."
   prose ~S"""
   :: details The three MIT pieces the compiler stitches together
   1. **PLCopen FBD XML** produced by `Taskweft.OpenPLC.PLCopen.emit/1`
-    (RFD 2150). Full body inside a `<pou pouType="program">`, no `<SFC>`
+    (RFD66606-2150). Full body inside a `<pou pouType="program">`, no `<SFC>`
     wrapper (blocklisted), no `<ST>` / `<LD>` (blocklisted).
-  2. **Lean 4 v4.34.0-rc1** (matches RFD 2149), stdlib only for stage 1.
+  2. **Lean 4 v4.34.0-rc1** (matches RFD66606-2149), stdlib only for stage 1.
     `Std.Xml` supplies the XML parser; no mathlib fetch until the
     correctness theorem lands under its own RFD.
   3. **`riscv64-elf-gcc`** already installed on this box (`brew install
-    riscv64-elf-gcc`, RFD 2154 bootstrap). The Lean compiler emits
+    riscv64-elf-gcc`, RFD66606-2154 bootstrap). The Lean compiler emits
     `.s`, the toolchain runs `as` + `ld` to produce the `.elf`.
   :: details FBD AST; full IEC 61131-3 standard block library
   Stage 1 lists every standard block in the AST but implements the

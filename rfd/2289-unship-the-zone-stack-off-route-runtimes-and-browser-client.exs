@@ -8,19 +8,19 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
 
   prose ~S"""
   :: decision
-  Abandon 42 RFDs off RFD 2287's critical path that no placed code
+  Abandon 42 RFDs off RFD66606-2287's critical path that no placed code
   implements. Each moves to `abandoned` with this document. Its details
   go, and its full text stays in git at `a6eb679`.
 
   - The zone stack: zone-server-h2o, the MUD shell, the slot-map and FDB
-    benchmark, and godot-loop-slice. RFD 2287 puts zones in `zone.elf`
-    guests, and RFD 2288 carries 2092's guest gate.
+    benchmark, and godot-loop-slice. RFD66606-2287 puts zones in `zone.elf`
+    guests, and RFD66606-2288 carries 2092's guest gate.
   - Runtimes off the godot-sandbox, ggml-rd and compute-rd route.
     Diffusion reaches the GPU through that route, because it is
-    EditScore's basis and EditScore becomes a decision model (RFD 2268).
+    EditScore's basis and EditScore becomes a decision model (RFD66606-2268).
   - The browser studio client, its dev setup and its asset edge.
   :: problem
-  RFD 2287 is the active rung. No project on this desk cites these 42 in
+  RFD66606-2287 is the active rung. No project on this desk cites these 42 in
   code or commits, and a search of the placed tree finds no implementation,
   or one on a runtime the workspace does not use.
   :: related
@@ -29,7 +29,7 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
   - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2002,2004,2005,2010,2014,2066,2070,2072,2073,2074}
   - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2076,2077,2078,2079,2080,2081,2082,2083,2084,2085}
   - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2086,2091,2092,2108,2110,2116,2120,2163,2214}
-  - RFD 2285, the same walk-back; RFD 2242, the retracted native ggml modules.
+  - RFD66606-2285, the same walk-back; RFD66606-2242, the retracted native ggml modules.
   """
 
   details_title "Unship the zone stack, the off-route runtimes and the browser client"
@@ -46,18 +46,18 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
   - Browser studio client: 1006, 1008, 1022, 1023, 1056, 1061, 1077. The
     JavaScript client the first four and 1061 extend is not placed.
   :: details How the 42 were chosen
-  Of 249 open RFDs, 226 sit outside RFD 2287, its eight citations and
-  their fifteen, and the curvenet RFDs 2265, 2266, 2269 and 2274. Code
-  files and commit messages across every checked-out project except this
-  one cite 52 of the 226 by number, and those stay open.
+  Of 249 open RFDs, 226 sit outside RFD66606-2287, its eight citations and
+  their fifteen, and the curvenet RFD66606-2265, RFD66606-2266, RFD66606-2269 and RFD66606-2274.
+  Code files and commit messages across every checked-out project except this one cite 52 of the
+  226 by number, and those stay open.
 
   Each of the other 174 had its named artifacts searched for in the
   placed tree: 62 found nothing, 9 found a runtime off the route, 38 found
   code, 32 found stubs, 26 are process rules, and 7 live in a checkout
   absent from this desk. The operator kept 2213, 2244 and 2268 as
   the guest stack's planned work and picked the three groups above from the
-  rest. The negative controls are RFDs 1010, 1013, 1095 and 1103,
-  abandoned by RFD 2285 for having no code: each scores zero cites.
+  rest. The negative controls are RFD66606-1010, RFD66606-1013, RFD66606-1095 and RFD66606-1103,
+  abandoned by RFD66606-2285 for having no code: each scores zero cites.
 
   The 26 manifest paths absent from this desk, most of them engine
   branches, are unchecked.

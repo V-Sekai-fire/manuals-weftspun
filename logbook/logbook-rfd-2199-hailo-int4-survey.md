@@ -1,12 +1,12 @@
-# RFD 2199 doc-only survey: Hailo-10H INT4, DFC compilation path, catalog fit
+# RFD66606-2199 doc-only survey: Hailo-10H INT4, DFC compilation path, catalog fit
 
-Task #62 in the coordinator queue. RFD 2199 scopes real 4-bit QAT with
+Task #62 in the coordinator queue. RFD66606-2199 scopes real 4-bit QAT with
 Hailo as target hardware. Un-park directive named "compile + measure
 on-catalog model" as the use case. On-device work waits on operator
 firmware recovery of a stuck-bootloader USB; this survey covers the
 doc-only prerequisite phase: does the hardware do INT4, does DFC produce
 an INT4 HEF, does the vendor's INT4 workflow line up with the workspace's
-real-QAT stance, and which RFD 1102 catalog models fit as compile targets.
+real-QAT stance, and which RFD66606-1102 catalog models fit as compile targets.
 
 ## Hailo-10H hardware
 
@@ -47,7 +47,7 @@ still targets INT8. INT4 is a compiler capability, not a shipped baseline.
 
 ## Conflict with the workspace's real-QAT stance
 
-RFD 2199 exists because the workspace's blocklist rules out precisely
+RFD66606-2199 exists because the workspace's blocklist rules out precisely
 what Hailo's LLM INT4 path is:
 
 | blocklist row (CLAUDE.md)                                       | Hailo INT4 LLM path        |
@@ -81,11 +81,11 @@ Three ways this can resolve:
 
 ## Catalog-model fitness for compile target
 
-Per RFD 1102 + MPS's earlier candidate list (rf-detr-Seg, MoGe-3;
+Per RFD66606-1102 + MPS's earlier candidate list (rf-detr-Seg, MoGe-3;
 MobileNetV3-Small was flagged as off-catalog). Fit against the survey
 findings:
 
-| model         | modality  | ~params      | INT4 path                                      | verdict for RFD 2199 spike                             |
+| model         | modality  | ~params      | INT4 path                                      | verdict for RFD66606-2199 spike                        |
 | ------------- | --------- | -----------: | ---------------------------------------------- | ------------------------------------------------------ |
 | rf-detr-Seg   | vision    | ~30-100 M    | `DFC_6_QAT_Tutorial` (real QAT on GPU → HEF)   | **Best fit.** On-catalog, vision, small enough to iterate. |
 | MoGe-3        | depth     | ~300 M-1 B   | same QAT path in principle; arch support unproven | **Second candidate.** Larger; DFC arch support to verify. |
@@ -132,7 +132,7 @@ Local sources:
 
 ## Recommendation to the coordinator
 
-Proceed with RFD 2199 on-device work targeting **rf-detr-Seg** as the
+Proceed with RFD66606-2199 on-device work targeting **rf-detr-Seg** as the
 first compile-and-measure model, via DFC's QAT-tutorial path fed by a
 workspace-owned QAT loop. Defer the LLM INT4 case (Qwen2-1.5B or
 larger) until either an operator override on the PTQ blocklist lands,

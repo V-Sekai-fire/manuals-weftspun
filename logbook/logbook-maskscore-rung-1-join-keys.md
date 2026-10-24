@@ -1,6 +1,6 @@
 # maskscore-rung-1-bootstrap join-key verification
 
-Verifying RFD 2197's two join-key assumptions against the actual data in
+Verifying RFD66606-2197's two join-key assumptions against the actual data in
 `chibifire/maskscore-rung-1-bootstrap` (HF, snapshot 2026-09-04).
 
 ## What the RFD assumed
@@ -105,10 +105,10 @@ config emit path.
 Five non-speech tasks have exactly one base row each. That is the whole
 bootstrap for those tasks, not a truncated download. Total example rows
 across the dataset after wide-row restructure: 5 × 1 + 1 × 15 = 20 rows.
-RFD 2197's ~300 MB media estimate is off by orders of magnitude for the
+RFD66606-2197's ~300 MB media estimate is off by orders of magnitude for the
 bootstrap; the actual parquet payload is under 50 KB.
 
-## What RFD 2197 needs amended
+## What RFD66606-2197 needs amended
 
 Before a join script gets written:
 
@@ -144,7 +144,7 @@ hf download chibifire/maskscore-rung-1-bootstrap --repo-type=dataset \
 
 ## Status
 
-Fallback per RFD 2197 (publish base alone, defer candidates+scores) is
+Fallback per RFD66606-2197 (publish base alone, defer candidates+scores) is
 _not_ triggered by the actual data. The join is deterministic once the
-keys are named correctly. Surfacing to the coordinator for an RFD 2197
+keys are named correctly. Surfacing to the coordinator for an RFD66606-2197
 amendment before drafting the join script.

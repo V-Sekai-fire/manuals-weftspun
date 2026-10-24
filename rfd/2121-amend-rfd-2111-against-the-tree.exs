@@ -24,7 +24,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   command that produces it, so a later reader can re-run it rather than trust the
   number.
 
-  The renames of RFD 2111 have landed. GitHub answers the old names with the new
+  The renames of RFD66606-2111 have landed. GitHub answers the old names with the new
   ones:
 
   ```sh
@@ -42,7 +42,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   ```
 
   Fifteen names carry the prefix. The bare `fabric` is the sixteenth match for
-  `^fabric` and is the name RFD 2111 frees, so it is excluded here.
+  `^fabric` and is the name RFD66606-2111 frees, so it is excluded here.
 
   | name                          | archived | fork | reaches the convention |
   | ----------------------------- | -------- | ---- | ---------------------- |
@@ -62,7 +62,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   | `fabric-wholebody-control`    | no       | yes  | no, upstream name      |
   | `fabric-wt-harness`           | no       | no   | yes                    |
 
-  Five archived and four forks leave six live and owned. RFD 2111 names
+  Five archived and four forks leave six live and owned. RFD66606-2111 names
   `fabric-harness` and says it becomes `contract-bus` when that pass is taken,
   which leaves five the RFD does not mention at all.
 
@@ -90,19 +90,19 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   editor holds many things, and a set of such domain objects is a small part of
   none of the directories above.
 
-  RFD 2111 defends this name in one paragraph, and the paragraph argues a different
+  RFD66606-2111 defends this name in one paragraph, and the paragraph argues a different
   point: that the `core/` directory inside the repository comes from upstream and
   must keep its name. That reasoning is sound and this RFD keeps it. It says
   nothing about whether `entities-` describes the repository.
 
-  The test RFD 2111 applies elsewhere is whether a name asserts something false.
+  The test RFD66606-2111 applies elsewhere is whether a name asserts something false.
   `fabric-service-meta` was rejected as `service-meta` because "`service-meta` would
   assert the thing that is false". `contract-command` was chosen over
   `interactor-anything` because the latter "picks the side the git repository exists
   to avoid picking". `entities-godot` fails the same test and is the seventh name
   the shape does not decide.
   :: details `repositories/` puts the created collision in the tree
-  RFD 2111 renames the RFD 2028 triad in three git repositories. Those three exist
+  RFD66606-2111 renames the RFD66606-2028 triad in three git repositories. Those three exist
   and hold the triad, which the API confirms:
 
   ```sh
@@ -114,7 +114,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   # progression: adapters core ports
   ```
 
-  RFD 2111 states the resolution for the word it takes from Netflix: write "git
+  RFD66606-2111 states the resolution for the word it takes from Netflix: write "git
   repository" in full, and keep "repository" alone for the interface. It chooses
   that over keeping Cockburn's "port" on the ground that "a collision in prose costs
   less than a collision in code".
@@ -133,7 +133,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   Whether the type-first convention reaches them is a question this RFD raises and
   does not answer, because the answer decides three more names.
   :: details The gap is two READMEs rather than five
-  RFD 2111 says the `lean-*-core` READMEs state a hexagon layout of `core/`,
+  RFD66606-2111 says the `lean-*-core` READMEs state a hexagon layout of `core/`,
   `ports/`, and `adapters/`, that those directories do not exist, and that each of
   those git repositories holds one Lean namespace directory. The checkout disagrees
   in two of the five.
@@ -179,7 +179,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   # entities-lean-shared       1
   ```
 
-  So RFD 2111 describes five READMEs where two exist. `entities-lean-shared` is the
+  So RFD66606-2111 describes five READMEs where two exist. `entities-lean-shared` is the
   one whose layout section is wholly false: it names the triad and the repository
   holds `Shared/Types.lean` and nothing else. `entities-lean-rebac` is the one that
   needs its paths qualified, in both its top-level README and the second one at
@@ -195,7 +195,7 @@ rfd 2121, "Amend rfd 2111 against the tree", :prediscussion do
   "interactor" over the alternatives all hold. Every one of them was checked
   against the organisation and matches.
 
-  The `domain` field on the wire in RFD 2091 is still unrenamed, and still needs
-  its own RFD, as RFD 2111 says.
+  The `domain` field on the wire in RFD66606-2091 is still unrenamed, and still needs
+  its own RFD, as RFD66606-2111 says.
   """
 end

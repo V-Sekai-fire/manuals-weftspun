@@ -25,11 +25,12 @@ registration of tracked corners to an ANNY fit"
   - The paper's SKIM captures are not used until their terms are read.
   - The allowlist names the code, read and run only (operator, 2026-10-22).
   :: problem
-  SOMA-X predicts pose-dependent surface correctives (RFD 2282), and nothing here measures
-  where the skin goes, so the correctives have no target. A joint fit (RFD 2327) says nothing
+  SOMA-X predicts pose-dependent surface correctives (RFD66606-2282), and nothing here measures
+  where the skin goes, so the correctives have no target. A joint fit (RFD66606-2327) says nothing
   about the surface between joints.
   :: related
-  - RFD 2282, the correctives this measures; RFD 2327, the joint keypoints the fit starts from.
+  - RFD66606-2282, the correctives this measures; RFD66606-2327, the joint keypoints the fit
+    starts from.
   """
 
   details_title "A marker suit measures the skin SOMA-X predicts"

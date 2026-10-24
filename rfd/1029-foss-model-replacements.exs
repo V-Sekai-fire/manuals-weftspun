@@ -14,10 +14,10 @@ rfd 1029, "FOSS model replacements", :published do
   See `DETAILS.md` for the PartField, FastMesh, and PartPacker
   replacements, each with its candidates and its license.
   :: problem
-  RFD 1028 removes three models from the catalog. Their tasks still
+  RFD66606-1028 removes three models from the catalog. Their tasks still
   need a model.
   :: related
-  RFD 1028 records the license gate. RFD 1031 records the geometry
+  RFD66606-1028 records the license gate. RFD66606-1031 records the geometry
   refinement path and its alpha wrap problem.
   """
 
@@ -54,7 +54,7 @@ rfd 1029, "FOSS model replacements", :published do
   |         | developers and (C) 2001-2005 CG Group, RWTH Aachen       |
   | Geogram | BSD 3-Clause, (C) 2000-2022 Inria                        |
 
-  Both clear RFD 1028's gate. PMP's variant is MIT text with an added
+  Both clear RFD66606-1028's gate. PMP's variant is MIT text with an added
   employer disclaimer, so it is recorded as that and not as plain MIT.
 
   None of the candidates in this section carries blend shapes, and on an
@@ -86,7 +86,7 @@ rfd 1029, "FOSS model replacements", :published do
 
   A perfect pairing does not happen by luck. It means the mesh was authored
   as quads and triangulated on export, so the original edge flow is intact
-  and recoverable. That is the same property RFD 2029 wants from a curvenet:
+  and recoverable. That is the same property RFD66606-2029 wants from a curvenet:
   a bounded, inspectable graph rather than a soup.
 
   **Recovering quads does not by itself save a triangle.** The platform counts

@@ -1,4 +1,4 @@
-"""Kimodo text to motion. RFD 1045.
+"""Kimodo text to motion. RFD66606-1045.
 
 The model emits SOMA. The client wants VRM humanoid tracks. Those are
 two things, thus this Cog returns two things.
@@ -6,7 +6,7 @@ two things, thus this Cog returns two things.
 A single VRM output would make the model look wrong when the retarget
 is what failed. Keeping them apart names the failure correctly.
 
-The validation from RFD 1007 runs here. A motion that leaves the floor
+The validation from RFD66606-1007 runs here. A motion that leaves the floor
 must fail before the viewport loads it.
 """
 
@@ -46,5 +46,5 @@ class Predictor(BasePredictor):
         raise NotImplementedError("Port the Kimodo sampler, then the retarget.")
 
     def _validate(self, motion) -> tuple[bool, str]:
-        """RFD 1007. Check the floor contact and the joint limits."""
+        """RFD66606-1007. Check the floor contact and the joint limits."""
         raise NotImplementedError

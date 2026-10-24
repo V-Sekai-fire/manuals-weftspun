@@ -45,7 +45,7 @@ returns "unsupported operation". Root token rotation used
 Three `op item create` calls returned exit code 0 with item IDs.
 All three IDs are unreachable on subsequent `op item get`. The
 `op item edit` path to an existing item (`d7fx6rayd6o43sie5joxinfyte`)
-did persist. The FDB CA key from the RFD 2141 rotation was among the
+did persist. The FDB CA key from the RFD66606-2141 rotation was among the
 lost items; this is the second loss of the CA key.
 
 ## The measurement

@@ -9,9 +9,9 @@ rfd 1054, "The planner inside the studio core", :published do
   prose ~S"""
   :: decision
   Delete `extension/`. Put the planner inside `weftspun_studio`, which
-  RFD 1019 already makes the API server.
+  RFD66606-1019 already makes the API server.
 
-  RFD 1023 gives the shape, and this RFD does not restate it.
+  RFD66606-1023 gives the shape, and this RFD does not restate it.
 
   See `DETAILS.md` for the wrong-answer record of a second application
   and the port-mocking rule. It also gives the measured plans, three
@@ -26,8 +26,8 @@ rfd 1054, "The planner inside the studio core", :published do
 
   The proof stands, and the vehicle does not.
   :: related
-  RFD 1019 makes this the API server. RFD 1023 gives the shape. RFD 1037
-  gives the composite convention. RFD 1055 selects the worker host.
+  RFD66606-1019 makes this the API server. RFD66606-1023 gives the shape. RFD66606-1037
+  gives the composite convention. RFD66606-1055 selects the worker host.
   """
 
   details_title "The planner inside the studio core"
@@ -38,7 +38,7 @@ rfd 1054, "The planner inside the studio core", :published do
   mistake, and the record of it matters more than the correction.
 
   `weftspun_studio` already held ports, adapters, an HTTP router, Ecto,
-  and CockroachDB. RFD 1019 and RFD 1020 record it. The second
+  and CockroachDB. RFD66606-1019 and RFD66606-1020 record it. The second
   application duplicated every one of those.
 
   Three parts were new, and only those moved:
@@ -49,7 +49,7 @@ rfd 1054, "The planner inside the studio core", :published do
   | `Ports.Planner`    | Beside the other ports          |
   | `TaskweftPlanner`  | Beside the other adapters       |
 
-  `cms/` is deleted. That also settles the overlap with RFD 1023, which
+  `cms/` is deleted. That also settles the overlap with RFD66606-1023, which
   this RFD carried while it described a parallel application.
   :: details Mock every port, and keep the documents real
   Every port is a `Mox` mock. A mock derives from the behavior, thus a

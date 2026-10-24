@@ -13,7 +13,7 @@ rfd 2141, "FDB TLS rotation without data loss", :prediscussion do
   refresh. The cluster stays available and data stays intact at every
   step; each phase is gated on `fdbcli status` reporting healthy.
 
-  **Phase 1 (dual-CA trust).** Generate a new CA with the RFD 2134
+  **Phase 1 (dual-CA trust).** Generate a new CA with the RFD66606-2134
   profile. Set `FDB_TLS_CA_B64` to old + new CAs concatenated. Rolling
   restart. Every machine trusts certs from either CA.
 
@@ -31,19 +31,19 @@ rfd 2141, "FDB TLS rotation without data loss", :prediscussion do
   via Burrito. It walks the phases, gates each on cluster health, and
   stores the CA key on completion. The procedure is in DETAILS.md.
   :: problem
-  The CA private key from RFD 2134 is not recoverable, so no new leaf
+  The CA private key from RFD66606-2134 is not recoverable, so no new leaf
   can be issued. bao needs a client cert, and the machine certs expire
-  in two years. RFD 2134's reset path wipes data, which was acceptable
+  in two years. RFD66606-2134's reset path wipes data, which was acceptable
   at initial setup and is not acceptable now.
   :: related
-  RFD 2134 (initial TLS), RFD 2140 (OpenBao on FDB).
+  RFD66606-2134 (initial TLS), RFD66606-2140 (OpenBao on FDB).
   """
 
   details_title "FDB TLS rotation without data loss"
 
   prose ~S"""
   :: details Why the old CA key is not recoverable
-  The CA was generated during the RFD 2134 session. The key file
+  The CA was generated during the RFD66606-2134 session. The key file
   existed in a session scratchpad (`/private/tmp/claude-502/...`) that
   was cleaned up when the session ended. It was never committed to a
   repo (correctly; a CA key does not go in source control), never
@@ -56,7 +56,7 @@ rfd 2141, "FDB TLS rotation without data loss", :prediscussion do
   certificate can be signed, and the cluster cannot admit a new TLS
   peer.
   :: details Why a reset is not needed
-  RFD 2134 states: "there is no in-place path from a plaintext cluster
+  RFD66606-2134 states: "there is no in-place path from a plaintext cluster
   to a TLS one." That is about the coordinator addresses on disk, which
   carry a `:tls` suffix that plaintext addresses lack. A rotation from
   one TLS identity to another does not change the addresses. The
@@ -79,7 +79,7 @@ rfd 2141, "FDB TLS rotation without data loss", :prediscussion do
   ### Phase 1: dual-CA trust bundle
 
   The `-days 3650` (10 years) on the CA below was retracted by
-  RFD 2145 on 2026-09-01. Current guidance: 25-year `notAfter` on the
+  RFD66606-2145 on 2026-09-01. Current guidance: 25-year `notAfter` on the
   offline root with 5-year policy rotation; run the command with
   `-days 9125` and schedule the ceremony date in the anti-entropy
   check. Kept in place because a reader working from the earlier text

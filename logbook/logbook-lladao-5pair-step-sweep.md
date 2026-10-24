@@ -3,9 +3,9 @@
 **Session:** CUDA agent (`cuda-a63415`), 2026-09-04 UTC
 **Extends:** `logbook-lladao-n1-quality-beats-omnigen2.md` (the n=1 pair-0
 finding that opened this line of work)
-**Related:** RFD 2186 (dressing overlay), RFD 2198 (LLaDA-o speed work),
-memory `[[llada-diffusion-lm-shelved]]` (RFD 1170 shelving stays; this
-sweep is scoped to RFD 2186 batch-mode dressing overlay)
+**Related:** RFD66606-2186 (dressing overlay), RFD66606-2198 (LLaDA-o speed work),
+memory `[[llada-diffusion-lm-shelved]]` (RFD66606-1170 shelving stays; this
+sweep is scoped to RFD66606-2186 batch-mode dressing overlay)
 
 ## Question
 
@@ -79,20 +79,20 @@ Two failure modes visible in the shape:
 ## Verdict
 
 LLaDA-o at 16-step SDEdit is a candidate primary generator for
-RFD 2186's dressing-overlay stage on quality grounds. Best mean
+RFD66606-2186's dressing-overlay stage on quality grounds. Best mean
 overall in the sample, wins every pair, no per-task step-count
 tuning needed if 16 is picked.
 
 Cost is the wall-clock gap: 264 s per edit sharded on two 24 GB GPUs,
-against OmniGen2's 72 s on one 24 GB GPU. RFD 2198's middle lever
+against OmniGen2's 72 s on one 24 GB GPU. RFD66606-2198's middle lever
 (LCM-style distillation on the block-diffusion path) is where that
-gap gets closed if the decision is to ship LLaDA-o. RFD 2198 does
+gap gets closed if the decision is to ship LLaDA-o. RFD66606-2198 does
 not need re-scoping on this measurement; the levers named there
 still apply.
 
-The RFD 1170 shelving of LLaDA-o for the real-time avatar target
+The RFD66606-1170 shelving of LLaDA-o for the real-time avatar target
 stays intact. This sweep is scoped to batch-mode dressing overlay
-per RFD 2186.
+per RFD66606-2186.
 
 ## Not measured
 
@@ -107,7 +107,7 @@ per RFD 2186.
 - **Larger n.** 5 pairs from one shard; a 20+ pair round on the same
   step count would tighten the mean's confidence interval. Deferred
   because the qualitative shape (16-step wins on every pair, 4-step
-  wins 3/5) is already decision-grade for RFD 2198 targeting.
+  wins 3/5) is already decision-grade for RFD66606-2198 targeting.
 
 ## Cost paid
 

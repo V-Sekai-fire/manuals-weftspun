@@ -12,7 +12,7 @@ fewer"
   prose ~S"""
   :: decision
   The Quest variant is built by four godot-sandbox guests reached
-  through libgodot, the shape RFD 2277 set: C# holds no logic.
+  through libgodot, the shape RFD66606-2277 set: C# holds no logic.
   meshoptimizer 1.3's voxel remesher and simplifier cut the merged
   body, xatlas unwraps it, compute-rd bakes the lilToon look into one
   atlas for a mobile shader, and SkinTokens on ggml-rd rigs the result
@@ -24,10 +24,10 @@ fewer"
   bones, 82 MB of textures, and its PhysBones. Its lilToon shaders do
   not upload to Quest.
   :: related
-  - RFD 2277 (curvenet-cage refit), guests reached from NDMF.
-  - RFD 2278 (voxel remeshing for cages and solids), the remesher.
-  - RFD 2272 (RF-DETR on ggml-rd), a model guest on ggml-rd.
-  - RFD 1160 (SkinTokens edge fit), the rigger.
+  - RFD66606-2277 (curvenet-cage refit), guests reached from NDMF.
+  - RFD66606-2278 (voxel remeshing for cages and solids), the remesher.
+  - RFD66606-2272 (RF-DETR on ggml-rd), a model guest on ggml-rd.
+  - RFD66606-1160 (SkinTokens edge fit), the rigger.
   """
 
   details_title "A Quest variant by sandbox guests"
@@ -59,6 +59,6 @@ fewer"
   - Which toggles survive on Quest decides how many merged states are
     built.
   - SkinTokens' ops not yet on ggml-rd each go through L0 to L3, as
-    RFD 2272 did for `cpy_f32_i32`.
+    RFD66606-2272 did for `cpy_f32_i32`.
   """
 end

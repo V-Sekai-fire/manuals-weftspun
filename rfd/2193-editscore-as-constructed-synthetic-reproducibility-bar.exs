@@ -10,7 +10,7 @@ rfd 2193, "EditScore as the constructed-synthetic reproducibility bar", :discuss
   :: preamble
   Shelved 2026-09-03: waiting on two blockers named below.
   :: decision
-  Replace sha256 byte-equality with EditScore (RFD 1157 reward
+  Replace sha256 byte-equality with EditScore (RFD66606-1157 reward
   model) as the reproducibility judgment for constructed-synthetic
   corpus. Reuses an instrument the workspace has; permits Metal-fast
   rendering while keeping the bar honest.
@@ -30,7 +30,7 @@ rfd 2193, "EditScore as the constructed-synthetic reproducibility bar", :discuss
   :: references
   Issue: `weftspun/weftspun-keypoint` 29; `anny-render-corpus/score_edits.py`.
   :: related
-  RFD 1157 (EditScore reward), RFD 1173 (edit-reward corpus; MaskScore),
-  RFD 2196 (HF viewer rules), CLAUDE.md constructed-synthetic rule.
+  RFD66606-1157 (EditScore reward), RFD66606-1173 (edit-reward corpus; MaskScore),
+  RFD66606-2196 (HF viewer rules), CLAUDE.md constructed-synthetic rule.
   """
 end

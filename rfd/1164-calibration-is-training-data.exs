@@ -36,6 +36,6 @@ rfd 1164, "A calibration set is training data", :ideation do
   at the call site says so. Handing the compiler the blinded holdout
   would read as a sensible choice and would train on it.
   :: related
-  RFD 1163 places the compile. RFD 1128 asks about four bits.
+  RFD66606-1163 places the compile. RFD66606-1128 asks about four bits.
   """
 end

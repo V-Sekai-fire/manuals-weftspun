@@ -2,8 +2,8 @@
 
 Measured on 2026-10-04 on the Windows desk, in `transport-meshing-pen` on `feat/station-compiled`
 (`efc193a` and the commits before it), with the double editor build and the guest ELFs that
-branch vendors. The budgets these numbers led to are RFD 2302's; the graph port and replay rule
-are RFD 2263's; the body fit is RFD 2287's.
+branch vendors. The budgets these numbers led to are RFD66606-2302's; the graph port and replay rule
+are RFD66606-2263's; the body fit is RFD66606-2287's.
 
 ## Apparatus
 
@@ -35,7 +35,7 @@ The station's 47.6 s, by module:
 
 The station build was also tried in a `_process` on a node whose `process_thread_group` is
 `SUB_THREAD`. Frame 2 took 19.7 s: the frame waits for every thread group's `_process` to return,
-so the sub-thread moved the work and hid none of it. RFD 2302's 5 s first-frame budget is set
+so the sub-thread moved the work and hid none of it. RFD66606-2302's 5 s first-frame budget is set
 against these rows; the replay gate meets it and the station scene does not.
 
 ## The dress through the full flow

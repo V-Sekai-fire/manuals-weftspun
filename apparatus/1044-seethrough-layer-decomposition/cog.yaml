@@ -1,5 +1,5 @@
 # Nine networks, one Cog. The order lives in domain.ex, and not
-# in predict.py. RFD 1044 records why.
+# in predict.py. RFD66606-1044 records why.
 build:
   gpu: true
   cuda: "12.4"

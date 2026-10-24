@@ -27,11 +27,11 @@ toolchain on the target"
   SDK and a self-extracting binary remove all three, and remove the reason
   two TBBs ever met in one process.
   :: related
-  - [RFD 2234](../2234-dress-on-pipeline/): the dress-on pipeline this
+  - [RFD66606-2234](../2234-dress-on-pipeline/): the dress-on pipeline this
     solver serves.
-  - [RFD 2249](../2249-cloth-by-vertex-block-descent/): the descent
+  - [RFD66606-2249](../2249-cloth-by-vertex-block-descent/): the descent
     formulation, where this RFD is the shipping vehicle.
-  - [RFD 1053](../1053-openusd-as-the-internal-format/): why the round
+  - [RFD66606-1053](../1053-openusd-as-the-internal-format/): why the round
     trip is USD rather than OBJ.
   - Moved from `V-Sekai-fire/cloth-fit` issue 2, now closed.
   """

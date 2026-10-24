@@ -4,16 +4,16 @@ use RFD.DSL
 
 rfd 2246, "EditScore-guided OmniGen bootstrap for unmapped parts", :discussion do
   feature "train OmniGen2 on V3 parts ANNY joints do not cover"
-  scope "RFD 2183 (layer-decomp pipeline) middle step, part-label training"
+  scope "RFD66606-2183 (layer-decomp pipeline) middle step, part-label training"
 
   prose ~S"""
   :: decision
-  Train OmniGen2 (RFD 2183 reconstruction stage) on the 13 See-Through
+  Train OmniGen2 (RFD66606-2183 reconstruction stage) on the 13 See-Through
   V3 parts ANNY joints do not cover (front-hair, back-hair, iris,
   eyewhite, eyebrow, eyelash, mouth, ear, torso-back, footwear,
   handwear, accessory, background) under two combined signals:
 
-  1. EditScore (RFD 1157 reward model) for semantic quality.
+  1. EditScore (RFD66606-1157 reward model) for semantic quality.
   2. Cross-view consistency on multi-view `sphere_hammersley_sequence`
      renders: same VRM from N angles must produce geometrically
      consistent per-part generations. This is a physical constraint,
@@ -29,8 +29,8 @@ rfd 2246, "EditScore-guided OmniGen bootstrap for unmapped parts", :discussion d
   learned signal, one ground-truth anchor: CLAUDE.md's four
   conditions added up.
   :: related
-  RFD 2183 (layer-decomp pipeline), RFD 1157 (EditScore reward
-  model), RFD 1173 (edit-reward corpus), RFD 2136 (gacha ladder),
+  RFD66606-2183 (layer-decomp pipeline), RFD66606-1157 (EditScore reward
+  model), RFD66606-1173 (edit-reward corpus), RFD66606-2136 (gacha ladder),
   CLAUDE.md generated-synthetic clause, `anny_v3_face_groups.py`
   in anny-render-corpus.
   """

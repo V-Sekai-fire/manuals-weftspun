@@ -4,7 +4,7 @@
 #
 # The todo_list names the artifact, and not the steps. The planner
 # takes the steps from domain.ex, thus a changed pipeline needs no
-# change here. RFD 1044 records that split.
+# change here. RFD66606-1044 records that split.
 defmodule SeethroughOneImage do
   use Taskweft.DSL
 

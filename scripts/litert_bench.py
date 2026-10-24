@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """What LiteRT's Metal accelerator reaches on this machine, against Core ML's figure.
 
-RFD 1148 chose LiteRT and RFD 1142 measured Core ML's Metal path at 6.97 TFLOP/s fp16.
+RFD66606-1148 chose LiteRT and RFD66606-1142 measured Core ML's Metal path at 6.97 TFLOP/s fp16.
 This is the other half of that comparison, on the same `ConvStack` and the same
 convention, so the two rows compose.
 
@@ -37,7 +37,7 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from convstack import ConvStack, conv_stack_macs
 
-# RFD 1142, Core ML native at fp16 on this part. The baseline goes in the same table
+# RFD66606-1142, Core ML native at fp16 on this part. The baseline goes in the same table
 # because a rate quoted alone leaves a reader nothing to weigh it against.
 COREML_METAL_TFLOPS = 6.97
 

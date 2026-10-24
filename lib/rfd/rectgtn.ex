@@ -15,7 +15,7 @@ defmodule RFD.RECTGTN do
   compiles into a solution.
 
   The domain is the organization: the ladder an RFD climbs and the step vocabulary
-  RFD 2287 states for its critical path. A problem is one RFD's position on that
+  RFD66606-2287 states for its critical path. A problem is one RFD's position on that
   ladder and the state of each step it declares. Both are Taskweft's own Elixir DSL,
   `Taskweft.Compose.compose_strings/2` merges the pair, and the plan it returns is the
   solution. `scripts/check_rectgtn_plan.exs` holds the rendered solution against it.
@@ -133,7 +133,7 @@ defmodule RFD.RECTGTN do
 
   # --- the Markdown a reader reads -------------------------------------------------
 
-  @doc "The organization domain as the sections RFD 2292 carries."
+  @doc "The organization domain as the sections RFD66606-2292 carries."
   def domain_sections do
     [
       {"The ladder is the domain", ladder_table()},

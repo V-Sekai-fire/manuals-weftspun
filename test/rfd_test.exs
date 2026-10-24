@@ -30,7 +30,7 @@ defmodule RFDTest do
 
     assert String.starts_with?(
              readme,
-             "# RFD 2999: a test RFD\n\n**State:** discussion\n**Feature:**"
+             "# RFD66606-2999: a test RFD\n\n**State:** discussion\n**Feature:**"
            )
 
     assert readme =~ "\n## Decision\n\nDo the thing.\n\n## Problem\n"
@@ -42,7 +42,7 @@ defmodule RFDTest do
 
   test "details render to DETAILS.md and the README names it" do
     d = doc(details: [{"How it was checked", "Every number came from a run."}])
-    assert RFD.Doc.details(d) =~ "# RFD 2999 details: a test RFD\n\n"
+    assert RFD.Doc.details(d) =~ "# RFD66606-2999 details: a test RFD\n\n"
     assert RFD.Doc.details(d) =~ "## How it was checked\n\nEvery number came from a run."
     assert RFD.Doc.readme(d) =~ "`DETAILS.md` carries the rest of this RFD."
     assert RFD.Doc.details(doc()) == nil
@@ -99,7 +99,12 @@ defmodule RFDTest do
       )
 
     r = RFD.Doc.readme(d)
-    assert String.starts_with?(r, "---\nname: x\n---\n\n# RFD 2999: a test RFD\n\n**State:**")
+
+    assert String.starts_with?(
+             r,
+             "---\nname: x\n---\n\n# RFD66606-2999: a test RFD\n\n**State:**"
+           )
+
     assert r =~ "**Scope:** the scope\n\nShelved 2026-09-02: waiting.\n\n## Decision\n"
     assert length(Regex.scan(~r/DETAILS\.md/, r)) == 1
   end

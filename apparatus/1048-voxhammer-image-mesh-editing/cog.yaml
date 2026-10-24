@@ -1,4 +1,4 @@
-# Derives from RFD 1038. It adds no weights, and it shares the RFD
+# Derives from RFD66606-1038. It adds no weights, and it shares the RFD
 # 0047 domain.
 build:
   gpu: true
@@ -15,7 +15,7 @@ build:
     - "safetensors==0.4.5"
     - "trimesh==4.5.3"
     - "pillow==11.0.0"
-    # RFD 1053. The edit is a sublayer over the source mesh.
+    # RFD66606-1053. The edit is a sublayer over the source mesh.
     - "usd-core==25.5"
 
   run: []
@@ -26,7 +26,7 @@ x-weftspun:
   model_id: "voxhammer_image_mesh_editing"
   license: "MIT"
   parameters: "0"
-  bf16_weights: "0 GB, shares RFD 1038"
+  bf16_weights: "0 GB, shares RFD66606-1038"
   format: "bf16"
   composite: true
   components: 2

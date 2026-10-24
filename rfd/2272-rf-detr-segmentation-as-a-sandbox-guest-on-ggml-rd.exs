@@ -19,14 +19,14 @@ contract-guest-runtime, and the one new ggml-rd kernel it needed"
   check at L2, not the fault switch, because the fault switch perturbs a
   tensor CPY never reads.
   :: problem
-  RFD 2262 says the loop's scoring runs as godot-sandbox guests on ggml-rd,
+  RFD66606-2262 says the loop's scoring runs as godot-sandbox guests on ggml-rd,
   not a second runtime. Segmentation had not been shown to run there, and
   a gate is only evidence when a broken build fails it.
   :: related
-  - RFD 2262 (make it with the pen), scoring as sandbox guests on ggml-rd.
-  - RFD 2230 (ggml adapters in godot-sandbox), the guest shape.
-  - RFD 1168 (segmenting with rf-detr), the segmentation head.
-  - RFD 2273 (accepting person masks), what the masks are checked by.
+  - RFD66606-2262 (make it with the pen), scoring as sandbox guests on ggml-rd.
+  - RFD66606-2230 (ggml adapters in godot-sandbox), the guest shape.
+  - RFD66606-1168 (segmenting with rf-detr), the segmentation head.
+  - RFD66606-2273 (accepting person masks), what the masks are checked by.
   """
 
   details_title "RF-DETR segmentation as a sandbox guest on ggml-rd"

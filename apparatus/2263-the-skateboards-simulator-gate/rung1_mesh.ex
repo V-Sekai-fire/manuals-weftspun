@@ -2,7 +2,7 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 #
 # Ladder rung 1: strokes to a mesh. This is the replay gate the
-# Skateboard already reaches (RFD 2263 Phase A, merged). Shippable now.
+# Skateboard already reaches (RFD66606-2263 Phase A, merged). Shippable now.
 # The todo_list names the artifact, not the steps; the planner takes the
 # steps from domain.ex. We do not tell the solver the answer.
 defmodule SkateboardRung1Mesh do

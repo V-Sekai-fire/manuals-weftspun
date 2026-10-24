@@ -35,7 +35,7 @@ rfd 2115, "A planner domain document is a cheap layer surface", :prediscussion d
   moved, which is the one signal the replay check exists to make
   trustworthy.
 
-  That is the case for a library with production hours behind it. RFD 2003
+  That is the case for a library with production hours behind it. RFD66606-2003
   picked `QCBOR` on exactly that basis, and the bug above is the kind other
   people already found in it.
   :: details The three consumers
@@ -58,7 +58,7 @@ rfd 2115, "A planner domain document is a cheap layer surface", :prediscussion d
   is what you can `SELECT`.
 
   `aria-storage` is content-addressed `casync` chunks for packages and
-  assets. A domain document is neither, and RFD 2003's determinism argument
+  assets. A domain document is neither, and RFD66606-2003's determinism argument
   travels with `casync` rather than with the format.
   :: details What this does not settle
   Whether the document is written into the ward at founding or read from the

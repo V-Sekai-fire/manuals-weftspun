@@ -26,11 +26,11 @@ checks it"
   is wrong somewhere on screen. Smoke, cloth sleeves and any two
   intersecting surfaces fail the same way.
   :: related
-  - RFD 1033 (geometric algorithms), the curve-net and solid
+  - RFD66606-1033 (geometric algorithms), the curve-net and solid
     operators whose result this view shows.
-  - RFD 2247 (property testing), the doctest-and-witness shape
+  - RFD66606-2247 (property testing), the doctest-and-witness shape
     of the patch's tests.
-  - RFD 2216 (Three.js blocklist), why this is in the engine and
+  - RFD66606-2216 (Three.js blocklist), why this is in the engine and
     not in a viewer.
   """
 

@@ -10,7 +10,7 @@ OpenBao v2.6.2 (HEAD of weftspun/openbao, branch
 feat/foundationdb-storage). FDB 7.3.79 C client and Go binding at
 commit 0074653ee011 (headerVersion 730). Go 1.27. Fly app
 weftspun-bao, shared-cpu-1x 512 MB, sjc. The cluster is weftspun-fdb
-(3 machines, double redundancy, mutual TLS per RFD 2134).
+(3 machines, double redundancy, mutual TLS per RFD66606-2134).
 
 ## What was done
 

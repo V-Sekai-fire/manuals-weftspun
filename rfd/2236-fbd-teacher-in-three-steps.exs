@@ -8,47 +8,56 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
 
   prose ~S"""
   :: decision
-  The teacher's only output is an IEC 61131-3 Function Block Diagram in the
-  PLCopen subset `taskweft-fbd-compiler` parses; a llama.cpp grammar makes any
-  other output unsampleable. The model is gained in three gated steps rather
-  than taken from a stock checkpoint: a constructed corpus whose labels the
-  compiler and a runner set (step 1, shipped), continued pretraining of Gemma
-  4 E2B on its rank1 rows with the forward pass seeing the 4-bit noise (step
-  2), and reinforcement training whose reward is compile, run and effect from
-  the compiler plus a frozen judge (step 3). The teacher runs on an executor
-  side with the GPU, never on the hosted door. `DETAILS.md` carries the rest.
+  The teacher's only output is an IEC 61131-3 Function Block Diagram in the PLCopen subset
+  `taskweft-fbd-compiler` parses; a llama.cpp grammar makes any other output unsampleable. The
+  model is gained in three gated steps rather than taken from a stock checkpoint: a constructed
+  corpus whose labels the compiler and a runner set (step 1, shipped), continued pretraining of
+  Gemma 4 E2B on its rank1 rows with the forward pass seeing the 4-bit noise (step 2), and
+  reinforcement training whose reward is compile, run and effect from the compiler plus a frozen
+  judge (step 3). The teacher runs on an executor side with the GPU, never on the hosted door.
+  `DETAILS.md` carries the rest.
   :: problem
-  The operator ranked four candidate efforts and picked this one: an MCP-ACP
-  server whose teacher language model is forced to export a Function Block
-  Diagram, with the Godot engine as the scripting engine that touches the
-  operating system. A stock model behind a grammar produces well-formed
-  diagrams that mean the wrong thing; nothing in the workspace measured how
-  often. The compiler existed as a marker-counting skeleton, the sandbox host
-  existed for exported sessions, and no corpus tied an intent to a diagram.
+  The operator ranked four candidate efforts and picked this one: an MCP-ACP server whose teacher
+  language model is forced to export a Function Block Diagram, with the Godot engine as the
+  scripting engine that touches the operating system. A stock model behind a grammar produces
+  well-formed diagrams that mean the wrong thing; nothing in the workspace measured how often. The
+  compiler existed as a marker-counting skeleton, the sandbox host existed for exported sessions,
+  and no corpus tied an intent to a diagram.
   :: references
-  - RFD 2229, interchangeable parts, which decides what each leg reuses
-  - RFD 2152, RFD 2154, RFD 2155, RFD 2156 and RFD 2157, the PLCopen, sandbox and compiler line this continues
-  - RFD 2167, the reward-distillation shape step 3 follows
-  - RFD 2234, whose writer set the frozen-judge doctrine and the three-parquet corpus shape
+  - RFD66606-2229, interchangeable parts, which decides what each leg reuses
+  - RFD66606-2152, RFD66606-2154, RFD66606-2155, RFD66606-2156 and RFD66606-2157, the PLCopen,
+    sandbox and compiler line this continues
+  - RFD66606-2167, the reward-distillation shape step 3 follows
+  - RFD66606-2234, whose writer set the frozen-judge doctrine and the three-parquet corpus shape
   :: related
-  RFD 2235 (the door and its executors), RFD 2188 (one ggml across the workspace), RFD 2196 (dataset viewer rules the publisher follows).
+  RFD66606-2235 (the door and its executors), RFD66606-2188 (one ggml across the workspace),
+  RFD66606-2196 (dataset viewer rules the publisher follows).
   """
 
   details_title "A teacher that exports Function Block Diagrams, gained in three steps"
 
   prose ~S"""
   :: details Interchangeable parts
-  | leg | the part that already exists | what changes |
-  | --- | --- | --- |
-  | the door, executors, session log | `transport-taskweft-acp` | `/fbd`, one executor capability, one `acp/fbd` event |
-  | the model runtime | `turboquant-godot/thirdparty/llama_cpp` (RFD 2188), `llama-server` with the GBNF `grammar` field | a CUDA build on the desk |
-  | the loopback server client | `qwen35-defiant/src/interactor.{h,cpp}` | an Elixir twin |
-  | the FBD compiler | `taskweft-fbd-compiler` (Lean) | a real parser, the stage 1 lowering, a CLI |
-  | the runtime host | `taskweft-godot-sandbox` and the host scene in `transport-taskweft-acp/priv/godot_project` | the guest is a compiled diagram rather than an exported session |
-  | the dataset shape | `anny-render-corpus/maskscore_rung_1_*` (root, candidates, scores; controls before the emit) | one new stub row for the FBD task |
-  | the judge | `editscore` and the frozen-judge doctrine | a text-and-trace prompt |
-  | the training pattern | `tropes-removal-model/train_rewriter.py`, RFD 2167 | the same shapes on Gemma 4 E2B |
-  | the publish recipe | `publish_artifacts.py` | a new dataset repository |
+  - the door, executors, session log: the part that already exists `transport-taskweft-acp`; what
+    changes `/fbd`, one executor capability, one `acp/fbd` event.
+  - the model runtime: the part that already exists `turboquant-godot/thirdparty/llama_cpp`
+    (RFD66606-2188), `llama-server` with the GBNF `grammar` field; what changes a CUDA build on
+    the desk.
+  - the loopback server client: the part that already exists
+    `qwen35-defiant/src/interactor.{h,cpp}`; what changes an Elixir twin.
+  - the FBD compiler: the part that already exists `taskweft-fbd-compiler` (Lean); what changes a
+    real parser, the stage 1 lowering, a CLI.
+  - the runtime host: the part that already exists `taskweft-godot-sandbox` and the host scene in
+    `transport-taskweft-acp/priv/godot_project`; what changes the guest is a compiled diagram
+    rather than an exported session.
+  - the dataset shape: the part that already exists `anny-render-corpus/maskscore_rung_1_*` (root,
+    candidates, scores; controls before the emit); what changes one new stub row for the FBD task.
+  - the judge: the part that already exists `editscore` and the frozen-judge doctrine; what
+    changes a text-and-trace prompt.
+  - the training pattern: the part that already exists `tropes-removal-model/train_rewriter.py`,
+    RFD66606-2167; what changes the same shapes on Gemma 4 E2B.
+  - the publish recipe: the part that already exists `publish_artifacts.py`; what changes a new
+    dataset repository.
 
   No new dependency mechanism, no second model runtime, no second sandbox, no
   hosted-API generator, no post-training quantization.
@@ -59,9 +68,9 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
   tag-soup fixture is the control. `Sgd.lean` lowers `WRITE_FILE`, `RUN` and
   `READ_FILE` in EN/ENO order, or localId order, to the four-call SafeGDScript
   guest the host scene already drives (`steps`, `step`, `record`, `pending`,
-  RFD 2156) and to a JSON plan for any other runner; every other block is
+  RFD66606-2156) and to a JSON plan for any other runner; every other block is
   counted as skipped, never dropped. `Main.lean` gains `check`, `emit` and
-  `plan`. The ELF emit of RFD 2157 stays the next stage; the toolchain file
+  `plan`. The ELF emit of RFD66606-2157 stays the next stage; the toolchain file
   pins Lean 4.34.0-rc1 while the desk builds it on 4.30.0.
   :: details Step 1: the corpus
   Constructed, so ordinary training data under CLAUDE.md. Four templates over
@@ -80,7 +89,7 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
   matches; rank3 compiles and misses; rank5 is refused. The writer's own
   negative control hands rank5's verdict to rank1 and must refuse the emit.
   One row in ten is a holdout written apart. Three ZStandard parquets in
-  ETNF plus the joined view; the publisher follows RFD 2196's `configs`
+  ETNF plus the joined view; the publisher follows RFD66606-2196's `configs`
   block.
   :: details Step 1 as it stands: eight families at 5,000 rows
   Every family keeps the shape above: one intent, three candidates, the three
@@ -109,7 +118,7 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
   only: an absolute path in a manifest names the desk and its user, and the
   publisher refuses one.
 
-  Under RFD 2239 these become traits at 100,000 rows, react and compose
+  Under RFD66606-2239 these become traits at 100,000 rows, react and compose
   retiring into a Body trait, and `mix fbd.rfd_tables` writes this table from
   the stage manifests rather than by hand.
   :: details Steps 2 and 3, the gates
@@ -348,7 +357,7 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
   the nearest sibling and measured on a 500-row smoke before any long run.
 
   The staging is also the budget lever between this work and the audio leg of
-  RFD 2241. Every trait at 10,000 is about 8 to 9 hours across all of them;
+  RFD66606-2241. Every trait at 10,000 is about 8 to 9 hours across all of them;
   the promotions are the other 72 to 81. Because a promotion appends,
   deferring every promotion until after that leg lands costs time-to-100,000
   and nothing else. Nothing is cut and nothing is redone.

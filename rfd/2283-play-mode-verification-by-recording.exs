@@ -32,7 +32,7 @@ mode, render-to-texture contact sheets"
   chain cannot tell settled from not simulated.
   """
 
-  related "RFD 2281 (face shapes, the render-and-diff method); RFD 2277 (motion
+  related "RFD66606-2281 (face shapes, the render-and-diff method); RFD66606-2277 (motion
 from our own models, not an avatar's bundled clips)."
   details_title "play-mode verification by recording"
 

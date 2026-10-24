@@ -18,7 +18,7 @@ certificate or signs a token"
   must reach Bao needs client certificates the engine's HTTP client
   cannot present.
   :: related
-  - RFD 2256 (WebTransport inside a sandbox guest), whose QUIC stack
+  - RFD66606-2256 (WebTransport inside a sandbox guest), whose QUIC stack
     runs TLS 1.3 through picotls on mbedTLS.
   """
 

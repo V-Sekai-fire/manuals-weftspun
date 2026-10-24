@@ -1,4 +1,4 @@
-# RFD 2287's first rung: dev.1, the station walked through the MuJoCo guest
+# RFD66606-2287's first rung: dev.1, the station walked through the MuJoCo guest
 
 Measured on 2026-10-02 on the Mac desk (macOS 26, Apple silicon), for the
 `release/v20261001-dev.1` cut of `V-Sekai-fire/transport-meshing-pen`. Times are PDT.
@@ -135,7 +135,7 @@ of transport-meshing-pen#26. `release.yml` published the prerelease, and every a
 from it passes `shasum -a 256 -c SHA256SUMS`: the double engine, the addon library and the
 `curvenet`, `dress_on`, `mujoco`, `rd_worker` and `usd` ELFs.
 
-## Deviations from RFD 2293's dev rung
+## Deviations from RFD66606-2293's dev rung
 
 - macOS through oxrsys, not the Frame.
 - The playtest is a persona run driven by the assistant, with no human seat.

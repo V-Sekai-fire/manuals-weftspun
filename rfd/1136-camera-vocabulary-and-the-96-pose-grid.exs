@@ -35,7 +35,7 @@ rfd 1136, "Views are named in the ecosystem's camera vocabulary", :discussion do
   rounds and got 0.0 each time. View 0 is a camera directly beneath a
   standing figure. The degrees were on the page the whole time.
   :: related
-  RFD 1134 records the run where the unnamed view cost three rounds. See
+  RFD66606-1134 records the run where the unnamed view cost three rounds. See
   `DETAILS.md` for the grid proposed as constructed training data.
   """
 

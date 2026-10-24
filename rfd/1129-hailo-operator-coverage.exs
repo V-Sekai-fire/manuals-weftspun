@@ -35,8 +35,8 @@ rfd 1129, "Which operators the Hailo-10H will not take", :discussion do
   compiled per NVIDIA architecture. Neither is a quantisation question.
   Both ask whether the graph exists outside CUDA at all.
   :: related
-  RFD 1128 asks whether four bits survive. RFD 1130 asks about
-  throughput and needs this first. RFD 1040 packages the model.
+  RFD66606-1128 asks whether four bits survive. RFD66606-1130 asks about
+  throughput and needs this first. RFD66606-1040 packages the model.
   """
 
   details_title "Which operators the Hailo-10H will not take"

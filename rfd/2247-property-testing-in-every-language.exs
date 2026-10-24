@@ -84,7 +84,7 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   minimal counterexample instead of needing a human to guess which two
   settings to compare. That is the argument for both halves of this rule.
 
-  The workspace already believes half of it. RFD 2234's gates each read
+  The workspace already believes half of it. RFD66606-2234's gates each read
   "every gate ships with its negative control". That discipline was written
   down for data gates and practised nowhere else; this RFD generalises it to
   code and adds the generator.
@@ -99,9 +99,9 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   generalise. The rule binds where there is a claim about behaviour over a
   domain of inputs, which is where the interesting bugs are.
   :: related
-  RFD 2234 (dress-on pipeline; the "every gate ships with its negative
+  RFD66606-2234 (dress-on pipeline; the "every gate ships with its negative
   control" discipline this generalises, and the springbone follow-on whose
-  harness bug motivated it), RFD 2232 (Markdown as build artifact),
+  harness bug motivated it), RFD66606-2232 (Markdown as build artifact),
   `2-contract/manuals-weftspun/apparatus/springbone_mujoco.py` and its test
   suite, `3-interactor/g1-sim-to-real/` (add_cloth_chains.py,
   bench_silhouette.py, coacd_calibrate.py).

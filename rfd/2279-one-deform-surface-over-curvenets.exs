@@ -25,9 +25,9 @@ registered by `cage.elf` and `curvenet.elf`; the Lean kernels behind it"
   two weight tables, one skin bake. Bones, twist bones and corrective
   shapes had no place in either.
   :: related
-  - RFD 2277 (cage fitting as a sandbox guest), the biharmonic method.
-  - RFDs 2265 and 2274, the curvenet guest and its crossings.
-  - RFD 2275 (unified expressions), the first client.
+  - RFD66606-2277 (cage fitting as a sandbox guest), the biharmonic method.
+  - RFD66606-2265 and RFD66606-2274, the curvenet guest and its crossings.
+  - RFD66606-2275 (unified expressions), the first client.
   """
 
   details_title "one deform surface over curvenets"
@@ -106,7 +106,7 @@ registered by `cage.elf` and `curvenet.elf`; the Lean kernels behind it"
   rigid bone poses and weights (Le and Deng, doi 10.1145/2185520.2185573)
   and returns what the bones cannot carry as residual shapes.
   `init_skin` may be a SkinTokens rig, which runs as a ggml guest the
-  way RFD 2272 runs RF-DETR. `skin_to_shapes` bakes bone poses back to
+  way RFD66606-2272 runs RF-DETR. `skin_to_shapes` bakes bone poses back to
   blend shapes, each the deformed mesh minus the rest.
 
   So every expression can ship as a shape, a bone or both, whichever a
@@ -149,9 +149,9 @@ registered by `cage.elf` and `curvenet.elf`; the Lean kernels behind it"
   - `twist_split` shares sum to the roll and stay in range;
   - each corrective clears its crossings at both parents set to 1.
   :: details What this RFD does not decide
-  The cage's own construction around a head or a garment, which RFD
-  2277 owns. Whether SkinTokens' predicted skeletons are in
+  The cage's own construction around a head or a garment, which
+  RFD66606-2277 owns. Whether SkinTokens' predicted skeletons are in
   distribution for stylised faces. GPU dispatch of the kernels through
-  compute-rd, which RFD 2265 governs for the curvenet.
+  compute-rd, which RFD66606-2265 governs for the curvenet.
   """
 end

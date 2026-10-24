@@ -31,7 +31,9 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
 
   See DETAILS.md for the tag schema, the render script's shape, and the Klaus Leopold citation.
   :: related
-  RFD 1000 (RFD conventions), RFD 1053 (OpenUSD internal format), RFD 2174 (open-abandoned index) and RFD 2176 (committed-terminal index): same pattern of one document plus tag.
+  RFD66606-1000 (RFD conventions), RFD66606-1053 (OpenUSD internal format), RFD66606-2174
+  (open-abandoned index) and RFD66606-2176 (committed-terminal index): same pattern of one
+  document plus tag.
   """
 
   details_title "flight levels taxonomy"

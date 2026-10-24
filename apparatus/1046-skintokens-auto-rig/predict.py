@@ -1,7 +1,7 @@
-"""SkinTokens auto rig. RFD 1046.
+"""SkinTokens auto rig. RFD66606-1046.
 
 The rig is an opinion about a mesh that already exists, thus it goes
-into its own USD layer over the mesh layer. RFD 1053 gives that rule.
+into its own USD layer over the mesh layer. RFD66606-1053 gives that rule.
 
 A GLB skin binds to one mesh. When retopology later changes the mesh,
 that skin breaks. A UsdSkel binding in its own layer survives a new
@@ -10,7 +10,7 @@ mesh layer below it, and only the weights need a rebind.
 
 from cog import BasePredictor, BaseModel, Input, Path
 
-# SkinTokens rejects template mode. RFD 1035 records that UniRig is
+# SkinTokens rejects template mode. RFD66606-1035 records that UniRig is
 # the only backend for it.
 RIG_MODES = ["skeleton", "skin", "full"]
 

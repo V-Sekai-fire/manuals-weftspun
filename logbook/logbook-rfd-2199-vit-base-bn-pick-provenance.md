@@ -1,4 +1,4 @@
-# Why RFD 2199 picked the Hailo vit_base_bn recipe
+# Why RFD66606-2199 picked the Hailo vit_base_bn recipe
 
 Records the concrete diagnosis that drove the pick, so a later retract-if-
 below-keypoint-bar has provenance to reference. Sits alongside
@@ -79,15 +79,15 @@ export tweak with no equivalent precedent.
 The vit_base_bn recipe carries an accuracy cost (BN vs LN in a
 transformer typically loses 1-3 mAP points on classification; unknown
 delta on detection / keypoints). If the retrained BN-encoder rf-detr
-lands below the keypoint accuracy bar RFD 2199 needs, the
+lands below the keypoint accuracy bar RFD66606-2199 needs, the
 fork-encoder-LN path is still available as a follow-up. The
 zoo-pivot is the second fallback if fork-encoder-LN also misses.
 
 Retract shape when it triggers: this entry stays (the reasoning is what
 gets retracted-around, per CLAUDE.md's "retractions stay in place next
 to what they retract" rule), a follow-up logbook entry names the
-observed accuracy gap and the switch, and RFD 2199's body carries the
-one-line pointer to the follow-up per RFD 2201 doctrine.
+observed accuracy gap and the switch, and RFD66606-2199's body carries the
+one-line pointer to the follow-up per RFD66606-2201 doctrine.
 
 ## Compat probe expectation
 
@@ -106,7 +106,7 @@ encoder subgraph is the double-check.
 The vit_base_bn recipe pick surfaced two constraints that made it
 unshippable:
 
-- **4.57% BN drop against LN baseline** on the accuracy floor RFD 2199
+- **4.57% BN drop against LN baseline** on the accuracy floor RFD66606-2199
   needed. Larger than the "1-3 mAP points" prior this entry cited from
   classification work. Detection + keypoints heads carry more of the
   drop than classification does.
@@ -116,7 +116,7 @@ unshippable:
 
 Both surfaced through HERO's scaffold-first pilot analysis before the
 full retrain kicked; the pilot never ran, so the weeks-scale wall was
-spared. RFD 2199 on-device compile + measure is now parked (not
+spared. RFD66606-2199 on-device compile + measure is now parked (not
 cancelled). Un-park conditions:
 
 - Hailo DFC gains native support for LayerNormalization axes patterns

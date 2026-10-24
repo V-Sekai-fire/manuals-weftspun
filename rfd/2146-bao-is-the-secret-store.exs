@@ -36,7 +36,7 @@ already presents a per-identity TLS leaf."
   client already presents a per-identity cert at the TLS handshake,
   and the API layer above ignores it and re-asks with a token.
   :: related
-  RFD 2140, 2142 (implemented here), 2144, 2145.
+  RFD66606-2140, RFD66606-2142 (implemented here), 2144, 2145.
   """
 
   details_title "Bao is the secret store, cert-auth is the fence"
@@ -73,7 +73,7 @@ already presents a per-identity TLS leaf."
   subtree under `secret/apps/<name>/*`. Adding a new capability is a
   policy per verb, per scope. Two axes; nothing else needs to change.
   :: details Cert-auth roles
-  Bao's `cert` auth backend was enabled by RFD 2146. Every role binds
+  Bao's `cert` auth backend was enabled by RFD66606-2146. Every role binds
   one leaf (or a small allow-list of CNs) to a set of policies. The
   leaf is Bao-PKI-issued by `chibifire.com Intermediate CA v2` (except
   the operator's admin cert, which is signed directly by the Root, a
@@ -124,16 +124,16 @@ already presents a per-identity TLS leaf."
   - **Approle / token-based auth.** Kept enabled for the root break-
     glass path. Not the primary auth pattern for services.
   - **Cert renewal.** Roles carry a specific leaf's DER hash. When the
-    leaf rotates (90 days per RFD 2145), the role has to be re-bound.
+    leaf rotates (90 days per RFD66606-2145), the role has to be re-bound.
     A followup script watches `pki/` for issuance and re-runs
     `bao write auth/cert/certs/<role> certificate=@<new-leaf>`
     automatically. Filed in the workspace task list.
   - **Namespaces.** OpenBao has enterprise-only namespaces. This RFD
     uses path prefixes instead (`secret/weftspun/`, `secret/apps/`).
   :: details Sources
-  - RFD 2140 (Bao on FDB), the storage backend this all sits on.
-  - RFD 2142, service TLS design; this RFD's role table is its
+  - RFD66606-2140 (Bao on FDB), the storage backend this all sits on.
+  - RFD66606-2142, service TLS design; this RFD's role table is its
     implementation.
-  - RFD 2145, cert lifetimes that constrain how often roles rotate.
+  - RFD66606-2145, cert lifetimes that constrain how often roles rotate.
   """
 end

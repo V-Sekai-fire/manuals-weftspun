@@ -21,15 +21,15 @@ policy shape this copies"
   stays parked until the round-trip loss and sequence length are
   measured.
   :: problem
-  Pixal3D's latent is continuous, so the loop that carries it (RFD 1146)
+  Pixal3D's latent is continuous, so the loop that carries it (RFD66606-1146)
   can only hand it to a decoder, and a repair arm that takes a mesh
   needs an extract step first. Nothing can edit a latent the way a
   language model edits text.
   :: related
-  - RFD 1146 (latent to Pixal3D), the loop that carries the latent.
-  - RFD 1040 (Pixal3D image to textured mesh), the model.
-  - RFD 1046 (SkinTokens auto-rig), the pattern copied.
-  - RFD 2279 (one deform surface), where skin tokens meet the mesh.
+  - RFD66606-1146 (latent to Pixal3D), the loop that carries the latent.
+  - RFD66606-1040 (Pixal3D image to textured mesh), the model.
+  - RFD66606-1046 (SkinTokens auto-rig), the pattern copied.
+  - RFD66606-2279 (one deform surface), where skin tokens meet the mesh.
   """
 
   details_title "Pixal3D latents as mesh tokens"
@@ -37,7 +37,7 @@ policy shape this copies"
   prose ~S"""
   :: details How it was drafted
   Drafted 2026-09-28 at the operator's request to write the idea down
-  and park it, while RFDs 2275 and 2279 were in progress.
+  and park it, while RFD66606-2275 and RFD66606-2279 were in progress.
   :: details What the latent is
   Pixal3D is a three-stage cascade: sparse structure at 32 to 64,
   shape at 256 to 1024, and texture at 256 to 1024, all conditioned on
@@ -62,7 +62,7 @@ policy shape this copies"
   - sequence length per asset against the policy's context window,
     with the voxel order that keeps it shortest;
   - one token edit (move a region, delete a part) that decodes to a
-    valid mesh without the extract step RFD 1146 needs.
+    valid mesh without the extract step RFD66606-1146 needs.
 
   If the round-trip loss is not small beside the decoder's own error,
   the idea stays parked.

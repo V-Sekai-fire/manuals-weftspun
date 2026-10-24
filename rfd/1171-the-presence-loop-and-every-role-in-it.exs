@@ -32,11 +32,11 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   `contour.py` makes either a fixed ring. `DETAILS.md` places every
   candidate and names the empty stages.
   :: problem
-  RFD 1166 ranked twelve models against each other and never says **what
+  RFD66606-1166 ranked twelve models against each other and never says **what
   any of them is for**, so a reader cannot tell which stage is missing.
   Ranking stages of one pipeline against each other was the error.
   :: related
-  RFD 1166 has the measurements; 1168, 1169 and 1170 the mechanisms.
+  RFD66606-1166 has the measurements; 1168, 1169 and 1170 the mechanisms.
   """
 
   details_title "The presence loop, and every role in it"
@@ -66,7 +66,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   from joint angles has one answer. Recovering the joint angles from a
   picture has many, and the whole of `pose-consensus` exists because of
   that asymmetry: the LBFGS fit, the silhouette and the depth term are
-  three opinions on one inverse, and RFD 1168's masking-as-corruption is
+  three opinions on one inverse, and RFD66606-1168's masking-as-corruption is
   the same admission one movement up.
 
   **So the checkers are not distributed evenly, and should not be.**
@@ -85,7 +85,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   clothed figure; backwards it recovers the body.
   :: details The taxonomy is the spine, and it already splits correctly
   `common/live2d/scrap_model.py` in See-Through's tree carries
-  `VALID_BODY_PARTS_V3`. RFD 1166 kept it as the one part of that project
+  `VALID_BODY_PARTS_V3`. RFD66606-1166 kept it as the one part of that project
   whose licence permits reuse, and it turns out to be the vocabulary this
   whole loop needs:
 
@@ -109,7 +109,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   being used for a second purpose is usually describing something real.
 
   Two of the body rows are load-bearing for the rest. `front hair` and
-  `back hair` are a depth relation, which is why RFD 1168 argues the
+  `back hair` are a depth relation, which is why RFD66606-1168 argues the
   decomposition belongs in 3D, and it is the same reason a hat has to know
   which hair it sits under.
   :: details Movement one: make a persona
@@ -135,8 +135,8 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
                                  CustomVoice
 
   **The gate is the stage most worth questioning.** EditScore is a LoRA
-  over Qwen3-VL-8B at 6.75 GiB, which is most of an 8 GB device, and RFD
-  1166 records the open question from arXiv:2608.12875: if that gate is
+  over Qwen3-VL-8B at 6.75 GiB, which is most of an 8 GB device, and
+  RFD66606-1166 records the open question from arXiv:2608.12875: if that gate is
   classification, an embedding model ties an LLM at a fraction of the
   cost. Nobody has established which it is.
   :: details Movement two: dress it
@@ -161,7 +161,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
       wearable                                        upstream
       cloth against body         MuJoCo MJX           not a network
 
-  **A try-on is the masking operation from RFD 1168, run for a different
+  **A try-on is the masking operation from RFD66606-1168, run for a different
   reason.** Decomposition removes a layer to see it; a try-on removes a
   layer to replace it. The hole is the same hole and LaMa fills it either
   way, which is why one mechanism serves both and neither needs its own.
@@ -198,7 +198,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
       render                     Godot                four checkouts
 
   **These two movements are the same avatar and opposite directions, and
-  that is why the loop needs both motion sources.** RFD 1170 called the
+  that is why the loop needs both motion sources.** RFD66606-1170 called the
   split presence against authoring without noticing it is also first
   person against second. `be it` has a person in the room supplying
   everything; `make a friend` has nobody, so every input the person was
@@ -235,7 +235,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   serve a 312-square segmenter. Each checkpoint is its own translate,
   its own calibration set and its own quantisation.
 
-  That matters because rung 4 is the expensive step. RFD 1165 measures
+  That matters because rung 4 is the expensive step. RFD66606-1165 measures
   QAFT at 32.5 GiB, which the desk's 24 GiB cannot reach at any batch
   size, so every additional compiled model is another rented card rather
   than another afternoon.
@@ -250,7 +250,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
       make a friend   the friend sees what it is     detection
                       shown
 
-  **The `dress` row is the one worth noticing.** RFD 1168 established that
+  **The `dress` row is the one worth noticing.** RFD66606-1168 established that
   a try-on needs a boundary and a hole to fill. A webcam plus the
   segmentation head is a boundary from the real world, so a garment can
   enter the loop by being held up rather than by being modelled. Nothing
@@ -291,7 +291,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   the person is worn. A skirt, a coat and a hat all extend past the body
   outline, and that overhang is the garment boundary, derived from
   geometry rather than learned from labels, which is the corpus problem
-  RFD 1168 could not solve any other way.
+  RFD66606-1168 could not solve any other way.
 
   That inverts the `dress` movement. It does not need a segmenter that
   knows `topwear`; it needs a body it already has and the difference
@@ -301,7 +301,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   come from the image, and **MoGe answers that without a segmenter and
   without a taxonomy**, a depth step separates a person from the wall
   behind them, and no labelled corpus is involved. That is the blocker
-  RFD 1168 could not get past, sidestepped rather than solved.
+  RFD66606-1168 could not get past, sidestepped rather than solved.
 
   **And it also hands over the camera.** `silhouette.py` projects through
   a pinhole `Camera(width, height, fx, fy, cx, cy)`, and those numbers
@@ -323,8 +323,8 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   everywhere and looks plausible. One model closing both gaps is worth
   more than the depth alone.
 
-  **The domain risk that applied elsewhere does not apply here.** RFD
-  1166 records MoGe as unproven on illustration, which is why it was not
+  **The domain risk that applied elsewhere does not apply here.**
+  RFD66606-1166 records MoGe as unproven on illustration, which is why it was not
   a drop-in for See-Through's depth stage. A webcam pointed at a person is
   photographs, which is exactly what MoGe was trained on. Same model,
   different use, and the caveat does not travel.
@@ -380,7 +380,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   **That is the real split in this pipeline**, and it is not depth
   against mapping. It is whether a second view exists.
   :: details LingBot-Map is the one that is licence-clean, and it was never checked
-  RFD 1050 abandoned it on scope and left two blockers open rather than
+  RFD66606-1050 abandoned it on scope and left two blockers open rather than
   answered: the parameter count, and **"License | RFD 1028 gates the
   ship"**. Nobody had looked. Looking resolves it in the good direction.
 
@@ -415,7 +415,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   :: details `depth_term.py` is written against Marigold, which is now blocked
   `pose-consensus/python/depth_term.py` is the forward that pairs with a
   learned depth inverse, and it names Marigold throughout: the docstring,
-  the pipeline table, and the affine-alignment rationale. RFD 1166
+  the pipeline table, and the affine-alignment rationale. RFD66606-1166
   blocklisted See-Through's checkpoints, and the depth one is a Marigold
   derivative under OpenRAIL++-M.
 
@@ -524,7 +524,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   **What is still unmeasured, and the number that decides the weight**:
   nobody has measured MoGe-3's metric accuracy against a rendered depth
   buffer of known geometry. Until that exists, any weight on a scale term
-  is a guess, and RFD 1170's rendered walk is exactly the apparatus that
+  is a guess, and RFD66606-1170's rendered walk is exactly the apparatus that
   would produce it, since a Mitsuba render has known depth by construction.
   :: details LingBot-Depth was checked and is not a candidate
   Same family, Apache-2.0, ViT-L/14. It takes RGB **and** a sparse or
@@ -536,7 +536,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   :: details `depth_term.py` is written against Marigold, which is now blocked
   `pose-consensus/python/depth_term.py` is the forward that pairs with a
   learned depth inverse, and it names Marigold in its docstring, its
-  pipeline table and its affine-alignment rationale. RFD 1166 blocklisted
+  pipeline table and its affine-alignment rationale. RFD66606-1166 blocklisted
   See-Through's checkpoints, and the depth one is a Marigold derivative.
 
   **The code does not break.** `depth_loss` takes `target_depth` as a
@@ -614,7 +614,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   one repository and differ by checkpoint. No manifest change is needed.
   :: details The rung-2 export describes the wrong model now
   `moge-upstream/export_device_half.py` exports `dinov2_vitb14` with four
-  intermediate layers, which is **v1's** encoder. RFD 1167 records MoGe at
+  intermediate layers, which is **v1's** encoder. RFD66606-1167 records MoGe at
   rung 1 and 2 on that basis: 885 nodes, 26 operators, `Mod x4` outside
   `DEVICE_OPS`.
 
@@ -636,7 +636,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
       reconstruct it with LingBot-Map
       the difference is the reconstruction error, exactly
 
-  Ground truth is not estimated here, it is the input. RFD 1170 already
+  Ground truth is not estimated here, it is the input. RFD66606-1170 already
   makes Mitsuba the reference renderer against Godot; this is the same
   instrument pointed at a different consumer, and CLAUDE.md already fixes
   the camera sequence, so `sphere_hammersley_sequence` is the path unless
@@ -653,8 +653,8 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   measured on renders. Use it to bound the error and to catch regressions,
   not to claim the number transfers to a webcam in a room.
   :: details Mapping models were reconsidered, and the field is licence-hostile
-  RFDs 1051 and 1052 abandoned WorldMirror 2.0 and TripoSplat when RFD
-  1064 turned toward character concepts and away from scene
+  RFD66606-1051 and RFD66606-1052 abandoned WorldMirror 2.0 and TripoSplat when
+  RFD66606-1064 turned toward character concepts and away from scene
   reconstruction. **That reason has inverted**, the presence loop makes
   scene reconstruction a character tool, because the static scene is what
   a moving person is separated from. So the abandonment was revisited.
@@ -672,7 +672,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   **Every learned multi-view reconstructor reachable from here is
   non-commercial or territory-restricted.** That is worth recording as a
   property of the field rather than as three separate disappointments,
-  and it is probably why RFD 1064's pivot cost less than it looked like
+  and it is probably why RFD66606-1064's pivot cost less than it looked like
   it would.
 
   **What is licence-clean is classical.** OpenCV is Apache-2.0 and COLMAP
@@ -737,7 +737,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   :: details What the mesh contour does not give
   **Hair is not body.** `front hair` and `back hair` are two of the
   taxonomy's 23 parts and neither is in a body mesh, so the outline
-  excludes exactly the parts RFD 1168 spends its argument on.
+  excludes exactly the parts RFD66606-1168 spends its argument on.
 
   **A single ring cannot hold a hole or a split**, which is the bound
   already stated for contour segmentation and applies here unchanged.
@@ -770,7 +770,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
 
   **Keypoints cannot be dropped and segmentation should not be.**
   Keypoints are `be it`, they are the only model at rung 3, and nothing
-  else tracks a body every frame. Segmentation is `dress`: RFD 1168 needs
+  else tracks a body every frame. Segmentation is `dress`: RFD66606-1168 needs
   a boundary before it needs anything else, and a garment held up to a
   webcam is a boundary from the real world.
 
@@ -792,7 +792,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
                       argmax or run-length          order, fixed
       pose            joints                       joints
 
-  **The head-shaped versions reach for operators RFD 1131 refuses.** A
+  **The head-shaped versions reach for operators RFD66606-1131 refuses.** A
   detection head wants `TopK` for query selection and
   `NonMaxSuppression`, both in `KNOWN_BLOCKERS`, and the second is there
   specifically for a data-dependent output shape. A mask head wants
@@ -819,14 +819,14 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
 
   **Fine boundaries get worse.** M points around a silhouette is a
   polygon, and hair, lace or a fringe is not a polygon at any M this
-  would use. RFD 1168 already bounds the fine parts out on latent
+  would use. RFD66606-1168 already bounds the fine parts out on latent
   resolution; this bounds them out again for a different reason, and two
   independent bounds agreeing is worth more than either alone.
 
   **A kludge is available before any of this.** If only the keypoint head
   is compiled, a coarse box follows from the joints and a coarse region
   per limb follows from the box. It would place `topwear` roughly where a
-  torso is. That is enough for RFD 1168's step 1, which only tests the
+  torso is. That is enough for RFD66606-1168's step 1, which only tests the
   plumbing, and nowhere near enough to cut a garment out of a photograph.
   Take it to close the loop early, not as the answer.
 
@@ -846,12 +846,12 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   Naming these is most of the value of reorganising the document.
 
   1. **Keypoints to a SOMA pose.** rf-detr emits keypoints; ANNY needs a
-     pose. `anny_from_soma` exists as a topology, and RFD 1122's
+     pose. `anny_from_soma` exists as a topology, and RFD66606-1122's
      wholebody gap is the distance between them. Nothing fills it.
   2. **A segmenter that knows these classes.** rf-detr-seg is
-     COCO-classed and knows `person`, not `topwear`. RFD 1168 records
+     COCO-classed and knows `person`, not `topwear`. RFD66606-1168 records
      that corrupt-clean render pairs would generate the corpus.
-  3. **Audio to visemes.** RFD 1170 found the Space ships this as two
+  3. **Audio to visemes.** RFD66606-1170 found the Space ships this as two
      minified vendor modules and a `.bin` with no stated licence, so it
      is the part to replace rather than reuse, and whether ANNY even
      carries viseme morph targets is unchecked.

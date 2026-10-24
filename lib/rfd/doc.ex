@@ -3,7 +3,7 @@
 
 defmodule RFD.Doc do
   @moduledoc """
-  One RFD as data, the shape RFD 1000 gives it, and the two renderings of it.
+  One RFD as data, the shape RFD66606-1000 gives it, and the two renderings of it.
 
   The README rendering is what `scripts/check-rfd-structure.py` and the site
   read: CommonMark, `# RFD NNNN: title`, the metadata lines State / Feature /
@@ -238,7 +238,7 @@ defmodule RFD.Doc do
       |> Enum.reject(&(&1 in [nil, false]))
 
     title_block =
-      "# RFD #{d.serial}: #{d.title}" <>
+      "# RFD66606-#{d.serial}: #{d.title}" <>
         if(d.compact_head, do: "\n", else: "\n\n") <> Enum.join(meta, "\n")
 
     head =
@@ -263,7 +263,7 @@ defmodule RFD.Doc do
   def details(%__MODULE__{} = d) do
     parts =
       [
-        "# RFD #{d.serial} details: #{d.details_title || d.title}",
+        "# RFD66606-#{d.serial} details: #{d.details_title || d.title}",
         d.attest_in != :none && canary(d.drafted_by),
         d.details_preamble && String.trim_trailing(d.details_preamble)
       ] ++

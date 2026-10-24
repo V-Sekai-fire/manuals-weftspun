@@ -26,17 +26,17 @@ one-hour SSH certificate that Bao itself signs"
   WireGuard peer fails to add its route. Every other route in
   use was an operator-held proxy, which is a person, not a path.
   :: related
-  - RFD 2195 (Bao over the tailnet), the path this complements.
-  - RFD 2146 (Bao is the secret store), the cert-auth identities
+  - RFD66606-2195 (Bao over the tailnet), the path this complements.
+  - RFD66606-2146 (Bao is the secret store), the cert-auth identities
     that sign here.
-  - RFD 2142 (Bao PKI), the root the agent certificates chain to.
+  - RFD66606-2142 (Bao PKI), the root the agent certificates chain to.
   """
 
   details_title "an SSH tunnel to Bao for Bao-signed certificates"
 
   prose ~S"""
   :: details Using it
-  With a Bao token from cert login (RFD 2195's four variables):
+  With a Bao token from cert login (RFD66606-2195's four variables):
 
       ssh-keygen -y -f key.pem > key.pub
       bao write -field=signed_key ssh/sign/bao-tunnel \

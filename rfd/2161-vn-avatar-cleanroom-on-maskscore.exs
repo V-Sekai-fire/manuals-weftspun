@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2161, "Cleanroom Gemma-Avatar as a visual novel, on MaskScore", :discussion do
   feature "VN with location travel and prompt-driven talking-head
-interactions, cleanroom-rebuilt on the RFD 1173 stack"
+interactions, cleanroom-rebuilt on the RFD66606-1173 stack"
   scope "taskweft, taskweft-godot-sandbox"
 
   prose ~S"""
@@ -16,7 +16,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   2. TTS voice-clone -> ResembleAI/chatterbox
   3. STT -> whisper-small (MLX); VAD -> silero
   4. Viseme -> cleanroom small classifier
-  5. Renderer -> libgodot in BEAM (RFD 2154); Body -> ANNY + SOMA
+  5. Renderer -> libgodot in BEAM (RFD66606-2154); Body -> ANNY + SOMA
   6. Locations -> `6-datasource/{kenney,thebasemesh,quaternius}-stage`
 
   Full retraction trail, stack table, Mac-mini smoke in `DETAILS.md`.
@@ -31,7 +31,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   (97k rows, apache-2.0) and the Wan-VACE 14B slot without changing the
   small-machine shipping path.
   :: related
-  RFD 1173, RFD 2154, RFD 2160.
+  RFD66606-1173, RFD66606-2154, RFD66606-2160.
   """
 
   details_title "Cleanroom Gemma-Avatar as a visual novel, on MaskScore"
@@ -99,7 +99,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
     `EditScore/EditScore-7B`, `EditScore/EditScore-32B`) become tractable
     at inference on the 3090. The 4B stays as the Mac-mini reference.
   3. **Wan-VACE 14B NF4** (~8.7 GB) fits alongside the reward model on
-    the 3090 with swap. Reopens the image-generation slot RFD 1173
+    the 3090 with swap. Reopens the image-generation slot RFD66606-1173
     originally sized for.
   4. **Hailo track** stays parked; 3090 does not change Linux/DFC gap.
   :: details Original substitution table (retained for the record)
@@ -133,7 +133,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   in an earlier pass), every GPTQ, every bitsandbytes NF4. Recorded here
   so a future session does not re-derive their presence and mistake them
   for QAT-refined weights.
-  :: details MaskScore-stack models (RFD 1173)
+  :: details MaskScore-stack models (RFD66606-1173)
   Zero true-QAFT 4-bit checkpoints on Hub as of 2026-09-01 for any of:
   Qwen3-Omni-30B, Wan-VACE 14B, Pixal3D, VoxHammer, MoGe-3. PTQ variants
   exist for the first two only.
@@ -145,7 +145,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   and quantize it after the fact, no re-training.
 
   Hub was searched for each of the five MaskScore-stack model families
-  (RFD 1173) using both the family name and QAFT-specific naming
+  (RFD66606-1173) using both the family name and QAFT-specific naming
   conventions (`QAFT`, `QAT`, `-qat`, `quantization-aware`).
 
   | model family              | true-QAFT 4-bit upstream | PTQ-4-bit exists?                                                 |
@@ -177,7 +177,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   The implementer side must not open any other file in that space.
   :: details Boot order
       personas/*.grafcet.jsonld
-        -> mix taskweft.grafcet.lower                  (Elixir, RFD 2148)
+        -> mix taskweft.grafcet.lower                  (Elixir, RFD66606-2148)
         -> personas/lowered/*.htn.jsonld
         -> mix vn_avatar.serve --port 4000             (Elixir, weftspun-studio)
            Elixir Router  ;  WebSocket  ;  Browser (canvas + prompt input)
@@ -185,22 +185,22 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
                +-> BusNif -> iox2 (RFD's 2-contract/bus)
                |             |
                |             +-> Qwen3-VL worker    (Python, EditScore LoRA reward + text)
-               |             +-> Qwen3-TTS-12Hz worker (Python, RFD 1170)
+               |             +-> Qwen3-TTS-12Hz worker (Python, RFD66606-1170)
                |             +-> Wan-VACE worker    (Python, background gen)
                |
-               +-> LibGodot NIF (RFD 2154's lib_godot_connector 4.5.1)
+               +-> LibGodot NIF (RFD66606-2154's lib_godot_connector 4.5.1)
                     |
                     +-> headless godot process
                          SubViewport(1024x1024) -> get_texture per frame
                          ANNY-in-Godot scene (soma-x rig, godot-soma-twist joint driver)
                |
-               +-> taskweft RECTGTN interpreter (RFD 2148)
+               +-> taskweft RECTGTN interpreter (RFD66606-2148)
                     issues bodytags_v3.json part-mask edits ("mouth", "eyewhite")
                     at each dialog beat
                |
-               +-> MASKSCORE row writer  (RFD 1173, taskweft-nmm-personas pattern)
+               +-> MASKSCORE row writer  (RFD66606-1173, taskweft-nmm-personas pattern)
                |    -> traces/<session>.jsonl + traces/<session>.parquet
-               +-> USD writer            (RFD 2160)
+               +-> USD writer            (RFD66606-2160)
                     -> scenes/<location>.usda
   :: details Language boundaries
   1. **Elixir**; Router, WebSocket, taskweft interpreter, MASKSCORE writer, USD writer.
@@ -224,11 +224,11 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
       payload len bytes
 
   Image frames carry a WebP-encoded 1024x1024 render of the SubViewport.
-  Audio frames carry Opus-encoded 20 ms Qwen3-TTS-12Hz output (RFD 1170).
+  Audio frames carry Opus-encoded 20 ms Qwen3-TTS-12Hz output (RFD66606-1170).
   Text frames carry the current dialog line (redundant with audio, for
   captioning). Done frames end a turn.
   :: details SpeakingFaces -> vn-avatar-personas construction
-  Per RFD 1173 §"The undivided unit: 1 SpeakingFaces trial":
+  Per RFD66606-1173 §"The undivided unit: 1 SpeakingFaces trial":
 
       for subject in issai/Speaking_Faces subjects:
         pick a representative frame
@@ -245,7 +245,7 @@ interactions, cleanroom-rebuilt on the RFD 1173 stack"
   | key | string | subject id (SpeakingFaces "s0001".."s0142") |
   | anny_identity | list[float] | ANNY identity params |
   | soma_pose | list[float] | 78x3 + 3, canonical neutral |
-  | voice_tokens | list[int] | Qwen3-TTS-12Hz CustomVoice conditioning (RFD 1170) |
+  | voice_tokens | list[int] | Qwen3-TTS-12Hz CustomVoice conditioning (RFD66606-1170) |
   | persona_grafcet | string | path into the same repo |
   | license | string | CC-BY-4.0 attribution to issai/Speaking_Faces |
   :: details Trace row shape (mirrors MaskScore §8-stub schema)

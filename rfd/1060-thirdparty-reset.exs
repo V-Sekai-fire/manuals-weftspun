@@ -20,20 +20,20 @@ rfd 1060, "A thirdparty/ reset", :committed do
   `DETAILS.md` also gives why this was a real move, and not an import
   rewrite, plus every path the move touched and the verified results.
   :: problem
-  `src/library/` held 139 files and 56,376 lines. It predates RFD
-  1019's strangler fig and RFD 1023's `src/core/` split. 108 files
-  outside it still imported from it. RFD 1023's per-file move rule
+  `src/library/` held 139 files and 56,376 lines. It predates
+  RFD66606-1019's strangler fig and RFD66606-1023's `src/core/` split. 108 files
+  outside it still imported from it. RFD66606-1023's per-file move rule
   gave no place to put those 108 files a port did not cover yet.
 
   The repository root carried the same problem at a larger scale.
   `weftspun_studio/` sat as a subdirectory of the browser client's
-  tree, even though RFD 1019 makes it the API server the client is one
+  tree, even though RFD66606-1019 makes it the API server the client is one
   consumer of. The end-shape system was the guest. The system it
   replaces was the host.
   :: related
-  RFD 1019 gives the strangler fig this reset makes room for. RFD 1023
-  gives the per-file move rule this RFD does not replace. RFD 1057
-  tracks two items this move left open. RFD 1058 gives the Quadlet
+  RFD66606-1019 gives the strangler fig this reset makes room for. RFD66606-1023
+  gives the per-file move rule this RFD does not replace. RFD66606-1057
+  tracks two items this move left open. RFD66606-1058 gives the Quadlet
   paths this RFD updates.
   """
 
@@ -62,16 +62,16 @@ rfd 1060, "A thirdparty/ reset", :committed do
   New work happens at the root: in `lib/`, in
   `thirdparty/3d_studio/src/core/`, or in
   `thirdparty/3d_studio/src/chain/`. It composes with
-  `thirdparty/3d_studio/` through a port, per RFD 1023, or it does not
+  `thirdparty/3d_studio/` through a port, per RFD66606-1023, or it does not
   touch it.
   :: details Why a real move, not a rewrite of every import
-  RFD 1057 says a sweep is the wrong shape for a large, low-value
+  RFD66606-1057 says a sweep is the wrong shape for a large, low-value
   change. "Convert one when its model is next worked on, and not in a
-  sweep," in RFD 1057's own words. RFD 1023 says the same rule for
+  sweep," in RFD66606-1057's own words. RFD66606-1023 says the same rule for
   `src/library/`. "A module moves when a port covers it, and not
   before."
 
-  Neither RFD 1023's per-file rule, nor RFD 1057's no-sweep rule,
+  Neither RFD66606-1023's per-file rule, nor RFD66606-1057's no-sweep rule,
   required rewriting relative imports inside the moved trees. `git mv`
   preserves history. Every existing import between files that moved
   together keeps its shape. Those files moved as one tree, not as 139
@@ -79,12 +79,12 @@ rfd 1060, "A thirdparty/ reset", :committed do
   :: details What stays at the root, and why
   **`decisions/`**, direct instruction. The RFD index documents both
   `weftspun_studio` and the browser client. Splitting it would break
-  RFD 1000's DRY policy.
+  RFD66606-1000's DRY policy.
 
   **`.github/`**, GitHub Actions only discovers workflows at the true
   repository root. It cannot move.
 
-  **`.devcontainer/`**, RFD 1056's dev container, for the Elixir
+  **`.devcontainer/`**, RFD66606-1056's dev container, for the Elixir
   side. `devcontainer.json` sets `privileged: true` and
   `--cgroupns=host` specifically so Quadlet units can start inside it.
   Removed in this session, ahead of a rebuild.
@@ -98,7 +98,7 @@ rfd 1060, "A thirdparty/ reset", :committed do
   Every other file under the old `scripts/` moved to
   `thirdparty/3d_studio/scripts/` instead. That set is the JS build
   helpers, the DGX sync scripts, and the XR proxies. Those files read
-  and write that tree, not this one. RFD 1063 later deleted
+  and write that tree, not this one. RFD66606-1063 later deleted
   `ste-lint-decisions.py`, leaving five.
 
   **`LICENSE`, `TRADEMARKS`, `.formatter.exs`, `.gitattributes`,
@@ -116,14 +116,14 @@ rfd 1060, "A thirdparty/ reset", :committed do
   `deploy/quadlet/weftspun.build` and `weftspun-crdb.build` read
   `/opt/weftspun/src/Dockerfile` and
   `/opt/weftspun/src/deploy/Dockerfile.crdb` now, in place of the
-  `weftspun_studio/` prefix RFD 1058 wrote. `scripts/deploy-weftspun-quadlet.sh`
+  `weftspun_studio/` prefix RFD66606-1058 wrote. `scripts/deploy-weftspun-quadlet.sh`
   still syncs the whole repository to `/opt/weftspun/src`, and that
   tree's root is this repository's root.
 
   `package.json`'s `lint:ste` script read `../../scripts/ste-lint-decisions.py`
   and `../../decisions/0*/README.md` at the time of this move, because
   `package.json` lives two levels under the tree those two paths were
-  actually in. RFD 1063 later deleted that script and that npm entry.
+  actually in. RFD66606-1063 later deleted that script and that npm entry.
 
   `.pre-commit-config.yaml`'s `studio-test` hook matches
   `^(lib|test|config)/.*\.exs?$|^mix\.exs$` now, in place of
@@ -135,22 +135,22 @@ rfd 1060, "A thirdparty/ reset", :committed do
   this move. `deps/taskweft_nif/priv/libtaskweft_nif.so` was an ARM
   aarch64 binary, and this box is x86_64. `file` on the `.so`
   confirmed it, and the failure was identical with or without the
-  swap. RFD 1057 records the later fix. All 105 tests pass now.
+  swap. RFD66606-1057 records the later fix. All 105 tests pass now.
 
   `npx vitest run` from `thirdparty/3d_studio/` resolves
   `src/library/aiModelsCatalog.js`'s `import '../core/domain/catalog.js'`
   correctly, now that `library/` is a real directory under `src/`
   again, and not a symlink elsewhere. `src/core` and
   `prepareGlbForApiUpload.test.js` together: 54 passed, the same 5
-  pre-existing `glbCompress.js` export failures RFD 1023 already
+  pre-existing `glbCompress.js` export failures RFD66606-1023 already
   records, and no import-resolution failure.
   :: details What this does not do
-  It does not fix the `prepareGlbForApiUpload` gap RFD 1023 already
+  It does not fix the `prepareGlbForApiUpload` gap RFD66606-1023 already
   records. That gap sits inside
   `thirdparty/3d_studio/src/library/glbCompress.js` now, the same as
   it sat inside `src/library/glbCompress.js` before.
 
-  It does not touch RFD 1023's `src/core/` / `src/chain/` split. Both
+  It does not touch RFD66606-1023's `src/core/` / `src/chain/` split. Both
   trees moved together, under `thirdparty/3d_studio/src/`, with every
   import between them intact.
   """

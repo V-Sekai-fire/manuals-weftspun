@@ -46,7 +46,7 @@ group, the leg group and so on each occupy a contiguous arc.
 THE GAP THIS MAKES VISIBLE. ANNY drives 8 of See-Through's 24 tags. The other 16 have no bone
 in the skeleton at all, and the legend lists them greyed rather than omitting them, because a
 missing category that is simply absent from the picture reads as a category that does not
-exist. This is the same finding RFD 0121 records: hair and garments are not modelled.
+exist. This is the same finding RFD66606-0121 records: hair and garments are not modelled.
 """
 import json
 import math
@@ -399,7 +399,7 @@ soda cans end to end -- at 0.012 mm a step, and thrown
 #
 # It is left as it is, and reported, because changing it would be picking a number to make an
 # output look right. Deciding it needs a definition of what a visible joint is -- surface
-# depth at the projected pixel, or the joint's own radius -- and that is RFD 1122's work, not
+# depth at the projected pixel, or the joint's own radius -- and that is RFD66606-1122's work, not
 # a constant to nudge here.
 TOL = 0.02
 manifest = {"seed": SEED, "space": "okhsl", "s": 0.95,

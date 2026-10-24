@@ -17,7 +17,7 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
 
   Each rule ran against all 116 RFDs before it became a rule. A rule that
   needed an exception did not ship. The gate reads both its state list and
-  its README line limit out of RFD 1000, so document and gate cannot drift
+  its README line limit out of RFD66606-1000, so document and gate cannot drift
   apart. It takes one dependency, `markdown-it-py`, pinned. The number
   gate keeps numbering only, and its weaker citation scan moved here.
   :: problem
@@ -31,7 +31,7 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   citation splits across a line break, and a scan of the bytes cannot see
   it. That gate measured the file. The rule is about the sentence.
   :: related
-  RFD 1000 gives the conventions this gate measures. RFD 1063 moves the
+  RFD66606-1000 gives the conventions this gate measures. RFD66606-1063 moves the
   prose rules to a plugin, and this gate checks structure only.
 
   See `DETAILS.md` for each rule, its count, the ungated conventions, the
@@ -60,7 +60,7 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   | Title reads `RFD <num>: <title>`, number equals the directory | 116 of 116 |
   | A metadata paragraph sits under the title | 116 of 116 |
   | Its fields are State, then Feature, then Scope | 116 of 116 |
-  | State is a value RFD 1000 lists | 115 of 116 |
+  | State is a value RFD66606-1000 lists | 115 of 116 |
   | Problem, Decision, References and Related keep that order | 116 of 116 |
   | A `## Decision` section is present | 114 of 116 |
   | Every citation resolves to a directory or an ALIASES.md row | 116 of 116 |
@@ -72,29 +72,29 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   Two of these need their exception stated, because the number above is
   not 116 and the rule still shipped.
 
-  **A `## Decision` section.** The two without it are RFD 1074 and
-  RFD 1078. Both carry `State: moved`, which means another repository now
+  **A `## Decision` section.** The two without it are RFD66606-1074 and
+  RFD66606-1078. Both carry `State: moved`, which means another repository now
   develops the RFD, and a moved RFD states only where it went. The gate
   requires a Decision unless the state is `moved`, and that holds at 116
   of 116.
 
-  **A retracted decision renames its own heading.** RFD 1067 heads its
+  **A retracted decision renames its own heading.** RFD66606-1067 heads its
   section "Decision, as published and now retracted". The gate matches a
   heading that starts with `Decision` and a comma, so a retraction in
   place does not have to hide behind the original title.
   :: details Measured and not gated
   **A `## Problem` section.** 111 of 116. The five without one are
-  RFD 1000, RFD 1012, RFD 1015, RFD 1074 and RFD 1078. Two are abandoned,
-  two are moved, and RFD 1000 is the conventions document itself. The
+  RFD66606-1000, RFD66606-1012, RFD66606-1015, RFD66606-1074 and RFD66606-1078. Two are abandoned,
+  two are moved, and RFD66606-1000 is the conventions document itself. The
   carve-outs would outnumber the signal, so the gate checks the position
   of Problem and not its presence.
 
-  **A `## Related` section.** 111 of 116. RFD 1020, RFD 1021, RFD 1022 and
-  RFD 1023 end at their Decision, and RFD 1074 has no section at all. The
+  **A `## Related` section.** 111 of 116. RFD66606-1020, RFD66606-1021, RFD66606-1022 and
+  RFD66606-1023 end at their Decision, and RFD66606-1074 has no section at all. The
   four look like omissions rather than a choice, and adding a section to
   somebody else's RFD is an edit this work did not make.
   :: details The line limit, and the two things it turned up
-  RFD 1000 stated "under 40 lines" and 8 of 116 READMEs exceeded it, at 41,
+  RFD66606-1000 stated "under 40 lines" and 8 of 116 READMEs exceeded it, at 41,
   43, 46, 82, 93, 131, 152 and 179 lines. Five were long because they
   carried a retraction in place, which `CLAUDE.md` requires, and that read
   as a conflict between two house rules.
@@ -106,27 +106,32 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
 
   Splitting them turned up the second thing. With the eight fixed, **12
   READMEs sat at exactly 40 lines**. Twelve files landing on one number is
-  not chance, so the bound the corpus keeps is inclusive and RFD 1000's
+  not chance, so the bound the corpus keeps is inclusive and RFD66606-1000's
   "under 40" was off by one. The document was corrected to "40 lines or
   fewer" and the gate reads the number from that sentence.
 
-  Three of the eight needed real compression rather than a move: RFD 1121,
-  RFD 1122 and RFD 1123 state a long decision, and their READMEs went from
+  Three of the eight needed real compression rather than a move: RFD66606-1121,
+  RFD66606-1122 and RFD66606-1123 state a long decision, and their READMEs went from
   131, 152 and 182 lines to 39 each. Nothing was dropped. Every removed
   section either moved into `DETAILS.md` or was already there in fuller
   form, which is why three of them could go without a replacement.
   :: details The defects the measurement found, and the repairs
-  | defect | count | repair |
-  | ------ | ----- | ------ |
-  | Citations in the old decimal form | 37 in 32 files | Rewritten from the ALIASES.md map. The substitution keeps the same four characters, so every line wrap is unchanged |
-  | `State: pre-discussion` | 1, RFD 1064 | Corrected to `prediscussion` |
-  | A state RFD 1000 does not list | 2, RFD 1074 and RFD 1078 | `moved` added to RFD 1000, because the use predates the list |
-  | A `DETAILS.md` no README named | 2, RFD 1118 and RFD 1123 | A pointer line added before Related, where the other 87 put it |
-  | A `DETAILS.md` with a title of its own | 1, RFD 1000 | Retitled `RFD 1000 details: numbering` |
-  | READMEs over the line limit | 8 of 116 | Split into `README.md` and `DETAILS.md`, retractions included |
-  | RFD 1000's limit was off by one | 1 | Corrected to "40 lines or fewer", which is what 12 READMEs already sit on |
-  | A heading written twice on one line | 1, RFD 1122's `DETAILS.md` | `## What exists, and what does not## What exists, and what does not` |
-  | An RFD after the migration cannot pass | latent | See below |
+  - Citations in the old decimal form: count 37 in 32 files; repair Rewritten from the ALIASES.md
+    map. The substitution keeps the same four characters, so every line wrap is unchanged.
+  - `State: pre-discussion`: count 1, RFD66606-1064; repair Corrected to `prediscussion`.
+  - A state RFD66606-1000 does not list: count 2, RFD66606-1074 and RFD66606-1078; repair `moved`
+    added to RFD66606-1000, because the use predates the list.
+  - A `DETAILS.md` no README named: count 2, RFD66606-1118 and RFD66606-1123; repair A pointer
+    line added before Related, where the other 87 put it.
+  - A `DETAILS.md` with a title of its own: count 1, RFD66606-1000; repair Retitled `RFD 1000
+    details: numbering`.
+  - READMEs over the line limit: count 8 of 116; repair Split into `README.md` and `DETAILS.md`,
+    retractions included.
+  - RFD66606-1000's limit was off by one: count 1; repair Corrected to "40 lines or fewer", which
+    is what 12 READMEs already sit on.
+  - A heading written twice on one line: count 1, RFD66606-1122's `DETAILS.md`; repair `## What
+    exists, and what does not## What exists, and what does not`.
+  - An RFD after the migration cannot pass: count latent; repair See below.
 
   The last one had not fired yet. `check-rfd-numbers.py` required an
   ALIASES.md row for every directory. ALIASES.md maps an old number to a
@@ -179,7 +184,7 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   judges the repository.
   :: details What the decimal renumbering withdrew
   Every count above was measured against the corpus while RFD numbers were
-  hexadecimal and `ALIASES.md` existed. RFD 1000 renumbered the corpus to
+  hexadecimal and `ALIASES.md` existed. RFD66606-1000 renumbered the corpus to
   decimal and deleted that table. The measurements stay as measured. Two of
   the rules they produced do not.
 
@@ -191,7 +196,7 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   use, one file further along.
 
   An earlier draft of this paragraph said the gate parses the deleted numbers
-  out of RFD 1070's prose. It did, for one commit, and the register replaced
+  out of RFD66606-1070's prose. It did, for one commit, and the register replaced
   it. The paragraph is corrected rather than deleted because a document that
   states a rule the code does not implement is the failure this whole RFD was
   written against, and it happened here.

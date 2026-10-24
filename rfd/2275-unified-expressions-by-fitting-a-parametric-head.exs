@@ -6,16 +6,16 @@ rfd 2275, "unified expressions by fitting a parametric head", :prediscussion do
   feature "a purchased anime avatar with no tracking shapes gains the
 unified-expression set from ANNY's facial actions, fitted and carried
 across by the cage guest"
-  scope "the head-fit entries of `cage.elf` (RFD 2277) and the deform
-table (RFD 2279); ANNY's CC0 source data; `unified_expressions.map`; the
+  scope "the head-fit entries of `cage.elf` (RFD66606-2277) and the deform
+table (RFD66606-2279); ANNY's CC0 source data; `unified_expressions.map`; the
 avatar's face mesh"
 
   prose ~S"""
   :: decision
   Fit ANNY's head to the avatar's face through a cage and carry ANNY's
   52 facial actions across under unified-expression names. The work
-  runs in the `cage.elf` sandbox guest (RFD 2277) on the deform table
-  of RFD 2279, with no Python anywhere. Names come from a
+  runs in the `cage.elf` sandbox guest (RFD66606-2277) on the deform table
+  of RFD66606-2279, with no Python anywhere. Names come from a
   one-line-per-name catalog. Blinks, gaze and the tongue start from the
   artist's sculpts; the guest derives the tongue and corrective shapes
   they lack, and ships jaw and tongue as bones and as shapes. GNM Head
@@ -26,11 +26,11 @@ avatar's face mesh"
   the rest drive nothing. Sculpting some 90 shapes by hand is the cost
   this avoids.
   :: related
-  - RFD 2271 (headset eye tracking to social VR), the sender of the
+  - RFD66606-2271 (headset eye tracking to social VR), the sender of the
     unified-expression floats, and a `.sigs` boundary of its own.
-  - RFD 2277 (curvenet-cage refit and unified expressions in Modular Avatar), the host.
-  - RFD 2279 (one deform surface over curvenets), bones and shapes.
-  - RFD 2253 (a character creator on ANNY), the 52 actions.
+  - RFD66606-2277 (curvenet-cage refit and unified expressions in Modular Avatar), the host.
+  - RFD66606-2279 (one deform surface over curvenets), bones and shapes.
+  - RFD66606-2253 (a character creator on ANNY), the 52 actions.
   """
 
   details_title "unified expressions by fitting a parametric head"
@@ -76,13 +76,13 @@ avatar's face mesh"
   Three `.sigs` files carry the boundary, and this RFD points to them
   rather than holding a copy:
 
-  - `unity_sandbox.sigs` (RFD 2277): the sandbox host's C ABI, which
+  - `unity_sandbox.sigs` (RFD66606-2277): the sandbox host's C ABI, which
     the second engine calls and a native check runner loads;
-  - `cage_guest.sigs` (RFD 2277): `cage.elf`'s vmcall table, the
+  - `cage_guest.sigs` (RFD66606-2277): `cage.elf`'s vmcall table, the
     head-fit entries (`hf_mesh_create`, `hf_model_load`,
     `hf_marks_create`, `hf_solve`, `hf_fit_residual_mm`,
     `hf_transfer`, `hf_destroy`) and the cage build, preview and dump;
-  - `deform_guest.sigs` (RFD 2279): nets, binds, deform, Jacobian, the
+  - `deform_guest.sigs` (RFD66606-2279): nets, binds, deform, Jacobian, the
     skin bake, the conversions between shapes and bones, correctives
     and twist.
 
@@ -104,7 +104,7 @@ avatar's face mesh"
   Six forms: direct, split by a smooth mask across the midline or the
   lip line, an artist sculpt named by role, a sum of other entries, a
   procedural shape, and a corrective for a pair. Two more come from
-  RFD 2279: `bone:<name>` drives a bone, and `baked:<skin>` is a shape
+  RFD66606-2279: `bone:<name>` drives a bone, and `baked:<skin>` is a shape
   baked from bone poses. The avatar's own sculpt names stay in
   character-fox. An audit reports zero unmapped names against
   the template set and Godot's face modifier table, with no `absent`
@@ -116,7 +116,7 @@ avatar's face mesh"
   an axis value into target weights is ported with anny-creator's
   `anny_coeffs.gd` as the reference, and checked by that project's
   Godot parity check. ANNY's head is bound to a coarse closed cage,
-  a net built from that mesh by RFD 2279's biharmonic method, and the
+  a net built from that mesh by RFD66606-2279's biharmonic method, and the
   cage vertices join the unknowns. Loss: point-to-surface distance to
   the avatar face, plus sparse landmarks (mouth corners, lip midline,
   chin, brow ends) marked once. The solver is contract-lbfgsb's gated
@@ -142,7 +142,7 @@ avatar's face mesh"
   Popovic, doi 10.1145/1015706.1015736) over the same correspondence is
   the next.
   :: details What ships in which stage
-  RFD 2277's ladder carries this RFD in two steps.
+  RFD66606-2277's ladder carries this RFD in two steps.
 
   - **First stage.** The head fit and the transfer of all 52 actions
     under their unified names through `unified_expressions.map`, each
@@ -152,7 +152,7 @@ avatar's face mesh"
     transferred: the tongue (sculpt roles, the lip-line steps, flat and
     squish, the chain with its roll and twist), the jaw bone and the
     rigid mouth interior, the seven correctives, the bone and baked
-    forms, and every conversion between shapes and bones from RFD 2279.
+    forms, and every conversion between shapes and bones from RFD66606-2279.
 
   The catalog audit is scoped to the stage: zero unmapped names among
   the first stage's forms, then zero unmapped names in all.
@@ -185,7 +185,7 @@ avatar's face mesh"
   jaw; the upper teeth stay still. An interior vertex that fits neither
   rigid part is reported.
   :: details Bones and shapes
-  Jaw and tongue ship both ways, through RFD 2279. `shapes_to_skin`
+  Jaw and tongue ship both ways, through RFD66606-2279. `shapes_to_skin`
   over jawOpen and the mouth interior gives a jaw bone. Over the
   artist's tongue sculpts it gives a tongue chain, with a SkinTokens rig
   as the starting point where that converges faster. Tongue roll and

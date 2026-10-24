@@ -18,7 +18,7 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   checks this repository contributed upstream. It also names what the
   deleted script's aggregate score this repository does not gain back.
   :: problem
-  RFD 1000 named `scripts/ste-lint-decisions.py` as this repository's
+  RFD66606-1000 named `scripts/ste-lint-decisions.py` as this repository's
   STE linter. It scored each RFD's prose at violations per 100 words.
   It ran in CI, through `npm run lint:ste`. It ran again in
   `.pre-commit-config.yaml`'s `ste-lint` hook. Three places ran the
@@ -31,7 +31,7 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   enforcement points for one rule is the DRY policy's own complaint,
   turned on this repository's own tooling.
   :: related
-  RFD 1000 named the deleted script. RFD 1059 wired `npm run lint:ste`
+  RFD66606-1000 named the deleted script. RFD66606-1059 wired `npm run lint:ste`
   into `scripts/ci.sh`. This RFD removes that step, and nothing
   replaces it. `fire/claude-ste-plugin#1` is the PR that carries this
   repository's contribution upstream.

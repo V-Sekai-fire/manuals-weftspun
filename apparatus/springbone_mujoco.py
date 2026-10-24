@@ -1,7 +1,7 @@
 # Copyright 2026 V-Sekai contributors.
 # SPDX-License-Identifier: Apache-2.0 OR MPL-2.0
 """Spring-bone chains in MuJoCo, so a chain budget is met by measured silhouette error
-rather than a guessed knob (RFD 2234). Tiers: exact merge, collider prune, scored merge."""
+rather than a guessed knob (RFD66606-2234). Tiers: exact merge, collider prune, scored merge."""
 
 from __future__ import annotations
 

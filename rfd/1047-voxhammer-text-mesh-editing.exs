@@ -8,27 +8,27 @@ rfd 1047, "Model image for voxhammer_text_mesh_editing", :discussion do
 
   prose ~S"""
   :: decision
-  Derive from the RFD 1038 base image, and add no weights. Model the
+  Derive from the RFD66606-1038 base image, and add no weights. Model the
   three stages as a taskweft domain, because the guard that protects the
   unmasked region belongs in the plan and not in a comment.
 
   `domain.ex` and `problem.ex` in `interactor-voxhammer-text-mesh-editing`
-  hold it, one standalone repo per model. RFD 1037 gives the convention.
+  hold it, one standalone repo per model. RFD66606-1037 gives the convention.
 
   See `DETAILS.md` for the model's shared-weight cost, the `predict()`
   interface, the unmasked-region guard, and why layering makes the edit
   reversible.
   :: problem
   VoxHammer edits a region of a mesh from a sentence. It carries no
-  weights of its own. It runs on the TRELLIS.2 backbone from RFD 1038,
-  and RFD 1026 records its parameter count as 0.
+  weights of its own. It runs on the TRELLIS.2 backbone from RFD66606-1038,
+  and RFD66606-1026 records its parameter count as 0.
 
   The edit is not one forward pass. It inverts the mesh to latents, it
   edits inside the region, and it decodes. The region outside the mask
   must come back unchanged, and that is the hard requirement.
   :: related
-  RFD 1038 holds the weights. RFD 1037 gives the composite convention.
-  RFD 1048 is the image variant. RFD 1053 gives the layer rule.
+  RFD66606-1038 holds the weights. RFD66606-1037 gives the composite convention.
+  RFD66606-1048 is the image variant. RFD66606-1053 gives the layer rule.
   """
 
   details_title "Model image for voxhammer_text_mesh_editing"
@@ -37,8 +37,8 @@ rfd 1047, "Model image for voxhammer_text_mesh_editing", :discussion do
   :: details The model
   | Property   | Value                             |
   | ---------- | --------------------------------- |
-  | Parameters | 0. It shares the RFD 1038 weights |
-  | bf16       | 8.0 GB, the RFD 1038 cost         |
+  | Parameters | 0. It shares the RFD66606-1038 weights |
+  | bf16       | 8.0 GB, the RFD66606-1038 cost    |
   | License    | MIT                               |
   :: details The interface
   | Input       | Type | Default |
@@ -48,7 +48,7 @@ rfd 1047, "Model image for voxhammer_text_mesh_editing", :discussion do
   | region      | Path | none    |
   | seed        | int  | -1      |
 
-  `region` is a mask. RFD 1028 records the supported mask list in
+  `region` is a mask. RFD66606-1028 records the supported mask list in
   decisions/api/api.md.
   :: details The unmasked region must not move
   Inversion is lossy. A decode of an unedited latent does not give back
@@ -61,7 +61,7 @@ rfd 1047, "Model image for voxhammer_text_mesh_editing", :discussion do
 
   That guard is the whole reason this model is a composite here.
   :: details Layers make the edit reversible
-  RFD 1053 gives the rule. The edit is a sublayer over the source mesh,
+  RFD66606-1053 gives the rule. The edit is a sublayer over the source mesh,
   thus a caller mutes the layer and gets the original back. A flat file
   makes the edit permanent.
   """

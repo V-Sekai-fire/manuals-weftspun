@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Checks each model folder's Docker image.
 
-RFD 1036 gives the rules. This script covers the ones a reader
+RFD66606-1036 gives the rules. This script covers the ones a reader
 forgets, and it leaves the rest to `docker build`.
 
 A broken server.py fails when a rented GPU starts it, which is money
@@ -13,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-# RFD 1036. Neither this box's own worker nor vast.ai runs a health
+# RFD66606-1036. Neither this box's own worker nor vast.ai runs a health
 # probe of its own, thus a caller polls /health until ready.
 REQUIRED_ROUTES = ["/health", "/predict"]
 
@@ -49,7 +49,7 @@ def check_dockerfile(path: Path) -> list[str]:
     if "AS worker" not in source:
         problems.append("has no worker stage")
 
-    # Cog is gone. RFD 1036 records why.
+    # Cog is gone. RFD66606-1036 records why.
     if "cog.yaml" in source or "runpod" in source.lower():
         problems.append("names Cog or RunPod, and RFD 1036 selects plain Docker instead")
 
@@ -78,7 +78,7 @@ CHECKS = {
 
 
 def is_model_folder(path: Path) -> bool:
-    """A model folder is one with a server.py in it. RFD 1036's rules are about the
+    """A model folder is one with a server.py in it. RFD66606-1036's rules are about the
     thing that serves the model, and a probe's Dockerfile is not that."""
     return (path.parent / "server.py").is_file()
 

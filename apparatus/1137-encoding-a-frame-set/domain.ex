@@ -7,16 +7,16 @@
 # the todo list names the end state, the planner orders the steps, and a run that stops
 # early leaves `delivered` false with the step that failed named.
 #
-# Types come from glTF Interactivity, as RFD 1037 states. There is no :string, so a subject
+# Types come from glTF Interactivity, as RFD66606-1037 states. There is no :string, so a subject
 # name, a directory and a file handle are each :ref, an opaque value compared for equality.
 #
 # Checked with `Code.string_to_quoted/1`, which needs no planner. The solved plan belongs in
 # `plan.ex` beside this file, from the `plan` tool when it is reachable and by hand when it
-# is not. RFD 1037 forbade the second and retracted that on 2026-08-25, because a domain
+# is not. RFD66606-1037 forbade the second and retracted that on 2026-08-25, because a domain
 # nobody can run is worse than a plan nobody generated. `plan.ex` carries @origin saying
 # which way it was made.
 #
-# The task and parameter names below stay strings because RFD 1037's DSL defines them that
+# The task and parameter names below stay strings because RFD66606-1037's DSL defines them that
 # way: they are keys into @actions and @variables rather than values. What is NOT a string
 # is any value a pointer takes, and those are the constants above.
 defmodule Weftspun.CineformDelivery.Domain do
@@ -40,7 +40,7 @@ defmodule Weftspun.CineformDelivery.Domain do
 
     # The conventions gate. `checked` is false until it has run, and a run that could not
     # measure forward or handedness leaves `conventions_complete` false, which is not the
-    # same as failing. RFD 1139 holds the check itself.
+    # same as failing. RFD66606-1139 holds the check itself.
     "conventions_checked" => %{type: :bool, init: false},
     "conventions_complete" => %{type: :bool, init: false},
     "facing_deg" => %{type: :float, init: 0.0},

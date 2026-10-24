@@ -8,7 +8,7 @@ enabling cert-auth actually cost, and did it work end to end?
 
 weftspun-bao (single machine, unsealed, `chibifire.com Intermediate
 CA v2` on the listener), five per-service leaves signed by that
-intermediate (RFD 2144's rotation output), one operator admin cert
+intermediate (RFD66606-2144's rotation output), one operator admin cert
 signed directly by the Root, `op` desktop-app integration active for
 the last root-token read.
 
@@ -17,7 +17,7 @@ the last root-token read.
 Policies land as four HTTP POSTs to `sys/policies/acl/*`, roles as
 four to `auth/cert/certs/*`, an enable call to `sys/auth/cert`.
 Nine calls total, all returned within their 8s max-time. Bao restart
-was not needed. The `admin-v2` role was upgraded from RFD 2145's
+was not needed. The `admin-v2` role was upgraded from RFD66606-2145's
 DNS-only binding to the full admin bundle
 (`admin,dns-editor,pki-issuer,fdb-config-reader`); the earlier
 narrower binding was overwritten by the new POST, which is what a
@@ -30,7 +30,7 @@ First verification pass presented leaf-only certs and got empty
 policy lists back. Root cause: `BAO_TLS_CA_CHAIN_B64` on the Bao
 listener is the chibifire.com Root only, so the TLS handshake
 cannot build the chain for an intermediate-signed leaf. The client
-has to send `leaf + intermediate`; the `bundle.pem` files RFD 2144
+has to send `leaf + intermediate`; the `bundle.pem` files RFD66606-2144
 already produced for each service leaf work as-is. Presenting the
 bundle succeeded on the first retry.
 
@@ -64,7 +64,7 @@ called leaks back to the caller.
 ## What is still open
 
 - **Cert rotation and role rebinding**: leaves rotate on the 90-day
-  cadence RFD 2145 sets. When a leaf is re-issued, its DER hash
+  cadence RFD66606-2145 sets. When a leaf is re-issued, its DER hash
   changes and `auth/cert/certs/<role>` still points at the previous
   one. A small watcher against `pki/` events (or a nightly cron)
   needs to re-run `bao write auth/cert/certs/<role>

@@ -20,13 +20,13 @@ rfd 2216, "Three.js blocklist", :discussion do
   Live rows: `CLAUDE.md` blocklist table + `BLOCKLIST.md` full
   section (the section body carries the argument in current form).
   :: related
-  - [RFD 2210](../2210-atelier-godot-web-shipping-surface/), L3
+  - [RFD66606-2210](../2210-atelier-godot-web-shipping-surface/), L3
     strategic bet.
-  - [RFD 2211](../2211-base-tree-entities-godot-sandbox/), base
+  - [RFD66606-2211](../2211-base-tree-entities-godot-sandbox/), base
     tree pick.
-  - [RFD 2215](../2215-one-binary-two-heads/), the "one runtime,
+  - [RFD66606-2215](../2215-one-binary-two-heads/), the "one runtime,
     not two" argument that also drives this blocklist.
-  - RFD 1170 (cleanroom presence loop), earlier RFD picking Godot
+  - RFD66606-1170 (cleanroom presence loop), earlier RFD picking Godot
     over three.js for a different workload.
   """
 end

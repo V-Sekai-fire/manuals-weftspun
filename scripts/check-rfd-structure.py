@@ -5,7 +5,7 @@
 The rules here were measured, not recalled. Each one was run against all 116
 RFDs first, and only the rules that hold with no exception became checks. The
 counts behind each decision, including the two conventions that were measured
-and deliberately not gated, are in RFD 1124.
+and deliberately not gated, are in RFD66606-1124.
 
 Every check reads a CommonMark AST rather than the bytes. That is not
 decoration. The regex gate beside this one looks for `RFD 0123` in the raw
@@ -28,12 +28,12 @@ MD = MarkdownIt("commonmark")
 ORG = "1"
 DIR_RE = re.compile(r"^([12][0-9]{3})-[a-z0-9-]+$")
 RFD_ROOT = "rfd"
-TITLE_RE = re.compile(r"^RFD ([0-9]{4}): (\S.*)$")
-DETAILS_TITLE_RE = re.compile(r"^RFD ([0-9]{4}) details: (\S.*)$")
-# A state list in RFD 1000's own prose, so the gate and the document cannot
+TITLE_RE = re.compile(r"^RFD66606-([0-9]{4}): (\S.*)$")
+DETAILS_TITLE_RE = re.compile(r"^RFD66606-([0-9]{4}) details: (\S.*)$")
+# A state list in RFD66606-1000's own prose, so the gate and the document cannot
 # drift apart. "a state: a, b, or c" is the sentence it parses.
 STATE_LIST_RE = re.compile(r"has a state:\s*([a-z,\s]+?)\.", re.S)
-# The README length bound, also read out of RFD 1000 rather than held here.
+# The README length bound, also read out of RFD66606-1000 rather than held here.
 LIMIT_RE = re.compile(r"stays at (\d+) lines or fewer")
 # Two numbering schemes have been withdrawn, so two citation forms are stale.
 # The first began with 0, and no organization digit is 0. The second was
@@ -41,7 +41,9 @@ LIMIT_RE = re.compile(r"stays at (\d+) lines or fewer")
 # The whitespace class is what the byte-level scan could not spell.
 OLD_CITE_RE = re.compile(r"\bRFD\s+(0\d{3})\b")
 HEX_CITE_RE = re.compile(r"\bRFD\s+([1-9][0-9a-f]{0,2}[a-f][0-9a-f]*)\b")
-CITE_RE = re.compile(r"\bRFD\s+([0-9]{4})\b")
+CITE_RE = re.compile(r"\bRFD(?:\s+|66606-)([0-9]{4})\b")
+BARE_RE = re.compile(r"\bRFDs?\s+([0-9]{4})\b")
+QUOTED_RE = re.compile(r'"[^"]*"|“[^”]*”')
 # The register's own reader, so the two gates cannot disagree about which
 # serials exist. A deleted serial stays citable, so both tables count.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -56,7 +58,7 @@ _spec.loader.exec_module(_serials)
 # The order these carry when present. Extra headings may sit between them.
 SPINE = ("Decision", "Problem", "References", "Related")
 # A retracted decision renames its own heading, so the match is a prefix.
-# RFD 1067's "Decision, as published and now retracted" is the case.
+# RFD66606-1067's "Decision, as published and now retracted" is the case.
 REQUIRED = "Decision"
 # A moved RFD develops elsewhere and states only where. Both of them carry no
 # Decision, which is the whole point of the state.
@@ -101,7 +103,7 @@ def _conventions_text(root):
 
 
 def parse_states(root):
-    """Read the valid states out of RFD 1000, not out of this file."""
+    """Read the valid states out of RFD66606-1000, not out of this file."""
     text = _conventions_text(root)
     if text is None:
         return None
@@ -115,11 +117,11 @@ def parse_states(root):
 
 
 def parse_limit(root):
-    """Read the README length bound out of RFD 1000, for the same reason.
+    """Read the README length bound out of RFD66606-1000, for the same reason.
 
     The bound is 40 and the corpus lands 12 READMEs exactly on it, so it is
-    inclusive. RFD 1000 said "under 40" until this gate measured that, and
-    RFD 1124 records the correction rather than the gate carrying an
+    inclusive. RFD66606-1000 said "under 40" until this gate measured that, and
+    RFD66606-1124 records the correction rather than the gate carrying an
     off-by-one to match prose nobody had checked.
     """
     text = _conventions_text(root)
@@ -132,7 +134,7 @@ def parse_limit(root):
 def known_numbers(root, dirs):
     """A citation resolves to a serial the register lists.
 
-    The deleted serials matter. RFD 1070 and RFD 1064 removed six speculative
+    The deleted serials matter. RFD66606-1070 and RFD66606-1064 removed six speculative
     RFDs and still cite them by number. Requiring a directory would reject the
     citation that records the deletion.
 
@@ -230,9 +232,9 @@ def strong_fields(tokens, block):
 
 
 def check_length(name, source, limit):
-    """RFD 1000 keeps a README to the problem and the decision.
+    """RFD66606-1000 keeps a README to the problem and the decision.
 
-    The count is a proxy for that, and it is the proxy RFD 1000 states, so it
+    The count is a proxy for that, and it is the proxy RFD66606-1000 states, so it
     is the one enforced. What overruns it is a measurement, a walkthrough or a
     retraction, and each of those has a sibling file to live in.
     """
@@ -265,8 +267,20 @@ def check_sections(name, tokens, state):
     return problems
 
 
+def prose_text(tokens):
+    out = []
+    for t in tokens:
+        if t.type == "inline":
+            parts = [c.content for c in (t.children or []) if c.type == "text"]
+            out.append(QUOTED_RE.sub("", re.sub(r"\s+", " ", " ".join(parts))))
+    return out
+
+
 def check_citations(name, tokens, nums):
     problems = []
+    for line in prose_text(tokens):
+        for m in BARE_RE.finditer(line):
+            problems.append(f"{name}: cites RFD {m.group(1)} bare; write RFD66606-{m.group(1)}")
     for line in inline_text(tokens):
         for m in OLD_CITE_RE.finditer(line):
             problems.append(f"{name}: cites RFD {m.group(1)} in the first decimal form")
@@ -293,7 +307,7 @@ SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
 
 def check_skill(name, source):
-    """RFD 1000: a SKILL.md carries frontmatter with a name and a description.
+    """RFD66606-1000: a SKILL.md carries frontmatter with a name and a description.
 
     The name is what somebody types and the description is when to reach for it, so an
     empty description is the failure that matters here: a skill nobody can tell apart
@@ -365,7 +379,7 @@ def check(root):
         toks = MD.parse(stripped)
         name = f"{d}/README.md"
         problems += check_length(name, stripped, limit)
-        problems += check_title(name, num, toks, TITLE_RE, "RFD <num>: <title>")
+        problems += check_title(name, num, toks, TITLE_RE, "RFD66606-<num>: <title>")
         pre, state = check_preamble(name, toks, states)
         problems += pre
         problems += check_sections(name, toks, state)
@@ -378,7 +392,7 @@ def check(root):
 
         details = os.path.join(root, "rfd", d, "DETAILS.md")
         if os.path.exists(details):
-            # RFD 1000: a README moves the long material out and names where
+            # RFD66606-1000: a README moves the long material out and names where
             # it went. A sibling nothing points at is a file nobody opens.
             if "DETAILS.md" not in " ".join(inline_text(toks)):
                 problems.append(f"{name}: has a DETAILS.md and never names it")
@@ -386,7 +400,7 @@ def check(root):
                 dtoks = MD.parse(fh.read())
             dname = f"{d}/DETAILS.md"
             problems += check_title(
-                dname, num, dtoks, DETAILS_TITLE_RE, "RFD <num> details: <title>"
+                dname, num, dtoks, DETAILS_TITLE_RE, "RFD66606-<num> details: <title>"
             )
             problems += check_citations(dname, dtoks, nums)
 
@@ -421,7 +435,7 @@ def check_loose_markdown(root, nums):
     return problems
 
 
-GOOD_README = """# RFD 1001: A title
+GOOD_README = """# RFD66606-1001: A title
 
 **State:** published
 **Feature:** a feature
@@ -432,17 +446,17 @@ A decision.
 
 ## Problem
 
-A problem. RFD 1002 is the neighbour.
+A problem. RFD66606-1002 is the neighbour.
 
 ## Related
 
 See `DETAILS.md` for the rest.
 """
-GOOD_DETAILS = "# RFD 1001 details: the rest\n\nProse.\n"
+GOOD_DETAILS = "# RFD66606-1001 details: the rest\n\nProse.\n"
 # The gate reads the citable numbers out of the register, so the fixture tree
-# carries one. RFD 1002 is deleted here, and the good README cites it.
+# carries one. RFD66606-1002 is deleted here, and the good README cites it.
 REGISTER = _serials.GOOD
-GOOD_CONVENTIONS = """# RFD 1000: Conventions
+GOOD_CONVENTIONS = """# RFD66606-1000: Conventions
 
 **State:** published
 **Scope:** all files
@@ -475,15 +489,17 @@ def self_test():
         with open(os.path.join(tmp, "SERIALS.usda"), "w", encoding="utf-8") as fh:
             fh.write(deleted if deleted is not None else REGISTER)
 
-    wrapped = GOOD_README.replace("RFD 1002 is the neighbour.", "RFD\n0001 is the neighbour.")
+    wrapped = GOOD_README.replace("RFD66606-1002 is the neighbour.", "RFD\n0001 is the neighbour.")
     cases = [
         ("a clean tree passes", {}, False),
         ("title number disagrees with the directory",
-         {"readme": GOOD_README.replace("# RFD 1001:", "# RFD 1003:")}, True),
+         {"readme": GOOD_README.replace("# RFD66606-1001:", "# RFD66606-1003:")}, True),
+        ("a title in the bare form",
+         {"readme": GOOD_README.replace("# RFD66606-1001:", "# RFD 1001:")}, True),
         ("the title is not the first block",
          {"readme": "Loose prose first.\n\n" + GOOD_README}, True),
         ("a second level-1 heading",
-         {"readme": GOOD_README + "\n# RFD 1001: Again\n"}, True),
+         {"readme": GOOD_README + "\n# RFD66606-1001: Again\n"}, True),
         ("no metadata paragraph",
          {"readme": GOOD_README.replace("**State:** published\n**Feature:** a feature\n\n", "")}, True),
         ("a state RFD 1000 does not list",
@@ -497,20 +513,26 @@ def self_test():
         ("no Decision section",
          {"readme": GOOD_README.replace("## Decision\n\nA decision.\n\n", "")}, True),
         ("Problem written before Decision",
-         {"readme": GOOD_README.replace("## Decision\n\nA decision.\n\n## Problem\n\nA problem. RFD 1002 is the neighbour.\n\n",
-                                        "## Problem\n\nA problem. RFD 1002 is the neighbour.\n\n## Decision\n\nA decision.\n\n")}, True),
+         {"readme": GOOD_README.replace("## Decision\n\nA decision.\n\n## Problem\n\nA problem. RFD66606-1002 is the neighbour.\n\n",
+                                        "## Problem\n\nA problem. RFD66606-1002 is the neighbour.\n\n## Decision\n\nA decision.\n\n")}, True),
         ("a decimal citation split across a line break", {"readme": wrapped}, True),
         ("a citation that resolves nowhere",
-         {"readme": GOOD_README.replace("RFD 1002", "RFD 1153")}, True),
+         {"readme": GOOD_README.replace("RFD66606-1002", "RFD66606-1153")}, True),
+        ("a bare citation, which RFD66606-1000 replaced",
+         {"readme": GOOD_README.replace("RFD66606-1002", "RFD 1002")}, True),
+        ("a bare citation inside quotes is as written",
+         {"readme": GOOD_README.replace("RFD66606-1002 is", '"RFD 1002" is')}, False),
+        ("a bare citation in a code span is as written",
+         {"readme": GOOD_README.replace("RFD66606-1002 is", "`RFD 1002` is")}, False),
         ("a hex citation, which is the withdrawn form",
-         {"readme": GOOD_README.replace("RFD 1002", "RFD 100a")}, True),
+         {"readme": GOOD_README.replace("RFD66606-1002", "RFD 100a")}, True),
         ("a number the register does not list",
          {"deleted": REGISTER.replace("custom int[] serial = [1002]",
                                       "custom int[] serial = [1003]")}, True),
         ("a DETAILS.md the README never names",
          {"readme": GOOD_README.replace("See `DETAILS.md` for the rest.", "Nothing here.")}, True),
         ("a DETAILS.md titled for another RFD",
-         {"details": "# RFD 1009 details: the rest\n"}, True),
+         {"details": "# RFD66606-1009 details: the rest\n"}, True),
         ("a SKILL.md with no frontmatter", {"skill": '# just a heading\n'}, True),
         ("a SKILL.md with an empty description",
          {"skill": '---\nname: a-skill\ndescription:\n---\n\nBody.\n'}, True),

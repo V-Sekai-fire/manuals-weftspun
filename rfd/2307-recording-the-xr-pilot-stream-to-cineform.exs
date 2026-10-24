@@ -24,8 +24,8 @@ build, and the av1mkv delivery of a recording"
   VR GPU would compete with the compositor, which an overload had already
   killed twice that day.
   :: related
-  - RFD 2303, the XR requirements; RFD 2294, the recording rules.
-  - RFD 2306, operating the shared desk; RFD 2302, the frame budget.
+  - RFD66606-2303, the XR requirements; RFD66606-2294, the recording rules.
+  - RFD66606-2306, operating the shared desk; RFD66606-2302, the frame budget.
   """
 
   details_title "recording the xr pilot stream to cineform"
@@ -69,6 +69,6 @@ build, and the av1mkv delivery of a recording"
   - Run the `pyro2cfhd` self-test on the desk's second GPU, then record a real
     two-minute stream and deliver it.
   - Count compositor sync timeouts in the driver and give the sparklines fault
-    thresholds (RFD 2306).
+    thresholds (RFD66606-2306).
   """
 end

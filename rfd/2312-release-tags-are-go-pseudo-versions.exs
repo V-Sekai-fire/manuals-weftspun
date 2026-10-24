@@ -29,9 +29,9 @@ by time in a file listing and parses as a version in every package tool"
   and 18 are free names. No single scheme among them sorts by time in a
   file listing and also parses as a version in Mix, Cargo, npm and Go.
   :: related
-  - RFD 2294, interchangeable sessions: the stage branches this RFD leaves
+  - RFD66606-2294, interchangeable sessions: the stage branches this RFD leaves
     the stage to.
-  - RFD 2295, calibrated replies: the times here are UTC, as there.
+  - RFD66606-2295, calibrated replies: the times here are UTC, as there.
   """
 
   details_title "release tags are go pseudo-versions"

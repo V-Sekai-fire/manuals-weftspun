@@ -28,7 +28,7 @@ closing questions in both, and `scripts/check_confidence_tags.py`"
   Lin, Hilton and Evans, "Teaching Models to Express Their Uncertainty in
   Words" (2022, DOI 10.48550/arXiv.2205.14334, registered with DataCite)
   is the method: a model states its confidence in words and numbers, and
-  the statement is scored for calibration. RFD 2294 (agent knowledge lives
+  the statement is scored for calibration. RFD66606-2294 (agent knowledge lives
   in RFDs) is why the rule is here and not in a desk's memory. `CLAUDE.md`'s
   "How Work Is Verified" rule 3 (a silent skip reads like a pass) is why a
   verified fact and a guess must look different.

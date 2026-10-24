@@ -11,7 +11,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   Model agent roles as **ReBAC relationship tuples** in a Bao KV mount
   at `relationships/`, one tuple per row, key shape
   `<subject>--<verb>--<object>`. This RFD owns the verb vocabulary and
-  declares it in a `rebac` block (RFD 2291, ReBAC as a DSL feature), so
+  declares it in a `rebac` block (RFD66606-2291, ReBAC as a DSL feature), so
   the verbs are data rather than a table a gate parses. Three named roles
   fall out: coordinator (MPS), gpu-experimenter (CUDA),
   edge-qat-specialist (HAILO). `DETAILS.md` carries verbs, rows, scopes.
@@ -30,7 +30,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   The tuples-in-KV shim is the minimum that answers the question we
   have. A production ReBAC engine is a future call.
   :: related
-  RFD 2195 (Bao PKI + agent-provisioning discipline), agent-sync skill
+  RFD66606-2195 (Bao PKI + agent-provisioning discipline), agent-sync skill
   in dot-claude.
   """
 
@@ -83,7 +83,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   (no mint, no revoke, no policy edit).
 
   **Edge-QAT-specialist**, HAILO. Owns USB-Hailo NPU. Authors
-  `edge-qat-experiments`, RFD 2199 direction, HailoRT + DFC compiler
+  `edge-qat-experiments`, RFD66606-2199 direction, HailoRT + DFC compiler
   work, HEF deployment. Same PR-driven measurement discipline as
   gpu-experimenter. `agents-rw` policy; does not touch CUDA's cards, and
   CUDA does not touch the Hailo NPU, even though both agents `runs-on`
@@ -135,7 +135,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   :: details The extend flow
   Adding a new agent:
 
-  1. Operator authorises identity (per RFD 2195 rule zero).
+  1. Operator authorises identity (per RFD66606-2195 rule zero).
   2. Admin (MPS) mints cert, publishes bundle to `certs/<cn>`.
   3. **Admin writes the new agent's tuples to `relationships/`** in
      the same session, at minimum a `runs-on` tuple, plus the
@@ -147,7 +147,7 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
 
   Removing an agent (revocation):
 
-  1. Admin revokes cert per RFD 2195's Revocation section.
+  1. Admin revokes cert per RFD66606-2195's Revocation section.
   2. Admin deletes tuples where the revoked agent is `subject` (its
      claims stop being active) but preserves tuples where the revoked
      agent is `object` (so `windows-desktop hosts cuda-a63415`
@@ -183,12 +183,16 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
     verb :restarts, "the subject stops and starts the object service without holding its host"
     verb :mints, "the subject mints short-lived credentials of the object's kind, each expiring"
     verb :pushes, "the subject pushes feature branches to the object, never its default branch"
-    verb :role, "the subject holds the object as its role, which RFD 2202 maps to a Bao group"
+
+    verb :role,
+         "the subject holds the object as its role, which RFD66606-2202 maps to a Bao group"
 
     verb :may_use,
-         "the subject uses the object as compute, which no Bao policy gates (RFD 2202)"
+         "the subject uses the object as compute, which no Bao policy gates (RFD66606-2202)"
 
-    verb :trusts, "the subject reads the object as a source it does not verify again (RFD 2239)"
+    verb :trusts,
+         "the subject reads the object as a source it does not verify again (RFD66606-2239)"
+
     renders_into "AGENTS.md", subject: "desk-agent"
     relate "desk-agent", :runs_on, "windows-desktop"
 

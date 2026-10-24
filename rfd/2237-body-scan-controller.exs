@@ -8,30 +8,28 @@ rfd 2237, "The body reacts through a per-frame diagram scan", :discussion do
 
   prose ~S"""
   :: decision
-  The body's reaction logic is a diagram with declared inputs and outputs,
-  scanned once per frame (RFD 2154's tick), in RFD 2236's subset and forms:
-  PLCopen XML, the text form, and a SafeGDScript guest that lifts back. A
-  shared netlist orders and types the blocks; a variable read is last
-  scan's value and a wire loop without one is refused. The reference scan
-  is executable Lean, and the guest is differentially tested against it on
-  every generated controller and trace. The taskweft planner generates the
-  sequences; continuous logic is written in the text form. The actuator is
-  a MotionBricks job in `motion.elf` on ggml-rd (RFD 2290); the chain mask is
-  an output for the mask and unmask training. `DETAILS.md` carries the rest.
+  The body's reaction logic is a diagram with declared inputs and outputs, scanned once per frame
+  (RFD66606-2154's tick), in RFD66606-2236's subset and forms: PLCopen XML, the text form, and a
+  SafeGDScript guest that lifts back. A shared netlist orders and types the blocks; a variable
+  read is last scan's value and a wire loop without one is refused. The reference scan is
+  executable Lean, and the guest is differentially tested against it on every generated controller
+  and trace. The taskweft planner generates the sequences; continuous logic is written in the text
+  form. The actuator is a MotionBricks job in `motion.elf` on ggml-rd (RFD66606-2290); the chain
+  mask is an output for the mask and unmask training. `DETAILS.md` carries the rest.
   :: problem
-  Item 2 of the operator's rerank asks for a body that moves in reaction to
-  mocap sensors and a gamepad, with spring-bone motion trained under a
-  mask. The motion generator, the planner and the sandbox host exist, and
-  nothing decided the motion command or the chain mask from an input. RFD
-  2236's guest runs a plan once; a body needs the diagram every frame, and
-  a per-frame guest tested by eye has not been measured.
+  Item 2 of the operator's rerank asks for a body that moves in reaction to mocap sensors and a
+  gamepad, with spring-bone motion trained under a mask. The motion generator, the planner and the
+  sandbox host exist, and nothing decided the motion command or the chain mask from an input.
+  RFD66606-2236's guest runs a plan once; a body needs the diagram every frame, and a per-frame
+  guest tested by eye has not been measured.
   :: references
-  - RFD 2236, the diagram forms, the compiler and the teacher this continues
-  - RFD 2154 and RFD 1175, the per-frame tick and MotionBricks moving the body
-  - RFD 2290 and RFD 2213, ggml only in guests and the VRM loading the outputs reach
-  - RFD 2229, interchangeable parts, which decides what each leg reuses
+  - RFD66606-2236, the diagram forms, the compiler and the teacher this continues
+  - RFD66606-2154 and RFD66606-1175, the per-frame tick and MotionBricks moving the body
+  - RFD66606-2290 and RFD66606-2213, ggml only in guests and the VRM loading the outputs reach
+  - RFD66606-2229, interchangeable parts, which decides what each leg reuses
   :: related
-  RFD 2235 (the door), RFD 2157 (the RISC-V emit and the theorem this stays short of), RFD 2206 (the portrait convention, a different surface: it removes the gamepad).
+  RFD66606-2235 (the door), RFD66606-2157 (the RISC-V emit and the theorem this stays short of),
+  RFD66606-2206 (the portrait convention, a different surface: it removes the gamepad).
   """
 
   details_title "The body reacts through a per-frame diagram scan"
@@ -78,8 +76,8 @@ rfd 2237, "The body reacts through a per-frame diagram scan", :discussion do
   through a variable, and two chains) and 12 traces (six boolean patterns
   at 60 and 30 frames per second, the numbers cycling through edge values
   with a zero divisor and an out-of-range index), so the block set is
-  covered rather than sampled. `compile_correct` as a theorem stays RFD
-  2157's stage 3; the differential run is the gate now.
+  covered rather than sampled. `compile_correct` as a theorem stays
+  RFD66606-2157's stage 3; the differential run is the gate now.
 
   The sandbox lesson: `Sandbox.program` set to a SafeGDScript resource
   publishes no functions (`vmcall` answers "Function not found"), while the
@@ -99,7 +97,7 @@ rfd 2237, "The body reacts through a per-frame diagram scan", :discussion do
   previous scan, and the next stage starts on the TON's rising edge. Every
   wait goes through a variable, so the netlist has no combinational loop.
   Continuous logic (stick deadzone, speed limit, tracker timeout) is
-  written in the text form by hand now and by RFD 2236's teacher later.
+  written in the text form by hand now and by RFD66606-2236's teacher later.
   :: details The host
   `transport-taskweft-acp/priv/godot_project/body_host.gd`: `_process`
   builds the input dictionary from joypad 0 (`pad0_lx`, `pad0_ly`,

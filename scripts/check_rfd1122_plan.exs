@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gate: RFD 1122's plan, read from its Elixir source, agrees with its own graph and with the
+# Gate: RFD66606-1122's plan, read from its Elixir source, agrees with its own graph and with the
 # documents that cite its numbers. Nothing rendered is read, so a fresh checkout can run it.
 #
 # Usage:

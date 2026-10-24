@@ -14,23 +14,23 @@ and `|<` markers from the compact GRAFCET DSL"
   step branches. Each branch becomes an SFC alternative sequence
   between an `OrDivergence` connector and an `OrConvergence` connector,
   with **mutually exclusive receptivities** enforced at emit time.
-  A chart with overlapping receptivities is what RFD 2149's Lean
+  A chart with overlapping receptivities is what RFD66606-2149's Lean
   analyser flags as a concurrent pair; the emitter reads that flag on
   the source compact GRAFCET and refuses if the pair appears.
 
   **Parked.** No taskweft caller needs OR-divergence in an OpenPLC
   target today. The lower/raise pair already covers OR on the HTN side
-  (RFD 2148 test); this RFD closes only the PLCopen leg.
+  (RFD66606-2148 test); this RFD closes only the PLCopen leg.
 
   `DETAILS.md` carries the PLCopen XML shape, the exclusivity gate, the
-  interaction with RFD 2149, and multi-step branch semantics.
+  interaction with RFD66606-2149, and multi-step branch semantics.
   :: problem
-  RFD 2148's compact GRAFCET carries `|>` (OR-divergence) and `|<`
+  RFD66606-2148's compact GRAFCET carries `|>` (OR-divergence) and `|<`
   (OR-convergence) markers; `Taskweft.Grafcet.lower/1` already lowers
-  them to a synthesised chooser method (RFD 2148 stage 1). The PLCopen
+  them to a synthesised chooser method (RFD66606-2148 stage 1). The PLCopen
   SFC emitter refuses them today with `RuntimeError` pointing here.
   :: references
-  1. RFD 2148 compact GRAFCET, RFD 2149 static analyser, RFD 2150 emit
+  1. RFD66606-2148 compact GRAFCET, RFD66606-2149 static analyser, RFD66606-2150 emit
   2. `test/fixtures/grafcet/blocks_get_or.grafcet.jsonld`
   """
 
@@ -77,20 +77,20 @@ and `|<` markers from the compact GRAFCET DSL"
      `OrConvergence` emits N transitions each with a single
      `connectionPointIn`, all pointing at the same merged step.
 
-  FBD inline bodies apply as everywhere else per RFD 2150 (ST and LD
+  FBD inline bodies apply as everywhere else per RFD66606-2150 (ST and LD
   blocklisted).
   :: details The mutually-exclusive-receptivity gate
   An OR-divergence whose branch receptivities are not mutually
   exclusive is a design defect: two branches fire at once, the SFC
   enters a state IEC 60848 does not specify, and the runtime's
-  behaviour is implementation-defined. RFD 2149's Lean analyser flags
+  behaviour is implementation-defined. RFD66606-2149's Lean analyser flags
   this as a concurrent pair (the two branch steps co-occur in some
   reachable marking). The emitter reads that flag on the source
   compact GRAFCET before emitting; if any pair of branches from the
   same OR block appears, `emit/1` refuses with a pointer at the pair.
 
   **This turns the analyser from advisory into a load-time gate**, which
-  is what RFD 2149 promised. RFD 2152 lands the interlock the promise
+  is what RFD66606-2149 promised. RFD66606-2152 lands the interlock the promise
   implied.
   :: details Multi-step branches
   A branch with more than one step (`|> A → B → C |<`) needs a linear
@@ -101,7 +101,7 @@ and `|<` markers from the compact GRAFCET DSL"
   `Taskweft.Grafcet.lower/1`'s OR block tracking already does.
   :: details Interaction with the HTN lower
   `Taskweft.Grafcet.lower/1` already synthesises `m_choose_after_<parent>`
-  methods with per-branch checks for OR blocks (RFD 2148 stage 1). The
+  methods with per-branch checks for OR blocks (RFD66606-2148 stage 1). The
   PLCopen emitter reads the *source* compact GRAFCET, not the lowered
   HTN, so this RFD does not touch `lower/1`. The two lower directions
   (HTN and PLCopen) stay independent, each with its own staging.
@@ -121,7 +121,7 @@ and `|<` markers from the compact GRAFCET DSL"
   | 3 | nested OR blocks (`|>` inside `|>`) |
   | 4 | mixed OR + AND divergence in the same chart |
 
-  The staging matches RFD 2148's own; each stage ships with its own
+  The staging matches RFD66606-2148's own; each stage ships with its own
   round-trip test in `test/taskweft/openplc/plcopen_test.exs` and its
   own refusal control (a chart that would need the *next* stage fails
   with a pointer at that stage).

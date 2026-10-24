@@ -9,7 +9,7 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
   prose ~S"""
   :: decision
   Abandoned on 2026-08-28. The accelerator work is scoped to
-  rf-detr keypoint and RFD 1157, and this scored 14 of 25 against RFD 1157's 18.
+  rf-detr keypoint and RFD66606-1157, and this scored 14 of 25 against RFD66606-1157's 18.
 
   Read the sampling loop before ranking. One question settles this
   model: does it emit its sequence in one pass or one step at a time.
@@ -17,7 +17,7 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
   than a mesh, and it would be the cheapest whole model this workspace
   could put on the device.
 
-  **Un-abandoned 2026-09-04.** RFD 2199 parked, zoo-DETR revive
+  **Un-abandoned 2026-09-04.** RFD66606-2199 parked, zoo-DETR revive
   rejected, vision-Hailo culled. Kimodo is the sole latency-critical
   Hailo-10H track that fits. `nv-tlabs/kimodo` is "kinematic motion
   diffusion": N sampling steps × per-step forward, not autoregressive
@@ -33,18 +33,18 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
   has against a compiler that emits fixed shapes. A fixed-length
   latent expanded by a decoder is a fixed graph and a strong candidate.
   :: related
-  RFD 1126 obstacle. RFD 1026 memory. RFD 2199 parked. RFD 1170 budget.
+  RFD66606-1126 obstacle. RFD66606-1026 memory. RFD66606-2199 parked. RFD66606-1170 budget.
   """
 
   details_title "Kimodo is the smallest catalog model, and it is a decoder"
 
   prose ~S"""
   :: details The 2026-08-28 abandonment paragraph, as history
-  RFD 1161 was abandoned on 2026-08-28 with the reasoning: "The
+  RFD66606-1161 was abandoned on 2026-08-28 with the reasoning: "The
   accelerator work is scoped to rf-detr keypoint and RFD 1157, and
   this scored 14 of 25 against RFD 1157's 18." The scoring rubric
-  was RFD 1157's `value / difficulty / verification` frame,
-  25 points across three axes, and Kimodo landed below RFD 1157 on
+  was RFD66606-1157's `value / difficulty / verification` frame,
+  25 points across three axes, and Kimodo landed below RFD66606-1157 on
   the composite. The abandonment paragraph stays in the README as
   history; nothing that cited it changes retroactively.
   :: details The 2026-09-04 rescore, against the current landscape
@@ -57,27 +57,27 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
      DINOv2 pretraining floor, plus the shipped `.alls` is INT8 not INT4.
      Vision-Hailo is culled; rf-detr QAT ships CUDA-only via HERO's
      task #65.
-  1. **RFD 2199 (rf-detr on-device) parked 2026-09-04.** HERO's
+  1. **RFD66606-2199 (rf-detr on-device) parked 2026-09-04.** HERO's
      scaffold-first pilot analysis surfaced (a) a 4.57% BN accuracy
      delta against LN baseline when the vit_base_bn recipe was
      applied to rf-detr's encoder, and (b) a vendor-fork
      publishability constraint on the LN→BN edit. Full retrain
      never kicked. Task #64 shelved. See
      `logbook-rfd-2199-vit-base-bn-pick-provenance.md`.
-  2. **RFD 1157 (EditScore edge acceleration) shares the LN-axes
-     wall the RFD 2199 bisect isolated.** EditScore is a LoRA over
+  2. **RFD66606-1157 (EditScore edge acceleration) shares the LN-axes
+     wall the RFD66606-2199 bisect isolated.** EditScore is a LoRA over
      Qwen3-VL; the accelerated encoder path (mtmd Hailo, in
      `3-interactor/llama-cpp-npu-vision-upstream` at commit
      `5ccbf7cd3`) uses a ViT backbone with LayerNormalization
-     throughout. Same `_convert_axes_to_nhwc` diagnosis applies. RFD
-     1157 stays at 18/25 nominally but the on-device path is subject
-     to the same un-park conditions RFD 2199 hit.
-  3. **RFD 1163 (rented card + on-desk accelerator) is abandoned per
-     RFD 2175 (rented-compute abandonment).** The 14/25 scoring
+     throughout. Same `_convert_axes_to_nhwc` diagnosis applies.
+     RFD66606-1157 stays at 18/25 nominally but the on-device path is subject
+     to the same un-park conditions RFD66606-2199 hit.
+  3. **RFD66606-1163 (rented card + on-desk accelerator) is abandoned per
+     RFD66606-2175 (rented-compute abandonment).** The 14/25 scoring
      implicitly assumed rental was available for the DFC compile
      half. That premise is closed. Kimodo compile now runs on the
      local Fedora WSL container (`weftspun-hailo-dfc:latest`)
-     the same way RFD 2199's work did.
+     the same way RFD66606-2199's work did.
 
   Rescore against those three inputs, honestly:
 
@@ -91,12 +91,12 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
   - **difficulty axis**: unchanged from the earlier estimate. The
     sampler still needs porting from `nv-tlabs/kimodo` upstream
     into `3-interactor/kimodo-text-to-motion/server.py`; step-
-    count reduction (Flow LCM style, per RFD 2136 rung 0
+    count reduction (Flow LCM style, per RFD66606-2136 rung 0
     precedent) still needs a distillation pass. Same weeks of
     Python/Torch work as before.
   - **verification axis**: rises. `dot-claude#19` (hailo-dfc-
     compat-probe) and `dot-claude#20` (BN-vs-LN node counting)
-    land the mechanical checks; the RFD 2199 bisect methodology
+    land the mechanical checks; the RFD66606-2199 bisect methodology
     (`logbook-dfc-bisect-methodology-rf-detr.md`) names where to
     look if compile fails. Kimodo lands into a compile+measure
     pipeline shape already spec'd
@@ -117,13 +117,13 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
      commercial-friendly) is the ship variant.
   2. **SIDEKICK**: ONNX export of the denoiser + text encoder from
      the ported sampler. Standard `torch.onnx.export` with
-     `dynamo=False` per the RFD 2199 rewind's export-toolchain
+     `dynamo=False` per the RFD66606-2199 rewind's export-toolchain
      lesson.
   3. **SIDEKICK**: LN-vs-BN probe via `dot-claude#20`. Names whether
      the denoiser's Norm layers trigger the `_convert_axes_to_nhwc`
      wall. Reports BN nodes seen vs LN nodes for the recipe check.
   4. **SIDEKICK**: sampler step-count reduction. Flow-LCM style
-     distillation adapter, per RFD 2136 rung 0's OmniGen2 precedent.
+     distillation adapter, per RFD66606-2136 rung 0's OmniGen2 precedent.
      Cuts N from default (50-100) to the ~20 steps × 5 ms latency
      slice.
   5. **SIDEKICK**: DFC compile + on-device measure per
@@ -136,35 +136,35 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
     documented so it is a known recipe failure rather than a probe
     failure).
   - **Latency floor: 20 sampling steps × 5 ms per step = 100 ms per
-    inference** on Hailo-10H INT4. Fits RFD 1170's sub-500 ms budget
+    inference** on Hailo-10H INT4. Fits RFD66606-1170's sub-500 ms budget
     alongside ASR (Parakeet TDT, ~100 ms slice) and TTS (Qwen3-TTS,
     ~100-200 ms slice) with headroom.
-  - Motion validation (RFD 1007) still passes on the reduced-step
+  - Motion validation (RFD66606-1007) still passes on the reduced-step
     output. A faster sampler that fails the floor-contact or
     joint-limit check has moved the failure rather than removed it.
   - Output shape unchanged: SOMA canonical × `duration × fps` frames,
     so ANNY downstream consumes without a schema change. **Joint count
-    needs verification against upstream release notes.** RFD 1102 +
-    RFD 1173 + RFD 2162 consistently document 78 canonical joints;
+    needs verification against upstream release notes.** RFD66606-1102 +
+    RFD66606-1173 + RFD66606-2162 consistently document 78 canonical joints;
     HERO's upstream recon reports 77 (a `somaskel77` breaking change
     in the `nv-tlabs/kimodo` release notes 2026-03-19). Discrepancy
     matters because ANCHOR's wholebody133 schema keys on the exact
     joint count. Resolve at sampler-port time (HERO's task item 1)
     by reading the actual `.npz` output shape from a
     `Kimodo-SOMA` inference and back-porting the correct number to
-    RFD 1102 + RFD 1173 + RFD 2162 in a follow-up PR.
+    RFD66606-1102 + RFD66606-1173 + RFD66606-2162 in a follow-up PR.
   :: details What re-triggers a second abandonment
-  If any of these lands, RFD 1161 gets abandoned again with a
+  If any of these lands, RFD66606-1161 gets abandoned again with a
   retraction pointer to whichever entry names the reason:
 
   - LN-vs-BN probe surfaces an LN-axes wall in Kimodo's denoiser
-    that no BN swap resolves (same failure class as RFD 2199's
+    that no BN swap resolves (same failure class as RFD66606-2199's
     fork-encoder-LN option, and the same recipe-swap accuracy delta
-    the RFD 2199 park cited).
+    the RFD66606-2199 park cited).
   - Step-count reduction below the 20-step floor requires an
-    accuracy sacrifice that fails RFD 1007's motion validation.
+    accuracy sacrifice that fails RFD66606-1007's motion validation.
   - Sampler port from `nv-tlabs/kimodo` takes long enough that the
     operator picks a different latency-critical track instead
-    (VAD, TTS variant, or something the RFD 1170 loop names later).
+    (VAD, TTS variant, or something the RFD66606-1170 loop names later).
   """
 end

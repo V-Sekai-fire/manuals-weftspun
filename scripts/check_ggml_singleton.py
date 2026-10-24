@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""One GGML source tree in the workspace (RFD 2188).
+"""One GGML source tree in the workspace (RFD66606-2188).
 
 Walks the manifest checkout and fails if a `ggml.h` or `src/ggml.c` shows up
 outside the canonical path. Vendored llama.cpp is exempt: llama.cpp's own
-runtime is the vendor's binary, and RFD 2188 leaves it unmigrated.
+runtime is the vendor's binary, and RFD66606-2188 leaves it unmigrated.
 
     python scripts/check_ggml_singleton.py
     python scripts/check_ggml_singleton.py --self-test

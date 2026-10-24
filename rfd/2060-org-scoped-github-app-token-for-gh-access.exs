@@ -16,9 +16,9 @@ rfd 2060, "Org scoped github app token for gh access", :prediscussion do
   on every repository the personal account can reach, across every org
   and every private repo. A mistyped owner in a destructive command, or
   :: related
-  - RFD 2146 (Bao is the secret store), where the App key lives.
-  - RFD 2260 (credentials shared by path in Bao), the policy model.
-  - RFD 2255 (an SSH tunnel to Bao), one way to reach it.
+  - RFD66606-2146 (Bao is the secret store), where the App key lives.
+  - RFD66606-2260 (credentials shared by path in Bao), the policy model.
+  - RFD66606-2255 (an SSH tunnel to Bao), one way to reach it.
   """
 
   details_title "Org scoped github app token for gh access"
@@ -96,7 +96,7 @@ rfd 2060, "Org scoped github app token for gh access", :prediscussion do
     - Good: a session that loses its `gh` login keeps working, since the
       token comes from Bao and not from a shared login on the desk.
     - Bad: minting needs Bao reachable, over the tailnet or the SSH
-      tunnel (RFD 2255).
+      tunnel (RFD66606-2255).
     - Bad: the App private key is itself high-value (it can mint tokens
       for every install of the App); Bao's policy on `github/token` is
       what guards it.

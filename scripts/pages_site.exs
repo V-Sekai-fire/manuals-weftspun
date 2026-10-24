@@ -88,7 +88,7 @@ defmodule PagesSite do
         source: "rfd/#{slug}.exs",
         group: to_string(d.state),
         serial: d.serial,
-        label: "RFD #{d.serial}: #{d.title}",
+        label: shorten(d.title, &short/1),
         status: status |> Enum.reject(&(&1 in [nil, false])) |> Enum.join(" "),
         href: "rfd/#{slug}/",
         date: Map.get(dates, "rfd/#{slug}.exs", ""),
@@ -138,7 +138,8 @@ defmodule PagesSite do
       |> Enum.map_reduce(false, fn line, fenced ->
         cond do
           String.starts_with?(String.trim_leading(line), "```") -> {line, not fenced}
-          fenced or String.starts_with?(line, "# ") -> {line, fenced}
+          fenced -> {line, fenced}
+          String.starts_with?(line, "# ") -> {shorten(line, &short/1), fenced}
           true -> {link_line(line, up, slugs, own), fenced}
         end
       end)
@@ -156,12 +157,7 @@ defmodule PagesSite do
 
       prose ->
         prose
-        |> then(
-          &Regex.replace(~r/(?<![\[\w\/])RFD (\d{4})(?![\]\w])/, &1, fn all, n ->
-            href = Map.get(slugs, String.to_integer(n))
-            if href && String.to_integer(n) != own, do: "[#{all}](#{up}#{href})", else: all
-          end)
-        )
+        |> shorten(&cite(&1, up, slugs, own))
         |> then(
           &Regex.replace(
             ~r/(?<![\[\w\/`-])BLOCKLIST\.md(?![\]\w])/,
@@ -235,7 +231,7 @@ defmodule PagesSite do
       Enum.map_join(
         es,
         "\n",
-        &"| [#{&1.serial}](#{&1.href}) | #{&1.status} | #{String.replace(&1.label, "|", "\\|")} |"
+        &"| #{link(&1)} | #{&1.status} | #{String.replace(&1.label, "|", "\\|")} |"
       )
 
     "| RFD | status | title |\n| --- | --- | --- |\n" <> rows
@@ -253,7 +249,22 @@ defmodule PagesSite do
   end
 
   defp escape(text), do: String.replace(text, "|", "\\|")
-  defp link(e), do: "[#{e.serial}](#{e.href})"
+  defp link(e), do: "[#{short(e.serial)}](#{e.href})"
+  defp short(serial), do: "RFD66606-#{serial}"
+
+  defp cite(n, up, slugs, own) do
+    href = Map.get(slugs, n)
+    if href && n != own, do: "[#{short(n)}](#{up}#{href})", else: short(n)
+  end
+
+  @serial "(?:RFD66606-)?\\d{4}"
+  @cited ~r/(?<![\[\w\/-])(?:RFDs? |RFD66606-)(\d{4}(?:(?:,? and|,| or) #{@serial})*)(?![\]\w])/
+
+  defp shorten(text, to) do
+    Regex.replace(@cited, text, fn _, ns ->
+      Regex.replace(~r/(?:RFD66606-)?(\d{4})/, ns, fn _, n -> to.(String.to_integer(n)) end)
+    end)
+  end
 
   defp legend do
     "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>

@@ -1,4 +1,4 @@
-"""P3-SAM mesh segmentation. RFD 1041.
+"""P3-SAM mesh segmentation. RFD66606-1041.
 
 The label array leads, and the split meshes follow. A label is stable
 input for the rig stage and the remix stage. A split mesh is not,
@@ -15,7 +15,7 @@ from cog import BasePredictor, BaseModel, Input, Path
 
 
 class Output(BaseModel):
-    """RFD 1053. The layer holds one scope per part.
+    """RFD66606-1053. The layer holds one scope per part.
 
     A USD scope names a part without splitting the mesh. The split
     GLBs stay for callers that want files, and the layer stays for

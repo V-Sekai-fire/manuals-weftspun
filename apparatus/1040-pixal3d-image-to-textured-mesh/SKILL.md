@@ -5,7 +5,7 @@ description: Build and run the Pixal3D image-to-3D worker without rediscovering 
 
 # Pixal3D, as a procedure rather than a discovery
 
-RFD 1040 records what is wrong with the packaging. This is what to do about it. The two are
+RFD66606-1040 records what is wrong with the packaging. This is what to do about it. The two are
 separate on purpose: the RFD is the measurement, and a measurement does not tell you the
 order to do things in.
 
@@ -18,7 +18,7 @@ cause.
 **Upstream's pins are the ones that count. Ours are the ones that break it.**
 
 Pixal3D's `requirements.txt` names no torch, no safetensors, no `huggingface_hub` and no
-`usd-core`. RFD 1040's Dockerfile invented all four, and three of them are why it does not
+`usd-core`. RFD66606-1040's Dockerfile invented all four, and three of them are why it does not
 work: `huggingface_hub==0.26.2` contradicts `transformers==4.57.3` and stops the build at
 pip; `torch==2.5.1` brings triton 3.1.0, which FlexGEMM cannot call; `safetensors==0.4.5`
 cannot open the 1.3B checkpoint. Prefer a solver with a lockfile over a hand-written pin,
@@ -76,7 +76,7 @@ is every stage except the one that worked. `flash_attn_3` has the same problem a
 around with `ATTN_BACKEND=sdpa`. NATTEN has no equivalent switch, and the missing kernel is for
 sm_86, so any other Ampere card fails the same way. The options are to build `natten` for sm_86 against a `-devel` base with Ampere support
 unverified, to disable NAF and label the output off-distribution, or to rent a Hopper card --
-RFD 1140 covers the last of those. The config is known-good up to this point.
+RFD66606-1140 covers the last of those. The config is known-good up to this point.
 
 No GLB was produced. Vertex counts, extract VRAM and the mesh usability check **did not run and
 are counted as not-run, not as passes**.

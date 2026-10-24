@@ -33,7 +33,7 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   upstream names, logos, and trade dress. A fork must then take a
   unique name.
   :: related
-  RFD 1018 records the M3 documentation removal.
+  RFD66606-1018 records the M3 documentation removal.
   """
 
   details_title "Fork rebrand to Weftspun"

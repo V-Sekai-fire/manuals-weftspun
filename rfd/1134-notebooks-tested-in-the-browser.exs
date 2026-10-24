@@ -36,7 +36,7 @@ rfd 1134, "A loop notebook is tested in the browser", :discussion do
   A queued cell and a passing cell look the same in a screenshot. A silent
   skip reads exactly like a pass.
   :: related
-  RFD 1122 states the wholebody gap that loop 1 serves.
+  RFD66606-1122 states the wholebody gap that loop 1 serves.
   """
 
   details_title "A loop notebook is tested in the browser"
@@ -389,8 +389,8 @@ rfd 1134, "A loop notebook is tested in the browser", :discussion do
 
   Both are what an unconstrained 17-point solve produces, and both report
   a residual small enough to look converged. The rest pose is the only
-  corpus subject until a joint bound exists, which is the state RFD 1137's
-  skill already describes and RFD 1138's question has to be answered
+  corpus subject until a joint bound exists, which is the state RFD66606-1137's
+  skill already describes and RFD66606-1138's question has to be answered
   before it changes.
 
   Nothing in the argument depends on the files. The conventions check

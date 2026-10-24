@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gate: every rebac block in CLAUDE.md is RFD 2200 tuples over the verbs RFD 2200 declares.
+# Gate: every CLAUDE.md rebac block is RFD66606-2200 tuples over the verbs that RFD declares.
 #
-# The verbs come from RFD 2200's `rebac` block as data (RFD 2291), not from a table
+# The verbs come from RFD66606-2200's `rebac` block as data (RFD66606-2291), not from a table
 # scraped out of its rendered Markdown, and every rule lives in `RFD.ReBAC`, which the
 # DSL applies when a source compiles. `mix rfd.rebac` runs this over the whole corpus;
 # this script is the CLAUDE.md half, which a prek hook runs on its own.

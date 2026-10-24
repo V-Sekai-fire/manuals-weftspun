@@ -10,8 +10,8 @@ USB device, because the bus is the part that decides.
 
 ## Order
 
-1. **Check the prerequisites are answered.** RFD 1128 for four-bit
-   tolerance, RFD 1129 for operator coverage. Measuring throughput on a
+1. **Check the prerequisites are answered.** RFD66606-1128 for four-bit
+   tolerance, RFD66606-1129 for operator coverage. Measuring throughput on a
    model that fails either produces a number about nothing.
 2. **Time the first inference on its own.** Cold: compilation,
    allocation and weight transfer included. Report it as its own row.

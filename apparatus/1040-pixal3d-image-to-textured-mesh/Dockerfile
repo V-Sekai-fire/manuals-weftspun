@@ -1,5 +1,5 @@
-# Pixal3D, as a vast.ai worker. RFD 1040 records the design, and
-# RFD 1036 records why this is a plain Docker image and not a Cog.
+# Pixal3D, as a vast.ai worker. RFD66606-1040 records the design, and
+# RFD66606-1036 records why this is a plain Docker image and not a Cog.
 #
 # The target is an RTX 4090 with 24 GB. Pixal3D peaks at 6.50 GB with
 # low_vram on, thus that card holds it with room for the activations.
@@ -17,14 +17,14 @@
 
 # ---------------------------------------------------------------------
 # The contract stage. It carries the handler and usd-core, and no
-# model. RFD 1040 uses it to prove the request and response shapes in
+# model. RFD66606-1040 uses it to prove the request and response shapes in
 # Docker, on a machine with no NVIDIA device.
 # ---------------------------------------------------------------------
 FROM python:3.11-slim AS contract
 
 WORKDIR /app
 
-# RFD 1053. OpenUSD is the internal format, thus the layer writer is
+# RFD66606-1053. OpenUSD is the internal format, thus the layer writer is
 # part of the contract and not an extra.
 RUN pip install --no-cache-dir usd-core==25.5 fastapi==0.115.5 uvicorn==0.32.1 pydantic==2.10.3
 

@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2297, "the first rung's dev.3", :discussion do
   flight_level :l1
-  feature "the dev rung that follows dev.2 on RFD 2293's release ladder"
+  feature "the dev rung that follows dev.2 on RFD66606-2293's release ladder"
   scope "the pen's `v<date>-dev.3` release"
 
   prose ~S"""
@@ -15,9 +15,9 @@ rfd 2297, "the first rung's dev.3", :discussion do
   dev.1 and dev.2 shipped the double editor, the addon and the guest
   ELFs, so a player needs a pen checkout to open them.
   :: related
-  - RFD 2293, the workspace, the ladder and dev.1; its release rules hold here.
-  - RFD 2296, dev.2; RFD 2298, dev.next.
-  - RFD 2294, the headset and the visual comparisons.
+  - RFD66606-2293, the workspace, the ladder and dev.1; its release rules hold here.
+  - RFD66606-2296, dev.2; RFD66606-2298, dev.next.
+  - RFD66606-2294, the headset and the visual comparisons.
   """
 
   details_title "the first rung's dev.3"
@@ -60,7 +60,7 @@ rfd 2297, "the first rung's dev.3", :discussion do
   """
 
   details "Which features are likely to bring joy", ~S"""
-  Each forecast uses RFD 2293's sense-of-wonder rubric and RFD 2295's
+  Each forecast uses RFD66606-2293's sense-of-wonder rubric and RFD66606-2295's
   tag form.
 
   | rung | feature | criteria | joy |

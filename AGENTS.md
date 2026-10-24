@@ -234,9 +234,9 @@ macOS and Windows release workflows` and `RFD 2200: ReBAC agent roles
 as tuples in relationships/ KV` are the shape; `feat: add release
 workflow` and `chore(deps): bump` are not. No trailing period. The
 body, when there is one, states what the change makes true of the
-system and why. RFD 2026 carries the argument.
+system and why. RFD66606-2026 carries the argument.
 
-The `practices` hook (`scripts/check_practices.exs`, RFD 2294) rejects
+The `practices` hook (`scripts/check_practices.exs`, RFD66606-2294) rejects
 a subject that breaks the rule, on push and in CI, in every repository
 that takes the hook. `scripts/check_commit_style.py` checks the same
 three properties on its own. Neither reads a remote, so a fork is held
@@ -301,7 +301,7 @@ expensive failure: a bad `default.xml` stops
 three times on 2026-09-13.
 
 The cost of the ungated interval is recorded rather than implied:
-RFD 2245 landed with six of nine checks red and stopped
+RFD66606-2245 landed with six of nine checks red and stopped
 `mix rfd.render` for all 318 RFD sources until it was trimmed.
 
 A session bundle is a set of changes that carry each other's
@@ -441,13 +441,13 @@ Documentation carries the same obligation. Where a document states a number or a
 rule, that statement should be machine-checked against live code, so drift fails
 a command rather than being discovered six months later.
 `scripts/check-rfd-structure.py` is the reference case:
-it reads its state list and its README line limit out of RFD 1000 rather than
+it reads its state list and its README line limit out of RFD66606-1000 rather than
 restating them, so the document and the gate cannot disagree.
 
 ## How an RFD Stays Accurate
 
 An RFD says what is true of the system now, in the tenseless continuous
-present (RFD 2172). It is not a log of how the answer was reached, so a
+present (RFD66606-2172). It is not a log of how the answer was reached, so a
 statement that stops being true is deleted rather than retracted in
 place. Amendment paragraphs are not stacked mid-body across reversals,
 and a section naming a gap that has since closed goes rather than being
@@ -588,8 +588,8 @@ skip reads exactly like a pass.
 
 ## How the Merge Policy Is Checked
 
-A gate that is red at merge time stops nothing. RFD 2245 merged with six of
-nine checks failing; its README rendered to 55 lines against RFD 1000's 40,
+A gate that is red at merge time stops nothing. RFD66606-2245 merged with six of
+nine checks failing; its README rendered to 55 lines against RFD66606-1000's 40,
 the DSL validates on module load, and all 318 RFD sources stopped rendering
 until it was trimmed. Three later pull requests merged with all nine checks
 still queued. The gates were correct throughout and none of them was
@@ -600,7 +600,7 @@ in `PITFALLS.md` and asks the repository whether it carries them, so a
 ruleset that is deleted or never created fails a command instead of leaving
 two documents asserting a merge policy nothing applies. Reading the claim
 out of the document rather than restating it is the same shape as
-`check-rfd-structure.py` reading its line limit out of RFD 1000.
+`check-rfd-structure.py` reading its line limit out of RFD66606-1000.
 
 A claim is keyed by repository and id together, read from a repository
 named in backticks in the same paragraph, so naming one repository's
@@ -637,7 +637,7 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   orchestration and the DFC runtime; Metal and Core ML on macOS.
 - **Rendering and runtime:** Godot 4 with its Vulkan renderer (MoltenVK on macOS), shipped as a
   native binary from `entities-godot-sandbox`; Mitsuba 3 GPU variants.
-- **Inference:** ggml (RFD 2188) with the Vulkan backend; Gemma 4 (E2B, E4B); rf-detr keypoint
+- **Inference:** ggml (RFD66606-2188) with the Vulkan backend; Gemma 4 (E2B, E4B); rf-detr keypoint
   and segmentation heads.
 - **XR computer use:** interactor-xr-pilot (Apache-2.0 OR MIT, `V-Sekai-fire/interactor-xr-pilot`),
   an MCP server in Lean 4 with a panelspun window that lets an agent screenshot and drive an OpenXR
@@ -649,19 +649,19 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Collision:** MuJoCo (Apache-2.0) as a godot-sandbox guest ELF from
   `interactor-mujoco-sandbox-demo`, for stroke-crossing detection in the CASSIE curvenet pass —
   capsule collision on host-supplied strokes through `mj_crossings`, no dynamics. A curve-geometry
-  role distinct from the RFD 2238 MuJoCo Warp physics and pose-training use. The same guest also
+  role distinct from the RFD66606-2238 MuJoCo Warp physics and pose-training use. The same guest also
   holds the Sakuragaoka Station port's colliders and walks the player through them (ray and contact
   queries, bit-deterministic and migratable); Godot's own physics is not used there (operator,
   2026-10-01).
 - **Matting:** BiRefNet_HR-matting (MIT), weights `ZhengPeng7/BiRefNet_HR-matting` from Hugging
   Face, draws the edge of a person mask over the RF-DETR instance; the MoGe-3 depth-edge check,
-  not the matte, accepts the mask (RFD 2273).
+  not the matte, accepts the mask (RFD66606-2273).
 - **Eye tracking:** `frame-eye-osc` (MIT), a Lean 4 program from `V-Sekai-fire/frame-eye-osc`
   that runs on the headset, reads the eye-tracking service's shared memory and sends OSC to the
-  social-VR client (RFD 2271).
+  social-VR client (RFD66606-2271).
 - **Marker suit:** the SOMA muscle-anatomy code (MIT, `edualvarado/SOMA`), read and run only:
   its suit template, marker detection, triangulation and tracking, for the ChArUco capture suit
-  (RFD 2332). Its SKIM captures are not covered until their terms are read (operator,
+  (RFD66606-2332). Its SKIM captures are not covered until their terms are read (operator,
   2026-10-22).
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
@@ -701,7 +701,7 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Live streaming:** PyroWave (MIT, `Themaister/pyrowave`) with the Granite subset it checks
   out (MIT, `Themaister/Granite`), an intra-only wavelet codec whose Vulkan compute shaders are
   packed through Slang's `slangmosh` into SPIR-V; its macOS port uses hand-written MSL. For the
-  desktop-to-headset stream; CineForm stays the recording codec (RFD 2287).
+  desktop-to-headset stream; CineForm stays the recording codec (RFD66606-2287).
 - **OpenXR runtime:** oxrsys (MPL-2.0, forked from `demonixis/oxrsys`), the desktop OpenXR runtime
   that streams to the Steam Frame over PyroWave, with its SteamVR driver and Android and Apple
   headset clients; it lives in `oxrsys/` of `V-Sekai-fire/interactor-xr-pilot`, merged with its
@@ -753,7 +753,7 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   vendored or shipped (operator, 2026-10-05).
 - **Verified C generation:** Trust-Lean (MIT, `V-Sekai-fire/trust-lean`, our fork of
   `lambdaclass/trust-lean`, pinned by tag), Lean 4 code generation that emits C with proofs, for
-  the transport kernels and the RECTGTN planner's search (RFD 2304). Fixes land on our fork and
+  the transport kernels and the RECTGTN planner's search (RFD66606-2304). Fixes land on our fork and
   nothing is sent upstream (operator, 2026-10-05).
 - **Proof library:** Mathlib (Apache-2.0, `leanprover-community/mathlib4`) as Trust-Lean's
   dependency, at build time only, never shipped (operator, 2026-10-05).
@@ -789,11 +789,11 @@ anybody's diff.
 
 ## What the Agent May Do on This Desk
 
-The desk agent's capabilities are RFD 2200 tuples, one per line in the block
+The desk agent's capabilities are RFD66606-2200 tuples, one per line in the block
 below. A row is `<subject>--<verb>--<object>`; a `!` before the verb makes it a
 denial, which carries its reason after `#`. Default deny covers what no row
-names. The block is rendered by `mix rfd.render` from RFD 2200's `rebac`
-declarations (RFD 2291), so it is not hand-edited, and a new verb is a `verb`
+names. The block is rendered by `mix rfd.render` from RFD66606-2200's `rebac`
+declarations (RFD66606-2291), so it is not hand-edited, and a new verb is a `verb`
 line in that RFD before it is a row here.
 
 ```rebac
@@ -816,13 +816,13 @@ desk-agent--!owns--rented-gpu         # the Compute constraint above
 Temporary files go in the session scratchpad, and anything worth keeping goes
 into this tree or onto a pushed branch; there is no third place. Work runs
 natively on Windows, git, Bao, Fly and the headset's ssh included. Linux builds
-are built and tested in the desk's WSL Ubuntu 22.04 (RFD 2294). Each task ends by removing what it staged; minted tokens and the desk's
-Bao login token expire on their own and are not revoked (RFD 2294).
+are built and tested in the desk's WSL Ubuntu 22.04 (RFD66606-2294). Each task ends by removing what it staged; minted tokens and the desk's
+Bao login token expire on their own and are not revoked (RFD66606-2294).
 
 ## Where an Agent's Knowledge Goes
 
 What any agent needs to know about V-Sekai-fire and chibifire-stages lives in an
-RFD here, the one that owns the topic or RFD 2294. A desk's local memory keeps only
+RFD here, the one that owns the topic or RFD66606-2294. A desk's local memory keeps only
 what is true of that desk, and a local note about a generic rule names the RFD that
 states it.
 
@@ -838,7 +838,7 @@ a link.
 ## Claude does not write attribution
 
 Commits, pull requests and comments carry no agent credit, and commits are
-authored as the operator. RFD 2294's "Interchangeable sessions" states the
+authored as the operator. RFD66606-2294's "Interchangeable sessions" states the
 rule, with the workspace's other standard practices, and how to strip a footer
 a tool appends; `dot-claude`'s `settings.json` turns the tool's own attribution
 off.

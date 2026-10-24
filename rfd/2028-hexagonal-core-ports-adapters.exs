@@ -45,7 +45,7 @@ rfd 2028, "Hexagonal core ports adapters", :prediscussion do
     outcome ~S"""
     Each component takes a uniform `entities/` + `repositories/` +
     `datasources/` layout, in the Netflix formulation of the pattern.
-    Components compose into a service, as RFD 2111 defines a service.
+    Components compose into a service, as RFD66606-2111 defines a service.
 
     ### entities/: the objects, and the interactors that act on them
 
@@ -118,7 +118,7 @@ rfd 2028, "Hexagonal core ports adapters", :prediscussion do
     the model, the Godot renderer, and the COCO output.
 
     Those files still carry the older names on disk, and the `*_source.h` /
-    `*_sink.h` spelling with them. RFD 2111 holds the rename list.
+    `*_sink.h` spelling with them. RFD66606-2111 holds the rename list.
     """
   end
 end

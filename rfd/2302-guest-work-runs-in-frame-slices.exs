@@ -23,9 +23,9 @@ gates, and each guest solve"
   frame behind it. Moving the call to a sub-thread does not help: a
   frame ends only when every thread group's `_process` returns.
   :: related
-  - RFD 2287, the rung whose headset runs at 144 Hz; RFD 2263, the replay gate.
-  - RFD 2293, native translation, which shrinks every slice's count.
-  - RFD 2274, the MuJoCo guest; RFD 2265, curvenet off the main thread.
+  - RFD66606-2287, the rung whose headset runs at 144 Hz; RFD66606-2263, the replay gate.
+  - RFD66606-2293, native translation, which shrinks every slice's count.
+  - RFD66606-2274, the MuJoCo guest; RFD66606-2265, curvenet off the main thread.
   """
 
   details_title "guest work runs in frame slices"

@@ -13,27 +13,27 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
 
   prose ~S"""
   :: decision
-  A keypoint is a named point on a body or on a thing a body touches. Code reads the set as
-  data and never writes a name into itself (operator, 2026-10-19). Every record is ETNF:
-  - COCO-WholeBody's 133, face included, is the first set because it is the most standard;
-    other sets, such as RFD 2310's eye landmarks, are row sets too (operator, 2026-10-19).
-  - Its 68 face points map to Unified Expressions (RFD 2275), then the 52 facial actions,
+  A keypoint is a named point on a body or on a thing a body touches. Code reads the set as data
+  and never writes a name into itself (operator, 2026-10-19). Every record is ETNF:
+  - COCO-WholeBody's 133, face included, is the first set because it is the most standard; other
+    sets, such as RFD66606-2310's eye landmarks, are row sets too (operator, 2026-10-19).
+  - Its 68 face points map to Unified Expressions (RFD66606-2275), then the 52 facial actions,
     then SOMA-X's FACS units and extra shapes such as cheek puffs (operator, 2026-10-19).
-  - Interaction keypoints are where a body meets something: a seat, a sole on the ground, a
-    hand on a grip, a hand on another character (operator, 2026-10-19).
+  - Interaction keypoints are where a body meets something: a seat, a sole on the ground, a hand
+    on a grip, a hand on another character (operator, 2026-10-19).
   - A support is a surface with a frame and what it allows (walk, sit, ride, hold): ground,
     chairs, bikes, mopeds, cars and trains (operator, 2026-10-19).
-  - A contact puts one keypoint on one support for a span of frames; getting on or off is
-    a change of support. The keypoint supports model (RFD 2309's search) sets each
-    keypoint's weight and predicts contacts; until then every weight is 1.
+  - A contact puts one keypoint on one support for a span of frames; getting on or off is a change
+    of support. The keypoint supports model (RFD66606-2309's search) sets each keypoint's weight
+    and predicts contacts; until then every weight is 1.
   - Steady gaits loop; joins keep a learned gait phase (operator, 2026-10-19).
   :: problem
-  Each system has private keypoints: motion matching measures two feet and the hips on one
-  flat ground, the clip cut keeps a one-shot on the spot, the detector emits 17 COCO points.
-  None can say a body is seated, which surface carries a foot, or that a rider moves with a
-  moped. The first user is a sit-and-stand clip, which Kimodo will not make from one prompt.
+  Each system has private keypoints: motion matching measures two feet and the hips on one flat
+  ground, the clip cut keeps a one-shot on the spot, the detector emits 17 COCO points. None can
+  say a body is seated, which surface carries a foot, or that a rider moves with a moped. The
+  first user is a sit-and-stand clip, which Kimodo will not make from one prompt.
   :: related
-  - RFD 1143 (keypoints to ANNY), RFD 2275 (face), RFD 2310 (eyes), RFD 2309 (the search).
+  - RFD66606-1143 (ANNY), RFD66606-2275 (face), RFD66606-2310 (eyes), RFD66606-2309 (search).
   """
 
   details_title "Keypoints, supports and contacts"
@@ -52,7 +52,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - The motion clip cut ends a one-shot on the frame closest to its start pose, fades the
     last frames into it and walks the root back. It reports how far the end pose was from
     the start, so a clip that ends seated is reported, not hidden.
-  - The RF-DETR keypoint head is COCO-17. RFD 2310 adds 34 points per eye.
+  - The RF-DETR keypoint head is COCO-17. RFD66606-2310 adds 34 points per eye.
   - The auto-rig's face writes Unified Expressions names from a one-line-per-name catalog.
   - The keypoint anchors place all 133 COCO-WholeBody points on ANNY's 19,158-vertex base
     mesh as vertex blends. The worst face point is capped at 13 mm, about one AAA battery's
@@ -75,7 +75,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
     - the ANNY and SOMA-X fitter solves the 68 face keypoints for the 52 facial action
       weights, the face pose of Table E.13 in our appendix-E dataset;
     - each Unified Expressions name maps to the 52 facial actions, through the headfit's
-      catalog (RFD 2275);
+      catalog (RFD66606-2275);
     - each facial action maps to SOMA-X's FACS action units;
     - shapes the 52 facial actions lack, such as cheek puffs and the tongue, map from
       Unified Expressions to SOMA-X's extra shapes.
@@ -98,7 +98,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - there is standing-height clearance above it;
   - there is at least a foot's length of flat area.
   The keypoint supports model then learns walk from where feet land: in Kimodo clips, in
-  the motion matching clips, and in the frontier runs of RFD 2309. A learned rule replaces
+  the motion matching clips, and in the frontier runs of RFD66606-2309. A learned rule replaces
   a measured one only when it predicts the landed feet better on held-out clips.
 
   :: details The first user: the sit-and-stand clip
@@ -164,7 +164,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
     and reports which clips land on which curve.
   - Which table rows give each walkable limit. The appendix-E tables hold stature and ankle
     range of motion, but no knee height or foot length.
-  - How the keypoint supports model reads its training rows. RFD 2309's rows are
+  - How the keypoint supports model reads its training rows. RFD66606-2309's rows are
     EditScore-shaped; the first step writes one contact row in that shape and checks it
     round-trips.
   - Whether the face weights and the body keypoints share one frame clock. Kimodo makes no

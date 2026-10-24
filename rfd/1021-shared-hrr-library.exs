@@ -22,7 +22,7 @@ rfd 1021, "A shared holographic algebra library", :published do
   dimension choice, the migration effects, and the risks. It also
   holds the Lean proofs and the verified status.
   :: problem
-  RFD 1019 gave the studio core a local module, `WeftspunStudio.Hrr`.
+  RFD66606-1019 gave the studio core a local module, `WeftspunStudio.Hrr`.
   It held a real-valued Holographic Reduced Representation. Binding
   used a Fourier transform, and the inverse worked only on unitary
   vectors.

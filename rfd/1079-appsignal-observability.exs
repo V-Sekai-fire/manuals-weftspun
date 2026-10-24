@@ -28,14 +28,14 @@ rfd 1079, "AppSignal observability, and versitygw's removal", :published do
   :: problem
   `weftspun_studio` ran with no request tracing or error reporting at
   all. A failing deploy, or a slow request, left no trail beyond
-  `flyctl logs`. Separately, RFD 1073's `versitygw` (RFD 1058's
-  S3-API gateway) sat unused: RFD 1073 (weftspun/request-for-discussion)
-  and RFD 1077 already decided Tigris replaces it, and RFD 1076 split
+  `flyctl logs`. Separately, RFD66606-1073's `versitygw` (RFD66606-1058's
+  S3-API gateway) sat unused: RFD66606-1073 (weftspun/request-for-discussion)
+  and RFD66606-1077 already decided Tigris replaces it, and RFD66606-1076 split
   `apps/usd_viewer_app/` onto its own Fly machine, which cannot reach
   `versitygw`'s loopback-only bind at all.
   :: related
-  RFD 1073 and RFD 1077 (both weftspun/request-for-discussion) decide
-  Tigris over `versitygw`. RFD 1076 gives the `apps/` split that made
+  RFD66606-1073 and RFD66606-1077 (both weftspun/request-for-discussion) decide
+  Tigris over `versitygw`. RFD66606-1076 gives the `apps/` split that made
   `versitygw` unreachable from `usd_viewer_app` in the first place.
   """
 end

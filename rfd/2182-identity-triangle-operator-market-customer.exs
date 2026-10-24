@@ -15,14 +15,14 @@ rfd 2182, "Identity triangle for operator, partner project, market", :committed 
 
   `DETAILS.md` carries the full text of this RFD.
   :: problem
-  RFD 2171 (atelier-workshop vocabulary) fixed pipeline and deliverable vocabulary but left
+  RFD66606-2171 (atelier-workshop vocabulary) fixed pipeline and deliverable vocabulary but left
   three L3 (Flight Levels: strategy altitude) gaps: who runs the atelier-workshop, who receives
   the shuttle, and which market. An earlier draft named V-Sekai "Customer", which implies a
   vendor-to-client relationship the 2020-06-08 V-Sekai charter does not support; iFire is a
   V-Sekai co-founder.
   :: related
-  RFD 2171 (atelier-workshop vocabulary), RFD 1106 (open/proprietary boundary), V-Sekai charter
-  (path above), Ibuka's 1946 Tokyo Tsushin Kogyo prospectus (structural reference).
+  RFD66606-2171 (atelier-workshop vocabulary), RFD66606-1106 (open/proprietary boundary), V-Sekai
+  charter (path above), Ibuka's 1946 Tokyo Tsushin Kogyo prospectus (structural reference).
   """
 
   details_title "Identity triangle for operator, partner project, market"
@@ -43,7 +43,7 @@ rfd 2182, "Identity triangle for operator, partner project, market", :committed 
   project that receives the shuttle (the portable-character deliverable), and the market is
   avatar-first social VR.
   :: details Problem
-  RFD 2171 (atelier-workshop vocabulary) fixed pipeline and deliverable vocabulary but left
+  RFD66606-2171 (atelier-workshop vocabulary) fixed pipeline and deliverable vocabulary but left
   three L3 (Flight Levels: strategy altitude) gaps: who runs the atelier-workshop, who receives
   the shuttle, and which market. An earlier draft named V-Sekai "Customer", which implies a
   vendor-to-client relationship the 2020-06-08 V-Sekai charter does not support; iFire is a
@@ -63,13 +63,13 @@ rfd 2182, "Identity triangle for operator, partner project, market", :committed 
   :: details Purposes (Ibuka-shape, under V-Sekai's charter)
   1. Make portable characters other people can take away; the deliverable is data, not a
   service.
-  2. Walk the gacha ladder (RFD 2136: 10-rung generation pipeline) rung by rung; each stage
+  2. Walk the gacha ladder (RFD66606-2136: 10-rung generation pipeline) rung by rung; each stage
   measurable in isolation.
-  3. Score edits by reconstruction (MaskScore, RFD 1173 edit-reward corpus), not intent.
+  3. Score edits by reconstruction (MaskScore, RFD66606-1173 edit-reward corpus), not intent.
   4. Run on owned local compute only. Nothing rented.
   5. License-clean provenance: `.cff` beside every payload.
   :: details Related
-  RFD 2171 (atelier-workshop vocabulary), RFD 1106 (open/proprietary boundary), V-Sekai charter
-  (path above), Ibuka's 1946 Tokyo Tsushin Kogyo prospectus (structural reference).
+  RFD66606-2171 (atelier-workshop vocabulary), RFD66606-1106 (open/proprietary boundary), V-Sekai
+  charter (path above), Ibuka's 1946 Tokyo Tsushin Kogyo prospectus (structural reference).
   """
 end

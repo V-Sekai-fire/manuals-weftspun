@@ -15,7 +15,7 @@ hardware the operator owns, off the macOS runner"
   the crash is that layer, not the pipeline. The runtime prefers a hardware
   HEVC encoder over the software one, which alone costs about a frame at 90Hz.
   A CI runner without a GPU falls back to software, so the Linux gate asserts
-  correctness only and performance is measured on the headset (RFD 2265).
+  correctness only and performance is measured on the headset (RFD66606-2265).
   Parked: see DETAILS.md.
   :: problem
   The macOS replay gate has failed on every run since the branch was created,
@@ -26,9 +26,9 @@ hardware the operator owns, off the macOS runner"
   gate needs a host the operator owns and a video encoder that leaves the frame
   budget for the loop.
   :: related
-  - RFD 2263 (the first testable release's simulator gate) is the gate this runtime serves.
-  - RFD 2265 (curvenet on compute-rd) holds the headset performance bed.
-  - RFD 2188 (ggml on compute-rd) shares the Vulkan-on-Linux ground.
+  - RFD66606-2263 (the first testable release's simulator gate) is the gate this runtime serves.
+  - RFD66606-2265 (curvenet on compute-rd) holds the headset performance bed.
+  - RFD66606-2188 (ggml on compute-rd) shares the Vulkan-on-Linux ground.
   """
 
   details_title "The simulator runtime runs on Linux"

@@ -28,11 +28,11 @@ recording or render made from them"
     the frame-time histogram.
   - `contract-orbit-views`' `STANDARD.md` and `check_orbit_views.py`.
   :: related
-  - RFD 2302, the 144 Hz frame budget and guest frame slices; RFD 2287, the
+  - RFD66606-2302, the 144 Hz frame budget and guest frame slices; RFD66606-2287, the
     headset rung at 144 Hz.
-  - RFD 2294, video, contact sheets and the Desktop folder; RFD 2283,
+  - RFD66606-2294, video, contact sheets and the Desktop folder; RFD66606-2283,
     verification by recording.
-  - RFD 2271, eye tracking sent as OSC by `frame-eye-osc`.
+  - RFD66606-2271, eye tracking sent as OSC by `frame-eye-osc`.
   """
 
   details_title "xr technical requirements checklist"
@@ -65,7 +65,7 @@ recording or render made from them"
     then. Gate: `tools/movie.py` stops the run at the 4 s cap, so a 50 s hang
     fails 46 s early.
   - L4. No black or frozen view during a load: every frame in a load is
-    submitted with a tracked pose, with no gap over 6.9 ms. Why: RFD 2302's
+    submitted with a tracked pose, with no gap over 6.9 ms. Why: RFD66606-2302's
     main-loop bound holds during loads too. Gate: unchecked;
     `gate_replay.gd` measures gaps and does not fail on them.
   :: details Frame budget
@@ -73,8 +73,8 @@ recording or render made from them"
     least 99% of frames in a 60 s replay under one target interval. Why: one
     miss in a hundred is one visible stutter a second at 90 Hz. Gate:
     unchecked; the histogram measures it.
-  - F2. No main-thread block longer than one frame at 144 Hz, 6.9 ms (RFD
-    2302). Why: the fastest headset rung runs at 144 Hz. Gate: unchecked;
+  - F2. No main-thread block longer than one frame at 144 Hz, 6.9 ms (
+    RFD66606-2302). Why: the fastest headset rung runs at 144 Hz. Gate: unchecked;
     `gate_replay.gd` prints frames under 7, 7 to 17 and over 17 ms.
   - F3. The frame rate never drops below the target, and a reprojected
     minimum, half the target, is allowed only when the app declares it. Why: a
@@ -123,7 +123,7 @@ recording or render made from them"
     binds none of them. Why: they are the person's way out. Gate: unchecked.
   :: details Eye tracking
   - E1. Eye data is used live and is never written to disk or sent off the
-    device without the person's consent (RFD 2271). Why: gaze is personal
+    device without the person's consent (RFD66606-2271). Why: gaze is personal
     data. Gate: unchecked.
   :: details Packaging
   - P1. Every shipped binary is 64-bit. Why: the targets are all 64-bit.
@@ -142,7 +142,7 @@ recording or render made from them"
   - V1. 4K, 3840x2160, only; 2K is denied (BLOCKLIST.md). Why: the
     operator's rule. Gate: unchecked; `movie.py` does not read the size back.
   - V2. Recorded by the engine's own movie writer through the wavelet codec
-    writer RFD 2294 names, never by external screen capture, which does not
+    writer RFD66606-2294 names, never by external screen capture, which does not
     wait for the engine's startup. Why: a frame-locked writer records no
     startup stall. Gate: `tools/movie.py` fails without the writer.
   - V3. Rendering is capped at 60 s after load. Why: a run past it is hung.

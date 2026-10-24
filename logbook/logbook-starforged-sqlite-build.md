@@ -63,9 +63,9 @@ None. First build.
 
 ## Related
 
-- RFD 2205 (Taskweft in Bao) — the fixture shape parallels
+- RFD66606-2205 (Taskweft in Bao) — the fixture shape parallels
   `fleet.sqlite`.
-- RFD 2208 (decision-point control surface) — the demo that
+- RFD66606-2208 (decision-point control surface) — the demo that
   reads the SQLite.
 - `logbook-starforged-hf-dataset-build.md` — the parquet mirror
   of the same content.

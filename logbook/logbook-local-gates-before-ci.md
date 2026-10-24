@@ -31,7 +31,7 @@ Not a gate. Measured across the 135 projects the manifest places:
     of those 46, with the prek hook installed                       0
 
 The config is everywhere, the runner is on the desk, and nothing invoked it. So the part
-was there twice over and had no caller. Under RFD 2229 that makes this a caller rather
+was there twice over and had no caller. Under RFD66606-2229 that makes this a caller rather
 than a part: `gate.exs` adds no check, and dispatches to prek where a project declares a
 `.pre-commit-config.yaml` and to the pixi `gate` environment where one is declared.
 

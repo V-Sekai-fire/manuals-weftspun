@@ -127,8 +127,8 @@ rfd 2249, "Cloth by vertex block descent, on the GPU", :discussion do
   violent in strain, 1,732 percent on one 3.42 mm edge, and an elastic model
   integrates strain.
   :: related
-  RFD 2248 (the body as a closed solid, which the contact query depends on),
-  RFD 2247 (property testing). `AvbdSolver.h`, `PERF_FINDINGS.md`,
+  RFD66606-2248 (the body as a closed solid, which the contact query depends on),
+  RFD66606-2247 (property testing). `AvbdSolver.h`, `PERF_FINDINGS.md`,
   `Tools/rig/avbd.py`.
   """
 end

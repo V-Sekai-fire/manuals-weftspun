@@ -7,34 +7,33 @@ rfd 2238,
     :discussion do
   feature "the microduck formula (mjlab on MuJoCo Warp, PPO through rsl-rl, 50 Hz control, ONNX with the normaliser baked in) stood up on the Unitree G1 rig inside WSL2 on the desk's own 4090, with the Appendix E.3 joint envelope as one artefact and a throwaway smoke run proving train, roll-out and export end to end"
 
-  scope "`3-interactor/g1-sim-to-real`, the WSL2 host on this desk, RFD 1138's source list"
+  scope "`3-interactor/g1-sim-to-real`, the WSL2 host on this desk, RFD66606-1138's source list"
 
   prose ~S"""
   :: decision
-  The training environment is the `pixi.toml` already pinned in `g1-sim-to-real`,
-  installed for linux-64 inside WSL2 because mjlab declares itself Linux
-  or macOS only; the undeclared `uv` venv the benchmarks used is retired.
-  The eight-joint E.3 envelope is written to disk once, wrist included,
-  from the measured calibration, with a gate and a negative control, and
-  the reward, the clearance metric and the gate read that file. A task
-  family in the microduck layout registers a flat velocity task on
-  mjlab's own G1 at 50 Hz with the ROM terms added. A smoke run validates
-  the pipeline and is thrown away: no policy ships or publishes before
-  the obs_dim, `K_max` and ROM rulings. `DETAILS.md` carries the rest.
+  The training environment is the `pixi.toml` already pinned in `g1-sim-to-real`, installed for
+  linux-64 inside WSL2 because mjlab declares itself Linux or macOS only; the undeclared `uv` venv
+  the benchmarks used is retired. The eight-joint E.3 envelope is written to disk once, wrist
+  included, from the measured calibration, with a gate and a negative control, and the reward, the
+  clearance metric and the gate read that file. A task family in the microduck layout registers a
+  flat velocity task on mjlab's own G1 at 50 Hz with the ROM terms added. A smoke run validates
+  the pipeline and is thrown away: no policy ships or publishes before the obs_dim, `K_max` and
+  ROM rulings. `DETAILS.md` carries the rest.
   :: problem
-  The operator asked whether the body was being trained sim-to-real in the
-  microduck methodology and, told it was not, said "do it". Nothing had
-  trained: the stack was pinned but never installed, the E.3 calibration
-  lived in one script, and no environment, PPO loop or export existed. The
-  three rulings that gate a shipped policy are still open, so the first
-  moves are the ones that do not depend on them.
+  The operator asked whether the body was being trained sim-to-real in the microduck methodology
+  and, told it was not, said "do it". Nothing had trained: the stack was pinned but never
+  installed, the E.3 calibration lived in one script, and no environment, PPO loop or export
+  existed. The three rulings that gate a shipped policy are still open, so the first moves are the
+  ones that do not depend on them.
   :: references
-  - RFD 2237, the per-frame controller that decides the motion command this body will follow
-  - RFD 1138, where a range of motion comes from: Appendix E.3 is a fourth source it has not weighed
-  - RFD 2229, interchangeable parts, which decides what each leg reuses
+  - RFD66606-2237, the per-frame controller that decides the motion command this body will follow
+  - RFD66606-1138, where a range of motion comes from: Appendix E.3 is a fourth source it has not
+    weighed
+  - RFD66606-2229, interchangeable parts, which decides what each leg reuses
   - Pollen's `microduck_rl`, the public reference for the formula
   :: related
-  RFD 1175 (motion-bricks between decisions), RFD 2230 (the ggml adapter the trained policy would reach the avatar through), the #174 open questions recorded in memory.
+  RFD66606-1175 (motion-bricks between decisions), RFD66606-2230 (the ggml adapter the trained
+  policy would reach the avatar through), the #174 open questions recorded in memory.
   """
 
   details_title "Sim-to-real for the body on the G1 rig: the environment, the ROM envelope and the smoke run"
@@ -70,7 +69,7 @@ rfd 2238,
   envelope; `--self-test` plants a swapped sign and an out-of-range bound
   and both must be refused; `--refetch` reads the sixteen E.3 rows from
   `chibifire/starforged-std-3001-appendix-e` and refuses when they differ
-  from the pinned ones. RFD 1138 weighs three ROM sources and not this
+  from the pinned ones. RFD66606-1138 weighs three ROM sources and not this
   one; the artefact is the fourth candidate, with the civilian reference
   named in the dataset's `source` column.
   :: details The task family

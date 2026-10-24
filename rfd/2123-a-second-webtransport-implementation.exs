@@ -122,14 +122,14 @@ rfd 2123, "A second webtransport implementation", :moved do
   `iceoryx2` defaults a subscriber's buffer to **2** samples with safe overflow on. Three
   records
   published in a burst arrived as two, and the missing one was the oldest, before any reader was
-  slow. Both repositories now set the buffer explicitly and keep safe overflow, because RFD 2108
-  requires that a lagging reader never stall the writer.
+  slow. Both repositories now set the buffer explicitly and keep safe overflow, because
+  RFD66606-2108 requires that a lagging reader never stall the writer.
 
   The drop stays undetectable. `HeaderPublishSubscribe` carries a node id, a publisher id and an
   element count, and no sequence number, so nothing distinguishes a dropped sample from one
   never
-  sent. RFD 2108 says a subscriber whose cursor falls out of the ring "receives a resync signal
-  rather than a gap"; no such signal exists, and defining one is a wire decision.
+  sent. RFD66606-2108 says a subscriber whose cursor falls out of the ring "receives a resync
+  signal rather than a gap"; no such signal exists, and defining one is a wire decision.
   :: details The renames
   Two repositories renamed, two created. GitHub redirects the old names.
 
@@ -143,16 +143,15 @@ rfd 2123, "A second webtransport implementation", :moved do
   `check_path_recomposes` in `check_docs.py` requires the directory and its child to rebuild the
   repository name, and all four do. The manifest count moves from 45 to 47.
 
-  Both C repositories carried a description using a word RFD 2111 retired, "hands the result to
-  a
-  **plane** over iceoryx2", because the READMEs were converted and the GitHub descriptions were
-  missed. Both now say interactor.
+  Both C repositories carried a description using a word RFD66606-2111 retired, "hands the result
+  to a **plane** over iceoryx2", because the READMEs were converted and the GitHub descriptions
+  were missed. Both now say interactor.
 
   `check_docs.py`'s moved-repository check found eight stale references in six files across five
   repositories, each fixed in its own pull request: `transport-fanout`, `transport-gateway-c`,
   `transport-ingest-c`, `interactor-ward`, `entities-gyre` and `datasource-queen`.
   :: details Why the language and not the library
-  RFD 2111 retires names that say how a thing was built, and `-c` and `-python` are exactly
+  RFD66606-2111 retires names that say how a thing was built, and `-c` and `-python` are exactly
   that. The
   rule targets directories that collect whatever nobody classified: `service/`, `lean/`,
   `engine/`,
@@ -160,10 +159,9 @@ rfd 2123, "A second webtransport implementation", :moved do
   is
   the only thing that separates them and the role word is already taken by both.
 
-  `transport-picoquic`, which RFD 2111 renamed from `fabric-edge`, is the precedent for naming a
-  transport repository after its stack, taken for the same reason: "Bare `transport` would read
-  as a
-  name that went missing."
+  `transport-picoquic`, which RFD66606-2111 renamed from `fabric-edge`, is the precedent for
+  naming a transport repository after its stack, taken for the same reason: "Bare `transport`
+  would read as a name that went missing."
 
   The language outlives the library. Swapping picoquic for another C QUIC stack, or
   `pywebtransport`

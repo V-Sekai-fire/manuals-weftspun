@@ -3,7 +3,7 @@
 #
 # The rendered table in an RFD's DETAILS.md is a claim until something asks the planner.
 # This asks our own implementation: Taskweft.Compose merges rectgtn/organization.ex with
-# rectgtn/problems/rfd_NNNN.ex and Taskweft.NIF.plan returns the solution (RFD 2292).
+# rectgtn/problems/rfd_NNNN.ex and Taskweft.NIF.plan returns the solution (RFD66606-2292).
 #
 # Taskweft lives in another checkout, so this runs at the manual stage, where a `repo`
 # workspace exists. A missing checkout is a FAIL rather than a skip: a silent skip reads

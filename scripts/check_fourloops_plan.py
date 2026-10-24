@@ -17,8 +17,8 @@ WHAT IT CHECKS, and why each is separate.
 3. COUNTS ARE NOT ONLY HERE. Every integer under `/FourLoops/Quantities` is searched for in
    the sources the layer names, as a whole token with commas stripped. A number that lives
    only in the stage is a number nobody reviewed. This is the pattern
-   `check-rfd-structure.py` uses for RFD 1000's state list and `check_rfd1122_plan.exs` uses
-   for RFD 1122's.
+   `check-rfd-structure.py` uses for RFD66606-1000's state list and `check_rfd1122_plan.exs` uses
+   for RFD66606-1122's.
 
 4. THE CHART AGREES, IN ONE DIRECTION. Every stage the plan declares must be mentioned in
    the chart. The reverse check existed while the chart was HTML and was deleted when it

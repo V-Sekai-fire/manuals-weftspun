@@ -28,9 +28,9 @@ CUDA engine on the Windows desk as the parity reference"
   `mma.sync` and cuBLAS. The Mac converts Ternary Bonsai 2 27B into a v3
   `.ninfer` artifact, and nothing on it can serve that artifact.
   :: related
-  - RFD 2032, Lean kernels lowered through lean-slang; RFD 2044, Lean at build
+  - RFD66606-2032, Lean kernels lowered through lean-slang; RFD66606-2044, Lean at build
     time behind a flat C ABI.
-  - RFD 2188 and RFD 2290, one ggml and ggml only in guests.
+  - RFD66606-2188 and RFD66606-2290, one ggml and ggml only in guests.
   """
 
   details_title "ninfer kernels in Slang inside MLX"
@@ -43,13 +43,13 @@ CUDA engine on the Windows desk as the parity reference"
   - **Kernels in Slang, from Lean where practical, inside MLX.** Chosen. One
     kernel source lowers to Metal, SPIR-V and a CPU library, which the
     allowlist's shader-compilation row already names, and Lean authoring is
-    the RFD 2032 shape. MLX holds the buffers, supplies its built-in ops for
+    the RFD66606-2032 shape. MLX holds the buffers, supplies its built-in ops for
     work not yet ported, and gives a Python harness the oracle runs in.
   - **MLX built-in ops, with a custom kernel only for the ternary matmul.**
     This reaches a first decode with the fewest kernels. It writes a second
     engine from MLX ops and leaves every other kernel outside Slang and Lean.
   - **ggml with its Metal backend.** ggml has no `t2_g128_fp16` format and no
-    `.ninfer` reader. RFD 2290 keeps ggml in guests, and the allowlist names
+    `.ninfer` reader. RFD66606-2290 keeps ggml in guests, and the allowlist names
     its Vulkan backend.
 
   The chosen option has costs, and each one is a rung's precondition:

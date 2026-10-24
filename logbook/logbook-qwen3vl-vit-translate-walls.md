@@ -3,7 +3,7 @@
 RETRACTED IN THIS ENTRY, ALL THREE MINE. That a hand-built 4D attention
 block proves the Dataflow Compiler cannot parse self-attention: it
 proves the block was written in the wrong layout. That the obstacle to
-a vision HEF is the one RFD 1155 names -- fixed shapes against
+a vision HEF is the one RFD66606-1155 names -- fixed shapes against
 autoregressive decode -- when the tower is not autoregressive and never
 reached the question. That the fused `LayerNormalization` of opset 17
 is what the parser rejects: it parses, both forms do, and the section
@@ -36,7 +36,7 @@ at `n_image_tokens = (input_w/32)(input_h/32)`.
 516 tensors, of which 12 are in the vision half, all six merger linears
 at `deepstack_merger_list.{0,1,2}.linear_fc{1,2}`, `r=32`,
 `lora_alpha=64`. No `visual.blocks.*`. The ViT stack is stock and only
-the merger heads carry EditScore, which is what RFD 1157 said and is
+the merger heads carry EditScore, which is what RFD66606-1157 said and is
 now checked against the artifact rather than the model card.
 
 Merged at scale 2.0, each linear moved:

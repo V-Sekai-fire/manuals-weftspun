@@ -29,7 +29,7 @@ man = ET.parse(ROOT/".repo/manifests/default.xml").getroot()
 projects = [(p.get("name"), p.get("path")) for p in man.iter("project")]
 missing = [p for _, p in projects if not (ROOT/p).is_dir()]
 check("manifest paths exist on disk", not missing, f"{len(projects)} projects, missing: {missing or 'none'}")
-# RFD 2064: a checkout directory keeps the name its build hardcodes, so only the segments
+# RFD66606-2064: a checkout directory keeps the name its build hardcodes, so only the segments
 # the workspace picks -- the side and the repo -- are ours to spell. Deeper segments sit
 # inside an upstream tree and are named and counted rather than dropped from the count.
 OURS = 2
@@ -136,7 +136,7 @@ broken = [d for src, d, pp in links if not (ROOT/d).exists()]
 check("every linkfile resolves", not broken, f"{len(links)} links, broken: {broken or 'none'}")
 
 # --- E. README line bound, enumerated over all RFDs ------------------------------------
-# The READMEs are build artifacts (RFD 2232). Rule 3: an unbuilt checkout is an unmet
+# The READMEs are build artifacts (RFD66606-2232). Rule 3: an unbuilt checkout is an unmet
 # precondition and fails, rather than measuring zero of them and reporting no offenders.
 limit = 40
 sources = sorted((RFD/"rfd").glob("*.exs"))

@@ -25,7 +25,7 @@ rfd 1011, "Spatial fabric publish", :published do
   - Presets: `src/library/ombExportPresets.js`
   - Docs: `docs/SPATIAL_FABRIC_INTEGRATION.md`
   :: related
-  RFD 1007 replaces the publish terminal validation with motion
+  RFD66606-1007 replaces the publish terminal validation with motion
   validation in the Studio pipeline.
   """
 end

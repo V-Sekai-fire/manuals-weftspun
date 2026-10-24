@@ -12,11 +12,11 @@ rfd 2183, "MaskScore-driven layer decomposition on OmniGen2", :discussion do
 
   - Mask: SAM2 or rf-detr-Seg (both Apache-2.0) from the composite.
   - Reconstruction: new weights on OmniGen2 (Apache-2.0, Qwen-VL-2.5),
-    MaskScore-driven (RFD 1173 edit-reward corpus), trained on
+    MaskScore-driven (RFD66606-1173 edit-reward corpus), trained on
     multi-view renders of atelier-workshop-passed VRMs.
-  - Depth: MoGe-3 (MIT) per RFD 1102 (task catalog).
+  - Depth: MoGe-3 (MIT) per RFD66606-1102 (task catalog).
 
-  Replaces LayerDiff3D (See-Through's role) and RFD 1168's LaMa half;
+  Replaces LayerDiff3D (See-Through's role) and RFD66606-1168's LaMa half;
   rf-detr-Seg stays as segmentation. MaskScore's mask-reconstruct-score
   loop fits natively: each layer IS a mask.
 
@@ -28,11 +28,11 @@ rfd 2183, "MaskScore-driven layer decomposition on OmniGen2", :discussion do
   labels apache-2.0 but a diffusion fine-tune does not cure SDXL's
   CreativeML Open RAIL++-M. `adapt`: retraining on SDXL inherits it.
 
-  LaMa (RFD 1168's reconstruction substitute) is a patch inpainter and
+  LaMa (RFD66606-1168's reconstruction substitute) is a patch inpainter and
   cannot reconstruct hidden-layer content from surrounding pixels.
   :: related
-  RFD 1168 (segmentation kept, LaMa superseded), RFD 1173 (edit-reward
-  corpus), RFD 1102 (task catalog), RFD 2136 (gacha ladder), RFD 2196
+  RFD66606-1168 (segmentation kept, LaMa superseded), RFD66606-1173 (edit-reward
+  corpus), RFD66606-1102 (task catalog), RFD66606-2136 (gacha ladder), RFD66606-2196
   (HF dataset viewer rules), BLOCKLIST.md See-Through row.
   """
 end

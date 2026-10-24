@@ -11,7 +11,7 @@ rfd 1157, "EditScore needs its own encoder, not a stock one", :ideation do
   :: decision
   EditScore requires an encoder built with its merger LoRA merged; a
   downloaded artifact is wrong in a way no shape check catches. Time
-  encode against decode first: RFD 1163 measures a score at 28-36 s
+  encode against decode first: RFD66606-1163 measures a score at 28-36 s
   against a 163 s round, and the encoder is a fraction of that. This
   ranks second at 18 of 25 with `value` 2 of the 18.
   :: problem
@@ -19,7 +19,7 @@ rfd 1157, "EditScore needs its own encoder, not a stock one", :ideation do
   `3-interactor/llama-cpp-npu-vision-upstream` accelerates that family:
   a compiled encoder replaces the mmproj, decode stays on host. The
   deployed size is the 8B, at 6.75 GiB NF4 in `weft_score.py`. Four
-  bits fit 8 GB and eight land on the ceiling, so this meets RFD 1128
+  bits fit 8 GB and eight land on the ceiling, so this meets RFD66606-1128
   after all.
 
   The adapter holds 516 tensors at either size: 504 language-model
@@ -36,6 +36,6 @@ rfd 1157, "EditScore needs its own encoder, not a stock one", :ideation do
   EditScore's 12 are never applied. The failure is silent: a score
   comes back from a model missing that adaptation.
   :: related
-  RFD 1155 ranks the other family. RFD 1163 places both.
+  RFD66606-1155 ranks the other family. RFD66606-1163 places both.
   """
 end

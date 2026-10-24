@@ -15,13 +15,13 @@ rfd 1041, "Model image for p3sam_mesh_segmentation", :discussion do
   interface, the output shape, and why the label array leads.
   :: problem
   P3-SAM segments a mesh into parts. It replaces PartField, which
-  RFD 1028 removed for a non-commercial weight license.
+  RFD66606-1028 removed for a non-commercial weight license.
 
   The model is small at 0.8 GB in bf16. The packaging risk is not the
   memory. It is the output shape.
   :: related
-  RFD 1029 selects P3-SAM and PartSAM. RFD 1028 records why PartField
-  went. RFD 1008 records the trait remix that consumes the parts.
+  RFD66606-1029 selects P3-SAM and PartSAM. RFD66606-1028 records why PartField
+  went. RFD66606-1008 records the trait remix that consumes the parts.
   """
 
   details_title "Model image for p3sam_mesh_segmentation"
@@ -50,7 +50,7 @@ rfd 1041, "Model image for p3sam_mesh_segmentation", :discussion do
   integer per face, and `parts`, which is a list of GLB files.
 
   A face-length integer array on a 210000 vertex mesh is large. Write it
-  as a JSON file, and not as an inline list. RFD 1033 gives the vertex
+  as a JSON file, and not as an inline list. RFD66606-1033 gives the vertex
   cap.
   :: details Why the label array leads
   A part label is stable input for the rig stage and for the remix

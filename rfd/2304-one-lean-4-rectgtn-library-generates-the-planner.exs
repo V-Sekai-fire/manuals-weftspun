@@ -6,7 +6,7 @@ rfd 2304, "one Lean 4 RECTGTN library generates the planner", :discussion do
   flight_level :l2
   feature "the planner's only implementation is one Lean 4 library that generates the NIF's C"
   scope "`taskweft_nif`, interactor-taskweft's `lean/` and its copy in weft-warp-burrito,
-xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
+xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD66606-2292's gate"
 
   prose ~S"""
   :: decision
@@ -14,12 +14,12 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   Relationship-Enabled Capability-Temporal Goal-Task-Network planner. It holds
   the types, the search, ReBAC and the theorems, and generates the C planner
   through &{repo("trust-lean")}: Lean at build time and flat C shipped, the
-  shape of RFD 2044. Elixir is one user, and its NIF glue (entry points, term
+  shape of RFD66606-2044. Elixir is one user, and its NIF glue (entry points, term
   conversion, the function table) is a small trusted C shim with a size
   budget. The domain loader and expression evaluator use doubles, trig and
   `math/random`, so they stay hand-written C++ checked against the Lean
   reference until Trust-Lean carries floats. xr-pilot, the FBD compiler and
-  RFD 2292's `mix rfd.rectgtn` consume the same library. No C++ search is
+  RFD66606-2292's `mix rfd.rectgtn` consume the same library. No C++ search is
   deleted before the equivalence check in `DETAILS.md` passes with its
   negative controls (operator, 2026-10-05).
   :: problem
@@ -27,13 +27,13 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   0.2.0-dev.20 is C++ with no proofs. interactor-taskweft's `lean/Planner`,
   copied byte for byte into weft-warp-burrito, has proofs and no search,
   loader or C ABI. xr-pilot's `Plan.lean` acts without planning, and
-  RFD 2292 expands plans by hand in Elixir. Where Lean and C++ overlap they
+  RFD66606-2292 expands plans by hand in Elixir. Where Lean and C++ overlap they
   differ on the goal test, the relation set, `check_rel` fuel and ReBAC
   definitions, so a theorem about one says nothing about the other.
   :: related
-  - RFD 2044, Lean at build time and a flat C ABI at run time; RFD 2032,
+  - RFD66606-2044, Lean at build time and a flat C ABI at run time; RFD66606-2032,
     the same shape for GPU kernels through lean-slang.
-  - RFD 2292, the organization as one RECTGTN domain, whose gate plans
+  - RFD66606-2292, the organization as one RECTGTN domain, whose gate plans
     through `Taskweft.NIF.plan/1`.
   """
 
@@ -67,7 +67,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - **The FBD compiler's `TaskweftFbdCompiler.lean`** searches nothing. It
     lifts a plan's set and hold sequence into a scan controller, keeps that
     lift, and takes its plan input type from the library.
-  - **RFD 2292's `RFD.RECTGTN.plan/1`** expands a plan by hand in Elixir,
+  - **RFD66606-2292's `RFD.RECTGTN.plan/1`** expands a plan by hand in Elixir,
     and `scripts/check_rectgtn_plan.exs` holds the expansion against
     `Taskweft.NIF.plan/1`. The expansion goes; the gate reads the NIF, which
     runs the generated planner.
@@ -78,7 +78,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
 
   - Goal test: Lean's `goal_geq` is a threshold; dev.20 tests equality.
   - Relations: Lean's `RelationType` is a closed enum; dev.20 takes any
-    relation string in `tw_rebac.hpp`, which RFD 2204's `CAN_ENTER` and
+    relation string in `tw_rebac.hpp`, which RFD66606-2204's `CAN_ENTER` and
     `CAN_INSTANCE` need.
   - `check_rel` fuel: the two count fuel one apart, so an input at the
     boundary answers false in Lean and true in C++.
@@ -139,7 +139,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
 
   The corpus is enumerated where its population is fixed: the runnable
   goldens with domains recovered from `b315766^` and `22daccd^`, the DSL
-  domains through `Taskweft.Compose`, RFD 2292's problems, the
+  domains through `Taskweft.Compose`, RFD66606-2292's problems, the
   `use Taskweft.DSL` documents in the workspace, and the KHR Tier 1
   vectors. Generated blocks-world goal, multigoal and call problems state
   their detection floor of about 3/n, and a fuel family sits at the
@@ -167,7 +167,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - At identical bytes no caller changes source: interactor-taskweft's CLI
     and MCP server, weftspun-character-taxonomy,
     taskweft-function-block-diagram-teacher through `taskweft_rebac`, and
-    RFD 2292's gate.
+    RFD66606-2292's gate.
   - weftspun-character-taxonomy, taskweft-godot-sandbox,
     taskweft-nmm-personas and taskweft-function-block-diagram-teacher lock
     dev.16. They move to dev.20 first, so the oracle is the version they
@@ -215,7 +215,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
   - **M5, the hand-written search retires.** The C++ search and the Fine
     wrapper are deleted, weft-warp-burrito's copy of `lean/` goes,
     `taskweft_nif` 0.3.0 ships, and xr-pilot, the FBD compiler and
-    RFD 2292's gate read the library. Exit: plan bytes unchanged for every
+    RFD66606-2292's gate read the library. Exit: plan bytes unchanged for every
     caller, and interactor-taskweft's CI green.
   - **M6, the rest.** The ReBAC walk moves to generated C. The temporal
     check, the loader and the evaluator use doubles and follow when
@@ -227,7 +227,7 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD 2292's gate"
     `Value.int` agreeing with the emitted `int64_t`; a Mathlib-free split
     of Core and the C backend; and, for M6, floats. Fixes land on the fork
     and go nowhere else.
-  - **RFD 2292** sits on a parked branch and
+  - **RFD66606-2292** sits on a parked branch and
     holds no serial on main, so its gate joins M5 when it lands.
   - **Toolchain.** Trust-Lean with its Mathlib, and interactor-taskweft's
     `lean/`, pin Lean v4.30.0; xr-pilot pins v4.34.1 and the FBD compiler

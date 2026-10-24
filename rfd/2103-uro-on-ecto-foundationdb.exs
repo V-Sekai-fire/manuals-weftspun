@@ -13,19 +13,19 @@ rfd 2103, "Uro on Ecto over FoundationDB", :discussion do
   SQLite database opened on the `weft_fdb` VFS, `file:uro.v1?vfs=weft_fdb`,
   so every page lives in FoundationDB and no local file holds the data.
   Uro keeps Ecto, its schemas and SQL with joins; FoundationDB is the page
-  store RFD 2109 chose. Each open of a `weft_fdb` database takes its fence,
+  store RFD66606-2109 chose. Each open of a `weft_fdb` database takes its fence,
   so the repo runs one connection, with an exclusive lock and an in-memory
   journal.
   :: problem
-  RFD 2109 makes FoundationDB the store, and Uro is an Ecto application.
+  RFD66606-2109 makes FoundationDB the store, and Uro is an Ecto application.
   An Ecto adapter over FoundationDB's key-value API answers a query only
   when one Get or one GetRange satisfies it, with no joins and no
   aggregates, which Uro's schemas do not fit. SQLite keeps the relational
   form, and the VFS moves its pages into FoundationDB beneath it.
   :: related
-  - RFD 2109, the two tiers with FoundationDB as the store.
-  - RFD 2140, OpenBao on FoundationDB.
-  - RFD 2143, the FoundationDB backup to R2.
+  - RFD66606-2109, the two tiers with FoundationDB as the store.
+  - RFD66606-2140, OpenBao on FoundationDB.
+  - RFD66606-2143, the FoundationDB backup to R2.
   """
 
   details_title "Uro on Ecto over FoundationDB"

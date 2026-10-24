@@ -24,7 +24,7 @@ project (Elixir + Godot scene + Godot Sandbox addon)"
   `DETAILS.md` carries the Godot scene shape, the Sandbox addon config,
   the frame-tick contract, and verification.
   :: problem
-  RFD 2150 names Godot Sandbox as one runtime host for OpenPLC v4's
+  RFD66606-2150 names Godot Sandbox as one runtime host for OpenPLC v4's
   compiled binary. The compile lives in OpenPLC v4's toolchain (MIT
   runtime, GCC-style runtime exception on the compiler). The load-
   and-execute lives in a Godot process. Elixir owns the coordinator.
@@ -32,7 +32,7 @@ project (Elixir + Godot scene + Godot Sandbox addon)"
   :: references
   1. lib_godot_connector: https://hex.pm/packages/lib_godot_connector
   2. Godot Sandbox: https://github.com/libriscv/godot-sandbox (MIT)
-  3. RFD 2148, 2144, 2145
+  3. RFD66606-2148, RFD66606-2144, RFD66606-2145
   """
 
   details_title "OpenPLC v4 into Godot Sandbox, from Elixir"
@@ -120,13 +120,13 @@ project (Elixir + Godot scene + Godot Sandbox addon)"
   the Sandbox node can be wrapped in a Godot `Timer` firing at 1 Hz
   and calling the sandbox from the timer's timeout signal.
   :: details Verification
-  1. `weftspun-build.grafcet.jsonld` (RFD 2148 fixture) compiles to
+  1. `weftspun-build.grafcet.jsonld` (RFD66606-2148 fixture) compiles to
     `plan.riscv`. `mix test` under `taskweft-godot-sandbox` starts a
     headless Godot via `lib_godot_connector`, ticks 100 frames, asserts
     `done_oracle` becomes `TRUE` and each upstream `done_*` also does.
   2. The Sandbox addon's own tests (upstream) prove the RISC-V VM does
     not escape its sandbox. We inherit that guarantee for free.
-  3. RFD 2149's Lean analyser passes on the compact GRAFCET input
+  3. RFD66606-2149's Lean analyser passes on the compact GRAFCET input
     before the emit, so an unreachable step in the source is caught
     before it becomes a step_*_Q that never rises inside the sandbox.
   :: details Licensing map
@@ -151,6 +151,6 @@ project (Elixir + Godot scene + Godot Sandbox addon)"
     `.riscv` at runtime is possible (Godot Sandbox supports it), but
     the RFD leaves it as "restart the scene" for stage 1.
   4. Any glTF or social VR node-graph integration; those are
-    RFD 2153's job.
+    RFD66606-2153's job.
   """
 end

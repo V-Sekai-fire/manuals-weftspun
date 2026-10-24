@@ -32,8 +32,8 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   that shape.
   :: related
   `weftspun-bao` Fly app (state summarised in DETAILS.md),
-  `weftspun-fdb` (FoundationDB backend), RFD 2142 (bao PKI zerotrust
-  service TLS), RFD 2146 (zerotrust roles first run).
+  `weftspun-fdb` (FoundationDB backend), RFD66606-2142 (bao PKI zerotrust
+  service TLS), RFD66606-2146 (zerotrust roles first run).
   """
 
   details_title "Expose weftspun-bao privately via Tailscale"
@@ -463,7 +463,7 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   breaks subsequent calls in different ways: dropping the token gives
   403 or "no token"; dropping the client cert / key / CA gives
   "certificate required" or "unknown certificate authority". Diagnosis
-  per RFD 2195's other cert-auth gotchas applies.
+  per RFD66606-2195's other cert-auth gotchas applies.
 
   The Bao cert-auth method does not consult CRLs by default. `pki/revoke
   serial_number=<X>` records the revocation in the PKI store but does not

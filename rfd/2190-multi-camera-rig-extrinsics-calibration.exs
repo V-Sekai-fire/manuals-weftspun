@@ -21,7 +21,7 @@ rfd 2190, "Multi-camera rig extrinsics calibration", :discussion do
   with pixel intrinsics, a world-to-camera `view` matrix, and a
   differentiable `project`; `renders.camera_id` is a foreign key.
   Nothing solves the `view` matrices for a physical rig, so every
-  consumer of `Camera.project` holds a placeholder. RFD 1122
+  consumer of `Camera.project` holds a placeholder. RFD66606-1122
   (unrolled Kusudama solver) sits on that placeholder, so its
   residual is not measurable in world units until calibration lands.
   Issue 30 closed stale.
@@ -29,9 +29,9 @@ rfd 2190, "Multi-camera rig extrinsics calibration", :discussion do
   Original issue: `weftspun/request-for-discussion` issue 30.
   `pose-consensus/python/silhouette.py` (Camera class). `DETAILS.md` carries the coverage detail.
   :: related
-  RFD 1122 (unrolled Kusudama solver; consumes `view`),
-  RFD 2168 (wholebody detector retract),
-  RFD 2191 (unrolled solver residual; blocked by this).
+  RFD66606-1122 (unrolled Kusudama solver; consumes `view`),
+  RFD66606-2168 (wholebody detector retract),
+  RFD66606-2191 (unrolled solver residual; blocked by this).
   """
 
   details_title "Multi-camera rig extrinsics calibration"
@@ -45,6 +45,6 @@ rfd 2190, "Multi-camera rig extrinsics calibration", :discussion do
   Camera coverage and tracker count set the floor, not markerless keypoint precision. Real
   RFDETRKeypointPreview on 96 ANNY renders detects 95 of 96, which is 99 percent, with a 3.9 px
   median reprojection and a ground-truth-free median ray-gap near 40 mm, about a golf ball at
-  42.7 mm. RFD 2300 carries the ladder these numbers sit on.
+  42.7 mm. RFD66606-2300 carries the ladder these numbers sit on.
   """
 end

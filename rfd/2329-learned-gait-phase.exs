@@ -13,7 +13,7 @@ explorer's walk mode"
 
   prose ~S"""
   :: decision
-  The guest joins two cycling poses only when their gait phase matches (RFD 2327). A phase
+  The guest joins two cycling poses only when their gait phase matches (RFD66606-2327). A phase
   learned as WalkTheDog does replaces the foot-strike phase once it passes the strike gate;
   until then every clip keeps foot strikes.
   - Every clip stays at the rate it was made at: the open motion-matching recordings at 60
@@ -30,7 +30,8 @@ explorer's walk mode"
   learned runs fail the strike gate, worst curves 0.35, 0.21, 0.17 and 0.19 of a cycle
   against 0.06.
   :: related
-  - RFD 2327, the phase rule for joins and the steady-gait loops; RFD 2294, where compute runs.
+  - RFD66606-2327, the phase rule for joins and the steady-gait loops; RFD66606-2294, where
+    compute runs.
   """
 
   details_title "A learned gait phase for motion matching"

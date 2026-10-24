@@ -27,8 +27,8 @@ Frame headset, and every agent job that runs there"
   streaming mode while the agent assumed pilot mode. None of this was written
   down outside an agent's session.
   :: related
-  - RFD 2294, agent knowledge lives in RFDs; RFD 2305, the credit ledger.
-  - RFD 2303, the XR requirements; RFD 2307, recording the pilot's stream.
+  - RFD66606-2294, agent knowledge lives in RFDs; RFD66606-2305, the credit ledger.
+  - RFD66606-2303, the XR requirements; RFD66606-2307, recording the pilot's stream.
   """
 
   details_title "operating the shared windows vr desk"

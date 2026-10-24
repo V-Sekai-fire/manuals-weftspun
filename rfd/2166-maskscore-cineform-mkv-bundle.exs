@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2166, "MaskScore Cineform MKV bundle per RFD 1137", :discussion do
+rfd 2166, "MaskScore Cineform MKV bundle per RFD66606-1137", :discussion do
   feature "one Cineform MKV per edit bundling the video frames,
-audio, and the WebVTT ASR panel (per RFD 1102 task catalog), produced through the
-service-cineform pair per RFD 1137."
+audio, and the WebVTT ASR panel (per RFD66606-1102 task catalog), produced through the
+service-cineform pair per RFD66606-1137."
   scope "`6-datasource/anny-render-corpus`, `7-service/service-cineform`,
 `3-interactor/interactor-cineform`, `1-transport/transport-cineform-tui`"
 
@@ -14,19 +14,19 @@ service-cineform pair per RFD 1137."
   Shelved 2026-09-02: no encoding time budget this cycle to build the
   video-delivery bundle; resume when local capacity frees.
   :: decision
-  Follow RFD 1137's SKILL.md verbatim: build the encoder + display, run
+  Follow RFD66606-1137's SKILL.md verbatim: build the encoder + display, run
   the bus, encode one clip per edit at 8 fps with matte + card. Filename
   comes from the citation's title, lowercased with non-word runs
   hyphenated: `anny-mask-score-<edit>.mkv` + matching `.cff`.
 
-  The ASR panel transcripts from RFD 1173.2164.1 become S_TEXT/WEBVTT
+  The ASR panel transcripts from RFD66606-1173.2164.1 become S_TEXT/WEBVTT
   subtitle tracks in the MKV, one per judge, tagged with LANGUAGE
   metadata (auto detect per Whisper for text tracks; ipa/phn-* for
   phoneme tracks).
   :: problem
-  RFD 1173 (edit-reward corpus) requires a video-ready asset with a
+  RFD66606-1173 (edit-reward corpus) requires a video-ready asset with a
   .cff title alongside. The Rung 1.5 corpus emits USDZ animation and
-  per-view PNGs; neither is a reviewable clip. RFD 1137 (Cineform
+  per-view PNGs; neither is a reviewable clip. RFD66606-1137 (Cineform
   encoder pair) specifies the pair that produces one MKV per
   frame-set.
   :: related

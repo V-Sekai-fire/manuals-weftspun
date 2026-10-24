@@ -34,7 +34,7 @@ rfd 1141, "Publishing artifacts", :discussion do
   :: references
   - `SKILL.md` is the procedure. `DETAILS.md` says what is not published.
   :: related
-  RFD 1140 rents the machines. RFD 1000 gives placement.
+  RFD66606-1140 rents the machines. RFD66606-1000 gives placement.
   """
 
   details_title "Publishing artifacts"

@@ -25,9 +25,9 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
   - ANNY (MPFB2 base mesh, rigs and weights), CC0
   - SOMA (NVIDIA), Apache-2.0
   :: related
-  - RFD 1046 (the auto-rig): makes the weights this RFD replaces on the hand.
-  - RFD 2275 (head fit by a parametric head): the fitter and transfer reused here.
-  - RFD 2277 (headfit, phase A3): the guest this RFD extends.
+  - RFD66606-1046 (the auto-rig): makes the weights this RFD replaces on the hand.
+  - RFD66606-2275 (head fit by a parametric head): the fitter and transfer reused here.
+  - RFD66606-2277 (headfit, phase A3): the guest this RFD extends.
   """
 
   details_title "finger skin weights from a fitted ANNY hand"

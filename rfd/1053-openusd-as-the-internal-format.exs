@@ -22,7 +22,7 @@ rfd 1053, "OpenUSD as the internal format", :committed do
 
   Committed 2026-09-02: CLAUDE.md ratifies the choice as a hard
   constraint (OpenUSD `.usda` for text-editable, ZStandard parquet for
-  bulk; zip and gzip banned; usdz exempt). RFD 2169 abandoned the
+  bulk; zip and gzip banned; usdz exempt). RFD66606-2169 abandoned the
   Elixir studio core; the `fabric-stage-runtime` Hex package still
   ships OpenUSD to every consumer.
   :: problem
@@ -33,8 +33,8 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   a stage cannot add an opinion without erasing the previous author.
   When a mesh is wrong, no record says which stage made it wrong.
   :: related
-  RFD 1036 gives the model image convention. `fabric-stage-runtime`
-  (Hex) links this runtime to every stage. RFD 1002 records the
+  RFD66606-1036 gives the model image convention. `fabric-stage-runtime`
+  (Hex) links this runtime to every stage. RFD66606-1002 records the
   pipeline stages that become layers.
   """
 
@@ -76,7 +76,7 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   It exposes `include_dir/0`, `lib_dir/0`, and `target/0`, thus every
   consumer links the same USD build the model images write. (An
   earlier draft named "the Elixir core from RFD 1019" as the consumer;
-  RFD 2169 abandoned that plan, and the Hex package survives without
+  RFD66606-2169 abandoned that plan, and the Hex package survives without
   the studio-core wrapper.)
 
   One USD version across the pipeline matters. A layer written by a
@@ -85,6 +85,6 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   `predict()` returns the USD layer, and it returns the transmission
   file as well. The caller keeps the layer, and it ships the other.
 
-  RFD 1036 records this in the model image convention.
+  RFD66606-1036 records this in the model image convention.
   """
 end

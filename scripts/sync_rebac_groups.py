@@ -2,14 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Reconcile Bao identity groups with the ReBAC role tuples in relationships/.
 
-RFD 2200 defined role tuples as data. RFD 2202 wires them to Bao identity groups so the
+RFD66606-2200 defined role tuples as data. RFD66606-2202 wires them to Bao identity groups so the
 KV/PKI/etc capabilities each role gets are ENFORCED by Bao, not just documented. This
 script is the reconciler: it reads `relationships/<agent>--role--<role>` tuples, resolves
 each agent to a Bao entity via cert-auth aliases, and updates the corresponding
 `identity/group/name/agents-<role>` group's member_entity_ids to match.
 
 WHAT IT DOES NOT DO. Enforce `may-use--<hardware>` tuples. Bao does not gate GPU or NPU
-access — those tuples remain client-side self-restraint. RFD 2202 names the split
+access — those tuples remain client-side self-restraint. RFD66606-2202 names the split
 explicitly.
 
 Idempotent — re-running produces no change if state already agrees.
@@ -29,7 +29,7 @@ import sys
 
 
 # Role → policy(s) mapping. Extension point: adding a role adds an entry here + a
-# matching group in Bao. RFD 2200 defines the current set.
+# matching group in Bao. RFD66606-2200 defines the current set.
 ROLE_POLICIES = {
     "coordinator":      ["mps-admin"],
     "gpu-experimenter": ["agents-rw"],

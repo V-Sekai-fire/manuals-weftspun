@@ -90,7 +90,7 @@ jobs:
       - working-directory: transport-shepherd
         run: mix compile
       - run: prek install-hooks
-      # The Markdown and the registers are rendered from the .exs sources (RFD 2232).
+      # The Markdown and the registers are rendered from the .exs sources (RFD66606-2232).
       - if: github.event_name != 'push'
         run: mix rfd.render
       # GH_TOKEN passthrough for the shepherd goal-manifests port, which asks the

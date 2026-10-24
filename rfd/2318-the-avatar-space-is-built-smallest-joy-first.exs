@@ -19,7 +19,7 @@ the shared room, and the engine build each step needs"
     in the browser.
   - Step three: make motion from text with Kimodo.
   - Step four: the shared room, where visitors see each other's characters
-    move. It unparks RFD 2317.
+    move. It unparks RFD66606-2317.
   :: problem
   The shared room is the step with the most unknowns: a WebTransport client in
   the web export, a server, a Bao engine, Fly networking and sign-in. A
@@ -28,10 +28,10 @@ the shared room, and the engine build each step needs"
   do. The earlier steps each give a visitor something to keep, and each one
   builds and proves a piece the room reuses.
   :: related
-  - RFD 2317, a browser joins a WebTransport server with a Bao ticket.
-  - RFD 2314, the SkinTokens Space viewer runs as sandbox guests.
-  - RFD 2315, web shaders are baked by the browser that runs them.
-  - RFD 1046, SkinTokens; RFD 1045, Kimodo text-to-motion.
+  - RFD66606-2317, a browser joins a WebTransport server with a Bao ticket.
+  - RFD66606-2314, the SkinTokens Space viewer runs as sandbox guests.
+  - RFD66606-2315, web shaders are baked by the browser that runs them.
+  - RFD66606-1046, SkinTokens; RFD66606-1045, Kimodo text-to-motion.
   """
 
   details_title "the avatar Space is built smallest joy first"
@@ -46,7 +46,7 @@ the shared room, and the engine build each step needs"
   :: details Step one: drop, dance, download
   The visitor drops a model, picks a dance, watches it play and downloads
   the result as glTF.
-  - The viewer is RFD 2314's: Model Explorer in a web export, every script a
+  - The viewer is RFD66606-2314's: Model Explorer in a web export, every script a
     sandbox guest.
   - The dance must be one the workspace may ship. The pose-source rule in
     the working agreements forbids shipping targeted third-party motion in a
@@ -70,20 +70,20 @@ the shared room, and the engine build each step needs"
   The visitor types a motion and Kimodo makes it. Kimodo's motion guest is a
   sandbox guest like the rigging one, so it waits on the same GPU guests.
   :: details Step four: the shared room
-  RFD 2317's flow, with avatars in place of its text board. The audit's
+  RFD66606-2317's flow, with avatars in place of its text board. The audit's
   blockers, each read in code:
   - The web client never receives: the web backend declares
     `godot_wt_recv_datagram` and nothing calls it.
   - The browser glue opens `new WebTransport(url)` with no options, so a
     pinned certificate hash never reaches the browser, and its datagram loop
     takes a new reader on a stream the first reader still holds.
-  - Reliable sends on the web return `ERR_UNAVAILABLE`, and RFD 2317 sends
+  - Reliable sends on the web return `ERR_UNAVAILABLE`, and RFD66606-2317 sends
     the ticket on a stream.
   - A client picks a random peer id while the server numbers sessions from
     two, and a client only hears of the server.
   - Godot's TLS client options carry no client certificate, and the Bao
     listener requires one, so the room server reaches Bao through a sidecar.
-  - No Ed25519 verify was found in the engine's mbedTLS; RFD 2317's ticket
+  - No Ed25519 verify was found in the engine's mbedTLS; RFD66606-2317's ticket
     signature is to be settled before the server is written.
   - Avatars use the fabric zone's pose layout (a root and up to 55 humanoid
     bones), so every avatar in the room carries a humanoid map.
@@ -92,7 +92,7 @@ the shared room, and the engine build each step needs"
   The server side of the http3 module already listens: `create_server` runs
   picoquic on its own thread with server-only TLS.
   :: details The engine build
-  Every step runs one web export, assembled with git-assembler (RFD 2243)
+  Every step runs one web export, assembled with git-assembler (RFD66606-2243)
   from the http3, sandbox, platform-web, double-precision and WebGPU
   branches of our entities-godot fork. A local trial assembly of those five
   merged with no conflict. The WebGPU branch is not yet a line in the

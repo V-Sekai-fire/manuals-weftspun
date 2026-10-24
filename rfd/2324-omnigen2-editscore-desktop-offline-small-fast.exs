@@ -13,9 +13,9 @@ download Space"
 
   prose ~S"""
   :: decision
-  Each OmniGen2 EditScore desktop package carries its weights and never connects to a
-  network (operator, 2026-10-18). The weights then shrink and the edit gets faster, one
-  rung at a time, each shipped only when its quality gate passes:
+  Each OmniGen2 EditScore desktop package carries its weights and never connects to a network
+  (operator, 2026-10-18). The weights then shrink and the edit gets faster, one rung at a time,
+  each shipped only when its quality gate passes:
 
   - Rung 1 stores the weights in BF16, the type the program already runs: 14.7 GiB.
   - Rung 2 merges the EditScore LoRA (low-rank adapter), then quantizes to 4 bits.
@@ -25,15 +25,15 @@ download Space"
 
   The Space is a static page of downloads and never edits (operator, 2026-10-18).
   :: problem
-  The first packages fetched 29.1 GiB of FP32 weights on first start, so they did not
-  work offline. Each edit is 50 steps of three transformer passes: two minutes on a
-  24 GiB desk card, 42 minutes on a 32 GiB unified-memory machine that pages to disk.
-  Nobody publishes a quantized build of the EditScore-tuned editor, and the public
-  4-bit file of the base model is only a quarter smaller than BF16.
+  The first packages fetched 29.1 GiB of FP32 weights on first start, so they did not work
+  offline. Each edit is 50 steps of three transformer passes: two minutes on a 24 GiB desk card,
+  42 minutes on a 32 GiB unified-memory machine that pages to disk. Nobody publishes a quantized
+  build of the EditScore-tuned editor, and the public 4-bit file of the base model is only a
+  quarter smaller than BF16.
   :: related
-  - RFD 1144 (image-to-OmniGen2 loop) measured NF4; RFD 1147 (EditScore costs) is the scorer.
-  - RFD 2186 (abandoned QAFT plan): a BF16 LoRA over a 4-bit base is blocklisted.
-  - RFD 2294 (agent practices): desktop builds ship from a model repository.
+  - RFD66606-1144 (image-to-OmniGen2 loop) measured NF4; RFD66606-1147 (EditScore costs) scores.
+  - RFD66606-2186 (abandoned QAFT plan): a BF16 LoRA over a 4-bit base is blocklisted.
+  - RFD66606-2294 (agent practices): desktop builds ship from a model repository.
   """
 
   details_title "The OmniGen2 EditScore desktop build is offline, small and fast"
@@ -104,7 +104,7 @@ download Space"
     never the blinded val2017 holdout, each paired with an instruction from held-out
     shard 90 of our EditScore training corpus. Seeds fixed per pair.
   - Reference: the rung 1 output for each pair.
-  - Measure: both EditScore axes for every output (RFD 1147), and the perceptual
+  - Measure: both EditScore axes for every output (RFD66606-1147), and the perceptual
     distance to the reference.
   - Baseline: the reference model run again with a second seed. The seed-to-seed
     spread is the floor.

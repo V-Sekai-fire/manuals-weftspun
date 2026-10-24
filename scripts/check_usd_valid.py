@@ -5,7 +5,7 @@ WHY THIS EXISTS. `rfd1122-plan.usda` opened in Python, composed without error, a
 back the ten tasks it was supposed to carry -- and it still failed usdchecker's own rules,
 because it declared neither `upAxis` nor `metersPerUnit`. "It opens" is not "it is valid",
 and the gap between the two is exactly where a layer that other tools reject sits looking
-fine. RFD 1035 makes OpenUSD the internal format, so a layer nothing else will take is a
+fine. RFD66606-1035 makes OpenUSD the internal format, so a layer nothing else will take is a
 layer that has not been written yet.
 
 THE THREE THINGS CHECKED, and why each is separate.

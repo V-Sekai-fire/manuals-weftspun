@@ -15,7 +15,7 @@ rfd 2282, "pose correctives as bones", :ideation do
 
   feature "a body whose proportions and joint correctives are pure pose:
 bone lengths, girth adjusters and constraint-driven helper bones, no blend shapes"
-  scope "SOMA-X's corrective MLP as a ggml-rd guest; RFD 2279's
+  scope "SOMA-X's corrective MLP as a ggml-rd guest; RFD66606-2279's
 `shapes_to_skin` and `twist_split`; the avatar's bone and constraint budget"
 
   prose ~S"""
@@ -32,8 +32,8 @@ bone lengths, girth adjusters and constraint-driven helper bones, no blend shape
   and the platform has no pose-space driver for a corrective blend shape.
   """
 
-  related "RFD 2279 (the deform surface: `shapes_to_skin`, `twist_split`,
-`pose_corrective`); RFD 2281 (face shapes, the blend-shape counterpart)."
+  related "RFD66606-2279 (the deform surface: `shapes_to_skin`, `twist_split`,
+`pose_corrective`); RFD66606-2281 (face shapes, the blend-shape counterpart)."
   details_title "pose correctives as bones"
 
   prose ~S"""
@@ -42,7 +42,7 @@ bone lengths, girth adjusters and constraint-driven helper bones, no blend shape
     trained on 80,000 pose and mesh pairs. Apache-2.0.
   - Its correctives apply to identity models that ship none of their
     own. They are body correctives: SOMA-X has no facial model, so the
-    eye-closed face correctives stay with RFD 2281's cage path.
+    eye-closed face correctives stay with RFD66606-2281's cage path.
   :: details Proportions from ANNY's mesh
   - The reference is ANNY's base mesh, the young adult at age 0.5. Its
     universal average targets are empty on purpose: sex and age live in

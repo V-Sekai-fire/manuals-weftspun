@@ -8,7 +8,7 @@ rfd 2101, "zstd delta on the wire", :discussion do
   prose ~S"""
   :: decision
   None recorded. The serial was allocated and the apparatus (`wire.c`) was written; the document
-  was not. The serial stays allocated, as RFD 1000 says a serial never moves once issued.
+  was not. The serial stays allocated, as RFD66606-1000 says a serial never moves once issued.
   :: problem
   A directory with code and no README reads as a document that was deleted rather than one that
   was never written. This page names which it is.

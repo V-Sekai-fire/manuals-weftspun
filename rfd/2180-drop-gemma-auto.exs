@@ -4,17 +4,21 @@ use RFD.DSL
 
 rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :published do
   feature "documentation retraction with investigation record"
-  scope "RFDs 2164, 2179; `emit_10track_panel.py`; `CITATION.cff`"
+  scope "RFD66606-2164, RFD66606-2179; `emit_10track_panel.py`; `CITATION.cff`"
 
   prose ~S"""
   :: decision
   Drop the gemma-auto ASR track; the bug that produced empty transcripts is fixable, but the fixed track's WER of 0.690 at several-seconds latency loses to Voxtral's 0.000 at sub-second.
   :: problem
-  RFD 2179 (Whisper drop) flagged gemma-auto shipping empty transcripts across all 15 clips (WER 1.000, .vtt files carried only the WEBVTT header). Follow-up was fix-or-drop.
+  RFD66606-2179 (Whisper drop) flagged gemma-auto shipping empty transcripts across all 15 clips
+  (WER 1.000, .vtt files carried only the WEBVTT header). Follow-up was fix-or-drop.
 
   Investigation (DETAILS.md): `gemma_cli_run` used prompt "Transcribe this audio verbatim" with `-n 200`. Gemma-4-12B heard the audio as spoken user input, reasoned about how to respond as an AI assistant, and expired the token budget inside chain-of-thought without reaching the final channel. Empty output.
   :: section Fix and panel
-  Fix, for the record: firmer ASR-only prompt plus `-n 400`. 15-clip WER pass with the fix: 0.690 mean (6 exact, 3 accent-mishears, 6 still truncated mid-reasoning). Voxtral runs the same clips at 0.000 sub-second. Gemma-auto's several-seconds-per-clip latency plus 0.690 WER matches the speed-plus-quality argument RFD 2179 used for Whisper.
+  Fix, for the record: firmer ASR-only prompt plus `-n 400`. 15-clip WER pass with the fix: 0.690
+  mean (6 exact, 3 accent-mishears, 6 still truncated mid-reasoning). Voxtral runs the same clips
+  at 0.000 sub-second. Gemma-auto's several-seconds-per-clip latency plus 0.690 WER matches the
+  speed-plus-quality argument RFD66606-2179 used for Whisper.
 
   Panel drops from 9 tracks (post-2179) to 8:
 
@@ -24,7 +28,8 @@ rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :publishe
 
   Gemma-IPA stays: the GBNF constraint pins output to IPA characters and forces short completions; neither failure mode appears on that track.
   :: related
-  Extends RFD 2179 (Whisper drop). DETAILS.md holds the 15-clip WER table with the fix applied and the exact prompt plus argv.
+  Extends RFD66606-2179 (Whisper drop). DETAILS.md holds the 15-clip WER table with the fix
+  applied and the exact prompt plus argv.
   """
 
   details_title "Drop the gemma-auto ASR track (bug fixed, drop confirmed)"
@@ -94,7 +99,7 @@ rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :publishe
     Voxtral       0.000 mean WER, sub-second per clip on MPS
     Parakeet      0.501 mean WER, sub-second, CC-BY-4.0 canonical
     wav2vec2      0.571 mean WER, sub-second, Apache-2.0 alternate
-    Whisper       0.339 mean WER, several seconds, dropped (RFD 2179)
+    Whisper       0.339 mean WER, several seconds, dropped (RFD66606-2179)
     Gemma-auto    0.690 mean WER, several seconds, drop here
 
   Gemma-auto's quality is worst-in-panel and its latency matches the

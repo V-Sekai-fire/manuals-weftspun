@@ -24,11 +24,11 @@ knobs a Gemma4-31B QAT recipe on 4090 + 3090 needs for 220 tok/s"
   no jinja toggle. The first four gate 220 tok/s; jinja is
   correctness.
   :: related
-  - [RFD 1155](../1155-gemma4-towers-not-decoder/): the Gemma4
+  - [RFD66606-1155](../1155-gemma4-towers-not-decoder/): the Gemma4
     pick this recipe realises.
-  - [RFD 2212](../2212-motion-bricks-as-native-godot-module/):
+  - [RFD66606-2212](../2212-motion-bricks-as-native-godot-module/):
     the native-Godot-module pattern this RFD applies to `llm`.
-  - [RFD 2242](../2242-ggml-consumers-as-native-godot-modules/):
+  - [RFD66606-2242](../2242-ggml-consumers-as-native-godot-modules/):
     the ggml-consumer siblings on the same manifest.
   - upstream `noonghunna/club-3090` `dflash.yml`, read 2026-09-15,
     preserved under `apparatus/2252-llm-module-splits-and-drafts/`.
@@ -162,7 +162,7 @@ knobs a Gemma4-31B QAT recipe on 4090 + 3090 needs for 220 tok/s"
   `draft_device` on `LLMDraft`, and a `prefix_cache` on
   `LLMContext`. They land in a separate RFD if the operator
   picks them up, not in this one. Rung 11's number is on
-  repeated-prompt traffic only; the presence loop of RFD 1170
+  repeated-prompt traffic only; the presence loop of RFD66606-1170
   is exactly that traffic, so the rung is not decoration for
   the workspace's actual load.
 

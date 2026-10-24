@@ -21,7 +21,7 @@ told the answer.
 
 ## rung 1 — mesh (`/have/mesh`)
 
-Total `PT7M`, temporally consistent. Shippable now (RFD 2263 Phase A replay gate).
+Total `PT7M`, temporally consistent. Shippable now (RFD66606-2263 Phase A replay gate).
 
 | # | action | start | end | duration |
 |---|--------|-------|-----|----------|

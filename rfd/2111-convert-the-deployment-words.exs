@@ -7,7 +7,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem
-  RFD 2028 made every component a hexagon with a `core/` + `ports/` +
+  RFD66606-2028 made every component a hexagon with a `core/` + `ports/` +
   `adapters/` layout. It took the pattern from Cockburn and added four
   words that Cockburn does not use: core, domain logic, edges, and the
   `*_source` / `*_sink` pair.
@@ -19,7 +19,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
 
   prose ~S"""
   :: details Context and problem statement
-  RFD 2028 made every component a hexagon with a `core/` + `ports/` +
+  RFD66606-2028 made every component a hexagon with a `core/` + `ports/` +
   `adapters/` layout. It took the pattern from Cockburn and added four words
   that Cockburn does not use: core, domain logic, edges, and the `*_source` /
   `*_sink` pair.
@@ -34,7 +34,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   exists to catch that. It reads the files of one git repository only, and it
   finds only retired words, so a live word with two meanings is invisible to it.
   :: details Decision drivers
-  - ASD-STE100 permits one meaning for one word. RFD 2000 applies STE to all
+  - ASD-STE100 permits one meaning for one word. RFD66606-2000 applies STE to all
     prose here.
   - `Weft` states the same rule, and applied it once already. Khronos CATSG
     says "entity" for the controlling human or AI. weft says "controller",
@@ -44,7 +44,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
     microservice framing, and gives nouns this stack can use.
   - Two names for one component cost more than the deployment words earn. A
     reader of `fabric-authority-plane` has to learn that a plane is a process,
-    that the process holds a tick, and that the tick is what RFD 2028 calls
+    that the process holds a tick, and that the tick is what RFD66606-2028 calls
     the inside. One name removes two of those steps.
   :: details The Netflix terms
   The article defines five terms. Each quotation below is from it.
@@ -118,20 +118,20 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   nothing above it changes. That is one repository with two data sources.
   :: details The collisions this resolves
   The word "domain" had three meanings: the deployment packing, the "domain
-  logic" of RFD 2028, and a field on the wire in RFD 2091. The first becomes
+  logic" of RFD66606-2028, and a field on the wire in RFD66606-2091. The first becomes
   "service". The second becomes "entity" and "interactor". The third needs its
   own decision, because a change on the wire is a protocol change.
 
-  The word "edge" had two meanings. RFD 2028 said "concrete I/O at the edges",
-  and an edge plane was a process. RFD 2028 now says "outside the interactor",
+  The word "edge" had two meanings. RFD66606-2028 said "concrete I/O at the edges",
+  and an edge plane was a process. RFD66606-2028 now says "outside the interactor",
   and the process is a transport layer. No meaning is left to collide.
 
   The word "port" had two meanings. Netflix uses no word "port", so the
   listening socket keeps it, and `fabric-zone-domain` needs no edit.
   :: details The collision this creates
   Netflix says "repository" for an interface to entities. This project says
-  "repository" for a git repository, in RFD 2000, RFD 2062, RFD 2063, and
-  RFD 2064. That is a new word with two meanings, and this RFD makes it.
+  "repository" for a git repository, in RFD66606-2000, RFD66606-2062, RFD66606-2063, and
+  RFD66606-2064. That is a new word with two meanings, and this RFD makes it.
 
   The resolution is to write "git repository" in full every time, and to keep
   "repository" alone for the interface. Keeping Cockburn's word "port" for the
@@ -197,7 +197,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   Lake `require ... from git` continue to resolve. Each pin gets updated in the
   same pass.
 
-  Three git repositories hold the RFD 2028 triad on disk: `loot`, `combat`,
+  Three git repositories hold the RFD66606-2028 triad on disk: `loot`, `combat`,
   and `progression`. Each `core/` becomes `entities/`, each `ports/` becomes
   `repositories/`, and each `adapters/` becomes `datasources/`.
   :: details The names the shape does not decide
@@ -214,7 +214,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   holds entities, so the word is retired there as well, with the name
   regularised to `interactor-gyre`. A compound is not an exemption.
 
-  `fabric-flow-adapters` and its `-project` companion carry RFD 2028's
+  `fabric-flow-adapters` and its `-project` companion carry RFD66606-2028's
   "adapters", which this RFD retires for directories. The retirement extends to
   git repository names. A word retired in the tree and live in the name is the
   same drift this RFD exists to stop, and the name is the copy a reader sees
@@ -222,7 +222,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
 
   `fabric-godot-core` becomes `entities-godot`, and the rename is of the git
   repository name only. The `core/` directory inside it is the Godot engine's,
-  it comes from upstream, and it is not the "core" of RFD 2028. Renaming it
+  it comes from upstream, and it is not the "core" of RFD66606-2028. Renaming it
   would fork the vocabulary of an engine this project tracks rather than owns.
 
   `fabric-interactor` is not an interactor. It holds the contract that
@@ -250,7 +250,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
   that this RFD does not classify. The convention applies where there is a word
   for the thing, and nowhere else.
   :: details Considered and rejected: the agent noun
-  "Interactor" was challenged on the ground that RFD 2000 applies ASD-STE100,
+  "Interactor" was challenged on the ground that RFD66606-2000 applies ASD-STE100,
   that STE forbids a nominalized verb, and that "interact" fails to
   discriminate, because a transport layer and a data source interact as well.
   Both objections hold. The word is kept anyway.
@@ -299,7 +299,7 @@ rfd 2111, "Convert the deployment words", :prediscussion do
     alone. `fabric-interactor` and `fabric-service-meta` state a type that is
     not theirs, which the conversion table cannot catch, because it looks for
     the words that are wrong rather than for the words that are misapplied.
-  - This RFD does not rename the `domain` field on the wire in RFD 2091. That
+  - This RFD does not rename the `domain` field on the wire in RFD66606-2091. That
     is a protocol change and needs its own RFD.
   """
 end

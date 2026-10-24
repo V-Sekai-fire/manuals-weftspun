@@ -19,8 +19,8 @@ rfd 1028, "Model license gate", :published do
   territory rules and user-count rules. The catalog must not ship them
   to paying users.
   :: related
-  RFD 1016 lists the active models. RFD 1029 gives the FOSS
-  replacements. RFD 1035 lists the legacy models. The license audit is
+  RFD66606-1016 lists the active models. RFD66606-1029 gives the FOSS
+  replacements. RFD66606-1035 lists the legacy models. The license audit is
   docs/MODEL_LICENSES.md in AlfaOmegaGrafx/3DAIGC-API.
   """
 

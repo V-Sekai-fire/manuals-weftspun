@@ -33,7 +33,7 @@ rfd 1149, "MToon shades against the key light", :discussion do
   - `DETAILS.md` carries the measurements and the factor of pi.
     `SKILL.md` is the procedure for holding a port against a reference.
   :: related
-  RFD 1150 decides the shade colour. RFD 1141 sends artifacts to
+  RFD66606-1150 decides the shade colour. RFD66606-1141 sends artifacts to
   Hugging Face.
   """
 

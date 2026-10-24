@@ -66,9 +66,9 @@ None. First publish.
 
 ## Related
 
-- RFD 2205 (Taskweft in Bao) — the pilot the dataset supplies
+- RFD66606-2205 (Taskweft in Bao) — the pilot the dataset supplies
   test vectors for.
-- RFD 2209 (CC-BY-NC blocklist entry) — the doctrine the
+- RFD66606-2209 (CC-BY-NC blocklist entry) — the doctrine the
   builder's filter enforces.
 - `logbook-starforged-sqlite-build.md` — the SQLite mirror of
   the same content.
