@@ -24,7 +24,7 @@ ROOT = os.path.dirname(HERE)
 RFD = "rfd"
 DIR_RE = re.compile(r"^1[0-9]{3}-[a-z0-9-]+$")
 STATE_RE = re.compile(r"^\*\*State:\*\*\s*abandoned\s*$", re.M)
-TITLE_RE = re.compile(r"^#\s+(RFD [0-9]{4} details: .+?)\s*$", re.M)
+TITLE_RE = re.compile(r"^#\s+(RFD66606-[0-9]{4} details: .+?)\s*$", re.M)
 RETAIN = "<!-- retain-details -->"
 STUB_MARK = "**Compacted.**"
 
@@ -97,26 +97,26 @@ def self_test():
     d = os.path.join(tmp, RFD, "1001-a-slug")
     os.makedirs(d)
     open(os.path.join(d, "README.md"), "w", encoding="utf8").write(
-        "# RFD 1001: A\n\n**State:** abandoned\n\nSee `DETAILS.md`.\n")
+        "# RFD66606-1001: A\n\n**State:** abandoned\n\nSee `DETAILS.md`.\n")
     open(os.path.join(d, "DETAILS.md"), "w", encoding="utf8").write(
-        "# RFD 1001 details: the rest\n\n" + "word " * 200)
+        "# RFD66606-1001 details: the rest\n\n" + "word " * 200)
     if [c[0] for c in candidates(tmp)] != ["1001-a-slug"]:
         sys.exit("FAIL  an abandoned RFD with a DETAILS was not offered")
 
     open(os.path.join(d, "README.md"), "w", encoding="utf8").write(
-        "# RFD 1001: A\n\n**State:** abandoned\n\n%s\nSee `DETAILS.md`.\n" % RETAIN)
+        "# RFD66606-1001: A\n\n**State:** abandoned\n\n%s\nSee `DETAILS.md`.\n" % RETAIN)
     if not candidates(tmp)[0][3]:
         sys.exit("FAIL  a README asking to retain its DETAILS was not honoured")
 
     open(os.path.join(d, "README.md"), "w", encoding="utf8").write(
-        "# RFD 1001: A\n\n**State:** published\n\nSee `DETAILS.md`.\n")
+        "# RFD66606-1001: A\n\n**State:** published\n\nSee `DETAILS.md`.\n")
     if candidates(tmp):
         sys.exit("FAIL  a published RFD was offered for compaction")
 
     open(os.path.join(d, "README.md"), "w", encoding="utf8").write(
-        "# RFD 1001: A\n\n**State:** abandoned\n\nSee `DETAILS.md`.\n")
+        "# RFD66606-1001: A\n\n**State:** abandoned\n\nSee `DETAILS.md`.\n")
     open(os.path.join(d, "DETAILS.md"), "w", encoding="utf8").write(
-        "# RFD 1001 details: the rest\n\n%s already done\n" % STUB_MARK)
+        "# RFD66606-1001 details: the rest\n\n%s already done\n" % STUB_MARK)
     if candidates(tmp):
         sys.exit("FAIL  an already-compacted DETAILS was offered a second time")
 

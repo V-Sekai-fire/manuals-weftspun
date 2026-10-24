@@ -2,19 +2,19 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Check that every RFD number follows the org-qualified decimal rule.
 
-RFD 1000 gives the rule. This script enforces it. Run --self-test to see each
+RFD66606-1000 gives the rule. This script enforces it. Run --self-test to see each
 check reject a known-bad input, because a check that passes on broken input
 certifies the defect instead of catching it.
 
 This gate owns numbering: directory names, the organization digit, serial
 uniqueness, and heading agreement. It used to also check ALIASES.md coverage,
-and that table is deleted rather than extended, so the check went with it. RFD
-1000 records what the deletion costs. It used to also scan
+and that table is deleted rather than extended, so the check went with it.
+RFD66606-1000 records what the deletion costs. It used to also scan
 for unmigrated decimal citations, and no longer does. That scan read the raw
 bytes, so a citation an RFD wrapped over two lines never matched it: it found
 3 of the 37 in the tree. `check-rfd-structure.py` reads the same citations off
 a CommonMark AST and finds all of them, so the scan moved there rather than
-being kept in two places at two strengths. RFD 1124 records the move.
+being kept in two places at two strengths. RFD66606-1124 records the move.
 """
 import os
 import re
@@ -22,7 +22,7 @@ import sys
 
 ORG = "1"
 DIR_RE = re.compile(r"^([0-9]{4})-[a-z0-9-]+$")
-HEAD_RE = re.compile(r"^# RFD ([0-9]{4}):")
+HEAD_RE = re.compile(r"^# RFD66606-([0-9]{4}):")
 
 
 def rfd_dirs(root):
@@ -60,7 +60,7 @@ def check(root):
             first = fh.readline().rstrip("\n")
         h = HEAD_RE.match(first)
         if not h:
-            problems.append(f"{d}: first line is not '# RFD <num>: title', it is {first!r}")
+            problems.append(f"{d}: first line is not '# RFD66606-<num>: title', it is {first!r}")
         elif h.group(1) != num:
             problems.append(f"{d}: heading says {h.group(1)}, directory says {num}")
 
@@ -79,7 +79,7 @@ def self_test():
         d = os.path.join(tmp, "rfd", kw.get("dirname", "1001-a-slug"))
         os.makedirs(d)
         with open(os.path.join(d, "README.md"), "w", encoding="utf-8") as fh:
-            fh.write(kw.get("heading", "# RFD 1001: A slug\n"))
+            fh.write(kw.get("heading", "# RFD66606-1001: A slug\n"))
 
     cases = [
         ("a clean tree passes", {}, False),
@@ -90,10 +90,11 @@ def self_test():
         # reject it by name rather than by the slug pattern happening to miss.
         ("a hex directory name", {"dirname": "100a-a-slug"}, True),
         ("a hex heading",
-         {"dirname": "1010-a-slug", "heading": "# RFD 100a: A slug\n"}, True),
-        ("heading disagrees with directory", {"heading": "# RFD 1002: A slug\n"}, True),
+         {"dirname": "1010-a-slug", "heading": "# RFD66606-100a: A slug\n"}, True),
+        ("heading disagrees with directory", {"heading": "# RFD66606-1002: A slug\n"}, True),
+        ("a heading in the bare form", {"heading": "# RFD 1001: A slug\n"}, True),
         ("a second RFD needs no lookup table",
-         {"extra_dirs": [("1002-a-slug", "# RFD 1002: A slug\n")]}, False),
+         {"extra_dirs": [("1002-a-slug", "# RFD66606-1002: A slug\n")]}, False),
     ]
     ok = True
     for name, kw, should_fail in cases:
