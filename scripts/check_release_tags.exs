@@ -8,13 +8,18 @@
 defmodule ReleaseTags do
   @cutover "20261013000000"
   @form ~r/^v0\.0\.0-(\d{14})-([0-9a-f]{12})$/
+  @git_env Enum.map(
+             ~w(GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY
+                GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_PREFIX GIT_COMMON_DIR),
+             &{&1, nil}
+           )
 
   def expected(repo, rev) do
     {out, 0} =
       System.cmd(
         "git",
         ["-C", repo, "log", "-1", "--format=%cd %H", "--date=format-local:%Y%m%d%H%M%S", rev],
-        env: [{"TZ", "UTC"}]
+        env: [{"TZ", "UTC"} | @git_env]
       )
 
     [time, sha] = String.split(String.trim(out))
@@ -22,7 +27,7 @@ defmodule ReleaseTags do
   end
 
   def tags(repo) do
-    {out, 0} = System.cmd("git", ["-C", repo, "tag", "--list"])
+    {out, 0} = System.cmd("git", ["-C", repo, "tag", "--list"], env: @git_env)
     String.split(out, "\n", trim: true)
   end
 
@@ -52,12 +57,6 @@ defmodule ReleaseTags do
     if fails == 0, do: 0, else: 1
   end
 
-  @git_env Enum.map(
-             ~w(GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY
-                GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_PREFIX GIT_COMMON_DIR),
-             &{&1, nil}
-           )
-
   defp git!(dir, args, env \\ []) do
     {_, 0} = System.cmd("git", ["-C", dir | args], env: @git_env ++ env, stderr_to_stdout: true)
   end
@@ -71,6 +70,7 @@ defmodule ReleaseTags do
 
   def self_test do
     dir = Path.join(System.tmp_dir!(), "release-tags-#{System.unique_integer([:positive])}")
+    File.rm_rf!(dir)
     File.mkdir_p!(dir)
     git!(dir, ["init", "-q"])
     git!(dir, ["config", "user.email", "t@example.invalid"])
