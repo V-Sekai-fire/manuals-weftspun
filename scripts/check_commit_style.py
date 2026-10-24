@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Gate: commit subjects are sentence-case prose, no Conventional Commits prefix.
 
-RFD 2026 picked sentence-case prose over Conventional Commits. The rule holds on every
-repository we commit to, forks included: a fork's commits stay in our fork (RFD 2294), so
+RFD66606-2026 picked sentence-case prose over Conventional Commits. The rule holds on every
+repository we commit to, forks included: a fork's commits stay in our fork (RFD66606-2294), so
 the gate reads no remote and skips nothing.
 
 Every commit reachable from HEAD but not from --base or any --exclude is checked for three
@@ -12,8 +12,8 @@ properties:
 1. The subject does not begin with a Conventional-Commits prefix
    (`^[a-z]+(\\([^)]+\\))?!?:`, e.g. `feat:`, `fix(parser):`, `chore!:`).
 2. The subject opens with an uppercase letter, digit, bracket or backtick
-   (`RFD 2026: …` and `[RFD 2026] …` both pass).
-3. The subject does not end with a trailing period.
+   (`RFD66606-2026: …` and `[RFD66606-2026] …` both pass).
+3. No trailing period, and no bare `RFD NNNN` (RFD66606-1000 writes RFD66606-NNNN).
 
 Usage:
     python scripts/check_commit_style.py                    # HEAD~10..HEAD
@@ -36,6 +36,7 @@ import tempfile
 CONVENTIONAL_RE = re.compile(r"^[a-z][a-z0-9-]*(\([^)]+\))?!?:")
 SENTENCE_START_RE = re.compile(r"^([A-Z]|\d|\[|`)")
 TRAILING_PERIOD_RE = re.compile(r"\.$")
+BARE_RFD_RE = re.compile(r"\bRFDs?\s+\d{4}\b")
 GIT_ENV = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
            "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_PREFIX", "GIT_COMMON_DIR")
 
@@ -49,11 +50,13 @@ def git(cwd: str, *args: str) -> str:
 def check_subject(subject: str) -> list[str]:
     problems = []
     if CONVENTIONAL_RE.match(subject):
-        problems.append("Conventional-Commits prefix (RFD 2026 says sentence-case prose)")
+        problems.append("Conventional-Commits prefix (RFD66606-2026 says sentence-case prose)")
     if not SENTENCE_START_RE.match(subject):
         problems.append("first char not uppercase / digit / bracket")
     if TRAILING_PERIOD_RE.search(subject):
         problems.append("trailing period")
+    if BARE_RFD_RE.search(subject):
+        problems.append("bare RFD NNNN (RFD66606-1000 writes RFD66606-NNNN)")
     return problems
 
 
@@ -130,10 +133,11 @@ def commit(subject: str) -> list[str]:
 
 
 def self_test() -> int:
-    """6 subject controls, 4 through the CLI on both remotes, 2 on a merged upstream commit."""
+    """7 subject controls, 4 through the CLI on both remotes, 2 on a merged upstream commit."""
     cases = [
         ("Add the macOS and Windows release workflows", 0, "plain sentence"),
-        ("RFD 2026: Commit messages sentence case", 0, "RFD prefix, sentence body"),
+        ("RFD66606-2026: Commit messages sentence case", 0, "RFD prefix, sentence body"),
+        ("RFD 2026: Commit messages sentence case", 1, "bare RFD prefix"),
         ("[urgent] Fix the leaking file descriptor", 0, "bracket-tag open"),
         ("feat: add the release workflow", 2, "conventional-commits + not-capital"),
         ("fix(parser): handle nested arrays", 2, "conventional-commits w/ scope + not-capital"),
