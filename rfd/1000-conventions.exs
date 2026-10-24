@@ -15,7 +15,7 @@ rfd 1000, "Conventions", :published do
 
   Technical writing follows ASD-STE100 Simplified Technical English.
   An essay follows the AI-trope gate, and a section names which one it
-  takes. RFD 1125 gives that rule. Code and identifiers follow neither.
+  takes. RFD66606-1125 gives that rule. Code and identifiers follow neither.
 
   The repository keeps designs in one place. The decisions directory
   records durable decisions. The docs tree holds detailed designs.
@@ -32,7 +32,7 @@ rfd 1000, "Conventions", :published do
   - Numbering rule and OID arc: `DETAILS.md`. Serials in use: `SERIALS.usda`
   - STE spec: https://www.asd-ste100.org/ Tropes: https://tropes.fyi
   - STE linter: the `simplified-technical-english` Claude Code plugin
-    (`fire/claude-ste-plugin`). RFD 1063 records the move off a
+    (`fire/claude-ste-plugin`). RFD66606-1063 records the move off a
     repo-local script.
   :: related
   See the DRY policy and the STE policy in `decisions/README.md`.
@@ -89,7 +89,7 @@ rfd 1000, "Conventions", :published do
   5, and whatever else had picked 5 would already hold it.
 
   No second category is allocated. This document allocates one when something
-  needs one, under RFD 1070's rule.
+  needs one, under RFD66606-1070's rule.
 
   66606.1 carries the sites, and the site arc is the organization digit:
 
@@ -119,7 +119,7 @@ rfd 1000, "Conventions", :published do
 
       1.3.6.1.4.1.66606.1.<site>.<number>
 
-  RFD 1015 is `urn:oid:1.3.6.1.4.1.66606.1.1.1015`. The last arc is the four
+  RFD66606-1015 is `urn:oid:1.3.6.1.4.1.66606.1.1.1015`. The last arc is the four
   digits the folder name already writes. Its first digit repeats the site arc
   above it, and the repetition is worth its cost. The mapping from a document
   number to its arc is the identity, so a reader who can read one can read the
@@ -130,6 +130,25 @@ rfd 1000, "Conventions", :published do
   its own rather than a neighbouring parent number, because `<thing>.1.<id>` and
   `<thing>.2.<id>` say which kind they are and `<thing>` beside `<thing+1>` does
   not.
+  :: details The searchable shorthand
+  A search engine reads `RFD 1015` as two common words, and `rfd1015` already
+  names an unrelated account, so neither finds one of these documents alone.
+  The shorthand puts the PEN in the name (operator, 2026-10-24):
+
+      RFD66606-1015    urn:oid:1.3.6.1.4.1.66606.1.1.1015
+      RFD66606-2287    urn:oid:1.3.6.1.4.1.66606.1.2.2287
+
+  It holds the PEN and the four digits, and the first digit is the site arc,
+  so each shorthand names exactly one full identifier. A web search for
+  `RFD66606` found nothing when it was chosen, so a search for it finds only
+  these documents.
+
+  Every title, citation, code comment, commit subject and pull request title
+  writes this form (operator, 2026-10-24). Code, and text quoted from a commit
+  or a person, stays as written. `check-rfd-structure.py` refuses a bare
+  `RFD NNNN` in rendered prose outside code and quotes, and
+  `check_commit_style.py` refuses one in a commit subject; each has a planted
+  control that must fail.
   :: details Why the digits are decimal
   The first version of this rule made the digits hexadecimal. It shipped. 131
   RFDs carried hex numbers for the life of it, and this section withdraws it.
@@ -158,7 +177,7 @@ rfd 1000, "Conventions", :published do
       ---
 
   It holds the order to do things in and the errors that name the wrong
-  cause. RFD 1040 is the first: eighteen packaging gaps, each found by
+  cause. RFD66606-1040 is the first: eighteen packaging gaps, each found by
   running the thing rather than by reading the file, and every one of
   them reporting either success or a cause that is not the cause. That
   knowledge fits nowhere in a README bounded at 40 lines, and putting it
@@ -231,7 +250,7 @@ rfd 1000, "Conventions", :published do
   follows its directory, because a retitle renames a document and does not
   renumber it. The two look alike in a diff and are not alike. A renumbering
   takes serials out of the register, so `scripts/check-rfd-serials.py` fails on
-  what went missing rather than on what arrived. RFD 1124's gate borrows that
+  what went missing rather than on what arrived. RFD66606-1124's gate borrows that
   script's reader, so the two gates cannot disagree about which numbers exist.
 
   This entry is the reason the register exists. Renumbering 131 RFDs took 121
@@ -245,7 +264,7 @@ rfd 1000, "Conventions", :published do
   `ALIASES.md` held 122 rows mapping the first numbers to hex. It is deleted
   rather than extended, because the first form now resolves by a rule instead of
   a table. The decimal serial equals the first number in all 122 rows. The
-  document that opened as 0123 is RFD 1123, and the lookup is "prepend the
+  document that opened as 0123 is RFD66606-1123, and the lookup is "prepend the
   organization digit". Hexadecimal
   was the detour, and leaving it returned every document to the number it
   started with.
