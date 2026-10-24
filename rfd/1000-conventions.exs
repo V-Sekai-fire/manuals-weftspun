@@ -130,6 +130,21 @@ rfd 1000, "Conventions", :published do
   its own rather than a neighbouring parent number, because `<thing>.1.<id>` and
   `<thing>.2.<id>` say which kind they are and `<thing>` beside `<thing+1>` does
   not.
+  :: details The searchable shorthand
+  A search engine reads `RFD 1015` as two common words, and `rfd1015` already
+  names an unrelated account, so neither finds one of these documents alone.
+  The shorthand puts the PEN in the name (operator, 2026-10-24):
+
+      RFD66606-1015    urn:oid:1.3.6.1.4.1.66606.1.1.1015
+      RFD66606-2287    urn:oid:1.3.6.1.4.1.66606.1.2.2287
+
+  It holds the PEN and the four digits, and the first digit is the site arc,
+  so each shorthand names exactly one full identifier. A web search for
+  `RFD66606` found nothing when it was chosen, so a search for it finds only
+  these documents.
+
+  The Pages site writes every title and every citation in this form. Sources
+  keep `RFD NNNN`, and the site build rewrites it, so they stay as written.
   :: details Why the digits are decimal
   The first version of this rule made the digits hexadecimal. It shipped. 131
   RFDs carried hex numbers for the life of it, and this section withdraws it.
