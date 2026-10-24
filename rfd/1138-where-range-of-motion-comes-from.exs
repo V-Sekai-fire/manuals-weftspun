@@ -35,7 +35,7 @@ rfd 1138, "Where a range of motion comes from", :prediscussion do
   never been decided. This asks rather than answers: no prior decision
   was found, and inventing a citation would be worse than an open RFD.
   :: related
-  RFD 1134 records the fit behind this. RFD 1137 refuses a fitted pose as
+  RFD66606-1134 records the fit behind this. RFD66606-1137 refuses a fitted pose as
   a corpus subject until a bound exists.
   """
 end

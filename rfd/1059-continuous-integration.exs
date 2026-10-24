@@ -32,9 +32,9 @@ rfd 1059, "Continuous integration, in one step", :published do
   whenever that step was added.
 
   It also tested one of three parts of this repository. `weftspun_studio/`
-  had no CI at all, and neither did the two Podman images RFD 1058 adds.
+  had no CI at all, and neither did the two Podman images RFD66606-1058 adds.
   :: related
-  RFD 1058 gives the two container images this script builds. RFD 1020
+  RFD66606-1058 gives the two container images this script builds. RFD66606-1020
   gives the CockroachDB the Elixir step tests against.
   """
 
@@ -49,7 +49,7 @@ rfd 1059, "Continuous integration, in one step", :published do
      against an ephemeral CockroachDB node the script starts and tears
      down itself (`mix weftspun.crdb`). The Elixir side.
   3. `podman build` (or `docker build`, whichever is on `PATH`) for
-     both RFD 1058 images. No push, build only.
+     both RFD66606-1058 images. No push, build only.
 
   Each step must pass before the next runs. A JS test failure never
   reaches the Elixir suite. A compile warning fails the build the same
@@ -62,7 +62,7 @@ rfd 1059, "Continuous integration, in one step", :published do
   so the gap this RFD closes cannot reopen the same way.
 
   `CONTAINER_ENGINE` picks `podman` first, falling back to `docker`,
-  because this project develops against Podman (RFD 1058), while
+  because this project develops against Podman (RFD66606-1058), while
   GitHub's runners ship Docker. The Dockerfiles are engine-agnostic.
   Neither one assumes Podman.
   :: details Retracted for now: the GitHub workflow that called the script
@@ -74,7 +74,7 @@ rfd 1059, "Continuous integration, in one step", :published do
   developer still runs it before committing. The browser client's own
   test suite carries many pre-existing failures across several files,
   unrelated to any one commit, and every push turned red for that reason
-  alone. RFD 1057 tracks restoring the workflow once that suite is fixed.
+  alone. RFD66606-1057 tracks restoring the workflow once that suite is fixed.
 
   The decision this retracts is Fowler's, not this repository's, and it
   still holds. One command builds and self-tests the system. What is
@@ -85,8 +85,8 @@ rfd 1059, "Continuous integration, in one step", :published do
   They need a browser, or a running dev server this RFD does not stand
   up.
 
-  RFD 1058's `deploy-weftspun-quadlet.sh` stays outside it too.
-  Continuous integration is not continuous deployment, and RFD 1058's
+  RFD66606-1058's `deploy-weftspun-quadlet.sh` stays outside it too.
+  Continuous integration is not continuous deployment, and RFD66606-1058's
   open firewall question means that script cannot pass on this host
   yet regardless.
   """

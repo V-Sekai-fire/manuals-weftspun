@@ -25,10 +25,10 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   :: related
   The public Vercel demo (`0098-public-deploy/`) runs the open client
   with none of the proprietary services exposed. Trademark terms live
-  in this project's own `README.md` and `TRADEMARKS`. RFD 1109 gives
+  in this project's own `README.md` and `TRADEMARKS`. RFD66606-1109 gives
   the payment-rail and phygital-registry areas this page's own source
-  document once listed; both are abandoned, per RFD 1012 and RFD
-  1015, and removed from this table.
+  document once listed; both are abandoned, per RFD66606-1012 and
+  RFD66606-1015, and removed from this table.
   """
 
   details_title "The open/proprietary boundary, in public words"
@@ -44,8 +44,8 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
 
   Two areas this page's own source document once listed here, payment
   rails (x402/wallet) and a phygital passport registry, are gone from
-  this table. RFD 1109 gives why: both are abandoned, per RFD 1012 and
-  RFD 1015, and both were fully stripped from the codebase before this
+  this table. RFD66606-1109 gives why: both are abandoned, per RFD66606-1012 and
+  RFD66606-1015, and both were fully stripped from the codebase before this
   page was even written. Listing them as a current proprietary moat
   was incorrect.
   :: details The architecture split

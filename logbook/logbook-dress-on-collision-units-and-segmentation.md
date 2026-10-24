@@ -18,7 +18,7 @@ Front and back renders collapsed the same way.
     2d_render_front vs 2d_render_back       byte-equal on every row
 
 The published dataset therefore asserted that three different candidates share one
-geometry. Worse, RFD 2234's own negative control could not fail: it swaps rank1's
+geometry. Worse, RFD66606-2234's own negative control could not fail: it swaps rank1's
 asset for rank5's and requires a non-zero exit, and the two already pointed at one
 file. A check that cannot fail on known-broken input certifies the defect.
 
@@ -48,7 +48,7 @@ passes it from `phenotype.json`, and the skip became a check that refuses a mism
 
 ## Payload moved into the parquet
 
-RFD 2234 had ruled for assets beside the parquets. The operator reversed that on
+RFD66606-2234 had ruled for assets beside the parquets. The operator reversed that on
 2026-09-08: a path is not the data, and the publisher drops what it points at, which
 is how the FBD corpora lost their diagrams.
 

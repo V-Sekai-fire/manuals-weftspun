@@ -7,7 +7,7 @@ rfd 2322, "a Mac dashboard and theatre mode", :discussion do
   feature "one OpenXR app on the Mac that shows a dashboard of the apps OXRSys Home lists and a
 theatre mode that puts a website on a large screen in the headset, recorded from the stream"
   scope "XR Pilot's Apple clients (`oxrsys/clients/Apple/`), its macOS app disk image, and the
-recording path of RFD 2307"
+recording path of RFD66606-2307"
 
   prose ~S"""
   :: decision
@@ -16,7 +16,7 @@ recording path of RFD 2307"
   mode shows one website on a large flat screen in front of the wearer
   (operator, 2026-10-17). The app draws the screen into its own projection
   layer, so the runtime does not change. A theatre session is recorded from
-  the runtime's stream as RFD 2307 states, not by a screen capture.
+  the runtime's stream as RFD66606-2307 states, not by a screen capture.
 
   It is built smallest first: theatre mode with a fixed address and a
   recording, then pointer input, then the dashboard tiles.
@@ -26,9 +26,9 @@ recording path of RFD 2307"
   desktop app list and a simulator window, and nothing shows a page in the
   headset.
   :: related
-  - RFD 2307, recording the XR Pilot stream: how the session is recorded.
-  - RFD 2320, an agent drives the OXRSys simulator: how a gate runs it.
-  - RFD 2306, the shared Windows VR desk, where the existing theatre is.
+  - RFD66606-2307, recording the XR Pilot stream: how the session is recorded.
+  - RFD66606-2320, an agent drives the OXRSys simulator: how a gate runs it.
+  - RFD66606-2306, the shared Windows VR desk, where the existing theatre is.
   """
 
   details_title "how the dashboard is built, and what is not known"
@@ -92,7 +92,7 @@ recording path of RFD 2307"
   - Dashboard gate, third step: a tile starts a test app, whose frames reach
     the stream. Control: a tile for a missing bundle shows an error and
     starts nothing.
-  - Each gate runs through the simulator, driven as RFD 2320 states, so no
+  - Each gate runs through the simulator, driven as RFD66606-2320 states, so no
     person wears a headset for it.
 
   :: details Where the code lands

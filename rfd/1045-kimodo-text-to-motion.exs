@@ -28,8 +28,8 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
   The model is small at 0.6 GB in bf16. The packaging risk is the
   skeleton contract.
   :: related
-  RFD 1007 records the motion validation. RFD 1005 records the VRM
-  pipeline the retarget targets. RFD 1026 gives the memory.
+  RFD66606-1007 records the motion validation. RFD66606-1005 records the VRM
+  pipeline the retarget targets. RFD66606-1026 gives the memory.
   """
 
   details_title "Model image for kimodo_text_to_motion"
@@ -71,7 +71,7 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
   `sphere_hammersley_sequence` camera sequence. A VRMA loader with a
   swapped-clip control checks each file.
   :: details The validation gate
-  RFD 1007 records the motion validation. A motion that leaves the floor
+  RFD66606-1007 records the motion validation. A motion that leaves the floor
   or that inverts a knee must fail here, and not in the viewport.
 
   Run the validation inside this model image, and return its verdict as a

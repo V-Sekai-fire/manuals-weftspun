@@ -1,4 +1,4 @@
-# RFD 2199 rf-detr INT4 compile + measure spec
+# RFD66606-2199 rf-detr INT4 compile + measure spec
 
 Precedes the compile step. Names the DFC command sequence, the metric
 matrix, the acceptance floors, and the HF result-dataset shape. Written
@@ -16,10 +16,10 @@ for the measurement results downstream), carrying:
 
 - `checkpoint.pt` (or `.safetensors`), the QAT-trained rf-detr weights at
   bf16-storage with int4 fake-quant applied during training via STE
-  backward, per RFD 2199's real-QAT stance.
+  backward, per RFD66606-2199's real-QAT stance.
 - `training_metrics.parquet`: loss curve, calibration set, held-out
   accuracy at bf16 and at simulated int4 (from the fake-quant forward
-  pass). One row per step, ETNF-shaped per RFD 2196 rule 1.
+  pass). One row per step, ETNF-shaped per RFD66606-2196 rule 1.
 - `qat_config.json`: quantizer choice (`torchao Int4WeightOnlyQuantizer`
   or workspace substitute), group size, calibration set identity, seed.
   This is the config the compile step must match exactly.
@@ -55,7 +55,7 @@ Pipeline shape:
    number. Not the accuracy measurement, just a smoke test.
 
 Each step's exit code and stdout gets captured to a file named by the
-step number, per RFD 2196's "don't lose the apparatus" logbook shape.
+step number, per RFD66606-2196's "don't lose the apparatus" logbook shape.
 
 ## Metric matrix
 
@@ -79,7 +79,7 @@ ETNF rule.
 
 ## Acceptance floors
 
-For the first spike, floors that are also RFD 2199's success criteria:
+For the first spike, floors that are also RFD66606-2199's success criteria:
 
 - `int4-hef-hailo10h` mAP within Hailo's blog-claimed 1-2 points of
   `bf16-baseline`. A larger drop is a genuine finding worth surfacing
@@ -99,7 +99,7 @@ derived from `val2017`.
 
 ## HF result dataset
 
-`chibifire/hailo-rf-detr-int4-measure-<yyyymmdd>`, per RFD 2196 rule 5
+`chibifire/hailo-rf-detr-int4-measure-<yyyymmdd>`, per RFD66606-2196 rule 5
 upload recipe with `hf upload-large-folder --repo-type=dataset`. Shape:
 
 ```
@@ -115,7 +115,7 @@ CITATION.cff                           # per Deliverables rule in CLAUDE.md
 ```
 
 `data/measurements/train-*.parquet` follows the wide-row-per-example
-shape from RFD 2196 rule 1: each row is one `(variant, precision)`
+shape from RFD66606-2196 rule 1: each row is one `(variant, precision)`
 combination, no satellite tables for a metric-only dataset this small.
 
 ## What this spec does not cover

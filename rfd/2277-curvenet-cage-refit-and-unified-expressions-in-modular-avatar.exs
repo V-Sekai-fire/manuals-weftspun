@@ -30,9 +30,9 @@ the Unity sandbox; two NDMF components; Miroir-Re's dress and face"
     "V-Sekai-fire/interactor-tool-godot-cage-deformer; fireflyk64/udon2godot"
   ]
 
-  related "RFD 2275 (unified expressions from ANNY, the method); RFD 2279
-(one deform surface over curvenets; this RFD owns bhc13); RFD 2262 (the
-releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
+  related "RFD66606-2275 (unified expressions from ANNY, the method); RFD66606-2279
+(one deform surface over curvenets; this RFD owns bhc13); RFD66606-2262 (the
+releases); RFD66606-2278 (remeshed cages, parked); RFD66606-2239 (no Python)."
   details_title "curvenet-cage refit and unified expressions in Modular Avatar"
 
   prose ~S"""
@@ -53,14 +53,14 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
       NDMF build, and is checked in the Editor.
   - **The shareable release.** Does it hold up when worn and seen? Uploaded to VRChat,
     with VRCFT driving the expressions live, and the tongue and corrective
-    shapes from RFD 2275/2279.
+    shapes from RFD66606-2275/2279.
   - **The first usable release.** Does it work on the next garment and
     avatar? The cardigan's 22.5 mm at the upper arm and the drawers'
     31.6 mm at the thigh, then another purchased avatar.
   - **The first lovable release.** A person draws the curvenet in VR
     with the pen, and the Unity sandbox's RD path makes the fit
     interactive in Unity too.
-  - **The full product.** Remeshed cages (RFD 2278), only if people ask.
+  - **The full product.** Remeshed cages (RFD66606-2278), only if people ask.
   :: details How it was drafted
   Drafted 2026-09-28 from a measured diagnosis of the dress clipping, a
   survey of the cage deformer, CASSIE, dress-on and godot-sandbox's host
@@ -82,7 +82,7 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
   - motion from our own Kimodo and MotionBricks models, in the sandbox on
     ggml-rd (the VRChat SDK's clips are blocklisted).
 
-  Renumbered from 2276 after a collision, split with RFD 2279, and
+  Renumbered from 2276 after a collision, split with RFD66606-2279, and
   replanned as a release ladder.
   :: details The diagnosis
   The measurements were baked, welded, and taken as signed distance to the
@@ -107,13 +107,13 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     stays 6 mm deep, and 61 bare-skin vertices would sink.
   :: details The guest
   The guest is `guest/cage/` in interactor-cage, one ELF for its stage. The bind, deform and
-  Jacobian are the `bhc13` method of RFD 2279's shared surface, in
+  Jacobian are the `bhc13` method of RFD66606-2279's shared surface, in
   `guest/common/deform/bhc13/`.
 
   - **Curvenet to cage:**
     - The pen's curves go to `curvenet.elf`, which builds its patches.
     - `cage.elf` caps the open patch boundaries and coarsens them to about
-      100 vertices, then passes the result to RFD 2279's `net_from_mesh`.
+      100 vertices, then passes the result to RFD66606-2279's `net_from_mesh`.
     - `bind(net, mesh, "bhc13")` refuses unless the cycles form a closed,
       consistently oriented surface. It must also contain every bound
       vertex, and cage vertices away from the region are frozen.
@@ -134,7 +134,7 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
       of the body skinned to frame p.
     - The cage lives in bind space, so the result bakes directly into the
       mesh and needs no unskin step.
-  - **Head fit (RFD 2275's method):**
+  - **Head fit (RFD66606-2275's method):**
     - It fits rigid + scale + 6 phenotype axes + local head changes to
       the face `Body`.
     - The loss is point-to-surface distance plus landmarks, with the
@@ -161,14 +161,14 @@ releases); RFD 2278 (remeshed cages, parked); RFD 2239 (no Python)."
     Godot-shaped API, so the same code drives Godot and Unity.
   :: details Interop
   Three `.sigs` files, each drift-gated by an Elixir mix task. None is
-  registered until RFD 2279 lands.
+  registered until RFD66606-2279 lands.
 
   - `unity_sandbox.sigs` (this RFD): the host C ABI. Machine create and
     destroy, the instruction limit, the bridge table, `has_function`,
     `vmcall` and the last error.
   - `cage_guest.sigs` (this RFD): the cage fit entries, `cage_build`,
     `cage_preview`, `cage_dump`, and `hf_*`.
-  - `deform_guest.sigs` (RFD 2279): `net_from_mesh`, `net_from_strokes`,
+  - `deform_guest.sigs` (RFD66606-2279): `net_from_mesh`, `net_from_strokes`,
     `net_from_skeleton`, `bind`, `weights`, `deform`, `jacobian` and the
     rest.
 

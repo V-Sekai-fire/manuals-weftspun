@@ -11,30 +11,30 @@ rfd 2240,
 
   prose ~S"""
   :: decision
-  `CITATION.cff` stays the master attribution record and every other metadata
-  artefact is derived from it. The machine serialization is ISO 16684-1 (XMP)
-  as RDF/XML, in a sidecar named for the asset's own stem, so a clip, a
-  drawing or an animation carries its title, authors, licence and identifier
-  wherever it travels. Static vector is W3C SVG, animated vector is Lottie
-  under its IANA type `video/lottie+json` with the extension `.lot`, the
-  intermediate is CineForm, and a review timeline is OpenTimelineIO with
-  OpenColorIO naming the display. The converter is Elixir. `DETAILS.md`
-  carries the mapping matrix, the precedence rules, and the two places this
-  workspace differs from the specification as it arrived.
+  `CITATION.cff` stays the master attribution record and every other metadata artefact is derived
+  from it. The machine serialization is ISO 16684-1 (XMP) as RDF/XML, in a sidecar named for the
+  asset's own stem, so a clip, a drawing or an animation carries its title, authors, licence and
+  identifier wherever it travels. Static vector is W3C SVG, animated vector is Lottie under its
+  IANA type `video/lottie+json` with the extension `.lot`, the intermediate is CineForm, and a
+  review timeline is OpenTimelineIO with OpenColorIO naming the display. The converter is Elixir.
+  `DETAILS.md` carries the mapping matrix, the precedence rules, and the two places this workspace
+  differs from the specification as it arrived.
   :: problem
-  The workspace already required a `.cff` beside a deliverable and already
-  encoded intermediates as CineForm, but nothing said how a citation reaches
-  the asset a reviewer opens. A `.cff` beside a clip is separated from it the
-  first time either is copied, and no editor or player reads YAML attribution.
-  Review timelines had no interchange, the vector formats were used without
-  being named, and the same citation was retyped by hand.
+  The workspace already required a `.cff` beside a deliverable and already encoded intermediates
+  as CineForm, but nothing said how a citation reaches the asset a reviewer opens. A `.cff` beside
+  a clip is separated from it the first time either is copied, and no editor or player reads YAML
+  attribution. Review timelines had no interchange, the vector formats were used without being
+  named, and the same citation was retyped by hand.
   :: references
-  - Citation File Format 1.2.0, and ISO 16684-1:2012, the XMP data model and its RDF/XML serialization
+  - Citation File Format 1.2.0, and ISO 16684-1:2012, the XMP data model and its RDF/XML
+    serialization
   - W3C SVG 1.1 and 2.0; Lottie under IANA `video/lottie+json`
-  - SMPTE VC-5, the CineForm intra-frame wavelet codec, and RFD 1123 which chose its SDK
+  - SMPTE VC-5, the CineForm intra-frame wavelet codec, and RFD66606-1123 which chose its SDK
   - Academy Software Foundation OpenTimelineIO and OpenColorIO 2
   :: related
-  RFD 1123 (CineForm in Godot, which chose the SDK over FFmpeg on licence), RFD 1137 (encoding a frame set, the pair that does the work), RFD 2166 (the maskscore CineForm bundle), RFD 2239 (a row's artefacts are columns, and each modality's format), RFD 2232 (documents rendered from a source, not hand-written).
+  RFD66606-1123 (CineForm in Godot: the SDK over FFmpeg on licence), RFD66606-1137 (encoding a
+  frame set, the working pair), RFD66606-2166 (the maskscore CineForm bundle), RFD66606-2239 (a
+  row's artefacts as columns), RFD66606-2232 (documents rendered from a source).
   """
 
   details_title "One citation, one metadata serialization, one vector pair, one intermediate, one review timeline"
@@ -52,7 +52,7 @@ rfd 2240,
   | display transform | OpenColorIO 2 | the configuration named by the timeline |
 
   Every layer is an open standard with a permissive implementation the
-  workspace can link. That is the same argument RFD 1123 made when it chose
+  workspace can link. That is the same argument RFD66606-1123 made when it chose
   the CineForm SDK, which is `Apache-2.0 OR MIT`, over an LGPL alternative
   that a single-binary export cannot relink.
   :: details Where a file goes
@@ -116,7 +116,7 @@ rfd 2240,
   argument.
 
   **The container is Matroska, not QuickTime.** The specification wraps
-  CineForm in `.mov`. RFD 1123 chose Matroska and recorded why: AVI's 32-bit
+  CineForm in `.mov`. RFD66606-1123 chose Matroska and recorded why: AVI's 32-bit
   size field stops a file at 4 GiB, about 56 seconds of 4K60 at these
   bitrates, and MOV performed the same as Matroska while being less open.
   &{repo("interactor-cineform")} writes Matroska today, with a `V_MS/VFW/FOURCC` video
@@ -132,7 +132,7 @@ rfd 2240,
   that survives in this workspace is a runner wrapping a model and says so in
   its first line, which a metadata converter is not.
 
-  FFmpeg is blocklisted and now carries the row that says so. RFD 1175 had
+  FFmpeg is blocklisted and now carries the row that says so. RFD66606-1175 had
   asserted the ban since it was written while no row backed it; the operator
   confirmed it on 2026-09-08 and the row and its argument landed in the same
   change as this document. The argument is the licence: FFmpeg is
@@ -158,7 +158,7 @@ rfd 2240,
   Four of those rows correct an earlier claim of mine, and the pattern behind
   every one is the same: I probed a `PATH` or a single manifest and reported
   a filesystem fact. The engine-side writer is not an unplaced repository;
-  RFD 1123 recorded that the separate repository was created, used and
+  RFD66606-1123 recorded that the separate repository was created, used and
   deleted and that the module shipped inside the fork, and the fork is
   placed. cmake and ninja run here. Lottie is not a new format for this
   workspace at all: a writer, a vendored schema and a validator predate this

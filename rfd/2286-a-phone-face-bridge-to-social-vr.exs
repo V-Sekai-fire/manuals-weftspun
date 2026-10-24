@@ -15,10 +15,10 @@ or a PC VR host, its OSC input and avatar-parameter plan"
   occluded or not: RF-DETR's segmentation head masks the person, face,
   eyes and mouth, and a whole-body keypoint head places the 133 COCO
   whole-body points with a confidence each, both as godot-sandbox
-  guests on ggml-rd (RFD 2272). The body solves to a SOMA-X pose (RFD
-  1171) and the face to ANNY's 52 facial-action weights (RFD 2253).
+  guests on ggml-rd (RFD66606-2272). The body solves to a SOMA-X pose (
+  RFD66606-1171) and the face to ANNY's 52 facial-action weights (RFD66606-2253).
   Both go over OSC, each joint with its confidence, to the headset
-  bridge, frameeyeosc (RFD 2271), on a standalone headset or a PC VR
+  bridge, frameeyeosc (RFD66606-2271), on a standalone headset or a PC VR
   host. It keeps its own tracking for any joint that arrived occluded,
   maps the rest into the avatar's parameters, and sends one stream.
   `DETAILS.md` gives the stretch goals: multiview and egocentric.
@@ -27,12 +27,12 @@ or a PC VR host, its OSC input and avatar-parameter plan"
   the eyes. A vendor's face-tracking framework ties the bridge to one
   platform, while RF-DETR on ggml-rd runs on any GPU the RenderingDevice
   drives. The keypoint head in use detects 17 body keypoints; the bridge
-  needs the 133-point whole-body head, which RFD 2203's corpus labels.
+  needs the 133-point whole-body head, which RFD66606-2203's corpus labels.
   :: related
-  - RFD 2271 (headset eye tracking to social VR), the headset bridge.
-  - RFD 2272 (RF-DETR segmentation on ggml-rd), the heads' runtime.
-  - RFD 2253 (a character creator on ANNY), the 52 facial actions.
-  - RFD 1171 (the presence loop), keypoints to SOMA-X to ANNY.
+  - RFD66606-2271 (headset eye tracking to social VR), the headset bridge.
+  - RFD66606-2272 (RF-DETR segmentation on ggml-rd), the heads' runtime.
+  - RFD66606-2253 (a character creator on ANNY), the 52 facial actions.
+  - RFD66606-1171 (the presence loop), keypoints to SOMA-X to ANNY.
   """
 
   details_title "A phone body and face bridge to social VR"
@@ -40,7 +40,7 @@ or a PC VR host, its OSC input and avatar-parameter plan"
   prose ~S"""
   :: details Stretch goals
   **Multiview.** Several cameras watch the same body. Each runs the
-  whole-body head, the rig is calibrated as RFD 2190 describes, and the
+  whole-body head, the rig is calibrated as RFD66606-2190 describes, and the
   bridge fuses each joint across views by confidence, so a joint one
   camera loses another still reports.
 
@@ -64,7 +64,7 @@ or a PC VR host, its OSC input and avatar-parameter plan"
   those views refine it. Its SMPL-H body model carries a
   non-commercial licence and its training data does not come from us,
   so neither is used. The same method is trained on SOMA-X instead,
-  from the anny-soma corpus's constructed renders (RFD 2203).
+  from the anny-soma corpus's constructed renders (RFD66606-2203).
   :: details References
   - RF-DETR (doi 10.48550/arXiv.2511.09554), the
     segmentation and keypoint heads.

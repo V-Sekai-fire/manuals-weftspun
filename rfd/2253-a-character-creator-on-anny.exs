@@ -5,13 +5,13 @@ use RFD.DSL
 rfd 2253, "a character creator on ANNY", :prediscussion do
   feature "a character creator a person opens: sliders over the baked ANNY
 asset in the one Godot binary, exporting the shuttle that
-RFD 2251's chain consumes"
-  scope "`4-entities/anny-creator`, a Godot project the RFD 2239 binary runs;
-the baked ANNY asset; RFD 2251's `rig` through `render`"
+RFD66606-2251's chain consumes"
+  scope "`4-entities/anny-creator`, a Godot project the RFD66606-2239 binary runs;
+the baked ANNY asset; RFD66606-2251's `rig` through `render`"
 
   prose ~S"""
   :: decision
-  The creator is RFD 2251's second front door: where 2251 hands the
+  The creator is RFD66606-2251's second front door: where 2251 hands the
   chain a generated body, a person sets 948 target weights on the
   baked ANNY asset. Six phenotype axes, 52 facial actions under
   FACS action-unit numbers, 254 signed local dials by body region.
@@ -25,11 +25,11 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   joint tables, the anthropometry tables, a slider demo in the
   Python the runtime forbids. Nothing joins them into a thing used.
   :: related
-  - [RFD 2251](../2251-image-to-godot-character-as-an-fbd/): the chain
+  - [RFD66606-2251](../2251-image-to-godot-character-as-an-fbd/): the chain
     this creator feeds; its `assemble` block is the seam.
-  - [RFD 2239](../2239-traits-and-one-binary/): the binary the creator
+  - [RFD66606-2239](../2239-traits-and-one-binary/): the binary the creator
     runs in; nothing at runtime reaches Python.
-  - [RFD 2244](../2244-one-deformation-operator/): a slider is a static
+  - [RFD66606-2244](../2244-one-deformation-operator/): a slider is a static
     target weight over ANNY corners and nothing else.
   """
 
@@ -38,14 +38,14 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   prose ~S"""
   :: details Three ways to start a body
   A body starts one of three ways: from the sliders; from an image,
-  through RFD 2251's chain; or from a photo, whose detected keypoints
-  fit ANNY's shape by RFD 1143's loop (the keypoints-to-ANNY loop)
+  through RFD66606-2251's chain; or from a photo, whose detected keypoints
+  fit ANNY's shape by RFD66606-1143's loop (the keypoints-to-ANNY loop)
   before the sliders take over. All three end in the same baked ANNY
   asset and the same export.
   :: details Sources
   Drafted 2026-09-15 from a survey of the RFD corpus and the tree,
   after the operator asked for work whose payoff lands with people
-  outside the workspace and pointed at RFD 2251 as the thing to
+  outside the workspace and pointed at RFD66606-2251 as the thing to
   build on. The seam with 2251 is the operator's call; the slider
   math and the check list are the AI's proposal.
   :: details Who it is for
@@ -86,7 +86,7 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   - **runtime**: `4-entities/godot-rfd-2251-fire`; the binary with `skin_tokens`, `kimodo`,
     `pixal3d`, `llm`, `motion_bricks`.
   :: details The slider math
-  Three kinds of control, one operator underneath (RFD 2244).
+  Three kinds of control, one operator underneath (RFD66606-2244).
 
   A phenotype axis is a scalar in [0, 1]. ANNY resolves it to
   weights over that axis's anchors by piecewise-linear
@@ -115,8 +115,8 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   rests and the matching skin bind poses. The creator never authors
   a joint position, so a slider moves the skeleton with the skin,
   which is the property a creator needs and a static rig lacks.
-  :: details The seam with RFD 2251
-  RFD 2251's `prepare_reference`, `generate_part` and `assemble`
+  :: details The seam with RFD66606-2251
+  RFD66606-2251's `prepare_reference`, `generate_part` and `assemble`
   produce a body from an image. The creator produces a body from a
   person, and hands the chain the same thing those three blocks do:
   one scene with a mesh the later blocks can rig, express, animate
@@ -129,7 +129,7 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   targets, skin weights and animation samplers, and the VRM 1.0
   extension carries the humanoid bone map from ANNY's joints. No
   driver, no constraint, no runtime script rides in the file. The
-  route to the VRM bytes is RFD 2213's sandboxed writer when it
+  route to the VRM bytes is RFD66606-2213's sandboxed writer when it
   lands and a direct extension write until then.
   :: details What is measured before it ships
   | check | pass condition | control |
@@ -150,11 +150,11 @@ the baked ANNY asset; RFD 2251's `rig` through `render`"
   documentation use FACS action-unit numbers. The source labels
   stay in the source, where they are NAVER's to keep.
   :: details What this RFD does not decide
-  Clothing: dress-on (RFD 2234) is a corpus pipeline today and a
+  Clothing: dress-on (RFD66606-2234) is a corpus pipeline today and a
   creator garment panel later, on the same operator. Hair, which
   the fixture does not carry. A web build: three.js and WebGPU are
   blocklisted, so a browser form means the engine's own web export
-  and is a separate decision. The image front door: RFD 2251 owns
+  and is a separate decision. The image front door: RFD66606-2251 owns
   it, and the keypoint anchors are the bridge when it is wanted.
   """
 end

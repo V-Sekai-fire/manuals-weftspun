@@ -9,11 +9,10 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
 
   prose ~S"""
   :: decision
-  Gemma-4-12B (QAT Q4_0, Apache-2.0) is the shared VLM: it serves both
-  the avatar's text+image reasoning path and, as EditScore's fine-tune
-  base (RFD 1157), the reward model that scores its own generations.
-  Wan-VACE fills the image-generation slot Gemma leaves open. Audio
-  arrives from RFD 1170's presence loop.
+  Gemma-4-12B (QAT Q4_0, Apache-2.0) is the shared VLM: it serves both the avatar's text+image
+  reasoning path and, as EditScore's fine-tune base (RFD66606-1157), the reward model that scores
+  its own generations. Wan-VACE fills the image-generation slot Gemma leaves open. Audio arrives
+  from RFD66606-1170's presence loop.
 
       vlm         Gemma-4-12B (QAT Q4_0)      Apache 2.0   text + image → text
       image gen   Wan-VACE                    Apache 2.0   text/image → image
@@ -22,21 +21,20 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
       audio out   Qwen3-TTS-12Hz-CustomVoice  Apache 2.0   text → waveform (RFD 1170)
       scoring     MaskScore + EditScore       n/a          self-supervised reward
 
-  MaskScore constructs edit triples by masking, reconstructing, and
-  scoring decoded outputs. The reward model RL fine-tunes generators via EditScore.
+  MaskScore constructs edit triples by masking, reconstructing, and scoring decoded outputs. The
+  reward model RL fine-tunes generators via EditScore.
 
-  Reasoning-core swap 2026-09-02: earlier drafts named Qwen3-VL; RFD
-  2169 walked that back to Gemma-4-12B. VRAM budget in
-  [DETAILS.md](DETAILS.md); the eight dataset stubs in
+  Reasoning-core swap 2026-09-02: earlier drafts named Qwen3-VL; RFD66606-2169 walked that back to
+  Gemma-4-12B. VRAM budget in [DETAILS.md](DETAILS.md); the eight dataset stubs in
   [MASKSCORE.md](MASKSCORE.md).
   :: problem
-  A real-time avatar needs a text+image reasoning core that doubles as
-  the reward model for its own outputs. The audio path is separate per
-  RFD 1170. EditScore is functionally complete in the NAND-gate sense:
-  every generation task reduces to an edit, so one reward covers every
+  A real-time avatar needs a text+image reasoning core that doubles as the reward model for its
+  own outputs. The audio path is separate per RFD66606-1170. EditScore is functionally complete in
+  the NAND-gate sense: every generation task reduces to an edit, so one reward covers every
   modality.
   :: related
-  RFD 1157, RFD 1166, RFD 1169, RFD 1170, RFD 1171, RFD 1172, RFD 2169.
+  RFD66606-1157, RFD66606-1166, RFD66606-1169, RFD66606-1170, RFD66606-1171, RFD66606-1172,
+  RFD66606-2169.
   """
 
   details_title "A multimodal avatar pipeline"
@@ -46,7 +44,7 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
   The target is Gemma-4-12B as the shared VLM. Two roles sit on the
   same weights: the avatar's text+image reasoning core, and the reward
   model that scores the model's own generations via the EditScore
-  fine-tune (RFD 1157). Audio is a separate stack per RFD 1170's
+  fine-tune (RFD66606-1157). Audio is a separate stack per RFD66606-1170's
   presence loop (Qwen3-ASR-1.7B for input, Qwen3-TTS-12Hz-1.7B-
   CustomVoice for output). Shared weights are what close the MaskScore
   loop.
@@ -54,19 +52,19 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
   google/gemma-4-12B-it-qat-q4_0-gguf. Apache 2.0, open weights, dense
   (not MoE), text and image input, text output. Ships as a true QAT
   Q4_0 checkpoint (~7 GB) directly from Google, so QAFT is upstream
-  rather than something this workspace has to produce (RFD 1027's
-  QAFT-first rule; RFD 2139's survey established Gemma is the only
+  rather than something this workspace has to produce (RFD66606-1027's
+  QAFT-first rule; RFD66606-2139's survey established Gemma is the only
   current-stack model with a true QAFT release). Fits 24 GiB with
   plenty of activation headroom.
 
-  EditScore (RFD 1157) fine-tunes on top of Gemma, so the same base
+  EditScore (RFD66606-1157) fine-tunes on top of Gemma, so the same base
   weights serve the avatar's understanding path and the reward model
   that scores its own generations. The share-backbone argument
   survives the Qwen3-VL -> Gemma-4-12B swap because it turns on
   share-backbone, not on which backbone: the reward model IS the base
   VLM under a fine-tune, not a separate model.
 
-  The audio path is orthogonal and lives in RFD 1170: Qwen3-ASR-1.7B
+  The audio path is orthogonal and lives in RFD66606-1170: Qwen3-ASR-1.7B
   on device for input, Qwen3-TTS-12Hz-1.7B-CustomVoice on host for
   output. Neither passes through the VLM.
 
@@ -143,12 +141,12 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
 
   An earlier draft named Qwen3-VL-4B (fp16 ~8.9 GB) as the VLM; the
   Qwen3-VL-8B fp16 fallback (~16 GB) was also on the shortlist. Both
-  retracted per RFD 2169. The reason is not tier (Qwen3-VL fits);
+  retracted per RFD66606-2169. The reason is not tier (Qwen3-VL fits);
   it is that Gemma-4-12B has a true upstream QAFT release and Qwen
-  does not, and the workspace standardized on QAFT-first (RFD 1027).
+  does not, and the workspace standardized on QAFT-first (RFD66606-1027).
   :: details Why not LLaDA
   LLaDA-o NF4 on the 3090 produced 64 tokens in 5.76 s at steps=128,
-  25x slower than the RFD 1170 presence-loop sub-500ms target. Block
+  25x slower than the RFD66606-1170 presence-loop sub-500ms target. Block
   diffusion iterates to convergence across the full block; an
   autoregressive VLM streams from the first forward pass. The family
   (LLaDA-o, iLLaDA, LLaDA-1.5) is blocklisted. The MaskScore technique transfers to Gemma-4-12B

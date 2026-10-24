@@ -9,29 +9,29 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
 
   prose ~S"""
   :: decision
-  An RFD is an Elixir module that uses `RFD.DSL`: one `rfd` block with
-  `state`, `feature`, `scope`, `flight_level`, `decision`, `problem`,
-  `references`, `related`, `details` sections and `drafted_by`. The block
-  builds an `RFD.Doc` and validates it against RFD 1000 while the file
-  compiles, so a state outside the list, a missing Decision or a README over
-  40 lines is a compile error that names the rule. A site's serial register
-  is a module that uses `RFD.Register`: `allocated`, `unused` and `deleted`
-  blocks of `serial`, `never_written` and `retired` rows. `mix rfd.render`
-  writes README.md, DETAILS.md and `SERIALS*.usda`, the shape the gates and
-  `pen-66606.usda` read, and those files are ignored by git. `DETAILS.md` carries the rest.
+  An RFD is an Elixir module that uses `RFD.DSL`: one `rfd` block with `state`, `feature`,
+  `scope`, `flight_level`, `decision`, `problem`, `references`, `related`, `details` sections and
+  `drafted_by`. The block builds an `RFD.Doc` and validates it against RFD66606-1000 while the
+  file compiles, so a state outside the list, a missing Decision or a README over 40 lines is a
+  compile error that names the rule. A site's serial register is a module that uses
+  `RFD.Register`: `allocated`, `unused` and `deleted` blocks of `serial`, `never_written` and
+  `retired` rows. `mix rfd.render` writes README.md, DETAILS.md and `SERIALS*.usda`, the shape the
+  gates and `pen-66606.usda` read, and those files are ignored by git. `DETAILS.md` carries the
+  rest.
   :: problem
-  The shape was enforced after the fact by Python gates reading Markdown,
-  and 143 problems accumulated before one pass fixed them. The register was
-  a hand-edited layer nothing compiled: it carried one serial on two
-  directories, one serial allocated and deleted at once, and two slugs that
-  no longer matched their directories. The taskweft domains beside many RFDs
-  are already Elixir, so the authoring form that can refuse a malformed
-  document before it is written is the language the repository already runs.
+  The shape was enforced after the fact by Python gates reading Markdown, and 143 problems
+  accumulated before one pass fixed them. The register was a hand-edited layer nothing compiled:
+  it carried one serial on two directories, one serial allocated and deleted at once, and two
+  slugs that no longer matched their directories. The taskweft domains beside many RFDs are
+  already Elixir, so the authoring form that can refuse a malformed document before it is written
+  is the language the repository already runs.
   :: references
-  - RFD 1000, the shape
-  - RFD 2177, the flight_level tag on the register
+  - RFD66606-1000, the shape
+  - RFD66606-2177, the flight_level tag on the register
   :: related
-  RFD 1000 (the README limit and the spine), RFD 2177 (the register carries `flight_level`, so the DSL writes it to the register row, not the README), RFD 2026 (commit style the rendered files ride on).
+  RFD66606-1000 (the README limit and the spine), RFD66606-2177 (the register carries
+  `flight_level`, so the DSL writes it to the register row, not the README), RFD66606-2026 (commit
+  style the rendered files ride on).
   """
 
   details_title "RFD authoring as an Elixir DSL"
@@ -81,7 +81,7 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   it as they did through the strings. The block nests one level and `mix
   format` re-indents a heredoc to its call, so a file whose body lines
   already run past the formatter's `line_length` stays on `details` strings:
-  RFD 2062 carries an inventory table of 124 such lines.
+  RFD66606-2062 carries an inventory table of 124 such lines.
   :: details What the DSL does not do
   It does not read the register from the RFD sources: a serial is a fact the
   register records once, and a deleted serial has no source to derive it

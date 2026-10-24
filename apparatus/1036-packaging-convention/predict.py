@@ -1,4 +1,4 @@
-"""Template Predictor. RFD 1036 records the rules this file follows.
+"""Template Predictor. RFD66606-1036 records the rules this file follows.
 
 Two rules matter most. setup() loads the weights once, and predict()
 loads nothing. predict() takes typed Input fields, and it returns a

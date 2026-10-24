@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-08
 **Session:** MAGI (`magi-16739d.agents.weftspun`)
-**Related:** RFD 2238; RFD 2237; PITFALLS 12
+**Related:** RFD66606-2238; RFD66606-2237; PITFALLS 12
 **Where:** `3-interactor/motion-bricks-cpp/mujoco` (`motionbricks_task/`), WSL2
 Ubuntu 26.04 on the desk, the 4090
 

@@ -27,11 +27,11 @@ rfd 2234,
   the renderer swap, the schema the rows must follow, and what was out of scope.
   """
 
-  references ["RFD 1047", "RFD 1048", "RFD 1143", "RFD 2177"]
+  references ["RFD66606-1047", "RFD66606-1048", "RFD66606-1143", "RFD66606-2177"]
 
   related ~S"""
-  RFD 1047 and RFD 1048 (VoxHammer text and image editing), RFD 1143 (keypoints to
-  ANNY, the first loop), RFD 2177 (flight levels). The plan this RFD preserves was
+  RFD66606-1047 and RFD66606-1048 (VoxHammer text and image editing), RFD66606-1143 (keypoints to
+  ANNY, the first loop), RFD66606-2177 (flight levels). The plan this RFD preserves was
   the working plan of 2026-09-07; the voxhammer.cpp state it names is the ggml
   target the whole pipeline moves toward.
   """
@@ -737,7 +737,7 @@ rfd 2234,
   - Depth / intrinsics from the garment photos. Every camera here is synthetic
     (Hammersley, written by us), so nothing estimates a camera. If a later pass
     wants garment geometry from the photo (drape, thickness) rather than a 2D
-    paste, MoGe-3 (&{repo("MoGe")}, RFD 1102's metric-depth row) is
+    paste, MoGe-3 (&{repo("MoGe")}, RFD66606-1102's metric-depth row) is
     the tool for depth + intrinsics on that real image; not needed in pass 1.
   - UV-atlas texture via `pixal3d.cpp` `t2_bake_glb` (CPU, needs the C++ build);
     pass 1 ships `COLOR_0` vertex colours from the Gaussian plus the Gaussian PLY.
@@ -806,7 +806,7 @@ rfd 2234,
   deleted.
 
   **Separating the garment from the body: answered no**, with the
-  measurements in RFD 2239. Vertex colour is flat grey across every group;
+  measurements in RFD66606-2239. Vertex colour is flat grey across every group;
   the dressed and undressed decodes differ over the whole body rather than
   at the garment; and the decode does not conserve volume, the dressed mesh
   exceeding the undressed by about 10 litres against a body of 0.0388 cubic

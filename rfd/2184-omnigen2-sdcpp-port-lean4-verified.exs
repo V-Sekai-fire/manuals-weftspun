@@ -20,7 +20,7 @@ new upstream mirror `3-interactor/stable-diffusion-cpp-upstream`"
   :: problem
   Session 2026-09-02 measured OmniGen2 on the 3090:
   :: related
-  - **RFD 2158 (abandoned)**, Lean 4 FBD compiler self-host, whose Stage
+  - **RFD66606-2158 (abandoned)**, Lean 4 FBD compiler self-host, whose Stage
     0-1 work established the Lean-writes-real-bytes pattern this RFD
     reuses at a different target (ggml tensor semantics vs RISC-V ELF).
   - **`formal/rfdetr_proofs/`** in `3-interactor/rf-detr-cpp/`, the
@@ -164,7 +164,7 @@ new upstream mirror `3-interactor/stable-diffusion-cpp-upstream`"
   produces images within the sha256-region-match of ComfyUI-GGUF on the
   same seeded (image, instruction) pair.**
   :: details Related
-  - **RFD 2158 (abandoned)**, Lean 4 FBD compiler self-host, whose Stage
+  - **RFD66606-2158 (abandoned)**, Lean 4 FBD compiler self-host, whose Stage
     0-1 work established the Lean-writes-real-bytes pattern this RFD
     reuses at a different target (ggml tensor semantics vs RISC-V ELF).
   - **`formal/rfdetr_proofs/`** in `3-interactor/rf-detr-cpp/`, the

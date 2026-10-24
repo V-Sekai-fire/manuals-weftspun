@@ -14,7 +14,7 @@ domain that fits the propositional-with-parameters class"
   Author domains as compact IEC 60848 GRAFCET (SFC-shaped notation) in
   a JSON-LD profile aligned with Project-AGRAFE. A taskweft mix task
   lowers into the HTN JSON the NIF loader consumes. The authoring
-  shape is GRAFCET; the *runtime target* under RFD 2150 is IEC
+  shape is GRAFCET; the *runtime target* under RFD66606-2150 is IEC
   61131-3 **FBD** (SFC as a runtime target is blocklisted). The mapping is
   total on the AND/sequential fragment; `|>`, `|<`, `!>`, `%`, `#`
   markers extend it to OR-divergence, macro-steps, enclosing steps, and
@@ -33,7 +33,7 @@ domain that fits the propositional-with-parameters class"
   :: references
   1. `lib/taskweft/grafcet.ex` in &{repo("interactor-taskweft")}; lower and raise
   2. &{repo("interactor-taskweft-nmm-personas")}; reference implementation
-  3. RFD 1065, 2093, RFD 1173 MASKSCORE.md, Project-AGRAFE
+  3. RFD66606-1065, RFD66606-2093, RFD66606-1173 MASKSCORE.md, Project-AGRAFE
   """
 
   details_title "GRAFCET as taskweft's authoring surface"
@@ -137,7 +137,7 @@ domain that fits the propositional-with-parameters class"
   MaskScore row shape.
   :: details MaskScore row shape
   One row per (persona, episode, dimension). Field names track the
-  EditScore schema in RFD 1173's MASKSCORE.md verbatim:
+  EditScore schema in RFD66606-1173's MASKSCORE.md verbatim:
 
   | field | meaning |
   |---|---|
@@ -151,7 +151,7 @@ domain that fits the propositional-with-parameters class"
   | `dimension` | `instruction_following` / `consistency` / `overall` |
 
   Scores are populated by game-native reductions of the trace itself,
-  not by Mitsuba render-and-compare. The RFD 1173 metric doesn't apply
+  not by Mitsuba render-and-compare. The RFD66606-1173 metric doesn't apply
   to a text-shaped game; the schema stays faithful (same fields, same
   three dimensions), the *content* of `scores` is the domain-specific
   reduction. A future generator that produces game-shaped outputs would
@@ -224,7 +224,7 @@ domain that fits the propositional-with-parameters class"
   Author domains as compact IEC 60848 GRAFCET (SFC-shaped notation) in
   a JSON-LD profile aligned with Project-AGRAFE. A taskweft mix task
   lowers into the HTN JSON the NIF loader consumes. The authoring
-  shape is GRAFCET; the *runtime target* under RFD 2150 is IEC
+  shape is GRAFCET; the *runtime target* under RFD66606-2150 is IEC
   61131-3 **FBD** (SFC as a runtime target is blocklisted). The mapping is
   total on the AND/sequential fragment; `|>`, `|<`, `!>`, `%`, `#`
   markers extend it to OR-divergence, macro-steps, enclosing steps, and
@@ -246,6 +246,6 @@ domain that fits the propositional-with-parameters class"
   :: details References
   1. `lib/taskweft/grafcet.ex` in &{repo("interactor-taskweft")}; lower and raise
   2. &{repo("interactor-taskweft-nmm-personas")}; reference implementation
-  3. RFD 1065, 2093, RFD 1173 MASKSCORE.md, Project-AGRAFE
+  3. RFD66606-1065, RFD66606-2093, RFD66606-1173 MASKSCORE.md, Project-AGRAFE
   """
 end

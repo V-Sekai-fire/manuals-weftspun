@@ -48,20 +48,20 @@ here corresponds to an entry.
 - **AMD XDNA NPU** as an execution target: a second accelerator toolchain, nothing measured and no runtime installed — see below
 - **the CPU** as a model execution target: orchestration and the **DFC runtime** are exempt; a silent DirectML fallback is the trap — see below
 - **Mermaid** as a published-figure format: the layout solver owns the picture and the house sheet cannot reach it — hand-authored inline SVG instead, see below
-- **LLaDA** (LLaDA-o, iLLaDA, LLaDA-1.5): block diffusion measured 5.76s / 64 tokens — 25x too slow for real-time avatar; RFD 1170 presence loop targets sub-500 ms — see below
+- **LLaDA** (LLaDA-o, iLLaDA, LLaDA-1.5): block diffusion measured 5.76s / 64 tokens — 25x too slow for real-time avatar; RFD66606-1170 presence loop targets sub-500 ms — see below
 - **RunPod** as rented compute: no budget for per-invocation billing; `spot-broker` and `transport-runpod` archived alongside this row — see below
 - **Vast.ai** as rented compute: no budget for per-hour billing; `spot-broker` and `vast-market-snapshots` archived alongside this row — see below
 - **AnimeGAN** (v2, v3) as a photo-to-anime stylizer: non-commercial licence; checkpoints trained on copyrighted films; CycleGAN is the on-hand substitute — see below
 - **bnb NF4 4-bit** as a QAFT / QAT path: bf16-adapter-over-nf4-base pattern; adapter never sees quantization; slow-kernel fallback on non-64-aligned shapes (OmniGen2's 2520); real QAT with quantized forward instead — see below
 - **Post-quantization fine-tuning** (quantize-first, adapt-after): trains an adapter that never sees quantization; ships as two files at two precisions. Real QAT with quantized forward during training instead — see below
 - **Post-training quantization** (train-then-quantize, no QAT loop): GPTQ / AWQ / HQQ / Torchao 4-bit as final passes over a bf16 checkpoint — the shipped 4-bit weights were never optimized against quantization noise. Real QAT — see below
-- **rf-detr object detection**: keypoints and segmentation heads are approved; object-detection head is not a workspace task and the shipped weights invite scope drift into a task RFD 1102 does not include — see below
+- **rf-detr object detection**: keypoints and segmentation heads are approved; object-detection head is not a workspace task and the shipped weights invite scope drift into a task RFD66606-1102 does not include — see below
 - **Lumina-Image-2.0 as an image-edit base**: no native image-input path; every path we tried through SDEdit under-scored on held-out. OmniGen2 on the same backend is approved — see below
 - **SDEdit** as an image-edit sampler: source-noise blend + text-conditioned denoise: measured 0/20 wins on shard-90 held-out at 30 steps, both arms mostly zero. Use native image-input pipelines instead — see below
 - **Apple's convention name for the 52-target facial-action blendshape set**: trademark; naming it in shipping artifacts implies affiliation the workspace does not have; the shapes themselves are permitted (anny ships them under `data/faceunits01/`), only the naming is blocked. FACS action-unit vocabulary is the substitute — see below
-- **Three.js** as an in-browser 3D runtime: JS/npm-runtime lock-in on a stack we don't fully control; the same scene ships from `entities-godot-sandbox` as a native binary with Godot's Vulkan renderer (MoltenVK on macOS); RFD 1170 already picks Godot over three.js — see below
+- **Three.js** as an in-browser 3D runtime: JS/npm-runtime lock-in on a stack we don't fully control; the same scene ships from `entities-godot-sandbox` as a native binary with Godot's Vulkan renderer (MoltenVK on macOS); RFD66606-1170 already picks Godot over three.js — see below
 - **Gemma 3** family as an on-device model: operator directive 2026-09-05: Gemma 3 blocklisted, Gemma 4 allowlisted; workspace ships against the Gemma 4 line (E2B / E4B) only — see below
-- **ONNX Runtime Web** and **TensorFlow.js** as in-browser inference runtimes: operator directive 2026-09-05: both blocklisted as browser inference runtimes; the workspace's inference path is ggml (RFD 2188) with the Vulkan backend on native, not a second JS-runtime stack — see below
+- **ONNX Runtime Web** and **TensorFlow.js** as in-browser inference runtimes: operator directive 2026-09-05: both blocklisted as browser inference runtimes; the workspace's inference path is ggml (RFD66606-2188) with the Vulkan backend on native, not a second JS-runtime stack — see below
 - **WebGPU** as a workspace render / compute target: on native, Vulkan has ~10 years of production QA vs WebGPU's ~2, is Godot 4's primary renderer, and skips a translation layer on Linux/Windows (MoltenVK's two hops on macOS are battle-tested vs Dawn's newer Metal backend) — see below
 - **CorridorKey** as a matte generator: green/blue screen unmixer needing an alpha hint the matting model already makes, and CC BY-NC-SA 4.0 plus terms, which is both the share-alike row and the generator row — see below
 - **FFmpeg** as a codec dependency: LGPL-2.1-or-later, and a Godot export links into one binary, which is relinking the licence asks for and we cannot offer; the CineForm SDK is Apache-2.0 OR MIT and does both directions — see below
@@ -168,7 +168,7 @@ that claim is wrong.
 The two faults compound rather than overlap. The licence-clean images are
 exactly the holdout, so there is no subset that is both trainable and clean. A
 keypoint training set has to be built rather than filtered out of this one,
-which is what the renderer in RFD 1122 is for.
+which is what the renderer in RFD66606-1122 is for.
 
 `rf-detr-detection-data` and `rf-detr-segmentation-data` are unaffected. Both
 come from a Roboflow clothing set rather than COCO, and neither contains a
@@ -312,7 +312,7 @@ conditioning signal for the generation path, not a by-product, so this is a hole
 in the pipeline and not a tidying-up. The file stays in the tree as the record
 of what the pass has to produce; it is not the way to produce it any more.
 
-RFD 1122's PBR bake said to do the bake in Blender because MPFB2 is a Blender
+RFD66606-1122's PBR bake said to do the bake in Blender because MPFB2 is a Blender
 addon and the material was authored there. That method is gone with this entry.
 The bake still has to happen -- albedo, roughness and normal over the hm08 UV
 layout, metallic a constant zero -- and it now needs a renderer that a
@@ -324,7 +324,7 @@ to show: it installs from a lockfile, it renders the same bytes twice on two
 machines, and the check for that ships with it.
 
 **Mitsuba 3 is the replacement** (operator, 2026-10-12), measured on the eye
-renders of RFD 2310:
+renders of RFD66606-2310:
 
 - It installs from a lockfile: `mitsuba` is a pinned PyPI dependency in the
   render environment's `pixi.toml`, resolved into `pixi.lock`.
@@ -377,7 +377,7 @@ have produced.
 
 For images we did not render, See-Through is the in-house route. It is
 passthrough by construction, it already separates a picture into labelled
-layers, and RFD 1079 covers what it does and does not model. Reaching for a
+layers, and RFD66606-1079 covers what it does and does not model. Reaching for a
 gated third-party matter when the workspace maintains a segmentation model of
 its own is the drift this table exists to stop.
 
@@ -442,7 +442,7 @@ at bf16, clean output on the same input.
 ### P3-SAM's licence excludes territories, which is a different failure
 
 `Tencent-Hunyuan/Hunyuan3D-Part` ships under Tencent's own Community License
-Agreement, and it carves out the EU, the UK and South Korea. RFD 1041 records
+Agreement, and it carves out the EU, the UK and South Korea. RFD66606-1041 records
 the model as MIT; that is wrong, and `logbook-rfd1016-model-repos.md` already
 corrected it by reading the real LICENSE file.
 
@@ -721,7 +721,7 @@ _training_, not on that one image's continued use as a stopwatch.
 
 ### The Neural Engine is blocked as an execution target, and 2 GiB is why
 
-Measured on the M2 Pro in RFD 1142, with `scripts/ane_bench.py`. The part is
+Measured on the M2 Pro in RFD66606-1142, with `scripts/ane_bench.py`. The part is
 fast. It is also too small, and the second fact decides.
 
 **The ceiling is 2 GiB of weights, at exactly 2^31 bytes.** A model at 2002.4
@@ -808,7 +808,7 @@ it. Recovery is a reboot or a dock power cycle. So the process holding the
 device cannot be restarted to pick up a change — editing it spends a reboot —
 and any crash spends one too.
 
-That cost was paid during RFD 1142. The daemon had held the device for three
+That cost was paid during RFD66606-1142. The daemon had held the device for three
 days and served 9,645 requests when the `TinyGPU` userspace server restarted
 underneath it. `nvd` captured its socket at init and cannot reconnect, so every
 compute request now returns `BrokenPipeError` while `ping` and `info` keep
@@ -826,7 +826,7 @@ attempt exactly the second init it exists to prevent. Comparing `sec` alone
 repairs it, and the repair is not attempted here because the entry is a
 decision to stop rather than a bug report.
 
-**What replaces it is already measured.** RFD 1142 puts Metal at 8176.2 MiB of
+**What replaces it is already measured.** RFD66606-1142 puts Metal at 8176.2 MiB of
 weights at full placement and 62.0 ms on the RF-DETR device half, inside the
 port's numeric bound. The eGPU's advantage was capacity, and a 24 GiB card
 still has more; what it does not have is a compute path that survives its own
@@ -1002,28 +1002,28 @@ a deliverable here.
 **Removing it is a separate question from replacing it.** See-Through's depth stage also
 loads `prs-eth/marigold-depth-v1-1`, which is CreativeML Open RAIL++-M and blocked by the
 OpenRAIL-M row, so the obvious fallback is blocked too. The replacement search is in
-RFD 1166.
+RFD66606-1166.
 
 ### SMPL and every variant are blocklisted, and SOMA-X to ANNY is the bypass
 
 The SMPL family -- SMPL, SMPL-H, SMPL-X and the later Max Planck body models built on
 them -- is free for non-commercial research and requires a separate licence from the
-Max Planck Gesellschaft for commercial use. That is the bar RFD 1028 sets for anything
+Max Planck Gesellschaft for commercial use. That is the bar RFD66606-1028 sets for anything
 shipped to paying users, so **the whole family is out, not just the one variant somebody
 happens to be looking at.** A row naming only `SMPL` invites the next reader to conclude
 that `SMPL-X` was considered and allowed.
 
 **SOMA-X is the sanctioned bypass, and it is a real code path rather than an intention.**
 Motion reaches deliverables as SOMA-X to ANNY to Godot Humanoid to VRM, pivoting on
-`meshula/LabRCSF`'s `joints.csv` canonical joint table. RFD 1122 records
+`meshula/LabRCSF`'s `joints.csv` canonical joint table. RFD66606-1122 records
 `AlternativeTopology` as `smplx`, `smpl`, `soma`, `anny_from_soma`, `notoes` and three
 collapse variants -- `anny_from_soma` is the conversion this row depends on, and it
 exists. Nothing on that path carries a SMPL topology.
 
 **This row writes down a standing decision rather than making a new one, and that it was
 unwritten is the finding.** Nothing in this repository recorded it. `SMPL` appeared only
-as a topology name in that RFD 1122 list and in two logbook notes about Kimodo's
-checkpoints; neither the blocklist table nor RFD 1028's own detail mentioned the family
+as a topology name in that RFD66606-1122 list and in two logbook notes about Kimodo's
+checkpoints; neither the blocklist table nor RFD66606-1028's own detail mentioned the family
 at all. A constraint that lives only in memory is exactly the drift the anti-entropy
 check exists to catch, and it went unnoticed because no gate reads a rule nobody wrote.
 
@@ -1033,7 +1033,7 @@ licence, which is not commercial. That would matter if the checkpoint were reach
 it is not: it is a SMPL-X checkpoint, SMPL-X is blocklisted by this row, and the rig route
 does not pass through it. `Kimodo-SOMA-*` is under the NVIDIA Open Model Licence, permits
 commercial use, and matches the rig. `logbook-rfd1016-model-repos.md` reached the same
-conclusion and warned against swapping checkpoints without re-checking RFD 1028.
+conclusion and warned against swapping checkpoints without re-checking RFD66606-1028.
 
 ### MHR is unblocked: it is Apache-2.0 over code and assets
 
@@ -1052,7 +1052,7 @@ So both halves the earlier directive named are usable: the identity model (`mhr_
 and its face-expression basis (`face_expr_coeffs`). SOMA-X may select MHR as its identity,
 and a face expression may be taken from MHR's basis. SOMA-X's `correctives_model.pt`, SOMA's
 topology, its template rig and the ANNY and GarmentMeasurements wraps were already allowed and
-stay so. The route RFD 2277 was about to try, filling the unified-expression names that ANNY's
+stay so. The route RFD66606-2277 was about to try, filling the unified-expression names that ANNY's
 52 actions and its MPFB2 expression units leave absent (cheek suck, brow pinch, jaw clench and
 the rest) from MHR's expressions, is open again.
 
@@ -1073,7 +1073,7 @@ scripts actually load is hosted separately, and none carries a usable grant:
 | `24yearsold/metricdepth3d_tmp`                | HTTP 401, unreadable                                                     |
 
 **No stated licence is not a permissive licence.** Absent a grant the default is all
-rights reserved, so these fail RFD 1028's commercial bar on their own, before anything
+rights reserved, so these fail RFD66606-1028's commercial bar on their own, before anything
 upstream is considered.
 
 **Shipping beside Apache-2.0 code does not extend it to weights.** That assumption was
@@ -1089,7 +1089,7 @@ relicense away restrictions they do not hold. An Apache-2.0 label on that checkp
 would be ineffective rather than merely missing.
 
 **BOTH WAYS IN ARE CLOSED, AND THE SECOND WAS ONLY CHECKED LATER.**
-RFD 1166's rubric asks two questions of any candidate: `ask`, whether an
+RFD66606-1166's rubric asks two questions of any candidate: `ask`, whether an
 answer can be got out of it, and `adapt`, whether this desk can train,
 tune or LoRA it. See-Through fails both, for different reasons.
 
@@ -1119,7 +1119,7 @@ irides, eyewhite, eyelash and eyebrow. That split is what CLAUDE.md points at wh
 says a photograph has no ground-truth front-hair/back-hair, and it is why the blinded
 COCO holdout cannot validate this task.
 
-RFD 1166 dropped See-Through from the candidate ranking on this basis, taking it from
+RFD66606-1166 dropped See-Through from the candidate ranking on this basis, taking it from
 twelve rows to eleven.
 
 ### AnimeGAN is blocklisted, and CycleGAN is the on-hand substitute
@@ -1130,7 +1130,7 @@ Both AnimeGANv2 and AnimeGANv3 close both ways, same shape as See-Through.
 academic and non-academic entities for non-commercial purposes such as academic
 research, teaching, scientific publications. Regarding the request for commercial use,
 please contact us via email to help you obtain the authorization letter."_ Non-commercial
-only, same bar RFD 1028 rejects for shipping.
+only, same bar RFD66606-1028 rejects for shipping.
 
 **Adapt closed.** The published checkpoints train on three named directors' theatrical
 work. Naming those directors in workspace docs would violate CLAUDE.md's "Trademarks
@@ -1143,11 +1143,11 @@ CycleGAN by junyanz, 11.4M params per direction) plays the photo-to-stylized rol
 AnimeGAN was chosen for. Pretrained `style_monet` and `style_ukiyoe` ship with it;
 `style_ukiyoe` is Japanese woodblock, adjacent to anime but not identical. Training a
 new photo-to-anime direction is tractable on the 3090 with an unpaired anime collection
-this workspace can source cleanly. The Sinew RFD 2036 packaging convention already
+this workspace can source cleanly. The Sinew RFD66606-2036 packaging convention already
 wraps it.
 
-**Why this row exists.** RFD 2183 (MaskScore-driven layer decomposition on OmniGen2)
-and RFD 2187 (identity overlay on ANNY via OmniGen2) briefly considered AnimeGAN as
+**Why this row exists.** RFD66606-2183 (MaskScore-driven layer decomposition on OmniGen2)
+and RFD66606-2187 (identity overlay on ANNY via OmniGen2) briefly considered AnimeGAN as
 the photo-to-anime stylizer that would produce identity-training anchors. The finding
 belongs next to the See-Through row because it is the same double-close pattern and the
 same recovery path (own substitute, train from clean data if the on-hand pretrained is
@@ -1155,7 +1155,7 @@ not quite what is needed).
 
 ### Mermaid is blocklisted as a published-figure format, and the layout solver is why
 
-RFD 2136's network went through both formats in one day, so the
+RFD66606-2136's network went through both formats in one day, so the
 comparison is a matched pair on the same figure. The hand-authored SVG
 places the critical path on a time axis, annotates each slack edge
 with its days, shades the one-sigma finish window, and colours by the
@@ -1184,9 +1184,9 @@ an issue comment is not a published figure and is not covered.
 ### LLaDA is blocklisted — block diffusion is 25x too slow for real-time avatar
 
 **Measured, 2026-08-31, RTX 3090.** LLaDA-o NF4 on the 3090 produced 64 tokens
-in 5.76 s at steps=128 (11.1 tok/s), 9.3 GiB resident. The RFD 1170 presence
+in 5.76 s at steps=128 (11.1 tok/s), 9.3 GiB resident. The RFD66606-1170 presence
 loop targets sub-500 ms first-packet latency for the avatar; an autoregressive
-VLM (Qwen3-VL-4B per RFD 1173) streams from the first forward pass.
+VLM (Qwen3-VL-4B per RFD66606-1173) streams from the first forward pass.
 
 Block diffusion generates all positions in parallel per step and iterates to
 convergence. At 128 steps the wall time is 5.76 s for a 64-token block; at 8
@@ -1200,10 +1200,10 @@ block-diffusion family — as a thinker, corpus generator, or deployment model.
 The latency measurement was on NF4; bf16 does not fit 24 GiB without CPU
 offload, which is itself blocklisted.
 
-**What replaces it.** Qwen3-VL (dense, Apache 2.0) is the RFD 1173 shared VLM
-for text and image; the audio path is a separate stack per RFD 1170 (Qwen3-ASR
+**What replaces it.** Qwen3-VL (dense, Apache 2.0) is the RFD66606-1173 shared VLM
+for text and image; the audio path is a separate stack per RFD66606-1170 (Qwen3-ASR
 for input, Qwen3-TTS-12Hz for output). One VLM serves both MaskScore reward
-scoring (via the EditScore LoRA per RFD 1157) and the avatar's understanding.
+scoring (via the EditScore LoRA per RFD66606-1157) and the avatar's understanding.
 
 **The MaskScore technique is not blocked.** MaskScore (mask a latent region,
 reconstruct, score the decoded output) works with any denoiser. The technique
@@ -1311,7 +1311,7 @@ QAT 4-bit combined with adapter and/or projector training in one
 loop**, when the adapter + projector see quantized forward (fake-quant
 or truly-quantized) throughout training and pass gradients through
 the quantization node via STE the same way the base does. Operator
-directive 2026-09-04 during coordination of RFD 2199's projector-fork
+directive 2026-09-04 during coordination of RFD66606-2199's projector-fork
 work: "you can combine QAT 4bit and adapter/projector training." The
 failure this row blocks (adapter never sees quantization, distribution
 mismatch at merge) is closed by construction when adapter + projector
@@ -1461,7 +1461,7 @@ natively, not through a partial-noise workaround. The inference call is
 `pipeline(prompt=instruction, input_images=[source], ...)` and the
 transformer sees the source through the MLLM's vision encoder at every
 step. That is a different mechanism from Lumina2 + SDEdit, and it is
-what RFD 2186 specifies.
+what RFD66606-2186 specifies.
 
 **What is blocked.** Lumina-Image-2.0 as a base for image-edit training
 or inference. **What is not blocked.** OmniGen2 (or any other model that
@@ -1483,7 +1483,7 @@ substitution — the shape of the failure is source-and-instruction do
 not co-condition strongly enough at any strength × step-count we
 sampled.
 
-**What is blocked.** SDEdit as an image-edit sampler for RFD 2186's
+**What is blocked.** SDEdit as an image-edit sampler for RFD66606-2186's
 dressing overlay, and by extension any edit task that would score
 against EditScore. **What is not blocked.** SDEdit for other purposes
 (refinement of an already-conditioned generation, seed-fixing sampling
@@ -1497,7 +1497,7 @@ not clear that bar, this row still holds.
 ### rf-detr object detection is blocklisted, keypoints and segmentation stay
 
 RF-DETR ships three heads: keypoints, segmentation, and object detection.
-RFD 1102 names keypoints as the workspace's actual task; segmentation is
+RFD66606-1102 names keypoints as the workspace's actual task; segmentation is
 already used in the See-Through pipeline. The object-detection head is not
 a task any RFD names, but the shipped weights invite whoever picks up the
 repo to also invoke detection — that is scope drift, and downstream it
@@ -1578,15 +1578,15 @@ runtimes render the same scene differently, and each difference is
 a bug nothing reports.
 
 **Substitute:** Godot as a native binary per platform, from
-`3-interactor/entities-godot-sandbox` (see RFD 2211 for the
+`3-interactor/entities-godot-sandbox` (see RFD66606-2211 for the
 tree-choice reason). Vulkan renderer (MoltenVK on macOS). Godot's
 own MToon support and its glTF/VRM importers (via godot-vrm as a
-godot-sandbox ELF per RFD 2213) cover the three-vrm role.
+godot-sandbox ELF per RFD66606-2213) cover the three-vrm role.
 
 **What this costs.**
 
 - `7-service/service-sqlar-cas/docs/{vrm.js,index.html}` renders
-  the Starforged VRM portrait per RFD 2206; moves to Godot or
+  the Starforged VRM portrait per RFD66606-2206; moves to Godot or
   retires.
 - `3-interactor/motion-bricks-cpp/demo/web/app.js` renders
   motion-bricks previews; moves to Godot or retires.
@@ -1619,7 +1619,7 @@ Operator directive 2026-09-05, verbatim: _"gemma3 is blockedlisted
 only gemma4 is allowlisted"_.
 
 The workspace's on-device Gemma line is **Gemma 4 (E2B / E4B)**
-only, per RFD 2199's SIDEKICK survey and the HAILO llama.cpp fork
+only, per RFD66606-2199's SIDEKICK survey and the HAILO llama.cpp fork
 (`upgrade-with-hailo` branch). Gemma 3 (any variant, including
 Gemma 3 270M) does not enter shipping artefacts.
 
@@ -1638,11 +1638,11 @@ verbatim _"edit score's qwen3-vl is allowedlist"_ — EditScore-7B's
 the Gemma 3 row above (different model family, different vendor);
 recorded here so a reader wondering whether the workspace's
 `on-device VLM` line is entirely blocked answers "no — the
-EditScore Qwen3-VL is the sanctioned VLM base". RFDs 1102 and 2193
+EditScore Qwen3-VL is the sanctioned VLM base". RFD66606-1102 and RFD66606-2193
 name Qwen3-VL as EditScore's fine-tune base; those citations stand.
 
 **Related allowlist note (2026-09-05):** operator confirmed
-verbatim _"omnigen2 is allowlisted as is"_ — OmniGen2 (RFD 2183
+verbatim _"omnigen2 is allowlisted as is"_ — OmniGen2 (RFD66606-2183
 corpus generator, `interactor-omnigen2`) stays allowlisted with no
 carve-out changes; recorded here so a reader sweeping through the
 2026-09-05 model allowlist/blocklist directives does not need to
@@ -1653,7 +1653,7 @@ guess whether OmniGen2 was implicitly affected. It was not.
 Operator directive 2026-09-05, verbatim: _"onnx runtime web tfjs
 is blocklisted"_.
 
-The workspace's inference stack is **ggml** (RFD 2188 canonical
+The workspace's inference stack is **ggml** (RFD66606-2188 canonical
 source), linked with ggml's Vulkan backend in the native binary.
 A second browser inference runtime would fork the model
 conversion path, the quantization story, and the debugging
@@ -1668,7 +1668,7 @@ to browser inference. Reading someone else's TFJS or ORT-Web demo
 to understand a technique is not shipping.
 
 Substitute: ggml with its Vulkan backend, linked into the native
-binary as one shared `modules/ggml/` module per RFD 2230.
+binary as one shared `modules/ggml/` module per RFD66606-2230.
 
 ### WebGPU is blocklisted as a workspace render / compute target
 
@@ -1699,7 +1699,7 @@ to understand a Vulkan concept. WebGPU code on a third-party
 site the workspace does not ship (tutorial pages, reference
 docs). ggml's Vulkan backend, which is what replaces WebGPU. A
 Godot engine fork carrying a WebGPU RenderingDevice driver
-alongside Vulkan (RFD 2245, operator directive 2026-09-11) — the
+alongside Vulkan (RFD66606-2245, operator directive 2026-09-11) — the
 row blocks WebGPU as the _workspace deployment target_, not
 WebGPU code inside a Godot engine tree; the atelier binary still
 selects Vulkan at boot and the shipping surface stays
@@ -1756,7 +1756,7 @@ licences and are out of scope here.
 
 **Substitute:** the matting model already in the dress-on pipeline, pinned to
 a revision sha, with the model name, that sha and the input photograph's sha
-recorded per matte. RFD 2239 carries the argument in full.
+recorded per matte. RFD66606-2239 carries the argument in full.
 
 ### FFmpeg is blocklisted, and the single-binary export is why
 
@@ -1771,14 +1771,14 @@ into the shipping tree takes on an obligation we cannot meet.
 
 **The alternative is not a compromise.** The GoPro CineForm SDK is
 `Apache-2.0 OR MIT`, matching our own code, and it holds both an encoder and a
-decoder, so one dependency covers both directions. RFD 1123 made that choice
-and RFD 1137's pair does the work today: `transport-cineform-tui` sends a job,
+decoder, so one dependency covers both directions. RFD66606-1123 made that choice
+and RFD66606-1137's pair does the work today: `transport-cineform-tui` sends a job,
 `interactor-cineform` encodes, `service-cineform` owns the bus and the runtime.
 Inside the engine the same codec is `modules/cineform`, a `MovieWriter` and a
 `VideoStream` on the fork.
 
 **Operator directive, 2026-09-08, on being asked:** "remember ffmpeg is still
-banned." This row was overdue; RFD 1175 had asserted the ban since it was
+banned." This row was overdue; RFD66606-1175 had asserted the ban since it was
 written and no row carried it, which is exactly the drift
 `check_blocklist_detail.py` exists to catch in the other direction.
 
@@ -1812,11 +1812,11 @@ own use of it outside anything we ship.
 
 **Substitute:** the CineForm SDK for the codec, `interactor-cineform` for
 batch encoding, `modules/cineform` for the engine's `--write-movie`, and
-Matroska as the container (RFD 1123 measured why, and RFD 2240 restates it).
+Matroska as the container (RFD66606-1123 measured why, and RFD66606-2240 restates it).
 
 ### Mitsuba 3's CPU variants are blocklisted, and the silent fallback is why
 
-**The number is the argument.** RFD 1137 measured the same 96 frames of a
+**The number is the argument.** RFD66606-1137 measured the same 96 frames of a
 1024x1024 render two ways: 0.34 seconds a frame on the card, and 78 seconds a
 frame through `llvm_ad_rgb`. A factor of 230. The six-shot try-on list is 1,970
 frames, which is eleven minutes on the card and about forty-three hours on the
@@ -1924,7 +1924,7 @@ dual-licensable.
 
 They arrived with the robust skin weights transfer sandbox program
 (`libriscv/godot-sandbox-programs`, `programs/robust_skin_weight_transfer`),
-which RFD 2284 needs to carry skin weights and blendshapes onto a remeshed body.
+which RFD66606-2284 needs to carry skin weights and blendshapes onto a remeshed body.
 That program uses libigl for closest-point queries, the cotangent Laplacian, the
 mass matrix and the constrained quadratic solve, and Eigen for every matrix.
 
@@ -2068,7 +2068,7 @@ opens SQLite with its pages in FoundationDB (`weft_fdb_vfs`).
   Each moves to SQLite on FoundationDB or is archived. Until then, a fix to it is not new code.
 - **Archive once nothing reads them:** `service-multiplayer-fabric-crdb` (the Fly deploy) and
   `service-dokku-cockroachdb` (the dokku plugin). The operator stops the Fly app; no agent does.
-- **Not affected:** RFD 2006 and RFD 2075 are abandoned already, and records that name
+- **Not affected:** RFD66606-2006 and RFD66606-2075 are abandoned already, and records that name
   CockroachDB (`contract-multiplayer-fabric-archive`, the TLA+ model of parallel commits) stay
   as history.
 
@@ -2076,7 +2076,7 @@ opens SQLite with its pages in FoundationDB (`weft_fdb_vfs`).
 
 A row that carries only the gap from the client's own prediction is nearly
 free for anything that keeps its heading and pace. A zombie crowd does both:
-on rows generated for RFD 2321's bench, sent that way and compressed with
+on rows generated for RFD66606-2321's bench, sent that way and compressed with
 zstd at level 3, 64 such walkers cost 0.47 bytes a row. Pedestrians who stop,
 start, ease their pace and walk in pairs cost 2.16, about four and a half
 times as much, and tracked heads and hands cost 3.96. A budget sized on

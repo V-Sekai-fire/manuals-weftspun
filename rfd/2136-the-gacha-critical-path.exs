@@ -55,7 +55,7 @@ rfd 2136, "The gacha critical path, as a ladder", :discussion do
      against the canonical ANNY skeleton and produces a rig that bends
      without collapsing (EditScore on posed frames is the QA gate).
   5. **Prompt → skinned mesh → tagged.** The canonical See-Through
-     partition (VALID_BODY_PARTS_V3, 23 tags; RFD 1121 audited) is
+     partition (VALID_BODY_PARTS_V3, 23 tags; RFD66606-1121 audited) is
      recovered on the mesh by treating the mesh's partition as
      corruption: VoxHammer proposes repairs toward the canonical
      partition, EditScore judges each proposal, the loop bounds to N
@@ -85,8 +85,8 @@ rfd 2136, "The gacha critical path, as a ladder", :discussion do
   :: details Verification
   `page.qmd` beside this file draws the ladder and pairs each rung with
   its inputs, its output, and the negative control that certifies it.
-  The spend infrastructure the higher rungs lean on is live (RFDs
-  2133–2135); the two operator-side blockers (vast.ai key, broker
+  The spend infrastructure the higher rungs lean on is live (
+  RFD66606-2133–2135); the two operator-side blockers (vast.ai key, broker
   token) bite at rung 7, not before.
   """
 end

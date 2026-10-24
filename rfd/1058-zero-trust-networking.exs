@@ -21,7 +21,7 @@ rfd 1058, "Zero trust networking", :published do
   boot bugs this RFD found and fixed, the deploy command, and the
   verified status.
   :: problem
-  RFD 1055 selects plain Docker images, on this box first. The router
+  RFD66606-1055 selects plain Docker images, on this box first. The router
   and the CockroachDB host need a deploy shape on this box too, the
   single 4090 RTX box this project develops on.
 
@@ -29,10 +29,10 @@ rfd 1058, "Zero trust networking", :published do
   database run on the same host as every other process the operator
   runs. Trust must come from isolation, not from network position.
   :: related
-  RFD 1019 gives the API server. RFD 1020 pins the CockroachDB build.
-  RFD 1037 gives the taskweft job/task split. RFD 1055 selects Docker
-  images, on this box first. RFD 1057 tracks what is still open. RFD
-  1073 wires versitygw into the Fly toplevel this RFD's loopback rule
+  RFD66606-1019 gives the API server. RFD66606-1020 pins the CockroachDB build.
+  RFD66606-1037 gives the taskweft job/task split. RFD66606-1055 selects Docker
+  images, on this box first. RFD66606-1057 tracks what is still open.
+  RFD66606-1073 wires versitygw into the Fly toplevel this RFD's loopback rule
   governs.
   """
 
@@ -62,7 +62,7 @@ rfd 1058, "Zero trust networking", :published do
   this section. No port goes past loopback unless a remote caller
   needs it, and then only that one port.
 
-  RFD 1073 puts this to work, on the Fly toplevel: `versitygw` runs
+  RFD66606-1073 puts this to work, on the Fly toplevel: `versitygw` runs
   colocated with `weftspun_studio`, bound to `127.0.0.1:10000`, the
   same rule stated here.
   :: details CockroachDB replaces the Manta metadata tier's ZooKeeper
@@ -84,7 +84,7 @@ rfd 1058, "Zero trust networking", :published do
   that zone back between jobs. A Podman Quadlet container is this
   project's equivalent. It gives one container per service, its own
   network namespace, and its own file system. `podman build` tears
-  each one down and rebuilds it from the image. RFD 1037's taskweft
+  each one down and rebuilds it from the image. RFD66606-1037's taskweft
   domains give the job/task split Manta's supervisor and agent gave.
   The Quadlet gives the isolation Manta's zone gave.
   :: details The images
@@ -99,7 +99,7 @@ rfd 1058, "Zero trust networking", :published do
   `weftspun_studio/deploy/Dockerfile.crdb` builds CockroachDB from the
   V-Sekai 22.1 binary `deps/cockroach_local` downloads. It does not
   use the stock Docker Hub image, so the container matches the version
-  RFD 1020 already pins.
+  RFD66606-1020 already pins.
   :: details Migrate before serve, inside the container
   `weftspun_studio/deploy/docker-entrypoint.sh` runs
   `WeftspunStudio.Release.create/0`, then `migrate/0`, then execs the
@@ -114,7 +114,7 @@ rfd 1058, "Zero trust networking", :published do
   calls it every start.
   :: details Two boot bugs this RFD found and fixed
   Building and running the images surfaced two faults in
-  `WeftspunStudio.Application`. Neither ran before this RFD. RFD 1057
+  `WeftspunStudio.Application`. Neither ran before this RFD. RFD66606-1057
   marks the Burrito binary "written, and never run." The container
   path was the first real boot of either fault.
 
@@ -189,7 +189,7 @@ rfd 1058, "Zero trust networking", :published do
   A host-wide `nft` `FORWARD` change may still be the more durable
   fix. Confirm `systemctl status weftspun.service` and `systemctl
   status weftspun-crdb.service` show `active (running)` after any
-  future rebuild, the same caution RFD 1057 gives the dev container
+  future rebuild, the same caution RFD66606-1057 gives the dev container
   and the Pixal3D worker stage.
   """
 end

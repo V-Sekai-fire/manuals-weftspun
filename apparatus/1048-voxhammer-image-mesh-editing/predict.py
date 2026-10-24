@@ -1,9 +1,9 @@
-"""VoxHammer image mesh editing. RFD 1048.
+"""VoxHammer image mesh editing. RFD66606-1048.
 
-The image variant of RFD 1047. Every stage is shared, and only the
+The image variant of RFD66606-1047. Every stage is shared, and only the
 conditioning differs.
 
-The domain lives in the RFD 1047 folder, because two copies would
+The domain lives in the RFD66606-1047 folder, because two copies would
 drift and a drifted guard is a moved vertex. problem.ex here sets
 mode.conditioning to "image", and apply_edit takes that alternative.
 """

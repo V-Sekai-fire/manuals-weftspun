@@ -10,7 +10,7 @@ rfd 1130, "What the UGen300 actually delivers", :discussion do
   prose ~S"""
   :: decision
   Measure the device, once the two questions before it have answers.
-  RFD 1128 asks whether four bits are survivable and RFD 1129 asks
+  RFD66606-1128 asks whether four bits are survivable and RFD66606-1129 asks
   whether the operators compile. Throughput measured on a model that
   fails either is a number about nothing.
 
@@ -35,7 +35,7 @@ rfd 1130, "What the UGen300 actually delivers", :discussion do
   weights cost everything, and which happens depends on whether the
   model fits 8 GB after quantisation. No measurement here has said.
   :: related
-  RFD 1128 and RFD 1129 come first. RFD 1122 is the goal, and its
+  RFD66606-1128 and RFD66606-1129 come first. RFD66606-1122 is the goal, and its
   detector is what ships to this device.
   """
 
@@ -228,7 +228,7 @@ rfd 1130, "What the UGen300 actually delivers", :discussion do
   where a stage runs, which needs the cost of moving data to it stated
   beside the rate.
   :: details What is not measured here
-  Accuracy. RFD 1128 owns that, and mixing the two produces a table
+  Accuracy. RFD66606-1128 owns that, and mixing the two produces a table
   where a fast wrong answer looks good.
   """
 end

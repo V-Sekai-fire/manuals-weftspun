@@ -15,8 +15,8 @@ rfd 2298, "the first rung's dev.next", :discussion do
   Work that no rung has claimed needs one place to wait, or it is
   lost between rungs.
   :: related
-  - RFD 2293, the workspace, the ladder and dev.1; its release rules hold here.
-  - RFD 2296, dev.2; RFD 2297, dev.3; RFD 2298, dev.next.
+  - RFD66606-2293, the workspace, the ladder and dev.1; its release rules hold here.
+  - RFD66606-2296, dev.2; RFD66606-2297, dev.3; RFD66606-2298, dev.next.
   """
 
   details_title "the first rung's dev.next"
@@ -34,7 +34,7 @@ rfd 2298, "the first rung's dev.next", :discussion do
     drift in millimetres against the source clip's own;
   - the joy forecasts below shown as orbit views (also called contact sheets,
     turnaround sheets or turntable renders), composed
-    as RFD 2294's visual comparisons are and rendered by Mitsuba inside
+    as RFD66606-2294's visual comparisons are and rendered by Mitsuba inside
     a godot-sandbox guest ELF on the CPU, with the world grabbed, turned
     like a model and recorded as a video;
   - Maro as the dress-on statue beside the plaza monument, with a pen
@@ -71,7 +71,7 @@ rfd 2298, "the first rung's dev.next", :discussion do
   - the headset path: the Frame streaming from the desktop over oxrsys,
     and the extra companion controllers.
   :: details Which features are likely to bring joy
-  Each forecast uses RFD 2293's sense-of-wonder rubric and RFD 2295's
+  Each forecast uses RFD66606-2293's sense-of-wonder rubric and RFD66606-2295's
   tag form.
 
   | rung | feature | criteria | joy |

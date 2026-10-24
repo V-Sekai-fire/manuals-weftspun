@@ -13,25 +13,24 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
 
   prose ~S"""
   :: decision
-  The first rung is two people in one zone, each with their own avatar:
-  one in a headset, one on a desktop. They see each other and talk. The
-  engine is base Godot built with double precision and the
-  godot-sandbox addon, and it relays UDP and nothing else. Everything
-  that computes is a C++ guest ELF on ggml-rd or compute-rd: the
-  WebTransport stack (RFD 2256), the zones, the certificate authority,
-  the voice codec and the dress-on loop. A worker zone owns the garment
-  while it makes it; its ghost materializes in the players' zone, and
-  then its ownership hands over to that zone. One zone owns it at every
-  frame. The garment attaches rigidly to the avatar's bones.
+  The first rung is two people in one zone, each with their own avatar: one in a headset, one on a
+  desktop. They see each other and talk. The engine is base Godot built with double precision and
+  the godot-sandbox addon, and it relays UDP and nothing else. Everything that computes is a C++
+  guest ELF on ggml-rd or compute-rd: the WebTransport stack (RFD66606-2256), the zones, the
+  certificate authority, the voice codec and the dress-on loop. A worker zone owns the garment
+  while it makes it; its ghost materializes in the players' zone, and then its ownership hands
+  over to that zone. One zone owns it at every frame. The garment attaches rigidly to the avatar's
+  bones.
   :: problem
-  RFD 2262 asks whether people make and wear what they draw where
-  others see it. Only people in the world answer that. The fabric
-  already proves one owner per entity across zones; the rung carries
-  that rule into a guest, so the engine stays base Godot.
+  RFD66606-2262 asks whether people make and wear what they draw where others see it. Only people
+  in the world answer that. The fabric already proves one owner per entity across zones; the rung
+  carries that rule into a guest, so the engine stays base Godot.
   :: related
-  - RFD 2262, the ladder; RFD 2136, the precedent; RFD 2263, step 2's test.
-  - RFD 2256, the transport; RFD 2271, guests with Lean tests; RFD 2288, capabilities.
-  - Abandons RFDs 2211, 2001 and 2075: the engine is base Godot; zones are `zone.elf`.
+  - RFD66606-2262, the ladder; RFD66606-2136, the precedent; RFD66606-2263, step 2's test.
+  - RFD66606-2256, the transport; RFD66606-2271, guests with Lean tests; RFD66606-2288,
+    capabilities.
+  - Abandons RFD66606-2211, RFD66606-2001 and RFD66606-2075: the engine is base Godot; zones are
+    `zone.elf`.
   """
 
   details_title "the first rung: draw it and wear it in a headset"
@@ -84,8 +83,8 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      ahead on the other. (&{repo("entities-godot")}, the godot-sandbox addon)
   2. **Draw.** Strokes become a curvenet in the headset through
      `curvenet.elf` in the pen's sandbox, in the xr-grid scene, with
-     the lasso from `lasso.elf` for picking far targets. Check: RFD
-     2263's replay still passes; the Lean tests link the lasso's C++
+     the lasso from `lasso.elf` for picking far targets. Check:
+     RFD66606-2263's replay still passes; the Lean tests link the lasso's C++
      and check it picks the target nearest the cone's axis, with a
      control that swaps two targets' distances.
      (&{repo("transport-meshing-pen")}, &{repo("interactor-lasso")})
@@ -101,7 +100,7 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
      guest's VM carries its memory, so every VM transfer (serializing
      it, snapshotting it, moving it to another zone, or a host read of
      its memory) needs a capability: a macaroon that a ReBAC check
-     mints (RFD 2288). `ca.elf` gets no transfer capability. Check,
+     mints (RFD66606-2288). `ca.elf` gets no transfer capability. Check,
      each with its control: a certificate from another CA is refused,
      an expired one is refused, an out-of-pattern name is not issued,
      and a transfer with no capability is refused while the same
@@ -155,7 +154,7 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
     text is at least 1 degree tall.
   - The frame rate holds the headset's refresh rate. A person moves by
     xr-grid's world grab, both grips pinching the world, with no smooth
-    acceleration (RFD 2294).
+    acceleration (RFD66606-2294).
   - A haptic pulse confirms each stroke closed, lasso target taken
     and garment worn.
   - The mirror is a world-locked object the person walks up to, not a
@@ -229,8 +228,8 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   The pass limits are not set yet: the first sustained run measures
   them, and the operator sets them from it.
   :: details Frontier learning picks the timing runs
-  The timing runs are levels in RFD 2309's sense, scheduled the way RFD
-  2323 schedules the store's attacks. A level is a load template with fixed
+  The timing runs are levels in RFD66606-2309's sense, scheduled the way
+  RFD66606-2323 schedules the store's attacks. A level is a load template with fixed
   attributes: players, the recorded replay, the zone's distance from the
   store, the commit group size, and the injected round trip and loss. A
   problem is one 5 minute run with a drawn seed and replay offset.
@@ -261,7 +260,7 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   | --- | --- | --- |
   | Fit and drape | the fit takes about 10 minutes | the next rung, on the worker zone |
   | Moving through the world | needs the retargeted, grounded clips | the next rung |
-  | The shared Bao signing the CA | needs one signing grant (RFD 2142) | the next rung |
+  | The shared Bao signing the CA | needs one signing grant (RFD66606-2142) | the next rung |
   | VRM export | delivery, not the rung's question | the shareable release |
   """
 end

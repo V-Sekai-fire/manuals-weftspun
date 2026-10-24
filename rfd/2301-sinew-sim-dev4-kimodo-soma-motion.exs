@@ -23,9 +23,9 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   bridge, the GPU render and the mean per-joint position error (MPJPE) runs this note
   cites.
   :: related
-  - RFD 2300, the sinew-sim ladder; RFD 2203, the ANNY-SOMA corpus and basemesh.
-  - RFD 2190, camera coverage; RFD 2191, the solver residual.
-  - RFD 1045, Kimodo text-to-motion; RFD 1143, keypoints to ANNY.
+  - RFD66606-2300, the sinew-sim ladder; RFD66606-2203, the ANNY-SOMA corpus and basemesh.
+  - RFD66606-2190, camera coverage; RFD66606-2191, the solver residual.
+  - RFD66606-1045, Kimodo text-to-motion; RFD66606-1143, keypoints to ANNY.
   """
 
   details_title "sinew-sim dev.4 kimodo-soma motion pipeline"

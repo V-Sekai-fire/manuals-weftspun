@@ -29,12 +29,12 @@ rfd 1046, "Model image for skintokens_auto_rig", :discussion do
   SkinTokens is the default auto rig. It writes a skeleton and skin
   weights for a mesh that has neither.
 
-  A rig is the clearest case for RFD 1053. The rig is an opinion about
+  A rig is the clearest case for RFD66606-1053. The rig is an opinion about
   an existing mesh, and a flat file forces the rig stage to rewrite the
   mesh to carry it.
   :: related
-  RFD 1053 gives the layer rule. RFD 1035 records the template rig
-  split. RFD 1005 records the VRM pipeline.
+  RFD66606-1053 gives the layer rule. RFD66606-1035 records the template rig
+  split. RFD66606-1005 records the VRM pipeline.
   """
 
   details_title "Model image for skintokens_auto_rig"
@@ -55,7 +55,7 @@ rfd 1046, "Model image for skintokens_auto_rig", :discussion do
   | seed     | int  | -1      |
 
   `rig_mode` takes `skeleton`, `skin`, or `full`. It does not take
-  `template`. SkinTokens rejects template mode, and RFD 1035 records
+  `template`. SkinTokens rejects template mode, and RFD66606-1035 records
   that UniRig is the only backend for it.
   :: details Why UsdSkel, and not a GLB skin
   A GLB skin binds to one mesh. When the retopology stage later changes

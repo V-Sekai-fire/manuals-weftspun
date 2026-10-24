@@ -13,8 +13,8 @@ rfd 2170, "allosaurus runs universal + a 27-language commercial localization set
   shipped by an actively-maintained AAA multiplayer game (captured 2018-12-15, unchanged through
   2026), giving 28 tracks.
   :: problem
-  RFD 2164 (Rung 1 corpus) shipped allosaurus at three inventories: `universal`, `eng`, `rus`,
-  picked because the first speaker was Kazakh L2 English. Per-corpus priors make runs
+  RFD66606-2164 (Rung 1 corpus) shipped allosaurus at three inventories: `universal`, `eng`,
+  `rus`, picked because the first speaker was Kazakh L2 English. Per-corpus priors make runs
   incomparable.
   :: section The set
     universal, eng, fra, ita, deu, pol, rus, cmn, cmn-Hant, tur, spa,

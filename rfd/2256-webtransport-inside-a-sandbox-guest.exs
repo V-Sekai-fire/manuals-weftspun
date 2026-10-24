@@ -8,7 +8,7 @@ HTTP/3 and WebTransport at binary-translated speed, and the first
 channel it carries mints tokens from a key the host never sees"
   scope "a godot-sandbox guest ELF running the QUIC stack, the zone
 server and clients that host it, and a token-minting channel;
-`interactor-fabric-zone`'s ELFs (RFD 2287) are its first user"
+`interactor-fabric-zone`'s ELFs (RFD66606-2287) are its first user"
 
   prose ~S"""
   :: decision
@@ -23,11 +23,11 @@ server and clients that host it, and a token-minting channel;
   A key on the desk, or a helper that hands out a token, is open to
   every script there. Only a separate peer keeps it out of reach.
   :: related
-  - RFD 2255 (SSH tunnel to Bao), the path the signer peer's
+  - RFD66606-2255 (SSH tunnel to Bao), the path the signer peer's
     identity can use to reach Bao.
-  - RFD 2060 (org-scoped app token), the token this mints.
-  - RFD 2200 (ReBAC agent roles as tuples), the authorization.
-  - RFD 2287 (the first rung), its first user.
+  - RFD66606-2060 (org-scoped app token), the token this mints.
+  - RFD66606-2200 (ReBAC agent roles as tuples), the authorization.
+  - RFD66606-2287 (the first rung), its first user.
   """
 
   details_title "a token-minting guest over WebTransport"

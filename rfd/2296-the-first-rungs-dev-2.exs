@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2296, "the first rung's dev.2", :discussion do
   flight_level :l1
-  feature "the dev rung that follows dev.1 on RFD 2293's release ladder"
+  feature "the dev rung that follows dev.1 on RFD66606-2293's release ladder"
   scope "the pen's `v<date>-dev.2` release"
 
   prose ~S"""
@@ -13,15 +13,15 @@ rfd 2296, "the first rung's dev.2", :discussion do
   fork on upstream and releases the addon from it, and rebuilds every
   guest for the moved packed-array calls.
   :: problem
-  RFD 2293 is the Skateboard's workspace and its whole ladder, and the
+  RFD66606-2293 is the Skateboard's workspace and its whole ladder, and the
   dev rungs past dev.1 change daily while the rest of it does not. Kept
   there, each rung's edit is a diff to the workspace plan.
   :: related
-  - RFD 2293, the workspace, the ladder and dev.1; its release rules
+  - RFD66606-2293, the workspace, the ladder and dev.1; its release rules
     (tag, GitHub release, playtest, gates with controls) hold here.
-  - RFD 2287, the rung; RFD 2262, the ladder.
-  - RFD 2295, the forecast tags; RFD 2294, the visual comparisons.
-  - RFD 2297, dev.3; RFD 2298, dev.next.
+  - RFD66606-2287, the rung; RFD66606-2262, the ladder.
+  - RFD66606-2295, the forecast tags; RFD66606-2294, the visual comparisons.
+  - RFD66606-2297, dev.3; RFD66606-2298, dev.next.
   """
 
   details_title "the first rung's dev.2"
@@ -48,7 +48,7 @@ rfd 2296, "the first rung's dev.2", :discussion do
   lands its packed acquire on the array-window call. Playable: dev.1's
   route.
   :: details Which features are likely to bring joy
-  Each forecast uses RFD 2293's sense-of-wonder rubric and RFD 2295's
+  Each forecast uses RFD66606-2293's sense-of-wonder rubric and RFD66606-2295's
   tag form.
 
   | rung | feature | criteria | joy |

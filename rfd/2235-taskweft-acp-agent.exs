@@ -14,30 +14,30 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
 
   prose ~S"""
   :: decision
-  The agent holds no language model. A prompt is a slash command or a phrase
-  matched against the domain's method names; taskweft plans it; every step is
-  one ACP tool call through the client's files and terminals behind a
-  permission prompt; a failed step replans from the verified prefix or says
-  that no other decomposition reaches the goal. Claude Code drives the same
-  agent through an MCP bridge that is an ACP client, so the session keeps its
-  context. Every request and update is an event in one `weft_fdb` database
-  per session, the hosted door being the fabric-store writer and OpenBao's
-  sqlite-fdb engine the fallback. The Fly door is gated by OpenBao tokens,
-  never GitHub, and runs no step itself: executor sides dial in under a
-  bao-held policy with a local override. `DETAILS.md` carries the rest.
+  The agent holds no language model. A prompt is a slash command or a phrase matched against the
+  domain's method names; taskweft plans it; every step is one ACP tool call through the client's
+  files and terminals behind a permission prompt; a failed step replans from the verified prefix
+  or says that no other decomposition reaches the goal. Claude Code drives the same agent through
+  an MCP bridge that is an ACP client, so the session keeps its context. Every request and update
+  is an event in one `weft_fdb` database per session, the hosted door being the fabric-store
+  writer and OpenBao's sqlite-fdb engine the fallback. The Fly door is gated by OpenBao tokens,
+  never GitHub, and runs no step itself: executor sides dial in under a bao-held policy with a
+  local override. `DETAILS.md` carries the rest.
   :: problem
-  MCP tools answer one call and forget it, so an agent driven through them
-  loses the turn's context; taskweft had a planner and no executor; the editor
-  already owns the files, the terminals and the permission dialog. Hosting the
-  bridge raised the question of where steps run, and a machine on Fly is not
-  the desk with the checkout, the GPU box, or the editor a human is watching.
+  MCP tools answer one call and forget it, so an agent driven through them loses the turn's
+  context; taskweft had a planner and no executor; the editor already owns the files, the
+  terminals and the permission dialog. Hosting the bridge raised the question of where steps run,
+  and a machine on Fly is not the desk with the checkout, the GPU box, or the editor a human is
+  watching.
   :: references
-  - RFD 2232, the RFD DSL this document is written in
-  - RFD 2154, RFD 2157 and RFD 2159, the plan-to-Godot-Sandbox path the export follows
-  - RFD 2140, RFD 2146 and RFD 2205, OpenBao and the sqlite-fdb engine the fallback extends
+  - RFD66606-2232, the RFD DSL this document is written in
+  - RFD66606-2154, RFD66606-2157 and RFD66606-2159, the plan-to-Godot-Sandbox path the export
+    follows
+  - RFD66606-2140, RFD66606-2146 and RFD66606-2205, OpenBao and the sqlite-fdb engine the fallback
+    extends
   :: related
-  RFD 2234 (the dress-on plan this repository's planning pattern was first tried on), RFD 2111
-  (the side the repository sits on), RFD 2134 (the cluster's TLS).
+  RFD66606-2234 (the dress-on plan this repository's planning pattern was first tried on),
+  RFD66606-2111 (the side the repository sits on), RFD66606-2134 (the cluster's TLS).
   """
 
   details_title "An ACP agent that plans with taskweft and executes through the editor"
@@ -153,8 +153,8 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
   release (operator: "it must fault"); only an unreachable cluster degrades.
 
   The client certificate is `fdb-taskweft-acp.chibifire.com`, issued by
-  bao's PKI role `fdb-server` for 90 days (RFD 2145) and placed as the four
-  secrets of RFD 2134 by `scripts/issue_cluster_credentials.sh`, which is
+  bao's PKI role `fdb-server` for 90 days (RFD66606-2145) and placed as the four
+  secrets of RFD66606-2134 by `scripts/issue_cluster_credentials.sh`, which is
   written as a state machine over observed states (PITFALLS 12). On the
   desk the taskweft NIF and the helper build with llvm-mingw (operator
   directive: not Visual Studio), and the stdio bridge answers `initialize`

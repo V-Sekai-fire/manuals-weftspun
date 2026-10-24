@@ -4,15 +4,15 @@
 **Extends:** `logbook-lladao-5pair-step-sweep.md` (the 5-pair result that
 suggested 16-step was the sweet spot; this n=20 tests whether the shape
 holds at decision-grade N)
-**Related:** RFD 2186, RFD 2194, RFD 2198, memory
-`[[llada-diffusion-lm-shelved]]` (RFD 1170 shelving stays)
+**Related:** RFD66606-2186, RFD66606-2194, RFD66606-2198, memory
+`[[llada-diffusion-lm-shelved]]` (RFD66606-1170 shelving stays)
 
 ## Question
 
 The 5-pair sweep suggested fixed 16-step LLaDA-o SDEdit beats OmniGen2
 on every pair in the sample. Does that shape survive at n=20 pairs
 distinct from the 5 originally tested? MPS's assignment framed the
-question as gating RFD 2198's distillation lever: if n=20 confirms
+question as gating RFD66606-2198's distillation lever: if n=20 confirms
 LLaDA-o at 16-step wins >= 80% vs OmniGen2's 3.36 baseline, the
 distillation path does not need to fire.
 
@@ -42,7 +42,7 @@ n=20 aggregate against OmniGen2 baseline 3.36:
 - **mean overall: 5.972** (1.78x OmniGen2)
 - **median overall: 6.573**
 - **wins over 3.36: 17/20 (85%)** — clears the 80% threshold that
-  gates RFD 2198's distillation lever
+  gates RFD66606-2198's distillation lever
 - **non-zero: 18/20**
 
 Per-pair breakdown, EditScore overall on the 0-25 scale:
@@ -102,22 +102,22 @@ Model over-follows the prompt on some seeds even at fixed 16 steps.
 
 ## Verdict
 
-**LLaDA-o at 16-step SDEdit clears RFD 2198's 80% gating threshold at
-n=20.** RFD 2198's distillation lever does not need to fire —
+**LLaDA-o at 16-step SDEdit clears RFD66606-2198's 80% gating threshold at
+n=20.** RFD66606-2198's distillation lever does not need to fire —
 pretrained LLaDA-o at 16 steps is already good enough on this
 dataset against this evaluator.
 
-**Generator swap for RFD 2194 shot library:** LLaDA-o at 16-step
+**Generator swap for RFD66606-2194 shot library:** LLaDA-o at 16-step
 replaces OmniGen2 as the default generator for the shuttle demo shot
 library. Retraction pointer per PR #253's doctrine will land as a
-DETAILS.md amendment on RFD 2194.
+DETAILS.md amendment on RFD66606-2194.
 
 **Provenance-check un-park:** the swap triggers one of the four
 un-park conditions per operator's PR #274 direction on
 generator-provenance-check parking. LLaDA-o's model-card + training
 corpus for anime-styled outputs needs documentation before the
 shuttle demo ships publicly. That documentation is now owed as part
-of RFD 2194 execution.
+of RFD66606-2194 execution.
 
 ## Not measured
 

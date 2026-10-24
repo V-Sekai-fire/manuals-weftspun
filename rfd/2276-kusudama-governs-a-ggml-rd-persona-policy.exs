@@ -20,13 +20,13 @@ rfd 2276, "Kusudama governs a ggml-rd persona policy", :discussion do
   runs on the RenderingDevice, not a foreign inference stack.
   :: references
   - Continuous soft and prismatic kusudama: `4-entities/godot-kusudama`, commit 04924abc.
-  - Offline PPO with the E.3 ROM envelope: RFD 2238; `3-interactor/g1-sim-to-real`.
+  - Offline PPO with the E.3 ROM envelope: RFD66606-2238; `3-interactor/g1-sim-to-real`.
   - ggml-rd (the RD0 backend, kernels from Lean): `2-contract/ggml-rd`; its gate,
     `gates/3-ggml-rd`, is in the archived `interactor-dress-on`.
   - Phenotype ROM: `chibifire/starforged-std-3001-appendix-e`, section E.3.
   :: related
-  RFD 2238 sets the mjlab PPO formula this reuses. RFD 2230 is the ggml adapter the
-  policy reaches the avatar through. RFD 2265 is the compute-rd precedent. RFD 2172
+  RFD66606-2238 sets the mjlab PPO formula this reuses. RFD66606-2230 is the ggml adapter the
+  policy reaches the avatar through. RFD66606-2265 is the compute-rd precedent. RFD66606-2172
   is the tenseless voice this follows.
   """
 
@@ -34,7 +34,7 @@ rfd 2276, "Kusudama governs a ggml-rd persona policy", :discussion do
 
   prose ~S"""
   :: details Two sides, one compute rule
-  Offline training may use torch: the RFD 2238 mjlab, MuJoCo-Warp and rsl-rl PPO
+  Offline training may use torch: the RFD66606-2238 mjlab, MuJoCo-Warp and rsl-rl PPO
   pipeline on the owned 4090 produces GGUF weights (the baseline reproduces at ROM
   clearance 0.7831, and the 30-degree envelope-shift control drops it to 0.7508).
   Runtime is ggml-rd and compute-rd only: the policy runs as the RD0 backend (ggml

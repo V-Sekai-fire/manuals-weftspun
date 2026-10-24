@@ -32,11 +32,11 @@ rfd 1165, "Fine-tuning exhausts the desk card, and batch size is the lever", :id
       try Quantization-Aware Fine-Tuning with lower batch size.
 
   QAFT ran about thirty minutes of epoch 1 of 4 on 1024 frames and
-  exhausted 24 GiB. RFD 1140 says match the card to the wall you hit;
+  exhausted 24 GiB. RFD66606-1140 says match the card to the wall you hit;
   clearing the RAM ceiling only bought the right to meet this one.
   :: related
-  RFD 1140 rents the card. RFD 1163 divides the work. RFD 1164 says
-  what the calibration set becomes. RFD 1167 places the rung.
+  RFD66606-1140 rents the card. RFD66606-1163 divides the work. RFD66606-1164 says
+  what the calibration set becomes. RFD66606-1167 places the rung.
   """
 
   details_title "Fine-tuning exhausts the desk card, and batch size is the lever"
@@ -108,7 +108,7 @@ rfd 1165, "Fine-tuning exhausts the desk card, and batch size is the lever", :id
   read against this row.
 
   The device measurement itself, 2.27 ms hardware latency, 2.18 ms
-  fixed overhead, is RFD 1130's, taken on a zoo classifier rather than
+  fixed overhead, is RFD66606-1130's, taken on a zoo classifier rather than
   on anything of ours. Nothing of ours has executed on the device, so
   the two rows above cannot yet be divided into a speedup.
   :: details What rung this leaves

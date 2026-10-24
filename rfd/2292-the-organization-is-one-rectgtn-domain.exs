@@ -1,9 +1,9 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: MIT
 #
-# RFD 2292. `mix rfd.render` renders
+# RFD66606-2292. `mix rfd.render` renders
 # rfd/2292-the-organization-is-one-rectgtn-domain/README.md and DETAILS.md from
-# this file; the Markdown is a build artifact (RFD 2232).
+# this file; the Markdown is a build artifact (RFD66606-2232).
 defmodule RFD2292 do
   use RFD.DSL
 
@@ -31,7 +31,7 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     """
 
     problem ~S"""
-    RFD 2287 states its critical path as eight numbered paragraphs. A paragraph
+    RFD66606-2287 states its critical path as eight numbered paragraphs. A paragraph
     cannot be asked which step comes next, which steps are blocked, or what a
     failure costs, and the eight repeat a shape every rung of every ladder in
     this workspace already has: a step names a repository, what is missing, and
@@ -40,9 +40,9 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     """
 
     related ~S"""
-    RFD 2287 (the first rung) is the first problem; RFD 2204 (RECTGTN fleet
-    coordination) plans over peers rather than documents; RFD 2232 (RFD
-    authoring as an Elixir DSL) gives the build-artifact rule; RFD 2177 carries
+    RFD66606-2287 (the first rung) is the first problem; RFD66606-2204 (RECTGTN fleet
+    coordination) plans over peers rather than documents; RFD66606-2232 (RFD
+    authoring as an Elixir DSL) gives the build-artifact rule; RFD66606-2177 carries
     the flight levels the domain holds.
     """
 
@@ -104,7 +104,7 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     | `checked` | 6 | nothing, and step 3 is not run again |
 
     A system that merely survived the failure would have planned 7 again and
-    retried the same step. RFD 2287 carries this today: its Build step is
+    retried the same step. RFD66606-2287 carries this today: its Build step is
     `failed`, so its solution is 12 steps and opens with the gap.
     """
 

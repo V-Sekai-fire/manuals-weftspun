@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-03
 **Session:** MPS (`mps-45994b.agents.weftspun`)
-**Related:** RFD 2195 (Bao Tailscale sidecar; Revocation section)
+**Related:** RFD66606-2195 (Bao Tailscale sidecar; Revocation section)
 
 ## What happened
 
@@ -41,13 +41,13 @@ cert-auth ignores it.
 ## Detection floor
 
 The shared-wildcard case is the interesting one; the per-CN case is
-easier and covered in the RFD 2195 runbook. This entry exists to name
+easier and covered in the RFD66606-2195 runbook. This entry exists to name
 the extra step the wildcard case adds: preserve the entry, narrow the
 CN list, versus delete the entry.
 
 ## Verdict
 
-Pattern shipped in RFD 2195 DETAILS's Revocation section. Next
+Pattern shipped in RFD66606-2195 DETAILS's Revocation section. Next
 revocation should follow that; this entry stays as the event that
 produced it.
 

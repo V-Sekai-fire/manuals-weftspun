@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion do
   flight_level :l1
-  feature "RFD 2287's first rung, from a hand-built headset run to a session on the Frame"
+  feature "RFD66606-2287's first rung, from a hand-built headset run to a session on the Frame"
   scope "a new skateboard manifest, the pen, the double build, and the rung's guests"
 
   prose ~S"""
@@ -22,11 +22,11 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   is reproducible from a checkout, and every guest is single precision
   against a double engine.
   :: related
-  - RFD 2262, the ladder; RFD 2287, the rung; RFD 2263, the simulator gate.
-  - RFD 2296, dev.2; RFD 2297, dev.3; RFD 2298, dev.next.
-  - RFD 2256, the transport; RFD 2288 and RFD 2291, the capabilities.
-  - RFD 2289, a placement is the manifest row; RFD 2142, the Bao PKI.
-  - Abandons RFD 2067: the ladder's tags are the pen's `v<date>-dev.N`, and
+  - RFD66606-2262, the ladder; RFD66606-2287, the rung; RFD66606-2263, the simulator gate.
+  - RFD66606-2296, dev.2; RFD66606-2297, dev.3; RFD66606-2298, dev.next.
+  - RFD66606-2256, the transport; RFD66606-2288 and RFD66606-2291, the capabilities.
+  - RFD66606-2289, a placement is the manifest row; RFD66606-2142, the Bao PKI.
+  - Abandons RFD66606-2067: the ladder's tags are the pen's `v<date>-dev.N`, and
     the packaging repository its semver tags named is not placed.
   """
 
@@ -152,7 +152,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   wall clock).
   :: details The world: Sakuragaoka Station, in Godot
   The station is three.js and the rung is Godot, so the generation is
-  ported, as RFD 2267 says a port is. A new repository,
+  ported, as RFD66606-2267 says a port is. A new repository,
   &{repo("entities-sakuragaoka-station")}, is a Godot addon,
   `addons/sakuragaoka_station/`, in the station's own shape: one
   `world/<module>.gd` per `src/world/<module>.js` with a `build(ctx)`,
@@ -445,7 +445,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   nothing else. `stages/zone_stage.gd` drains `zone_journal_export`
   under the write capability every tick that changed a row and hands
   the rows to the host's Bao client (the desk's agent identity over
-  Tailscale, RFD 2142's shape), which runs the catalogued execs
+  Tailscale, RFD66606-2142's shape), which runs the catalogued execs
   `append_mutation` and `append_snapshot` on the database
   `zone-<id>`; the schema is `fabric_zone_journal.cpp`'s two tables,
   `entity_mutations` and `entity_snapshots`, in a `schema "zone-*"`
@@ -489,11 +489,11 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   no sidecar is attached the worker runs the CPU target of the same
   Lean-emitted kernels (`kernels/cassie/cpp`, the slangc cpp emits
   under slang-rt, one source two targets) itself, slower and the same
-  answer within RFD 2269's intervals.
+  answer within RFD66606-2269's intervals.
 
   Check: the two-client gate counts the garment's owners every tick and
   finds exactly one; a garment the sidecar made lies inside the CPU
-  oracle's intervals (RFD 2269); the Lean chunk property stores random
+  oracle's intervals (RFD66606-2269); the Lean chunk property stores random
   data up to 1 MiB, verifies every chunk and assembles the input.
   Controls: one byte of one chunk flipped with the expectation kept
   must be caught at the worker; a sidecar kernel built with
@@ -546,7 +546,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   reach Bao. The certificate is issued by Bao itself: the org's
   intermediate CA (the chain in `~/.bao-creds/ca-chain.pem`, its key in
   1Password) is installed into a `pki_int` mount from 1Password with
-  the root token, in RFD 2142's shape (`bao secrets enable -path=pki_int
+  the root token, in RFD66606-2142's shape (`bao secrets enable -path=pki_int
   pki`, `bao write pki_int/config/ca pem_bundle=@-` from `op item get`,
   a role `zone-fly` limited to that common name and a 30-day TTL), the
   cert and key land as Fly secrets on `weftspun-zone`, and the cert-auth
@@ -637,7 +637,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     does not explain itself.
   :: details The release ladder: dev, beta, rc, released
   The work lands as four releases, each a whole playable build before
-  the next starts, in RFD 2262's sense: a person
+  the next starts, in RFD66606-2262's sense: a person
   puts it on and does the thing it claims. A release is a tag on
   &{repo("transport-meshing-pen")} (`v<date>-dev.N`, `-beta.N`, `-rc.N`, then
   `v<date>`), a GitHub release on the pen carrying the rung's double
@@ -693,10 +693,10 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   reach the platform or climb the stairs; the locomotion gate climbs
   the six treads headless. Past the four modules the terrain is open
   where the town's houses and shops stand in the original. The
-  logbook names that gap and counts five others, which RFD 2296's
+  logbook names that gap and counts five others, which RFD66606-2296's
   dev.2 works from.
 
-  **dev.2** is RFD 2296, **dev.3** is RFD 2297 and **dev.next** is RFD 2298.
+  **dev.2** is RFD66606-2296, **dev.3** is RFD66606-2297 and **dev.next** is RFD66606-2298.
 
   **beta: one person wears what they draw, and the assistant draws
   too.** Guests at double with the precision gate; priority mode and
@@ -729,7 +729,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   bootstrap line and a Frame reaches the rc build and plays it against
   the live zones.
   :: details Which features are likely to bring joy
-  Each feature carries a forecast, in RFD 2295's tag form, of the chance
+  Each feature carries a forecast, in RFD66606-2295's tag form, of the chance
   that a player finds joy in it, judged on a sense-of-wonder rubric of
   five criteria: a new sense (an experience new technology makes
   possible), a new standard (it changes how a player sees games),
@@ -747,7 +747,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   | dev.1 | MuJoCo collision, bit-deterministic | none | (unlikely, p=0.15) |
   | dev.1 | playing on macOS via oxrsys, PyroWave | none | (unlikely, p=0.10) |
 
-  RFD 2296 carries dev.2's forecasts and RFD 2298 dev.next's.
+  RFD66606-2296 carries dev.2's forecasts and RFD66606-2298 dev.next's.
   :: details Verification, end to end
   0. Each release: the tag, the GitHub release with sha256s, `push.sh`
      onto the Frame, the named playtest and its `clip.sh` capture, the

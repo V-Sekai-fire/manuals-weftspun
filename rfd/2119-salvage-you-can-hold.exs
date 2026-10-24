@@ -77,13 +77,11 @@ rfd 2119, "Salvage you can hold", :prediscussion do
   is the moment the two
   layers touch.
   :: details The Memory Drive as the worked case
-  RFD 2085 has Memory Drives housing a Spark's consciousness, dropping on death, and available
-  to be looted or ransomed.
-  Every property that makes an object hard here is present at once. It is holdable, so it wants
-  distributed authority.
-  It is contested between players who benefit from taking it, so it cannot have distributed
-  authority. It is unique in
-  the fiction as strongly as in the ledger, because duplicating a drive duplicates a person.
+  RFD66606-2085 has Memory Drives housing a Spark's consciousness, dropping on death, and
+  available to be looted or ransomed. Every property that makes an object hard here is present at
+  once. It is holdable, so it wants distributed authority. It is contested between players who
+  benefit from taking it, so it cannot have distributed authority. It is unique in the fiction as
+  strongly as in the ledger, because duplicating a drive duplicates a person.
 
   The split resolves it. The shell is a physics object under the ordinary rules, and custody is
   a row that moves only by

@@ -35,7 +35,7 @@ failure mode, so a single mean deviation hides exactly what matters.
 Do not compare a four-bit run against a published bf16 figure. The
 baseline is free here, and a borrowed one is not a baseline.
 
-If the emulator cannot run a layer, that is RFD 1129's question. Record
+If the emulator cannot run a layer, that is RFD66606-1129's question. Record
 it and stop, rather than substituting an operator to get a number.
 
 ## Four bits does not always buy speed, and here it bought none

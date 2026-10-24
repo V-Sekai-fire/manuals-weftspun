@@ -11,7 +11,7 @@ rfd 1044, "Model image for seethrough_layer_decomposition", :discussion do
   Model the pipeline as a taskweft domain, and let the planner pick the
   order. `domain.ex` and `problem.ex` under
   `apparatus/1044-seethrough-layer-decomposition/` hold it.
-  RFD 1037 gives the convention, and both files validate against
+  RFD66606-1037 gives the convention, and both files validate against
   `Code.string_to_quoted/1`.
 
   The model image calls `plan`, and it runs one function per action. The
@@ -21,19 +21,19 @@ rfd 1044, "Model image for seethrough_layer_decomposition", :discussion do
   See `DETAILS.md` for why a planner earns its place here, the nine
   actions and their guards, and how one domain covers both runtimes.
 
-  **WITHDRAWN 2026-08-29: the weights are not usable here.** RFD 1166
+  **WITHDRAWN 2026-08-29: the weights are not usable here.** RFD66606-1166
   dropped See-Through from the candidate ranking; its checkpoints state no
   licence and the depth one is an OpenRAIL++-M derivative. The layer
   taxonomy is what this workspace keeps.
   :: problem
-  This entry names one task and runs nine networks. RFD 1030 lists them.
+  This entry names one task and runs nine networks. RFD66606-1030 lists them.
   A Python script that calls them in order hides the order, the guards,
   and the point where a failure happened.
 
   Nine networks need 9.82 GB together in bf16. They do not all need to
   be resident, because a text encoder finishes before the UNet starts.
   :: related
-  RFD 1037 gives the convention. RFD 1030 lists the components. RFD 1006
+  RFD66606-1037 gives the convention. RFD66606-1030 lists the components. RFD66606-1006
   records the design.
   """
 
@@ -62,7 +62,7 @@ rfd 1044, "Model image for seethrough_layer_decomposition", :discussion do
   `a_decode_rgb` and `a_decode_alpha` read the same latents. That is the
   one fact a reader of the old script always missed.
   :: details Two runtimes, one domain
-  RFD 1030 records a Replicate path at 9.82 GB in bf16, and a local
+  RFD66606-1030 records a Replicate path at 9.82 GB in bf16, and a local
   ggml path at about 2.7 GB in Q4_K_M. The domain does not change
   between them. Only the action bodies change.
   """

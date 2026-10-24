@@ -1,15 +1,15 @@
 # Logbook: LLaDA-o beats OmniGen2 on subject_remove pair 0, at 14x wall
 
 **Session:** CUDA agent (`cuda-a63415`), 2026-09-04 UTC
-**Related:** RFD 2186 (dressing overlay), memory
-`[[llada-diffusion-lm-shelved]]` (reopens for RFD 2186 candidacy on this
-measurement, though the shelving for RFD 1170's sub-500 ms real-time
+**Related:** RFD66606-2186 (dressing overlay), memory
+`[[llada-diffusion-lm-shelved]]` (reopens for RFD66606-2186 candidacy on this
+measurement, though the shelving for RFD66606-1170's sub-500 ms real-time
 avatar target still stands)
 
 ## Question
 
 The `logbook-lumina2-distill-n1000-shelved` entry recorded that the
-Lumina2 substitution route did not work for RFD 2186's dressing overlay.
+Lumina2 substitution route did not work for RFD66606-2186's dressing overlay.
 The `omnigen2_ladder` measurement then recorded OmniGen2's own baseline
 at 3.36 mean overall across 20 shard-90 pairs, with 15/20 non-zero — a
 respectable floor that Lumina2 could not clear.
@@ -70,16 +70,16 @@ whose shipping configuration is a future project.
 
 ## Verdict
 
-**LLaDA-o is a candidate primary generator for RFD 2186's dressing
+**LLaDA-o is a candidate primary generator for RFD66606-2186's dressing
 overlay stage on quality grounds, not on speed grounds.** The current
 configuration is unsuitable for shipping; the question the next
 project answers is whether the quality survives to a distilled,
 faster configuration.
 
 The `[[llada-diffusion-lm-shelved]]` memory recorded the shelving on
-RFD 1170's sub-500 ms real-time avatar target. That target does not
-apply to RFD 2186's batch-mode dressing overlay. The RFD 1170 shelving
-stands for its own use case; the RFD 2186 candidacy is separate and
+RFD66606-1170's sub-500 ms real-time avatar target. That target does not
+apply to RFD66606-2186's batch-mode dressing overlay. The RFD66606-1170 shelving
+stands for its own use case; the RFD66606-2186 candidacy is separate and
 opens on this measurement.
 
 ## Not measured

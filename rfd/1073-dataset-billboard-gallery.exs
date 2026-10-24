@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :prediscussion do
-  scope "RFD 1064's dataset, `apps/usd_viewer_app/`"
+rfd 1073, "A billboard gallery of the RFD66606-1064 dataset, in one USD stage", :prediscussion do
+  scope "RFD66606-1064's dataset, `apps/usd_viewer_app/`"
   attest_in :none
 
   prose ~S"""
@@ -20,23 +20,23 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   See `DETAILS.md` for the exact scope shipped today, the file-size
   reasoning, and what running the remaining 41 shards needs.
   :: problem
-  RFD 1064's dataset holds about 15,000 anime images and captions, on
+  RFD66606-1064's dataset holds about 15,000 anime images and captions, on
   disk, unused until step 1 writes a `problem.ex` per row. Nothing
   shows what the dataset actually contains today. A person cannot see
   it without writing code to open a parquet shard.
   :: related
-  RFD 1064 gives the dataset this RFD displays. RFD 1053 makes USD the
+  RFD66606-1064 gives the dataset this RFD displays. RFD66606-1053 makes USD the
   internal format, and this RFD is the deliberate, scoped exception:
   a preview stage, in a companion app, not the main studio client.
-  RFD 1062 gives the Fly.io toplevel this RFD's app first deployed
-  beside. RFD 1076 moves that companion app to its own deploy target
+  RFD66606-1062 gives the Fly.io toplevel this RFD's app first deployed
+  beside. RFD66606-1076 moves that companion app to its own deploy target
   entirely (`apps/usd_viewer_app/`), reached through a
   `GallerySource` port, and gives the `usd-viewer` patch's real,
-  current form. RFD 1077 decides Tigris, not `versitygw`, as the
+  current form. RFD66606-1077 decides Tigris, not `versitygw`, as the
   object storage the still-open fetch path in `DETAILS.md` targets.
   """
 
-  details_title "A billboard gallery of the RFD 1064 dataset, in one USD stage"
+  details_title "A billboard gallery of the RFD66606-1064 dataset, in one USD stage"
 
   prose ~S"""
   :: details What shipped, verified, not claimed
@@ -59,7 +59,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
 
   Committing 358, let alone 15,000, generated images straight into
   `usd_viewer_app/public/` would have put roughly 115 MB of binary
-  data into git, permanently. RFD 1062 already names the right pattern
+  data into git, permanently. RFD66606-1062 already names the right pattern
   for exactly this, `idtx_transport`/aria-storage, content-addressed,
   chunked, not committed.
 
@@ -70,7 +70,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   correctly, was not safely finishable in the time this session had
   left.
   :: details What replaced it: versitygw, verified end to end
-  RFD 1058's own `DETAILS.md` already names `versitygw`: "fronts
+  RFD66606-1058's own `DETAILS.md` already names `versitygw`: "fronts
   object storage with the S3 API, per the user's existing setup."
   `versity/versitygw:latest` is real, Apache 2.0, and its `posix`
   backend fronts a plain directory with the S3 API, no chunking
@@ -88,7 +88,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   3. `Dockerfile.fly` now builds `versitygw` in as a third process,
      copied from the official image in a build stage, alongside
      CockroachDB and the release. `deploy/docker-entrypoint-fly.sh`
-     starts it bound to `127.0.0.1:10000` only, per RFD 1058's own
+     starts it bound to `127.0.0.1:10000` only, per RFD66606-1058's own
      rule: no port past loopback unless a remote caller needs it.
   4. The full three-process image was rebuilt and run. Health, the
      catalog, and the pipelines endpoints all answered. `docker exec`
@@ -104,11 +104,11 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   instead. It must run from inside the container, or over
   `flyctl ssh console`, since the port is loopback-only by design.
 
-  **RFD 1077 reverses this choice**, back to Tigris, once RFD 1076
+  **RFD66606-1077 reverses this choice**, back to Tigris, once RFD66606-1076
   split `usd_viewer_app` onto its own machine and made `versitygw`'s
   loopback bind unreachable from it. No technical objection to Tigris
   is recorded anywhere in this history; the original switch to
-  `versitygw` cites RFD 1058's own words, "per the user's existing
+  `versitygw` cites RFD66606-1058's own words, "per the user's existing
   setup," not a defect Tigris had. See "The gallery's asset is still
   a stopgap" below for the reasoning behind reversing it again.
   :: details The live deployment
@@ -128,7 +128,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
 
   **The root path answers 404, correctly.** `router.ex`'s own
   catch-all route returns `{"error":"not found"}` for `GET /`, since
-  no frontend route exists yet. RFD 1062 names the built browser
+  no frontend route exists yet. RFD66606-1062 names the built browser
   client as something the toplevel would serve, but that wiring was
   never built into `Dockerfile.fly` or the router. Today this
   deployment is API-only, `/api/v1/*`, by design, not by bug. A
@@ -204,7 +204,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   `fix-usdz-relative-texture-path`, and
   [github.com/coryrylan/usd-viewer/pull/4](https://github.com/coryrylan/usd-viewer/pull/4)
   carries that same fix upstream. Until a fix lands upstream and a new
-  published version picks it up, RFD 1076 carries the identical patch
+  published version picks it up, RFD66606-1076 carries the identical patch
   forward as a real `patch-package` patch,
   `apps/usd_viewer_app/patches/usd-viewer+0.0.0.patch`, applied by
   `npm ci`'s own `postinstall`, not the two hand-patched vendor
@@ -234,7 +234,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   `occlusion`, and `opacity` linear, matching UsdPreviewSurface's own
   convention that only color-like channels are sRGB. Not filed
   upstream, unlike the path-lookup bug above. Carried forward in the
-  same `patch-package` patch RFD 1076 gives the path-lookup fix.
+  same `patch-package` patch RFD66606-1076 gives the path-lookup fix.
   :: details A third real usd-viewer bug: single-sided once a real texture applies
   With the color fix live, the billboard vanished completely for part
   of every `autoRotate` cycle, confirmed with two Playwright
@@ -251,22 +251,22 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   (`d.side`, already `DoubleSide`) into the replacement material,
   rather than dropping it. Not filed upstream, per this session's own
   direction, same as the sRGB fix above. Carried forward in the same
-  `patch-package` patch, confirmed still present by RFD 1076's own
+  `patch-package` patch, confirmed still present by RFD66606-1076's own
   Playwright screenshot of the live proxy chain.
   :: details What full scale still needs
   Running `make_billboard_gallery.py --shards 42` and pushing every
-  resulting card to object storage (RFD 1077 decides which, below),
+  resulting card to object storage (RFD66606-1077 decides which, below),
   not baking them into a Docker image. Neither step has run yet.
 
   `usd_viewer_app` (now `apps/usd_viewer_app/`, its own deployed app
-  per RFD 1076) still does not fetch from object storage at all. It
+  per RFD66606-1076) still does not fetch from object storage at all. It
   holds the three verified proof files under `public/usd/`, baked
   into its own Docker image at build time and served as static files.
-  Wiring that fetch path is still the next step, unchanged by RFD
-  1076's own restructuring, only which app would hold that fetch
-  code changed, and RFD 1077 changes which storage it fetches from.
+  Wiring that fetch path is still the next step, unchanged by
+  RFD66606-1076's own restructuring, only which app would hold that fetch
+  code changed, and RFD66606-1077 changes which storage it fetches from.
   :: details The gallery's asset is still a stopgap, decided which shape replaces it
-  RFD 1076 replaced the stopgap this section originally named
+  RFD66606-1076 replaced the stopgap this section originally named
   (`weftspun_studio` serving `sample_billboard.usdz` from
   `priv/static/gallery/usd/`, through a direct `GET
   /sample_billboard.usdz` route in `router.ex`) with a different one:
@@ -275,21 +275,21 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   them through its own `server.js`, and `weftspun_studio` reaches them
   by reverse-proxying through `WeftspunStudio.Ports.GallerySource` /
   `Adapters.HttpGallery`. `weftspun_studio` no longer holds the
-  gallery's bytes on disk at all, a real improvement RFD 1076 records,
+  gallery's bytes on disk at all, a real improvement RFD66606-1076 records,
   but the asset is still image-baked, not fetched from object storage.
 
   **This section originally named `versitygw` as where the asset
-  belongs. RFD 1077 changes that decision: Tigris, not `versitygw`.**
+  belongs. RFD66606-1077 changes that decision: Tigris, not `versitygw`.**
   `versitygw` binds `127.0.0.1:10000`, loopback-only inside
-  `weftspun_studio`'s own Fly machine, per RFD 1058's zero-trust rule.
-  `apps/usd_viewer_app/` is a separate Fly machine now, per RFD 1076,
+  `weftspun_studio`'s own Fly machine, per RFD66606-1058's zero-trust rule.
+  `apps/usd_viewer_app/` is a separate Fly machine now, per RFD66606-1076,
   and cannot reach a loopback-bound port on a different machine at
   all, a real blocker `versitygw`'s own architecture creates, not
-  present before RFD 1076 split the two apps apart. Tigris, Fly's own
+  present before RFD66606-1076 split the two apps apart. Tigris, Fly's own
   managed, S3-compatible object storage, has no such constraint: any
   Fly app reaches it over its own public S3 endpoint
   (`t3.storage.dev`), with no private-network wiring and no colocated
-  container, and RFD 1077 already names its automatic edge replication
+  container, and RFD66606-1077 already names its automatic edge replication
   as a real, working substitute for the CDN this project asked about
   separately. Migration cost is small: only the two files
   `versitygw test full-flow` already proved land, need moving.
@@ -297,7 +297,7 @@ rfd 1073, "A billboard gallery of the RFD 1064 dataset, in one USD stage", :pred
   The proper version needs an S3 client (`ex_aws`/`ex_aws_s3`, or
   Tigris's own recommended SDK path) as a real dependency of
   `apps/usd_viewer_app/`, the natural owner now since it is the one
-  serving the gallery's bytes at all, per RFD 1076, plus a boot-time
+  serving the gallery's bytes at all, per RFD66606-1076, plus a boot-time
   or on-demand push of each card to Tigris instead of
   `scripts/push_gallery_to_vgw.exs`'s `versitygw` target. That is real
   new code and another full deploy cycle, not a small edit.

@@ -12,21 +12,21 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   found 39 pairs, and only 11 real-drift pairs need per-RFD follow-up.
   :: problem
   Settled decisions leaning on withdrawn ones read as authoritative, so this class of drift is
-  higher severity than RFD 2174 (open-to-abandoned index)'s open-to-abandoned class.
+  higher severity than RFD66606-2174 (open-to-abandoned index)'s open-to-abandoned class.
 
   Of the 39 pairs:
 
   - 14 retraction chains. The RFD is the retraction (2168-2175, 2159). Correct as-is.
-  - 14 historical framing pairs in published loop-RFDs (1030, 1143-1147 cite RFD 1122; 1020-1060
-  cite the pre-MaskScore (edit-reward corpus) RFD 1019). Weakly stale; the framing was correct
-  when written.
+  - 14 historical framing pairs in published loop-RFDs (1030, 1143-1147 cite RFD66606-1122;
+  1020-1060 cite the pre-MaskScore (edit-reward corpus) RFD66606-1019). Weakly stale; the framing
+  was correct when written.
   - 11 real drift pairs. A settled decision references a terminal RFD without acknowledging the
   retraction chain. Per-pair successor annotations in [DETAILS.md](DETAILS.md).
   :: section Details
-  Same pattern as RFD 2174. The 14 retraction chains need no action. The 14 historical-framing
-  pairs stay as-is (retitling a published RFD to name a successor for a citation that describes
-  a superseded problem framing does more damage than the drift). The 11 real-drift pairs migrate
-  on next edit; DETAILS.md names each successor.
+  Same pattern as RFD66606-2174. The 14 retraction chains need no action. The 14
+  historical-framing pairs stay as-is (retitling a published RFD to name a successor for a
+  citation that describes a superseded problem framing does more damage than the drift). The 11
+  real-drift pairs migrate on next edit; DETAILS.md names each successor.
   :: related
   Spine: urn:oid:1.3.6.1.4.1.66606.1.1.1000 (RFD conventions).
   Companion: urn:oid:1.3.6.1.4.1.66606.1.2.2174 (open-to-abandoned).
@@ -43,9 +43,9 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   :: details Retraction chains (14, keep as-is)
   The citer IS the retraction; citation is by design.
 
-    2168 → 1122     RFD 2168 abandons 1122
-    2169 → 1019     RFD 2169 abandons 1019
-    2169 → 1067     RFD 2169 references abandoned CockroachDB
+    2168 → 1122     RFD66606-2168 abandons 1122
+    2169 → 1019     RFD66606-2169 abandons 1019
+    2169 → 1067     RFD66606-2169 references abandoned CockroachDB
     2173 → 1019     Qwen3-VL migration index references studio-core
     2174 → 1019     Abandoned-citation index references itself
     2174 → 1122     "
@@ -55,7 +55,7 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
     2175 → 1163     "
     2175 → 2133     "
     2175 → 2138     "
-    2159 → 2158     RFD 2159 supersedes 2158 (self-hosted RISC-V compiler)
+    2159 → 2158     RFD66606-2159 supersedes 2158 (self-hosted RISC-V compiler)
     (5 rented-compute rows already appear in 2175's own list)
   :: details Historical framing (14, keep as-is, weakly stale)
   Published loop-RFDs and moat-narrative RFDs cite the framing the
@@ -85,17 +85,17 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
     1086 → 1101     Dev machine topology cites SSH host names (aband).
                     Successor: none; drop.
     1095 → 1100     NVIDIA XR AI cites spatial fabric integration
-                    (abandoned). Successor: RFD 1107 (world package).
-    1099 → 1100     Scripts cheatsheet, same abandoned RFD 1100.
-                    Successor: RFD 1107.
-    1102 → 1100     3DAIGC modules, same. Successor: RFD 1107.
+                    (abandoned). Successor: RFD66606-1107 (world package).
+    1099 → 1100     Scripts cheatsheet, same abandoned RFD66606-1100.
+                    Successor: RFD66606-1107.
+    1102 → 1100     3DAIGC modules, same. Successor: RFD66606-1107.
     1103 → 1098     Vercel loot cites public deploy (aband). Drop.
     1107 → 1100     World package cites spatial fabric integration.
                     Self-successor; keep or drop.
     1108 → 1090     XR mode cites IWSDK integration (aband). Drop.
     1111 → 1100     3DAIGC-API reference cites 1100. Successor: 1107.
     1146 → 1132     Latent-to-Pixal3D cites priority list (abandoned
-                    by RFD 2175). Successor: RFD 2175.
+                    by RFD66606-2175). Successor: RFD66606-2175.
     1057 → 1062     Open work also drops abandoned Fly.io toplevel.
   :: details Verification
   Lean 4 (v4.33.1) audit:

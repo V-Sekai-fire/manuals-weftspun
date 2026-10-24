@@ -19,8 +19,8 @@ rfd 1035, "Legacy model identifiers", :published do
   A reader who sees them in a picker cannot tell them from the current
   models.
   :: related
-  RFD 1016 lists the active models. RFD 1005 records the avatar
-  pipeline. RFD 1028 records the license gate.
+  RFD66606-1016 lists the active models. RFD66606-1005 records the avatar
+  pipeline. RFD66606-1028 records the license gate.
   """
 
   details_title "Legacy model identifiers"

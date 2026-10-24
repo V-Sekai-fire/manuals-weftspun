@@ -28,13 +28,14 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   Policy, CA/B Forum SC-081v3, NCSC, NIST SP 800-57 Pt.1 §5.3.6) and
   the current-state audit.
   :: problem
-  RFD 2134, 2141, 2142 landed with 10-year CAs and 1-to-2-year leaves.
+  RFD66606-2134, RFD66606-2141, RFD66606-2142 landed with 10-year CAs and 1-to-2-year leaves.
   2144 minted a 10-year WebTransport intermediate on the same pattern.
   The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by
   2029-03) and a Mozilla Root Store Policy that removes public trust
   after 15 years of key material.
   :: related
-  RFD 2134, 2141, 2142, 2144. Each carries a retraction pointing here.
+  RFD66606-2134, RFD66606-2141, RFD66606-2142, RFD66606-2144. Each carries a retraction pointing
+  here.
   """
 
   details_title "Certificate lifetimes, from a risk-based ceiling"
@@ -111,7 +112,7 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   also carries a bigger compromise surface than the primary root
   because 1P is warmer storage than an offline HSM ceremony. Its
   audit expectation is stricter: `op` reads are logged, the 1P item
-  is CONCEALED-only (RFD 2144 defect #12 was moving the key from
+  is CONCEALED-only (RFD66606-2144 defect #12 was moving the key from
   `notesPlain` to CONCEALED), and any pull of the private key is
   followed by a `shred -u` of the scratch file.
   :: details Why the intermediates get 3 years
@@ -156,11 +157,11 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   missing gates). Followup task 18 covers bringing them into
   compliance.
   :: details Exceptions this rule does not cover
-  **Cross-signed certs during CA rotation.** RFD 2141's phases 2-3 mint
+  **Cross-signed certs during CA rotation.** RFD66606-2141's phases 2-3 mint
   a leaf that chains to both the old and new intermediate for the
   rotation window. That leaf's `notAfter` is whichever chain is
   shorter. The transition window is the specific case where two CAs
-  overlap for a bounded time. Not covered here. RFD 2141 covers it.
+  overlap for a bounded time. Not covered here. RFD66606-2141 covers it.
 
   **External CAs.** Nothing this RFD says binds a certificate issued by
   Let's Encrypt, ZeroSSL, or a paid public CA. Those follow whatever

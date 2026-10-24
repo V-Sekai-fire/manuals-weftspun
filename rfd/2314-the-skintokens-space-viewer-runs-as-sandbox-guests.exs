@@ -27,8 +27,8 @@ entities-model-explorer, the gdscript compiler fork, godot-sandbox and the WebGP
   sandbox guest, so that the path a dropped model takes is the path the rig
   will take.
   :: related
-  - RFD 1046, the SkinTokens model image; RFD 2245, WebGPU inside Godot.
-  - RFD 2213, VRM through a sandbox guest; RFD 2211, the base tree of
+  - RFD66606-1046, the SkinTokens model image; RFD66606-2245, WebGPU inside Godot.
+  - RFD66606-2213, VRM through a sandbox guest; RFD66606-2211, the base tree of
     entities-godot-sandbox.
   """
 

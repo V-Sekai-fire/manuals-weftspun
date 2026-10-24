@@ -25,7 +25,7 @@ rfd 2016, "Checking sccache", :committed do
   wrong, or the region/endpoint is off, sccache quietly falls back to a
   local disk cache, or records read/write errors, while the build
   :: related
-  - RFD 2017 compiles the engine through this cache.
+  - RFD66606-2017 compiles the engine through this cache.
   """
 
   details_title "Checking sccache"

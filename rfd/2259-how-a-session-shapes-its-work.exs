@@ -28,8 +28,8 @@ budget and parks work the same way every time"
   and a feature branch left checked out that `repo sync` rebased
   into conflict markers all happened in one session.
   :: related
-  - RFD 2026 (commit messages), the subject line these commits use.
-  - RFD 2258, the gates each pushed branch runs.
+  - RFD66606-2026 (commit messages), the subject line these commits use.
+  - RFD66606-2258, the gates each pushed branch runs.
   """
 
   details_title "how a session shapes its work"

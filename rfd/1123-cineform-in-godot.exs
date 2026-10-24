@@ -35,8 +35,8 @@ rfd 1123, "CineForm in Godot, both directions", :discussion do
   than 1 mm. The corpus is 800,000 frames, too many to hold loose: 12 bit CineForm at 1024 by 1024
   costs 127 MB for every 1000 frames, and 16 bit PNG costs about ten times more.
   :: related
-  RFD 1121 and RFD 1122 cover the corpus this video carries. RFD 1053 makes OpenUSD the internal
-  format for geometry, and this RFD does the same for rendered frames.
+  RFD66606-1121 and RFD66606-1122 cover the corpus this video carries. RFD66606-1053 makes OpenUSD
+  the internal format for geometry, and this RFD does the same for rendered frames.
   """
 
   details_title "CineForm in Godot, both directions"
@@ -277,7 +277,7 @@ rfd 1123, "CineForm in Godot, both directions", :discussion do
 
   ANNY drives 9 of the 24 layers. The other 15 have no bone at all. The legend lists them greyed
   rather than leaving them out. A category that is simply absent reads as a category that does
-  not exist, and RFD 1121 records why that gap matters.
+  not exist, and RFD66606-1121 records why that gap matters.
   :: details What the chunk manifest must carry
   Quantisation is linear between a near plane and a far plane. Those two numbers invert it. A
   chunk without them is a picture, not a measurement.

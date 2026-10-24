@@ -29,7 +29,7 @@ Pilot MCP `plan` tool as the rollout driver, and the frozen local Bonsai 2 model
   - Faro et al., Frontier Learning (doi 10.48550/arXiv.2609.35426)
   - Luo et al., EditScore (doi 10.48550/arXiv.2509.23909)
   :: related
-  RFD 2304 (`Plan.lean`'s library), RFD 2161 (EditScore), RFD 2307 (recording).
+  RFD66606-2304 (`Plan.lean`'s library), RFD66606-2161 (EditScore), RFD66606-2307 (recording).
   """
 
   details_title "frontier learning for the alyx planner"

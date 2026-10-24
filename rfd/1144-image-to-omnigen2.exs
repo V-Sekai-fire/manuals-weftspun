@@ -31,7 +31,7 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   Being smallest makes it the one that measures the two components every
   other loop also uses, so its numbers are the plan's numbers.
   :: related
-  RFD 1143, RFD 1145 and RFD 1146 are the other three loops. RFD 1128
+  RFD66606-1143, RFD66606-1145 and RFD66606-1146 are the other three loops. RFD66606-1128
   records four-bit tolerance for another model on the same card.
   """
 
@@ -64,11 +64,11 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
 
   CLAUDE.md's generated-synthetic condition 5 decides what may be done with the
   NF4 row: quantised weights produce no corpus data. So the four-bit form is a way
-  to fit the loop on this desk, and never a way to make data with it. RFD 1128
+  to fit the loop on this desk, and never a way to make data with it. RFD66606-1128
   reaches the same place for a different model, and records that four bits bought
   no speed there either.
   :: details What EditScore costs and returns
-  RFD 1147 holds it. Every loop scores with EditScore and only loops 2 and 3
+  RFD66606-1147 holds it. Every loop scores with EditScore and only loops 2 and 3
   propose with OmniGen2, so the scorer's figures belong to the plan rather than to
   this loop. `editscoreMatchingOverall`, `editscoreNonsenseOverall`,
   `editscorePeakGib512` and `editscorePeakGib1024` all resolve there.

@@ -1,6 +1,6 @@
-"""TRELLIS.2 image mesh painting. RFD 1039.
+"""TRELLIS.2 image mesh painting. RFD66606-1039.
 
-The weights come from the RFD 1038 base image. This file adds the
+The weights come from the RFD66606-1038 base image. This file adds the
 painting path only.
 
 The mesh must carry a UV set. This Cog does not unwrap, because a
@@ -12,7 +12,7 @@ from cog import BasePredictor, BaseModel, Input, Path
 
 
 class Output(BaseModel):
-    """RFD 1053. A material layer over the mesh, plus the GLB."""
+    """RFD66606-1053. A material layer over the mesh, plus the GLB."""
 
     layer: Path
     glb: Path

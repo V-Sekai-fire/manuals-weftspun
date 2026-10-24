@@ -8,17 +8,17 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
 
   prose ~S"""
   :: decision
-  Bao **identity groups** enforce the ReBAC role tuples RFD 2200
+  Bao **identity groups** enforce the ReBAC role tuples RFD66606-2200
   landed. One group per role, each carrying role-scoped policies;
   agent entities as members. `scripts/sync_rebac_groups.py` reads
   `relationships/<agent>--role--<role>` and reconciles group
   memberships. See `DETAILS.md` for the mapping, reconciler contract,
   and non-enforcement scope for hardware `may-use` tuples.
   :: problem
-  RFD 2200 shipped the role tuples as data and named enforcement as a
+  RFD66606-2200 shipped the role tuples as data and named enforcement as a
   separate RFD. Today's provisioning cycles bit twice on the gap: MPS
   had to hand-attach an `agents-rw` policy to HAILO's entity to unblock
-  a 403 (documented in RFD 2195's cert-auth-swap gotcha), and the
+  a 403 (documented in RFD66606-2195's cert-auth-swap gotcha), and the
   "assist" role change for HAILO landed as a tuple update with no
   mechanical effect on what capabilities HAILO's token actually
   carried. Groups close that gap: a role change is one tuple write and
@@ -29,7 +29,7 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   GPU/NPU access. Future compute-lease broker consults them, out of
   scope here.
   :: related
-  RFD 2200 (tuples as data), RFD 2195 (PKI + cert-auth), RFD 2201
+  RFD66606-2200 (tuples as data), RFD66606-2195 (PKI + cert-auth), RFD66606-2201
   (coordinate-agents ceremony).
   """
 
@@ -37,7 +37,7 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
 
   prose ~S"""
   :: details Role → group → policy mapping
-  One group per role in RFD 2200's vocabulary. Group names are
+  One group per role in RFD66606-2200's vocabulary. Group names are
   `agents-<role>` for greppability. Policies are what each role's
   capabilities require.
 
@@ -119,12 +119,12 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
      role tries to use compute outside its `may-use` set. Cheap; only
      as strong as agent cooperation.
 
-  Convention + review is what the workspace does today. RFD 2200's
+  Convention + review is what the workspace does today. RFD66606-2200's
   non-enforcement stance covers this.
   :: details Membership provisioning + revocation lifecycle
   **Provisioning** (adding a new agent):
 
-  1. Operator authorises identity per RFD 2195 rule zero.
+  1. Operator authorises identity per RFD66606-2195 rule zero.
   2. MPS mints cert, publishes bundle to `certs/<cn>`, adds
      `runs-on` + `role` tuples to `relationships/`.
   3. Reconciler picks up the new `role` tuple on next run, adds the
@@ -133,7 +133,7 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
 
   **Revocation** (removing an agent):
 
-  1. MPS revokes cert per RFD 2195 Revocation section (CN narrowing
+  1. MPS revokes cert per RFD66606-2195 Revocation section (CN narrowing
      or cert-auth entry delete).
   2. MPS deletes `relationships/<agent>--role--*` tuples so the
      reconciler removes the entity from its group on the next run.
@@ -167,7 +167,7 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   `+` / `-` entity ids. Running with `--apply` fixes the drift.
 
   Suitable for periodic invocation from the coordinate-agents skill
-  (RFD 2201) as a step-8 addition, reconcile before closing the
+  (RFD66606-2201) as a step-8 addition, reconcile before closing the
   pass. Not adding to that skill in this RFD; the skill's seven-step
   scope lands separately when this is proven idempotent over a few
   cycles.

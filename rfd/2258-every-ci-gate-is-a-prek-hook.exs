@@ -22,8 +22,8 @@ ruleset 23145233 in this repository"
   workflow by hand. The list the working agreements stated had
   already drifted from the ruleset.
   :: related
-  - RFD 2245, the red merge that made gates required.
-  - RFD 2232, the render every gate reads.
+  - RFD66606-2245, the red merge that made gates required.
+  - RFD66606-2232, the render every gate reads.
   """
 
   details_title "every CI gate is a prek hook"

@@ -39,7 +39,7 @@ defmodule Mix.Tasks.Rfd.Render do
 end
 
 defmodule Mix.Tasks.Rfd.Check do
-  @shortdoc "Compile every RFD and register source; one outside RFD 1000's shape fails here"
+  @shortdoc "Compile every RFD and register source; one outside RFD66606-1000's shape fails here"
   @moduledoc false
   use Mix.Task
 

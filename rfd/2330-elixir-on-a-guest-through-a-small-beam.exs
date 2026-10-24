@@ -4,7 +4,7 @@ use RFD.DSL
 
 rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   feature "an Elixir program runs inside a godot-sandbox guest ELF, sliced per frame"
-  scope "a new guest repository, the sysroot toolchain, the host-call table of RFD 2288"
+  scope "a new guest repository, the sysroot toolchain, the host-call table of RFD66606-2288"
 
   prose ~S"""
   :: decision
@@ -14,8 +14,8 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   embeds the bytecode pack. No full OTP runtime goes into a guest. Rung 0
   is the interpreter alone: SMP, task driver, JIT and TLS off. Rung 1 adds
   the host bridge: one vmcall runs the VM's scheduler for a slice under
-  RFD 2302's budget, and the program reaches the engine through NIFs over
-  the sandbox API, each a capability of RFD 2288. Rung 2, gated, loads the
+  RFD66606-2302's budget, and the program reaches the engine through NIFs over
+  the sandbox API, each a capability of RFD66606-2288. Rung 2, gated, loads the
   VM's ahead-of-time riscv64 native chunk and is kept only if the measured
   instruction count per solve falls. New guest code is Lean 4 or a BEAM
   program on this route (operator, 2026-10-20); C++ stays legacy only.
@@ -28,9 +28,9 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   had not been studied. The LLVM compiler for BEAM languages is archived,
   and the full OTP runtime needs fork, exec and dlopen, which a guest lacks.
   :: related
-  - RFD 2154 (Elixir embeds the engine from the host), RFD 2288 (host calls as
-    capabilities), RFD 2302 (frame slices), RFD 2293 and RFD 2294 (compute).
-  - RFD 1054: the same small VM in a browser, and why that could not ship.
+  - RFD66606-2154 (Elixir embeds the engine from the host), RFD66606-2288 (host calls as
+    capabilities), RFD66606-2302 (frame slices), RFD66606-2293 and RFD66606-2294 (compute).
+  - RFD66606-1054: the same small VM in a browser, and why that could not ship.
   """
 
   details_title "Elixir on a guest through a small BEAM"
@@ -52,7 +52,7 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   include of &{repo("contract-guest-runtime")}. Its entry must sit inside
   an executable load segment, `main` never returns but calls `fast_exit`
   so the VM keeps its state, and the host reaches it by `vmcall` with at
-  most seven arguments. Everything is binary-translated (RFD 2293). A guest
+  most seven arguments. Everything is binary-translated (RFD66606-2293). A guest
   has no fork, no exec, no sockets, no DNS, no epoll and no pipes; async
   timers are unusable; `IO.appPath` fails in Lean. Memory is a power-of-two
   arena the host sets. The Lean guests (built by the Lean guest driver)
@@ -68,10 +68,10 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
     landed, and it had no riscv64 target.
   - The small VM's WebAssembly port, which runs Elixir in a browser.
     Rejected for a guest: it is web only and needs cross-origin isolation,
-    which RFD 1054 measured as the reason its editor panel could not ship.
+    which RFD66606-1054 measured as the reason its editor panel could not ship.
     It stays the reference for a web demo, not for a riscv64 guest.
   - Keep Elixir on the host and embed the engine from the BEAM through a
-    NIF (RFD 2154). This is the route when the program is a coordinator
+    NIF (RFD66606-2154). This is the route when the program is a coordinator
     that drives the engine, and it stays the default for coordinators.
   - A rewrite in Lean 4. The other permitted language for new guest code,
     and the route when the program is compute.
@@ -128,11 +128,11 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   one that runs the scheduler for a slice and returns whether work
   remains, and one that delivers bytes to a named process. The program
   reaches the engine through NIFs, each one C function over the sandbox
-  API and each a capability of RFD 2288 checked once at the host call.
-  RFD 2302's slice holds without help from the VM: the host suspends the
+  API and each a capability of RFD66606-2288 checked once at the host call.
+  RFD66606-2302's slice holds without help from the VM: the host suspends the
   guest by instruction limit and resumes it next frame, and the VM's own
   scheduler loop is the safe point for the yield request. The mesh wire
-  rules of RFD 2294 (the common mesh header, at most seven arguments)
+  rules of RFD66606-2294 (the common mesh header, at most seven arguments)
   apply to any NIF that moves geometry.
 
   :: details Rung 2, gated: the native riscv64 chunk
@@ -155,7 +155,7 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
     start module removed fails with the VM's own "no start module" error.
   - G2, round trip: the host's vmcall delivers bytes to the program and
     the program's NIF reply reaches the host unchanged. Control: a NIF
-    called without its capability is refused, as RFD 2288 requires.
+    called without its capability is refused, as RFD66606-2288 requires.
   - G3, the slice: no vmcall exceeds 6.94 ms at the host. Control: a
     module that spins forever trips the instruction limit and the next
     frame resumes it where it stopped.
@@ -178,7 +178,7 @@ rfd 2330, "Elixir on a guest through a small BEAM", :discussion do
   :: details What is not known
   - Which Elixir program is first. Naming it also settles whether it is
     compute or coordination; a coordinator that only drives the engine
-    still has the host route of RFD 2154.
+    still has the host route of RFD66606-2154.
   - Whether the godot-sandbox host carries `ppoll` (or `poll`) and
     anonymous `mmap` with `mremap`. rvlinux does; the host installs its
     own table. First step: run rung 0 inside the pinned engine, not only

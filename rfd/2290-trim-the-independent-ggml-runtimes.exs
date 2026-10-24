@@ -22,15 +22,15 @@ rfd 2290, "Trim the independent ggml runtimes", :discussion do
   :: problem
   Eight placed rows carried ggml, four of them a vendored tree of about 2,130
   files each: 2,575,482 lines, 17 per cent of what the manifest placed on
-  2026-10-01, on 0.71 GB. The cost is drift across eight trees, not disk. RFD
-  2188 decided one canonical ggml with vendored copies deleted: Phase 1
+  2026-10-01, on 0.71 GB. The cost is drift across eight trees, not disk.
+  RFD66606-2188 decided one canonical ggml with vendored copies deleted: Phase 1
   landed the framework, and this is Phase 2, the consumers.
   :: related
-  - RFD 2188 placed &{repo("ggml")}; this is its Phase 2.
-  - RFD 2287 computes in guest ELFs on ggml-rd or compute-rd, RFD 2268 makes
-    EditScore a decision model there, and RFD 2289 abandoned the off-route
-    runtimes. Abandons RFD 2230 beside 2242: no engine tree has `modules/ggml`.
-  - RFD 2272's Gate 9 reads `rf-detr-ggml`'s `seg_cli`.
+  - RFD66606-2188 placed &{repo("ggml")}; this is its Phase 2.
+  - RFD66606-2287 computes in guest ELFs on ggml-rd or compute-rd, RFD66606-2268 makes
+    EditScore a decision model there, and RFD66606-2289 abandoned the off-route
+    runtimes. Abandons RFD66606-2230 beside 2242: no engine tree has `modules/ggml`.
+  - RFD66606-2272's Gate 9 reads `rf-detr-ggml`'s `seg_cli`.
   """
 
   details_title "Trim the independent ggml runtimes"

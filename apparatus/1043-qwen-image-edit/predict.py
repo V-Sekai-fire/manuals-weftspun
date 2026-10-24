@@ -1,7 +1,7 @@
-"""Qwen image edit, Q4_K_M. RFD 1043.
+"""Qwen image edit, Q4_K_M. RFD66606-1043.
 
 27.0 B parameters. In bf16 that is 54.0 GB, which is 46 percent of the
-whole catalog. This Cog ships Q4_K_M at 14.85 GB, and RFD 1043 records
+whole catalog. This Cog ships Q4_K_M at 14.85 GB, and RFD66606-1043 records
 why no bf16 build exists.
 
 The instruction is a sentence, and not a tag list. A vision language

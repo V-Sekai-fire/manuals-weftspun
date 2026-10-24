@@ -27,7 +27,7 @@ rfd 1126, "Unroll the descent, do not replace it", :discussion do
 
   See `DETAILS.md` for the rig budget, the unrolled cost, and what is unmeasured.
   :: problem
-  RFD 1122's chain has six stages: three feed-forward graphs, and three descent
+  RFD66606-1122's chain has six stages: three feed-forward graphs, and three descent
   loops that an inference accelerator cannot compile.
 
   The obstacle is control flow rather than precision. `lbfgs_polish.py` uses a
@@ -45,7 +45,7 @@ rfd 1126, "Unroll the descent, do not replace it", :discussion do
 
   prose ~S"""
   :: details_preamble
-  Every section names its gate in an HTML comment under its heading, per RFD 1125.
+  Every section names its gate in an HTML comment under its heading, per RFD66606-1125.
   :: details Why unrolling and not a student
   <!-- gate: tropes -->
 
@@ -159,7 +159,7 @@ rfd 1126, "Unroll the descent, do not replace it", :discussion do
 
   Three views at 71 mm triangulating is a different measurement from one view
   guessing, which is why the body cameras can be starved. The z-test that computes
-  `visibility` in RFD 1122's schema is the same idea applied to labels.
+  `visibility` in RFD66606-1122's schema is the same idea applied to labels.
   :: details What is unmeasured, and matters
   <!-- gate: ste100 -->
 

@@ -3,7 +3,7 @@
 
 defmodule RFD.ReBAC do
   @moduledoc """
-  Capability-ReBAC as data (RFD 2291): the verb vocabulary, the tuples over it and
+  Capability-ReBAC as data (RFD66606-2291): the verb vocabulary, the tuples over it and
   the capabilities a tuple mints. The DSL and `scripts/check_rebac.exs` both apply
   the rules here, and the tables and fenced blocks render from the declarations.
 
@@ -144,7 +144,7 @@ defmodule RFD.ReBAC do
     shape ++ Enum.sort(repeats) ++ Enum.sort(both)
   end
 
-  # RFD 2288: a capability names one verb on one object, and its caveats bound it.
+  # RFD66606-2288: a capability names one verb on one object, and its caveats bound it.
   defp capability_problems(%{capabilities: caps}, known) do
     shape =
       Enum.flat_map(caps, fn c ->

@@ -27,8 +27,8 @@ per candidate per edit, ETNF three-parquet form."
   tables. Consumers join on row_key to sweep across modalities.
   :: problem
   The Rung 1.5 5-stub emit and each new stub's separate emit script
-  share the same shape and could drift. Text (RFD 2163), speech (RFD
-  2164) and video (part of RFD 2162) each land their own parquets.
+  share the same shape and could drift. Text (RFD66606-2163), speech (
+  RFD66606-2164) and video (part of RFD66606-2162) each land their own parquets.
   Cross-stub joins require a stable row_key convention and matching
   candidate-satellite schemas.
   :: related

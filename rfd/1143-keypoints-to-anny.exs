@@ -21,7 +21,7 @@ rfd 1143, "The keypoints-to-ANNY loop", :published do
   **The hazard is the joint count.** The detector emits 17 keypoints and
   the render asset emits 23. A comparison across those two takes an
   explicit subset, or it compares different things and reports a number
-  for it. RFD 1122 records the same gap for the wholebody chain.
+  for it. RFD66606-1122 records the same gap for the wholebody chain.
   :: problem
   `fourloops-plan.usda` carries four loops as prims, each with its
   stages, its artifact and one line of hazard. A prim holds the wiring
@@ -32,7 +32,7 @@ rfd 1143, "The keypoints-to-ANNY loop", :published do
   the plan holds the wiring for four, and one logbook entry held the
   argument for all of them. This RFD is loop 1's own.
   :: related
-  RFD 1144, RFD 1145 and RFD 1146 are the other three loops. RFD 1122 is
+  RFD66606-1144, RFD66606-1145 and RFD66606-1146 are the other three loops. RFD66606-1122 is
   the goal, and `logbook-fourloops-first-runs.md` holds the first runs.
   """
 end

@@ -3,7 +3,7 @@
 **Session:** CUDA agent (`cuda-a63415`), 2026-09-03
 **Retracts:** the "candidate primary generator" hedge in the n=10 probe
 entry `logbook-lumina2-flow-lcm-distill-probe.md`
-**Related:** RFD 2186 (dressing overlay), RFD 2183 (layer-decomp pipeline)
+**Related:** RFD66606-2186 (dressing overlay), RFD66606-2183 (layer-decomp pipeline)
 
 ## Question
 
@@ -67,7 +67,7 @@ if quality clears the no-LoRA baseline, and it does not.
 ## Verdict
 
 **Lumina2 distillation via Flow-LCM + teacher-endpoint LoRA is not a
-candidate primary generator for RFD 2186's dressing-overlay stage.**
+candidate primary generator for RFD66606-2186's dressing-overlay stage.**
 
 Shelving the recipe. The "candidate primary generator, pending scale-up"
 line in the n=10 probe entry is retracted by this measurement. The base

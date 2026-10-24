@@ -6,7 +6,7 @@ rfd 1175, "game", :discussion do
   feature "one native binary that is both the interactive demo and
 the video head that records it"
   scope "`entities-godot` master built with precision=double and the
-godot-sandbox addon (RFD 2287); every part the atelier ships lands in this binary"
+godot-sandbox addon (RFD66606-2287); every part the atelier ships lands in this binary"
   attest_in :none
 
   prose ~S"""
@@ -26,7 +26,7 @@ godot-sandbox addon (RFD 2287); every part the atelier ships lands in this binar
   path and makes every shipped part prove itself in the thing a player
   runs.
   :: related
-  RFD 2210 (the shipping surface this binary is), RFD 2177 (flight
+  RFD66606-2210 (the shipping surface this binary is), RFD66606-2177 (flight
   levels; this RFD is L2 in the register).
   """
 
@@ -55,8 +55,8 @@ godot-sandbox addon (RFD 2287); every part the atelier ships lands in this binar
     run in the godot-sandbox addon (libriscv), no forked C++, no
     unsandboxed GDScript addon.
   - **ggml** only inside godot-sandbox guests on ggml-rd with
-    compute-rd (RFD 2290): MotionBricks and Kimodo in `motion.elf`,
-    EditScore judgment as its decision model (RFD 2268).
+    compute-rd (RFD66606-2290): MotionBricks and Kimodo in `motion.elf`,
+    EditScore judgment as its decision model (RFD66606-2268).
     The route holds by agreement; no gate checks it.
   - **Model bundle**: ZSTD-compressed SQLite on local disk, loaded
     via `sqlite3_open()` on install path.

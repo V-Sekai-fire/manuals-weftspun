@@ -25,10 +25,10 @@ every stunnel or edge endpoint that serves under an agent identity"
   anyway, and every client then rejects it. On 2026-10-16 a server certificate
   for the Linux 4090 host failed this way.
   :: related
-  - RFD 2142 (Bao PKI service TLS), the first PKI mount.
-  - RFD 2145 (certificate lifetimes), the 90-day leaf ceiling.
-  - RFD 2316 (Bao bounded storage), why no record is stored.
-  - RFD 2311 (Bonsai 2 serving), the first host to need this.
+  - RFD66606-2142 (Bao PKI service TLS), the first PKI mount.
+  - RFD66606-2145 (certificate lifetimes), the 90-day leaf ceiling.
+  - RFD66606-2316 (Bao bounded storage), why no record is stored.
+  - RFD66606-2311 (Bonsai 2 serving), the first host to need this.
   """
 
   details_title "a serving host's certificate comes from agent CA v2"
@@ -69,7 +69,7 @@ every stunnel or edge endpoint that serves under an agent identity"
         no_store          true
 
   With `no_store`, Bao keeps no copy and cannot revoke the certificate. Each
-  one expires within 90 days, which is the revocation (RFD 2316). The login
+  one expires within 90 days, which is the revocation (RFD66606-2316). The login
   certificate an agent already holds stays as it is; the endpoint certificate
   is a second one for the same name.
 

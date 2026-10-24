@@ -21,10 +21,10 @@ rfd 1125, "Two prose gates, marked per section", :discussion do
 
   **An unmarked section fails.** A silent skip reads exactly like a pass.
 
-  **A rule ships only after it runs against the corpus**, the bar RFD 1124 set.
+  **A rule ships only after it runs against the corpus**, the bar RFD66606-1124 set.
   Three of the table's fifteen detectors cannot fire, so they wait on repair.
   :: problem
-  RFD 1000 requires ASD-STE100 for every document here, and that rule was
+  RFD66606-1000 requires ASD-STE100 for every document here, and that rule was
   written for one kind of writing but is applied to two.
 
   ASD-STE100 is a controlled language for technical writing, and a schema table
@@ -34,8 +34,8 @@ rfd 1125, "Two prose gates, marked per section", :discussion do
   Neither kind owns a whole file either: a `DETAILS.md` carries a measurement
   beside the reasoning that motivates it.
   :: related
-  RFD 1000 states the rule this supersedes. RFD 1063 moved enforcement to a
-  write-time hook, so this adds a hook and not a script. RFD 1124 gives the
+  RFD66606-1000 states the rule this supersedes. RFD66606-1063 moved enforcement to a
+  write-time hook, so this adds a hook and not a script. RFD66606-1124 gives the
   measure-first rule, and the reason these gates read an AST.
   """
 
@@ -185,7 +185,7 @@ rfd 1125, "Two prose gates, marked per section", :discussion do
 
   That assignment is defensible on its own terms. A README in most repositories is
   reference material, and reference material belongs under a controlled language.
-  It is wrong here because an RFD README is not that kind of README. RFD 1000 asks
+  It is wrong here because an RFD README is not that kind of README. RFD66606-1000 asks
   it to state a problem and a decision in forty lines, which makes it the most
   compressed argument in the repository rather than the most procedural document.
 

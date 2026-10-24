@@ -33,7 +33,7 @@ rfd 1150, "Shade colour is solved per tone, not multiplied", :discussion do
   :: references
   - `DETAILS.md` carries the ladder and the solved multipliers.
   :: related
-  RFD 1149 gives the material. RFD 1151 decides which axes are weighted.
+  RFD66606-1149 gives the material. RFD66606-1151 decides which axes are weighted.
   """
 
   details_title "Shade colour is solved per tone, not multiplied"
@@ -76,7 +76,7 @@ rfd 1150, "Shade colour is solved per tone, not multiplied", :discussion do
   CIELAB at D65 is authoritative upstream and the sRGB hex this layer carries is the published
   conversion from it. That is a known substitution to replace with the CIELAB triple.
   :: details Left unmeasured
-  The rendered dE at the exposure a viewer uses, which RFD 1149 records is pi times ours.
+  The rendered dE at the exposure a viewer uses, which RFD66606-1149 records is pi times ours.
   Subsurface: a 2048 square `sss.png` ships with the basemesh and nothing binds it, so an
   albedo-only sweep understates how dark and light skin differ at a terminator.
   """

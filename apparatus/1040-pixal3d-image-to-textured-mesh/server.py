@@ -1,6 +1,6 @@
-"""Pixal3D image to textured mesh, PBR. RFD 1040.
+"""Pixal3D image to textured mesh, PBR. RFD66606-1040.
 
-An HTTP server in a plain Docker image. RFD 1036 records why this is
+An HTTP server in a plain Docker image. RFD66606-1036 records why this is
 not a Cog.
 
 vast.ai rents a whole instance and runs a Docker image on it, thus
@@ -17,7 +17,7 @@ diffusion transformer:
   2. shape              256 -> 512 -> 1024
   3. texture            256 -> 512 -> 1024
 
-RFD 1053 makes OpenUSD the internal format, thus a result carries a
+RFD66606-1053 makes OpenUSD the internal format, thus a result carries a
 USD layer beside the GLB that ships.
 """
 
@@ -43,7 +43,7 @@ MAX_MESH_VERTICES = 210000
 
 # WEFTSPUN_STUB=1 skips the model and answers with the same shape. It
 # exists so the server contract can be tested in Docker with no GPU
-# and no 24 GB download. RFD 1040 records that test.
+# and no 24 GB download. RFD66606-1040 records that test.
 STUB = os.environ.get("WEFTSPUN_STUB") == "1"
 
 # The model loads once, at start, and not per request. The weights are
@@ -126,7 +126,7 @@ def _run_upstream(image_path: Path, glb: Path, args: dict) -> None:
 def _to_usd(glb: Path, work: Path) -> Path:
     """Writes the base USD layer for this asset.
 
-    RFD 1053 makes USD the internal format. This model authors the base
+    RFD66606-1053 makes USD the internal format. This model authors the base
     layer, thus every later stage adds a sublayer over it and none
     rewrites this one.
 

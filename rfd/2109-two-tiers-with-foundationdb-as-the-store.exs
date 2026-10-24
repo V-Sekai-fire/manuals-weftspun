@@ -48,7 +48,7 @@ rfd 2109, "Two tiers with foundationdb as the store", :prediscussion do
   | Apache Ignite     | Viable, not chosen. Apache 2.0, Java, and no Ecto adapter exists     |
   | YugabyteDB        | Vetoed                                                               |
   | Stock PostgreSQL  | Blocklisted for operational reasons, which are vacuum and heap bloat |
-  | SQLite            | Chosen as the engine, its pages in FoundationDB (RFD 2103)           |
+  | SQLite            | Chosen as the engine, its pages in FoundationDB (RFD66606-2103)      |
   | CockroachDB       | Source-available since 2019, so it fails the FOSS rule               |
   | Citus             | AGPL, so it fails the non-viral rule                                 |
   | MariaDB, MySQL    | GPL, so they fail the non-viral rule                                 |
@@ -103,8 +103,8 @@ rfd 2109, "Two tiers with foundationdb as the store", :prediscussion do
   durable execution. A global player base is the case that would justify
   revisiting this.
   :: details The trade this record accepts
-  Uro reaches FoundationDB through SQLite on the `weft_fdb` VFS (RFD
-  2103), so its queries keep SQL, joins and aggregates. The cost is one
+  Uro reaches FoundationDB through SQLite on the `weft_fdb` VFS (
+  RFD66606-2103), so its queries keep SQL, joins and aggregates. The cost is one
   connection per database, because each open takes the database's fence.
 
   Reporting does not use this store. `data/measurements/` already holds

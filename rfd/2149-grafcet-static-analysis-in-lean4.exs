@@ -25,7 +25,7 @@ to Lean 4 with a plain C ABI, called from Elixir via a C NIF"
   the NIF links today; swapping the stub for the Lean-produced library
   closes this RFD. `DETAILS.md` carries semantics, staging, verification.
   :: problem
-  RFD 2148 puts compact IEC 60848 GRAFCET at the front of taskweft, but
+  RFD66606-2148 puts compact IEC 60848 GRAFCET at the front of taskweft, but
   provides no verifier. AGRAFE ship a static analyser (step reachability,
   pairwise concurrency, abstract interpretation of variable domains) as
   an Eclipse plugin in Java, with hard build dependencies on Apron and
@@ -33,7 +33,7 @@ to Lean 4 with a plain C ABI, called from Elixir via a C NIF"
   :: references
   1. `3-interactor/taskweft-grafcet-static/`; the port
   2. Upstream: https://github.com/Project-AGRAFE/GRAFCET-static-analysis
-  3. RFD 2148: compact GRAFCET as taskweft's authoring surface
+  3. RFD66606-2148: compact GRAFCET as taskweft's authoring surface
   """
 
   details_title "GRAFCET static analysis in Lean 4, from Elixir"
@@ -130,7 +130,7 @@ to Lean 4 with a plain C ABI, called from Elixir via a C NIF"
   1. `lake build` in `3-interactor/taskweft-grafcet-static` builds the
     Lean library and the smoke-test executable.
   2. `./.lake/build/bin/grafcet_static` runs the blocks_get_or fixture
-    (RFD 2148's OR-divergence worked example) and prints:
+    (RFD66606-2148's OR-divergence worked example) and prints:
 
         reachable: [init, find, pickup_from_table, unstack, mark_done]
         concurrent pairs: [(pickup_from_table, unstack)]
@@ -150,8 +150,8 @@ to Lean 4 with a plain C ABI, called from Elixir via a C NIF"
   | Abstract interpretation | typed in the SFC, analysis empty; needs a Lean interval/octagon domain or a Z3 bridge |
   | Soundness theorems | `Theorems.lean` empty; next stage |
   | Loader gate | not wired; needs a `Taskweft.JSONLD.Loader` hook after the compact GRAFCET parse |
-  :: details Unaffected by RFD 2150's FBD-target pivot
-  RFD 2150 changed the *emitter's target* from PLCopen SFC to PLCopen
+  :: details Unaffected by RFD66606-2150's FBD-target pivot
+  RFD66606-2150 changed the *emitter's target* from PLCopen SFC to PLCopen
   FBD (state machine encoded as SR flip-flops). This analyser reads the
   *compact GRAFCET input* to the emitter, not its output, so nothing
   here changes. Reachability and pairwise concurrency are graph queries

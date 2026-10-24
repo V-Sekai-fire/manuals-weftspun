@@ -24,11 +24,11 @@ spatial anchor and persistence extensions, capsule shadows and table occlusion"
   a screen. The pen already draws, meshes and dresses. It has never run over
   passthrough, and nothing in it knows where the real floor and table are.
   :: related
-  - RFD 2262, make it with the pen and wear it together; RFD 2287, the first
+  - RFD66606-2262, make it with the pen and wear it together; RFD66606-2287, the first
     rung in a headset, which this RFD carries into the real room.
-  - RFD 1108, the abandoned floor anchor in AR and VR; RFD 1171, MoGe in the
+  - RFD66606-1108, the abandoned floor anchor in AR and VR; RFD66606-1171, MoGe in the
     presence loop.
-  - RFD 2303, the XR requirements checklist the loop still answers to.
+  - RFD66606-2303, the XR requirements checklist the loop still answers to.
   """
 
   details_title "the full loop over colour passthrough"

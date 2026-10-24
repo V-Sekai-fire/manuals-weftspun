@@ -23,11 +23,11 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
       three.js           MIT          Godot, with Mitsuba as oracle
 
   **Their TTS choice is ours, independently**: the same
-  `Qwen3-TTS-12Hz-1.7B-CustomVoice` RFD 1166 seated at 4 the same day.
+  `Qwen3-TTS-12Hz-1.7B-CustomVoice` RFD66606-1166 seated at 4 the same day.
 
   **Two stages swap for reasons already held here.** Parakeet is
-  licence-clean but has no compiled path, while RFD 1169 puts Qwen3-ASR's
-  encoder inside `DEVICE_OPS`. Gemma 4 is Apache-2.0 (RFD 1155 abandoned
+  licence-clean but has no compiled path, while RFD66606-1169 puts Qwen3-ASR's
+  encoder inside `DEVICE_OPS`. Gemma 4 is Apache-2.0 (RFD66606-1155 abandoned
   it on shape, not licence), but 31 B does not fit 8 GB and a hosted API
   cannot be a corpus source. **The lip-sync is the part we lack**, and
   `DETAILS.md` carries what TalkingHead does and what is unknown.
@@ -36,7 +36,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   understood, be answered by a lip-syncing face) and states **no
   licence**. Its integration code cannot be taken.
   :: related
-  RFD 1169 supplies the ear and the voice. RFD 1155 abandoned Gemma 4.
+  RFD66606-1169 supplies the ear and the voice. RFD66606-1155 abandoned Gemma 4.
   """
 
   details_title "A cleanroom presence loop, and which components swap"
@@ -45,7 +45,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   :: details Why cleanroom, and what that means here
   `victor/gemma-avatar` carries no `LICENSE` and its card states none.
   Absent a grant the default is all rights reserved, which is the same
-  finding RFD 1166 reached for the See-Through checkpoints and the same
+  finding RFD66606-1166 reached for the See-Through checkpoints and the same
   rule the blocklist applies to `24yearsold/metricdepth3d_tmp`.
 
   So this study read the **README, the card metadata and
@@ -78,14 +78,14 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   rather than a research project: the parts are all obtainable under
   their own terms and the missing piece is an evening of wiring.
   :: details Convergence on the TTS, and how much weight it carries
-  RFD 1166 seated `Qwen3-TTS-12Hz-1.7B-CustomVoice` at 4 on the same day
+  RFD66606-1166 seated `Qwen3-TTS-12Hz-1.7B-CustomVoice` at 4 on the same day
   this Space was read, chosen from the Qwen model index rather than from
   anybody's example. Independent selection is weak evidence and it is the
   useful kind, it says the artifact is discoverable and that a second
   party building a voice loop reached for the same thing.
 
   It says nothing about quality. Nobody here has measured it against
-  anything, and RFD 1166's `value` and `wanted` scores for that row remain
+  anything, and RFD66606-1166's `value` and `wanted` scores for that row remain
   judgements.
   :: details The two swaps, and why each is a swap rather than a preference
   **Parakeet out, Qwen3-ASR-1.7B in.** Parakeet is CC-BY-4.0, which
@@ -93,7 +93,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   blocked one, and the pose rule already admits CC-BY-4.0 sets with
   citation metadata. So this is not a licence swap.
 
-  It is an acceleration swap. RFD 1169 establishes that Qwen3-ASR's
+  It is an acceleration swap. RFD66606-1169 establishes that Qwen3-ASR's
   encoder is fixed-shape with every operator inside `DEVICE_OPS`, and no
   such path has been established for Parakeet's TDT decoder, which is a
   transducer rather than an encoder-decoder and whose loop is a different
@@ -101,7 +101,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   and the other has not been looked at.
 
   **Gemma 4 out, Qwen3-VL-8B in, and one correction falls out of it.**
-  `google/gemma-4-31B-it` is **Apache-2.0**. RFD 1155 abandoned Gemma 4
+  `google/gemma-4-31B-it` is **Apache-2.0**. RFD66606-1155 abandoned Gemma 4
   and the reasons it gave were the GGUF artifact carrying no graph and
   autoregressive decode against fixed shapes, shape reasons, not licence
   ones, so nothing there needs revising. Recording the licence anyway,
@@ -198,12 +198,12 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   division than it would have been if chosen deliberately.
 
   **SOMA-X to ANNY is already the sanctioned route**, and the blocklist
-  row for the SMPL family says so: `anny_from_soma` exists in RFD 1122's
+  row for the SMPL family says so: `anny_from_soma` exists in RFD66606-1122's
   `AlternativeTopology` list, so the retarget is a code path rather than
   an intention. rf-detr emits keypoints, not a SOMA pose, and what sits
-  between them is RFD 1122's wholebody gap rather than anything new here.
+  between them is RFD66606-1122's wholebody gap rather than anything new here.
   :: details A LoRA on Kimodo is a much smaller thing than the retrain
-  RFD 1166 records that retraining Kimodo is blocked by its corpus:
+  RFD66606-1166 records that retraining Kimodo is blocked by its corpus:
   BONES-SEED is behind an acceptance gate, so it is not licence-clean and
   the retrain has no data. **A LoRA is not that, and the distinction is
   worth stating because the two were nearly conflated.**
@@ -221,7 +221,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
 
   What it does not fix is that the weftspun wrapper raises
   `NotImplementedError` outside stub mode. The model is reachable and the
-  service around it is not, which RFD 1167 records as rung 0 with a
+  service around it is not, which RFD66606-1167 records as rung 0 with a
   wrapper rather than a model.
   :: details Can Mitsuba 3 render this in real time, and the answer is at a head
   Proposed as the renderer instead of Godot. The arithmetic comes from
@@ -306,7 +306,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   runtime and a web export. A loop whose whole purpose is two people
   seeing each other cannot round-trip every frame through a server.
 
-  **Its strength is the job this workspace already gives it.** RFD 1166
+  **Its strength is the job this workspace already gives it.** RFD66606-1166
   scores the Mitsuba row as `3D views`, and CLAUDE.md's rule that views
   come from the `sphere_hammersley_sequence` is exactly that: evaluation
   renders, and video-ready deliverables, where physical correctness and
@@ -332,10 +332,10 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   4. **Only then the face, and the Kimodo LoRA after that.**
 
   Steps 1 and 2 are independent and neither needs the accelerator, which
-  is the same ordering RFD 1168 and 1169 use and the same argument
+  is the same ordering RFD66606-1168 and RFD66606-1169 use and the same argument
   arXiv:2608.12875 makes: find out with the cheap thing first.
   :: details Measurement pass, 2026-09-04
-  The reasoning stage that RFD 1157 pairs with EditScore is
+  The reasoning stage that RFD66606-1157 pairs with EditScore is
   Qwen3-VL-8B-Instruct in bitsandbytes NF4, and cell 1 of this pass
   measured its open-ended 40-token reply on RTX 3090 selected by UUID.
   Clean p50 wall was 1980 ms. The 500 ms budget puts that at 396 per

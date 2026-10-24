@@ -14,8 +14,8 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
   `character_taxonomy/` already has: its own `Dockerfile`, `fly.toml`,
   and Quadlet pair, served by `server.js`, a small static server.
 
-  `weftspun_studio` stops holding the gallery's bytes on disk. RFD
-  1022/0023's ports-and-adapters split gives the shape:
+  `weftspun_studio` stops holding the gallery's bytes on disk.
+  RFD66606-1022/0023's ports-and-adapters split gives the shape:
   `WeftspunStudio.Ports.GallerySource` (one `fetch/2`), and
   `WeftspunStudio.Adapters.HttpGallery`, a plain reverse-proxy
   adapter, the shape `Adapters.ReplicateJobs` already has.
@@ -32,9 +32,9 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
   unrecorded fix to the `usd-viewer` npm package. `usd_viewer_app`
   itself had no deploy of its own.
   :: related
-  RFD 1073 gives the gallery this serves, and files the `usd-viewer`
-  bug the patch fixes. RFD 1022/0023 give the ports-and-adapters
-  split. RFD 1062 gives the Fly.io toplevel and RFD 1058 the Podman
+  RFD66606-1073 gives the gallery this serves, and files the `usd-viewer`
+  bug the patch fixes. RFD66606-1022/0023 give the ports-and-adapters
+  split. RFD66606-1062 gives the Fly.io toplevel and RFD66606-1058 the Podman
   Quadlet path; `character_taxonomy` gives the separate-app pattern
   mirrored here.
   """
@@ -48,7 +48,7 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
   Node stage `COPY`ed into `priv/static/gallery`. That version worked,
   verified with a real `docker build --target gallery-assets`, but the
   user asked for the other shape instead: `usd_viewer_app` as its own
-  deployed app, in the ports-and-adapters style RFD 1022/0023 already
+  deployed app, in the ports-and-adapters style RFD66606-1022/0023 already
   give the browser client, and the separate-deploy pattern
   `character_taxonomy/` already gives a second Elixir app. This RFD
   records that shape, not the bake-in.
@@ -56,10 +56,10 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
   A second move followed the same reasoning further: `weftspun_studio`
   itself moved from the repo root into `apps/weftspun_studio/`,
   alongside `apps/character_taxonomy/` and the new
-  `apps/usd_viewer_app/`. This directly reverses RFD 1060's own
+  `apps/usd_viewer_app/`. This directly reverses RFD66606-1060's own
   decision ("weftspun_studio/ becomes the repository root... The
   end-shape system was the guest. The system it replaces was the
-  host."). RFD 1060's reasoning does not carry over: with three
+  host."). RFD66606-1060's reasoning does not carry over: with three
   independently deployed apps now, not one strangler-fig core and a
   legacy client, "which one is the host" stops applying. Every
   `.build`/`.container` Quadlet path, `Dockerfile.fly`'s
@@ -107,7 +107,7 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
   divergence: `render-delegate.js`. Three fixes lived there, none
   written down before this session read the minified diff directly:
 
-  1. The `./`-prefix fix RFD 1073's own `DETAILS.md` already files.
+  1. The `./`-prefix fix RFD66606-1073's own `DETAILS.md` already files.
      `UsdUtils.CreateNewUsdzPackage` writes asset references as
      `./name` but stores zip entries flat; the pristine package's
      `getTexture` builds its lookup key from the raw `./name` and
@@ -173,7 +173,7 @@ rfd 1076, "usd_viewer_app, its own app, reached through a port", :prediscussion 
     `test/router_test.exs` already establishes and reviewed by hand,
     but not executed.
   :: details Open, for the next session
-  - SlugHorn/RFD 1074's caption labels are not part of this change.
+  - SlugHorn/RFD66606-1074's caption labels are not part of this change.
     They live in the separate, not-yet-merged
     `weftspun/billboard-labels` repository.
   - `mix test` needs a real run once a local CockroachDB is available

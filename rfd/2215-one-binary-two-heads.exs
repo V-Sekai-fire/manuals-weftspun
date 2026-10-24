@@ -13,32 +13,32 @@ capture head) and the game (interactive head)"
   (macOS / Windows / Linux), two invocation flags:
 
   - **Head A, game.** Native window; loads Starforged fixture
-    (`starforged.sqlite`), calls `taskweft`'s planner (RFD 2205),
+    (`starforged.sqlite`), calls `taskweft`'s planner (RFD66606-2205),
     surfaces the decision-point menu via a Godot Control-node VN
     layout, plays reactions on the VRM portrait through `motion.elf`,
-    a godot-sandbox guest on ggml-rd (RFD 2290), for motion + VRM
+    a godot-sandbox guest on ggml-rd (RFD66606-2290), for motion + VRM
     expressions for face.
   - **Head B, marketing video.** Headless render pass of the same
     binary. `godot --headless --write-movie shot<NN>.<container> ...`
     captures the runway scene per shot; video muxed via CineForm per
-    RFD 1123 (FFmpeg blocklisted, `BLOCKLIST.md`).
+    RFD66606-1123 (FFmpeg blocklisted, `BLOCKLIST.md`).
 
   Same `.tscn` / `.tres` assets, same binary, different invocation
   flag. `DETAILS.md` gives the job flow both heads share.
   :: related
-  - [RFD 2210](../2210-atelier-godot-web-shipping-surface/), L3
+  - [RFD66606-2210](../2210-atelier-godot-web-shipping-surface/), L3
     strategic bet.
-  - [RFD 2216](../2216-threejs-blocklist/), same "one runtime, not
+  - [RFD66606-2216](../2216-threejs-blocklist/), same "one runtime, not
     two" argument.
-  - RFD 1123 (CineForm in Godot), Head B's encoder.
+  - RFD66606-1123 (CineForm in Godot), Head B's encoder.
   """
 
   details_title "one binary, two heads"
 
   details "Jobs", ~S"""
   Both heads run work as jobs. A job is created in the binary, handed
-  to a model in a godot-sandbox guest (RFD 2290) or to a module
-  of the task catalog (RFD 1102), followed until it is done or failed,
+  to a model in a godot-sandbox guest (RFD66606-2290) or to a module
+  of the task catalog (RFD66606-1102), followed until it is done or failed,
   and stored with its result. A batch is a list of jobs read from one
   manifest and run in turn. Head A shows the jobs in a panel; Head B
   runs them without one.

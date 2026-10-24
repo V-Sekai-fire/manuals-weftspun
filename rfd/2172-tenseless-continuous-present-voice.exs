@@ -18,7 +18,11 @@ rfd 2172, "Prose speaks in the tenseless continuous present", :committed do
   :: decision
   Prose in this workspace states what is currently true of the system; every sentence describes behaviour a reader can check against the code in front of them.
   :: problem
-  Comments and prose drift out of sync with code as the system changes. A comment written as history ("added a cache", "we removed the old path") or as a plan ("will solve this", "TODO: wire X") describes a moment that has passed or has not yet arrived; a reader cannot check it against the code in front of them. RFD 2025 (sinew voice ADR, migrated) settled the rule; this RFD promotes it to a workspace convention.
+  Comments and prose drift out of sync with code as the system changes. A comment written as
+  history ("added a cache", "we removed the old path") or as a plan ("will solve this", "TODO:
+  wire X") describes a moment that has passed or has not yet arrived; a reader cannot check it
+  against the code in front of them. RFD66606-2025 (sinew voice ADR, migrated) settled the rule;
+  this RFD promotes it to a workspace convention.
   :: section Three habits ruled out
   - Past-tense edit narration ("removed the legacy path"). Git holds history.
   - Future or imperative planning ("will add", "TODO"). RFDs and issues hold plans.
@@ -26,7 +30,7 @@ rfd 2172, "Prose speaks in the tenseless continuous present", :committed do
 
   Unfinished areas read as present gaps ("the parser handles no Unicode escapes yet"), not as tasks. A stale sentence signals a real divergence from the code, which makes review catch it.
   :: related
-  Promotes: RFD 2025 (sinew voice ADR).
-  Companion to RFD 1125 (two prose gates) and CLAUDE.md's trope-density check.
+  Promotes: RFD66606-2025 (sinew voice ADR).
+  Companion to RFD66606-1125 (two prose gates) and CLAUDE.md's trope-density check.
   """
 end

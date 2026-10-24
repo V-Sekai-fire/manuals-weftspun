@@ -11,10 +11,10 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   Mint the break-glass CA at DR-time, stash to `op://Personal/FDB-CA/`,
   execute the R2-primary restore, and land the follow-ups the run surfaces:
   Bao secret hygiene, R2 key rotation, Tigris fan-out refresh, scale to
-  three at `double` redundancy. The CA in 1P closes RFD 2141's prereq; the
+  three at `double` redundancy. The CA in 1P closes RFD66606-2141's prereq; the
   runbook stops being theatre.
 
-  RFD 2141's phases 2–3 rotate the machine leaves to certificates the
+  RFD66606-2141's phases 2–3 rotate the machine leaves to certificates the
   restored Bao PKI mount signs, once Bao is unsealed against the restored
   FDB. Until then, the cluster runs on the break-glass CA.
 
@@ -27,12 +27,13 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   `logbook-rfd2144-dr-runbook-first-run.md` records what was measured
   during the run itself.
   :: problem
-  RFD 2143 called its own DR runbook theatre because RFD 2141's break-glass
+  RFD66606-2143 called its own DR runbook theatre because RFD66606-2141's break-glass
   CA was not in 1Password. On 2026-09-01, `weftspun-fdb`, `weftspun-bao`,
   `spot-broker` and `chibifire-com` were gone from Fly. Tigris and R2 both
   survived (compute lost, storage kept), so the runbook had to run.
   :: related
-  RFD 2134, 2135, 2140, 2141 (prereq landed here), 2143 (runbook executed).
+  RFD66606-2134, RFD66606-2135, RFD66606-2140, RFD66606-2141 (prereq landed here), 2143 (runbook
+  executed).
   """
 
   details_title "The DR runbook runs, and the CA it needed lands"
@@ -43,7 +44,7 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   `artifacts-mmo-mcp`. The four apps the working agreements name as
   placed (`weftspun-fdb`, `weftspun-bao`, `spot-broker`, `chibifire-com`)
   were gone. Tigris `weftspun-fdb-blob` and R2 `weftspun-fdb-dr` both
-  survived, so the disaster matched RFD 2143's premise partially: compute
+  survived, so the disaster matched RFD66606-2143's premise partially: compute
   lost, object storage kept. The `personal` org's `weftspun-fdb-blob` bucket
   showed in `fly storage list`; the R2 bucket showed as `Restorable: true`
   under `fdbbackup describe`.
@@ -56,13 +57,13 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
       ContiguousLogEndVersion: 118325089882 (maxLogEnd -0.00 days)
       MaxRestorableVersion:    118325089881 (maxLogEnd -0.00 days)
 
-  99 644 bytes of snapshot. RFD 2143's measurement on 2026-08-31 was
+  99 644 bytes of snapshot. RFD66606-2143's measurement on 2026-08-31 was
   `Sum of key-value sizes = 0 MB`, and this snapshot's size agrees: the
   cluster held Bao's PKI mount metadata and little else. The recovered
   data is Bao's state at the moment the last log flushed, 0.19 days
   before the describe (about four and a half hours before the run).
   :: details The runbook and what it hid
-  Twelve defects surfaced during the run that the RFD 2143 runbook did
+  Twelve defects surfaced during the run that the RFD66606-2143 runbook did
   not name. They are named here so a second run does not rediscover
   them.
 
@@ -122,8 +123,8 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   runbook needs the deployment config for `weftspun-bao`, and the
   config lives in a repo that is not one of the manifest's 135
   projects. The run cloned the repo by hand into scratchpad. Add it to
-  the goal manifest, or the next DR discovers this the same way. RFD
-  2140 references the repo but does not require it to be checked out.
+  the goal manifest, or the next DR discovers this the same way.
+  RFD66606-2140 references the repo but does not require it to be checked out.
 
   **8. `openssl genpkey -algorithm EC` produces params Go rejects.**
   The Bao listener refused to start with `x509: invalid ECDSA
@@ -194,10 +195,10 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   everything after the first `=`) or `sed 's/^uk=//'`.
   :: details The break-glass CA
   The 5-year break-glass CA and 2-year machine leaves below are the
-  "break-glass" row in RFD 2145's table. The 10-year Bao WebTransport
+  "break-glass" row in RFD66606-2145's table. The 10-year Bao WebTransport
   intermediate this DR also minted (`pki-wt/`) is now RETRACTED by
-  RFD 2145 down to 3 years; re-mint before its `notAfter` and rotate at
-  year 1. See RFD 2145's `references/` for the CFF citations.
+  RFD66606-2145 down to 3 years; re-mint before its `notAfter` and rotate at
+  year 1. See RFD66606-2145's `references/` for the CFF citations.
 
   Minted P-384 self-signed root, five-year validity:
 
@@ -212,7 +213,7 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   `WEFT_FDB_TLS_VERIFY` (`S.CN>=fdb-,S.CN<=.chibifire.com`).
 
   The break-glass CA does not become the cluster CA. Once Bao is
-  unsealed against the restored FDB, RFD 2141's phases 2–3 rotate every
+  unsealed against the restored FDB, RFD66606-2141's phases 2–3 rotate every
   leaf to a certificate signed by the CA Bao's PKI mount holds, and
   `FDB_TLS_CA_B64` drops the break-glass anchor. The break-glass CA in
   1P stays as a break-glass CA, for the next DR.
@@ -234,8 +235,8 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   :: details What this RFD does not cover
   - **A second DR without a running desk.** This run had a laptop with
     `op`, `fly`, and `openssl`. A DR where the laptop is also gone needs
-    a break-glass laptop image, and RFD 2143's cross-region point holds.
-  - **Backup encryption at rest.** RFD 2143 named this as future work
+    a break-glass laptop image, and RFD66606-2143's cross-region point holds.
+  - **Backup encryption at rest.** RFD66606-2143 named this as future work
     and it stays so. R2's copy of Bao's mount metadata is unencrypted.
   - **Recovering `chibifire-com`.** The domain and cert setup was not
     part of this run; recreating it is a separate task.

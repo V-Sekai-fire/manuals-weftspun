@@ -8,18 +8,18 @@ rfd 1039, "Model image for trellis2_image_mesh_painting", :discussion do
 
   prose ~S"""
   :: decision
-  Build `FROM` the RFD 1038 image. Add a `predict.py`, and add no
+  Build `FROM` the RFD66606-1038 image. Add a `predict.py`, and add no
   weights. The model image is then about 40 MB, and not 8 GB.
 
   See `DETAILS.md` for the model's shared-weight cost, the `predict()`
   interface, and why the UV unwrap must not hide inside this model image.
   :: problem
   Mesh painting takes a mesh that exists and gives it a texture from an
-  image. It uses the same TRELLIS.2 weights as RFD 1038. A second copy
+  image. It uses the same TRELLIS.2 weights as RFD66606-1038. A second copy
   of those weights costs 8.0 GB and buys nothing.
   :: related
-  RFD 1038 holds the weights. RFD 1036 gives the model image convention. RFD
-  1033 records the UV stage.
+  RFD66606-1038 holds the weights. RFD66606-1036 gives the model image convention.
+  RFD66606-1033 records the UV stage.
   """
 
   details_title "Model image for trellis2_image_mesh_painting"
@@ -28,8 +28,8 @@ rfd 1039, "Model image for trellis2_image_mesh_painting", :discussion do
   :: details The model
   | Property   | Value                                 |
   | ---------- | ------------------------------------- |
-  | Parameters | 0. It shares the RFD 1038 weights.    |
-  | bf16       | 8.0 GB, and that is the RFD 1038 cost |
+  | Parameters | 0. It shares the RFD66606-1038 weights. |
+  | bf16       | 8.0 GB, and that is the RFD66606-1038 cost |
   | License    | MIT                                   |
   :: details The interface
   | Input              | Type | Default |
@@ -45,7 +45,7 @@ rfd 1039, "Model image for trellis2_image_mesh_painting", :discussion do
   :: details The one hard part
   The mesh arrives with its own UV layout, or with none. The painting
   stage needs a layout. When the mesh has no UV set, run xatlas first.
-  RFD 1033 records xatlas, and it holds no weights.
+  RFD66606-1033 records xatlas, and it holds no weights.
 
   Do not unwrap inside this model image. A hidden unwrap makes the output
   depend on a step the caller cannot see or repeat.

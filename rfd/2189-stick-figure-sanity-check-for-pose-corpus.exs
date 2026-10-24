@@ -12,14 +12,14 @@ rfd 2189, "Stick-figure sanity check for the pose corpus", :discussion do
   through the existing camera arithmetic, ask a character artist to
   review the sheet, and decide whether the corpus fits the
   atelier-workshop (the pipeline) before further capture spend.
-  `extract_poses.py` already yields world-space joints; RFD 2190
+  `extract_poses.py` already yields world-space joints; RFD66606-2190
   (rig extrinsics calibration) will pin the `view` matrices. One
   contact sheet, twenty SVGs. No renderer, no GPU install.
   :: problem
   The 810 clips are locomotion: walking, running, turning,
-  standing. Character illustrations are rarely mid-stride. RFD 1122
+  standing. Character illustrations are rarely mid-stride. RFD66606-1122
   (unrolled Kusudama solver) called this the cheapest thing that
-  could change the plan and it was never run. RFD 2168 (wholebody
+  could change the plan and it was never run. RFD66606-2168 (wholebody
   detector retract) closed without running the check; issue 27
   closed stale. If the artist confirms the mismatch, the pipeline
   takes a different corpus. If the artist accepts it, later work
@@ -28,8 +28,8 @@ rfd 2189, "Stick-figure sanity check for the pose corpus", :discussion do
   Original issue: `weftspun/request-for-discussion` issue 27.
   `pose-consensus/python/extract_poses.py`.
   :: related
-  RFD 1122 (unrolled Kusudama solver), RFD 2168 (wholebody detector
-  retract), RFD 2171 (atelier-workshop vocabulary), RFD 2136 (gacha
+  RFD66606-1122 (unrolled Kusudama solver), RFD66606-2168 (wholebody detector
+  retract), RFD66606-2171 (atelier-workshop vocabulary), RFD66606-2136 (gacha
   ladder; corpus feeds its rungs).
   """
 end

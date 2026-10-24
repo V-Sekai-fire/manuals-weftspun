@@ -2,7 +2,7 @@
 
 **Date:** 2026-09-07
 **Session:** MAGI (`magi-16739d.agents.weftspun`)
-**Related:** RFD 1170 (presence loop, 500 ms whole-loop budget); PITFALLS 12
+**Related:** RFD66606-1170 (presence loop, 500 ms whole-loop budget); PITFALLS 12
 **Where:** `v-sekai-fabric/llama-cpp-npu-vision`, workflow
 `gemma4-e2b-qat4-cpu-bench`, run 34162075692
 

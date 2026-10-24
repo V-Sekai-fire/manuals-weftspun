@@ -9,12 +9,12 @@ hosts for OpenPLC v4's compiled binary: PLC, ESP32, Godot Sandbox
 (RISC-V). Node-graph converter targets from the same FBD network:
 glTF Interactivity, a social VR world-scripting VM, a game engine's
 visual scripting graph, another social VR platform's node graph.
-Coordination is in-process linking (RFD 2154); CoAP+OSCORE (RFD 2151)
+Coordination is in-process linking (RFD66606-2154); CoAP+OSCORE (RFD66606-2151)
 is parked until a deployment leaves Godot's networking."
 
   prose ~S"""
   :: decision
-  Translate RECTGTN to **FBD** via RFD 2148's compact GRAFCET, emit
+  Translate RECTGTN to **FBD** via RFD66606-2148's compact GRAFCET, emit
   PLCopen XML with an `<FBD>` body encoding the state machine as
   `SR_L` flip-flops per step and `AND` gates per transition. Compile
   with OpenPLC v4 to a shared library or RISC-V binary; a Godot game
@@ -30,7 +30,7 @@ is parked until a deployment leaves Godot's networking."
   persisted through named variables; which IEC 61131-3 calls **FBD**.
   :: references
   1. OpenPLC Runtime v4 (MIT), Godot Sandbox (`libriscv/godot-sandbox`)
-  2. RFD 2148, 2144, 2146 (parked), 2149
+  2. RFD66606-2148, RFD66606-2144, RFD66606-2146 (parked), 2149
   """
 
   details_title "RECTGTN as FBD, on OpenPLC v4 and node-graph editors"
@@ -47,7 +47,7 @@ is parked until a deployment leaves Godot's networking."
     this shape: OpenPLC v4, glTF Interactivity, a social VR
     world-scripting VM, a game engine's visual scripting graph,
     another social VR platform's node graph, and Godot Sandbox
-    loading OpenPLC's compiled binary. RFD 2149's Lean analyser reads
+    loading OpenPLC's compiled binary. RFD66606-2149's Lean analyser reads
     the compact GRAFCET *input* to the emitter, not the FBD output, so
     verification is unaffected.
   - ~~SFC~~, **blocklisted**. Every downstream target speaks FBD-shape;
@@ -70,11 +70,11 @@ is parked until a deployment leaves Godot's networking."
   :: details The translation pipeline, and where taskweft stops
       RECTGTN JSON-LD                           taskweft's HTN shape
         |
-        | Taskweft.Grafcet.to_grafcet/1         RFD 2148
+        | Taskweft.Grafcet.to_grafcet/1         RFD66606-2148
         v
-      compact GRAFCET JSON-LD                   IEC 60848 SFC, RFD 2148 profile
+      compact GRAFCET JSON-LD                   IEC 60848 SFC, RFD66606-2148 profile
         |                                       │
-        |                                       └── verified by RFD 2149
+        |                                       └── verified by RFD66606-2149
         |                                           (reachability, concurrent pairs)
         | Taskweft.OpenPLC.PLCopen.emit/1
         v
@@ -98,9 +98,9 @@ is parked until a deployment leaves Godot's networking."
   loads (OpenPLC Runtime v4 is MIT, and its `strucpp` runtime library
   ships a GCC-style runtime exception explicitly permitting this).
 
-  **Two gates precede the boundary.** RFD 2149's Lean analyser reads
+  **Two gates precede the boundary.** RFD66606-2149's Lean analyser reads
   the compact GRAFCET (before emit) and refuses charts with unreachable
-  steps or unintended concurrent pairs; RFD 2150 stage 1's emitter is
+  steps or unintended concurrent pairs; RFD66606-2150 stage 1's emitter is
   gated by its own tests to produce only FBD inline bodies (ST and LD
   blocklisted, structurally, per the ~~struck~~ rows above). What
   crosses the boundary is *verified* PLCopen XML.
@@ -211,7 +211,7 @@ is parked until a deployment leaves Godot's networking."
   4. `stored` actions setting an internal variable
   5. time-delayed transitions (`t/X_i/PT1H` → SFC's `TIME` receptivity)
 
-  Constructs staged for later, matching RFD 2148's own staging:
+  Constructs staged for later, matching RFD66606-2148's own staging:
 
   1. OR-divergence (needs a translation to SFC's simultaneous-divergence
     with mutually-exclusive receptivities)
@@ -224,7 +224,7 @@ is parked until a deployment leaves Godot's networking."
     program runs on a headless OpenPLC v4 producing the same trace the
     Lean analyser predicted (reachable steps in the order the RECTGTN
     planner would have visited them).
-  2. Analyser gate (RFD 2149): the compact GRAFCET passes the reachable
+  2. Analyser gate (RFD66606-2149): the compact GRAFCET passes the reachable
     + concurrent-pair check *before* it reaches the emitter; an
     unreachable step fails the load rather than compiling into dead
     code.
@@ -243,7 +243,7 @@ is parked until a deployment leaves Godot's networking."
 
   prose ~S"""
   :: details Decision
-  Translate RECTGTN to **FBD** via RFD 2148's compact GRAFCET, emit
+  Translate RECTGTN to **FBD** via RFD66606-2148's compact GRAFCET, emit
   PLCopen XML with an `<FBD>` body encoding the state machine as
   `SR_L` flip-flops per step and `AND` gates per transition. Compile
   with OpenPLC v4 to a shared library or RISC-V binary; a Godot game
@@ -264,6 +264,6 @@ is parked until a deployment leaves Godot's networking."
   persisted through named variables; which IEC 61131-3 calls **FBD**.
   :: details References
   1. OpenPLC Runtime v4 (MIT), Godot Sandbox (`libriscv/godot-sandbox`)
-  2. RFD 2148, 2144, 2146 (parked), 2149
+  2. RFD66606-2148, RFD66606-2144, RFD66606-2146 (parked), 2149
   """
 end

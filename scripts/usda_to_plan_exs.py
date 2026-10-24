@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Import a hand-authored `.usda` apparatus layer into an `RFD.Plan` Elixir source.
 
-RFD 2232 makes the layer a build artifact and the `.exs` the tracked source. This reads a
+RFD66606-2232 makes the layer a build artifact and the `.exs` the tracked source. This reads a
 layer through the USD API rather than by regex, so what it emits is what USD composed, and
 `mix rfd.plan` renders it back. `--verify` re-renders and compares the two through
 `ExportToString`, which is the only comparison that ignores formatting and nothing else.

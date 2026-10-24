@@ -33,7 +33,7 @@ headfit.elf and cage.elf as committed `.bytes`; the sandbox host's ECALL table"
   stand-in has no error bar at all.
   """
 
-  related "RFD 2275 (the head fit), RFD 2277 (the engine half), RFD 2279
+  related "RFD66606-2275 (the head fit), RFD66606-2277 (the engine half), RFD66606-2279
 (the deform surface; its corrective stage replaces the cage placeholders)."
   details_title "face shapes from three sources"
 
@@ -69,7 +69,7 @@ headfit.elf and cage.elf as committed `.bytes`; the sandbox host's ECALL table"
   - `cage_deform` takes nV × 12 row-major `[R | t]`, where t is the knot's
     new absolute position.
   - The moves are authored and have no reference, so they are
-    placeholders for RFD 2279's corrective stage.
+    placeholders for RFD66606-2279's corrective stage.
   :: details Host gaps
   An unhandled ECALL is a host gap, not a guest fault. Dictionary ops (524)
   was the first. A new handler follows the guest's op enum, passes

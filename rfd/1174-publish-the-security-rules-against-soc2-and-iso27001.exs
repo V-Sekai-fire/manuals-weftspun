@@ -34,7 +34,7 @@ rfd 1174, "Publish the security rules against SOC 2 and ISO 27001", :discussion 
   2. Unwritten until `committed`, and costed in `DETAILS.md`: the gate
      `scripts/check_security_controls.py` and both control-register CSVs
   :: related
-  RFD 1000 (conventions). RFD 1125 (AI-trope gate).
+  RFD66606-1000 (conventions). RFD66606-1125 (AI-trope gate).
   """
 
   details_title "Publish the security rules against SOC 2 and ISO 27001"

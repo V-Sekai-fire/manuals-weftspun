@@ -2,12 +2,12 @@
 
 **Session:** CUDA agent (`cuda-a63415`) on the RFD-2186 branch
 **Date:** 2026-09-03
-**Related:** RFD 2183 (layer-decomp pipeline), RFD 2186 (dressing overlay, parked)
+**Related:** RFD66606-2183 (layer-decomp pipeline), RFD66606-2186 (dressing overlay, parked)
 
 ## Question
 
 Can a distilled 4-step SDEdit pass on Lumina2 nf4 stand in for OmniGen2
-at RFD 2186's dressing-overlay stage, and at what cost to EditScore?
+at RFD66606-2186's dressing-overlay stage, and at what cost to EditScore?
 
 ## Apparatus
 
@@ -78,6 +78,6 @@ Next: n=1000 training on `chibifire/editscore-reward-train` (dataset
 reupload landed today, shard 01 verified clean, full snapshot in
 flight). Stratify by `task_type`; exclude `motion_change`. If n=1000
 held-out also fails at the recipe's own shape, Lumina2 distillation
-is not the primary generator for RFD 2186's dressing overlay.
+is not the primary generator for RFD66606-2186's dressing overlay.
 
 This RFD was drafted by an AI and read by a human before it shipped.

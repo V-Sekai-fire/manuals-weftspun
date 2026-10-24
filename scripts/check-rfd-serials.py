@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Check the serial register against the tree, and against its own last revision.
 
-RFD 1000 gives the rule. A serial is allocated once, and it names one document
+RFD66606-1000 gives the rule. A serial is allocated once, and it names one document
 for as long as the arc under the PEN exists. This gate is what makes that
 enforceable rather than agreed.
 
@@ -232,7 +232,7 @@ SOURCE = "SERIALS.exs"
 
 def base_register(root, base):
     """The register at `base`: the rendered layer if that revision tracked it, else
-    the `SERIALS.exs` source rendered through `mix rfd.usda` (RFD 2232)."""
+    the `SERIALS.exs` source rendered through `mix rfd.usda` (RFD66606-2232)."""
     r = subprocess.run(
         ["git", "show", f"{base}:{REGISTER}"],
         cwd=root, capture_output=True, text=True,

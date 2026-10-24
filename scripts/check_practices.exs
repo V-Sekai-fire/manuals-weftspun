@@ -1,6 +1,6 @@
 #!/usr/bin/env elixir
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gate: the practices RFD 2294 ("Interchangeable sessions") states that a file or an API can show.
+# Gate: the practices RFD66606-2294 ("Interchangeable sessions") states that a file or API shows.
 # Other repositories run it as the `practices` prek hook from `.pre-commit-hooks.yaml`.
 #
 # Usage:

@@ -129,7 +129,7 @@ defmodule Escapes.Weftspun do
       reported: "five branches deleted on the remote",
       actual: "zsh leaves an unquoted $spec unsplit, so set -- passed the whole string as $1 and every lookup ran against a path that does not exist; git printed fatal and the branch read as absent"
 
-    escape "2026-09-11 RFD 2245 merged with the render red",
+    escape "2026-09-11 RFD66606-2245 merged with the render red",
       guard: :run_checked,
       reported: "merged",
       actual: "six of nine checks were FAILURE at merge; the README rendered to 55 lines against RFD 1000's 40 and the DSL validates on load, so all 318 sources stopped rendering"

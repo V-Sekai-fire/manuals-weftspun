@@ -1,4 +1,4 @@
-# The Steam Frame, sized for RFD 2287's first rung
+# The Steam Frame, sized for RFD66606-2287's first rung
 
 The headset's display, runtime, compute, network and codec budget, measured on 2026-09-30 over
 SSH from the desk (an M2 Pro Mac) so the rung is sized against numbers rather than a spec

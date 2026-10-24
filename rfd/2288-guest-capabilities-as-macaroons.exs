@@ -8,14 +8,14 @@ rfd 2288, "guest capabilities: macaroons minted from ReBAC", :discussion do
 capability: a macaroon that a ReBAC check mints, checked once at the host
 call and cached for the VM"
   scope "the godot-sandbox addon's host-call table, every guest ELF that
-makes host calls, and the ReBAC tuples of RFD 2200"
+makes host calls, and the ReBAC tuples of RFD66606-2200"
 
   prose ~S"""
   :: decision
   Capabilities are an allowlist. A guest starts with none. Each host
   call that reaches outside the guest's own memory needs one, and a new
   need gets a new, narrow capability, never a wider old one. A
-  capability is a macaroon. A ReBAC check (RFD 2200) mints it, with
+  capability is a macaroon. A ReBAC check (RFD66606-2200) mints it, with
   caveats that name the VM, the verb, the object, an expiry at most 5 s
   away and the VM's revocation epoch. The host verifies the macaroon's
   HMAC chain once and caches the grant in that VM's host-call table, so
@@ -24,14 +24,14 @@ makes host calls, and the ReBAC tuples of RFD 2200"
   cached grants at their next call. A guest's writes to its own memory
   are not host calls, and nothing checks them.
   :: problem
-  RFD 2287's CA keeps its root key in guest memory, but a VM transfer
+  RFD66606-2287's CA keeps its root key in guest memory, but a VM transfer
   carries all of that memory, and so does a host read of it. A ReBAC
   check on every host call is too slow for calls made every frame, and
   no check makes every guest a leak. So the check runs once per grant,
   needs no network round trip, and costs little to repeat.
   :: related
-  - RFD 2200, the ReBAC tuples that decide what a capability grants.
-  - RFD 2287, whose CA relies on no transfer capability for its VM.
+  - RFD66606-2200, the ReBAC tuples that decide what a capability grants.
+  - RFD66606-2287, whose CA relies on no transfer capability for its VM.
   """
 
   details_title "guest capabilities: macaroons minted from ReBAC"
@@ -54,7 +54,7 @@ makes host calls, and the ReBAC tuples of RFD 2200"
   grant short-lived and a retry cheap.
   :: details Adding a capability
   A capability names one verb on one object, and the table below carries
-  the three that exist as `capability` declarations (RFD 2291, ReBAC as a
+  the three that exist as `capability` declarations (RFD66606-2291, ReBAC as a
   DSL feature), so a reader counts them rather than reading for them. A
   new need adds a declaration for that narrow verb and object, and a
   tuple that mints it. A wider capability is not allowed; a second,

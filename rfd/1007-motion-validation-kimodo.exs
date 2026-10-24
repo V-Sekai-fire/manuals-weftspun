@@ -27,7 +27,7 @@ rfd 1007, "Motion validation (Kimodo)", :discussion do
   - Motion: `src/library/kimodoMotionLoader.js`
   - Motion: `src/library/playViewportMotion.js`
   :: related
-  RFD 1002 places the stage in the pipeline. RFD 1011 records the
+  RFD66606-1002 places the stage in the pipeline. RFD66606-1011 records the
   publish flow that this stage replaces.
   """
 end

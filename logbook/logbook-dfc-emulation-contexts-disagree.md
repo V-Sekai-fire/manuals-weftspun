@@ -115,13 +115,13 @@ after moving it off a 1.5A port to a USB4 dock:
     USB crossing cost         1.68 ms, 43% of end-to-end
     chip temperature          38.7 - 41.7 C
 
-The crossing cost is RFD 1130's central quantity. It amortises under pipelining -- 1168 FPS
+The crossing cost is RFD66606-1130's central quantity. It amortises under pipelining -- 1168 FPS
 is 0.86 ms per frame against 3.95 ms for a lone frame -- so throughput is not the constraint
 at video rate, and the two-device question turns on whether two HEFs fit 8 GB resident
 rather than on speed.
 
 `measure-power` and `measure-current` both report "not supported" on this device and
-`monitor` does not run on Windows, so temperature is the only proxy available and RFD 1130
+`monitor` does not run on Windows, so temperature is the only proxy available and RFD66606-1130
 should not promise a power figure.
 
 ## THE DEVICE RUNS WHOLE LLMs AND VLMs, AND THIS ENTRY SAID OTHERWISE

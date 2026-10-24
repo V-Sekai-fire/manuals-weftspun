@@ -11,7 +11,7 @@ rfd 1040, "Model image for pixal3d_image_to_textured_mesh", :discussion do
   Package Pixal3D as the primary image to 3D worker. Upstream is
   TencentARC/Pixal3D, and it uses the MIT license.
 
-  It is a plain Docker image that serves HTTP, and not a Cog. RFD 1036
+  It is a plain Docker image that serves HTTP, and not a Cog. RFD66606-1036
   records why: vast.ai rents an instance and runs a container on it.
 
   Call the upstream `inference.py`, and do not reimplement the cascade.
@@ -28,8 +28,8 @@ rfd 1040, "Model image for pixal3d_image_to_textured_mesh", :discussion do
   unknown, and it asked for a measurement on the DGX. There is no DGX.
   The measurement came from the published checkpoints instead.
   :: related
-  RFD 1026 gives the memory per model. RFD 1027 gives the GPU tier.
-  RFD 1038 packages the backbone. RFD 1053 gives the asset format.
+  RFD66606-1026 gives the memory per model. RFD66606-1027 gives the GPU tier.
+  RFD66606-1038 packages the backbone. RFD66606-1053 gives the asset format.
   """
 
   details_title "Model image for pixal3d_image_to_textured_mesh"
@@ -154,7 +154,7 @@ rfd 1040, "Model image for pixal3d_image_to_textured_mesh", :discussion do
   | low_vram   | bool  | true    |
 
   `fov` of -1.0 lets MoGe estimate the field of view. The output is not
-  one file. RFD 1053 makes USD the internal format, thus `predict()`
+  one file. RFD66606-1053 makes USD the internal format, thus `predict()`
   returns a layer beside the GLB.
   :: details Three repositories download at build time
   `TencentARC/Pixal3D` is 24.045 GB. `Ruicheng/moge-2-vitl` estimates
@@ -164,11 +164,11 @@ rfd 1040, "Model image for pixal3d_image_to_textured_mesh", :discussion do
   A cold start that downloads 24 GB is a cold start that times out.
   An instance is rented by the hour, thus that time is paid for.
   :: details What this corrects
-  - The license is MIT, and not unknown. RFD 1028 gates on that, and
+  - The license is MIT, and not unknown. RFD66606-1028 gates on that, and
     Pixal3D clears the gate.
-  - The count is 12.02 B, and not unknown. RFD 1026 carried one of two
+  - The count is 12.02 B, and not unknown. RFD66606-1026 carried one of two
     unknown rows for this model.
-  - The backbone is TRELLIS.2, per the upstream README. RFD 1038
+  - The backbone is TRELLIS.2, per the upstream README. RFD66606-1038
     packages TRELLIS.2, thus these two model images share a lineage.
   """
 end

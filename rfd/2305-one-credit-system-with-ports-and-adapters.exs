@@ -21,7 +21,7 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   a grant is a Bao lease (operator, 2026-10-09, superseding the Elixir script).
   :: problem
   The workspace bounds load in five places, and each one does it its own way.
-  RFD 2294's queue is full at three open issues. RFD 2030 runs two or three CI
+  RFD66606-2294's queue is full at three open issues. RFD66606-2030 runs two or three CI
   matrices by habit. The OXRSys runtime drops stale frames from a bounded sender
   queue. datasource-store#16 modelled credit admission for dirty pages and was
   retracted for that workload. WebTransport has its own stream credit. Nothing
@@ -29,8 +29,8 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   recorder, two chat clients and a VR game held the CPU at 100% and the VR GPU at
   95%, and the VR runtime's compositor watchdog killed the compositor twice.
   :: related
-  - RFD 2294, the work-stealing queue; RFD 2030, CI runners as a queue.
-  - RFD 2058, WebTransport stream credit; RFD 2302, a frame's time as a pool.
+  - RFD66606-2294, the work-stealing queue; RFD66606-2030, CI runners as a queue.
+  - RFD66606-2058, WebTransport stream credit; RFD66606-2302, a frame's time as a pool.
   """
 
   details_title "one credit system with ports and adapters"
@@ -69,7 +69,7 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   `granted: 0` and no lease.
 
   The engine is the first Lean module of the replacement of the C++ planner in
-  Bao: RFD 2205's planner moves into the same plugin as Lean, with the full NIF
+  Bao: RFD66606-2205's planner moves into the same plugin as Lean, with the full NIF
   surface cross-checked against the C++ until the C++ is deleted (operator,
   2026-10-09).
 
@@ -96,17 +96,17 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     before it starts and releases on exit; a recurrent service holds its grant
     for as long as it runs. A build passes its CPU grant to its compiler as the
     job count.
-  - **The work-stealing queue.** One pool per agent, cap 3: RFD 2294's depth,
+  - **The work-stealing queue.** One pool per agent, cap 3: RFD66606-2294's depth,
     written as credits. The issue tracker already owns the count, so `held` is
     the agent's open issues, read from it, and the adapter keeps no copy.
     Filing an issue past the cap is refused, and the queue reports its depth to
-    the operator, as RFD 2294 already says. A steal closes the claim in the
+    the operator, as RFD66606-2294 already says. A steal closes the claim in the
     victim's queue before it opens one in the thief's.
-  - **The CI runner pool.** Cap 3, in full matrices: RFD 2030's habit,
+  - **The CI runner pool.** Cap 3, in full matrices: RFD66606-2030's habit,
     enforced. The runner service already owns the queue, so the adapter sets
     the cap there with three workflow concurrency slots and keeps no ledger of
     its own. Policy `wait`, with zero-information runs cancelled before they
-    queue, as RFD 2030 says.
+    queue, as RFD66606-2030 says.
   - **The OXRSys video sender.** One pool per client, cap the sender queue's
     length. Policy `drop_oldest`, which is what the runtime does today; the
     adapter makes it observable.
@@ -122,8 +122,8 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
   resource on its own unit, which a shared desk needs: threads, GPU time and
   video memory run out separately. Work stealing balances tasks between workers
   and keeps idle workers busy, but it bounds a queue's length, not what runs on
-  a host. The 2026-10-09 overload came from work pinned to one desk, which RFD
-  2294 never steals. The two compose: an agent steals an issue, then its jobs
+  a host. The 2026-10-09 overload came from work pinned to one desk, which
+  RFD66606-2294 never steals. The two compose: an agent steals an issue, then its jobs
   wait for the desk's credits.
 
   :: details Milestones
@@ -134,7 +134,7 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     self-test admits a job set that fits, makes a job wait when it does not,
     and its control, a job that skips the ledger, is seen by the probe as
     outside load and lowers the cap.
-  - **M2, the queue and CI adapters.** RFD 2294's depth and RFD 2030's matrix
+  - **M2, the queue and CI adapters.** RFD66606-2294's depth and RFD66606-2030's matrix
     count read their caps from the ledger. Exit: a fourth issue is refused with
     the depth reported; a fourth matrix waits.
   - **M3, the streaming adapters.** The OXRSys sender and WebTransport report
@@ -148,7 +148,7 @@ the datasource-store dirty-page buffer and the WebTransport stream budget"
     resource. The two bounds that cross hosts, the issue queue and the CI pool,
     are read from and enforced in the service that already owns their count.
   - **Repository.** The engine is the private service-bao-taskweft repository
-    in the V-Sekai-fire organization, the service RFD 2205 named for the Lean
+    in the V-Sekai-fire organization, the service RFD66606-2205 named for the Lean
     planner, so the ledger and the planner share one plugin.
   """
 end

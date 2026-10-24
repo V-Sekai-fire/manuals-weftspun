@@ -21,10 +21,10 @@ rfd 2188, "One GGML across the workspace", :discussion do
   Six divergent ggml copies drifted apart, two of them under one project
   name with conflicting SHAs in the manifest. One canonical tree, one
   manifest row for it and a gate that refuses a second copy stop the
-  drift; RFD 2290 moves the consumers onto it. DETAILS.md carries the
+  drift; RFD66606-2290 moves the consumers onto it. DETAILS.md carries the
   Metal coverage the canonical tree took over.
   :: related
-  RFD 1000 (hexagon-side placement rule), RFD 1102 (task catalog
+  RFD66606-1000 (hexagon-side placement rule), RFD66606-1102 (task catalog
   gacha pipeline consumes ggml through skin-tokens.cpp and
   motion-bricks.cpp), CLAUDE.md's ggml/GGUF blocklist row (the vendor's
   own runtime is exempt; this RFD is that exemption's canonical form).
@@ -71,7 +71,7 @@ rfd 2188, "One GGML across the workspace", :discussion do
   compile log shows the new kernels reached:
   `kernel_flash_attn_ext_{f16,f32,bf16}_dk{16,56}_dv{16,56}`. Wall clock 49 s.
   :: details The consumers
-  RFD 2290 names the rows that carry ggml and trims the ones that carried a
+  RFD66606-2290 names the rows that carry ggml and trims the ones that carried a
   runtime of their own. The ggml under llama.cpp is the vendor's runtime and
   stays exempt (CLAUDE.md's ggml row). `scripts/check_ggml_singleton.py`
   refuses a `ggml.h` or `ggml.c` outside the canonical path and the exempt

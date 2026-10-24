@@ -19,7 +19,7 @@ predict: "predict.py:Predictor"
 
 x-weftspun:
   model_id: "kimodo_text_to_motion"
-  license: "review pending, RFD 1028"
+  license: "review pending, RFD66606-1028"
   parameters: "0.3 B"
   bf16_weights: "0.6 GB"
   q4_k_m_weights: "0.17 GB"

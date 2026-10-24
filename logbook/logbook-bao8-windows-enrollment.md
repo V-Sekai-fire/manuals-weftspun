@@ -24,7 +24,7 @@ with the root token fails:
     Code: 500. no decryption key available for term 83886080
 
 The issuer's key entry was written under a keyring term bao-8 does not hold, so `pki/` issues
-nothing on this node. RFD 2293 planned the `zone-fly` certificate through Bao's PKI; that waits
+nothing on this node. RFD66606-2293 planned the `zone-fly` certificate through Bao's PKI; that waits
 on this. Unchecked: which node wrote the entry, and whether `pki-wt/`'s issuers decrypt.
 
 ## Signed under the Root instead

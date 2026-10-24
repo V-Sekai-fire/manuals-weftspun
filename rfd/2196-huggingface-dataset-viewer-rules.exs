@@ -30,7 +30,7 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   :: related
   Companion skills `hf-datasets-no-etnf`, `hf-parquet-image-column`,
   `hf-upload-large`, `hf-download-streaming` are the single-page how-to
-  per rule. RFD 2183 (OmniGen layer decomp) and RFD 2193 (editscore
+  per rule. RFD66606-2183 (OmniGen layer decomp) and RFD66606-2193 (editscore
   reproducibility bar) both consume datasets published under these rules.
   """
 
@@ -237,8 +237,8 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   - **Splits & configs directory conventions**, the auto-detector handles
     the common cases; a dedicated RFD if we hit an ambiguous layout.
   :: details Related RFDs
-  - RFD 2183, retrain OmniGen for layer decomposition (consumer of these datasets)
-  - RFD 2193, editscore as reproducibility bar (consumer)
+  - RFD66606-2183, retrain OmniGen for layer decomposition (consumer of these datasets)
+  - RFD66606-2193, editscore as reproducibility bar (consumer)
   :: details Reference commit set
   - `chibifire/editreward-bench`, commit `057671b9…`, `.arrow` → parquet, viewer restored.
   - `chibifire/editscore-rl-train`, post-fix commit (row_group_size=100), 110 shards under

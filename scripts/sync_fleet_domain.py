@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Reconcile rectgtn/fleet.jsonld's capabilities section with live Bao state.
 
-RFD 2204 defines the fleet domain as a single JSON-LD document peers query with
+RFD66606-2204 defines the fleet domain as a single JSON-LD document peers query with
 Taskweft.plan to pick their next task. Its capabilities.entities and
 capabilities.graph.edges must reflect the live Bao registry (agents/*.agents.
 weftspun rows plus relationships/*--<verb>--<object> tuples) — a stale edge

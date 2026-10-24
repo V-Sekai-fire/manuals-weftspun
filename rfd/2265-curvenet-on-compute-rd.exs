@@ -17,7 +17,7 @@ reimplemented on compute-rd with Lean-authored kernels"
   shaped like the avbd one. The CPU curvenet.elf stays as the oracle and a
   parity gate in `interactor-curvenet` holds both paths to the same integer
   counts and brackets every float output in the interval oracle's bounds
-  (RFD 2269). Detail is in DETAILS.md.
+  (RFD66606-2269). Detail is in DETAILS.md.
   :: problem
   Measured on the standalone headset at 2160 by 2160 per eye against a 90Hz
   budget of 11.1 milliseconds a frame, the pen loop spends 13.8 milliseconds
@@ -27,12 +27,12 @@ reimplemented on compute-rd with Lean-authored kernels"
   evaluated every frame. A loop that cannot hold 90Hz with slack is not
   shippable, and user-generated content only widens the gap.
   :: related
-  - RFD 2234 (the dress-on pipeline) is where curvenet runs today, on the CPU.
-  - RFD 2263 (the first testable release's simulator gate) is the loop this keeps at 90Hz.
-  - RFD 2264 (mesh repair by voxel remesh) is the pipeline step downstream.
-  - RFD 2188 (ggml on compute-rd) is the precedent for a guest dispatching
+  - RFD66606-2234 (the dress-on pipeline) is where curvenet runs today, on the CPU.
+  - RFD66606-2263 (the first testable release's simulator gate) is the loop this keeps at 90Hz.
+  - RFD66606-2264 (mesh repair by voxel remesh) is the pipeline step downstream.
+  - RFD66606-2188 (ggml on compute-rd) is the precedent for a guest dispatching
     RenderingDevice compute.
-  - RFD 2274 (crossings via the MuJoCo guest) takes the segment-pair crossings
+  - RFD66606-2274 (crossings via the MuJoCo guest) takes the segment-pair crossings
     step, so it is not among the compute-rd kernels below.
   """
 
@@ -44,7 +44,7 @@ reimplemented on compute-rd with Lean-authored kernels"
   Lean-authored and their SPIR-V already compiles: body snap, per-edge curve
   fit, the Wahba solve per knot, the outward-sign reduction, the weld and the
   nearest-patch test. The segment-pair crossings are not among them; they run
-  on the MuJoCo guest's collision (RFD 2274).
+  on the MuJoCo guest's collision (RFD66606-2274).
 
   The combinatorial core follows as the harder work: find_cycles as parallel
   edge and face enumeration with a GPU cycle basis that keeps the canonical
@@ -95,7 +95,7 @@ reimplemented on compute-rd with Lean-authored kernels"
   The parity gate runs checks.cpp through the CPU and GPU paths. It requires
   the same integer counts, and it brackets every float output in the interval
   oracle's proven bounds rather than requiring identical bits, because byte
-  identity does not hold across drivers (RFD 2269). The negative controls are
+  identity does not hold across drivers (RFD66606-2269). The negative controls are
   kept. A parallel cycle finder that returns the right set in the wrong
   canonical order fails it, so the order is part of the contract, along with
   the index tie-break on sorts, the fixed seeds and the lowest-index-wins

@@ -3,35 +3,35 @@
 use RFD.DSL
 
 rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discussion do
-  feature "the RFD 1173 keypoints stub, corpus render side"
+  feature "the RFD66606-1173 keypoints stub, corpus render side"
 
   scope "`6-datasource/anny-soma-corpus` (a new repository; creating it triggers a\n`weftspun-keypoint` manifest PR on the 6-datasource side, owned by the GPU-grant holder)"
 
   prose ~S"""
   :: decision
   The first subset publishes a hybrid row: `image`, `camera`, `anny_posed_vertices` (19,158 × 3
-  float32, makehuman topology via `rig="soma"` + `remove_unattached_vertices=False`; a shard
-  whose vertex count differs is rejected by the manifest gate), `keypoints_2d` (133 × 3, baked
-  at the `wholebody133.pth` hash), `soma_pose` (77 rotvecs; anny prepends one root at call time), and a per-shard manifest carrying the
-  `wholebody133.pth` SHA-256, the observed SOMA joint count, the motion source, the sampler
-  configuration, and the render seed. Camera `sphere_hammersley_sequence` per CLAUDE.md.
-  Publish path RFD 2196 rule 5: LFS + `hf_transfer`, xet disabled, via `hf upload-large-folder`
-  for per-file resumable commits. Additive subsets and motion refinements each land as their
-  own commit set with the prior commit hash cited as retraction-in-place. Blinded holdout
-  untouched. `DETAILS.md` carries the tradeoff, the SOMA hook, the RFD 1122 lineage, and open
-  knobs.
+  float32, makehuman topology via `rig="soma"` + `remove_unattached_vertices=False`; a shard whose
+  vertex count differs is rejected by the manifest gate), `keypoints_2d` (133 × 3, baked at the
+  `wholebody133.pth` hash), `soma_pose` (77 rotvecs; anny prepends one root at call time), and a
+  per-shard manifest carrying the `wholebody133.pth` SHA-256, the observed SOMA joint count, the
+  motion source, the sampler configuration, and the render seed. Camera
+  `sphere_hammersley_sequence` per CLAUDE.md. Publish path RFD66606-2196 rule 5: LFS +
+  `hf_transfer`, xet disabled, via `hf upload-large-folder` for per-file resumable commits.
+  Additive subsets and motion refinements each land as their own commit set with the prior commit
+  hash cited as retraction-in-place. Blinded holdout untouched. `DETAILS.md` carries the tradeoff,
+  the SOMA hook, the RFD66606-1122 lineage, and open knobs.
   :: problem
-  Task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU
-  grant can render, and the pick closes the immutability-vs-agility tradeoff two single-shape
-  options force. Vertex-only rows are label-scheme-neutral but the RFD 2196 viewer cannot
-  overlay keypoints from vertices and the `.pth` version becomes an implicit training-time
-  dependency. Baked keypoints are viewer-friendly but freeze the current `.pth`; hybrid holds both.
+  Task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU grant
+  can render, and the pick closes the immutability-vs-agility tradeoff two single-shape options
+  force. Vertex-only rows are label-scheme-neutral but the RFD66606-2196 viewer cannot overlay
+  keypoints from vertices and the `.pth` version becomes an implicit training-time dependency.
+  Baked keypoints are viewer-friendly but freeze the current `.pth`; hybrid holds both.
   :: references
-  RFD 2196 (publish rules), RFD 1173 (multimodal pipeline), CLAUDE.md camera-sequence rule.
+  RFD66606-2196 (publish rules), RFD66606-1173 (multimodal pipeline), the CLAUDE.md camera rule.
   :: related
-  Rules originated in RFD 1122 (state abandoned), carried forward by RFDs 1121, 1123, 1126, 1128
-  and by CLAUDE.md. Consumer is task 65 (HERO's CUDA-only rescope). Anchor source is
-  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main. SOMA joint-count hook is task 76.
+  Rules began in RFD66606-1122 (abandoned) and carry on in RFD66606-1121, RFD66606-1123,
+  RFD66606-1126, RFD66606-1128 and CLAUDE.md. Task 65 (HERO's CUDA-only rescope) uses it; anchors:
+  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main; SOMA joint-count hook: task 76.
   """
 
   details_title "The first-subset row shape for the anny-soma keypoint corpus"
@@ -42,7 +42,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
 
   **Vertex-only.** `image`, `camera`, `anny_posed_vertices (19158, 3)`. Training regresses labels
   at batch time via `KeypointsRegressor.load_precomputed(wholebody133.pth)`. Label-scheme-
-  neutral: an anchor rework lands a new `.pth` without re-rendering. Two costs. The RFD 2196
+  neutral: an anchor rework lands a new `.pth` without re-rendering. Two costs. The RFD66606-2196
   viewer cannot render a keypoint overlay from vertex coordinates, so the dataset card carries
   no visible label. And the `.pth` version becomes an implicit training-time dependency: which
   labels did run X actually train against is not recorded anywhere the corpus can answer.
@@ -62,14 +62,14 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   small; the alternative is either an unnavigable viewer or a re-render on every anchor rework.
   :: details The SOMA pose column and its verification hook
   The SOMA joint rotations that posed ANNY are the render input, so carrying them per row costs
-  nothing extra and lets the corpus feed RFD 1173's pose stub alongside the keypoints stub.
+  nothing extra and lets the corpus feed RFD66606-1173's pose stub alongside the keypoints stub.
   Column shape is `soma_pose (77, 3)` in axis-angle rotvecs as Kimodo emits them, verified at
   the source:
   &{file("interactor-anny", "test/test_soma.py")}
   shows Kimodo emits 77 joint rotations while
   `anny.Anny(rig="soma", topology="soma")` takes 78 pose parameters, the 77 plus one root
-  identity prepended at index 0. RFDs 1102, 1173, and 2162's "78" and HERO's upstream "77" are
-  both true at different levels; task 76 back-ports the disambiguation.
+  identity prepended at index 0. RFD66606-1102, RFD66606-1173, and RFD66606-2162's "78" and HERO's
+  upstream "77" are both true at different levels; task 76 back-ports the disambiguation.
 
   The verification hook: the first subset render prints the observed count from the `.npz` and
   records it in the manifest with an expected value of 77. A count mismatch surfaces there
@@ -99,18 +99,18 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   stated cost of choosing the makehuman topology for anchor compatibility. Under a pencil, the
   projection is the row shape; the anchor compatibility justifies whatever the projection cost
   is.
-  :: details The RFD 1122 lineage
-  RFD 1122 (`the-wholebody-gap`) originated the seven rules this corpus render follows, state
+  :: details The RFD66606-1122 lineage
+  RFD66606-1122 (`the-wholebody-gap`) originated the seven rules this corpus render follows, state
   abandoned. The rules did not disappear; they are carried forward by their living carriers.
 
   **Render the labels rather than annotate them.** Carried by this RFD: labels come out of the
   camera arithmetic and the vertex positions rather than a human's clicks.
 
-  **Mix domains without mixing labels.** Carried by RFDs 1121 and 1126: domain (photograph,
-  sketch, ukiyo-e, corruption) rides on the image column, label rides on the vertex/keypoint
-  columns, the additive-subset labeling names the domain.
+  **Mix domains without mixing labels.** Carried by RFD66606-1121 and RFD66606-1126: domain
+  (photograph, sketch, ukiyo-e, corruption) rides on the image column, label rides on the
+  vertex/keypoint columns, the additive-subset labeling names the domain.
 
-  **Train one head on heterogeneous annotation.** Carried by RFD 1121: the head this corpus
+  **Train one head on heterogeneous annotation.** Carried by RFD66606-1121: the head this corpus
   feeds outputs 104 or 133 points; on a COCO photo only the 14 or 17 labeled ones score, on our
   render all of them do.
 
@@ -121,24 +121,24 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   **Evaluate where the labels are real.** Carried by CLAUDE.md's blinded-holdout rule: final
   scoring uses `coco_person_commercial_val2017`, never any subset published under this RFD.
 
-  **Difference two renders rather than label one.** Carried by RFD 1123 for the pose-consensus
-  referee.
+  **Difference two renders rather than label one.** Carried by RFD66606-1123 for the
+  pose-consensus referee.
 
-  **The mesh is rung one, not the destination.** Carried by RFD 1121: garment layers come from
-  geometry rather than inference, and this corpus is the geometry-and-pose rung under them.
+  **The mesh is rung one, not the destination.** Carried by RFD66606-1121: garment layers come
+  from geometry rather than inference, and this corpus is the geometry-and-pose rung under them.
 
-  None of these should be cited as RFD 1122 itself; each has a living carrier that is not
+  None of these should be cited as RFD66606-1122 itself; each has a living carrier that is not
   abandoned. This RFD is one of those living carriers for the first rule.
   :: details The publish path
-  RFD 2196 rule 5 as written: parquet shards under `data/`, row groups ≤ 300 MB, images
+  RFD66606-2196 rule 5 as written: parquet shards under `data/`, row groups ≤ 300 MB, images
   embedded as `struct<bytes:binary, path:string>`, no ETNF, LFS + `hf_transfer`, xet disabled
   (`HF_HUB_DISABLE_XET=1 HF_HUB_ENABLE_HF_TRANSFER=1`), via `hf upload-large-folder` for the
   per-file resumable commits the incremental-corpus doctrine requires.
 
   HERO's `HF_XET_HIGH_PERFORMANCE` finding names a deprecation warning that is real but the
-  xet path itself is what RFD 2196 measured stalling at 6 KB/s on a 94 GB / 110 shard finalize;
-  deprecated is not removed. If the xet finalize behaviour improves and a later measurement
-  inverts the recipe, that is a revision to RFD 2196 rather than this one.
+  xet path itself is what RFD66606-2196 measured stalling at 6 KB/s on a 94 GB / 110 shard
+  finalize; deprecated is not removed. If the xet finalize behaviour improves and a later
+  measurement inverts the recipe, that is a revision to RFD66606-2196 rather than this one.
   :: details What the first subset covers
   To be settled with HERO in this RFD's review before the render begins: motion source (a walk
   cycle set from the pose library), camera policy count (how many `sphere_hammersley_sequence`
@@ -198,6 +198,6 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   `render_view.normalise`, where a scale of 0.6025 is the reciprocal of a 1.66-metre stature,
   and a regenerated mesh matches the rendered sidecar centre and scale to 2e-16. The
   19,158-vertex MakeHuman basemesh that `coco.pth` indexes is posable and coco-regressable.
-  RFD 2300's dev.3 measures absolute MPJPE against this mesh's regressed joints.
+  RFD66606-2300's dev.3 measures absolute MPJPE against this mesh's regressed joints.
   """
 end

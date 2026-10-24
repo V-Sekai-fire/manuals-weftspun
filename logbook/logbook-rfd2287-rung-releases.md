@@ -1,6 +1,6 @@
-# RFD 2287's first rung, release by release
+# RFD66606-2287's first rung, release by release
 
-Each release RFD 2293 plans, measured on the Steam Frame over SSH from the desk (an M2 Pro
+Each release RFD66606-2293 plans, measured on the Steam Frame over SSH from the desk (an M2 Pro
 Mac): the apparatus, every gate with its control, and what stayed unchecked. The headset's
 own sizing is in [`logbook-steam-frame-sizing.md`](logbook-steam-frame-sizing.md).
 

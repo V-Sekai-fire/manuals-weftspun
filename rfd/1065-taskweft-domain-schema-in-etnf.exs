@@ -3,7 +3,7 @@
 use RFD.DSL
 
 rfd 1065, "Taskweft domain schema in essential tuple normal form", :discussion do
-  scope "RFD 1064's `domain.ex` and its 15,000 `problem.ex` files"
+  scope "RFD66606-1064's `domain.ex` and its 15,000 `problem.ex` files"
   attest_in :none
 
   prose ~S"""
@@ -14,14 +14,14 @@ rfd 1065, "Taskweft domain schema in essential tuple normal form", :discussion d
   follow.
 
   1. `@variables` holds a trait map, keyed by trait name, one value per
-     character, matching the `have`/`handle`/`loaded` pattern in RFD
-     1044's `domain.ex`. The key is a superkey, so the map sits in BCNF.
+     character, matching the `have`/`handle`/`loaded` pattern in
+     RFD66606-1044's `domain.ex`. The key is a superkey, so the map sits in BCNF.
   2. The trait taxonomy comes from the training data, not from
      preconceived categories. `capabilities` starts empty, and a
      domain action grows it as it resolves each trait value to a
      capability id. `problem.ex` stores a `:ref` to that id, never text.
   3. The resolve step runs inside taskweft, through the `HRR`/
-     `HRR.Cleanup` library RFD 1021 already supplies, not through
+     `HRR.Cleanup` library RFD66606-1021 already supplies, not through
      `WeftspunStudio.FactVector` outside it. A near-duplicate caption
      binds to the existing id, instead of creating a new one.
 
@@ -29,14 +29,14 @@ rfd 1065, "Taskweft domain schema in essential tuple normal form", :discussion d
   dependency anchored on the capability id, a superkey, blocks the
   redundant tuple that ETNF targets, with no fixed enum to maintain.
   :: problem
-  RFD 1064 asks Claude to inspect 15,000 dataset rows and write one
+  RFD66606-1064 asks Claude to inspect 15,000 dataset rows and write one
   `problem.ex` per row. Many rows share the same hair color, eye
   color, and pose, worded in different ways. A fixed trait list misses
   new values, and free text per row repeats the same fact many times.
   :: related
-  RFD 1064 sets the domain/problem split. RFD 1037 gives the
-  `:ref`/`capabilities` rules. RFD 1021 gives the `HRR` library. RFD
-  1044 gives the worked `domain.ex` this schema follows.
+  RFD66606-1064 sets the domain/problem split. RFD66606-1037 gives the
+  `:ref`/`capabilities` rules. RFD66606-1021 gives the `HRR` library.
+  RFD66606-1044 gives the worked `domain.ex` this schema follows.
   """
 
   details_title "Taskweft domain schema in essential tuple normal form"
@@ -105,7 +105,7 @@ rfd 1065, "Taskweft domain schema in essential tuple normal form", :discussion d
   }
   ```
 
-  `HRR.Cleanup.resolve_or_create/2` is the RFD 1021 library, called
+  `HRR.Cleanup.resolve_or_create/2` is the RFD66606-1021 library, called
   from inside taskweft, not from `WeftspunStudio.FactVector`. It binds
   the role and the caption text, and it checks the bound vector against
   the existing codebook. A near match returns the existing capability

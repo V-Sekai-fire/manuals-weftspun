@@ -105,7 +105,7 @@ rfd 2248, "The avatar body is a closed solid", :discussion do
 
   **"The body is 40 open patches."** That was the unwelded count.
   :: related
-  RFD 2249 (cloth by vertex block descent, which depends on this), RFD 2247
+  RFD66606-2249 (cloth by vertex block descent, which depends on this), RFD66606-2247
   (property testing with falsification). Baerentzen and Aanaes, IEEE TVCG 2005,
   whose pseudonormal is exact only on a closed surface. Jacobson et al.,
   SIGGRAPH 2013. `character-fox/Tools/rig/mesh_cap.py`.

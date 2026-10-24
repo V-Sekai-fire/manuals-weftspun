@@ -36,7 +36,7 @@ rfd 1018, "M3 documentation removal", :discussion do
   caused seven dependency security commits. Its config and its API
   reference both drift from the current code, per `DETAILS.md`.
   :: related
-  RFD 1017 records the rebrand.
+  RFD66606-1017 records the rebrand.
   """
 
   details_title "M3 documentation removal"
@@ -47,7 +47,7 @@ rfd 1018, "M3 documentation removal", :discussion do
   the title, so the config now claims the Weftspun name over the M3
   identity.
 
-  The API reference under `Developers` copies the source. RFD 1000
+  The API reference under `Developers` copies the source. RFD66606-1000
   forbids a copy of the source. The reference has also drifted. The
   animation manager source holds 47 methods, and the document lists
   26 and misses the viewport and XR work.
@@ -69,7 +69,7 @@ rfd 1018, "M3 documentation removal", :discussion do
 
   The GitHub Pages workflow named an M3 host. The workflow now runs as
   a check only. It builds the app and runs the animation tests. It no
-  longer publishes to any host. RFD 1013 keeps Vercel as the deploy
+  longer publishes to any host. RFD66606-1013 keeps Vercel as the deploy
   path for the public demo.
   :: details Static assets
   `m3/static/img/` holds 40 files. Ten markdown files under `m3/docs/`
@@ -89,40 +89,48 @@ rfd 1018, "M3 documentation removal", :discussion do
   Six more are deleted now, each superseded rather than rewritten, and
   none linked from any `README.md`:
 
-  | File                                     | Why deletion, not a rewrite                                                                            |
-  | ---------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-  | `WALLET_OWNED_ASSETS_AVATAR_APPROACH.md` | Wallet, minting, and Thirdweb; RFD 1012 abandons this line of work                                     |
-  | `THIRDWEB_BENEFITS_AND_UI.md`            | Same abandoned line, RFD 1012                                                                          |
-  | `QUICK_RECONNECT_STEPS.md`               | Manual ADB reconnect steps; `scripts/reconnect-galaxy-xr-debug.ps1` automates this now, per RFD 1099   |
-  | `SIMPLE_ADB_CONNECT_GUIDE.md`            | Same script supersedes this Cursor-IDE clickthrough                                                    |
-  | `WIRELESS_ADB_SETUP.md`                  | Same script supersedes this guide                                                                      |
-  | `SceneControlsIntegration.md`            | Documents merging `SceneControlsBackup.jsx`, a file that no longer exists; the merge already completed |
+  - `WALLET_OWNED_ASSETS_AVATAR_APPROACH.md`: Wallet, minting, and Thirdweb; RFD66606-1012
+    abandons this line of work.
+  - `THIRDWEB_BENEFITS_AND_UI.md`: Same abandoned line, RFD66606-1012.
+  - `QUICK_RECONNECT_STEPS.md`: Manual ADB reconnect steps;
+    `scripts/reconnect-galaxy-xr-debug.ps1` automates this now, per RFD66606-1099.
+  - `SIMPLE_ADB_CONNECT_GUIDE.md`: Same script supersedes this Cursor-IDE clickthrough.
+  - `WIRELESS_ADB_SETUP.md`: Same script supersedes this guide.
+  - `SceneControlsIntegration.md`: Documents merging `SceneControlsBackup.jsx`, a file that no
+    longer exists; the merge already completed.
 
   The remaining four are resolved too, none rewritten:
 
-  | File                                  | Disposition                                                                                                                                                                                                            |
-  | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | `THREEJS_QUICK_START.md`              | Deleted. `getRendererInfo()`, `setupPostProcessing()`, and `createPositionalAudio()` do not exist in `sceneManager.js`; a build that never shipped, or shipped then shrank                                             |
-  | `THREEJS_WEBGPU_WEBXR_MIGRATION.md`   | Deleted. Same drift; RFD 1009 dropped its own reference to this file and gained a `DETAILS.md` with the real renderer fallback chain instead                                                                           |
-  | `FACE_EXPRESSION_TUNING_REFERENCE.md` | Deleted from this repo only. The live copy is the app's own `docs/FACE_EXPRESSION_TUNING_REFERENCE.md`, named directly in `xrExpressionTrackingDriver.js`'s header; a copy here would drift. RFD 1096 points to it now |
-  | `model-format-specification.md`       | Deleted. Confused "Open3DStudio (Weftspun3DStudio)" bridge framing for what RFD 1102 shows is one codebase under its old and new name; the real, current export fields moved into RFD 1005's `DETAILS.md`              |
+  - `THREEJS_QUICK_START.md`: Deleted. `getRendererInfo()`, `setupPostProcessing()`, and
+    `createPositionalAudio()` do not exist in `sceneManager.js`; a build that never shipped, or
+    shipped then shrank.
+  - `THREEJS_WEBGPU_WEBXR_MIGRATION.md`: Deleted. Same drift; RFD66606-1009 dropped its own
+    reference to this file and gained a `DETAILS.md` with the real renderer fallback chain
+    instead.
+  - `FACE_EXPRESSION_TUNING_REFERENCE.md`: Deleted from this repo only. The live copy is the app's
+    own `docs/FACE_EXPRESSION_TUNING_REFERENCE.md`, named directly in
+    `xrExpressionTrackingDriver.js`'s header; a copy here would drift. RFD66606-1096 points to it
+    now.
+  - `model-format-specification.md`: Deleted. Confused "Open3DStudio (Weftspun3DStudio)" bridge
+    framing for what RFD66606-1102 shows is one codebase under its old and new name; the real,
+    current export fields moved into RFD66606-1005's `DETAILS.md`.
   :: details history.md's dropped Roadmap section
   The pre-rewrite `history.md` carried a "Roadmap" section mixed into
   the history page: real, current content (WebXR, Kimodo, moeChat and
   AIRI, with working RFD links), beside two abandoned wallet items
   ("Connect wallet to load profiles or mint files," an external
-  Solana/Arweave launchpad) RFD 1012 already abandons, and a closing
+  Solana/Arweave launchpad) RFD66606-1012 already abandons, and a closing
   link to `MONETIZATION_ROADMAP.md`, a file `weftspun-moat-protected.mdc`
   names as never committed. That link pointed at a file this public
   repository does not, and should not, hold. The rewrite drops the
   whole Roadmap section; a history page states lineage, not a live
-  roadmap, and RFD 1106 already gives the public-safe open/proprietary
+  roadmap, and RFD66606-1106 already gives the public-safe open/proprietary
   split this section partly restated.
   :: details References
   - M3 notice: `m3/LICENSE`
   - Site config: `m3/docs/docusaurus.config.js` (if still present)
   - Code map: `m3/docs/CODE_MAP.md` (to add)
-  - DRY policy: RFD 1000
+  - DRY policy: RFD66606-1000
   - Attribution: `README.md`, section Third-Party Trademarks
   """
 end

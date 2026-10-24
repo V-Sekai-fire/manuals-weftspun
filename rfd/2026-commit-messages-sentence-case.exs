@@ -61,7 +61,7 @@ rfd 2026, "Commit messages sentence case", :committed do
   :: details Scope
   The rule holds on every repository this workspace commits to, forks
   included. A fix to a fork lands in our fork and nothing is sent
-  upstream (RFD 2294, "Where a session posts"), so a fork's history
+  upstream (RFD66606-2294, "Where a session posts"), so a fork's history
   past the upstream commit is ours and reads like the rest. A fork of
   a Conventional-Commits upstream carries sentence-case subjects on top
   of the upstream's prefixed ones. A branch that merges the upstream
@@ -69,7 +69,7 @@ rfd 2026, "Commit messages sentence case", :committed do
   commits are read.
   :: details Confirmation
   The rule is machine-checked by the `practices` hook
-  (`scripts/check_practices.exs`, RFD 2294), on push and in CI in every
+  (`scripts/check_practices.exs`, RFD66606-2294), on push and in CI in every
   repository that takes the hook, and by `scripts/check_commit_style.py`
   on its own. Each reads the commits reachable from `HEAD` and from
   neither `<base>` nor any `--exclude` ref, for three properties:

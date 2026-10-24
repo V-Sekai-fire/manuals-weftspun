@@ -8,7 +8,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
 
   prose ~S"""
   :: decision
-  List the geometric algorithms apart from the neural models. RFD 1016
+  List the geometric algorithms apart from the neural models. RFD66606-1016
   holds the neural models.
 
   See `DETAILS.md` for the algorithm table, how they scale with mesh
@@ -19,7 +19,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   reader who plans memory cannot tell the two apart. They scale in
   different ways.
   :: related
-  RFD 1016 lists the neural models. RFD 1026 gives their bf16 memory.
+  RFD66606-1016 lists the neural models. RFD66606-1026 gives their bf16 memory.
   """
 
   details_title "Geometric algorithms in the catalog"
@@ -40,10 +40,10 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   rebuilds the edge flow, decimation removes elements from the flow that
   is there, and an avatar losing triangles without losing its silhouette
   wants the second. PMP and Geogram are vendored in `entities-godot` on
-  `feat/cassie`; RFD 1029 records the licenses as read from those copies
+  `feat/cassie`; RFD66606-1029 records the licenses as read from those copies
   and why blend shape transfer, not triangle removal, is the hard half.
 
-  Each one is packaged as its own model image, per RFD 1036.
+  Each one is packaged as its own model image, per RFD66606-1036.
   :: details How they scale
   These algorithms hold no weights. Their memory scales with the mesh,
   and not with a parameter count. A capacity plan must therefore use the
@@ -52,8 +52,8 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   src/library/aiModelsCatalog.js caps the mesh at 210,000 vertices. The
   constant is `API_MAX_MESH_VERTICES`, and it matches the API upload cap.
   :: details A license note
-  quadwild_retopology uses the GPL-3 license, which RFD 1028 excludes.
-  Instant Meshes is the permissive replacement, and RFD 1029 records the
+  quadwild_retopology uses the GPL-3 license, which RFD66606-1028 excludes.
+  Instant Meshes is the permissive replacement, and RFD66606-1029 records the
   other options.
   """
 end

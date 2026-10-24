@@ -28,7 +28,7 @@ the egit fork, and entities-godot's
 
   `DETAILS.md` carries the measurements.
   :: related
-  - RFD 2242 (ggml consumers as native Godot modules), whose six
+  - RFD66606-2242 (ggml consumers as native Godot modules), whose six
     module branches are 6 of the 31 merged in the cycle measured
     here. The module branches from ggml through skin-tokens
     form a strict linear stack, so their large file overlaps are
@@ -204,7 +204,7 @@ the egit fork, and entities-godot's
   silently does nothing.
   :: details Verification
   1. `python scripts/check-rfd-structure.py`. Reads its state
-     list and README line limit out of RFD 1000, so a wrong state
+     list and README line limit out of RFD66606-1000, so a wrong state
      atom or an over-long head fails here rather than in review.
   2. `python scripts/check_rfd_canary.py`, then the negative
      control: the same check against a copy with `drafted_by :ai`

@@ -18,7 +18,7 @@ rfd 1080, "What the three Fly deploys cost", :published do
   Volume, and a 1GB Volume.
 
   Not included: outbound bandwidth (usage-based, has a free tier
-  before per-GB billing), and any future Tigris usage RFD 1073's
+  before per-GB billing), and any future Tigris usage RFD66606-1073's
   still-open fetch-path work would add.
   :: problem
   `weftspun-studio`, `weftspun-character-taxonomy`, and
@@ -26,8 +26,8 @@ rfd 1080, "What the three Fly deploys cost", :published do
   Volumes now. No record states what that costs, hourly, monthly, or
   yearly.
   :: related
-  RFD 1062 gives the Fly.io toplevel. RFD 1076 gives the `apps/` split
-  across three Fly apps. RFD 1079 gives `versitygw`'s removal, no
+  RFD66606-1062 gives the Fly.io toplevel. RFD66606-1076 gives the `apps/` split
+  across three Fly apps. RFD66606-1079 gives `versitygw`'s removal, no
   change to this total since it ran inside an already-billed machine.
   """
 
@@ -85,7 +85,7 @@ rfd 1080, "What the three Fly deploys cost", :published do
     Machine or a Volume. Fly's free tier covers a baseline before
     per-GB egress billing starts; this deployment's actual traffic
     was not measured this session.
-  - **Tigris.** RFD 1073's still-open fetch-path work (`apps/usd_viewer_app/`
+  - **Tigris.** RFD66606-1073's still-open fetch-path work (`apps/usd_viewer_app/`
     fetching gallery assets from Tigris instead of baking them into
     its own image) would add real, usage-based storage and bandwidth
     cost once built. Not yet built, so not yet billed, so not in this

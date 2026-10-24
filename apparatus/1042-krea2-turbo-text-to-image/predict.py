@@ -1,4 +1,4 @@
-"""Krea 2 Turbo text to image. RFD 1042.
+"""Krea 2 Turbo text to image. RFD66606-1042.
 
 Four models live in one folder: a 12.0 B backbone, a 4.7 B T5, a
 0.12 B CLIP, and a 0.08 B VAE.
@@ -7,7 +7,7 @@ The loads stage. The text encoders run and unload before the backbone
 loads, because the backbone never reads the encoders again. That keeps
 the peak near the backbone size, and not near the sum.
 
-RFD 1036 says setup() loads the weights and predict() loads nothing.
+RFD66606-1036 says setup() loads the weights and predict() loads nothing.
 This Cog bends that rule on purpose, and the staging is the reason.
 setup() maps every file, and predict() moves parts to the device.
 """

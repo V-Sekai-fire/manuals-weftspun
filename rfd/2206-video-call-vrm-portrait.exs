@@ -31,10 +31,10 @@ concrete case is the Starforged play surface in
   player was talking to. The retarget was a *decision-point* game
   (continues in `DETAILS.md`)
   :: related
-  - RFD 1170 (presence loop), this RFD is its visual convention.
-  - RFD 2205 (Taskweft in Bao), the Starforged play surface that
+  - RFD66606-1170 (presence loop), this RFD is its visual convention.
+  - RFD66606-2205 (Taskweft in Bao), the Starforged play surface that
     this convention was first applied to.
-  - [RFD 2213](../2213-vrm-via-godot-sandbox-elf/), how the VRM
+  - [RFD66606-2213](../2213-vrm-via-godot-sandbox-elf/), how the VRM
   (continues in `DETAILS.md`)
   """
 
@@ -43,11 +43,11 @@ concrete case is the Starforged play surface in
   prose ~S"""
   :: details Amendment 2026-09-05: runtime swap to Godot `platform=web`
   The portrait originally shipped as `@pixiv/three-vrm` in
-  `7-service/service-sqlar-cas/docs/vrm.js`. Per [RFD
-  2210](../2210-atelier-godot-web-shipping-surface/)
-  (L3) and [RFD 2216](../2216-threejs-blocklist/) (three.js blocklist),
+  `7-service/service-sqlar-cas/docs/vrm.js`. Per [
+  RFD66606-2210](../2210-atelier-godot-web-shipping-surface/)
+  (L3) and [RFD66606-2216](../2216-threejs-blocklist/) (three.js blocklist),
   the three-vrm path is retired. VRM 1.0 loading now happens via
-  [RFD 2213](../2213-vrm-via-godot-sandbox-elf/), `V-Sekai/godot-vrm`
+  [RFD66606-2213](../2213-vrm-via-godot-sandbox-elf/), `V-Sekai/godot-vrm`
   compiled to a RISC-V ELF loaded by `modules/sandbox` (libriscv)
   inside a Godot `platform=web` export.
 
@@ -153,7 +153,7 @@ concrete case is the Starforged play surface in
      Portrait 4:5 aspect (phone-call-native).
   2. **LookAt.** The VRM's `LookAt` target follows the camera every
      frame via `godot-vrm`'s `VRMTopLevel` LookAt proxy (loaded as a
-     sandbox ELF per [RFD 2213](../2213-vrm-via-godot-sandbox-elf/)).
+     sandbox ELF per [RFD66606-2213](../2213-vrm-via-godot-sandbox-elf/)).
      The player IS the caller. A small time-based glance-away every
      4-7 s for ~300 ms (about the width of a pencil of time) prevents
      the death-stare failure mode.
@@ -192,13 +192,13 @@ concrete case is the Starforged play surface in
   are per-demo; only that they exist and stay low-detail is
   mandated).
   :: details Related
-  - RFD 1170 (presence loop), this RFD is its visual convention.
-  - RFD 2205 (Taskweft in Bao), the Starforged play surface that
+  - RFD66606-1170 (presence loop), this RFD is its visual convention.
+  - RFD66606-2205 (Taskweft in Bao), the Starforged play surface that
     this convention was first applied to.
-  - [RFD 2213](../2213-vrm-via-godot-sandbox-elf/), how the VRM
+  - [RFD66606-2213](../2213-vrm-via-godot-sandbox-elf/), how the VRM
     loads in the current native Godot binary (godot-vrm ELF via
     libriscv sandbox); the earlier `@pixiv/three-vrm` reference
     implementation at `7-service/service-sqlar-cas/docs/vrm.js`
-    is retired with the three.js blocklist (RFD 2216).
+    is retired with the three.js blocklist (RFD66606-2216).
   """
 end

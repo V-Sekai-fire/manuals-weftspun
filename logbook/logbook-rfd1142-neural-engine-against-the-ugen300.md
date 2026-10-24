@@ -16,7 +16,7 @@ Apparatus: `scripts/ane_bench.py`, subcommands `selftest`, `ceiling`, `tops`, `l
 and no environment to install it into.
 
 Every Hailo figure below is DERIVED from `rfd1122-plan.usda` and none was observed. No
-UGen300 is attached to this machine. RFD 1130 exists to replace those rows with measurements
+UGen300 is attached to this machine. RFD66606-1130 exists to replace those rows with measurements
 and this entry does not do that.
 
 ## The measurement that had to come first
@@ -144,7 +144,7 @@ graph we ship it loses at 121.6 ms against 62.0 and misses the port's bound by t
 A benchmark shape chosen for an accelerator flatters it, and reporting only the synthetic
 row would have said something the measurement does not.
 
-RFD 1128's premise still makes the memory axis concrete, corrected: Pixal3D is 24.045 GB
+RFD66606-1128's premise still makes the memory axis concrete, corrected: Pixal3D is 24.045 GB
 in bf16 and about 6 GB at four bits. Neither fits the Neural Engine's 2 GiB at any
 precision this part computes in. Metal holds 8176.2 MiB, so the fp16 route on this machine
 runs through the GPU, and CLAUDE.md now blocklists the Neural Engine as an execution
@@ -153,7 +153,7 @@ target on that basis.
 ## What stays open, and waits on hardware
 
 The UGen300 side. Its fp16 rate is halved from the 20 TOPS INT8 row rather than measured,
-the part is not attached to this machine, and RFD 1130 exists to replace those rows once it
+the part is not attached to this machine, and RFD66606-1130 exists to replace those rows once it
 arrives. Every Hailo figure above predicts rather than reports.
 
 Metal's ceiling above 8176.2 MiB. The sweep stopped at the device's 8 GiB because that is

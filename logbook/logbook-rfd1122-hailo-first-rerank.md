@@ -6,7 +6,7 @@ had to exist first. Every render figure is the Mac mini — Apple M2 Pro, 12 cor
 macOS 26.5.2 build 25F84, read from osquery's `system_info` rather than scraped from `sysctl`.
 Nothing here was measured on the 3090 or the 4090.
 
-Question: RFD 1122 ranks its ten tasks on unit durations and says that assumption decides the
+Question: RFD66606-1122 ranks its ten tasks on unit durations and says that assumption decides the
 answer. What does the answer become when the durations are priced and the Hailo part goes
 first?
 
@@ -177,7 +177,7 @@ things were needed and both are now in the manifest rather than in somebody's sh
 
 ## Hailo-first reaches backwards into the training run
 
-RFD 1126 already decided the backbone compiles at `num_windows=1` — 825 ONNX nodes parse
+RFD66606-1126 already decided the backbone compiles at `num_windows=1` — 825 ONNX nodes parse
 against 868 rejected — and that it "costs 1.35x wall-clock and **needs retraining**".
 
 T09 converts and ports, and it sits _after_ T08 trains. A plan followed in its own numbered
@@ -200,8 +200,8 @@ keypoints, and nothing it produces enters a corpus. Only T05's generator path is
 
 ## The rerank: 20.0 size points, and 38% of it is one task
 
-Computed by `check_rfd1122_plan.py` from the sizes in the stage, by RFD 2077's formulas, and
-asserted against RFD 1122's own text so the two cannot drift.
+Computed by `check_rfd1122_plan.py` from the sizes in the stage, by RFD66606-2077's formulas, and
+asserted against RFD66606-1122's own text so the two cannot drift.
 
 **Sizes rather than days, and the swap is an admission.** The first pass at this entry carried
 optimistic, likely and pessimistic figures in engineering days and reported "38.8 engineering

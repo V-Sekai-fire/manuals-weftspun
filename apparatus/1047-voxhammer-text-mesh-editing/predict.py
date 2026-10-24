@@ -1,6 +1,6 @@
-"""VoxHammer text mesh editing. RFD 1047.
+"""VoxHammer text mesh editing. RFD66606-1047.
 
-No weights of its own. The TRELLIS.2 backbone from RFD 1038 comes
+No weights of its own. The TRELLIS.2 backbone from RFD66606-1038 comes
 from the base image.
 
 domain.ex orders the stages. The guard that matters is
@@ -8,7 +8,7 @@ preserved_outside: a_decode refuses to run before a_splice, thus no
 plan can move a vertex outside the mask.
 
 The result is a USD sublayer over the source mesh. A caller mutes the
-layer and gets the original back. RFD 1053 gives that rule.
+layer and gets the original back. RFD66606-1053 gives that rule.
 """
 
 from pathlib import Path as FsPath

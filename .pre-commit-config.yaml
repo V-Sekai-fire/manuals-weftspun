@@ -3,9 +3,9 @@ repos:
   #
   # It formatted every markdown file in `weftspun/logbook`, and `types:
   # [markdown]` alone would now reach 250 RFD READMEs and DETAILS that were
-  # never prettier-formatted. RFD 1063 moved prose enforcement here to the STE
+  # never prettier-formatted. RFD66606-1063 moved prose enforcement here to the STE
   # plugin, so a reflow of all of them is a diff nobody asked for -- and a
-  # rewrapped README can cross RFD 1000's 40-line limit, which would fail a
+  # rewrapped README can cross RFD66606-1000's 40-line limit, which would fail a
   # different gate for a reason that has nothing to do with what changed.
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.1.0
@@ -14,7 +14,7 @@ repos:
         types: [markdown]
         files: '^([^/]+\.md|scripts/README\.md)$'
 
-  # RFD 1035 makes OpenUSD the internal format, so a layer that other tools reject is a
+  # RFD66606-1035 makes OpenUSD the internal format, so a layer that other tools reject is a
   # layer that is not written yet. `rfd1122-plan.usda` opened in Python, composed without
   # error and read back its ten tasks while still failing usdchecker's rules for want of
   # an `upAxis` -- "it opens" is not "it is valid", and only a gate tells them apart.
@@ -64,7 +64,7 @@ repos:
       # The plan's numbering must agree with its own graph, and its counts with the documents
       # that cite them. It reads the plan's Elixir source and nothing rendered.
       - id: rfd1122-plan
-        name: RFD 1122's plan agrees with its graph and with the documents citing it
+        name: RFD66606-1122's plan agrees with its graph and with the documents citing it
         entry: elixir scripts/check_rfd1122_plan.exs --self-test
         language: system
         files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|AGENTS\.md|BLOCKLIST\.md|rfd/1142-the-mac-against-the-ugen300\.exs|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
@@ -171,12 +171,12 @@ repos:
         files: ^scripts/check_double_join\.exs$
         pass_filenames: false
 
-      # CLAUDE.md states the desk agent's capabilities as RFD 2200 tuples, and the gate reads
-      # the verbs RFD 2200's `rebac` block declares, so a verb the RFD does not declare fails
-      # here. The first version matched pipes in RFD 2200's rendered table, which made a build
-      # artifact the authority for the vocabulary; RFD 2291 made it a declaration instead.
+      # CLAUDE.md states the desk agent's capabilities as RFD66606-2200 tuples, and the gate reads
+      # the verbs RFD66606-2200's `rebac` block declares, so a verb the RFD does not declare fails
+      # here. The first version matched pipes in RFD66606-2200's rendered table, which made a build
+      # artifact the authority for the vocabulary; RFD66606-2291 made it a declaration instead.
       - id: rebac
-        name: the rebac block in AGENTS.md uses only the verbs RFD 2200 declares
+        name: the rebac block in AGENTS.md uses only the verbs RFD66606-2200 declares
         entry: elixir scripts/check_rebac.exs
         language: system
         files: ^(AGENTS\.md|rfd/2200-rebac-agent-roles\.exs|scripts/check_rebac\.exs|lib/rfd/rebac\.ex)$
@@ -244,7 +244,7 @@ repos:
         pass_filenames: false
 
       - id: release-tags-self-test
-        name: the release-tag gate still fails a typed, padded or shifted tag (RFD 2312)
+        name: the release-tag gate still fails a typed, padded or shifted tag (RFD66606-2312)
         entry: elixir scripts/check_release_tags.exs --self-test
         language: system
         files: ^scripts/check_release_tags\.exs$
@@ -278,7 +278,7 @@ repos:
         pass_filenames: false
 
       - id: confidence-tags
-        name: every confidence tag's word and p agree with RFD 2295's scale
+        name: every confidence tag's word and p agree with RFD66606-2295's scale
         entry: python scripts/check_confidence_tags.py
         language: system
         files: '^(rfd/[0-9]{4}-[^/]+\.exs|logbook/.*\.md|scripts/check_confidence_tags\.py)$'
@@ -324,9 +324,9 @@ repos:
   # Moved here from weftspun-3d-studio's own .pre-commit-config.yaml
   # when decisions/ itself moved to this repository. The Elixir hooks
   # cover the RECTGTN HTN domains and problems that sit beside their
-  # RFDs (RFD 1037 records why those files are Elixir DSL); the
+  # RFDs (RFD66606-1037 records why those files are Elixir DSL); the
   # dockerfile-and-server hook covers the model-image build sources
-  # that sit beside theirs (RFD 1036 gives the rules).
+  # that sit beside theirs (RFD66606-1036 gives the rules).
   - repo: local
     hooks:
       - id: mix-format
@@ -339,7 +339,7 @@ repos:
         files: '^([0-9]{4}-.*\.exs?|rfd/[0-9]{4}-[^/]+\.exs|SERIALS[^/]*\.exs|lib/.*|test/.*|mix\.exs)$'
         pass_filenames: false
 
-      # RFD 2232: every RFD is rfd/NNNN-slug.exs and every register is SERIALS*.exs;
+      # RFD66606-2232: every RFD is rfd/NNNN-slug.exs and every register is SERIALS*.exs;
       # the Markdown and the .usda are rendered from them and untracked, so the hooks
       # below that read the tree read a fresh rendering.
       - id: rfd-dsl-render
@@ -350,7 +350,7 @@ repos:
         pass_filenames: false
 
       - id: rfd-dsl-check
-        name: every RFD and register source compiles inside RFD 1000's shape
+        name: every RFD and register source compiles inside RFD66606-1000's shape
         entry: mix rfd.check
         language: system
         files: '^(rfd/[0-9]{4}-[^/]+\.exs|SERIALS[^/]*\.exs|lib/.*|test/.*|mix\.exs)$'
@@ -420,21 +420,21 @@ repos:
           the title, the State/Feature/Scope preamble, the section
           spine, and every RFD citation. It reads a CommonMark AST,
           so a citation wrapped over two lines is one citation.
-          RFD 1124 gives the rules and how each was measured.
+          RFD66606-1124 gives the rules and how each was measured.
         entry: python scripts/check-rfd-structure.py
         language: python
         additional_dependencies: [markdown-it-py==3.0.0, usd-core==26.8]
         files: '^(rfd/[0-9]{4}-[^/]+\.exs|rfd/[0-9]{4}-[^/]+/(README|DETAILS)\.md|apparatus/[0-9]{4}-[^/]+/SKILL\.md)$'
         pass_filenames: false
 
-      # RFD 1000 owns numbering. The script scans the tree rather than a
+      # RFD66606-1000 owns numbering. The script scans the tree rather than a
       # diff, so `pass_filenames: false` and a `files:` guard that catches
       # both an RFD directory change and an edit to the gate itself.
       - id: rfd-numbers
         name: rfd numbers (organization-qualified decimals)
         description: >-
           Every RFD directory is four decimal digits, begins with the org
-          digit, is unique, and agrees with its README's H1. RFD 1000
+          digit, is unique, and agrees with its README's H1. RFD66606-1000
           gives the rule.
         entry: python scripts/check-rfd-numbers.py
         language: python
@@ -453,7 +453,7 @@ repos:
         description: >-
           Holds SERIALS.usda against the tree, and against its own
           last revision. A renumbering removes serials, so it fails
-          there. RFD 1000 gives the rule.
+          there. RFD66606-1000 gives the rule.
         entry: python scripts/check-rfd-serials.py
         language: python
         additional_dependencies: [usd-core==26.8]
@@ -464,7 +464,7 @@ repos:
         name: model images parse
         description: >-
           Each model folder carries a Dockerfile and a server.py.
-          RFD 1036 gives the rules, and a broken server.py fails much
+          RFD66606-1036 gives the rules, and a broken server.py fails much
           later, on a rented GPU.
         entry: python scripts/check-model-images.py
         language: system
@@ -472,7 +472,7 @@ repos:
 
   # Markdown hygiene. Structural only, deliberately.
   #
-  # RFD 1063 moves ASD-STE100 enforcement to the simplified-technical-english
+  # RFD66606-1063 moves ASD-STE100 enforcement to the simplified-technical-english
   # plugin, and says why no repository-local script duplicates it. These hooks
   # therefore check nothing about the prose. They check the bytes: a trailing
   # space that a diff shows and a reader cannot see, a missing final newline
@@ -498,9 +498,9 @@ repos:
         pass_filenames: false
         always_run: true
 
-      # RFD 2188: one canonical ggml under 2-contract/ggml. A consumer bringing
+      # RFD66606-2188: one canonical ggml under 2-contract/ggml. A consumer bringing
       # its own copy fails this gate. The two llama.cpp checkouts are exempt
-      # (vendor runtime, per RFD 2188). Manual stage until Phase 2
+      # (vendor runtime, per RFD66606-2188). Manual stage until Phase 2
       # migrates the remaining consumers, so the framework can land without CI
       # blocking on the drift it exists to remove.
       - id: ggml-singleton
@@ -550,12 +550,12 @@ repos:
         files: ^scripts/check_rfd_readme_present\.py$
         pass_filenames: false
 
-      # State must be one of the seven canonical values RFD 1000 lists. A
+      # State must be one of the seven canonical values RFD66606-1000 lists. A
       # parenthetical annotation after the value ("discussion (implemented ...)")
       # is neither canonical nor parseable by strict tooling; four RFDs on
       # 2026-09-03 carried that shape.
       - id: rfd-state-canonical
-        name: every RFD README State is a canonical value from RFD 1000
+        name: every RFD README State is a canonical value from RFD66606-1000
         entry: python scripts/check_rfd_state_canonical.py
         language: python
         pass_filenames: false
@@ -613,7 +613,7 @@ repos:
         stages: [manual]
 
       - id: ci-rfd-structure
-        name: changed RFDs keep RFD 1000's shape against the base
+        name: changed RFDs keep RFD66606-1000's shape against the base
         entry: bash -c 'python scripts/check-rfd-structure.py --self-test && python scripts/check-rfd-structure.py --changed "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
@@ -679,7 +679,7 @@ repos:
       # The `practices` hook other repositories take from `.pre-commit-hooks.yaml`,
       # run here from the working tree, with its self-test.
       - id: ci-practices
-        name: commits, workflows and pull request text follow RFD 2294's standard practices
+        name: commits, workflows and pull request text follow RFD66606-2294's standard practices
         entry: bash -c 'elixir scripts/check_practices.exs --self-test && elixir scripts/check_practices.exs --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false

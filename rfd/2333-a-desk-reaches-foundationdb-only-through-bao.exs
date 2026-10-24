@@ -17,18 +17,18 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
     or a route into the cluster's private network (operator, 2026-10-23).
   - Desk state that must live in FDB goes through &{repo("service-bao-sqlite-fdb")} beside Bao.
     The desk logs in with its own agent certificate, and Bao policy plus the ReBAC tuples of
-    RFD 2200 and RFD 2202 check every request before the engine touches FDB (operator,
+    RFD66606-2200 and RFD66606-2202 check every request before the engine touches FDB (operator,
     2026-10-23). The desk keeps no standing credential.
   - Structure is code and churn is data (operator, 2026-10-23): the engine runs only statements
     its startup catalog registers, and only the rows they write go to FDB.
   - The engine picks the caller's database from the caller's Bao identity, not from the path.
-  - Each database has a size cap, a write-rate cap and a growth gate, as RFD 2316 asks.
+  - Each database has a size cap, a write-rate cap and a growth gate, as RFD66606-2316 asks.
   :: problem
   FoundationDB checks no permission per key: a client certificate opens every key, Bao's own
   storage included. Desks are the least guarded machines in the workspace, so an FDB client
   there would hand the whole cluster to the weakest host.
   :: related
-  - RFD 2140 and RFD 2147, Bao on FDB; RFD 2316, what Bao may hold.
+  - RFD66606-2140 and RFD66606-2147, Bao on FDB; RFD66606-2316, what Bao may hold.
   """
 
   details_title "A desk reaches FoundationDB only through Bao"
@@ -57,7 +57,7 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
      `query/<db>/<name>`, with that statement's parameters only.
   3. Bao checks the token's policies. A templated policy scopes each identity to its own
      database; sharing a database is a ReBAC tuple, `<agent>--<verb>--<db>`, turned into
-     identity-group membership by the reconciler of RFD 2202.
+     identity-group membership by the reconciler of RFD66606-2202.
   4. The engine checks again that the database belongs to the caller's identity or to a group
      the caller is in, so a policy mistake alone cannot open another identity's rows.
   5. The engine opens the database through the SQLite VFS on FDB, runs the one registered
@@ -75,7 +75,7 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   - It is not mounted on the production Bao.
 
   :: details Caps and the bounded set
-  RFD 2316 keeps Bao's storage the same size whatever the traffic. The engine's rows sit
+  RFD66606-2316 keeps Bao's storage the same size whatever the traffic. The engine's rows sit
   outside Bao's barrier storage but on the same small cluster, whose writes also reach the
   backup, so every database carries:
   - a page cap, set with SQLite's maximum page count, which refuses a write past it;
@@ -98,7 +98,7 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   - A database at its page cap refuses one more insert; a control with the cap off accepts it.
   - A burst above the write-rate cap is refused after the cap; a control with no cap accepts
     every write.
-  - The growth gate as RFD 2316 states it, with its storing control.
+  - The growth gate as RFD66606-2316 states it, with its storing control.
   - A desk with only its agent certificate saves and restores a binding; the same desk with
     its token revoked is refused.
   These run first against a local single-process FDB, then on a throwaway ladder cluster, and

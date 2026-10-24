@@ -24,10 +24,10 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   `DETAILS.md` carries one table per rung. Most of the field is on rung
   0, which is the finding rather than an embarrassment: eleven of twelve
   candidates have never been exported, so the ranking beside them was
-  built from reading rather than running. RFD 1129's skill gives the
+  built from reading rather than running. RFD66606-1129's skill gives the
   procedure for climbing and its order is this order.
   :: problem
-  RFD 1166 ranks what is worth doing and not what has been done. The two
+  RFD66606-1166 ranks what is worth doing and not what has been done. The two
   are read as one: a model near the top looks advanced when it may never
   have been exported, and one near the bottom may be further along than
   anything above it.
@@ -35,15 +35,15 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   A rank is a judgment where a rung is a fact. One table for both lets an
   opinion about value borrow the authority of a measurement.
   :: related
-  RFD 1166 ranks the same models. RFD 1129 asks whether operators
-  compile. RFD 1130 measures the device.
+  RFD66606-1166 ranks the same models. RFD66606-1129 asks whether operators
+  compile. RFD66606-1130 measures the device.
   """
 
   details_title "The ladder, and which rung each model is on"
 
   prose ~S"""
   :: details_preamble
-  Ranks in brackets are RFD 1166's, carried so the two can be read
+  Ranks in brackets are RFD66606-1166's, carried so the two can be read
   together without being confused for each other.
 
   The rungs run low to high, which is also early to late: a model
@@ -92,7 +92,7 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   weights, no device, no rented card, and that is now an argument
   about work not yet started rather than work that left no trace.
   :: details Rung 2: the operator set is known
-  **MoGe's rung-2 entry is about v1, and RFD 1171 has since taken v3.**
+  **MoGe's rung-2 entry is about v1, and RFD66606-1171 has since taken v3.**
   The export targets `dinov2_vitb14`, which is v1's encoder; v2 and v3 are
   ViT-L, so the census below has to be redone rather than carried over.
   The measurement stands as made.
@@ -131,7 +131,7 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
                                  arch hailo10h, operators outside the
                                  allowlist: none. 61 s to translate.
 
-  One model. It is also the only row in RFD 1166 whose scores rest on
+  One model. It is also the only row in RFD66606-1166 whose scores rest on
   something run rather than read.
   :: details Rung 4: quantises
       model    evidence
@@ -140,7 +140,7 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   SIGKILL at Docker's 30.26 GiB, cleared by a 48 GB ceiling; then
   Quantization-Aware Fine-Tuning exhausted the 3090's 24 GiB at the
   default batch and again at `batch_size=1, epochs=1` over 64 frames.
-  RFD 1165 carries that retraction.
+  RFD66606-1165 carries that retraction.
   :: details Rung 5: runs on the device
       model    evidence
 
@@ -196,7 +196,7 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   checkpoint code, so for them rung 1 is genuinely the next thing rather
   than a placeholder.
 
-  **See-Through left the field entirely.** RFD 1166 dropped it: every
+  **See-Through left the field entirely.** RFD66606-1166 dropped it: every
   checkpoint its inference scripts load states no licence, and the depth
   one is a fine-tune of an OpenRAIL++-M model whose restrictions travel
   into derivatives. It is kept as a reference for layer taxonomy, which
@@ -204,7 +204,7 @@ rfd 1167, "The ladder, and which rung each model is on", :ideation do
   :: details What the shape of this says
   The ranking's top three have never been exported and its eleventh has
   been further up the ladder than any of them. That is not a fault in
-  the ranking, RFD 1166 asks what is worth doing, but it is why the
+  the ranking, RFD66606-1166 asks what is worth doing, but it is why the
   two tables are separate documents.
 
   That was written with rung 1 empty, and the cheapest thing that would

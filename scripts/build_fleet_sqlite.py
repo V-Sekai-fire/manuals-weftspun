@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Compile rectgtn/fleet.jsonld into rectgtn/fleet.sqlite for the Bao plugin.
 
-The plugin (service-taskweft-bao, database-plugin type per RFD 2205) reads
+The plugin (service-taskweft-bao, database-plugin type per RFD66606-2205) reads
 the fleet domain as a SQLite blob at `secret/taskweft/db/fleet` — served
 by the sibling sqlite-fdb secrets engine — plus skip-state rows the plugin
 writes, plus assignment rows Bao's lease lifecycle manages. The JSONLD is

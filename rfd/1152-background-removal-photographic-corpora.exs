@@ -35,8 +35,8 @@ rfd 1152, "Background removal for photographic corpora", :published do
   on cloth: a nude torso is labelled `topwear`, and mask-derived coverage reads
   0.81 to 0.93 on images that are largely bare skin.
   :: related
-  RFD 1006 covers layer decomposition. RFD 1153 covers how the resulting mattes are
-  judged. RFD 1030 records the See-Through components.
+  RFD66606-1006 covers layer decomposition. RFD66606-1153 covers how the resulting mattes are
+  judged. RFD66606-1030 records the See-Through components.
   """
 
   details_title "Background removal for photographic corpora"
@@ -97,7 +97,7 @@ rfd 1152, "Background removal for photographic corpora", :published do
   connectivity 3.97, consistent with the subset.
 
   This also corrects the `soft_per_perimeter` proxy, which had ranked HR-matting
-  first for the right answer by an unreliable route, and RFD 1153's judged ordering,
+  first for the right answer by an unreliable route, and RFD66606-1153's judged ordering,
   which had ranked the segmenter best on gradient, inverted, since ground truth
   puts it roughly 3x worse.
   """

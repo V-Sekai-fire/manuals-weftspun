@@ -19,13 +19,13 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   equal strokes planned, with 2 cycles and 2 openings. On Linux it
   passes under a software rasterizer in a virtual X server.
   :: problem
-  The first testable release (RFD 2262) asks whether a drawn outfit comes back as a
+  The first testable release (RFD66606-2262) asks whether a drawn outfit comes back as a
   garment that fits. A person in a headset is the real test, but slow
   and unrepeatable; the simulator is the test that runs on every change.
   :: related
-  - RFD 2262 (make it with the pen), whose first testable release this gates.
-  - RFD 2234 (dress-on pipeline), the stages the strokes run through.
-  - RFD 2255 and 2256, the Bao tunnel and the in-guest transport.
+  - RFD66606-2262 (make it with the pen), whose first testable release this gates.
+  - RFD66606-2234 (dress-on pipeline), the stages the strokes run through.
+  - RFD66606-2255 and RFD66606-2256, the Bao tunnel and the in-guest transport.
   """
 
   details_title "the first testable release's simulator gate"

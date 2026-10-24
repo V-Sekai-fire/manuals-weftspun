@@ -31,8 +31,8 @@ rfd 1037, "Composite models as taskweft domains", :discussion do
   A script also cannot replan. When a stage fails, the caller repeats
   the whole job.
   :: related
-  RFD 1036 gives the model image convention. RFD 1030 lists the See-Through
-  components. RFD 1006 records the layer decomposition design.
+  RFD66606-1036 gives the model image convention. RFD66606-1030 lists the See-Through
+  components. RFD66606-1006 records the layer decomposition design.
   """
 
   details_title "Composite models as taskweft domains"
@@ -82,7 +82,7 @@ rfd 1037, "Composite models as taskweft domains", :discussion do
   from that hazard is withdrawn.
 
   What the rule cost was measured the first time it was applied. A domain
-  for the CineForm delivery, RFD 1137, was written and checked with
+  for the CineForm delivery, RFD66606-1137, was written and checked with
   `Code.string_to_quoted/1`, and then no plan could be produced, because
   the planner serves over MCP at a host this desk was not going to reach
   mid-task. The domain sat unusable beside a skill that told a reader to
@@ -109,7 +109,7 @@ rfd 1037, "Composite models as taskweft domains", :discussion do
   | voxhammer_text_mesh_editing    |        2 | 0047 |
   | voxhammer_image_mesh_editing   |        2 | 0048 |
 
-  Each domain lives with its model, and not here. RFD 1000 keeps one
+  Each domain lives with its model, and not here. RFD66606-1000 keeps one
   source per design. The See-Through pair in
   `0044-seethrough-layer-decomposition/` is the worked example,
   because it is the largest of the five.

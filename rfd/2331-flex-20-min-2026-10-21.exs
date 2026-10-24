@@ -26,8 +26,8 @@ degrees"
   a clearly flexed position past 90 degrees, and no limb is isolated. The
   request is to bend one or two limbs at a time, isolated, past 90 degrees.
   :: references
-  - RFD 2314, the SkinTokens Space viewer runs as sandbox guests.
-  - RFD 2213, VRM 1.0 loading via a sandbox guest.
+  - RFD66606-2314, the SkinTokens Space viewer runs as sandbox guests.
+  - RFD66606-2213, VRM 1.0 loading via a sandbox guest.
   :: related
   - The flex-quit test mode in the Model Explorer guest.
   - The 2-minute skin check in the skin-tokens rig guest.

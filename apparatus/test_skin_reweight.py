@@ -1,6 +1,6 @@
 # Copyright 2026 V-Sekai contributors.
 # SPDX-License-Identifier: Apache-2.0 OR MPL-2.0
-"""Property tests for skin reweighting, each with its falsification (RFD 2247)."""
+"""Property tests for skin reweighting, each with its falsification (RFD66606-2247)."""
 
 from __future__ import annotations
 

@@ -5,7 +5,7 @@ description: Publish a corpus or a trained weight to Hugging Face with a CITATIO
 
 # Publishing an artifact
 
-RFD 1141 says where artifacts go. This is the order to do it in.
+RFD66606-1141 says where artifacts go. This is the order to do it in.
 
 Code goes to GitHub, artifacts go to Hugging Face, and each names the other. An artifact
 nobody can trace back to the code that made it is a file, not a result.

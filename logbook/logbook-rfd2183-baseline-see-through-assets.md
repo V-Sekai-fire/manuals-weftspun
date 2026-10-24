@@ -1,17 +1,17 @@
-# Logbook: RFD 2183 baseline against See-Through public test images
+# Logbook: RFD66606-2183 baseline against See-Through public test images
 
 Question: how well does the out-of-the-box three-step pipeline
 (SAM2 or rf-detr-Seg -> OmniGen2 pretrained -> MoGe-3) reconstruct
 the five See-Through test images and their depth, measured against
 See-Through's own outputs on the same inputs. This is the pre-training
-baseline the RFD 2183 retrain is graded against.
+baseline the RFD66606-2183 retrain is graded against.
 
 ## The apparatus
 
 Inputs: `test_image.png`, `test_image2.png`, `test_image3.png`,
 `test_image4.png`, `representative.jpg` from the See-Through public
 `common/assets/`. These are public generated images, evaluation only;
-they do not enter any training corpus (RFD 2183 uses ANNY renders
+they do not enter any training corpus (RFD66606-2183 uses ANNY renders
 from `render_layer_decomp_corpus.py` and VRMs from the atelier
 pipeline for training).
 

@@ -1,5 +1,5 @@
 # The solved plan for `cineform_delivery`, WRITTEN BY HAND rather than produced by the
-# planner. RFD 1037 forbade that and retracted the rule on 2026-08-25: taskweft serves
+# planner. RFD66606-1037 forbade that and retracted the rule on 2026-08-25: taskweft serves
 # `plan` over MCP, this desk was not reaching that host mid-task, and a domain nobody can
 # run is worse than a plan nobody generated. Regenerate from the planner when it is
 # reachable, and delete this note when that happens.

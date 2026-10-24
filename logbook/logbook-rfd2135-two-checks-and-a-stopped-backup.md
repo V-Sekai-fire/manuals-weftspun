@@ -6,7 +6,7 @@ did closing that item find, and does the resulting gate hold a deploy?
 This closes that entry's open item. Constraint set by the operator:
 CI has no production access, and the spend keeper's authority must not
 grow a monitoring pattern, so the checks run on the cluster machines,
-where the credentials already are (RFD 2135).
+where the credentials already are (RFD66606-2135).
 
 ## The apparatus
 
@@ -64,6 +64,6 @@ in place, filesystem grown online, no restart: 3% used after.
 
 ## What is still open
 
-Nothing pages. RFD 2135's duty-hours section argues that is correct
+Nothing pages. RFD66606-2135's duty-hours section argues that is correct
 for a one-operator shop (fail-closed over fail-alerting) and names
 the two conditions under which paging becomes worth adding.

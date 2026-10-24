@@ -26,10 +26,10 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   :: related
   - BLOCKLIST.md, "Speculative decoders other than MTP-3" and "1-bit
     PTQ1_0 bodies", both for the ggml language server.
-  - RFD 2308 (Mac ninfer port), which uses this server as its reference.
-  - RFD 2319 (endpoint certificates), where the front's certificate comes
+  - RFD66606-2308 (Mac ninfer port), which uses this server as its reference.
+  - RFD66606-2319 (endpoint certificates), where the front's certificate comes
     from.
-  - RFD 2310 (eye-landmark scorer), which calls this server.
+  - RFD66606-2310 (eye-landmark scorer), which calls this server.
   """
 
   details_title "serving bonsai 2 with ninfer-all and dflash2"
@@ -125,7 +125,7 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   stunnel accepts on the host's tailnet address, one port per card, and
   forwards to the server's loopback port. It requires a client certificate
   under the chibifire Root and agent CA, and checks the client's host name
-  against an allowlist. Its own certificate comes from RFD 2319. In WSL2 the
+  against an allowlist. Its own certificate comes from RFD66606-2319. In WSL2 the
   tailnet address belongs to Windows, so stunnel runs there and forwards to
   the loopback port that WSL2 forwards into the distribution.
 

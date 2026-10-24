@@ -10,7 +10,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
 
   prose ~S"""
   :: decision
-  Implemented 2026-09-01; see RFD 2146 for the role/policy map.
+  Implemented 2026-09-01; see RFD66606-2146 for the role/policy map.
 
   `DETAILS.md` carries the full text of this RFD.
   :: problem
@@ -19,7 +19,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   the credential distribution problem bao exists to solve. Any 6PN
   neighbor can observe or modify traffic to the listener.
   :: related
-  RFD 2140 (bao on FDB), RFD 2141 (FDB TLS rotation).
+  RFD66606-2140 (bao on FDB), RFD66606-2141 (FDB TLS rotation).
   """
 
   details_title "Zero-trust service TLS via OpenBao PKI"
@@ -28,7 +28,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   :: details Why a standalone root CA rather than an intermediate
   The FDB root CA key (`fdb-ca.chibifire.com`, SHA-256 fingerprint
   `89:20:69:EB:BF:AB:...`) was lost twice. The first loss is
-  documented in RFD 2141. The second happened during this session:
+  documented in RFD66606-2141. The second happened during this session:
   `op item create` returned item IDs that do not correspond to any
   persisted item. The `op item edit` path (updating an existing item)
   did persist. The failure mode is a biometric timeout that `op`
@@ -44,10 +44,10 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   authentication to the secrets API.
   :: details Enabling the PKI secrets engine
   Note: the `ttl=87600h` (10 years) and `max_ttl=8760h` (1 year) below
-  were retracted by RFD 2145 on 2026-09-01. Current guidance:
+  were retracted by RFD66606-2145 on 2026-09-01. Current guidance:
   `ttl=26280h` (3 years) on intermediates, `max_ttl=2160h` (90 days) on
   service leaves. The old values are kept where they stand so a reader
-  following an older link sees the change; new deploys use RFD 2145's
+  following an older link sees the change; new deploys use RFD66606-2145's
   numbers.
 
       bao secrets enable pki
@@ -157,7 +157,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   and the allocation silently fails when biometric authentication times
   out.
 
-  This is the second loss of the FDB CA key. The first (RFD 2141)
+  This is the second loss of the FDB CA key. The first (RFD66606-2141)
   was a scratchpad cleanup; the second is a credential store that
   reported success without persisting.
   """
@@ -166,7 +166,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
 
   prose ~S"""
   :: details Decision
-  Implemented 2026-09-01; see RFD 2146 for the role/policy map.
+  Implemented 2026-09-01; see RFD66606-2146 for the role/policy map.
 
   Bao's PKI secrets engine becomes a standalone root CA for service
   auth. The FDB CA (`fdb-ca.chibifire.com`) stays separate for
@@ -188,11 +188,11 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   the credential distribution problem bao exists to solve. Any 6PN
   neighbor can observe or modify traffic to the listener.
 
-  The FDB root CA key is lost a second time (the replacement from RFD
-  2141 was stored via `op item create`, which returned an item ID but
+  The FDB root CA key is lost a second time (the replacement from
+  RFD66606-2141 was stored via `op item create`, which returned an item ID but
   did not persist the item). Chaining under that CA is not possible
   without rotating FDB again.
   :: details Related
-  RFD 2140 (bao on FDB), RFD 2141 (FDB TLS rotation).
+  RFD66606-2140 (bao on FDB), RFD66606-2141 (FDB TLS rotation).
   """
 end

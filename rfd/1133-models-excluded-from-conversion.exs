@@ -21,21 +21,21 @@ rfd 1133, "Models excluded from conversion", :discussion do
   a retraction: the last three were first published as unfound, and
   `default.xml` places all three.
   :: problem
-  RFD 1132 ranks the models to convert for the accelerator, and it
+  RFD66606-1132 ranks the models to convert for the accelerator, and it
   carried a second table beside the ranking: ten model ids marked
   blocklisted. One word covered three exclusions, and the word is
   wrong for seven of the ten.
 
   Three are blocklisted: CLAUDE.md excludes Qwen-Image-Edit, P3-SAM
-  and Krea 2. Four are abandoned, and RFD 1064 turned the roadmap
+  and Krea 2. Four are abandoned, and RFD66606-1064 turned the roadmap
   away from their scope. The last three are placed projects on
   3-interactor carrying no recorded reason at all.
 
   A reader who asks why a model is unranked gets one answer where
   there are three, and two of the three can reverse.
   :: related
-  RFD 1132 ranks the convertible models and cites this one. RFD 1016
-  inventories them. RFD 1041, RFD 1042 and RFD 1043 package the three
+  RFD66606-1132 ranks the convertible models and cites this one. RFD66606-1016
+  inventories them. RFD66606-1041, RFD66606-1042 and RFD66606-1043 package the three
   blocklisted models.
   """
 
@@ -43,7 +43,7 @@ rfd 1133, "Models excluded from conversion", :discussion do
 
   prose ~S"""
   :: details_preamble
-  Ten model ids were carried under one heading in RFD 1132, and the heading was
+  Ten model ids were carried under one heading in RFD66606-1132, and the heading was
   `blocklisted`. Reading each row back against what excludes it splits the ten
   three ways, and only the first three rows are what the word says.
   :: details Blocklisted by the agreements
@@ -52,9 +52,9 @@ rfd 1133, "Models excluded from conversion", :discussion do
 
   | model id                  | goal         | entry                        | RFD      |
   | ------------------------- | ------------ | ---------------------------- | -------- |
-  | qwen_q4_k_m_image_edit    |,            | Qwen-Image-Edit (2509/2511)  | RFD 1043 |
-  | p3sam_mesh_segmentation   | mesh-latents | P3-SAM / Hunyuan3D-Part      | RFD 1041 |
-  | krea2_turbo_text_to_image |,            | Krea 2 / krea2-turbo         | RFD 1042 |
+  | qwen_q4_k_m_image_edit    |,            | Qwen-Image-Edit (2509/2511)  | RFD66606-1043 |
+  | p3sam_mesh_segmentation   | mesh-latents | P3-SAM / Hunyuan3D-Part      | RFD66606-1041 |
+  | krea2_turbo_text_to_image |,            | Krea 2 / krea2-turbo         | RFD66606-1042 |
 
   Qwen-Image-Edit is 20.4B and runs here only quantised, and quantised it
   corrupts. P3-SAM carries a territory-restricted licence that excludes the EU,
@@ -69,28 +69,28 @@ rfd 1133, "Models excluded from conversion", :discussion do
   work can reopen it.
   :: details Abandoned with the world-building scope
   These four are not blocklisted anywhere. Each has an RFD in state `abandoned`,
-  and each names the same cause: RFD 1064 turned the roadmap toward character
+  and each names the same cause: RFD66606-1064 turned the roadmap toward character
   concepts.
 
   | model id                     | RFD      | scope it left      |
   | ---------------------------- | -------- | ------------------ |
-  | weftspun_image_to_world      | RFD 1049 | explorable worlds  |
-  | lingbot_map_environment_scan | RFD 1050 | environment scan   |
-  | worldmirror2_reconstruct     | RFD 1051 | multi-photo splat  |
-  | triposplat_image_to_splat    | RFD 1052 | single-photo splat |
+  | weftspun_image_to_world      | RFD66606-1049 | explorable worlds  |
+  | lingbot_map_environment_scan | RFD66606-1050 | environment scan   |
+  | worldmirror2_reconstruct     | RFD66606-1051 | multi-photo splat  |
+  | triposplat_image_to_splat    | RFD66606-1052 | single-photo splat |
 
-  RFD 1049 is the caller and RFD 1051 and RFD 1052 are two of its halves, so the
+  RFD66606-1049 is the caller and RFD66606-1051 and RFD66606-1052 are two of its halves, so the
   four are one pivot rather than four decisions.
 
   Calling them blocklisted was wrong in a direction that costs something. A
   blocklisted model stays out whatever the roadmap does. An abandoned one returns
-  with its scope, and RFD 1049 says so in its own words: package this entry again
+  with its scope, and RFD66606-1049 says so in its own words: package this entry again
   only if the world-building scope returns. A reader who saw `blocklisted` would
   not go looking for that sentence.
 
   None of the four is licence-dirty, and none was measured and rejected. They are
   out of scope, which is the cheapest exclusion to reverse.
-  :: details Named in RFD 1132 and nowhere else, RETRACTED
+  :: details Named in RFD66606-1132 and nowhere else, RETRACTED
   **The three are placed, and this section said they were not.** It is kept rather
   than rewritten, because the way it was wrong is the more useful half.
 
@@ -109,19 +109,19 @@ rfd 1133, "Models excluded from conversion", :discussion do
   The bound was then read as a result anyway, which is the failure. An absence
   measured over one tree was written up under a heading that claimed the workspace,
   and the file that would have settled it in one grep is the same `default.xml`
-  this document already cites for the `goal` column of RFD 1132's table.
+  this document already cites for the `goal` column of RFD66606-1132's table.
 
   So the correct finding is smaller and worse. These three are not unfound, and
-  they are not excluded either. They are placed projects on 3-interactor that RFD
-  1132 listed as blocklisted, and nothing in this repository records a reason. The
+  they are not excluded either. They are placed projects on 3-interactor that
+  RFD66606-1132 listed as blocklisted, and nothing in this repository records a reason. The
   RFD corpus still has no entry for any of them, which is now a documentation gap
   rather than evidence of absence.
 
   Two ways to close it. Read the three checkouts and record what they are, or
-  delete the rows from RFD 1132 and say the blocklisted mark was never supported.
+  delete the rows from RFD66606-1132 and say the blocklisted mark was never supported.
   The first is the one that leaves a reader better off.
-  :: details What this leaves for RFD 1132
-  RFD 1132 keeps every convertible model, the measured rank, and the census that
+  :: details What this leaves for RFD66606-1132
+  RFD66606-1132 keeps every convertible model, the measured rank, and the census that
   orders the rest. It cites this document instead of carrying a second table, so
   one ranking and one exclusion list do not have to agree by hand.
   """

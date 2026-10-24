@@ -1,7 +1,7 @@
-# Gacha ladder end-to-end, RFD 2136 stack, 2026-09-02
+# Gacha ladder end-to-end, RFD66606-2136 stack, 2026-09-02
 
 Requested by a peer session (MPS-side, no CUDA), routed to the desk with the
-3090. **The stack the peer listed does not match RFD 2136's ladder**, Wan-VACE 14B, Qwen3-TTS and the 7-track ASR panel are not on the ladder; the
+3090. **The stack the peer listed does not match RFD66606-2136's ladder**, Wan-VACE 14B, Qwen3-TTS and the 7-track ASR panel are not on the ladder; the
 ladder is OmniGen2 → Pixal3D → EditScore → VoxHammer → SkinTokens →
 See-Through partition → seed-to-VRM. This entry measures the actual ladder.
 
@@ -112,13 +112,13 @@ This is exactly the class of thing rule 3 exists to catch, an env with a
 successful `pixi install` is not evidence the code inside works.
 
 - Owed: port `_run_upstream()` from `VAST-AI-Research/SkinTokens` upstream;
-  wire the humanoid joint-map write for VRM output. RFD 2046 already
+  wire the humanoid joint-map write for VRM output. RFD66606-2046 already
   identifies the joint-name-order trap. Skip counted as one.
 
 ### Rung 5: mesh → tagged with See-Through partition
 
 **State:** COULD NOT RUN. `3-interactor/seethrough-partseg/` has no
-`pixi.toml`. See-Through's partition v3 spec (RFD 1121) is authored, but the
+`pixi.toml`. See-Through's partition v3 spec (RFD66606-1121) is authored, but the
 part-segmentation worker isn't stood up on this desk.
 
 - Owed: env, weights, then the VoxHammer-mediated loop the ladder specifies
@@ -182,7 +182,7 @@ Pixal3D env is standing.
    memory note `windows-torch-2.6-dep-matrix`. Each 30-60 min setup.
 2. Decide the rung 1 → rung 2 handoff (mesh-to-image projector, or teach
    EditScore to score meshes). This is an RFD-level question, not code.
-3. Implement `SkinTokens._run_upstream()` per RFD 2046 to close the rung 4
+3. Implement `SkinTokens._run_upstream()` per RFD66606-2046 to close the rung 4
    scaffold. Half-day of porting; the upstream repo is MIT-clean.
 4. Stand up `seethrough-partseg` and write the seed-to-VRM assembler
    (rungs 5 and 6 together, they share the tag-primvar contract).
@@ -195,15 +195,15 @@ Pixal3D env is standing.
 ## Cross-session note
 
 The peer session's stack list (Wan-VACE 14B video, Qwen3-TTS voice, 7-track
-ASR panel) is not RFD 2136 material. Those items describe a *different*
+ASR panel) is not RFD66606-2136 material. Those items describe a *different*
 pipeline, likely a talking-avatar generation loop rather than the VRM
 gacha. If the peer wants that pipeline measured, that's a separate RFD and a
-separate logbook entry; this one is the ladder RFD 2136 defines.
+separate logbook entry; this one is the ladder RFD66606-2136 defines.
 
 ## Follow-up RFD
 
 The bottleneck at the rung 1 → rung 2 interface (mesh vs image domain) is a
-real design gap in RFD 2136 itself, not an implementation gap. That warrants
+real design gap in RFD66606-2136 itself, not an implementation gap. That warrants
 a follow-up RFD or an amendment to 2136 spelling out the projector /
 mesh-scorer choice.
 

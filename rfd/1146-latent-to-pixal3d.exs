@@ -30,7 +30,7 @@ rfd 1146, "The latent-to-Pixal3D loop", :published do
   The router decides which repair arm runs, and it decides on a statistic
   nobody has calibrated.
   :: related
-  RFD 1143, RFD 1144 and RFD 1145 are the other three loops. RFD 1122 is
-  the goal, and RFD 1132 lists what converts.
+  RFD66606-1143, RFD66606-1144 and RFD66606-1145 are the other three loops. RFD66606-1122 is
+  the goal, and RFD66606-1132 lists what converts.
   """
 end

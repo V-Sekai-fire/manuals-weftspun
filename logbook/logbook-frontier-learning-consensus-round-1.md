@@ -1,7 +1,7 @@
 # Frontier learning, round 1: consensus with untrusted players and home servers
 
 A study session on 2026-10-18, in a chat thread between the operator and the
-agent. It uses RFD 2309's frontier rule on the operator's own computer science
+agent. It uses RFD66606-2309's frontier rule on the operator's own computer science
 knowledge instead of on the planner. A level is a topic. A problem is one
 question about it. Each answer is scored 0, 1 or 2, so n = 2. Regret is
 `1[s >= 1] - s/n`. A partial answer scores the highest regret, and that topic

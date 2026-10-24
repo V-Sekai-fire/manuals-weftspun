@@ -5,7 +5,7 @@ use RFD.DSL
 rfd 2267, "Persona NPCs in ported scenes", :discussion do
   feature "a person walks a ready-made scene in the shared world and meets
 NPCs that hold a persona and a script"
-  scope "the shared world's client, as an experiment behind the RFD 2262
+  scope "the shared world's client, as an experiment behind the RFD66606-2262
 vehicles rather than one of them"
 
   prose ~S"""
@@ -13,21 +13,21 @@ vehicles rather than one of them"
   Record the signal and gate it, do not schedule it. A capable model now
   authors a whole playable scene in an afternoon, so a licence-clean scene
   ported in with persona-driven NPC scripts is a cheap way to populate the
-  world with both things the RFD 2262 survey asked for, something to see and
+  world with both things the RFD66606-2262 survey asked for, something to see and
   someone to be with. It sits behind the vehicles, kept here so it is not
   lost. Any ported scene clears the licence gate first, and target platforms
   are named by role, not by brand. Detail and parked status in DETAILS.md.
   :: problem
-  The RFD 2262 survey asked to create and share what others see and to be with
+  The RFD66606-2262 survey asked to create and share what others see and to be with
   people, and it asked for neither rendered clips nor faces. Scripted personas
   and ready-made scenes answer both asks cheaply, now that a scene is
   something a model can author rather than a studio. The open question is
   whether ported content and scripted NPCs add to the loop the vehicles
   already test or divert from it, and nothing here answers that yet.
   :: related
-  - RFD 2262 (make it with the pen and wear it together) holds the vehicles
+  - RFD66606-2262 (make it with the pen and wear it together) holds the vehicles
     and the survey this reads against.
-  - RFD 2229 (interchangeable parts) is the rule an imported scene answers to.
+  - RFD66606-2229 (interchangeable parts) is the rule an imported scene answers to.
   """
 
   details_title "Persona NPCs in ported scenes"

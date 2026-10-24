@@ -9,7 +9,7 @@ rfd 1128, "Does the cascade survive four bits", :discussion do
 
   prose ~S"""
   :: decision
-  Measure tolerance first, because a failure here makes RFD 1129's
+  Measure tolerance first, because a failure here makes RFD66606-1129's
   operator work pointless.
 
   The 3090 is the instrument. Its 24 GB holds bf16 and four-bit forms of
@@ -32,11 +32,11 @@ rfd 1128, "Does the cascade survive four bits", :discussion do
 
   So the arithmetic permits it and nothing says the model survives it. A
   1.3B diffusion transformer at four bits may produce a mesh nobody can
-  tell from the original, or a worse one, or a broken one. RFD 1043
+  tell from the original, or a worse one, or a broken one. RFD66606-1043
   records the same open question for another model.
   :: related
-  RFD 1129 asks whether the operators compile. RFD 1040 packages the
-  model, and RFD 1122 is the goal this serves.
+  RFD66606-1129 asks whether the operators compile. RFD66606-1040 packages the
+  model, and RFD66606-1122 is the goal this serves.
   """
 
   details_title "Does the cascade survive four bits"

@@ -17,7 +17,7 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   (`headerVersion = 730`). Build tag `foundationdb`, `CGO_ENABLED=1`.
 
   Deployment files in weftspun/service-openbao. Bao runs beside the FDB
-  server on each weftspun-fdb machine (RFD 2147) and reaches the cluster
+  server on each weftspun-fdb machine (RFD66606-2147) and reaches the cluster
   as a TLS client. Interface details and deploy measurements are in
   DETAILS.md.
   :: problem
@@ -29,7 +29,7 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   `bao status`: Storage foundationdb, unsealed. KV v2 at `secret/`,
   anchor creds written from weftspun-fdb over 6PN. Root in 1Password.
   :: related
-  RFD 2109 (FDB as the store), RFD 2134 (cluster TLS).
+  RFD66606-2109 (FDB as the store), RFD66606-2134 (cluster TLS).
   """
 
   details_title "OpenBao on FoundationDB"
@@ -66,7 +66,7 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   version is `v0.0.0-20260715201227-0074653ee011`.
   :: details The deploy
   Since 2026-10-13 Bao runs on the three `weftspun-fdb` machines, one HA
-  instance beside each FDB server, at 512 MB each (RFD 2147). The image
+  instance beside each FDB server, at 512 MB each (RFD66606-2147). The image
   layers the Bao image's binaries and plugins onto the FDB server image,
   so the plugin catalog's hashes still match. Bao reads the server's own
   cluster file and presents the machine's FDB leaf as its client

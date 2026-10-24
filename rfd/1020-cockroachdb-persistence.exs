@@ -12,25 +12,25 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   file. `Ecto.Adapters.SQLite3` drives it through `ecto_sqlite3`, and the
   `facts` table keys each row by its natural key, the model id.
 
-  This RFD covers `weftspun_studio/`. `character_taxonomy/` runs under RFD
-  1065 on the same store.
+  This RFD covers `weftspun_studio/`. `character_taxonomy/` runs under
+  RFD66606-1065 on the same store.
 
   See `DETAILS.md` for the schema, the seed, the modules, the settings and
   the open risk.
   :: problem
-  RFD 1019 builds an API server. An API server must keep its data.
+  RFD66606-1019 builds an API server. An API server must keep its data.
 
   The fact store in `WeftspunStudio.FactStore` holds facts in memory.
-  An Agent rebuilds the store from the RFD 1016 inventory at every
+  An Agent rebuilds the store from the RFD66606-1016 inventory at every
   boot. A trust change dies when the node stops, and a retracted fact
   comes back.
 
-  RFD 1016 records that catalog facts change fast. A license gate
+  RFD66606-1016 records that catalog facts change fast. A license gate
   vetoes a model, a benchmark moves a recommendation, and a backend
   drops a model. The store must keep those changes.
   :: related
-  RFD 1016 (the inventory the seed reads), RFD 1019 (the API server),
-  RFD 1021 (the vector encoding), RFD 1065 (`character_taxonomy/`).
+  RFD66606-1016 (the inventory the seed reads), RFD66606-1019 (the API server),
+  RFD66606-1021 (the vector encoding), RFD66606-1065 (`character_taxonomy/`).
   """
 
   details_title "SQLite persistence for catalog facts"
@@ -54,20 +54,20 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   `ecto_sqlite3` stores `tags` as JSON, and it round-trips and queries
   through `json_each`. The category and trust indexes serve the catalog's
   two reads. The shape follows the hermes-agent holographic memory store,
-  as RFD 1019 records.
+  as RFD66606-1019 records.
 
   `hrr_vector` holds the output of `WeftspunStudio.FactVector.encode/2` as
   a packed binary. `@default_dim` in `WeftspunStudio.FactVector` fixes the
   width at 1024 float64 phase angles, so a row takes 8 kilobytes. The
   changeset derives the vector from the other columns. No caller supplies
   it. A row therefore cannot hold a vector that disagrees with its fields.
-  RFD 1021 records the encoding.
+  RFD66606-1021 records the encoding.
 
   Search reads the candidate rows and scores them in Nx. The database
   applies the trust floor first. A phase similarity over a packed tensor
   has no SQL form, so the algebra stays in Elixir.
   :: details The seed database
-  The RFD 1016 inventory is the seed, not a fixed table.
+  The RFD66606-1016 inventory is the seed, not a fixed table.
   `WeftspunStudio.Adapters.EctoFactStore.seed/0` writes it once. A
   second run refreshes the same rows and adds no duplicate, because the
   model id is the primary key.

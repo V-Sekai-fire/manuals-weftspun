@@ -4,7 +4,7 @@
 defmodule RFD.DSL do
   @moduledoc """
   Author an RFD as Elixir. The block builds an `RFD.Doc`, validates it against
-  RFD 1000 while the file compiles, and exposes it as `__rfd__/0`.
+  RFD66606-1000 while the file compiles, and exposes it as `__rfd__/0`.
 
       use RFD.DSL
 
@@ -368,7 +368,7 @@ defmodule RFD.DSL do
       end
     end
 
-    # A README section outside the spine (RFD 1000 allows them), in declaration order.
+    # A README section outside the spine (RFD66606-1000 allows them), in declaration order.
     defmacro section(heading, body) do
       quote do
         @rfd_sections {unquote(heading), unquote(body)}

@@ -25,8 +25,8 @@ pipeline of the SkinTokens Space viewer and the Chrome and Firefox it runs in"
   done in wasm, in the browser. A repeat visit takes 3.75 seconds, because
   the browser kept the converted shaders.
   :: related
-  - RFD 2314, the SkinTokens Space viewer runs as sandbox guests.
-  - RFD 2245, WebGPU inside Godot.
+  - RFD66606-2314, the SkinTokens Space viewer runs as sandbox guests.
+  - RFD66606-2245, WebGPU inside Godot.
   """
 
   details_title "web shaders are baked by the browser that runs them"

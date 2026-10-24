@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Rejects a taskweft domain or problem that is not valid Elixir.
 #
-# RFD 1037 records that a RECTGTN domain is Elixir DSL source, and the
+# RFD66606-1037 records that a RECTGTN domain is Elixir DSL source, and the
 # `plan` tool takes it as a string with format "dsl". A file that does
 # not parse fails at the planner, which is far from the edit that
 # broke it. This check names the failure at commit time.

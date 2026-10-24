@@ -36,7 +36,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   FDB backups. A restore that cannot read the backup cannot issue the
   machine leaves the restored cluster needs.
   :: related
-  RFD 2134, 2140, 2141, 2135. DR runbook in DETAILS.md.
+  RFD66606-2134, RFD66606-2140, RFD66606-2141, RFD66606-2135. DR runbook in DETAILS.md.
   """
 
   details_title "FDB backup fans out to R2 for off-Fly durability"
@@ -107,7 +107,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
      Tigris does.
   4. Registers `[backup_agent.1]` in `foundationdb.conf` whenever
      either destination is configured, so an R2-only machine still has
-     a worker (RFD 2144); `[backup_agent.2]` only when both are.
+     a worker (RFD66606-2144); `[backup_agent.2]` only when both are.
   5. Once `fdbcli status minimal` reports the database available and
      `fdbbackup status -t dr` reports no previous backup, runs
      `fdbbackup start -t dr -z -d "$(cat backup-url-r2)"` once.
@@ -152,7 +152,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
      restored FDB backend and its PKI mount reappears with the
      original CA usable again.
   7. Rotate the machine leaf to one signed by the restored CA
-     (RFD 2141 phases 2-3), then scale to three machines with
+     (RFD66606-2141 phases 2-3), then scale to three machines with
      `WEFT_FDB_MACHINES = "3"` and `WEFT_FDB_REDUNDANCY = "double"`.
   8. Move the fresh R2 access key from the scratch note into Bao at
      `secret/data/weftspun-fdb/r2-dr`; revoke the old key from
@@ -161,13 +161,13 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
      files, deploy, verify checks.
   :: details Break-glass CA note
   Step 4 needs a CA whose private key is not inside Bao, because Bao
-  is what step 6 restores. RFD 2141's rotation writes the intermediate
+  is what step 6 restores. RFD66606-2141's rotation writes the intermediate
   key into `op://Personal/FDB-CA/{cert,key}` as part of that phase.
   Until that RFD lands, this runbook is theatre: the DR bucket has the
   data but the cluster cannot come up to accept it.
 
   The measurement on 2026-08-31: the CA key is not yet in 1Password.
-  That is the first followup, and RFD 2141 is where it happens.
+  That is the first followup, and RFD66606-2141 is where it happens.
   :: details What this RFD does not cover
   - **Cross-region.** R2 IA in one region is one regional outage away
     from no backup at all. A second R2 region is a later change.

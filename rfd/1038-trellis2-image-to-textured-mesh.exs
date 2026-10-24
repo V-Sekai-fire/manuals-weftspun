@@ -9,7 +9,7 @@ rfd 1038, "Model image for trellis2_image_to_textured_mesh", :discussion do
   prose ~S"""
   :: decision
   Package TRELLIS.2 once, and publish the image as the base for
-  RFD 1039, RFD 1047, RFD 1048, and RFD 1049. Those four add a
+  RFD66606-1039, RFD66606-1047, RFD66606-1048, and RFD66606-1049. Those four add a
   `predict.py`, and they add no weights.
 
   See `DETAILS.md` for the model's memory and license, the `predict()`
@@ -19,8 +19,8 @@ rfd 1038, "Model image for trellis2_image_to_textured_mesh", :discussion do
   other catalog entries. A model image that packages it badly costs five
   models, and not one.
   :: related
-  RFD 1036 gives the model image convention. RFD 1053 gives the asset
-  format. RFD 1026 gives the memory. RFD 1002 records the pipeline stage
+  RFD66606-1036 gives the model image convention. RFD66606-1053 gives the asset
+  format. RFD66606-1026 gives the memory. RFD66606-1002 records the pipeline stage
   this model fills.
   """
 
@@ -34,10 +34,10 @@ rfd 1038, "Model image for trellis2_image_to_textured_mesh", :discussion do
   | bf16       | 8.0 GB             |
   | Q4_K_M     | 2.20 GB            |
   | License    | MIT                |
-  | Format     | bf16, per RFD 1027 |
+  | Format     | bf16, per RFD66606-1027 |
   :: details The interface
   `predict()` takes the image, the texture resolution, and the face
-  budget. It returns the base USD layer, and a GLB beside it. RFD 1053
+  budget. It returns the base USD layer, and a GLB beside it. RFD66606-1053
   gives that rule.
 
   | Input              | Type | Default |

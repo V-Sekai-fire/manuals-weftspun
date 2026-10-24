@@ -14,6 +14,6 @@ date-released: 2020-05
 license: "US public domain (NIST)"
 notes: "§5.3.6 tables the recommended cryptoperiods by key type. Public
   signature-verification keys used to certify other public keys carry the
-  strongest expectation of a bounded originator usage period. RFD 2145's
+  strongest expectation of a bounded originator usage period. RFD66606-2145's
   10-year table row for the root's notAfter and 5-year policy rotation sit
   well inside NIST's directional bound."

@@ -29,10 +29,10 @@ framed as decision models rather than a service beside the loop"
   recommender is a decision model or that it shares the grader's backbone, so
   it reads as orphaned rather than placed.
   :: related
-  - RFD 2262 (make it with the pen and wear it together) names the decision
+  - RFD66606-2262 (make it with the pen and wear it together) names the decision
     models the loop relies on.
-  - RFD 2188 (ggml on compute-rd) is the runtime a decision-model guest uses.
-  - RFD 2265 (curvenet on compute-rd) is the compute-rd work alongside it.
+  - RFD66606-2188 (ggml on compute-rd) is the runtime a decision-model guest uses.
+  - RFD66606-2265 (curvenet on compute-rd) is the compute-rd work alongside it.
   """
 
   details_title "The recommender is a decision model"

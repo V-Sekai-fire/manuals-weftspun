@@ -13,11 +13,11 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
   `speech-audio`), each with its base + candidates + scores tables joined
   into one wide row per example under `data/<config>/train-*.parquet`. Media
   satellites (`renders/`, `speech/`, `poses/`, `scores/`) get referenced by
-  content-hash path or inlined as `struct<bytes, path>` per RFD 2196 rule 4,
+  content-hash path or inlined as `struct<bytes, path>` per RFD66606-2196 rule 4,
   depending on file size. See `DETAILS.md` for the join plan and media
   strategy.
   :: problem
-  The current repository violates RFD 2196 rules 1 and 3: 18 parquets at the
+  The current repository violates RFD66606-2196 rules 1 and 3: 18 parquets at the
   repo root (not under `data/`), organised as six task-types × three
   satellite tables each. HF viewer preview and viewer both red because the
   auto-indexer finds no `data/train-*.parquet` layout it can group into a
@@ -28,8 +28,8 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
   Source-of-truth generators (unchanged); rung-2/3/4 datasets; complete
   schema audit; media-hosting choice if satellites exceed HF's ceiling.
   :: related
-  RFD 2196 (HF viewer rules), RFD 2165 (maskscore stub emit), RFD 2166
-  (maskscore cineform bundle), RFD 1173 (edit-reward corpus).
+  RFD66606-2196 (HF viewer rules), RFD66606-2165 (maskscore stub emit), RFD66606-2166
+  (maskscore cineform bundle), RFD66606-1173 (edit-reward corpus).
   """
 
   details_title "Restructure maskscore-rung-1-bootstrap for the HF viewer"
@@ -48,7 +48,7 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
      speech (the score-side column names `candidate_rank` for the third
      position). There is no single `candidate_id` column. Speech candidates
      holds 10 rows per `(row_key, candidate_axis)` pair distinguished by
-     `rank`, per RFD 2165's "10 ranks per candidate per edit"; dropping the
+     `rank`, per RFD66606-2165's "10 ranks per candidate per edit"; dropping the
      rank from the composite collapses them and multiplies scores.
      Amended 2026-09-04-b: the earlier wording of this item omitted `rank`
      from the speech composite; verified against the real data in the join
@@ -144,8 +144,8 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
   | `candidates`   | `list<struct<candidate_axis, rank, candidate_asset, candidate_asset_kind, candidate_kind, candidate_target_text, scores: list<struct<candidate_rank, metric_name, metric_value>>>>` | scores fold in per `(row_key, candidate_axis)`; note the score inner schema is long-form (metric_name/metric_value), not wide |
 
   Nested lists preserve the one-to-many without dropping to satellite files
-  (RFD 2196 rule 1). The `struct-of-lists` vs `list-of-struct` question is
-  settled by RFD 2196 rule 6: pick the shape the parquet actually holds and
+  (RFD66606-2196 rule 1). The `struct-of-lists` vs `list-of-struct` question is
+  settled by RFD66606-2196 rule 6: pick the shape the parquet actually holds and
   declare it that way in `dataset_info.features`.
   :: details The join plan
   For each non-speech task-type, three tables become one:
@@ -202,13 +202,14 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
   887 non-parquet files sit outside the parquet columns today. The
   disposition per file kind is unchanged from the original draft:
 
-  | kind             | count      | strategy                                                                                                                     |
-  | ---------------- | ---------: | ---------------------------------------------------------------------------------------------------------------------------- |
-  | `renders/*.png`  | 512 + 128  | inline as `struct<bytes, path>` per RFD 2196 rule 4 if under ~1 MB each; else keep at path, add column `image_path: string`  |
-  | `speech/*.wav`   | 150        | inline as `struct<bytes, path>` with `bytes: binary`; viewer plays audio inline                                              |
-  | `speech/*.vtt`   | 180        | inline as `text: string` column (WebVTT is small text)                                                                       |
-  | `poses/*.png`    | 4          | inline                                                                                                                       |
-  | `scores/*.*`     | 2          | fold into the scores column of the row if applicable, else document as ancillary                                             |
+  - `renders/*.png`: count 512 + 128; strategy inline as `struct<bytes, path>` per RFD66606-2196
+    rule 4 if under ~1 MB each; else keep at path, add column `image_path: string`.
+  - `speech/*.wav`: count 150; strategy inline as `struct<bytes, path>` with `bytes: binary`;
+    viewer plays audio inline.
+  - `speech/*.vtt`: count 180; strategy inline as `text: string` column (WebVTT is small text).
+  - `poses/*.png`: count 4; strategy inline.
+  - `scores/*.*`: count 2; strategy fold into the scores column of the row if applicable, else
+    document as ancillary.
 
   The join step reads media by path and embeds bytes into the row it belongs
   to (identified by filename stem matching the row key). Files whose row
@@ -222,10 +223,10 @@ rfd 2197, "Restructure maskscore-rung-1-bootstrap for the HF viewer", :discussio
   :: details Reference
   The reference implementation script for the join + media inlining lives
   alongside the source-of-truth generators, not in the dataset repo. Name
-  to be decided when the code is written; RFD 2165's stub-emit output
+  to be decided when the code is written; RFD66606-2165's stub-emit output
   directory is the source path.
   :: details The re-upload
-  Standard RFD 2196 rule 5 recipe:
+  Standard RFD66606-2196 rule 5 recipe:
 
   ```sh
   HF_HUB_DISABLE_XET=1 HF_HUB_ENABLE_HF_TRANSFER=1 \

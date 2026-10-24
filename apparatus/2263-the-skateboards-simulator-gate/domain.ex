@@ -2,7 +2,7 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 #
 # The Skateboard's pen-meshing pipeline as a RECTGTN goal-regression HTN
-# domain (RFD 2263): actions state only what they need and make.
+# domain (RFD66606-2263): actions state only what they need and make.
 defmodule SkateboardSimulatorGate do
   use Taskweft.DSL
 

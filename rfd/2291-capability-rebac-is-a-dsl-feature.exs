@@ -7,7 +7,7 @@ rfd 2291, "capability ReBAC is a DSL feature", :committed do
   feature "verbs, tuples and capabilities are declarations in a `rebac` block,
 and the tables and the fenced block render from them"
   scope "`RFD.DSL`, `RFD.Doc`, the new `RFD.ReBAC`, `mix rfd.rebac`,
-`scripts/check_rebac.exs`, and RFDs 2200, 2202 and 2288"
+`scripts/check_rebac.exs`, and RFD66606-2200, RFD66606-2202 and RFD66606-2288"
 
   prose ~S"""
   :: decision
@@ -20,15 +20,15 @@ and the tables and the fenced block render from them"
   gives an RFD the fenced block of a document outside `rfd/`.
   :: problem
   `scripts/check_rebac.exs` read its verb vocabulary by matching pipes in
-  RFD 2200's rendered Markdown table, and RFD 2232 (the RFD DSL) makes
+  RFD66606-2200's rendered Markdown table, and RFD66606-2232 (the RFD DSL) makes
   that Markdown a build artifact, so the authority for what verbs exist
   was a table layout in a generated file. A second copy of the rows sat in
-  `CLAUDE.md` by hand. Two RFDs use verbs RFD 2200 never named and nothing
+  `CLAUDE.md` by hand. Two RFDs use verbs RFD66606-2200 never named and nothing
   reports it, because the rows the gate reads avoid them.
   :: related
-  RFD 2200 (the verbs and the tuples) declares them here; RFD 2232 (RFD
+  RFD66606-2200 (the verbs and the tuples) declares them here; RFD66606-2232 (RFD
   authoring as an Elixir DSL) gives the build-artifact rule this follows;
-  RFD 2288 (guest capabilities as macaroons) and RFD 2202 (role tuples
+  RFD66606-2288 (guest capabilities as macaroons) and RFD66606-2202 (role tuples
   through Bao groups) carry their capabilities and role rows as
   declarations.
   """
@@ -72,28 +72,28 @@ and the tables and the fenced block render from them"
   document block against the verbs the corpus declares. The two halves
   together are what the regex read before.
   :: details The rendering is the evidence
-  The fenced block rendered into `CLAUDE.md` from RFD 2200's nine rows
+  The fenced block rendered into `CLAUDE.md` from RFD66606-2200's nine rows
   came out byte for byte the block that was there, reasons aligned in
   their column included. A rendering that differs from the prose it
   replaces means the declarations are wrong, not the prose, and that is
   the check worth running on each further migration.
   :: details What the migration found
-  Two verbs are used by RFDs that RFD 2200 never named, which a vocabulary
+  Two verbs are used by RFDs that RFD66606-2200 never named, which a vocabulary
   read out of one table could not report:
 
-  - `trusts`, which RFD 2239 (traits and one binary) states as an
-    amendment to RFD 2200.
-  - `role` and `may-use`, which RFD 2202 and `rectgtn/fleet.jsonld` both
+  - `trusts`, which RFD66606-2239 (traits and one binary) states as an
+    amendment to RFD66606-2200.
+  - `role` and `may-use`, which RFD66606-2202 and `rectgtn/fleet.jsonld` both
     use. `CLAUDE.md` happens to use neither, so the gate never looked at
     a row carrying one.
 
-  All three are `verb` lines in RFD 2200 now, which is what RFD 2200's own
+  All three are `verb` lines in RFD66606-2200 now, which is what RFD66606-2200's own
   rule asks for: a new verb is an amendment to that RFD before it is a row
   anywhere.
   :: details What this does not do
-  Enforcement is unchanged. RFD 2200's tuples are still data, Bao identity
-  groups still enforce the role rows (RFD 2202), and the macaroons of RFD
-  2288 are still a design. The live tuples are Bao KV rows under
+  Enforcement is unchanged. RFD66606-2200's tuples are still data, Bao identity
+  groups still enforce the role rows (RFD66606-2202), and the macaroons of
+  RFD66606-2288 are still a design. The live tuples are Bao KV rows under
   `relationships/`, and an RFD declares only the rows it states itself.
 
   The planner's own ReBAC engine is untouched: `tw_rebac.hpp`'s relation

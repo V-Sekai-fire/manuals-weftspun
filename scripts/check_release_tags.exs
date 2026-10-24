@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Gate: a release tag is the Go pseudo-version of the commit it points at (RFD 2312).
+# Gate: a release tag is the Go pseudo-version of the commit it points at (RFD66606-2312).
 #
 # Usage:
 #     elixir scripts/check_release_tags.exs [<repo>]
@@ -52,8 +52,14 @@ defmodule ReleaseTags do
     if fails == 0, do: 0, else: 1
   end
 
+  @git_env Enum.map(
+             ~w(GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY
+                GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_PREFIX GIT_COMMON_DIR),
+             &{&1, nil}
+           )
+
   defp git!(dir, args, env \\ []) do
-    {_, 0} = System.cmd("git", ["-C", dir | args], env: env, stderr_to_stdout: true)
+    {_, 0} = System.cmd("git", ["-C", dir | args], env: @git_env ++ env, stderr_to_stdout: true)
   end
 
   defp commit(dir, iso) do

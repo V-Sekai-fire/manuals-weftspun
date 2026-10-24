@@ -33,7 +33,7 @@ rfd 1151, "Which axes the survey weights", :discussion do
   :: references
   - `DETAILS.md` carries the allocation and the six cards.
   :: related
-  RFD 1150 gives the tone ladder. RFD 1141 sends artifacts.
+  RFD66606-1150 gives the tone ladder. RFD66606-1141 sends artifacts.
   """
 
   details_title "Which axes the survey weights"

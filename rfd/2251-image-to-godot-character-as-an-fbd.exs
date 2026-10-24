@@ -4,8 +4,8 @@ use RFD.DSL
 
 rfd 2251, "image to godot character as an fbd", :discussion do
   feature "a character-from-one-image workflow as an FBD the fbd
-teacher (RFD 2236) emits, backed by tools already on the manifest,
-running on the Godot binary of RFD 2239"
+teacher (RFD66606-2236) emits, backed by tools already on the manifest,
+running on the Godot binary of RFD66606-2239"
   scope "`taskweft-function-block-diagram-teacher` and `compiler`,
 TRELLIS.2 and Pixal3D as parts generators, SkinTokens and ANNY as
 rig, Godot with SceneTreeMCP as assembly and render"
@@ -23,13 +23,13 @@ rig, Godot with SceneTreeMCP as assembly and render"
   animated character. Tripo3D's seven-step Astra workflow maps
   one-for-one onto our tools, and the mapping is an FBD.
   :: related
-  - [RFD 1170](../1170-a-cleanroom-presence-loop/): the presence loop
+  - [RFD66606-1170](../1170-a-cleanroom-presence-loop/): the presence loop
     whose face-owner this character becomes.
-  - [RFD 2236](../2236-fbd-teacher-in-three-steps/): the model that
+  - [RFD66606-2236](../2236-fbd-teacher-in-three-steps/): the model that
     emits the FBD this workflow is written in.
-  - [RFD 2239](../2239-traits-and-one-binary/): one Godot binary as
+  - [RFD66606-2239](../2239-traits-and-one-binary/): one Godot binary as
     the runtime; this workflow is a caller.
-  - [RFD 2244](../2244-one-deformation-operator/): identity and fit
+  - [RFD66606-2244](../2244-one-deformation-operator/): identity and fit
     collapse into one operator; the rig block calls that operator
     over the assembled part set.
   - Tripo3D's Astra workflow (upstream reference), read 2026-09-13,
@@ -49,15 +49,23 @@ rig, Godot with SceneTreeMCP as assembly and render"
   manifest; nothing new needs to land for the block to compile,
   only for the block to run end to end.
 
-  | block | input | tool | output |
-  | --- | --- | --- | --- |
-  | `prepare_reference` | one image | operator; `interactor-omnigen2` for the three sub-crops (body, head, hair) | three reference PNGs plus the full reference |
-  | `generate_part` × 3 | one reference PNG | `interactor-trellis2-image-to-textured-mesh` (body), `interactor-pixal3d-image-to-textured-mesh` (head, hair) | three textured GLBs |
-  | `assemble` | three GLBs | `entities-godot` via `SceneTreeMCP`: spawn nodes, align head to body neck, align hair to scalp | one Godot scene, parts selectable |
-  | `rig` | assembled scene | `interactor-skintokens-auto-rig` for a biped rig, or `interactor-anny` retarget when the body already carries ANNY topology | one skeleton, weights bound |
-  | `expressions` | rigged head mesh | ANNY `data/faceunits01/` blendshapes (FACS action units), attached to the head node | expression state set on the head |
-  | `animate` | rigged scene | Route A: import one SOMA-X clip through `interactor-motion`; Route B: keyframe from a short prompt through the fbd teacher | one animation clip |
-  | `render` | animated scene | Godot's own render, MoltenVK on macOS; Mitsuba is the oracle when a still needs verification (RFD 2245) | VRM plus a preview MP4 |
+  - `prepare_reference`: input one image; tool operator; `interactor-omnigen2` for the three
+    sub-crops (body, head, hair); output three reference PNGs plus the full reference.
+  - `generate_part` × 3: input one reference PNG; tool
+    `interactor-trellis2-image-to-textured-mesh` (body),
+    `interactor-pixal3d-image-to-textured-mesh` (head, hair); output three textured GLBs.
+  - `assemble`: input three GLBs; tool `entities-godot` via `SceneTreeMCP`: spawn nodes, align
+    head to body neck, align hair to scalp; output one Godot scene, parts selectable.
+  - `rig`: input assembled scene; tool `interactor-skintokens-auto-rig` for a biped rig, or
+    `interactor-anny` retarget when the body already carries ANNY topology; output one skeleton,
+    weights bound.
+  - `expressions`: input rigged head mesh; tool ANNY `data/faceunits01/` blendshapes (FACS action
+    units), attached to the head node; output expression state set on the head.
+  - `animate`: input rigged scene; tool Route A: import one SOMA-X clip through
+    `interactor-motion`; Route B: keyframe from a short prompt through the fbd teacher; output one
+    animation clip.
+  - `render`: input animated scene; tool Godot's own render, MoltenVK on macOS; Mitsuba is the
+    oracle when a still needs verification (RFD66606-2245); output VRM plus a preview MP4.
 
   Blender-specific details in Tripo3D's post (the Blender MCP addon,
   material node wiring, IK routes) do not carry across, because Godot
@@ -80,9 +88,9 @@ rig, Godot with SceneTreeMCP as assembly and render"
   Whether the input image itself is generated (a text-to-image
   front door) or handed in by the operator; that stays a caller
   concern. Whether the animation route defaults to A or B; the
-  fbd teacher's reinforcement step (RFD 2236 step 3) is not
+  fbd teacher's reinforcement step (RFD66606-2236 step 3) is not
   finished, so Route A is the default until Route B is measured.
-  Whether the output is VRM specifically or GLB-only; RFD 2244's
+  Whether the output is VRM specifically or GLB-only; RFD66606-2244's
   one-deform-operator stage decides which corner set each block
   is allowed to touch, and VRM's blendshape convention follows
   from that once the head block gains expressions.

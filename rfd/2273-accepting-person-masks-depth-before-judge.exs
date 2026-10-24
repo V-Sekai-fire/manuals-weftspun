@@ -14,7 +14,7 @@ for person masks, and the CC0 VRM pilot that calibrates them"
   matting (MIT) draws the edge, and agreement with a MoGe-3 (MIT) depth
   edge accepts the mask. Stock EditScore is not the judge: it agreed with
   the depth check on 6 of 23 frames. A grader that judges masks is the
-  compact retrain RFD 2262's grade that teaches calls for. A 300-image CC0
+  compact retrain RFD66606-2262's grade that teaches calls for. A 300-image CC0
   VRM pilot with exact masks and metric depth is the calibration
   reference; scaling that corpus is parked.
   :: problem
@@ -22,10 +22,10 @@ for person masks, and the CC0 VRM pilot that calibrates them"
   to decide which masks to keep. The obvious judge, the grader the loop
   already has, turned out not to judge masks at all.
   :: related
-  - RFD 2262 (make it with the pen), whose grade that teaches is the retrain.
-  - RFD 1147 (what EditScore costs and returns), the stock grader.
-  - RFD 2193 (EditScore reproducibility bar) and RFD 2268 (the recommender).
-  - RFD 1173 (multimodal pipeline), MaskScore. RFD 2272, the segmenter.
+  - RFD66606-2262 (make it with the pen), whose grade that teaches is the retrain.
+  - RFD66606-1147 (what EditScore costs and returns), the stock grader.
+  - RFD66606-2193 (EditScore reproducibility bar) and RFD66606-2268 (the recommender).
+  - RFD66606-1173 (multimodal pipeline), MaskScore. RFD66606-2272, the segmenter.
   """
 
   details_title "accepting person masks: depth before a judge"
@@ -44,7 +44,7 @@ for person masks, and the CC0 VRM pilot that calibrates them"
   slot with no reasoning generated and the frame prefix shared, is about
   12x faster than generating reasoning but ranks only 0.42 to 0.52
   (Spearman) against it. Neither form is a mask judge; the retrain belongs
-  to RFD 2262.
+  to RFD66606-2262.
   :: details The calibration reference
   300 CC0 VRM avatars rendered in Mitsuba 3, with exact masks and metric
   depth by construction. It is constructed synthetic data, and the

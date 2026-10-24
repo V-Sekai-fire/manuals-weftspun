@@ -32,11 +32,11 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
   supplies the corpus from corrupt-clean render pairs, and gives two
   tests costing no training.
   :: problem
-  RFD 1166 dropped See-Through, so layer decomposition has no model. The
+  RFD66606-1166 dropped See-Through, so layer decomposition has no model. The
   obvious 3D replacement is gone too: P3-SAM / Hunyuan3D-Part is
   blocklisted on a territory-restricted licence.
   :: related
-  RFD 1166 drops See-Through. RFD 1167 places rf-detr at rung 3.
+  RFD66606-1166 drops See-Through. RFD66606-1167 places rf-detr at rung 3.
   """
 
   details_title "Segment the 3D latent with rf-detr, and treat masking as corruption"
@@ -62,7 +62,7 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
   instead is the same call with a different tensor, and the uv it samples
   at is computed from the camera the renderer already used.
 
-  **The segmenter is the one model at rung 3.** RFD 1167 records rf-detr
+  **The segmenter is the one model at rung 3.** RFD66606-1167 records rf-detr
   as the only candidate the Dataflow Compiler has accepted, 825 nodes,
   22 operators, nothing outside `DEVICE_OPS`. A segmentation head is small
   beside the backbone it sits on, so the device half already measured is
@@ -98,7 +98,7 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
   **LaMa is what See-Through used, and it is licence-clean.**
   `annotators/lama_inpainter` loads `lama_large_512px.ckpt` from
   `dreMaz/AnimeMangaInpainting`, which is **MIT**, over upstream LaMa code
-  which is **Apache-2.0**. Unlike every See-Through checkpoint RFD 1166
+  which is **Apache-2.0**. Unlike every See-Through checkpoint RFD66606-1166
   blocklists, this one carries a real grant, so the useful part of that
   project survives its licensing twice over, once as the taxonomy and once
   as this.
@@ -110,12 +110,12 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
 
   **And it will not compile for the accelerator.** LaMa is built on Fast
   Fourier Convolutions: `ffc.py` calls `torch.fft.rfftn`, and no Fourier
-  operator appears anywhere in `DEVICE_OPS`. RFD 1131 names the refused
+  operator appears anywhere in `DEVICE_OPS`. RFD66606-1131 names the refused
   families and this is a new one, not data-dependent indexing, simply
   absent from the allowlist. LaMa runs on the host or it does not run.
 
   **CycleGAN is the opposite trade.** It is a ResNet-9block generator,
-  plain convolution throughout, which is why RFD 1166 scores it 95 on
+  plain convolution throughout, which is why RFD66606-1166 scores it 95 on
   `shape`, second only to rf-detr. It would compile. But it is an
   unpaired translation model rather than an inpainter, so using it here
   means training it for hole-filling, and the corruption pairs below are
@@ -158,7 +158,7 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
   needs a retrain onto `VALID_BODY_PARTS_V3` and that needs labelled
   data.**
 
-  That is the same wall RFD 1166 records for Kimodo, reached from a
+  That is the same wall RFD66606-1166 records for Kimodo, reached from a
   different direction: the model is available where the corpus is not. What
   is on hand:
 
@@ -225,7 +225,7 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
       score a      judgement, and     REACHES RFD 1166, see below
       proposal     possibly retrieval
 
-  **The scoring row is where this reaches beyond this RFD.** RFD 1166
+  **The scoring row is where this reaches beyond this RFD.** RFD66606-1166
   ranks EditScore, a LoRA over Qwen3-VL-8B at 6.75 GiB, as the gate that
   accepts or rejects a proposal. If that gate is doing classification
   (is this edit good?), the paper's finding is that an embedding model ties
@@ -234,7 +234,7 @@ rfd 1168, "Segment the 3D latent with rf-detr, and treat masking as corruption",
   place. **Nobody here has established which**, and the two answers differ
   by roughly three orders of magnitude in cost.
 
-  That is a question for RFD 1166 rather than this document, and it is
+  That is a question for RFD66606-1166 rather than this document, and it is
   recorded here because this is where the paper was raised.
 
   **The inpainter choice is not an instance of the dilemma**, and saying

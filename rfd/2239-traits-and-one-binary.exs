@@ -11,30 +11,29 @@ rfd 2239,
 
   prose ~S"""
   :: decision
-  A trait is a mixin: a named bundle of methods with a runner that performs
-  them and a census that enumerates them; the compiler's signature tables
-  and block sets are the bundles. Items 1, 2 and 4 of the operator's list
-  fold whole into five new traits (DressOn, Spring, Identity, Body, and the
-  generated DressEdit anchor) beside the six that exist. Every tool is
-  ported to Elixir first, parsing rather than matching text; every seeded
-  numeric is a code from a declared codebook; the trusted-source list
-  bounds data, not code; and the runtime ships as one Godot binary with
-  ggml as a module. `DETAILS.md` carries the rulings and their mechanisms.
+  A trait is a mixin: a named bundle of methods with a runner that performs them and a census that
+  enumerates them; the compiler's signature tables and block sets are the bundles. Items 1, 2 and
+  4 of the operator's list fold whole into five new traits (DressOn, Spring, Identity, Body, and
+  the generated DressEdit anchor) beside the six that exist. Every tool is ported to Elixir first,
+  parsing rather than matching text; every seeded numeric is a code from a declared codebook; the
+  trusted-source list bounds data, not code; and the runtime ships as one Godot binary with ggml
+  as a module. `DETAILS.md` carries the rulings and their mechanisms.
   :: problem
-  The operator queued a plan that keeps only open items, converts three
-  efforts into dataset rows for the fourth, asks for Elixir over shell and
-  Python, parsing over regex, reuse over new parts, and 100,000 items per
-  trait. The existing plan mixed shipped and open work, the corpus tools
-  were Python with regex parsers, free floats made distinct-program counts
-  unknowable, and the runtime reached its models through servers.
+  The operator queued a plan that keeps only open items, converts three efforts into dataset rows
+  for the fourth, asks for Elixir over shell and Python, parsing over regex, reuse over new parts,
+  and 100,000 items per trait. The existing plan mixed shipped and open work, the corpus tools
+  were Python with regex parsers, free floats made distinct-program counts unknowable, and the
+  runtime reached its models through servers.
   :: references
-  - RFD 2229, interchangeable parts, the doctrine every leg is written against
-  - RFD 2236, the teacher in three steps, whose corpus shape every trait keeps
-  - RFD 2234, RFD 2237 and RFD 2238, the three efforts that fold into traits
-  - RFD 2188, one ggml; RFD 2210, RFD 2215 and RFD 2230, the shipping surface the binary satisfies
-  - RFD 2200, ReBAC tuples, amended with the `trusts` verb
+  - RFD66606-2229, interchangeable parts, the doctrine every leg is written against
+  - RFD66606-2236, the teacher in three steps, whose corpus shape every trait keeps
+  - RFD66606-2234, RFD66606-2237 and RFD66606-2238, the three efforts that fold into traits
+  - RFD66606-2188, one ggml; RFD66606-2210, RFD66606-2215 and RFD66606-2230, the shipping surface
+    the binary satisfies
+  - RFD66606-2200, ReBAC tuples, amended with the `trusts` verb
   :: related
-  RFD 2205 (the planner shim the binary hosts), RFD 2213 and RFD 2214 (the sandboxed VRM path and the model bundles), RFD 2196 (viewer rules the publisher follows).
+  RFD66606-2205 (the planner shim the binary hosts), RFD66606-2213 and RFD66606-2214 (the
+  sandboxed VRM path and the model bundles), RFD66606-2196 (viewer rules the publisher follows).
   """
 
   details_title "Three efforts fold into the FBD teacher's traits, and the runtime ships as one binary"
@@ -54,19 +53,39 @@ rfd 2239,
   `huggingface.co/chibifire`, `v-sekai-fabric/weftspun-keypoint`,
   `chibifire/starforged-std-3001-appendix-e`.
   :: details The rulings and their mechanisms
-  | ruling (operator, 2026-09-08) | mechanism |
-  | --- | --- |
-  | a trait is a mixin, "object oriented mix in style" | a signature table or block set is the bundle; a `CALL` or a block is the call; a family exercises one trait; DSL rung 2's `uses` line mixes several in |
-  | peel none: items 1, 2 and 4 fold whole | DressOn, DressEdit, Body, Spring and Identity below; react and compose retire into Body |
-  | "Port everything first": Elixir before any new trait | the `taskweft_fbd_teacher` app; each Python tool deleted after a scorer-parity smoke; a Python or shell file that survives is a runner wrapping a model and says so in its first line |
-  | the trusted list bounds data sources; code repositories are fine | the `Trust` module gates every fetch and publish on `magi-16739d--trusts--<source>` tuples; forks are tooling; udon2godot's translations and the constraint-twist sample are constructed fixture inputs |
-  | "FSQ categories become code enums", "like float categories rather than float numerics" | `codebook` declarations and `name#c.c.c` literals (DSL rung 1); an enum in Elixir, a `Fin` triple in Lean, an int triple in the guest; `Codebook.lean` proves the decode injective, bounded and monotone |
-  | place the fashion set and the anthropometry table, then `repo sync` | manifest PR 129, merged at `a9a2f4fd`: three datasets under `6-datasource`, the motion-bricks bundle under `5-repository`, four pins moved |
-  | "the entire system must run as a monolithic binary" with the ggml dependencies in `entities-godot` | `modules/ggml`, `modules/motionbricks`, `modules/taskweft`, `modules/game` and the sandbox pin advance in the Godot 4.7 fork; nothing at runtime reaches a Python, a WSL or a listener |
-  | "interchangable parts methology is required. See also Japanese methods of industrial processes" | the RFD 2229 table per leg; jidoka, poka-yoke, genchi genbutsu, andon, takt, heijunka, kanban, 5S and kaizen each tied to a gate or a task rather than left as a slogan |
-  | "double check .cff citations are updated every pass" | `mix fbd.cff.check` and the anti-entropy pair "manifest project against its `CITATION.cff`"; a citation line in every milestone's verification |
-  | "elixir is a compentent binary parser too" | GLB, ONNX protobuf, gguf, `.npy` and parquet read by binary pattern matching, each reader with a refused control |
-  | item 4's photo leg exists: the Speaking_Faces set, "convert to our methodology parquet and split into smaller datasets" | the conversion below; the re-host stays private until the likeness and consent RFD lands |
+  - a trait is a mixin, "object oriented mix in style": a signature table or block set is the
+    bundle; a `CALL` or a block is the call; a family exercises one trait; DSL rung 2's `uses`
+    line mixes several in.
+  - peel none: items 1, 2 and 4 fold whole: DressOn, DressEdit, Body, Spring and Identity below;
+    react and compose retire into Body.
+  - "Port everything first": Elixir before any new trait: the `taskweft_fbd_teacher` app; each
+    Python tool deleted after a scorer-parity smoke; a Python or shell file that survives is a
+    runner wrapping a model and says so in its first line.
+  - the trusted list bounds data sources; code repositories are fine: the `Trust` module gates
+    every fetch and publish on `magi-16739d--trusts--<source>` tuples; forks are tooling;
+    udon2godot's translations and the constraint-twist sample are constructed fixture inputs.
+  - "FSQ categories become code enums", "like float categories rather than float numerics":
+    `codebook` declarations and `name#c.c.c` literals (DSL rung 1); an enum in Elixir, a `Fin`
+    triple in Lean, an int triple in the guest; `Codebook.lean` proves the decode injective,
+    bounded and monotone.
+  - place the fashion set and the anthropometry table, then `repo sync`: manifest PR 129, merged
+    at `a9a2f4fd`: three datasets under `6-datasource`, the motion-bricks bundle under
+    `5-repository`, four pins moved.
+  - "the entire system must run as a monolithic binary" with the ggml dependencies in
+    `entities-godot`: `modules/ggml`, `modules/motionbricks`, `modules/taskweft`, `modules/game`
+    and the sandbox pin advance in the Godot 4.7 fork; nothing at runtime reaches a Python, a WSL
+    or a listener.
+  - "interchangable parts methology is required. See also Japanese methods of industrial
+    processes": the RFD66606-2229 table per leg; jidoka, poka-yoke, genchi genbutsu, andon, takt,
+    heijunka, kanban, 5S and kaizen each tied to a gate or a task rather than left as a slogan.
+  - "double check .cff citations are updated every pass": `mix fbd.cff.check` and the anti-entropy
+    pair "manifest project against its `CITATION.cff`"; a citation line in every milestone's
+    verification.
+  - "elixir is a compentent binary parser too": GLB, ONNX protobuf, gguf, `.npy` and parquet read
+    by binary pattern matching, each reader with a refused control.
+  - item 4's photo leg exists: the Speaking_Faces set, "convert to our methodology parquet and
+    split into smaller datasets": the conversion below; the re-host stays private until the
+    likeness and consent RFD lands.
   :: details The traits
   | trait | the bundle | the quantity the runner reads back | today |
   | --- | --- | --- | --- |
@@ -82,7 +101,7 @@ rfd 2239,
   | Identity | appendix-E cells, 11 phenotypes, 52 FACS action units, head fit, landmarks | metres, kilograms, landmark millimetres | none |
   | DressEdit (anchor) | the DressOn bundle plus splice and the two voxel controls | voxel far-containment | 12 targets shipped |
 
-  Each row keeps RFD 2236's shape: a root intent, three candidates, scores,
+  Each row keeps RFD66606-2236's shape: a root intent, three candidates, scores,
   the joined view, three controls asserted on every row, splits by seed and
   by held-out subject. The four appendix-E cells, the gold evaluation
   garments, four FACS units and two whole Body templates are held out in
@@ -97,7 +116,7 @@ rfd 2239,
   many jobs per process, an `ABS` block, and `# uncovered:` lines in the
   table header grammar. Rung 2, after Spring: array pins and `MUX` over an
   array, `uses <trait>` declarations checked by the netlist, `use
-  <program>` composition. Rung 3, with RFD 2236's step 2: user function
+  <program>` composition. Rung 3, with RFD66606-2236's step 2: user function
   blocks. Each rung is a Lean change with an accepted and a refused fixture
   pair, the text-to-XML-to-text fixed point, and the Elixir printer
   mirrored the same day.
@@ -112,7 +131,7 @@ rfd 2239,
   whose value differs by proof; whether the difference shows on the row's
   traces is still tried by simulation.
   :: details Trust, fixture inputs, inferred masks
-  RFD 2200's verb table gains `trusts`. The tuples
+  RFD66606-2200's verb table gains `trusts`. The tuples
   `magi-16739d--trusts--<source>` for the three trusted repositories are
   authoritative in Bao KV `relationships/`; `trust.exs` is derived from
   them and the pair is an anti-entropy check. Today the desk's certificate
@@ -161,14 +180,14 @@ rfd 2239,
   One native Godot binary per platform out of
   &{repo("entities-godot-sandbox", planned: "4-entities")},
   Vulkan everywhere, two heads. `modules/ggml` is `turboquant-godot`'s
-  `modules/llm` moved under the RFD 2230 name with its ggml taken from the
+  `modules/llm` moved under the RFD66606-2230 name with its ggml taken from the
   manifest at `weftspun-consolidated`, Vulkan only, the device chosen by
   name with no fallback to index 0 and none to the CPU. `modules/
   motionbricks` is stage A: the motion-bricks sources compiled against that
-  module, byte-equal frames against the CMake build as the gate. Under RFD
-  2229, stage A is the interim and the oracle: when RFD 2230's sandboxed
+  module, byte-equal frames against the CMake build as the gate. Under
+  RFD66606-2229, stage A is the interim and the oracle: when RFD66606-2230's sandboxed
   adapter reproduces its frames, stage A stays as the parity oracle only
-  and RFD 2212 is retracted. `modules/taskweft` is RFD 2205's shim over the
+  and RFD66606-2212 is retracted. `modules/taskweft` is RFD66606-2205's shim over the
   standalone planner headers; `modules/game` holds the atelier scenes and
   the body host in-process; the sandbox pins advance to an upstream that
   carries SafeGDScript. The placed Godot 4.5 build stays the corpus scorer
@@ -353,7 +372,7 @@ rfd 2239,
   audio leg. Done.
 
   **Rung 1, the Elixir port and parity.** The order and the parity gate are in
-  RFD 2236. Nothing new is written until the teacher's Python is Elixir.
+  RFD66606-2236. Nothing new is written until the teacher's Python is Elixir.
 
   **Rung 2, the compiler's second half.** The codebooks, `Mutation.lean`, the
   `const` and `codebook` declarations, multi-output declarations, typed
@@ -382,7 +401,7 @@ rfd 2239,
 
   Then the ladder hands off to generate-pose: the `Body` and `Spring` traits
   unpark with their specifications intact, followed by dress-on and the audio
-  leg of RFD 2241. Every rung ends the same way, with the citation check, the
+  leg of RFD66606-2241. Every rung ends the same way, with the citation check, the
   payload gate, and a logbook line carrying what was measured.
   :: details The deferred rulings, three of them retired by looking
   The plan carried about twenty questions marked for the operator to rule on, each
@@ -400,7 +419,7 @@ rfd 2239,
   &{repo("contract-cineform-movie-writer")} builds the CineForm `MovieWriter` as
   a godot-cpp GDExtension, possible since `MovieWriter` reached the extension
   API in Godot 4.5, with clang 23 on its default branch; `default.xml` places
-  it, and RFD 2287's recordings go through it.
+  it, and RFD66606-2287's recordings go through it.
   The in-tree `modules/cineform` on its module branch rides into the
   assembly beside it: the module is the writer an engine build carries, the
   extension is the one a project loads without one.
@@ -456,8 +475,8 @@ rfd 2239,
   the ggml dependencies are ported into a Godot engine C++ module rather than left
   beside it. `llama.cpp` is not pinned at the old sync marker: `weftspun-consolidated`
   rebases onto the September ggml, which brings the vision path and obliges
-  re-checking every consumer RFD 2188 consolidated. The teacher's 3.35 GB bundle is
-  fetched through the RFD 2214 channel rather than shipped. The ACP door folds in,
+  re-checking every consumer RFD66606-2188 consolidated. The teacher's 3.35 GB bundle is
+  fetched through the RFD66606-2214 channel rather than shipped. The ACP door folds in,
   serving from the Godot binary over `modules/http3` and `modules/taskweft`, so the
   planner shim must reach parity with the NIF before that lands. The engine builds at
   **double** precision, which retires the single-precision assumption and means every
@@ -471,7 +490,7 @@ rfd 2239,
 
   **The sandbox pin advances to v0.58** and the six in-tree conversion commits are
   redone against it, which is what unblocks the FBD guests, the export guests and the
-  RFD 2213 VRM ELF. `voxhammer.cpp` becomes a repository under `v-sekai-fabric` and
+  RFD66606-2213 VRM ELF. `voxhammer.cpp` becomes a repository under `v-sekai-fabric` and
   is placed in the manifest; it ships no licence file today and that is fixed before
   it goes anywhere. The G1-to-VRM retarget goes through `skin-tokens-cpp`'s ABI once
   its ggml pin is reconciled, which the rebase above already touches.
@@ -492,7 +511,7 @@ rfd 2239,
   implicit: **`trust.exs` is the authority**, not Bao KV. The narrow
   `relationships/*` read is not granted, so the KV tuples stop being the replica the
   file derives from, and the anti-entropy pair between them is dropped rather than
-  reported as passing. RFD 2200's tuple shape stays as the record of how the list is
+  reported as passing. RFD66606-2200's tuple shape stays as the record of how the list is
   expressed elsewhere; here the file is what gates a fetch, and it is reviewed as a
   diff like any other tracked list.
 
@@ -507,7 +526,7 @@ rfd 2239,
   the teacher weights ship with
   the game; the G1-to-VRM retarget path; the policy on a machine with only
   an integrated GPU; whether `voxhammer.cpp` is placed or removed; the
-  obs_dim, K_max and ROM rulings of RFD 2238; the likeness and consent RFD;
+  obs_dim, K_max and ROM rulings of RFD66606-2238; the likeness and consent RFD;
   whether the Elixir door joins the monolith. Each is ruled before its
   integration step.
   """

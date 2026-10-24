@@ -20,9 +20,9 @@ as read access to one Bao path, confirmed by the operator"
   nothing else, and a peer asked for it through a relay, which is
   how a grant slides sideways without a human seeing it.
   :: related
-  - RFD 2195 (Bao over the tailnet), the cert-auth convention.
-  - RFD 2255 (SSH tunnel to Bao), how an enrolled agent reaches Bao.
-  - RFD 2060 (org-scoped app token), what the persona key mints.
+  - RFD66606-2195 (Bao over the tailnet), the cert-auth convention.
+  - RFD66606-2255 (SSH tunnel to Bao), how an enrolled agent reaches Bao.
+  - RFD66606-2060 (org-scoped app token), what the persona key mints.
   """
 
   details_title "agent credentials are shared by path in Bao"

@@ -22,5 +22,5 @@ license: "IETF Trust License"
 notes: "§4.1.2.5: 'The validity period for a certificate is the period of time
   from notBefore through notAfter, inclusive. […] To indicate that a certificate
   has no well-defined expiration date, the notAfter SHOULD be assigned the
-  GeneralizedTime value of 99991231235959Z.' RFD 2145 chooses NOT to use the
+  GeneralizedTime value of 99991231235959Z.' RFD66606-2145 chooses NOT to use the
   sentinel because embedded and legacy X.509 parsers reject the year field."

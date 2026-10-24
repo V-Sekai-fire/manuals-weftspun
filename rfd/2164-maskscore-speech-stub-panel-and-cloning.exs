@@ -11,8 +11,8 @@ dimensions the reward model needs to score."
 
   prose ~S"""
   :: decision
-  Panel is 7 tracks today per RFDs 2179, 2180, 2181 (Whisper,
-  gemma-auto, allosaurus-rus drops); RFD 1102 (task catalog) is the
+  Panel is 7 tracks today per RFD66606-2179, RFD66606-2180, RFD66606-2181 (Whisper,
+  gemma-auto, allosaurus-rus drops); RFD66606-1102 (task catalog) is the
   live source. The 12-track sub-rung below is the as-shipped roster,
   kept for the retraction record.
 

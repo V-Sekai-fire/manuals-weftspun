@@ -32,8 +32,8 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   ambiguity differently. Without a place for state to persist,
   knowledge learned in one session does not reach the next.
   :: related
-  RFD 1086 gives the Surface/DGX topology `PROJECT.md`'s sync-ownership
-  rule depends on. RFD 1099 gives the operator command cheat sheet this
+  RFD66606-1086 gives the Surface/DGX topology `PROJECT.md`'s sync-ownership
+  rule depends on. RFD66606-1099 gives the operator command cheat sheet this
   harness's workflows point to for exact commands.
   """
 
@@ -106,8 +106,8 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
     the same models from two sides.
 
   Decisions already carried by other RFDs, not repeated here: UI on
-  the Surface, API on the DGX (RFD 1086); scp-based sync with no agent
-  git push (RFD 1086, RFD 1099); RepoResident's own adoption,
+  the Surface, API on the DGX (RFD66606-1086); scp-based sync with no agent
+  git push (RFD66606-1086, RFD66606-1099); RepoResident's own adoption,
   replacing MindLink (this RFD's README).
   """
 end

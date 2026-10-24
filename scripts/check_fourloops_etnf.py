@@ -37,7 +37,7 @@ WHAT IT CHECKS, and why each is separate.
 5. COUNTS ARE NOT ONLY HERE. Every number in the layer is searched for in the sources the
    layer names, commas stripped, as a whole token. A count that lives only in the design is
    a count nobody reviewed. Same pattern as `check_fourloops_plan.py` and, before it,
-   `check-rfd-structure.py` for RFD 1000.
+   `check-rfd-structure.py` for RFD66606-1000.
 
    SMALL INTEGERS ARE CHECKED IN CONTEXT, NOT SKIPPED. The first version of this gate had a
    detection floor: integers below `SEARCH_FLOOR` went unsearched, because `4` appears in

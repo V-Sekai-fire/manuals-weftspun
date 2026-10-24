@@ -1,4 +1,4 @@
-"""TRELLIS.2 image to textured mesh. RFD 1038.
+"""TRELLIS.2 image to textured mesh. RFD66606-1038.
 
 Two flows run in order. The sparse structure flow makes the coarse
 occupancy, and the SLat flow makes the detail and the texture. Both
@@ -14,7 +14,7 @@ MAX_MESH_VERTICES = 210000
 
 
 class Output(BaseModel):
-    """RFD 1053. The layer is the working file, and the GLB ships."""
+    """RFD66606-1053. The layer is the working file, and the GLB ships."""
 
     layer: Path
     glb: Path

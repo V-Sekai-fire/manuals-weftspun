@@ -22,13 +22,13 @@ OSC ports"
   OSC output. Its target is parity with sasaken1102r's fork of the same
   program, rewritten in Slang with Lean tests: no Rust, no new C++, the
   fork read for behaviour and constants only. Eye-camera landmarks come
-  from RFD 2310 (operator, 2026-10-11).
+  from RFD66606-2310 (operator, 2026-10-11).
   :: problem
   The headset tracks eyes, but nothing carried that to an avatar without a
   desktop bridge in between, and the service's shared memory has no
   published layout.
   :: related
-  - RFD 2262 (make it with the pen), where faces belong to the full product.
+  - RFD66606-2262 (make it with the pen), where faces belong to the full product.
     This is standalone enabling work, not a release.
   """
 
@@ -62,7 +62,7 @@ OSC ports"
   | 8 | a dashboard panel |
   | 3 to 6 | eyelid and gaze rules, a live config and status file, the eye fit, finding the PC |
   Rung 7's capture helper gets CAP_SYS_PTRACE from one step the operator
-  runs, and its landmarks come from RFD 2310. The order is 1, 2, 7, 8, then
+  runs, and its landmarks come from RFD66606-2310. The order is 1, 2, 7, 8, then
   3 to 6. Installing is a Nushell or Elixir
   installer of ours, not the fork's shell scripts. Runs on the headset are
   allowed while it is in standby, and each wake is reported (operator,

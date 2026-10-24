@@ -28,9 +28,9 @@ solids, rolled on survey tables, and it carries wear from round to round"
   identity, every round started from zero, and nothing on screen said which unit
   was hurt or why a round ended.
   :: related
-  - RFD 2294, where the desktop builds ship: the release that carries this game.
-  - RFDs 2085, 2091 and 2120, the Gyre setting (abandoned): the source of Frames,
-    wear and scrip.
+  - RFD66606-2294, where the desktop builds ship: the release that carries this game.
+  - RFD66606-2085, RFD66606-2091 and RFD66606-2120, the Gyre setting (abandoned): the source of
+    Frames, wear and scrip.
   """
 
   details_title "the autobattler fields Frames that wear"
@@ -126,7 +126,7 @@ solids, rolled on survey tables, and it carries wear from round to round"
   N rounds for a longer sim.
 
   :: details Zone server and VR mode
-  The zone, its transport and its crash journal are those of RFD 2287, the
+  The zone, its transport and its crash journal are those of RFD66606-2287, the
   first rung. The round is deterministic: one seed gives the same `ROUND`, `DAMAGE` and
   `WORLD` lines on the web and on the three desktop systems. That makes the game
   a fit for an authoritative zone. The zone server runs the round headless, and
@@ -171,14 +171,14 @@ solids, rolled on survey tables, and it carries wear from round to round"
     player-day: its worst and how often it passes 1, 2 and 5 s. The planted
     slow commit must raise it.
 
-  The zone simulates at 60 Hz and sends rows under RFD 2326's byte budget.
+  The zone simulates at 60 Hz and sends rows under RFD66606-2326's byte budget.
   Two choices are open: whether the headset client is the V-Sekai client or a
   scene in the game's own project, and which host runs FoundationDB in
   production. A run on a plain Linux runner, pending on 2026-10-19, says
   whether the multi-second waits come from the WSL host.
 
   :: details The autobattler is the network test bench
-  RFD 2326's numbers so far come from walkers generated for the test, whose
+  RFD66606-2326's numbers so far come from walkers generated for the test, whose
   rows never repeat. The autobattler gives real traffic with an answer key.
   One seed fixes every round, so the server's replay of a seed is the truth
   for every row a client receives, at every tick.

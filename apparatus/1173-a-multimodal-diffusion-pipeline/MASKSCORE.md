@@ -8,7 +8,7 @@ EditScore-Reward-Data (97,300 reward model training rows), and
 EditScore-RL-Data (110,000 RL training rows).
 
 MaskScore extends that structure to all eight modalities in
-RFD 1173. Every modality scores through the same metric: render
+RFD66606-1173. Every modality scores through the same metric: render
 the ANNY mesh via Mitsuba 3 on `sphere_hammersley_sequence` views
 and compare. The mesh is the common reference frame.
 
@@ -26,7 +26,7 @@ the original asset IS the ground truth.
 Each model edits in its native way. Flow-matching models
 (Wan-VACE, Pixal3D, VoxHammer) noise a region and denoise.
 Qwen3-VL edits text via instruction-following generation.
-The audio path is a separate stack per RFD 1170 (Qwen3-TTS-12Hz
+The audio path is a separate stack per RFD66606-1170 (Qwen3-TTS-12Hz
 for output, Qwen3-ASR-1.7B for input). The training signal is
 reconstruction loss against the original. No labels.
 
@@ -52,7 +52,7 @@ labels come from automated render-and-compare, not humans.
 
 The reward model replaces the raw metric. EditScore did exactly this
 for images. The reward model here IS Qwen3-VL under the EditScore LoRA
-(RFD 1157) — the same base weights that serve the avatar's understanding
+(RFD66606-1157) — the same base weights that serve the avatar's understanding
 path. Text and image outputs score natively through the VLM; audio and
 geometric outputs score via the render-and-compare stages 1-2 describe.
 
@@ -83,7 +83,7 @@ path that reaches the ANNY mesh for scoring. Discriminative models
 | Depth      | Pixal3D      | flow-matching on SLATs        | mesh, render to depth via Mitsuba  |
 | Keypoints  | Pixal3D      | flow-matching on SLATs        | mesh, read surface vertices        |
 | Pose       | Pixal3D      | flow-matching on SLAT sequence| mesh sequence, ANNY IK to bones    |
-| Speech     | TTS-12Hz     | autoregressive vocoder        | decode to waveform (RFD 1170)      |
+| Speech     | TTS-12Hz     | autoregressive vocoder        | decode to waveform (RFD66606-1170) |
 | Text       | Qwen3-VL     | autoregressive generation     | instruction-following edit         |
 
 Pixal3D has three distinct latents: sparse structure
@@ -419,7 +419,7 @@ that accepts Kimodo output without running Kimodo itself.
 
 ## Reward model: EditScore over Qwen3-VL
 
-The reward model is Qwen3-VL under the EditScore LoRA (RFD 1157) —
+The reward model is Qwen3-VL under the EditScore LoRA (RFD66606-1157) —
 the same base weights that serve the avatar's understanding path.
 
 - Text and image outputs: Qwen3-VL scores directly.

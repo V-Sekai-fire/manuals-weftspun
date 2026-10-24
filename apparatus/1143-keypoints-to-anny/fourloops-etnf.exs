@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # `mix rfd.plan` renders fourloops-etnf.usda from this file; the layer is a
-# build artifact (RFD 2232, extended to the apparatus plans).
+# build artifact (RFD66606-2232, extended to the apparatus plans).
 defmodule Plan.FourloopsEtnf do
   use RFD.Plan
 

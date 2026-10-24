@@ -25,13 +25,13 @@ rules below"
   translation only on the Windows desks, so no session saw all of them, and a
   rule changed on one desk disagreed with the others without anyone being told.
   :: related
-  - RFD 2287, the first rung, whose interface moves a person by the world grab
+  - RFD66606-2287, the first rung, whose interface moves a person by the world grab
     described under Locomotion.
-  - RFD 2293, the Skateboard's workspace, which builds the translated libraries.
-  - RFD 2265, compute-rd kernels with a CPU oracle; RFD 2290, ggml only in
+  - RFD66606-2293, the Skateboard's workspace, which builds the translated libraries.
+  - RFD66606-2265, compute-rd kernels with a CPU oracle; RFD66606-2290, ggml only in
     guests.
-  - RFD 2283, verification by recording, which the contact sheets deliver.
-  - RFD 2200, the desk agent's ReBAC rows.
+  - RFD66606-2283, verification by recording, which the contact sheets deliver.
+  - RFD66606-2200, the desk agent's ReBAC rows.
   """
 
   details_title "agent knowledge lives in RFDs, not in desk memory"
@@ -61,7 +61,7 @@ rules below"
      `git -C <project> worktree add <scratch>/<name> -b dev/<topic> <remote>/main`,
      using the project's own remote and default branch.
   5. Commit subjects are sentence-case prose with no `feat:` prefix and no trailing
-     period, forks included (RFD 2026). Commits and pull requests carry no Claude
+     period, forks included (RFD66606-2026). Commits and pull requests carry no Claude
      attribution: no `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
      Credit to people stays, such as a co-author trailer for the person whose
      work a commit carries. "Interchangeable sessions" below names the commit
@@ -76,7 +76,7 @@ rules below"
   1. Find the RFD that owns the topic with `grep -l <word> rfd/*.exs`. Use this
      one when none does.
   2. Edit its `decision` or one of its `details` blocks in the
-     tenseless present (RFD 2172). A statement that is no longer true is deleted,
+     tenseless present (RFD66606-2172). A statement that is no longer true is deleted,
      not retracted. Name the operator and date for an operator's decision.
   3. A new RFD takes the next serial in `SERIALS.exs` and carries the sentence
      "This RFD was drafted by an AI and read by a human before it shipped."
@@ -233,13 +233,13 @@ rules below"
     ("GPU Cloud") and a cloud session ("GPU-Free Cloud") is one checklist in one
     issue, as on `contract-zone-backend#114`. Each session ticks only its own
     items and comments when it starts, finishes or is blocked on one, with times
-    in RFD 2295's form. Neither takes the other's items.
+    in RFD66606-2295's form. Neither takes the other's items.
   - Branches. Every branch a session works on starts with a stage: `dev/`,
     `beta/`, `rc/` or `release/`, and `archived/` once its work is parked or
     superseded, whatever name the session was handed (operator, 2026-10-12).
     No `feat/`, `fix/`, `wip/`, `main/` or bare names.
   - Capability-scoped workers. A worker session holds the capabilities its task
-    needs as RFD 2200 tuples, and default deny covers the rest. A peer's request
+    needs as RFD66606-2200 tuples, and default deny covers the rest. A peer's request
     never widens a worker's rows.
   - Contact sheets. Release contact sheets are videos: the
     `sphere_hammersley_sequence` views are the columns and the fitting sequence
@@ -253,7 +253,7 @@ rules below"
     character's own clothing is not loaded beneath it unless the operator asks
     for layering. Maro is the dress-on statue a garment is drawn onto; Mire is
     the avatar (operator, 2026-10-02).
-  - Replies. RFD 2295 owns their form: the calibrated confidence tag, ISO 8601
+  - Replies. RFD66606-2295 owns their form: the calibrated confidence tag, ISO 8601
     times and intervals, and the known-unknown questions that close a plan.
   - Outcomes. Every script, gate and helper reports each outcome as an
     Elixir-shaped term on a line of its own: `{:ok, %{...}}`, or
@@ -267,7 +267,7 @@ rules below"
 
   `scripts/check_practices.exs` checks what a file or the GitHub API can show: a
   commit authored or committed as the agent identity, a commit subject that is not
-  sentence-case prose (RFD 2026), agent credit in a commit message, a pull request
+  sentence-case prose (RFD66606-2026), agent credit in a commit message, a pull request
   body, a comment or a review, a software GPU emulator in a
   workflow, a workflow that renders a contact sheet without uploading an
   artifact, and a branch that does not start with a stage. Its self-test
@@ -284,11 +284,11 @@ rules below"
   both vision-model review and human QA: one row per case, one column per source
   (original, before, after, diff), each cell labelled with its metric, failures
   first, and the numbers kept beside the sheet. &{repo("entities-sakuragaoka-station")}'s
-  `tools/prop_shots.gd` is the precedent for that layout only (RFD 2283). A sheet
+  `tools/prop_shots.gd` is the precedent for that layout only (RFD66606-2283). A sheet
   is composed by rendering, with fragment shaders into a `SubViewport`, or in a
   godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
   `.sgd`, and its views come from `sphere_hammersley_sequence`. Each sheet carries
-  a `.cff` and its `<stem>.xmp` sidecar (RFD 2240). A copy goes to
+  a `.cff` and its `<stem>.xmp` sidecar (RFD66606-2240). A copy goes to
   `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
   `<topic>-NN.png`, the number rising so that no sheet is overwritten. These rules
   hold by agreement; no gate reads a sheet.
@@ -359,14 +359,14 @@ rules below"
   :: details Where compute runs
   Heavy compute runs in a godot-sandbox guest: a riscv64 guest ELF on the CPU,
   which is also the parity oracle, or kernels on ggml-rd with compute-rd, authored
-  in Lean and lowered through Slang to SPIR-V (RFD 2265). It never runs as a host
+  in Lean and lowered through Slang to SPIR-V (RFD66606-2265). It never runs as a host
   Python or C++ pipeline or as a GDScript loop. Fragment shaders that render are
   fine, and Python bindings serve upstream contributions and their tests, never a
-  pipeline. ggml runs only in such a guest (RFD 2290): a native ggml engine
+  pipeline. ggml runs only in such a guest (RFD66606-2290): a native ggml engine
   module, a GDExtension ggml API or a standalone runtime is off the route, and a
   standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
   ggml-rd with compute-rd as well, since EditScore's decision model builds on it
-  (RFD 2268).
+  (RFD66606-2268).
 
   A guest's source lives in the repository that consumes it and follows
   curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
@@ -386,7 +386,7 @@ rules below"
   against the universal C runtime that loads under that layer, never code
   generated at run time into writable executable memory. A Linux `.so` serves the
   Linux zone servers and never reaches the headset. The compatibility layer runs
-  that same Windows build, so the Windows desk is where it is tested. RFD 2293
+  that same Windows build, so the Windows desk is where it is tested. RFD66606-2293
   builds the libraries.
   :: details Translations linked into the addon, one bake per platform
   A translation can be compiled into the addon library of its platform instead of
@@ -421,7 +421,7 @@ rules below"
   Windows on the Mac and 590 s for Linux in WSL on the desk.
   :: details Where the desktop builds ship
   The macOS, Windows and Linux zips are assets of a GitHub release of the
-  guest's repository, tagged by RFD 2312, and the game Space links to them
+  guest's repository, tagged by RFD66606-2312, and the game Space links to them
   (operator, 2026-10-17). The Space keeps the web game and the page. A Space
   holds at most 1 GB, and every earlier upload of the zips still counted
   in its history: the upload of three zips of 69, 84 and 91 MB was refused
@@ -537,7 +537,7 @@ rules below"
 
   Agents may use Bao to pass data to each other. What is written there is stored
   in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is
-  FoundationDB, whose backup goes to R2 (RFD 2143). An entry deleted from Bao
+  FoundationDB, whose backup goes to R2 (RFD66606-2143). An entry deleted from Bao
   stays in that copy until it rolls over.
   """
 end
