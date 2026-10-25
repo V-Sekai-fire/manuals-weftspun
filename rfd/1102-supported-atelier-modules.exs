@@ -63,11 +63,14 @@ adapters)"
   | Image → mesh (fast)           | Pixal3D (TRELLIS.2 impl)      | same row as above               | one repo, one GGUF, one row per Pixal3D-is-TRELLIS.2 memory |
   | Metric depth                  | MoGe-3                        | ~250 MB Q4 GGUF                 | ggml native; **port needed**                   |
   | Auto-rig                      | SkinTokens                    | GGUF (skin-tokens.cpp)          | ggml native (vendor's own runtime, already GGML) |
-  | Text → motion                 | Kimodo                        | GGUF (motion-bricks-cpp rev)    | ggml native; SOMA pose format (77 rotvecs → 78 with root identity prepended) |
+  | Text → motion | Kimodo | GGUF (motion-bricks-cpp rev) | ggml native; see the note below |
   | Mesh segmentation | rf-detr-Seg (RFD66606-1168) | GGUF (segmentation head) | ggml native;
   **port needed** from ONNX | | Layer decomposition | rf-detr-Seg + LaMa inpainting | GGUF each |
   ggml native; **port needed** | | Mesh retopology | AutoRemesher, xatlas UV | no weights | native
   binary (format-adjacent tools) |
+
+  Kimodo writes the SOMA-2603.16858 pose format: 77 rotation vectors, which become 78 with the
+  root identity prepended.
   :: details Voice + ASR (RFD66606-2164)
   | Task                          | Model                                      | Weights (Q4 target)   | Runtime                                    |
   | ----------------------------- | ------------------------------------------ | --------------------- | ------------------------------------------ |
