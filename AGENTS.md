@@ -124,7 +124,7 @@ Delta Mush are approved. Note DDM bakes the smoothing but not the pose
 dependence, so it suits renders and baked clips and is not an option for live
 avatars.
 
-**Pose sources.** From ANNY/SOMA's own pose library, synthetic, or a
+**Pose sources.** From ANNY/SOMA-2603.16858's own pose library, synthetic, or a
 licence-clean third-party motion set. No scraped or unlicensed pose references.
 
 Two axes decide it, and both must hold.
@@ -659,13 +659,13 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
 - **Eye tracking:** `frame-eye-osc` (MIT), a Lean 4 program from `V-Sekai-fire/frame-eye-osc`
   that runs on the headset, reads the eye-tracking service's shared memory and sends OSC to the
   social-VR client (RFD66606-2271).
-- **Marker suit:** the SOMA muscle-anatomy code (MIT, `edualvarado/SOMA`), read and run only:
+- **Marker suit:** the SOMA-2606.09246 muscle-anatomy code (MIT, `edualvarado/SOMA`), read and run only:
   its suit template, marker detection, triangulation and tracking, for the ChArUco capture suit
   (RFD66606-2332). Its SKIM captures are not covered until their terms are read (operator,
   2026-10-22).
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
-- **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA's
+- **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA-2603.16858's
   own pose library, synthetic poses, a licence-clean third-party motion set as a verified
   control; Delta Mush and Direct Delta Mush; FACS action-unit names for facial blendshapes.
 - **Training data:** constructed synthetic renders from assets we hold (Live2D drawables, ANNY

@@ -16,7 +16,7 @@ Every defect in this system sits at a boundary between two things:
 | boundary                                        | cost                                                |
 | ----------------------------------------------- | --------------------------------------------------- |
 | ANNY gender `0=male` against GNM `FEMALE=0`     | flips sex on 800k images                            |
-| ANNY Z-up/metres against SOMA +Y-up/centimetres | 100x scale, or a body on its side                   |
+| ANNY Z-up/metres against SOMA-2603.16858 +Y-up/centimetres | 100x scale, or a body on its side                   |
 | "local Z" against the bone's roll axis          | measures a bend and calls it a twist                |
 | `rest_bone_heads` against `vertices`            | 55 mm on an adult, **500 mm on a child**            |
 | `lowerarm01` / `lowerarm02` weight boundary     | the forearm twist defect                            |
