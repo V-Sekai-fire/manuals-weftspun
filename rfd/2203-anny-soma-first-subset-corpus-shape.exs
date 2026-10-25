@@ -31,8 +31,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   :: related
   Rules began in RFD66606-1122 (abandoned) and carry on in RFD66606-1121, RFD66606-1123,
   RFD66606-1126, RFD66606-1128 and CLAUDE.md. Task 65 (HERO's CUDA-only rescope) uses it; anchors:
-  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main; SOMA-2603.16858 joint-count hook:
-  task 76.
+  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main; joint-count hook: task 76.
   """
 
   details_title "The first-subset row shape for the anny-soma keypoint corpus"
