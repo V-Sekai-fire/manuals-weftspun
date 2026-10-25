@@ -72,7 +72,7 @@ or a PC VR host, its OSC input and avatar-parameter plan"
     10.1007/978-3-030-58545-7_12), the 133-point layout.
   - ANNY (doi 10.48550/arXiv.2511.03589), the body and its 52 facial
     actions.
-  - SOMA (doi 10.48550/arXiv.2603.16858), the pose the body solves to.
+  - SOMA-2603.16858 (doi 10.48550/arXiv.2603.16858), the pose the body solves to.
   - EgoExoMoCap (doi 10.1007/978-3-032-37422-6_6), the egocentric method.
   - SMPL-H (Romero et al., doi 10.1145/3130800.3130883), EgoExoMoCap's
     body model, replaced here by SOMA.

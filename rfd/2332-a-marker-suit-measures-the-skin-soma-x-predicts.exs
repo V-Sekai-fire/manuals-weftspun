@@ -13,7 +13,7 @@ registration of tracked corners to an ANNY fit"
 
   prose ~S"""
   :: decision
-  The workspace's capture suit is the ChArUco suit of the SOMA muscle-anatomy paper
+  The workspace's capture suit is the ChArUco suit of SOMA-2606.09246, the muscle-anatomy paper
   (Alvarado et al., ECCV 2026), made from its MIT code's template: `DICT_4X4_1000` markers
   22 mm wide, about a nickel, centred in 30 mm squares, 1593 markers on a 150 by 200 cm
   sheet, dye-sublimated at 300 DPI onto stretch matte fabric. Its multi-view captures are
@@ -24,6 +24,9 @@ registration of tracked corners to an ANNY fit"
     every marker drawn as vector modules.
   - The paper's SKIM captures are not used until their terms are read.
   - The allowlist names the code, read and run only (operator, 2026-10-22).
+  - Each project named SOMA is written by its arXiv number, never as a bare SOMA: SOMA-2603.16858
+    is the body layer, SOMA-2606.09246 the muscle paper (operator, 2026-10-25).
+  - The muscles under the measured skin come from MS-Human-700 in MuJoCo (operator, 2026-10-25).
   :: problem
   SOMA-X predicts pose-dependent surface correctives (RFD66606-2282), and nothing here measures
   where the skin goes, so the correctives have no target. A joint fit (RFD66606-2327) says nothing
@@ -44,10 +47,24 @@ registration of tracked corners to an ANNY fit"
     `suit-manufacturing/charuco-suit/create-charuco-template.py`; the detector's board is in
     `caliboards/suit/suit.py`.
 
-  :: details Two projects named SOMA
-  The workspace's SOMA is the body layer behind SOMA-X, the route to ANNY. The suit belongs to
-  an unrelated muscle-anatomy paper of the same name. Nothing in this RFD changes the body
-  layer; the suit only measures the surface it predicts.
+  :: details Two projects named SOMA, and their identifiers
+  Two unrelated projects carry the name SOMA. Each has one globally unique text identifier,
+  built from its arXiv number, and RFDs write that identifier instead of the bare name.
+  - `SOMA-2603.16858`: NVIDIA's body layer (arXiv 2603.16858). SOMA-X is its code, the route
+    to ANNY; Kimodo-SOMA is the text-to-motion model that emits its pose. A pose, joint or rig
+    called SOMA anywhere in the corpus is this one.
+  - `SOMA-2606.09246`: SOMA: From Surface Observations to Muscle Anatomy (Alvarado et al., ECCV
+    2026, arXiv 2606.09246). It recovers muscles from a ChArUco marker suit; this RFD takes its
+    suit and its tracking code. It shares nothing with the body layer.
+  Code and names that upstream wrote stay as written: `rig="soma"`, `SOMA_wrap.obj`, the
+  repository and package names.
+
+  :: details The muscle model
+  The paper recovers muscle anatomy, and the workspace had no musculoskeletal body to recover it
+  into. MS-Human-700 is that body (operator, 2026-10-25): a whole-body model in MuJoCo XML,
+  Apache-2.0, with 700 muscle-tendon units on 90 bodies and 206 joints. MuJoCo is the workspace's
+  simulator for it. The tracked skin fixes the surface, ANNY with SOMA-X's correctives places the
+  bones, and the muscle activations are solved in MS-Human-700.
 
   :: details The template as published
   - Markers come from `DICT_4X4_1000`: 4 by 4 bits inside a one-module black border, six

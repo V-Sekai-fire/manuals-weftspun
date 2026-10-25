@@ -36,9 +36,9 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   replaying a fixed clip library. The `Kimodo-SOMA-*` checkpoints carry the NVIDIA Open
   Model Licence and permit commercial use. `Kimodo-SMPLX-RP-v1` stays out as a SMPL-X
   checkpoint, the expressive SMPL variant, since the SMPL family is blocked. Kimodo-SOMA
-  emits a SOMA pose.
+  emits a SOMA-2603.16858 pose.
   :: details Body
-  The SOMA pose drives the ANNY body through `anny_from_soma`, with the ANNY identity
+  The SOMA-2603.16858 pose drives the ANNY body through `anny_from_soma`, with the ANNY identity
   rather than the Momentum Human Rig (MHR). The pose applies to the MakeHuman
   basemesh topology, 19,158 vertices, so the `coco.pth` regressor gives valid
   ground-truth Common Objects in Context (COCO) joints, the topology dev.3 measured
@@ -58,7 +58,7 @@ rfd 2301, "sinew-sim dev.4 kimodo-soma motion pipeline", :discussion do
   The 100STYLE retarget stays unfinished, a static per-joint bind-orientation offset, and
   its source drive is offline, so no motion reaches the pipeline yet. Two gates stand
   before execution: whether Kimodo-SOMA runs offline here, and whether the bridge from a
-  SOMA pose through ANNY to the basemesh topology runs today. A hand-perturbed-pose
+  SOMA-2603.16858 pose through ANNY to the basemesh topology runs today. A hand-perturbed-pose
   scaffold already sits in sinew-sim as a stopgap while real motion is unavailable.
   """
 end

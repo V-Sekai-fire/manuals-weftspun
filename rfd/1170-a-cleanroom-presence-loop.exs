@@ -200,7 +200,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   **SOMA-X to ANNY is already the sanctioned route**, and the blocklist
   row for the SMPL family says so: `anny_from_soma` exists in RFD66606-1122's
   `AlternativeTopology` list, so the retarget is a code path rather than
-  an intention. rf-detr emits keypoints, not a SOMA pose, and what sits
+  an intention. rf-detr emits keypoints, not a SOMA-2603.16858 pose, and what sits
   between them is RFD66606-1122's wholebody gap rather than anything new here.
   :: details A LoRA on Kimodo is a much smaller thing than the retrain
   RFD66606-1166 records that retraining Kimodo is blocked by its corpus:
@@ -211,7 +211,7 @@ rfd 1170, "A cleanroom presence loop, and which components swap", :ideation do
   A retrain needs the original distribution, which is 288 hours nobody
   here can read the terms for. A LoRA adapts a checkpoint that already
   has it, and needs only the motions this workspace wants it to learn,
-  which is exactly what ANNY and SOMA's own pose library is, plus
+  which is exactly what ANNY and SOMA-2603.16858's own pose library is, plus
   constructed synthetic rendered deterministically from rigs held here.
 
   Kimodo-SOMA is the shippable variant, NVIDIA Open Model Licence, which

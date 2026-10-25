@@ -13,13 +13,13 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   float32, makehuman topology via `rig="soma"` + `remove_unattached_vertices=False`; a shard whose
   vertex count differs is rejected by the manifest gate), `keypoints_2d` (133 × 3, baked at the
   `wholebody133.pth` hash), `soma_pose` (77 rotvecs; anny prepends one root at call time), and a
-  per-shard manifest carrying the `wholebody133.pth` SHA-256, the observed SOMA joint count, the
-  motion source, the sampler configuration, and the render seed. Camera
+  per-shard manifest carrying the `wholebody133.pth` SHA-256, the observed SOMA-2603.16858 joint
+  count, the motion source, the sampler configuration, and the render seed. Camera
   `sphere_hammersley_sequence` per CLAUDE.md. Publish path RFD66606-2196 rule 5: LFS +
   `hf_transfer`, xet disabled, via `hf upload-large-folder` for per-file resumable commits.
   Additive subsets and motion refinements each land as their own commit set with the prior commit
   hash cited as retraction-in-place. Blinded holdout untouched. `DETAILS.md` carries the tradeoff,
-  the SOMA hook, the RFD66606-1122 lineage, and open knobs.
+  the SOMA-2603.16858 hook, the RFD66606-1122 lineage, and open knobs.
   :: problem
   Task 67's living-dataset ANNY-SOMA corpus needs a schema pick before whoever holds the GPU grant
   can render, and the pick closes the immutability-vs-agility tradeoff two single-shape options
@@ -31,7 +31,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   :: related
   Rules began in RFD66606-1122 (abandoned) and carry on in RFD66606-1121, RFD66606-1123,
   RFD66606-1126, RFD66606-1128 and CLAUDE.md. Task 65 (HERO's CUDA-only rescope) uses it; anchors:
-  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main; SOMA joint-count hook: task 76.
+  `wholebody133.pth` at `weftspun/anny-keypoint-anchors` main; joint-count hook: task 76.
   """
 
   details_title "The first-subset row shape for the anny-soma keypoint corpus"
@@ -60,11 +60,11 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
 
   The hybrid dodges the tradeoff the two single-shape options force. Storage cost is real but
   small; the alternative is either an unnavigable viewer or a re-render on every anchor rework.
-  :: details The SOMA pose column and its verification hook
-  The SOMA joint rotations that posed ANNY are the render input, so carrying them per row costs
-  nothing extra and lets the corpus feed RFD66606-1173's pose stub alongside the keypoints stub.
-  Column shape is `soma_pose (77, 3)` in axis-angle rotvecs as Kimodo emits them, verified at
-  the source:
+  :: details The SOMA-2603.16858 pose column and its verification hook
+  The SOMA-2603.16858 joint rotations that posed ANNY are the render input, so carrying them per
+  row costs nothing extra and lets the corpus feed RFD66606-1173's pose stub alongside the
+  keypoints stub. Column shape is `soma_pose (77, 3)` in axis-angle rotvecs as Kimodo emits them,
+  verified at the source:
   &{file("interactor-anny", "test/test_soma.py")}
   shows Kimodo emits 77 joint rotations while
   `anny.Anny(rig="soma", topology="soma")` takes 78 pose parameters, the 77 plus one root
@@ -79,7 +79,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   `anny_posed_vertices` is `(19158, 3)` at the makehuman topology, built with `rig="soma"` +
   `TopologyConfig(base_mesh="makehuman", remove_unattached_vertices=False)`. The `wholebody133.pth`
   anchor weights index this topology; a shard whose vertex count differs is rejected by the
-  manifest gate, same shape as the SOMA joint-count hook.
+  manifest gate, same shape as the SOMA-2603.16858 joint-count hook.
 
   Three vertex counts are shipped by anny's OBJs and are easy to confuse; the trap is named in
   the `anny-keypoint-anchors` README for the first two, and this row adds the third:
@@ -91,8 +91,8 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   | body      | `base_body.obj`              | 13,718     |
 
   `topology="soma"` poses `SOMA_wrap.obj` at 18,056 vertices and `wholebody133.pth` cannot
-  index it. The SOMA rig reaches the makehuman mesh by barycentric projection onto `SOMA_wrap`
-  (&{file("interactor-anny", "src/anny/models/soma.py")}).
+  index it. The SOMA-2603.16858 rig reaches the makehuman mesh by barycentric projection onto
+  `SOMA_wrap` (&{file("interactor-anny", "src/anny/models/soma.py")}).
   HERO re-verifies that projection's accuracy against
   the direct `topology="soma"` path and records max/mean per-vertex displacement with household
   anchors; if it lands worse than the direct path by more than a pencil (~7 mm), that becomes a
@@ -115,8 +115,8 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   render all of them do.
 
   **Verify before training, not after.** Carried by the verification hook above and by task
-  76: a moved joint under a bad retarget is a label that lies, and the SOMA joint-count hook
-  catches it before any downstream frame is used.
+  76: a moved joint under a bad retarget is a label that lies, and the SOMA-2603.16858 joint-count
+  hook catches it before any downstream frame is used.
 
   **Evaluate where the labels are real.** Carried by CLAUDE.md's blinded-holdout rule: final
   scoring uses `coco_person_commercial_val2017`, never any subset published under this RFD.
@@ -154,7 +154,7 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
 
   The bone-level hook is
   &{file("interactor-kimodo-text-to-motion", "scripts/verify_projection.py")}:
-  4 random SOMA poses through both `anny.Anny(rig="soma", topology="soma")` and
+  4 random SOMA-2603.16858 poses through both `anny.Anny(rig="soma", topology="soma")` and
   `anny.Anny(rig="soma", topology=TopologyConfig(base_mesh="makehuman",
   remove_unattached_vertices=False))`, bone world transforms extracted from `bone_poses`:
 
@@ -180,8 +180,8 @@ rfd 2203, "The first-subset row shape for the anny-soma keypoint corpus", :discu
   Under anny's own thresholds (max<15 mm, mean<5 mm) taken from `anny/test/test_soma.py`.
 
   The load-bearing negative control on the same barycentric-interpolated apparatus: corrupt
-  LeftArm rotation on the makehuman pose only; feed SOMA the full arm-rotation pose. Diff
-  spikes on left-arm vertices:
+  LeftArm rotation on the makehuman pose only; feed SOMA-2603.16858 the full arm-rotation pose.
+  Diff spikes on left-arm vertices:
 
   - negative-control max: **222.769 mm** (3.4× soda can, 44× positive)
   - negative-control mean: **21.601 mm** (2.1× AAA battery, 26× positive)

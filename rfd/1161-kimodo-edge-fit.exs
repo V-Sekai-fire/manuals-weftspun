@@ -142,7 +142,7 @@ rfd 1161, "Kimodo is the smallest catalog model, and it is a decoder", :discussi
   - Motion validation (RFD66606-1007) still passes on the reduced-step
     output. A faster sampler that fails the floor-contact or
     joint-limit check has moved the failure rather than removed it.
-  - Output shape unchanged: SOMA canonical × `duration × fps` frames,
+  - Output shape unchanged: SOMA-2603.16858 canonical × `duration × fps` frames,
     so ANNY downstream consumes without a schema change. **Joint count
     needs verification against upstream release notes.** RFD66606-1102 +
     RFD66606-1173 + RFD66606-2162 consistently document 78 canonical joints;

@@ -845,7 +845,7 @@ rfd 1171, "The presence loop, and every role in it", :ideation do
   :: details The five stages with no model
   Naming these is most of the value of reorganising the document.
 
-  1. **Keypoints to a SOMA pose.** rf-detr emits keypoints; ANNY needs a
+  1. **Keypoints to a SOMA-2603.16858 pose.** rf-detr emits keypoints; ANNY needs a
      pose. `anny_from_soma` exists as a topology, and RFD66606-1122's
      wholebody gap is the distance between them. Nothing fills it.
   2. **A segmenter that knows these classes.** rf-detr-seg is

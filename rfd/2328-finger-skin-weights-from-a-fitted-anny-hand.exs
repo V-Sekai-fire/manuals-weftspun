@@ -23,7 +23,7 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
   builds for the same skeleton to 6.1e-7 on all 52 bones.
   :: references
   - ANNY (MPFB2 base mesh, rigs and weights), CC0
-  - SOMA (NVIDIA), Apache-2.0
+  - SOMA-2603.16858 (NVIDIA), Apache-2.0
   :: related
   - RFD66606-1046 (the auto-rig): makes the weights this RFD replaces on the hand.
   - RFD66606-2275 (head fit by a parametric head): the fitter and transfer reused here.
@@ -102,7 +102,7 @@ rfd 2328, "finger skin weights from a fitted ANNY hand", :discussion do
   - Marocchino: 28.39 against 66.09.
 
   Every avatar's rigid control scores worse, so the score sees a crease.
-  Two references did not serve as a floor. The SOMA mesh with ANNY's
+  Two references did not serve as a floor. The SOMA-2603.16858 mesh with ANNY's
   identity, as retargeted in the stage scratch, scores 45.87: its weights
   there are not ANNY's own MPFB weights. The test avatar's artist rig rests
   with its fingers already curled, so a 70 degree fist overbends it into
