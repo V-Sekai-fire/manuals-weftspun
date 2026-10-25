@@ -291,6 +291,7 @@ defmodule Serials.VSekaiFabric do
       serial 2332, "a-marker-suit-measures-the-skin-soma-x-predicts", flight_level: :l1
       serial 2333, "a-desk-reaches-foundationdb-only-through-bao", flight_level: :l1
       serial 2334, "decider-examples-from-traces"
+      serial 2335, "ggml-stablehlo-bit-exact-on-pjrt"
     end
 
     deleted do
