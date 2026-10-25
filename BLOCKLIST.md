@@ -37,7 +37,7 @@ here corresponds to an entry.
 - **onnxruntime GPU providers on macOS**: CoreML EP is the same Metal path Core ML gives; WebGPU EP measured 0.27x of it — see below
 - **Apple Neural Engine** as an execution target: 2 GiB weight ceiling at 2^31 bytes, against Metal's 8 GiB+ on the same part — see below
 - `weftspun/rf-detr-keypoint-data`: **val2017-derived** — carries the whole blinded holdout, and 78% of it is licence-dirty. Validation only, never training. See below
-- **IREE** as a build target: a compiler rather than an execution provider, and it is not XLA — see below
+- **IREE** as a build target or as an executor of StableHLO: a compiler rather than an execution provider, and it is not XLA; operator 2026-10-25 — see below
 - **zombies** as network test traffic: they walk straight and never stop, which flatters prediction — use pedestrians, see below
 - **speculative decoders other than MTP-3** on the ggml language server: DFlash2 with any drafter, the Qwen3.8 drafter, other draft lengths and draft-free serving measured slower on every decider game with identical decisions — see below
 - **1-bit PTQ1_0 bodies** of Ternary Bonsai 2 on the ggml language server: operator directive 2026-10-11; the served body is the 2-bit PQ2_0 — see below
@@ -47,6 +47,7 @@ here corresponds to an entry.
 - ~~**MHR** (Momentum Human Rig): its identity model and its face-expression basis, operator directive 2026-09-28~~: **unblocked 2026-10-04**: the block presumed a licence barrier; MHR is Apache-2.0 over code and model assets alike, so the identity model and the face basis are both usable — see below
 - **AMD XDNA NPU** as an execution target: a second accelerator toolchain, nothing measured and no runtime installed — see below
 - **the CPU** as a model execution target: orchestration and the **DFC runtime** are exempt; a silent DirectML fallback is the trap — see below
+- **integration tests on the CPU**: a whole model graph, end to end, run on the CPU; per-op unit tests and their controls are exempt; operator 2026-10-25 — see below
 - **Mermaid** as a published-figure format: the layout solver owns the picture and the house sheet cannot reach it — hand-authored inline SVG instead, see below
 - **LLaDA** (LLaDA-o, iLLaDA, LLaDA-1.5): block diffusion measured 5.76s / 64 tokens — 25x too slow for real-time avatar; RFD66606-1170 presence loop targets sub-500 ms — see below
 - **RunPod** as rented compute: no budget for per-invocation billing; `spot-broker` and `transport-runpod` archived alongside this row — see below
@@ -931,6 +932,22 @@ run against a new model will fail more often than it did.
 inference and diagnostics, and an HEF is a forward graph. So `adapt` runs on the 780M or the
 3090; the forward-only work that QZO exists for is what the Hailo is for.
 
+### Integration tests on the CPU are blocklisted, and per-op unit tests are exempt
+
+The operator ruled on 2026-10-25 that the CPU runs unit tests and their controls only. A
+whole model graph run end to end on the CPU -- a full denoiser step, a text encoder pass --
+is an integration test, and it belongs on the accelerator the path is for.
+
+**What stays allowed.** One op per test, in a model's exact shapes, against a reference, with
+a planted fault that must fail: that produces a decision about the lowering, which is the
+exemption the CPU row above already grants a gate. Graph emission may be checked on the
+module text without compiling or running the graph.
+
+**Why the line sits there.** A whole-graph run on the CPU is slow enough to become the thing
+people wait on, and it answers a question about the CPU rather than the target. RFD66606-2335
+records the first case: the ggml-to-StableHLO path runs every per-op test on the PJRT CPU
+plugin and leaves the first end-to-end run to a GPU host.
+
 ### The AMD XDNA NPU is blocklisted as an execution target
 
 The 7840U carries an XDNA1 NPU, `PCI\VEN_1022&DEV_1502`, driver 32.0.203.280, which nothing in
@@ -956,6 +973,9 @@ compiles it. The reference stays readable; the device stays untargeted. That rep
 states no licence and ships a `.zip`, so it was not usable as a source regardless.
 
 ### IREE is blocklisted as a build target, and it differs from XLA
+
+**Reaffirmed on 2026-10-25 for StableHLO.** The operator ruled that IREE does not execute the
+StableHLO the ggml backend emits either; that StableHLO runs on PJRT (RFD66606-2335).
 
 IREE is a compiler, not an execution provider. It lowers a model ahead of time
 and hands back an artifact for its own runtime, so adopting it means adopting a
