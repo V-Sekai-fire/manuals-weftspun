@@ -51,7 +51,7 @@ the shared room, and the engine build each step needs"
   - The dance must be one the workspace may ship. The pose-source rule in
     the working agreements forbids shipping targeted third-party motion in a
     deliverable, and a downloaded file is a deliverable. The dance therefore
-    comes from ANNY or SOMA's own pose library or is authored here. Which
+    comes from ANNY or SOMA-2603.16858's own pose library or is authored here. Which
     one is chosen in this step.
   - The model must already carry a humanoid skeleton. A model without one
     waits for step two.

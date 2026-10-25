@@ -56,7 +56,7 @@ of skin-tokens-ggml, the model explorer's motion and walk modes, and the auto-ri
   - The auto-rig's face writes Unified Expressions names from a one-line-per-name catalog.
   - The keypoint anchors place all 133 COCO-WholeBody points on ANNY's 19,158-vertex base
     mesh as vertex blends. The worst face point is capped at 13 mm, about one AAA battery's
-    width. A SOMA skeleton such as Kimodo's reaches all 133 through SOMA-X on ANNY.
+    width. A SOMA-2603.16858 skeleton such as Kimodo's reaches all 133 through SOMA-X on ANNY.
   - Without the mesh, Kimodo's 30 joints sit on 22 of the 133 points: 14 body, the 2 big
     toes, and each wrist, thumb tip and middle fingertip. Kimodo makes no face motion.
 

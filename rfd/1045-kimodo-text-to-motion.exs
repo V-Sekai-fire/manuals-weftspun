@@ -8,8 +8,8 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
 
   prose ~S"""
   :: decision
-  Return the SOMA result and the VRM result as separate outputs. The
-  SOMA output is the model. The VRM output is a retarget, and a caller
+  Return the SOMA-2603.16858 result and the VRM result as separate outputs. The
+  SOMA-2603.16858 output is the model. The VRM output is a retarget, and a caller
   that has its own rig wants the SOMA.
 
   Do not hide the retarget. A single VRM output makes the model look
@@ -21,7 +21,7 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
   See `DETAILS.md` for the model's memory, the `predict()` interface,
   and the motion validation gate this model image runs.
   :: problem
-  Kimodo turns a sentence into motion. It emits SOMA, and the client
+  Kimodo turns a sentence into motion. It emits SOMA-2603.16858, and the client
   needs VRM humanoid tracks. The retarget between them is the hard part,
   and it is not the model.
 
@@ -51,13 +51,13 @@ rfd 1045, "Model image for kimodo_text_to_motion", :discussion do
   | target_rig       | Path  | none    |
   | seed             | int   | -1      |
 
-  `target_rig` is optional. Without it the model image returns SOMA
+  `target_rig` is optional. Without it the model image returns SOMA-2603.16858
   only, and it runs no retarget.
   :: details The clip library
-  The library takes the SOMA result, not a retarget. Each clip poses SOMA-X
+  The library takes the SOMA-2603.16858 result, not a retarget. Each clip poses SOMA-X
   with the ANNY identity, goes through OpenUSD as the intermediate, and is
   written as one VRMA file. The VRMA skeleton holds only humanoid bones at
-  the SOMA T-pose. A SOMA joint with no humanoid bone, such as the second
+  the SOMA-2603.16858 T-pose. A SOMA-2603.16858 joint with no humanoid bone, such as the second
   neck joint or a finger metacarpal, folds into the next humanoid bone, so
   every humanoid bone keeps its world pose.
 

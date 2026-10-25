@@ -106,7 +106,7 @@ rfd 1173, "A multimodal avatar pipeline", :discussion do
   SpeakingFaces (CC-BY-4.0, 142 subjects, 13k+ instances) provides
   cross-modal ground truth: synchronized visual (768×512) and audio at
   nine camera angles. The ANNY canonical rig fitted to video frames
-  recovers keypoints and SOMA bone poses (77 rotation vectors as Kimodo
+  recovers keypoints and SOMA-2603.16858 bone poses (77 rotation vectors as Kimodo
   emits them, plus root translation and a root identity anny prepends at
   index 0 to reach the 78 pose parameters anny takes at call time, both
   counts true at different levels of the stack, per

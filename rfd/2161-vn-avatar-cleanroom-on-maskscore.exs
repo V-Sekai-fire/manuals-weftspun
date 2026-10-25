@@ -16,7 +16,7 @@ interactions, cleanroom-rebuilt on the RFD66606-1173 stack"
   2. TTS voice-clone -> ResembleAI/chatterbox
   3. STT -> whisper-small (MLX); VAD -> silero
   4. Viseme -> cleanroom small classifier
-  5. Renderer -> libgodot in BEAM (RFD66606-2154); Body -> ANNY + SOMA
+  5. Renderer -> libgodot in BEAM (RFD66606-2154); Body -> ANNY + SOMA-2603.16858
   6. Locations -> `6-datasource/{kenney,thebasemesh,quaternius}-stage`
 
   Full retraction trail, stack table, Mac-mini smoke in `DETAILS.md`.
@@ -74,8 +74,8 @@ interactions, cleanroom-rebuilt on the RFD66606-1173 stack"
   | TTS voice-clone | `ResembleAI/chatterbox` | mit | ~500 MB, MPS or CPU |
   | STT | `whisper-small` or `distil-whisper` via MLX | mit | ~500 MB |
   | VAD | `silero-vad` | mit | tiny |
-  | Viseme (MFCC -> SOMA) | cleanroom small classifier | ours | negligible |
-  | Body | ANNY + SOMA rig | ours | fits |
+  | Viseme (MFCC -> SOMA-2603.16858) | cleanroom small classifier | ours | negligible |
+  | Body | ANNY + SOMA-2603.16858 rig | ours | fits |
   | Renderer | Godot 4.7 via `lib_godot_connector` | mit | fits |
   | Locations | `6-datasource/{kenney,thebasemesh,quaternius}-stage` | cc-* clean | assets on disk |
 
@@ -206,7 +206,7 @@ interactions, cleanroom-rebuilt on the RFD66606-1173 stack"
   1. **Elixir**; Router, WebSocket, taskweft interpreter, MASKSCORE writer, USD writer.
   2. **Python**; one file per model worker (`env_bus_server.py` shape).
   3. **GDScript**; one file: `vn_bridge.gd`, reads viseme frames off
-    `set_program_variable`, writes SOMA facial-action weights onto the
+    `set_program_variable`, writes SOMA-2603.16858 facial-action weights onto the
     ANNY rig, publishes SubViewport texture bytes back.
   4. **C++**; none new. The bus NIF from `taskweft-nmm-personas`
     handles iox2.

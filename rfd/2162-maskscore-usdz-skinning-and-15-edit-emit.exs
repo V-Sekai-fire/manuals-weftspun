@@ -25,9 +25,10 @@ edits under RFD66606-1173."
   The Video-stub USDZ shipped in the Rung 1.5 first pass writes a dummy 1-joint skeleton. The 10
   face edits animate correctly because their work happens in `SkelAnimation.blendShapeWeights`.
   The 5 pose edits (head_tilt, head_nod, head_turn, jaw_open_bone, shoulders_up) added next need
-  `SkelAnimation.jointTransforms` time samples over the real 104-joint hierarchy (ANNY total; SOMA
-  canonical pose is 78 pose params at anny call time = 77 Kimodo rotvecs + anny-prepended root,
-  task #76), and skin weights per vertex, or the animation plays back as a rest pose.
+  `SkelAnimation.jointTransforms` time samples over the real 104-joint hierarchy (ANNY total;
+  SOMA-2603.16858 canonical pose is 78 pose params at anny call time = 77 Kimodo rotvecs +
+  anny-prepended root, task #76), and skin weights per vertex, or the animation plays back as a
+  rest pose.
   :: related
   Spine: urn:oid:1.3.6.1.4.1.66606.1.1.1173 (MaskScore). Superseded first-pass USDZ from PR #34.
   """

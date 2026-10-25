@@ -234,7 +234,7 @@ releases); RFD66606-2278 (remeshed cages, parked); RFD66606-2239 (no Python)."
     in the archived `interactor-dress-on`. Stopped with partial work; G1 (the Lean bind against
     the oracle) is the critical path. Then the in-motion fit, curvenet to
     cage, and `hf_*`.
-  - **A2.** `motion.elf`, the Kimodo SOMA and MotionBricks G1 graphs on
+  - **A2.** `motion.elf`, the Kimodo SOMA-2603.16858 and MotionBricks G1 graphs on
     ggml-rd, with clips written to OpenUSD.
   - **B.** The Unity sandbox. Stopped with partial work; validated on
     `drape.elf`, then on `cage.elf`.

@@ -75,7 +75,7 @@ desk, Ternary Bonsai 2 as decider and scorer, the RECTGTN domain and `compress`"
   there). The lid landmarks stay on the lid margin under the lashes, so
   lashes are occluders the head must see through, not landmarks; a point
   whose margin a lash hides keeps its position and drops its visibility.
-  ANNY's SOMA topology drops unattached vertices, so the lash helpers are
+  ANNY's SOMA-2603.16858 topology drops unattached vertices, so the lash helpers are
   carried across by their lid attachment, checked at R0.
 
   :: details Bonsai 2 as scorer
