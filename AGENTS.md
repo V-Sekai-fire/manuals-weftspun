@@ -665,9 +665,10 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   2026-10-22).
 - **Image generation and editing:** OmniGen2 through its native image-input pipeline;
   CycleGAN for photo-to-anime style transfer.
-- **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL), ANNY/SOMA-2603.16858's
-  own pose library, synthetic poses, a licence-clean third-party motion set as a verified
-  control; Delta Mush and Direct Delta Mush; FACS action-unit names for facial blendshapes.
+- **Body, pose and skinning:** ANNY, SOMA-X (the route to ANNY instead of SMPL),
+  ANNY/SOMA-2603.16858's own pose library, synthetic poses, a licence-clean third-party motion set
+  as a verified control; Delta Mush and Direct Delta Mush; FACS action-unit names for facial
+  blendshapes.
 - **Training data:** constructed synthetic renders from assets we hold (Live2D drawables, ANNY
   rigs, BVH poses); licence-filtered COCO `train2017`; `alfredplpl/anime-with-caption-cc0`
   captions only; generated synthetic data under the four conditions above; the cosplay photo
