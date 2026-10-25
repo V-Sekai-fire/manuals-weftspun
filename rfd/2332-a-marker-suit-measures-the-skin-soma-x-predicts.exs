@@ -66,6 +66,21 @@ registration of tracked corners to an ANNY fit"
   simulator for it. The tracked skin fixes the surface, ANNY with SOMA-X's correctives places the
   bones, and the muscle activations are solved in MS-Human-700.
 
+  :: details From a SOMA-2603.16858 pose to muscle activations
+  SOMA-X gives kinematics only: joint rotations and a root translation for 77 joints.
+  MS-Human-700 is a forward-dynamics model; muscle activations from its 700 muscle-tendon units
+  make the joint torques, and the torques move the skeleton. The path between them has three
+  steps.
+  1. **Retarget.** Map the 77 SOMA-2603.16858 joints to MS-Human-700's joint degrees of freedom.
+     NVIDIA's SOMA retargeter maps the same output to a humanoid robot's tree; adapt it by
+     swapping that tree for MS-Human-700's.
+  2. **Inverse kinematics in MuJoCo.** Solve the retargeted motion in MS-Human-700 so each pose
+     obeys its joint limits and coordinate frames.
+  3. **Muscle activations.** The model moves by muscles, not joint motors, so joint angles cannot
+     drive it directly. Inverse dynamics gives the joint torques for the solved motion; an
+     optimiser, or one of the model's published neural controllers, then picks which of the 700
+     muscles fire to make them (the muscle redundancy problem). This is the hardest step.
+
   :: details The template as published
   - Markers come from `DICT_4X4_1000`: 4 by 4 bits inside a one-module black border, six
     modules across. At 22 mm a module is 3.67 mm, about half a pencil's width.
