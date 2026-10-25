@@ -290,6 +290,7 @@ defmodule Serials.VSekaiFabric do
       serial 2331, "flex-20-min-2026-10-21"
       serial 2332, "a-marker-suit-measures-the-skin-soma-x-predicts", flight_level: :l1
       serial 2333, "a-desk-reaches-foundationdb-only-through-bao", flight_level: :l1
+      serial 2334, "decider-examples-from-traces"
     end
 
     deleted do
