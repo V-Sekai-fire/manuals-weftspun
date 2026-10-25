@@ -43,7 +43,7 @@ here corresponds to an entry.
 - **1-bit PTQ1_0 bodies** of Ternary Bonsai 2 on the ggml language server: operator directive 2026-10-11; the served body is the 2-bit PQ2_0 — see below
 - `24yearsold/metricdepth3d_tmp`: gated: HTTP 401, no readable licence and no model card — see below
 - **See-Through checkpoints**: none carries a usable grant, and the depth one derives from OpenRAIL++-M — see below
-- **SMPL and every variant** as a body model: non-commercial without an MPG licence; SOMA-X to ANNY is the sanctioned bypass — see below
+- **SMPL and every variant, and anything derived from them**, internal research included: SOMA-X to ANNY is the sanctioned bypass — see below
 - ~~**MHR** (Momentum Human Rig): its identity model and its face-expression basis, operator directive 2026-09-28~~: **unblocked 2026-10-04**: the block presumed a licence barrier; MHR is Apache-2.0 over code and model assets alike, so the identity model and the face basis are both usable — see below
 - **AMD XDNA NPU** as an execution target: a second accelerator toolchain, nothing measured and no runtime installed — see below
 - **the CPU** as a model execution target: orchestration and the **DFC runtime** are exempt; a silent DirectML fallback is the trap — see below
@@ -1010,7 +1010,9 @@ The SMPL family -- SMPL, SMPL-H, SMPL-X and the later Max Planck body models bui
 them -- is free for non-commercial research and requires a separate licence from the
 Max Planck Gesellschaft for commercial use. That is the bar RFD66606-1028 sets for anything
 shipped to paying users, so **the whole family is out, not just the one variant somebody
-happens to be looking at.** A row naming only `SMPL` invites the next reader to conclude
+happens to be looking at.** It is out internally too: no checkpoint, fit, dataset or tool built
+on the family or derived from it is used, even for research that never ships (operator,
+2026-10-25). A row naming only `SMPL` invites the next reader to conclude
 that `SMPL-X` was considered and allowed.
 
 **SOMA-X is the sanctioned bypass, and it is a real code path rather than an intention.**
