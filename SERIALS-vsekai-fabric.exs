@@ -292,6 +292,7 @@ defmodule Serials.VSekaiFabric do
       serial 2333, "a-desk-reaches-foundationdb-only-through-bao", flight_level: :l1
       serial 2334, "decider-examples-from-traces"
       serial 2335, "ggml-stablehlo-bit-exact-on-pjrt"
+      serial 2336, "pixal3d-as-a-ggml-rd-guest", flight_level: :l1
     end
 
     deleted do
