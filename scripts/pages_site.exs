@@ -241,7 +241,7 @@ defmodule PagesSite do
       "# manuals-weftspun",
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
-        "[working agreements](page-CLAUDE.html) · [blocklist](page-BLOCKLIST.html)",
+        "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
