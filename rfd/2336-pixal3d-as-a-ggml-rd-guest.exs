@@ -16,8 +16,8 @@ rfd 2336, "Pixal3D as a ggml-rd guest", :discussion do
   - The model code starts from `pixal3d-ggml`, a TRELLIS.2 port with per-stage parity, vendored
     into a guest repository shaped like &{repo("interactor-rfdetr-seg-guest")}. The new part
     is Pixal3D's multi-view conditioning.
-  - Each stage passes on ggml-cpu against the PyTorch reference, then on ggml-rd against
-    ggml-cpu. Each gate has a planted control that must fail.
+  - Each stage runs on ggml-rd and passes against the PyTorch reference; ggml-cpu runs only
+    per-op unit tests (operator, 2026-10-27). Each gate has a planted control that must fail.
   - Weights convert to GGUF in their original dtype, BF16 for the flows. The image encoder's
     GGUF ships with the others (operator, 2026-10-27).
   - Input without alpha goes through the MIT high-resolution matting model (operator,
@@ -82,9 +82,9 @@ rfd 2336, "Pixal3D as a ggml-rd guest", :discussion do
   :: details Gates and controls
   | Gate | Pass | Control that must fail |
   |---|---|---|
-  | each stage on ggml-cpu | the port's tolerance against PyTorch | a planted wrong weight |
+  | each op on ggml-cpu, unit tests only | the op against ggml-rd | a planted broken kernel |
   | multi-view projection | grid features against PyTorch | view 0 and view 1 swapped |
-  | each stage on ggml-rd | against ggml-cpu | a planted broken kernel |
+  | each stage on ggml-rd | the port's tolerance against PyTorch | a planted wrong weight |
   | whole run | mesh close to PyTorch's (same seed) | a different seed |
   Distance is chamfer on the normalized mesh. The pass bound for the whole run is set from the
   seed-to-seed spread, measured first.
