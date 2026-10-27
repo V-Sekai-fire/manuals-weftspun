@@ -20,8 +20,10 @@ rfd 2336, "Pixal3D as a ggml-rd guest", :discussion do
     ggml-cpu. Each gate has a planted control that must fail.
   - Weights convert to GGUF in their original dtype, BF16 for the flows. The image encoder's
     GGUF ships with the others (operator, 2026-10-27).
-  - Input without alpha goes through the MIT high-resolution matting model; the material is
-    baked to UV texture maps, as the demo does (operator, 2026-10-27).
+  - Input without alpha goes through the MIT high-resolution matting model (operator,
+    2026-10-27).
+  - The material bakes to UDIM texture tiles, then each tile becomes a material of its own
+    with UVs in 0 to 1, the split the MIT UDIM unpack tool makes (operator, 2026-10-27).
   :: problem
   The Pixal3D demo needs PyTorch, CUDA 13 and five CUDA extensions, each built for one GPU
   generation only. It runs outside a guest, which RFD66606-2290 rules out for ggml work. The
@@ -57,6 +59,19 @@ rfd 2336, "Pixal3D as a ggml-rd guest", :discussion do
   | mesh clean-up | simplify, repair, UV unwrap | meshoptimizer, already in the port |
   | rasteriser | renders for the texture bake | a texture-bake kernel on ggml-rd |
   | PBR render | environment-lit preview | not used: the viewer renders |
+  :: details UDIM tiles, and where the unpack runs
+  The unpack tool picks each polygon's tile from its lowest U and V (1001 plus the U column,
+  plus ten per V row, ten columns), with a small tolerance at tile edges. It splits the
+  material into one copy per tile and shifts the UVs back into 0 to 1. glTF has no UDIM, so
+  that split is what lets one baked material reach a GLB as plain textures.
+  The tool reads and writes FBX through a closed vendor SDK that no guest can link. Its tile
+  rule and material split are ported, MIT, into the bake guest that already packs atlases and
+  moves UVs. They run on the guest's mesh arrays, not on FBX.
+  The tool skips a polygon whose UVs span more than one tile, leaving it on the first
+  material. Our bake lays out every chart inside one tile, so the port refuses such a polygon
+  instead of skipping it.
+  Gate: each polygon's tile and its shifted UVs equal the tool's output on a fixture with
+  three tiles. Control: a planted polygon spanning two tiles must fail the bake.
   :: details Weights
   Measured from the multi-view checkpoint files on disk, all MIT:
   - Structure flow 5,360 MB; shape flow 512 and shape flow 1024, 5,547 MB each; texture flow
@@ -74,8 +89,9 @@ rfd 2336, "Pixal3D as a ggml-rd guest", :discussion do
   Distance is chamfer on the normalized mesh. The pass bound for the whole run is set from the
   seed-to-seed spread, measured first.
   :: details What is not known
-  - How the texture bake is computed on ggml-rd: rasterising into UV space with a kernel of
-    its own, or sampling the voxel PBR field at each texel. The first step settles it.
+  - How each texel is filled on ggml-rd: rasterising into UV space with a kernel of its own,
+    or sampling the voxel PBR field at each texel. The first step settles it.
+  - How many tiles and what texel density per tile. Not measured.
   - Time per generation and peak device memory on ggml-rd: not measured.
   - Flash attention at the 1024 cascade's token count on ggml-rd: not measured.
   """
