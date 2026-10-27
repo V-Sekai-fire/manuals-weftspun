@@ -32,11 +32,16 @@ defmodule PagesSite do
       File.write!(Path.join(out, "page-" <> f), text)
     end
 
+    docs = Enum.flat_map(logs ++ rfds, &found/1) ++ Enum.flat_map(@pages, &page_found(root, &1))
+    File.mkdir_p!(Path.join(out, "assets"))
+    File.write!(Path.join(out, "search.json"), JSON.encode!(docs))
+    File.cp!(Path.join(__DIR__, "pages_search.js"), Path.join(out, "assets/search.js"))
+
     File.write!(Path.join(out, "_config.yml"), config())
     File.mkdir_p!(Path.join(out, "_layouts"))
     File.write!(Path.join(out, "_layouts/default.html"), layout())
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
-    IO.puts("pages: #{length(logs)} logbook entries and #{length(rfds)} RFDs in #{out}")
+    IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
 
   defp last_changed(root) do
@@ -168,6 +173,42 @@ defmodule PagesSite do
     end)
   end
 
+  defp found(e) do
+    for {from, to} <- e.files do
+      kind = if Path.basename(to) == "DETAILS.md", do: :details, else: e.kind
+      doc(File.read!(from), url_of(to), kind, Map.get(e, :status, ""), e.date)
+    end
+  end
+
+  defp page_found(root, f) do
+    path = Path.join(root, f)
+
+    if File.exists?(path),
+      do: [doc(File.read!(path), url_of("page-" <> f), :page, "", "")],
+      else: []
+  end
+
+  defp doc(text, url, kind, status, date) do
+    [title | body] = String.split(text, "\n", parts: 2)
+    %{u: url, k: kind, s: status, d: date, t: plain(title), b: plain(Enum.join(body))}
+  end
+
+  defp url_of(to) do
+    if Path.basename(to) == "README.md" and String.starts_with?(to, "rfd/"),
+      do: Path.dirname(to) <> "/",
+      else: String.replace_suffix(to, ".md", ".html")
+  end
+
+  defp plain(md) do
+    md
+    |> shorten(&short/1)
+    |> String.replace(~r/<[^>]+>/, " ")
+    |> String.replace(~r/!?\[([^\]]*)\]\([^)]*\)/, "\\1")
+    |> String.replace(~r/[`*#>|]+|-{3,}/, " ")
+    |> String.replace(~r/\s+/u, " ")
+    |> String.trim()
+  end
+
   # Records become groups, and groups become expanders.
   defp index(logs, rfds, ed) do
     {topics, single} =
@@ -200,7 +241,7 @@ defmodule PagesSite do
       "# manuals-weftspun",
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
-        "[working agreements](page-CLAUDE.html) · [blocklist](page-BLOCKLIST.html)",
+        "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
@@ -302,6 +343,13 @@ defmodule PagesSite do
           {% if site.title and site.title != page.title %}
           <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
           {% endif %}
+          <div id="site-search" role="search" data-base="{{ "/" | relative_url }}">
+            <input type="search"
+              placeholder="Search RFDs, the logbook and the agreements (press /)"
+              aria-label="Search the site" autocomplete="off" spellcheck="false">
+            <p hidden></p>
+            <ol hidden></ol>
+          </div>
 
           {{ content }}
 
@@ -317,6 +365,7 @@ defmodule PagesSite do
           integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg="
           crossorigin="anonymous"></script>
         <script>anchors.add();</script>
+        <script src="{{ "/assets/search.js" | relative_url }}" defer></script>
       </body>
     </html>
     """
