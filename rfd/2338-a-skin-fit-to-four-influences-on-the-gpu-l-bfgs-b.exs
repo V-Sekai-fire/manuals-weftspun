@@ -10,8 +10,8 @@ rfd 2338, "a skin fit to four influences on the GPU L-BFGS-B", :discussion do
   prose ~S"""
   :: decision
   - A skin is reduced to the influences a consumer holds by a fit, not by cutting each
-    vertex to its heaviest N (operator, 2026-10-29). The export target is four, the limit
-    a VRM viewer holds.
+    vertex to its heaviest N; the export target is four, the limit a VRM viewer holds
+    (operator, 2026-10-29).
   - The fit is a Lean package of its own, contract-skin-fit, and it reads a GLB, which
     carries the mesh, the skin weights, the skeleton and the inverse binds (operator,
     2026-10-29).
@@ -22,6 +22,8 @@ rfd 2338, "a skin fit to four influences on the GPU L-BFGS-B", :discussion do
   - The pose set drives every joint on every degree of freedom the canonical joint table
     gives it, and every joint appears in the fit set.
   - The gate is the viewer's flex, RFD66606-2331: the posed mesh at the face-vertex.
+  - Frontier learning drives the fit's iterations: a level is a pose family, a problem one
+    pose, and only a rising success keeps a change (operator, 2026-10-29).
   :: problem
   A body authored with 24 influences a vertex reaches a consumer that holds four. Cutting
   each vertex to its heaviest four costs 0.22 m at the flex's own amplitude, about five
@@ -71,6 +73,22 @@ rfd 2338, "a skin fit to four influences on the GPU L-BFGS-B", :discussion do
     without transposing it.
   Every gate runs on the body and on the overcoat, and on the garment fixtures
   RFD66606-2337 names.
+  :: details The frontier the fit practises
+  Frontier learning's level search drives the iterations (operator, 2026-10-29), as
+  RFD66606-2309 sets it out. A level is a pose family with fixed attributes, a problem is
+  one pose in it, and regret `1[s >= 1]` minus `s/n` picks what gets practised: the levels
+  the fit sometimes solves and sometimes fails, which is where a change can move the
+  number.
+  A level fixes four attributes:
+  - the joint class, one of the spine, a limb, a hand, a foot or the face;
+  - the degree of freedom, flexion, abduction or rotation, or a combination of them;
+  - the amplitude band, at the flex's own amplitude and at half of it;
+  - the side, left or right.
+  A problem is one pose: one joint, at one amplitude, on one degree of freedom, which is
+  what the pose set already enumerates. A level passes a problem when the posed face-vertex
+  error is inside the tolerance, so the frontier is the set of levels whose success sits
+  strictly between none and all. What the loop revises is the fit's own elements: the
+  active set, the coupling weight, the helper count and the helper placement.
   :: details What is not known
   - Whether four influences can hold the motion RFD66606-2331 specifies, with the helpers
     the solver places. The cut's 0.22 m is at the flex's amplitude and without helpers.
