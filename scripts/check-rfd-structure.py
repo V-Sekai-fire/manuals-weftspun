@@ -60,9 +60,9 @@ SPINE = ("Decision", "Problem", "References", "Related")
 # A retracted decision renames its own heading, so the match is a prefix.
 # RFD66606-1067's "Decision, as published and now retracted" is the case.
 REQUIRED = "Decision"
-# A moved RFD develops elsewhere and states only where. Both of them carry no
-# Decision, which is the whole point of the state.
-NO_DECISION_STATES = {"moved"}
+# An abandoned RFD is a stub. It may carry no Decision, and two of them state
+# only where the work went, which is the whole point of the state.
+NO_DECISION_STATES = {"abandoned"}
 
 
 def blocks(tokens):
@@ -111,7 +111,7 @@ def parse_states(root):
     if not m:
         return None
     words = [w.strip() for w in m.group(1).split(",")]
-    # The last item reads "or moved". The conjunction is prose, not a state.
+    # The last item reads "or abandoned". The conjunction is prose, not a state.
     words = [re.sub(r"^or\s+", "", w) for w in words]
     return {w for w in words if w}
 
@@ -464,7 +464,7 @@ GOOD_CONVENTIONS = """# RFD66606-1000: Conventions
 ## Decision
 
 Each RFD has a state: prediscussion, ideation, discussion, published,
-committed, abandoned, or moved.
+committed, or abandoned.
 
 Each RFD's `README.md` stays at 40 lines or fewer.
 """

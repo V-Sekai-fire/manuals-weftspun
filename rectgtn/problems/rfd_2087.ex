@@ -10,7 +10,7 @@ defmodule Rfd2087 do
   @source "weftspun_organization"
 
   @variables %{
-    rfd_state: %{type: :int, init: %{"2087": -1}},
+    rfd_state: %{type: :int, init: %{"2087": -2}},
     step_state: %{type: :int, init: %{}},
     flight_level: %{type: :int, init: %{"2087": 0}}
   }
