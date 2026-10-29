@@ -19,22 +19,22 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD66606-2292's gate"
   budget. The domain loader and expression evaluator use doubles, trig and
   `math/random`, so they stay hand-written C++ checked against the Lean
   reference until Trust-Lean carries floats. xr-pilot, the FBD compiler and
-  RFD66606-2292's `mix rfd.rectgtn` consume the same library. No C++ search is
-  deleted before the equivalence check in `DETAILS.md` passes with its
-  negative controls (operator, 2026-10-05).
+  RFD66606-2292's `mix rfd.rectgtn` consume the same library. No C++ search is deleted
+  before the equivalence check in `DETAILS.md` passes with its negative controls (operator,
+  2026-10-05). The C++ engine and the NIF now sit in interactor-rectgtn-domain-c-abi with the
+  Lean model they implement; the no-proofs half stays open (operator, 2026-10-29).
   :: problem
-  RECTGTN is written more than once, and the copies disagree. `taskweft_nif`
-  0.2.0-dev.20 is C++ with no proofs. interactor-taskweft's `lean/Planner`,
-  copied byte for byte into weft-warp-burrito, has proofs and no search,
-  loader or C ABI. xr-pilot's `Plan.lean` acts without planning, and
-  RFD66606-2292 expands plans by hand in Elixir. Where Lean and C++ overlap they
-  differ on the goal test, the relation set, `check_rel` fuel and ReBAC
-  definitions, so a theorem about one says nothing about the other.
+  RECTGTN is written more than once, and the copies disagree. `taskweft_nif` 0.2.0-dev.20 is
+  C++ with no proofs, and its source now sits at the root of interactor-rectgtn-domain-c-abi,
+  reaching callers as a git dependency rather than a published package. interactor-taskweft's
+  `lean/Planner`, copied byte for byte into weft-warp-burrito, has proofs and no search, loader
+  or C ABI. xr-pilot's `Plan.lean` acts without planning, and RFD66606-2292 expands plans by
+  hand in Elixir. Where Lean and C++ overlap they differ on the goal test, the relation set,
+  `check_rel` fuel and ReBAC definitions, so a theorem about one says nothing about the other.
   :: related
-  - RFD66606-2044, Lean at build time and a flat C ABI at run time; RFD66606-2032,
-    the same shape for GPU kernels through lean-slang.
-  - RFD66606-2292, the organization as one RECTGTN domain, whose gate plans
-    through `Taskweft.NIF.plan/1`.
+  - RFD66606-2044, Lean at build time and a flat C ABI at run time; RFD66606-2032, the same shape
+    for GPU kernels through lean-slang; RFD66606-2292, the organization as one RECTGTN domain,
+    whose gate plans through `Taskweft.NIF.plan/1`.
   """
 
   details_title "one Lean 4 RECTGTN library generates the planner"
@@ -237,5 +237,41 @@ xr-pilot's `Plan.lean`, the FBD compiler's plan input and RFD66606-2292's gate"
   The library, the C it generates and the drift gate live in
   &{repo("nif")}, beside the NIF they build and the M1 harness, next to
   the taskweft projects (operator, 2026-10-05).
+  :: details The consolidation, and what it does not fix
+  The C++ planner engine (the search, loader and evaluator headers under
+  `standalone/`), the Erlang NIF `c_src/taskweft_nif.cpp` and the Elixir
+  package `taskweft_nif` moved out of &{repo("nif")} into
+  interactor-rectgtn-domain-c-abi at the repository root, beside the Lean
+  RECTGTN model (`Planner/`, `HRR/`), the C-ABI header `api/rectgtn_api.h`
+  and the guest under `guest/` that implement the same domain. &{repo("nif")}
+  is retired and archived read-only, its description pointing at the new
+  home, and its tree and history are merged there. That repository's
+  `.gitignore` has expected the mix project at its root since its first
+  commit.
+
+  The package lapses at 0.2.0-dev.21, which was never published.
+  interactor-taskweft takes the planner as a git dependency pinned by commit
+  rather than a Hex version, with `override: true`, because `taskweft_rebac`
+  still declares a Hex requirement on `taskweft_nif`.
+
+  Measured at the new location: the NIF builds; its unit suite passes 12; its
+  differential suite passes 15 over 526 cases; `lake build` completes 69 jobs
+  and both Lean witness executables certify. interactor-taskweft's full suite
+  passes 374, 33 properties and 341 tests.
+
+  This is a repository consolidation, not the decision above. No C was
+  generated from Lean, and the C++ search is still hand-written and still has
+  no proofs. It closes the drift half of the problem for the C++ and Lean
+  pair, which now share one repository and one diff, and leaves the no-proofs
+  half open. The milestones are unchanged.
+
+  The temporal check was re-framed as strict serializability, the model
+  FoundationDB implements: each plan step is a transaction, the write conflict
+  range the state pointers it writes, the read conflict range the pointers it
+  reads, and the ReBAC endpoint pair a write conflict range added explicitly.
+
+  The home block above and the milestones below name &{repo("nif")}, which is
+  read-only now; where the library and the M1 harness land is the operator's
+  call, so those references stand as written.
   """
 end
