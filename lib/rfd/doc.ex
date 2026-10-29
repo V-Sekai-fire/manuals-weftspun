@@ -11,8 +11,8 @@ defmodule RFD.Doc do
   then the attestation sentence.
   """
 
-  @states ~w(abandoned committed discussion ideation moved prediscussion published)a
-  @no_decision_states [:moved]
+  @states ~w(abandoned committed discussion ideation prediscussion published)a
+  @no_decision_states [:abandoned]
   @readme_limit 40
   @canary %{
     ai: "This RFD was drafted by an AI and read by a human before it shipped.",
@@ -149,7 +149,7 @@ defmodule RFD.Doc do
   defp check(acc, true, _msg), do: acc
   defp check(acc, false, msg), do: [msg | acc]
 
-  @stub_keys [:serial, :title, :state, :abandoned_at, :decision]
+  @stub_keys [:serial, :title, :state, :abandoned_at, :decision, :preamble]
 
   defp abandoned_problems(%{state: :abandoned} = d) do
     blank = %__MODULE__{serial: nil, title: nil}
@@ -158,9 +158,14 @@ defmodule RFD.Doc do
       for {k, v} <- Map.from_struct(d), k not in @stub_keys, v != Map.get(blank, k), do: k
 
     cond do
-      d.abandoned_at == nil -> ["an abandoned RFD names its last full source with abandoned_at"]
-      extra != [] -> ["an abandoned RFD carries only its stub; drop #{inspect(Enum.sort(extra))}"]
-      true -> []
+      d.abandoned_at == nil and d.preamble == nil ->
+        ["an abandoned RFD carries abandoned_at, or a preamble naming where the work went"]
+
+      extra != [] ->
+        ["an abandoned RFD carries only its stub; drop #{inspect(Enum.sort(extra))}"]
+
+      true ->
+        []
     end
   end
 

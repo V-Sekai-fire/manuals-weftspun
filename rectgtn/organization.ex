@@ -12,7 +12,6 @@ defmodule WeftspunOrganization do
   @enums %{
     rfd_state: %{
       abandoned: -2,
-      moved: -1,
       prediscussion: 0,
       ideation: 1,
       discussion: 2,

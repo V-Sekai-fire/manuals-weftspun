@@ -47,8 +47,8 @@ defmodule RFD.Board do
           %{flight_level: l} when l != :l1 ->
             "critical-path RFD #{serial} is #{l || "unlevelled"}, not L1"
 
-          %{state: s} when s in [:abandoned, :moved] ->
-            "critical-path RFD #{serial} is #{s}"
+          %{state: :abandoned} ->
+            "critical-path RFD #{serial} is abandoned"
 
           _ ->
             nil

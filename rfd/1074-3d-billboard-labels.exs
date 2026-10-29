@@ -2,14 +2,11 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 1074, "A caption label over each billboard card", :moved do
+rfd 1074, "A caption label over each billboard card", :abandoned do
   preamble ~S"""
   Developed in its own repository,
   [weftspun/billboard-labels](https://github.com/weftspun/billboard-labels),
   per the user's own direction: a feature too large for one session,
-  built where it can be reviewed as a pull request. Moves back to
-  this directory once that PR lands.
+  built where it can be reviewed as a pull request.
   """
-
-  attest_in :none
 end

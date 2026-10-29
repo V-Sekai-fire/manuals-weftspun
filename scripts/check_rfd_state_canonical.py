@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Every RFD README's State field is one of the canonical values RFD66606-1000 lists.
 
-RFD66606-1000 enumerates seven states: prediscussion, ideation, discussion,
-published, committed, abandoned, moved. Four RFDs on 2026-09-03 carried
+RFD66606-1000 enumerates six states: prediscussion, ideation, discussion,
+published, committed, abandoned. Four RFDs on 2026-09-03 carried
 a parenthetical annotation after the value ("discussion (implemented
 2026-09-01...)"), which is neither canonical nor parseable by strict
 tooling. This gate refuses that shape.
@@ -32,13 +32,13 @@ def canonical_states(root: str) -> set[str]:
     if not os.path.isfile(p):
         # Fallback to the frozen list; still record where it came from.
         return {"prediscussion", "ideation", "discussion", "published",
-                "committed", "abandoned", "moved"}
+                "committed", "abandoned"}
     text = open(p, encoding="utf-8").read()
     text = re.sub(r"\s+", " ", text)
     m = STATE_LIST_RE.search(text)
     if not m:
         return {"prediscussion", "ideation", "discussion", "published",
-                "committed", "abandoned", "moved"}
+                "committed", "abandoned"}
     words = [re.sub(r"^or\s+", "", w.strip()) for w in m.group(1).split(",")]
     return {w for w in words if w}
 
@@ -85,7 +85,7 @@ def _self_test() -> int:
         os.makedirs(os.path.join(t, "rfd", "1000-conventions"))
         open(os.path.join(t, "rfd", "1000-conventions", "README.md"), "w").write(
             "# RFD66606-1000\n\nEach RFD has a state: prediscussion, ideation, "
-            "discussion, published, committed, abandoned, or moved.\n"
+            "discussion, published, committed, or abandoned.\n"
         )
         # positive control: clean State field
         os.makedirs(os.path.join(t, "rfd", "1001-ok"))
@@ -109,6 +109,14 @@ def _self_test() -> int:
         bad = scan(t)
         names = sorted(b[0] for b in bad)
         assert names == ["1002-bad", "1003-unknown"], f"negative 2 failed: {bad}"
+        # negative control 3: the state the vocabulary no longer carries
+        os.makedirs(os.path.join(t, "rfd", "1004-moved"))
+        open(os.path.join(t, "rfd", "1004-moved", "README.md"), "w").write(
+            "# RFD66606-1004\n\n**State:** moved\n"
+        )
+        bad = scan(t)
+        names = sorted(b[0] for b in bad)
+        assert names == ["1002-bad", "1003-unknown", "1004-moved"], f"negative 3 failed: {bad}"
     print("self-test ok")
     return 0
 

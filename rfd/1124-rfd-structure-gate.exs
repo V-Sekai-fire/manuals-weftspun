@@ -73,10 +73,10 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   not 116 and the rule still shipped.
 
   **A `## Decision` section.** The two without it are RFD66606-1074 and
-  RFD66606-1078. Both carry `State: moved`, which means another repository now
-  develops the RFD, and a moved RFD states only where it went. The gate
-  requires a Decision unless the state is `moved`, and that holds at 116
-  of 116.
+  RFD66606-1078. Both carry `State: abandoned`, which means another repository
+  now develops the RFD, and an abandoned RFD states only where it went. The
+  gate requires a Decision unless the state is `abandoned`, and that holds at
+  116 of 116.
 
   **A retracted decision renames its own heading.** RFD66606-1067 heads its
   section "Decision, as published and now retracted". The gate matches a
@@ -84,10 +84,10 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   place does not have to hide behind the original title.
   :: details Measured and not gated
   **A `## Problem` section.** 111 of 116. The five without one are
-  RFD66606-1000, RFD66606-1012, RFD66606-1015, RFD66606-1074 and RFD66606-1078. Two are abandoned,
-  two are moved, and RFD66606-1000 is the conventions document itself. The
-  carve-outs would outnumber the signal, so the gate checks the position
-  of Problem and not its presence.
+  RFD66606-1000, RFD66606-1012, RFD66606-1015, RFD66606-1074 and
+  RFD66606-1078. Four are abandoned, and RFD66606-1000 is the conventions
+  document itself. The carve-outs would outnumber the signal, so the gate
+  checks the position of Problem and not its presence.
 
   **A `## Related` section.** 111 of 116. RFD66606-1020, RFD66606-1021, RFD66606-1022 and
   RFD66606-1023 end at their Decision, and RFD66606-1074 has no section at all. The
@@ -120,7 +120,8 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
     map. The substitution keeps the same four characters, so every line wrap is unchanged.
   - `State: pre-discussion`: count 1, RFD66606-1064; repair Corrected to `prediscussion`.
   - A state RFD66606-1000 does not list: count 2, RFD66606-1074 and RFD66606-1078; repair `moved`
-    added to RFD66606-1000, because the use predates the list.
+    added to RFD66606-1000, because the use predates the list. The state left the list again when
+    the vocabulary returned to the six, and both now read `abandoned`.
   - A `DETAILS.md` no README named: count 2, RFD66606-1118 and RFD66606-1123; repair A pointer
     line added before Related, where the other 87 put it.
   - A `DETAILS.md` with a title of its own: count 1, RFD66606-1000; repair Retitled `RFD 1000
