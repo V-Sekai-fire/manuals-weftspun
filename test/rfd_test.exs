@@ -53,9 +53,16 @@ defmodule RFDTest do
     assert ["state :draft is not one of" <> _] = RFD.Doc.problems(doc(state: :draft))
   end
 
-  test "a missing Decision is refused unless the state is moved" do
+  test "a missing Decision is refused unless the state is abandoned" do
     assert ["a Decision is required" <> _] = RFD.Doc.problems(doc(decision: nil))
-    assert RFD.Doc.problems(doc(decision: nil, state: :moved)) == []
+
+    problems = RFD.Doc.problems(doc(decision: nil, state: :abandoned))
+    refute Enum.any?(problems, &String.starts_with?(&1, "a Decision is required"))
+  end
+
+  test "an abandoned stub names its last full source, or where the work went" do
+    problems = RFD.Doc.problems(doc(decision: nil, state: :abandoned))
+    assert Enum.any?(problems, &String.starts_with?(&1, "an abandoned RFD carries abandoned_at"))
   end
 
   test "a README over 40 lines is refused" do
