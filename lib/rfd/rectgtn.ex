@@ -24,7 +24,6 @@ defmodule RFD.RECTGTN do
 
   @states %{
     abandoned: -2,
-    moved: -1,
     prediscussion: 0,
     ideation: 1,
     discussion: 2,
@@ -35,7 +34,7 @@ defmodule RFD.RECTGTN do
   @step_states %{parked: -2, failed: -1, ready: 0, checked: 1}
   @levels %{l1: 1, l2: 2, l3: 3}
   @landed :committed
-  @stopped [:moved, :abandoned]
+  @stopped [:abandoned]
   @domain "weftspun_organization"
 
   @actions [

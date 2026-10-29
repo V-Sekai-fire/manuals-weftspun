@@ -10,8 +10,7 @@ rfd 1000, "Conventions", :published do
   :: decision
   This repository writes Request-for-Discussion documents in the Oxide
   style. Each RFD has a state: prediscussion, ideation, discussion,
-  published, committed, abandoned, or moved. A moved RFD names the
-  repository that now develops it.
+  published, committed, or abandoned.
 
   Technical writing follows ASD-STE100 Simplified Technical English.
   An essay follows the AI-trope gate, and a section names which one it

@@ -4,15 +4,14 @@
 # A masthead and the newest RFDs lead; the logbook and RFD archives follow, dated from git.
 #   mix run scripts/pages_site.exs <out-dir>
 defmodule PagesSite do
-  @states ~w(prediscussion ideation discussion published committed moved abandoned)
+  @states ~w(prediscussion ideation discussion published committed abandoned)
   @emoji %{
     "prediscussion" => "📝",
     "ideation" => "💡",
     "discussion" => "💬",
     "published" => "📢",
     "committed" => "✅",
-    "abandoned" => "🪦",
-    "moved" => "➡️"
+    "abandoned" => "🪦"
   }
   @pages ~w(README.md AGENTS.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
 
@@ -309,7 +308,7 @@ defmodule PagesSite do
 
   defp legend do
     "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>
-      "✅ committed, ➡️ moved, 🪦 abandoned; " <>
+      "✅ committed, 🪦 abandoned; " <>
       "🧑‍🦰 drafted by aria-fire-persona and read by a human, " <>
       "✍️ drafted by a human; 📎 has details."
   end
