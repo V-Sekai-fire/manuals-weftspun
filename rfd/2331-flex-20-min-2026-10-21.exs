@@ -18,8 +18,10 @@ degrees"
   the torso and the other limbs hold at rest pose during the bend. The peak
   bend is raised from 60 to 110 degrees. The motion is a smooth deterministic
   cycle, the same seed every time. The flex-quit test checks the peak, the
-  isolation, the smoothness, and the return to rest pose. `DETAILS.md` carries
-  the rest of this RFD.
+  isolation, the smoothness, and the return to rest pose. It also measures the
+  posed mesh a skin reduction is judged on, and its motion set covers every
+  degree of freedom a joint carries rather than flexion alone
+  (operator, 2026-10-29). `DETAILS.md` carries the rest of this RFD.
   :: problem
   The current flex wobbles. Every non-root joint swings at once, about its own
   random axis, at its own rate and phase, up to 60 degrees. No limb bends into
@@ -83,6 +85,33 @@ degrees"
     and fails.
   - Rest-restore control: after the run ends, every joint is at rest pose, back
     less than 0.001 degrees.
+  :: details The flex is also the skin gate
+  A weight reduction is judged on the posed mesh, not on the skeleton. At each
+  sampled frame the model is posed twice, once with the weights it carries and
+  once with the reduced set, and the distance between the two is measured at
+  every face-vertex in the character frame, with the hip position and facing
+  removed.
+  - Pass is a count of zero face-vertices beyond the tolerance over every
+    sampled frame. The tolerance is half a millimetre, about two thirds of a
+    credit card, which is the quantisation the importer already carries.
+  - The maximum and the 99.9th percentile are reported beside the count. A mean
+    hides one torn ring, and a maximum alone fails on that quantisation.
+  - Planted control: an influence removed from one vertex ring and renormalised
+    must be reported beyond the tolerance and fail.
+  - Identity control: a reduced set equal to the weights the model already
+    carries must count exactly zero, or the measurement itself is broken.
+  :: details The motion set covers each joint's degrees of freedom
+  The joints are mapped to the canonical table our rigs use, and a joint carries
+  flexion, abduction, rotation along the bone axis, and, on the joints that have
+  it, translation along the bone axis.
+  - Flexion is what every rig already survives, so a set holding only flexion
+    passes and hides the defect the gate exists for. Every joint is driven on
+    every degree of freedom it carries, and the ball-and-socket joints are
+    driven on combinations of them.
+  - A degree of freedom with no pose in the set is a failure, not a skip.
+  - The ranges are not settled here. Where a range of motion comes from is
+    RFD66606-1138's open question, and until it is answered the poses stay inside
+    the envelope our own assets measure.
   :: details Where it lands
   - The Model Explorer guest's flex source changes. DEGREES goes from 60.0 to
     110.0. The collection builds the pose sequence (limb, bend joints, axes,
