@@ -271,6 +271,15 @@ rfd 2236, "A teacher that exports Function Block Diagrams, gained in three steps
   which the parser refuses, against the unwired-pin and cycle mutants,
   which parse and fail in the lowering. Every row's three controls held,
   so the table is the construction read back rather than a finding.
+
+  **Corrected 2026-10-29.** The clause above holds of the compiler recorded for
+  the fbd row of this table. A rebuild of that corpus refuses the unwired-pin
+  and cycle mutants at `check` rather than in the lowering, so its rank5
+  `parses` reads 0.00 where the published corpus carries 0.67. The three
+  refusal messages are unchanged, and only the subcommand that raises them
+  moved. The rebuild is the one that filled `plan_json` and `result_json`,
+  which every candidate row had carried empty; its manifest records the
+  compiler it used.
   :: details The corpus after the surfaces
   Every family below was written on this desk at 5,000 rows with the three
   controls asserted on each row, no nulls in any parquet, and the census's
