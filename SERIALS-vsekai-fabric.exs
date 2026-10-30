@@ -295,6 +295,7 @@ defmodule Serials.VSekaiFabric do
       serial 2336, "pixal3d-as-a-ggml-rd-guest", flight_level: :l1
       serial 2338, "a-skin-fit-to-four-influences-on-the-gpu-l-bfgs-b", flight_level: :l2
       serial 2339, "a-persona-answers-from-a-planning-domain", flight_level: :l1
+      serial 2340, "a-campus-where-a-party-of-four-draws-and-wears", flight_level: :l1
     end
 
     deleted do
