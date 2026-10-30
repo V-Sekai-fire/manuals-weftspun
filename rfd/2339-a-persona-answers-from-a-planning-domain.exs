@@ -11,6 +11,8 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
   :: decision
   - A persona answers from a goal-task network rather than from weights: a domain and a
     goal go in, an exact plan comes out, and no sampling is involved (operator, 2026-10-30).
+  - The persona is the instinct model: Lean 4 code, named for its latency against a
+    language model (operator, 2026-10-29).
   - The planner is a library, not a reference. The persona requires the RECTGTN domain
     over GitHub, as the character domain does, and composes in its shared GTN space.
   - Its inputs are a code or a number. A code is the vocabulary: one level count a
