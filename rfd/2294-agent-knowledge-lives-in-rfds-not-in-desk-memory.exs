@@ -513,10 +513,10 @@ rules below"
   or takes it over SSH as user `deck` with the desk's key, as a dev title.
   :: details Merging
   An agent merges its own pull requests on V-Sekai-fire once they are green,
-  through the merge queue where the repository has one, and never with an admin
-  bypass. Where a repository requires no checks, `--auto` merges at once with its
-  checks red, so there the agent waits for green and merges by hand. Repository
-  admins may bypass a ruleset for a pull request; agents do not.
+  through the merge queue where the repository has one. Where a repository
+  requires no checks, `--auto` merges at once with its checks red, so there the
+  agent waits for green and merges by hand. An agent may merge with the admin
+  override (operator, 2026-10-30); the ban on it is rescinded.
   :: details Where interactor-dress-on went
   The stages of the archived interactor-dress-on live in their own repositories:
   &{repo("contract-guest-runtime")}, &{repo("contract-guest-common")},

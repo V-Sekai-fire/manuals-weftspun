@@ -223,10 +223,10 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
          "headset",
          "root needs the operator's approval at the password manager"
 
-    deny "desk-agent",
-         :admin,
-         "default-branch",
-         "the operator merges on green, never with --admin"
+    relate "desk-agent",
+           :admin,
+           "default-branch",
+           "may merge with the admin override (operator, 2026-10-30)"
 
     deny "desk-agent", :owns, "rented-gpu", "the Compute constraint above"
   end
