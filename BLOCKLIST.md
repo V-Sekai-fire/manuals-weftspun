@@ -78,6 +78,7 @@ here corresponds to an entry.
 - CompCert: the INRIA Non-Commercial License Agreement forbids commercial use, and the alternative is a paid AbsInt agreement; Trust-Lean's C is compiled by the ordinary toolchains (operator, 2026-10-05)
 - The closed-source game engine editor, driven by an agent on the Mac mini: no agent there opens, drives or installs it, on the Mac or on the Windows desk over SSH. With the editor open on the desk, Bonsai 2 decode fell from 309 to 225 tok/s on the 4090 and from 246 to 160 tok/s on the 3090; the cause is suspected, not proven. The operator's own use at the desk is not covered (operator, 2026-10-17)
 - **CockroachDB** as a store: operator directive 2026-10-18 ("Retire crdb"); FoundationDB is the one transactional store, and SQLite on FoundationDB pages (`datasource-store`) takes the relational work — see below
+- **IEC 61131-3 function-block-diagram (FBD)**: operator 2026-10-29; the glTF behaviour graph is the framing we use instead, see the allowlist
 
 ### Abliteration is blocked, and the model's own card is the argument
 

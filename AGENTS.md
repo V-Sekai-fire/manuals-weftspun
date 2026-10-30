@@ -695,6 +695,9 @@ and role, before it is used. What was denied and why is in [`BLOCKLIST.md`](BLOC
   the public domain on 2026-03-17 (operator, 2026-10-01).
 - **Formats and figures:** `.usda`, ZStandard parquet, usdz as a delivery container, PSD,
   pure-data glTF, the CineForm SDK as the codec, hand-authored inline SVG for figures.
+- **glTF behaviour:** the Khronos glTF 2.0 Interactivity extension, `KHR_interactivity` (CC-BY-4.0,
+  `KhronosGroup/glTF`), the behaviour-graph vocabulary a taskweft domain and its RFD are described
+  in, in place of the IEC 61131-3 function-block-diagram vocabulary (operator, 2026-10-29).
 - **Still images:** OpenEXR (BSD-3-Clause, `AcademySoftwareFoundation/openexr`), its Python
   bindings 3.5.1 pinned where they are used, for scene-linear stills: orbit-view sheets
   (`contract-orbit-views`) and renders whose color is measured; a PNG made from one is a preview
