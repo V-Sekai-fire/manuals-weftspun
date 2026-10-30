@@ -9,9 +9,10 @@ rfd 1037, "Composite models as taskweft domains", :discussion do
   prose ~S"""
   :: decision
   Model each composite as a taskweft domain and a paired problem.
-  taskweft is an HTN planner at github.com/V-Sekai-fire/interactor-taskweft, and it
-  serves `plan` and `validate` over MCP at
-  https://taskweft-mcp.fly.dev/mcp.
+  taskweft is an HTN planner. Its successor is at
+  github.com/V-Sekai-fire/interactor-taskweft-persona, in Lean, and it has no Elixir NIF
+  (operator, 2026-10-30). The `plan` and `validate` MCP at
+  https://taskweft-mcp.fly.dev/mcp did not answer on 2026-10-30.
 
   Write the domain in the Elixir DSL. The `plan` tool takes `format` of
   `dsl` by default, and JSON-LD is the fallback. Each file is real
