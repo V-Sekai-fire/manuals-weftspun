@@ -13,8 +13,8 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
 
   1. **Replicas on the FDB machines, coordinated over FDB.** `ha_enabled = true`,
      one Bao beside each of the three weftspun-fdb machines (operator, 2026-10-13).
-  2. **Auto-unseal.** A transit seal on a small Bao on the operator's Mac mini, which
-     unlocks itself from the macOS Keychain at boot (operator, 2026-10-13).
+  2. **Auto-unseal.** A transit seal on a small Bao on the operator's Windows desk. It
+     replaces the Mac mini seal, which the operator rescinded (operator, 2026-10-30).
   3. **Consumers cache what they can.** A bearer held for a few
      minutes puts Bao in the critical path only at cache expiry.
   4. **No CDN proxy in front of workspace services.** CF-proxied
@@ -119,32 +119,23 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   An auto-unseal wrapper does not change the CRL-loop bug logged
   during the DR (Bao's authenticated paths going flaky after a
   particular sequence of issuer imports). That is a separate item.
-  :: details Transit seal on the Mac mini
-  The operator chose on 2026-10-13 to unseal the Fly instances from a
-  small Bao on the Mac mini, after declining to have the Fly instances
-  unseal each other from a key kept in Bao itself. The Mac is always on
-  and already on the tailnet; it holds no other Bao data.
+  :: details Transit seal on the Windows desk
+  The operator chose on 2026-10-13 to unseal the Fly instances from a small Bao and
+  rescinded the Mac mini as its host on 2026-10-30. The seal Bao runs on the operator's
+  Windows desk (operator, 2026-10-30).
 
-  - The seal Bao keeps file storage on the Mac and a transit key whose
-    only use is wrapping the Fly cluster's root key. Its own seal is a
-    static key read from the macOS Keychain when the launchd agent
-    starts, so a reboot of the Mac needs no approval. Anyone holding the
-    Mac's logged-in session can therefore unseal the Fly cluster; the
-    operator accepted that.
-  - The seal Bao listens only on the Mac's tailnet address, with mutual
-    TLS, and the tailnet policy lets only the Fly Bao nodes reach it.
-  - The Fly instances authenticate with a periodic orphan token limited
-    to encrypt and decrypt on that one key, held as a Fly secret.
-  - If the Mac is off or off the tailnet, a restarted Fly instance stays
-    sealed until it is back. The instances still running keep serving.
-  - After migration the Shamir key becomes a recovery key: it authorises
-    operations such as generating a root token, but it no longer
-    unseals. Losing the seal Bao would lose the Fly cluster, so its
-    storage and its static key are backed up to 1Password.
-  - The change is proved on a throwaway three-machine app first: a cold
-    start of all three unseals without a human, and a planted control
-    with the Mac's listener stopped must leave a restarted instance
-    sealed.
+  - The transit key is restored from its 1Password backup into the desk's seal Bao. The
+    restored key's fingerprint must equal the backup's before any Fly instance uses it.
+  - The seal Bao listens only on the desk's tailnet address, with mutual TLS, and the
+    tailnet policy lets only the Fly Bao nodes reach it.
+  - The Fly instances authenticate with a periodic orphan token limited to encrypt and
+    decrypt on that one key, held as a Fly secret.
+  - If the desk is off or off the tailnet, a restarted Fly instance stays sealed until it
+    is back. The instances still running keep serving.
+  - The Shamir key stays a recovery key: it authorises operations such as generating a
+    root token, but it no longer unseals.
+  - The change is proved with a planted control: with the desk's listener stopped, a
+    restarted instance stays sealed.
   :: details Consumer-side cache: what and for how long
   Every read against Bao is a Bao dependency. Two ends of the spectrum:
 
@@ -221,7 +212,7 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   - 3 replicas, one per FDB machine (operator, 2026-10-13).
   - Standbys serve reads (`disable_performance_standby = false`) vs
     forward to leader. Read-heavy workload argues for serving.
-  - The seal provider: the Mac mini's transit Bao (operator, 2026-10-13).
+  - The seal provider: the Windows desk's transit Bao (operator, 2026-10-30).
   - Whether to write the CRL-loop fix (a separate bug) into this
     rollout or before it.
   :: details Sources
