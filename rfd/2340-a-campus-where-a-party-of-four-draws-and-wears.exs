@@ -11,9 +11,9 @@ that keeps the books"
 
   prose ~S"""
   :: decision
-  - The first playable is a campus: students draw outfits with the pen and wear them in a shared
-    zone, and a party of four walks from the campus shop to a room and back (operator,
-    2026-10-30).
+  - The first playable is a college campus: college-age students draw outfits with the pen and
+    wear them in a shared zone, and a party of four walks from the campus shop to a room and
+    back (operator, 2026-10-30).
   - The pen comes first: its first rung (RFD66606-2287, draw and wear in a headset) runs in the
     campus zone before the party loop is built (operator, 2026-10-30).
   - The party is one player and three seats named Aria, Ember and Quill. A friend or an agent on
@@ -111,8 +111,6 @@ that keeps the books"
     three seats open at once. Nothing has run.
   - Whether many instances of one campus each keep a separate books database. One database for
     each instance is possible, and no run has opened more than one.
-  - The ages of the campus characters. The earlier campus proposal does not state them; the first
-    step states them before any character is written.
   - Whether the pen's outfits and the rigged models reach the campus unchanged. Each part is read
     for its precision and format before the campus uses it.
   """
