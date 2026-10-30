@@ -808,7 +808,7 @@ desk-agent--mints--github-token       # from Bao, for both organisations; each l
 desk-agent--pushes--v-sekai-fire      # feature branches; a diverged one goes up under a new name
 desk-agent--pushes--chibifire-stages  # feature branches
 desk-agent--!admin--headset           # root needs the operator's approval at the password manager
-desk-agent--!admin--default-branch    # the operator merges on green, never with --admin
+desk-agent--admin--default-branch     # may merge with the admin override (operator, 2026-10-30)
 desk-agent--!owns--rented-gpu         # the Compute constraint above
 ```
 
