@@ -1,38 +1,8 @@
 # Written by `mix rfd.refs.update`; RFD prose resolves &{...} against it.
 %{
   manifest: %{
-    repo: "chibifire-smoke-water/contract-manifest-smoke-water",
-    commit: "88e0828a44f404f166ee83d8c4e87b1293536398"
-  },
-  files: %{
-    {"MoGe", "moge/model/v3.py"} => %{contains: []},
-    {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
-    {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
-    {"egit", "c_src/git_branch.hpp"} => %{contains: []},
-    {"egit", "c_src/git_checkout.hpp"} => %{contains: []},
-    {"egit", "c_src/git_merge.hpp"} => %{contains: []},
-    {"egit", "c_src/git_status.hpp"} => %{contains: []},
-    {"interactor-anny", "src/anny/models/soma.py"} => %{contains: []},
-    {"interactor-anny", "test/test_soma.py"} => %{contains: []},
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py"} => %{
-      contains: []
-    },
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py"} => %{
-      contains: []
-    },
-    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py"} => %{
-      contains: []
-    },
-    {"interactor-kimodo-text-to-motion", "scripts/verify_projection.py"} => %{
-      contains: []
-    },
-    {"interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py"} => %{
-      contains: []
-    },
-    {"interactor-soma-x", "soma/identity_model.py"} => %{contains: []},
-    {"interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp"} => %{
-      contains: []
-    }
+    commit: "7ec2ecefdd40f23d0b712cf6503f5da97b89083c",
+    repo: "chibifire-smoke-water/contract-manifest-smoke-water"
   },
   repos: %{
     "entities-godot-sandbox" => %{state: :planned, side: "4-entities"},
@@ -210,7 +180,7 @@
       path: "2-contract/manuals-weftspun",
       revision: "main",
       url: "https://github.com/V-Sekai-fire/manuals-weftspun",
-      tip: "86b4ae2ed6d8b499e6cfdc533afac4884734b896"
+      tip: "a27dc7a9ffa7dfbe754df76901dad555c34dbaa3"
     },
     "contract-anny-keypoint-anchors" => %{
       default: "main",
@@ -358,8 +328,10 @@
     },
     "kimodo-ggml" => %{
       default: "main",
-      state: :archived,
-      url: "https://github.com/V-Sekai-archive/kimodo-ggml",
+      state: :placed,
+      path: "3-interactor/kimodo-ggml",
+      revision: "main",
+      url: "https://github.com/V-Sekai-fire/kimodo-ggml",
       tip: "9e62d0ed6bd06fa2890ce92d752a40ae204f1f85"
     },
     "contract-bus" => %{
@@ -569,6 +541,36 @@
       revision: "main",
       url: "https://github.com/V-Sekai-fire/interactor-flow",
       tip: "5b4dcda095b7f062bc2e40b8950ce94e55ddcdd1"
+    }
+  },
+  files: %{
+    {"MoGe", "moge/model/v3.py"} => %{contains: []},
+    {"anny-render-corpus", "anny_rig.py"} => %{contains: []},
+    {"datasource-store", "fly/backup-fresh.sh"} => %{contains: []},
+    {"egit", "c_src/git_branch.hpp"} => %{contains: []},
+    {"egit", "c_src/git_checkout.hpp"} => %{contains: []},
+    {"egit", "c_src/git_merge.hpp"} => %{contains: []},
+    {"egit", "c_src/git_status.hpp"} => %{contains: []},
+    {"interactor-anny", "src/anny/models/soma.py"} => %{contains: []},
+    {"interactor-anny", "test/test_soma.py"} => %{contains: []},
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/gate_vision_encoder.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke.py"} => %{
+      contains: []
+    },
+    {"interactor-editscore-lora-qwen3vl-4b", "scripts/smoke_editscore_mlx.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection.py"} => %{
+      contains: []
+    },
+    {"interactor-kimodo-text-to-motion", "scripts/verify_projection_vertex.py"} => %{
+      contains: []
+    },
+    {"interactor-soma-x", "soma/identity_model.py"} => %{contains: []},
+    {"interactor-taskweft-nmm-personas", "c_src/weft_bus_nif.cpp"} => %{
+      contains: []
     }
   }
 }
