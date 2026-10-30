@@ -56,9 +56,17 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
   - Mentzer et al., Finite Scalar Quantization (doi 10.48550/arXiv.2309.15505)
   - Zhu et al., Robust Residual FSQ (doi 10.48550/arXiv.2508.15860)
   - Liu et al., VQTalker (doi 10.48550/arXiv.2412.09892)
+  :: details The design's other half
+  The persona is the half that answers from a program. The other half is a
+  language model, and the design keeps a place for it until the model has a
+  home (operator, 2026-10-29).
+  :: details Code as data, and what a persona says back
+  A caller gives category and numeric instructions, and the persona walks the
+  programs it holds: "you did not even weight paint", then what face tracking
+  costs. The caller is given options, and a choice fits the input shape rather
+  than arriving in words. A failure and a success each point at a guide, baked
+  in or linked (operator, 2026-10-29).
   :: details What is not known
-  - Whether a grammar over the domain's own codes is enough to carry a request in words,
-    or whether every request needs a caller that already knows the vocabulary.
   - How a persona composes with this workspace's rendered problems, which the organization
     domain answers today through the planner's Elixir consumer.
   - The temporal reading of a domain that declares no reads and no writes: the plan order
