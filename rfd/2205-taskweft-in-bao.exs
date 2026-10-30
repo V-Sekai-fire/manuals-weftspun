@@ -177,7 +177,7 @@ the browser-side WASM parity target"
       → taskweft.js         # small JS loader
 
   The browser demo already shipping in
-  `docs/` of &{repo("service-sqlar-cas", planned: "7-service")} (`sql-wasm.js` + Range-fetch
+  `docs/` of &{repo("service-sqlar-cas")} (`sql-wasm.js` + Range-fetch
   `persona.sqlite`) loads `taskweft.wasm` alongside and calls
   `plan(domainJson, skipJson)` on it. See RFD66606-2204's Starforged demo
   section for the game-loop shape.

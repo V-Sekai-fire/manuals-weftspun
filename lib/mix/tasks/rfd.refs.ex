@@ -4,25 +4,31 @@
 defmodule Mix.Tasks.Rfd.Refs.Update do
   @shortdoc "Resolve every &{...} in rfd/*.exs, write RFD.lock.exs, render"
   @moduledoc """
-      mix rfd.refs.update [--workspace DIR]
+      mix rfd.refs.update [--manifest URL]
 
-  DIR holds `.repo/manifests/default.xml`; it defaults to the nearest `.repo` above here.
+  The manifest is read at its published tip, the source `mix rfd.refs.check`
+  reads, so the pair cannot disagree. `RFD_MANIFEST` overrides the URL.
   """
   use Mix.Task
 
+  @manifest "https://github.com/chibifire-smoke-water/contract-manifest-smoke-water"
+
+  def manifest_url, do: System.get_env("RFD_MANIFEST") || @manifest
+
   @impl true
   def run(args) do
-    {opts, _, _} = OptionParser.parse(args, strict: [workspace: :string])
-    ws = opts[:workspace] || find_workspace!(File.cwd!())
-    manifests = Path.join(ws, ".repo/manifests")
-    xml = File.read!(Path.join(manifests, "default.xml"))
+    {opts, _, _} = OptionParser.parse(args, strict: [manifest: :string])
+    url = opts[:manifest] || manifest_url()
+    {_, commit} = tip!(url)
 
-    commit =
-      RFD.Ref.git(manifests, ["rev-parse", "HEAD"]) ||
-        Mix.raise("#{manifests} is not a git checkout")
+    xml =
+      case blob(url, commit, "default.xml") do
+        {:ok, text} -> text
+        :error -> Mix.raise("default.xml is unreadable at #{commit} in #{url}")
+      end
 
     calls = calls()
-    lock = RFD.Ref.Snapshot.lock(calls, world(xml, String.trim(commit), calls))
+    lock = RFD.Ref.Snapshot.lock(calls, world(xml, commit, calls, url))
 
     File.write!(
       RFD.Ref.lock_path(),
@@ -36,32 +42,51 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
 
   def calls, do: Enum.flat_map(RFD.Source.all(), &RFD.Ref.calls(File.read!(&1))) |> Enum.uniq()
 
-  def world(xml, commit, calls) do
+  def world(xml, commit, calls, url) do
     %{
       manifest: xml,
+      manifest_url: url,
+      legacy: legacy_projects(),
       commit: commit,
-      archived: if(calls == [], do: [], else: archived!()),
+      archived: if(calls == [], do: %{}, else: archived!()),
       tip: &tip!/1,
       blob: &blob/3
     }
   end
 
-  defp find_workspace!(dir) do
-    cond do
-      File.dir?(Path.join(dir, ".repo")) -> dir
-      Path.dirname(dir) == dir -> Mix.raise("no .repo above here; pass --workspace")
-      true -> find_workspace!(Path.dirname(dir))
+  @legacy "https://github.com/V-Sekai-fire/contract-manifest-taskweft"
+
+  defp legacy_projects do
+    {_, commit} = tip!(@legacy)
+
+    case blob(@legacy, commit, "default.xml") do
+      {:ok, text} -> RFD.Ref.Snapshot.projects(text, @legacy)
+      :error -> %{}
     end
   end
 
+  defp repo_of(url), do: url |> URI.parse() |> Map.fetch!(:path) |> String.trim("/")
+
   defp archived! do
-    case System.cmd(
-           "gh",
-           ~w(repo list V-Sekai-fire --archived --limit 2000 --json name --jq .[].name)
-         ) do
+    fire = gh_list(~w(repo list V-Sekai-fire --archived --limit 2000 --json name --jq .[].name))
+    archive = gh_list(~w(repo list V-Sekai-archive --limit 2000 --json name --jq .[].name))
+
+    Map.new(fire, &{&1, "https://github.com/V-Sekai-fire/#{&1}"})
+    |> Map.merge(Map.new(archive, &{&1, "https://github.com/V-Sekai-archive/#{&1}"}))
+  end
+
+  defp gh_list(args) do
+    case System.cmd("gh", args, env: gh_env(), stderr_to_stdout: true) do
       {out, 0} -> String.split(out)
-      {out, _} -> Mix.raise("gh repo list failed: #{out}")
+      {out, _} -> Mix.raise("gh #{Enum.join(args, " ")} failed: #{out}")
     end
+  end
+
+  defp gh_env do
+    token =
+      Enum.find([System.get_env("RFD_TOKEN"), System.get_env("GH_TOKEN")], &(&1 not in [nil, ""]))
+
+    [{"GH_TOKEN", token || ""}]
   end
 
   def tip!(url) do
@@ -71,8 +96,22 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
         [_, sha] = Regex.run(~r/^([0-9a-f]{40})\s+HEAD$/m, out)
         {branch, sha}
 
-      {out, _} ->
-        Mix.raise("git ls-remote #{url}: #{out}")
+      {_out, _} ->
+        tip_via_api!(url)
+    end
+  end
+
+  defp tip_via_api!(url) do
+    repo = repo_of(url)
+    branch = gh_out(["api", "repos/#{repo}", "--jq", ".default_branch"])
+    sha = gh_out(["api", "repos/#{repo}/commits/#{branch}", "--jq", ".sha"])
+    {branch, sha}
+  end
+
+  defp gh_out(args) do
+    case System.cmd("gh", args, env: gh_env(), stderr_to_stdout: true) do
+      {out, 0} -> String.trim(out)
+      {out, _} -> Mix.raise("gh #{Enum.join(args, " ")} failed: #{out}")
     end
   end
 
@@ -83,6 +122,7 @@ defmodule Mix.Tasks.Rfd.Refs.Update do
            "gh",
            ["api", "repos/#{repo}/contents/#{path}?ref=#{sha}"] ++
              ~w(-H Accept:application/vnd.github.raw),
+           env: gh_env(),
            stderr_to_stdout: true
          ) do
       {out, 0} -> {:ok, out}
@@ -139,20 +179,19 @@ defmodule Mix.Tasks.Rfd.Refs.Check do
   use Mix.Task
   alias Mix.Tasks.Rfd.Refs.Update
 
-  @manifest "https://github.com/V-Sekai-fire/contract-manifest-taskweft"
-
   @impl true
   def run(_) do
+    url = Update.manifest_url()
     calls = Update.calls()
-    {_, commit} = Update.tip!(@manifest)
+    {_, commit} = Update.tip!(url)
 
     xml =
-      case Update.blob(@manifest, commit, "default.xml") do
+      case Update.blob(url, commit, "default.xml") do
         {:ok, text} -> text
-        :error -> Mix.raise("default.xml is unreadable at #{commit}")
+        :error -> Mix.raise("default.xml is unreadable at #{commit} in #{url}")
       end
 
-    live = RFD.Ref.Snapshot.lock(calls, Update.world(xml, commit, calls)) |> stable()
+    live = RFD.Ref.Snapshot.lock(calls, Update.world(xml, commit, calls, url)) |> stable()
     held = RFD.Ref.read_lock!(File.cwd!()) |> stable()
 
     case drift(held, live) do

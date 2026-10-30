@@ -98,7 +98,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
     &{repo("service-cineform")}, &{repo("service-openbao")},
     &{repo("service-bao-sqlite-fdb")} (the OpenBao secrets engine that
     runs catalogued SQL over fabric-store databases; the zone journals'
-    home), &{repo("service-zone", planned: "7-service")} (the Fly app's
+    home), &{repo("service-zone")} (the Fly app's
     Containerfile and `fly.toml`).
   - The dot repositories `.github`, `dot-claude`, `dot-vscode`,
     `fire-s-extension-pack`.
@@ -530,7 +530,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   of them has a GPU, and none will.
 
   A new app, `weftspun-zone`, from a new repository
-  &{repo("service-zone", planned: "7-service")}: a Containerfile that
+  &{repo("service-zone")}: a Containerfile that
   takes the Linux x86_64 double headless engine, the addon's double
   `.so`, and the pen at the release tag, and runs `godot --headless
   --path pen --script tools/zone_main.gd` with a `--mode=<server|worker>`

@@ -16,8 +16,10 @@ defmodule RFDRefTest do
   defp world(blobs) do
     %{
       manifest: @xml,
+      manifest_url: "https://github.com/V-Sekai-fire/contract-manifest-taskweft",
       commit: "abc",
-      archived: ["interactor-old"],
+      archived: %{"interactor-old" => "https://github.com/V-Sekai-fire/interactor-old"},
+      legacy: %{},
       tip: fn _ -> {"main", "f00d"} end,
       blob: fn url, _, path -> Map.fetch(blobs, {Path.basename(url), path}) end
     }

@@ -313,11 +313,11 @@ defmodule RFD.Ref.Snapshot do
   @moduledoc false
 
   @doc """
-  The lock for `calls` against a world: `manifest` (default.xml text), `commit`, `archived`
-  (names), `tip.(url) -> {branch, sha}` and `blob.(url, sha, path) -> {:ok, text} | :error`.
+  The lock for `calls` against a world: `manifest` (default.xml text), `manifest_url`,
+  `legacy` (extra placements), `commit`, `archived` (name => url), `tip`, `blob`.
   """
   def lock(calls, w) do
-    placed = projects(w.manifest)
+    placed = Map.merge(Map.get(w, :legacy, %{}), projects(w.manifest, w.manifest_url))
 
     repos =
       for {fun, [name | rest]} <- calls, fun in [:repo, :file, :pin], into: %{} do
@@ -348,7 +348,7 @@ defmodule RFD.Ref.Snapshot do
       end
 
     %{
-      manifest: %{repo: "V-Sekai-fire/contract-manifest-taskweft", commit: w.commit},
+      manifest: %{repo: manifest_repo(w.manifest_url), commit: w.commit},
       repos: repos,
       files: files
     }
@@ -356,19 +356,19 @@ defmodule RFD.Ref.Snapshot do
 
   defp entry(name, planned, placed, w) do
     by_path = Enum.find(placed, fn {_, p} -> p.path == name end)
-    hit = (Map.has_key?(placed, name) && {name, placed[name]}) || by_path
+    by_bare = Enum.find(placed, fn {k, _} -> k |> String.split("/") |> List.last() == name end)
+    hit = (Map.has_key?(placed, name) && {name, placed[name]}) || by_path || by_bare
 
     cond do
       hit && planned ->
         raise ArgumentError, "repo #{inspect(name)} is placed; drop `planned:`"
 
       hit ->
-        {key, p} = hit
+        {_key, p} = hit
         {branch, tip} = w.tip.(p.url)
-        {key, Map.merge(p, %{state: :placed, default: branch, tip: tip})}
+        {name, Map.merge(p, %{state: :placed, default: branch, tip: tip})}
 
-      name in w.archived ->
-        url = "https://github.com/V-Sekai-fire/#{name}"
+      url = Map.get(w.archived, name) ->
         {branch, tip} = w.tip.(url)
         {name, %{state: :archived, url: url, default: branch, tip: tip}}
 
@@ -380,8 +380,10 @@ defmodule RFD.Ref.Snapshot do
     end
   end
 
+  defp manifest_repo(url), do: url |> URI.parse() |> Map.fetch!(:path) |> String.trim("/")
+
   @doc "name => %{path, url, revision} for every project default.xml places."
-  def projects(xml) do
+  def projects(xml, base \\ nil) do
     {doc, _} = xml |> String.to_charlist() |> :xmerl_scan.string(quiet: true)
 
     attrs = fn el ->
@@ -394,13 +396,28 @@ defmodule RFD.Ref.Snapshot do
     remotes = Map.new(els.("remote"), &{&1[:name], &1[:fetch]})
     default = List.first(els.("default")) || %{}
 
+    dir =
+      base &&
+        base
+        |> URI.parse()
+        |> Map.update!(:path, fn p ->
+          p |> String.split("/") |> Enum.drop(-1) |> Enum.join("/")
+        end)
+        |> URI.to_string()
+
     for p <- els.("project"), into: %{} do
       remote = p[:remote] || default[:remote]
+      fetch = remotes[remote] || ""
+
+      root =
+        if String.starts_with?(fetch, "http") or dir == nil,
+          do: fetch,
+          else: URI.merge(dir, fetch) |> URI.to_string()
 
       {p[:name],
        %{
          path: p[:path] || p[:name],
-         url: "#{String.trim_trailing(remotes[remote] || "", "/")}/#{p[:name]}",
+         url: "#{String.trim_trailing(root, "/")}/#{p[:name]}",
          revision: p[:revision] || default[:revision]
        }}
     end

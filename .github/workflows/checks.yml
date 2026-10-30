@@ -116,6 +116,7 @@ jobs:
           GATE_PR: ${{ github.event.pull_request.number && format('{0}#{1}', github.repository, github.event.pull_request.number) || '' }}
           GATE_BRANCH: ${{ github.head_ref }}
           GH_TOKEN: ${{ github.token }}
+          RFD_TOKEN: ${{ secrets.MANIFEST_TOKEN }}
         run: >-
           prek run --all-files --hook-stage manual --show-diff-on-failure --color always
           ci-rfd-serials ci-rfd-structure ci-comment-ladder ci-line-length ci-trope-density
