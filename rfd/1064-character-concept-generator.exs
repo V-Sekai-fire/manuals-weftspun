@@ -64,7 +64,7 @@ rfd 1064, "Character Concept Generator", :prediscussion do
   names it. RFD66606-1069, RFD66606-1071, and RFD66606-1072 did not clear that bar.
   RFD66606-1070 records the rule they failed.
   :: details Reference links
-  - https://github.com/V-Sekai-fire/interactor-taskweft
+  - https://github.com/V-Sekai-fire/interactor-taskweft-persona
   - https://github.com/0b5vr/khr-character-testbed/blob/main/README.md
   - https://github.com/Kjakubzak/glTF/tree/kjakubzak/avatar_ext/extensions/2.0/Khronos/KHR_character
   - https://huggingface.co/datasets/alfredplpl/anime-with-caption-cc0
