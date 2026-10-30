@@ -13,8 +13,8 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
 
   1. **Replicas on the FDB machines, coordinated over FDB.** `ha_enabled = true`,
      one Bao beside each of the three weftspun-fdb machines (operator, 2026-10-13).
-  2. **Auto-unseal.** A transit seal on a small Bao on the operator's Windows desk. It
-     replaces the Mac mini seal, which the operator rescinded (operator, 2026-10-30).
+  2. **Auto-unseal.** A transit seal on a Seal Bao on Fly, unwrapped from Fly KMS at boot
+     (operator, 2026-10-30). It replaces the Mac mini seal, which the operator rescinded.
   3. **Consumers cache what they can.** A bearer held for a few
      minutes puts Bao in the critical path only at cache expiry.
   4. **No CDN proxy in front of workspace services.** CF-proxied
@@ -110,32 +110,87 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
     its own HSM. Overkill for this workspace's scale.
   - **HCP Vault / OpenBao managed**. Not this workspace's shape.
 
-  Recommendation: cloud KMS. The workspace does not yet have a KMS
-  account of any of the three big providers; standing one up is the
-  tax. Fly does not offer a first-party KMS at this scale. The Shamir
-  key in 1P stays as break-glass for the day the KMS itself is the
-  outage (RFD66606-2144 defect #11's day).
+  Recommendation: Fly KMS, through a Seal Bao. Fly app secret keys are a
+  first-party KMS, usable only from inside a machine of the owning app, and
+  OpenBao has no Fly seal type, so a Seal Bao bridges the two (operator,
+  2026-10-30). The break-glass key for the day the KMS itself is the outage
+  (RFD66606-2144 defect #11's day) is the Seal Bao's static key, held offline
+  as a Shamir share, whose count may be 1.
 
   An auto-unseal wrapper does not change the CRL-loop bug logged
   during the DR (Bao's authenticated paths going flaky after a
   particular sequence of issuer imports). That is a separate item.
-  :: details Transit seal on the Windows desk
-  The operator chose on 2026-10-13 to unseal the Fly instances from a small Bao and
-  rescinded the Mac mini as its host on 2026-10-30. The seal Bao runs on the operator's
-  Windows desk (operator, 2026-10-30).
+  :: details Transit seal on Fly, unwrapped by Fly KMS
+  The operator chose on 2026-10-13 to unseal the Fly instances from a small Bao,
+  rescinded the Mac mini as its host on 2026-10-30, and chose a Seal Bao on Fly that
+  unwraps its own key from Fly KMS (operator, 2026-10-30).
 
-  - The transit key is restored from its 1Password backup into the desk's seal Bao. The
-    restored key's fingerprint must equal the backup's before any Fly instance uses it.
-  - The seal Bao listens only on the desk's tailnet address, with mutual TLS, and the
-    tailnet policy lets only the Fly Bao nodes reach it.
-  - The Fly instances authenticate with a periodic orphan token limited to encrypt and
-    decrypt on that one key, held as a Fly secret.
-  - If the desk is off or off the tailnet, a restarted Fly instance stays sealed until it
-    is back. The instances still running keep serving.
-  - The Shamir key stays a recovery key: it authorises operations such as generating a
-    root token, but it no longer unseals.
-  - The change is proved with a planted control: with the desk's listener stopped, a
-    restarted instance stays sealed.
+  - Encrypt and decrypt with a Fly secret key work only from inside a machine of the
+    owning app, through the machine's local API socket; the public API refuses. The Seal
+    Bao's start-up script decrypts a wrapped 32-byte key into memory and starts Bao with a
+    `static` seal. Every other Bao uses a stock transit seal against it.
+  - The Seal Bao runs as one machine or as an HA set of three voters. Two voters tolerate
+    no failure, so two is not a valid setting (operator, 2026-10-30). One machine relies on
+    a restore from backup that has been tested.
+  - It listens only on its tailnet address, over TLS, and the tailnet policy lets only Bao
+    nodes reach it. No peer reaches a localhost or public listener.
+  - Each Bao has its own transit key and a policy limited to encrypt and decrypt on that
+    key. A certificate login yields a short token, but a seal needs its token at boot, so
+    each Bao also holds a periodic orphan token for its key: a Fly secret on the Fly
+    instances, a file readable only by its own user elsewhere. Measured on a throwaway Bao,
+    the seal renews that token while the Bao runs; the token expires if the Bao is down
+    longer than its period, so the period is set to days and a longer outage needs a new
+    token.
+  - If the Seal Bao is down, a restarted Bao stays sealed until it is back. Running Baos
+    keep serving.
+  - The break-glass key is the Seal Bao's static key, held offline as a Shamir share even
+    when the count is 1, and never in the backup bucket. A new Seal Bao started with that
+    key and a restored snapshot unlocks every other Bao. Each Bao's Shamir recovery keys
+    authorise operations such as generating a root token; they do not unseal.
+  - The Seal Bao backs up to the same bucket as the others, under its own prefix, with
+    unique object names and a retention lock; plain-text config files stay out of the
+    snapshots and are protected separately.
+  - The change is proved with a planted control: with the Seal Bao stopped, a restarted
+    Bao stays sealed. The recovery test passes before prod moves: on clean hosts with Fly
+    blocked, restore the Seal Bao from the offline key and the backup, then restore one
+    other Bao through it and read back data.
+  :: details Recovery without Fly KMS
+  This procedure needs no Fly account, no Fly machine and no network path to Fly. It is
+  the one the recovery test runs (operator, 2026-10-30).
+
+  1. Gather the materials: the offline Shamir share or shares of the Seal Bao's static
+     key, the Seal Bao's configuration without its secrets, and the newest snapshot of
+     the Seal Bao from the backup bucket.
+  2. Rebuild the key: combine the shares into the 32-byte key (one share is the key
+     itself). Check the length and the key id the configuration names before use.
+  3. Start a new Seal Bao on any host with a `static` seal whose key is a file in memory
+     backed storage, and with the same listener rules: tailnet address, TLS.
+  4. Restore the snapshot into it. Whether the restore needs the force option under a
+     fresh barrier is not yet measured; the recovery test settles it.
+  5. Check that the transit keys, the policies and the cert roles are back, and that one
+     other Bao unseals through the new address with its existing periodic token.
+  6. Point the other Baos at the new address if it changed, one at a time.
+  7. Resume hands-off unsealing by wrapping the key with a new KMS, or by leaving it
+     manual until one exists. A Bao that stays up needs none of this; only a restart does.
+  8. Write down what the restore took and which step was unclear, then amend this block.
+
+  The key never leaves the offline store except during steps 2 and 3, and the memory copy
+  is destroyed when the host stops.
+  :: details Alternative wrapper: a passkey
+  Fly KMS is the hands-off wrapper. A passkey can wrap the same 32-byte static key when no
+  Fly KMS is available, at the price of a person at every restart (operator, 2026-10-30).
+  The route has not been run here; the recovery test measures it.
+
+  - **Passkey.** A passkey whose authenticator offers a secret-derivation extension can
+    derive a wrapping key from a challenge, with a touch. Support differs by authenticator
+    and by client library, so confirm that the same credential returns the same secret on
+    a second host before relying on it. A passkey that only signs cannot wrap anything.
+  - **Hardware seal in Bao.** OpenBao can seal through a PKCS#11 module, but that needs a
+    token that decrypts or unwraps with a mechanism the seal supports; whether a passkey
+    does is not known. Until measured, the passkey wraps the static key and Bao keeps its
+    `static` seal.
+  - Keep two passkeys, stored apart, since one lost token otherwise ends recovery. A
+    passkey stays out of the backup bucket and off any Fly host.
   :: details Consumer-side cache: what and for how long
   Every read against Bao is a Bao dependency. Two ends of the spectrum:
 
@@ -175,11 +230,9 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   2. Build one image carrying the FDB server and Bao, and deploy it to
      the three weftspun-fdb machines one at a time, unsealing each.
   3. Stop the `weftspun-bao` app, then destroy it once the three serve.
-  4. Stand up the seal Bao on the Mac mini, add a `seal "transit"` block
-     to the Fly config, and migrate with one last Shamir unseal
-     (`-migrate`). The Shamir key stays in 1Password as the recovery key.
-
-  A cloud KMS can replace the Mac later through the same seal migration.
+  4. Stand up the Seal Bao on Fly and pass its recovery test, add a `seal "transit"`
+     block to the Fly config, and migrate with one last Shamir unseal (`-migrate`).
+     The Shamir key stays offline as the recovery key.
   :: details A desk reaches the active instance
   Read on 2026-10-16. The three instances elect one leader, and only the
   leader answers a login; a standby redirects to the leader's
@@ -212,7 +265,11 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   - 3 replicas, one per FDB machine (operator, 2026-10-13).
   - Standbys serve reads (`disable_performance_standby = false`) vs
     forward to leader. Read-heavy workload argues for serving.
-  - The seal provider: the Windows desk's transit Bao (operator, 2026-10-30).
+  - The seal provider: a Seal Bao on Fly, unwrapped from Fly KMS (operator, 2026-10-30).
+  - Whether the Seal Bao runs as one machine or as three voters; both are allowed.
+  - The FDB and Bao data machines run as one machine or as an HA set; the one-machine form
+    relies on tested backups (operator, 2026-10-30).
+  - Where the offline copy of the Seal Bao's key is kept.
   - Whether to write the CRL-loop fix (a separate bug) into this
     rollout or before it.
   :: details Sources
