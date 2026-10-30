@@ -47,6 +47,13 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
 
   The codec is the one this workspace already certifies for the residual-FSQ recommender:
   a mixed-radix index over per-dimension levels, injective and bounded at the real scale.
+  :: details References
+  The codebook's shape and the stages it stacks come from this lineage.
+  - Zeghidour et al., SoundStream (doi 10.1109/TASLP.2021.3130651)
+  - Défossez et al., EnCodec (doi 10.48550/arXiv.2210.13438)
+  - Mentzer et al., Finite Scalar Quantization (doi 10.48550/arXiv.2309.15505)
+  - Zhu et al., Robust Residual FSQ (doi 10.48550/arXiv.2508.15860)
+  - Liu et al., VQTalker (doi 10.48550/arXiv.2412.09892)
   :: details What is not known
   - Whether a grammar over the domain's own codes is enough to carry a request in words,
     or whether every request needs a caller that already knows the vocabulary.
