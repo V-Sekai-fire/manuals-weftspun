@@ -165,7 +165,7 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
     text is at least 1 degree tall.
   - The frame rate holds the headset's refresh rate. A person moves by
     xr-grid's world grab, both grips pinching the world, with no smooth
-    acceleration (RFD66606-2294).
+    acceleration (RFD66606-2363).
   - A haptic pulse confirms each stroke closed, lasso target taken
     and garment worn.
   - The mirror is a world-locked object the person walks up to, not a

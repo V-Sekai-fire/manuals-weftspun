@@ -26,7 +26,7 @@ rfd 2296, "the first rung's dev.2", :discussion do
   - RFD66606-2293, the workspace, the ladder and dev.1; its release rules
     (tag, GitHub release, playtest, gates with controls) hold here.
   - RFD66606-2287, the rung; RFD66606-2262, the ladder.
-  - RFD66606-2295, the forecast tags; RFD66606-2294, the visual comparisons.
+  - RFD66606-2295, the forecast tags; RFD66606-2370, the visual comparisons.
   - RFD66606-2297, dev.3; RFD66606-2298, dev.next.
   """
 

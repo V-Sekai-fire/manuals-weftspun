@@ -23,7 +23,7 @@ and no `app_process`. The route ends there.
 
 The encode leg planned after it, H.264 through `v4l2h264enc` into MPEG-TS over the SSH key, is
 withdrawn. Recordings are CineForm, and the live view is PyroWave, per `BLOCKLIST.md` and
-RFD66606-2294.
+RFD66606-2365.
 
 ## The compositor mirror: works
 

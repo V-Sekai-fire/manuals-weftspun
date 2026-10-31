@@ -21,7 +21,7 @@ rfd 2297, "the first rung's dev.3", :discussion do
   :: related
   - RFD66606-2293, the workspace, the ladder and dev.1; its release rules hold here.
   - RFD66606-2296, dev.2; RFD66606-2298, dev.next.
-  - RFD66606-2294, the headset and the visual comparisons.
+  - RFD66606-2376, the headset; RFD66606-2370, the visual comparisons.
   """
 
   details_title "the first rung's dev.3"

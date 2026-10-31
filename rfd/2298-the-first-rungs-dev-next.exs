@@ -40,7 +40,7 @@ rfd 2298, "the first rung's dev.next", :discussion do
     drift in millimetres against the source clip's own;
   - the joy forecasts below shown as orbit views (also called contact sheets,
     turnaround sheets or turntable renders), composed
-    as RFD66606-2294's visual comparisons are and rendered by Mitsuba inside
+    as RFD66606-2370's visual comparisons are and rendered by Mitsuba inside
     a godot-sandbox guest ELF on the CPU, with the world grabbed, turned
     like a model and recorded as a video;
   - Maro as the dress-on statue beside the plaza monument, with a pen
