@@ -44,7 +44,14 @@ interactor"
   The homebrew ffmpeg ships the `cfhd` encoder. It takes `yuv422p10le`,
   `gbrp12le` and `gbrap12le`. The recorders use `gbrp12le`, because
   their frames are RGB and Pong's edges are one colour against another.
-  Audio is FLAC, or uncompressed PCM, at 48 kHz, stereo.
+  Audio is FLAC, or uncompressed PCM, at 48 kHz, stereo. An engine movie
+  writer receives 32-bit samples, so it writes `pcm_s24le` and never
+  16-bit.
+
+  CineForm fails on a frame whose width is not divisible by 16 or whose
+  height is not divisible by 8. A writer checks the size before it starts
+  and refuses with a message that names the size, because the encoder
+  otherwise dies mid-stream and the only symptom is a broken pipe.
 
   A live recorder pipes raw RGB to one ffmpeg process that writes
   CineForm in Matroska, then a second pass copies that video and adds
