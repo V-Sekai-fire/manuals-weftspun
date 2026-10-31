@@ -8,16 +8,17 @@ rfd 2360, "The campus ships one beta", :discussion do
 
   prose ~S"""
   :: hook
-  The campus ships one beta, and every feature outside it is abandoned.
+  What ships in the campus beta? Four features.
   :: intrigue
   Dev is development: features land and change, and a feature that misses the one beta is
   abandoned rather than deferred.
   :: exit
-  A new idea that matches a nongoal is refused. Cut the beta when every gate passes with
-  its control.
+  Read the details for the four features. Refuse a new idea that matches a nongoal. Cut the
+  beta when every gate passes with its control.
   :: decision
   - One beta, a feature-complete freeze after dev, holds the features the details list. Every
     nongoal is abandoned (operator, 2026-10-30).
+  - The four are: see each other, hear each other, draw and wear, and the party and the shop.
   :: problem
   After the beta is cut, only fixes land.
   :: related
