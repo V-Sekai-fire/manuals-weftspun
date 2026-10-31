@@ -15,7 +15,7 @@ rfd 2360, "The campus ships one beta", :discussion do
   A new idea that matches a nongoal is refused. Cut the beta when every gate passes with
   its control.
   :: decision
-  - One beta, a feature-complete freeze after dev, holds the features the details list; every
+  - One beta, a feature-complete freeze after dev, holds the features the details list. Every
     nongoal is abandoned (operator, 2026-10-30).
   :: problem
   After the beta is cut, only fixes land.
