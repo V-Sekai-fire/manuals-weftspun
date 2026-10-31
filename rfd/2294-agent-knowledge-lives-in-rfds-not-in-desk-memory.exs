@@ -21,17 +21,12 @@ rules below"
   repositories, the headset and the services lives in an RFD in this repository:
   the RFD that owns the topic, or this one when none does. A desk's local memory
   keeps only what is true of that desk alone, such as its paths, its identities
-  and its tools; a local note about a generic rule names the RFD that states it.
+  and its tools. A local note about a generic rule names the RFD that states it.
   :: problem
   A rule changed on one desk disagreed with the others without anyone being told.
   :: related
-  - RFD66606-2287, the first rung, whose interface moves a person by the world grab
-    described under Locomotion.
-  - RFD66606-2293, the Skateboard's workspace, which builds the translated libraries.
-  - RFD66606-2265, compute-rd kernels with a CPU oracle; RFD66606-2290, ggml only in
-    guests.
-  - RFD66606-2283, verification by recording, which the contact sheets deliver.
   - RFD66606-2200, the desk agent's ReBAC rows.
+  - RFD66606-2363 to RFD66606-2381, the rules this RFD held before the split, one RFD each.
   """
 
   details_title "agent knowledge lives in RFDs, not in desk memory"
@@ -122,7 +117,7 @@ rules below"
   commit and give the operator the branch name. When any step fails, stop and ask the operator rather than guess.
   :: details The work queue
   The agent sessions share one work-stealing queue, the issues labelled
-  `worksteal` on &{repo("contract-zone-backend")}; its protocol is pinned there as #58. An
+  `worksteal` on &{repo("contract-zone-backend")}. Its protocol is pinned there as #58. An
   agent works its own queue newest first, and with nothing unclaimed steals the
   oldest unclaimed, unpinned issue from the fullest queue. A pinned issue needs one
   desk's hardware or credentials and is never stolen. The queue applies
@@ -156,54 +151,6 @@ rules below"
   into paths. `start "" ...` goes in a `.cmd` file: passed inline, the empty
   title arrives as `\"\"` and `start` tries to run `\`. Godot raises its own
   process to above-normal priority, so a desk run lowers it by PID once started.
-  :: details Locomotion
-  In the headset a person moves two ways, and both work. One is xr-grid's world
-  grab: both grips pinch the world, and moving, turning or spreading the hands
-  carries, turns or scales it about the hands' midpoint
-  (`addons/procedural_3d_grid/core/xr_pinch.gd` on a canvas beside the hands, as
-  &{repo("transport-meshing-pen")} wires it). One grip moves nothing. The other is the
-  controllers: smooth stick movement, snap turning and teleport. A character
-  moved with a gamepad uses &{repo("interactor-motion-guest")}: the motion models on
-  ggml-rd with compute-rd in a godot-sandbox guest, retargeted onto the avatar,
-  with the stick setting movement and facing. No hand-written character
-  controller is added.
-  :: details Deploying offline
-  The whole stack deploys offline on one laptop, reachable on the LAN and perhaps
-  the tailnet, with nothing needed from the WAN:
-
-  - every build source is in the manifest and mirrored on the laptop, and release
-    binaries are mirrored with their sha256s;
-  - each runtime (FoundationDB, Uro, OpenBao, the zone servers, the object store)
-    runs on the laptop, with only its own data;
-  - names come from the laptop's own resolver or the tailnet, and certificates
-    from the offline CA;
-  - sign-in has a LAN-only method beside the third-party providers.
-
-  Bubblewrap is the test: the stack runs with its network unshared, so a fetch
-  that reaches past the laptop fails by name. Uro runs next to its FoundationDB
-  cluster, so a page read never leaves one machine.
-  :: details Video
-  Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
-  WebM is made: videos are uploaded by hand, and a WebM does not play on every
-  desk. It is recorded as `.cfhd` through &{repo("contract-cineform-movie-writer")} at double
-  precision and delivered by &{repo("interactor-av1mkv")}'s `deliver.exs`, which writes
-  only those two files; no master is MJPEG. Nothing records
-  through the encoder BLOCKLIST.md bars or through the desktop driver's own
-  recorder: recordings are CineForm, the live stream is PyroWave, and the headset
-  view comes from the compositor mirror.
-
-  Marketing media and samples are marked with `https://github.com/v-sekai-fire`:
-  it is the `url` in each `.cff`, the web statement in its XMP and the line on
-  its exit card, and each follows the four-beat script below.
-
-  A short runs exactly 40 seconds and is scripted before recording in four beats:
-  hook, intrigue, delivery and exit (HIDE).
-  The hook fills the first 3 s as on-screen text that works with the sound off and
-  promises without answering. One line of intrigue makes the viewer feel the
-  problem. The delivery is the one thing they came for. The exit gives them
-  something to do. It is never about us. The length is 40 times the frame rate in
-  Movie Maker frames, counted from the first rendered frame; the engine renders
-  the captions, and no external tool re-encodes the file.
   :: details Interchangeable sessions
   Any agent session, on a desk or in the cloud, can pick up any task another
   session started, because each follows the practices below and reads them here
@@ -255,11 +202,11 @@ rules below"
     it with `actions/upload-artifact`, so the sheet belongs to the run and the
     commit that made it. The colour reference is the lookdev-24 chart,
     &{repo("entities-sakuragaoka-station")}'s `tools/calib/chart24.json`, and no
-    commercial chart's trademark appears in code or documents. The cell layout is
-    under "Visual comparisons" below.
+    commercial chart's trademark appears in code or documents. RFD66606-2370 holds the
+    cell layout.
   - Characters. A garment is fitted to a character's body meshes only, and a
     character's own clothing is not loaded beneath it unless the operator asks
-    for layering. Maro is the dress-on statue a garment is drawn onto; Mire is
+    for layering. Maro is the dress-on statue a garment is drawn onto. Mire is
     the avatar (operator, 2026-10-02).
   - Replies. RFD66606-2295 owns their form: the calibrated confidence tag, ISO 8601
     times and intervals, and the known-unknown questions that close a plan.
@@ -283,256 +230,16 @@ rules below"
   the `practices` hook in this repository's `.pre-commit-hooks.yaml`. Another
   repository lists that hook in its `.pre-commit-config.yaml`, where it runs on
   push, and its CI calls
-  `.github/workflows/practices.yml` from here, which runs the same hook; both
+  `.github/workflows/practices.yml` from here, which runs the same hook. Both
   pin a commit of this repository. This repository runs it as the
   `ci-practices` hook. Comments posted after the last run are seen at the next
   push or edit. The other practices hold by agreement.
-  :: details Visual comparisons
-  A visual comparison is delivered as a labelled contact sheet, the format for
-  both vision-model review and human QA: one row per case, one column per source
-  (original, before, after, diff), each cell labelled with its metric, failures
-  first, and the numbers kept beside the sheet. &{repo("entities-sakuragaoka-station")}'s
-  `tools/prop_shots.gd` is the precedent for that layout only (RFD66606-2283). A sheet
-  is composed by rendering, with fragment shaders into a `SubViewport`, or in a
-  godot-sandbox guest, never by a GDScript loop over pixels; its script ships as
-  `.sgd`, and its views come from `sphere_hammersley_sequence`. Each sheet carries
-  a `.cff` and its `<stem>.xmp` sidecar (RFD66606-2240). A copy goes to
-  `lookdev-contact-sheets/` on the Desktop of the desk that made it, as
-  `<topic>-NN.png`, the number rising so that no sheet is overwritten. These rules
-  hold by agreement; no gate reads a sheet.
-
-  A residual is fixed, never smudged: nothing blurs an image before the diff,
-  loosens a threshold or masks a region. Fixes go down a ladder, each rung measured
-  with the diff's own metric before and after: exact fixes at the source, then
-  missing structure, then registration, where a camera that does not match is fixed
-  in the camera and never by warping an image, then parameters fitted to the oracle
-  with &{repo("contract-lbfgsb")} on the GPU, coarse to fine, written back into the source
-  assets and checked on views the fit did not use. What remains is reported beside
-  its floor, and a later change may not raise it. Antialiasing and distance fades
-  that belong to the renderer stay.
-  :: details The station in Godot
-  The Sakuragaoka Station port (&{repo("entities-sakuragaoka-station")}):
-
-  - realizes every closed solid through CSG, and carries each face's colour as a
-    palette index in UV, since CSG keeps UV and drops vertex colour; CSG takes
-    only manifold solids, so a geometry that fails the manifold check stays a
-    plain surface, or goes through `remesh.elf` when it must be unioned;
-  - shades with godot-vrm's MToon unchanged, and a variant includes it rather than
-    forking it;
-  - renders from meshes baked from the vector materials' data (signs, paving,
-    bark), coarsened by LOD when over budget, so it works with the runtime vector
-    shader off; alpha-cut foliage cards bake too: each blossom card is its atlas
-    cell's outline, baked by `slug.elf` at 256 triangles a cell, and the cards go
-    into cluster LOD DAGs built by `remesh.elf`'s `cluster_lod` (meshoptimizer's
-    `clusterlod.h`), which `clod_select` cuts per frame, binary-translated, on
-    both standalone headsets (operator, 2026-10-10). Over the 48 valid orbit
-    views, the 53,211 cards are 13.6M triangles at full detail, and a 4 px cut
-    for a 1760 px eye at 100 degrees draws a mean of 39k and at most 122k. With
-    the cut, depth differs from the original on 0.16 % of the frame, and on
-    2.15 % without the cards. Translated, the cut takes a median 1.6 ms a view
-    on the desk, and 4.3 ms interpreted;
-  - runs `slughorn`'s per-pixel vector shader as a quality setting, on by default,
-    adding detail to surfaces near the eye within the headset's GPU budget;
-  - synthesizes finer detail only where the source is procedural;
-  - judges alpha on the final composite of its layers: an opaque object ends with
-    no transparency, and a transparent base-colour material writes alpha.
-
-  No rasterized vector art or glyph outline goes into the headset. Meshes made
-  from outlines are fine, and a glyph mesh goes through `remesh.elf` when its
-  font's winding is invalid. Parity with the three.js original is measured at
-  sphere-Hammersley views against `tools/oracle/shot.mjs` renders.
-
-  The reference is the original rendered through WARP, Windows' software
-  rasterizer (`--angle warp`, release `oracle-4112f57-h8-warp`), because it is
-  deterministic and seam-free. ANGLE's Vulkan path hashes the cloud noise's
-  lattice corners from float sums differently on each side of a cell edge and
-  draws seams the original does not intend, and D3D11 flips one 8-bit level from
-  run to run. The port hashes from integer corners. A change lands only when no
-  view's full-resolution MAD rises against the reference, unless the operator
-  accepts the exception on #72.
-
-  The operator's budget for the standalone headset: at most 700k triangles in
-  view per frame, of which world geometry gets 250k (400k at most) and characters
-  450k. A crowd of non-player characters holds 150k of the character share and
-  drops to impostors first. One equal-error LOD threshold over the frame enforces
-  it, and the LODs come from Godot's own `generate_lods` on welded meshes, except
-  the blossom cards, whose levels are the cluster LOD DAGs above.
-  Avatars and characters cast their shadows from tapered capsules fitted per
-  skeleton (#110), not from the shadow map; an untapered capsule keeps stock
-  Godot's height and radius behaviour.
-
-  The outline reads the mesh's geometric normal, which the toon-ramp hook writes,
-  not MToon's bent indirect-light normal, and takes depth and normal from the
-  majority MSAA sample.
-  :: details Where compute runs
-  Heavy compute runs in a godot-sandbox guest: a riscv64 guest ELF on the CPU,
-  which is also the parity oracle, or kernels on ggml-rd with compute-rd, authored
-  in Lean and lowered through Slang to SPIR-V (RFD66606-2265). It never runs as a host
-  Python or C++ pipeline or as a GDScript loop. Fragment shaders that render are
-  fine, and Python bindings serve upstream contributions and their tests, never a
-  pipeline. ggml runs only in such a guest (RFD66606-2290): a native ggml engine
-  module, a GDExtension ggml API or a standalone runtime is off the route, and a
-  standalone CLI may stay as a CPU oracle for a gate. Diffusion in ggml runs on
-  ggml-rd with compute-rd as well, since EditScore's decision model builds on it
-  (RFD66606-2268).
-
-  A guest's source lives in the repository that consumes it and follows
-  curvenet's split: `main.cpp` marshals and sees only `api.hpp`, and `*_api.cpp`
-  sees the library. Mesh arrays cross in the layout of &{repo("contract-guest-common")}'s
-  `mesh_wire.h`. A vmcall takes at most seven arguments, an eighth failing with a
-  register overflow, and each call returns inside the sandbox's
-  `execution_timeout`.
-  :: details Binary translation and the Windows build
-  Everything that runs in godot-sandbox is binary-translated, guest ELFs and
-  SafeGDScript alike, and an interpreted timing is never the one reported. No
-  `.gd` ships: every script, third-party ones included, ships compiled as `.sgd`
-  with its translation, and a script that does not compile is a counted FAIL, not
-  a fallback.
-
-  The game ships as a Windows build, run natively and through the headset's
-  compatibility layer, so a translation is a precompiled Windows library linked
-  against the universal C runtime that loads under that layer, never code
-  generated at run time into writable executable memory. A Linux `.so` serves the
-  Linux zone servers and never reaches the headset. The compatibility layer runs
-  that same Windows build, so the Windows desk is where it is tested. RFD66606-2293
-  builds the libraries.
-  :: details Translations linked into the addon, one bake per platform
-  A translation can be compiled into the addon library of its platform instead of
-  being loaded as a library at run time. On the web this is the only route that
-  works: Chrome refuses to compile a WebAssembly module larger than 8 MB on the main
-  thread, and a game's translation is larger. The desktop builds of the same game
-  use the same route. The addon keeps each platform's translation objects in a
-  folder of their own, `src/bintr/<platform>.<arch>/`.
-
-  Each platform bakes its own C. The game runs once on that platform with the
-  emitter on, and the emitted C is compiled for that platform. The program hash
-  covers the machine layout as well as the program, so C baked on one platform
-  does not match on another. Windows and Linux on x86_64 share a layout and a
-  hash, and each still compiles its own copy. One bake of the SolidCraft guest
-  is 32 C files, 336 MB of C for 16.2 MB of RISC-V code.
-
-  A change to the host's system calls leaves the guest's translation as it was,
-  so the compiled objects and the hash stay valid and only a relink is needed.
-  :: details Building the desktop libraries
-  Linux x86_64 is built and tested in WSL Ubuntu 22.04 on the Windows desk, not in
-  a container on the Mac (operator, 2026-10-16). The library needs glibc 2.35, the
-  floor the Godot template already sets. macOS arm64 is cross-built in the same WSL
-  with osxcross and the macOS 15.4 SDK packed from the Mac (operator, 2026-10-16).
-  Ubuntu's clang 14 cannot parse that SDK's libc++ headers, so osxcross is built
-  with clang 18, and clang 18 is the `clang` on the PATH, because the osxcross
-  wrapper calls plain `clang`. Windows x86_64 is cross-built with MinGW on the Mac.
-  Steps that run in WSL go in a script file on the Windows side, which `wsl.exe`
-  runs as root with `sh` from `/mnt/c/`. Nested quoting from `cmd` into WSL
-  returns empty output.
-
-  Compiling the 32 translation units took 158 s for macOS on the Mac, 348 s for
-  Windows on the Mac and 590 s for Linux in WSL on the desk.
-  :: details Where the desktop builds ship
-  The macOS, Windows and Linux zips are assets of a GitHub release of the
-  guest's repository, tagged by RFD66606-2312, and the game Space links to them
-  (operator, 2026-10-17). The Space keeps the web game and the page. A Space
-  holds at most 1 GB, and every earlier upload of the zips still counted
-  in its history: the upload of three zips of 69, 84 and 91 MB was refused
-  at the limit. The Space history was squashed to one commit to free it,
-  and the upload script now deletes any zip from the Space.
-
-  The page shows the downloads on its first slide and the web game on its
-  last slide, as a preview (operator, 2026-10-17). The preview starts its
-  download only when that slide opens.
-
-  A change to the game script alone leaves the guest and every translation
-  hash as they were, so only the `.pck` of each zip is replaced. Each new
-  zip started translated and printed `RESULT PASS` on its own system on
-  2026-10-17. The web game's slowest frame in the first round read 139 to
-  145 ms before and after the change.
-
-  The SkinTokens viewer's packages hold the rig model, about 1.3 GB each,
-  more than a Space can hold. They are files of a public model repository
-  on Hugging Face, and the auto-rig Space links that repository's `main`.
-  A dev release puts the same files on its `dev` branch, so visitors keep
-  the files on `main` until the operator promotes it (operator, 2026-10-18).
-  Each upload is checked by comparing the repository's file hashes with the
-  package's `SHA256SUMS`, and the Space page's SHA-256 lines change in the
-  same pass.
-  :: details What a Linux guest needs from a Windows host
-  A Rust guest linked against static glibc failed on the Windows host, translated
-  and interpreted alike, and so did the released addon. The emulator's Windows
-  host answered four system calls differently from its Linux host:
-
-  - `brk` did not keep the new break. Static glibc puts the main thread's
-    thread-local block at the first break, so the heap handed out memory inside it
-    and, later, an address in read-only data. This was the crash.
-  - `clock_gettime` wrote the host's own `timespec`, a 32-bit nanosecond field with
-    padding, where the 64-bit guest reads two 64-bit fields.
-  - Error numbers above `ERANGE` follow the Windows C runtime (`ENOSYS` is 40, where
-    Linux has 38). glibc chooses its `rseq` and `clone3` fallbacks on `ENOSYS`, so
-    the host now maps errors to the Linux numbers in one header.
-  - `sched_getaffinity` was missing. The Linux and macOS hosts report one CPU, and
-    the Windows host now does the same.
-
-  The first three fixes left the crash in place. A dump of the guest registers and
-  the page's permissions at the fault found the break. The fixes are in our libriscv
-  fork, and the addon takes them with Linux's `ENOSYS` for an unknown system call.
-  :: details What was measured
-  Each target built one sphere of 672 triangles in the guest's self-test, with the
-  translated and the interpreted build started one after the other, twice, on a
-  machine with no other load (2026-10-17). Times are in milliseconds.
-
-  | target | translated | interpreted |
-  |---|---|---|
-  | macOS arm64, Mac mini, osxcross build | 40.3 to 42.0 | 214.7 to 293.5 |
-  | Windows x86_64, the desk | 61.2 to 62.0 | 454.2 to 491.7 |
-  | Linux x86_64, WSL on the same desk | 114.4 to 131.9 | 583.8 to 595.3 |
-  | web, Chrome on the Mac, tab in front | 79 to 110 | 442 to 472 |
-
-  The same macOS translation built with Apple clang took 69.5 to 72.4 ms against
-  37.7 to 38.4 ms from osxcross with clang 18, so the osxcross build is the one that
-  ships. The cause of that difference is not measured. Readings taken while another
-  build ran on the same machine overstated the gap: Windows interpreted read 848 to
-  907 ms then.
-  :: details The headset
-  Tests and gates run on the Windows desk or as renders on the Mac, not in the
-  headset the operator wears. A run, a runtime restart or a capture in the headset
-  happens only when the operator asks for that run, and nothing captures the
-  headset view while the operator is in a social session. The headset view comes
-  from the compositor mirror (`/dev/video99`) with screen sharing on; X11 capture
-  cannot see it.
-
-  Asleep, the headset drops off the LAN entirely, answering neither mDNS nor
-  ARP, so a name that does not resolve means it is asleep, not broken.
-
-  The headset is the Mac desk's in the queue, so another desk coordinates with
-  the Mac before touching it. A key appended to its `authorized_keys` starts on a
-  new line with carriage returns stripped, because the file may end without a
-  newline and a `.pub` written on Windows ends its lines with CRLF.
-
-  The station ships to the headset as the Windows x86_64 build, run through the
-  headset's compatibility layer, on single-precision Godot 4.7.2 until the
-  station's double-precision guests are verified (operator, 2026-10-01). The
-  export uses an export template and a real rendering device, so it runs in the
-  Windows desk's interactive session: Windows OpenSSH and a service-mode CI runner
-  both run in session 0, which has no desktop. A session drives the Godot editor
-  there through the computer-use driver, or starts the export from SSH as a
-  scheduled task with `/it`. No GitHub Actions runner does it.
-
-  The build ships as a casync repository: desync, the Go implementation of
-  casync, makes the index and chunk store, and they go into a V-Sekai-fire
-  repository of their own. The headset pulls the title with desync's arm64 build,
-  or takes it over SSH as user `deck` with the desk's key, as a dev title.
   :: details Merging
   An agent merges its own pull requests on V-Sekai-fire once they are green,
   through the merge queue where the repository has one. Where a repository
   requires no checks, `--auto` merges at once with its checks red, so there the
   agent waits for green and merges by hand. An agent may merge with the admin
-  override (operator, 2026-10-30); the ban on it is rescinded.
-  :: details Where interactor-dress-on went
-  The stages of the archived interactor-dress-on live in their own repositories:
-  &{repo("contract-guest-runtime")}, &{repo("contract-guest-common")},
-  &{repo("contract-ggml-rd")}, &{repo("contract-lbfgsb")},
-  &{repo("contract-anny-kernels")}, &{repo("contract-sinew-align")}, and
-  &{repo("interactor-drape")}, `-curvenet`, `-garment-fit`, `-cage`, `-headfit`,
-  `-lasso`, `-motion-guest`, `-rfdetr-seg-guest`, `-usd-guest`, `-av1mkv`.
-  &{repo("transport-meshing-pen")} builds the guest ELFs from those sibling checkouts.
+  override (operator, 2026-10-30). The ban on it is rescinded.
   :: details Bao and the tokens it mints
   Bao runs as tailnet nodes named `weftspun-bao-N`, and a desk uses whichever is
   online, keeping `weftspun-bao.internal` as the TLS server name. A desk logs in

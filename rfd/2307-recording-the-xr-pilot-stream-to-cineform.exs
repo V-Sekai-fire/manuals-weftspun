@@ -29,7 +29,7 @@ build, and the av1mkv delivery of a recording"
   10 fps, because a full-rate 4K clip passes the size limits of the CineForm
   RIFF writer and of the MKV writer built with llvm-mingw.
   :: related
-  - RFD66606-2303, the XR requirements; RFD66606-2294, the recording rules.
+  - RFD66606-2303, the XR requirements; RFD66606-2365, the recording rules.
   - RFD66606-2306, operating the shared desk; RFD66606-2302, the frame budget.
   """
 

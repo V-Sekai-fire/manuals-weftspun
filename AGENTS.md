@@ -835,7 +835,7 @@ desk-agent--!owns--rented-gpu         # the Compute constraint above
 Temporary files go in the session scratchpad, and anything worth keeping goes
 into this tree or onto a pushed branch; there is no third place. Work runs
 natively on Windows, git, Bao, Fly and the headset's ssh included. Linux builds
-are built and tested in the desk's WSL Ubuntu 22.04 (RFD66606-2294). Each task ends by removing what it staged; minted tokens and the desk's
+are built and tested in the desk's WSL Ubuntu 22.04 (RFD66606-2378). Each task ends by removing what it staged; minted tokens and the desk's
 Bao login token expire on their own and are not revoked (RFD66606-2294).
 
 ## Where an Agent's Knowledge Goes

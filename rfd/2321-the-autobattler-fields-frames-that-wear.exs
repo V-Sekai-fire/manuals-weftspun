@@ -26,7 +26,7 @@ solids, rolled on survey tables, and it carries wear from round to round"
   :: problem
   Each unit was one solid: a box, a cylinder, a sphere or a torus.
   :: related
-  - RFD66606-2294, where the desktop builds ship: the release that carries this game.
+  - RFD66606-2379, where the desktop builds ship: the release that carries this game.
   - RFD66606-2085, RFD66606-2091 and RFD66606-2120, the Gyre setting (abandoned): the source of
     Frames, wear and scrip.
   """

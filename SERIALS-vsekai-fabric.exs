@@ -117,6 +117,28 @@ defmodule Serials.VSekaiFabric do
       serial 2360, "the-campus-ships-one-beta", flight_level: :l1
       serial 2361, "a-section-names-its-own-gate", flight_level: :l2
       serial 2362, "a-prose-rule-ships-after-it-runs-against-the-corpus", flight_level: :l2
+      serial 2363, "a-person-moves-by-world-grab-or-by-controllers", flight_level: :l2
+      serial 2364, "the-whole-stack-deploys-offline-on-one-laptop", flight_level: :l2
+      serial 2365, "every-video-ships-as-cineform-in-matroska", flight_level: :l2
+      serial 2366, "a-short-runs-forty-seconds-in-four-beats", flight_level: :l2
+      serial 2367, "the-station-port-renders-in-godot-from-baked-meshes", flight_level: :l2
+      serial 2368, "station-parity-is-measured-against-a-warp-render", flight_level: :l2
+      serial 2369, "the-standalone-headset-draws-at-most-700k-triangles", flight_level: :l2
+      serial 2370, "a-visual-comparison-is-a-labelled-contact-sheet", flight_level: :l2
+      serial 2371, "a-residual-is-fixed-down-a-ladder-never-smudged", flight_level: :l2
+      serial 2372, "heavy-compute-runs-in-a-godot-sandbox-guest", flight_level: :l2
+      serial 2373, "a-guest-keeps-its-source-where-it-is-consumed", flight_level: :l2
+      serial 2374, "everything-in-a-godot-sandbox-runs-binary-translated", flight_level: :l2
+      serial 2375, "the-game-ships-to-the-headset-as-a-windows-build", flight_level: :l2
+      serial 2376, "nothing-runs-in-the-headset-unless-the-operator-asks", flight_level: :l2
+      serial 2377, "a-translation-links-into-the-addon-one-bake-per-platform", flight_level: :l2
+
+      serial 2378, "desktop-libraries-build-in-wsl-and-cross-build-from-the-mac",
+        flight_level: :l2
+
+      serial 2379, "desktop-zips-ship-as-release-assets", flight_level: :l2
+      serial 2380, "the-skintokens-packages-live-in-a-model-repository", flight_level: :l2
+      serial 2381, "a-windows-host-answers-four-system-calls-as-linux-does", flight_level: :l2
     end
 
     deleted do
