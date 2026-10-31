@@ -14,8 +14,11 @@ defmodule RFDTest do
           state: :discussion,
           feature: "the feature",
           scope: "the scope",
-          decision: "Do the thing.",
-          problem: "The thing was not done.",
+          hook: "Do the thing.",
+          intrigue: "The thing was not done.",
+          exit: "Run the steps.",
+          decision: "It is done in steps.",
+          problem: "It waits.",
           references: ["RFD 1000"],
           related: "RFD 1000.",
           drafted_by: :ai
@@ -33,7 +36,9 @@ defmodule RFDTest do
              "# RFD66606-2999: a test RFD\n\n**State:** discussion\n**Feature:**"
            )
 
-    assert readme =~ "\n## Decision\n\nDo the thing.\n\n## Problem\n"
+    assert readme =~
+             "\n## Decision\n\n**Do the thing.**\n\nIt is done in steps.\n\nRun the steps.\n"
+
     assert readme =~ "\n## References\n\n- RFD 1000\n\n## Related\n"
     assert String.ends_with?(readme, RFD.Doc.canary(:ai) <> "\n")
     assert length(String.split(readme, "\n")) <= RFD.Doc.readme_limit()
@@ -128,7 +133,11 @@ defmodule RFDTest do
       use RFD.DSL
       rfd 2998, "good" do
         state :discussion
-        decision "Do it."
+        hook "Do it."
+        intrigue "It was not done."
+        exit "Run it."
+        decision "It runs."
+        problem "It waits."
         drafted_by :human
       end
     end
@@ -150,8 +159,20 @@ defmodule RFDTest do
       use RFD.DSL
       rfd 2996, "compact" do
         state :ideation
-        decision ~S\"""
+        hook ~S\"""
         Do it.
+        \"""
+        intrigue ~S\"""
+        It was not done.
+        \"""
+        exit ~S\"""
+        Run it.
+        \"""
+        decision ~S\"""
+        It runs.
+        \"""
+        problem ~S\"""
+        It waits.
         \"""
         details "How", ~S\"""
         Like so.
@@ -165,8 +186,16 @@ defmodule RFDTest do
     use RFD.DSL
     rfd 2996, "compact", :ideation do
       prose ~S\"""
-      :: decision
+      :: hook
       Do it.
+      :: intrigue
+      It was not done.
+      :: exit
+      Run it.
+      :: decision
+      It runs.
+      :: problem
+      It waits.
       :: details How
       Like so.
       \"""
@@ -190,7 +219,11 @@ defmodule RFDTest do
       use RFD.DSL
       rfd 2997, "madr" do
         state :discussion
-        decision "Do it."
+        hook "Do it."
+        intrigue "It was not done."
+        exit "Run it."
+        decision "It runs."
+        problem "It waits."
     #{body}
         drafted_by :ai
       end
@@ -337,7 +370,11 @@ defmodule RFDTest do
       use RFD.DSL
       rfd 2997, "rebac" do
         state :discussion
-        decision "Do it."
+        hook "Do it."
+        intrigue "It was not done."
+        exit "Run it."
+        decision "It runs."
+        problem "It waits."
         rebac do
           verb :owns, "holds the object as hardware"
     """

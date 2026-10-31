@@ -8,20 +8,21 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   scope "every language in the workspace: Elixir (StreamData), Python (Hypothesis), C++ (RapidCheck), Rust (proptest), Go (testing/quick, rapid), GDScript/C# (FsCheck where hosted)"
 
   prose ~S"""
+  :: hook
+  Every test states an invariant a generator searches, with a control that must fail.
+  :: intrigue
+  Example-based tests pass by construction. The author picks inputs they already believe
+  work, so the suite encodes the author's assumptions rather than testing them, and it goes
+  green over a harness that measures nothing.
+  :: exit
+  Read `DETAILS.md` for the property shapes and the harness bug behind this rule.
   :: decision
   A test asserts an invariant over generated input, not an outcome for one
   hand-chosen input. Every language the workspace builds in uses its
   property-testing library. On top of that, every property ships its
   falsification: the input that SHOULD violate it, with the test failing if
   the violation goes undetected.
-
-  See `DETAILS.md` for the property shapes, the harness bug that motivated
-  this, determinism, and what the rule does not ask for.
   :: problem
-  Example-based tests pass by construction. The author picks inputs they
-  already believe work, so the suite encodes the author's assumptions rather
-  than testing them, and it goes green over a harness that measures nothing.
-
   A property without a negative control is barely better: it establishes that
   the assertion is reachable, not that it discriminates.
   """

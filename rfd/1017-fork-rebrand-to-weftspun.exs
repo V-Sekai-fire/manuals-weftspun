@@ -7,14 +7,18 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  This fork takes a name, a mark and identifiers of its own.
+  :: intrigue
+  Upstream reserves its names and its orbital clock logo artwork. Its terms require a
+  rebrand for each fork.
+  :: exit
+  Read `DETAILS.md` for the compatibility fallbacks, the known risks, and file references.
   :: decision
   This repository takes the name Weftspun 3D Studio. The code token is
   Weftspun3DStudio. The package name is weftspun-3d-studio. The
   Electron identifier is com.weftspun.studio. The Android identifier is
   com.weftspun.xrfacebridge.
-
-  The application header shows one title line. The rebrand drops the
-  second title line and its style rules.
 
   A new mark replaces the upstream artwork. The new mark shows a woven
   warp and weft lattice. A rename alone does not satisfy the upstream
@@ -28,8 +32,7 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   and file references.
   :: problem
   Upstream reserves the names "Space-Time" and "OpenNexus3DStudio".
-  Upstream also reserves the orbital clock logo artwork. The upstream
-  terms require a rebrand for each fork. A fork must remove the
+  A fork must remove the
   upstream names, logos, and trade dress. A fork must then take a
   unique name.
   :: related
@@ -39,6 +42,9 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   details_title "Fork rebrand to Weftspun"
 
   prose ~S"""
+  :: details The header
+  The application header shows one title line. The rebrand drops the
+  second title line and its style rules.
   :: details Compatibility
   Three identifiers keep a fallback path. Each fallback reads the old
   name once.

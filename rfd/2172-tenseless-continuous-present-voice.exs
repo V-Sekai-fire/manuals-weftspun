@@ -15,15 +15,14 @@ rfd 2172, "Prose speaks in the tenseless continuous present", :committed do
   scope "every `.md`, `.qmd`, and code-comment file in the workspace"
 
   prose ~S"""
-  :: decision
-  **Every sentence of prose in this workspace states what is true of the system now.**
-
-  Every sentence describes behaviour a reader can check against the code in front of them.
+  :: hook
+  Every sentence of prose in this workspace states what is true of the system now.
+  :: intrigue
+  A reader opens a comment and cannot tell whether it still holds.
+  :: exit
   Reject a sentence in review when it breaks one of the three habits below.
-  :: problem
-  A reader opens a comment and cannot tell whether it still holds. RFD66606-2025 (sinew
-  voice ADR, migrated) settled the rule; this RFD promotes it to a workspace convention
-  and folds that ADR in, so one RFD owns the rule.
+  :: decision
+  Every sentence describes behaviour a reader can check against the code in front of them.
   :: section Three habits ruled out
   - Past-tense edit narration ("removed the legacy path"). Git holds history.
   - Future or imperative planning ("will add", "TODO"). RFDs and issues hold plans.
@@ -67,6 +66,9 @@ rfd 2172, "Prose speaks in the tenseless continuous present", :committed do
   - Bad, because a present-gap phrasing reads less naturally than an imperative TODO,
     and authors need practice to phrase work that way.
   :: details Where the rule came from
+  RFD66606-2025 (sinew voice ADR, migrated) settled the rule; this RFD promotes it and folds
+  that ADR in.
+
   This generalizes the house rule applied across the sinew Lean spec and its native
   viewer prose, where comments describe current behaviour and `todo.md` lists each open
   item as a present gap. A TODO document states each open item as a present gap, so the

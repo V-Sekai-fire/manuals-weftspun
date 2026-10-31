@@ -8,6 +8,12 @@ rfd 2346, "decider-pong in the workspace", :committed do
 decider interactor"
 
   prose ~S"""
+  :: hook
+  decider-pong is a manifest row, synced offline like every other project.
+  :: intrigue
+  The repo lived outside the workspace, on GitHub only, with its upstream as a submodule.
+  :: exit
+  Read RFD66606-2341 for the two open questions, parked in dev.next.
   :: decision
   decider-pong is a manifest row on the interactor side, tracking
   `main`. Its upstream, `Mapika/decider` (Apache-2.0), is a second row
@@ -16,8 +22,7 @@ decider interactor"
   them with 0 failures. The OpenBao credential helper was removed from
   the tree.
   :: problem
-  The repo lived outside the workspace, on GitHub only, with its
-  upstream as a submodule. The contract places a repo in the manifest
+  The contract places a repo in the manifest
   the day it is created and pins upstreams as manifest rows. The repo
   also carried a blocklisted OpenBao helper. Two questions remain open:
   the repo is all Python, and its name lacks a side prefix.
@@ -25,13 +30,14 @@ decider interactor"
   - RFD66606-2341, dev.next, where the two open questions are parked.
   - RFD66606-2345, the video format; RFD66606-2347, the decider-pong
     review.
-  - The private working agreements, the org and languages sections; the
-    private blocklist.
   """
 
   details_title "How the project was placed, and what is still open"
 
   prose ~S"""
+  :: details Related
+  - The private working agreements, the org and languages sections; the
+    private blocklist.
   :: details The steps, in order
   1. The pending prompt change was committed in decider-pong.
   2. The submodule checkout was shallow, so the mirror refused it. It

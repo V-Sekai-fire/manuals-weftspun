@@ -9,6 +9,14 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  A gate that reads RFDs as a CommonMark AST sees what a byte scan misses.
+  :: intrigue
+  This repository held 116 RFDs and one gate. That gate checked numbers. Nothing checked the
+  shape of a document, so the shape stayed an agreement each writer kept from memory.
+  :: exit
+  Read `DETAILS.md` for each rule, its count, the ungated conventions, the defects repaired,
+  and the negative controls.
   :: decision
   `scripts/check-rfd-structure.py` parses each `README.md` and `DETAILS.md`
   into a CommonMark AST and checks the document against that tree. It
@@ -21,10 +29,6 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   apart. It takes one dependency, `markdown-it-py`, pinned. The number
   gate keeps numbering only, and its weaker citation scan moved here.
   :: problem
-  This repository held 116 RFDs and one gate. That gate checked numbers.
-  Nothing checked the shape of a document, so the shape stayed an
-  agreement each writer kept from memory.
-
   A measurement over all 116 found nine kinds of defect. The largest was
   37 citations still in the old decimal form. The number gate looked for
   those and reported 3. An RFD wraps its prose at about 72 columns, so a
@@ -33,10 +37,6 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   :: related
   RFD66606-1000 gives the conventions this gate measures. RFD66606-1063 moves the
   prose rules to a plugin, and this gate checks structure only.
-
-  See `DETAILS.md` for each rule, its count, the ungated conventions, the
-  line limit and the two things it turned up, the defects repaired, and
-  the negative controls.
   """
 
   details_title "The RFD structure gate reads a CommonMark AST"

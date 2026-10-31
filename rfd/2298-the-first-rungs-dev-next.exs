@@ -8,6 +8,12 @@ rfd 2298, "the first rung's dev.next", :discussion do
   scope "the pen's work that waits for a dev rung of its own"
 
   prose ~S"""
+  :: hook
+  dev.next holds the work that no numbered dev rung has claimed.
+  :: intrigue
+  Work that no rung has claimed is lost between rungs unless one place holds it.
+  :: exit
+  Read RFD66606-2293 next for the release rules that hold here.
   :: decision
   dev.next holds everything not yet assigned to a dev rung, and an item
   leaves it when a numbered rung is planned.

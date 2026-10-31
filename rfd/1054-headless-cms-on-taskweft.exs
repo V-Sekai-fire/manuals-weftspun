@@ -7,19 +7,20 @@ rfd 1054, "The planner inside the studio core", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  The planner lives inside the studio core, and `extension/` is deleted.
+  :: intrigue
+  `extension/` ran Elixir in an editor panel, through Popcorn and AtomVM. It proved the
+  pipeline, and it could not ship.
+  :: exit
+  Read `DETAILS.md` for the wrong-answer record of a second application, the port-mocking
+  rule, the measured plans, three taskweft fixes this work needed, and the two planner routes.
   :: decision
   Delete `extension/`. Put the planner inside `weftspun_studio`, which
   RFD66606-1019 already makes the API server.
 
   RFD66606-1023 gives the shape, and this RFD does not restate it.
-
-  See `DETAILS.md` for the wrong-answer record of a second application
-  and the port-mocking rule. It also gives the measured plans, three
-  taskweft fixes this work needed, and the two planner routes.
   :: problem
-  `extension/` ran Elixir in an editor panel, through Popcorn and
-  AtomVM. It proved the pipeline, and it could not ship.
-
   AtomVM needs `SharedArrayBuffer`, thus the page must be cross-origin
   isolated. An editor webview is not isolated, and an extension cannot
   set the headers. The panel worked only with `codium --enable-coi`.

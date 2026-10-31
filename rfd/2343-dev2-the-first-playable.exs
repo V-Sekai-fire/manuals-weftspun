@@ -8,14 +8,20 @@ world grab"
   scope "the pen at its pinned commit and the tray's dev.1 build; RFD66606-2344 proves it"
 
   prose ~S"""
+  :: hook
+  dev.2 is what the pen holds at its pinned commit, and nothing more.
+  :: intrigue
+  The first version of this rung promised a shared world, a wardrobe, the mascot's
+  requests and the signs. None of them is built.
+  :: exit
+  Read RFD66606-2344, which proves each of these.
   :: decision
   dev.2 is what the pen holds at its pinned commit, written down and nothing more.
   A person draws with the XR pen, curvenet.elf closes the strokes into one shell,
   and the shell shows on the dress-on statue. World grab and the station walker
   work. RFD66606-2344 proves each of these under the private working agreements.
   :: problem
-  The first version of this rung promised a shared world, a wardrobe, the
-  mascot's requests and the signs. None of them is built. A rung that lists
+  A rung that lists
   unbuilt work as done cannot be verified, so this one lists only what exists.
   :: related
   - RFD66606-2342, dev.1 (tray); RFD66606-2344, dev.3 (the proof); RFD66606-2341 (dev.next).

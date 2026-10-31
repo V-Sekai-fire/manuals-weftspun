@@ -9,6 +9,13 @@ hook a desk can run the same way"
 ruleset 23145233 in this repository"
 
   prose ~S"""
+  :: hook
+  One CI job runs prek, and a desk runs every gate the same way.
+  :: intrigue
+  Nine jobs repeated checks prek could run, and the ruleset required nine names that had to
+  match the workflow by hand.
+  :: exit
+  Run a `ci-*` hook locally with `GATE_BASE` set; `DETAILS.md` holds what was measured.
   :: decision
   The workflow has one job, `prek`. Gates that need only the tree
   are ordinary hooks. Gates that need a base ref or a code-host

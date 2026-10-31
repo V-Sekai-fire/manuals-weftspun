@@ -12,6 +12,13 @@ each request, never through an FDB client of their own"
 and every desk-side client that stores state, first the cua-driver fork's Elixir tool"
 
   prose ~S"""
+  :: hook
+  A desk keeps state in FoundationDB through Bao and holds no FDB client of its own.
+  :: intrigue
+  FoundationDB checks no permission per key: a client certificate opens every key, Bao's
+  own storage included.
+  :: exit
+  Read RFD66606-2316 for what Bao may hold.
   :: decision
   - No desk or other endpoint outside the cluster's machines holds an FDB client certificate
     or a route into the cluster's private network (operator, 2026-10-23).
@@ -24,16 +31,16 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   - The engine picks the caller's database from the caller's Bao identity, not from the path.
   - Each database has a size cap, a write-rate cap and a growth gate, as RFD66606-2316 asks.
   :: problem
-  FoundationDB checks no permission per key: a client certificate opens every key, Bao's own
-  storage included. Desks are the least guarded machines in the workspace, so an FDB client
+  Desks are the least guarded machines in the workspace, so an FDB client
   there would hand the whole cluster to the weakest host.
-  :: related
-  - RFD66606-2140 and RFD66606-2353, Bao on FDB; RFD66606-2316, what Bao may hold.
   """
 
   details_title "A desk reaches FoundationDB only through Bao"
 
   prose ~S"""
+  :: details Related
+  - RFD66606-2140 and RFD66606-2353, Bao on FDB; RFD66606-2316, what Bao may hold.
+
   :: details Sources
   Written on 2026-10-23 from the operator's rulings in one session: route desk state through
   Bao as zero-trust ReBAC rather than store ReBAC as FDB variables; FDB has no ReBAC, and the

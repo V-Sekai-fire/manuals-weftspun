@@ -8,12 +8,17 @@ rfd 2182, "Identity triangle for operator, partner project, market", :committed 
   scope "RFD titles, public prose, README taglines, pitch material"
 
   prose ~S"""
+  :: hook
+  Three anchors name who runs the pipeline, who receives the shuttle, and the market.
+  :: intrigue
+  Who runs the atelier-workshop, who receives the shuttle, and which market? Three
+  L3 (Flight Levels: strategy altitude) gaps stayed open.
+  :: exit
+  Read `DETAILS.md` for the full text of this RFD.
   :: decision
   chibifire.com runs the atelier-workshop (the pipeline), V-Sekai is its co-founded partner
   project that receives the shuttle (the portable-character deliverable), and the market is
   avatar-first social VR.
-
-  `DETAILS.md` carries the full text of this RFD.
   :: problem
   RFD66606-2171 (atelier-workshop vocabulary) fixed pipeline and deliverable vocabulary but left
   three L3 (Flight Levels: strategy altitude) gaps: who runs the atelier-workshop, who receives

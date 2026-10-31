@@ -7,6 +7,14 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   scope "any dataset published under `huggingface.co/datasets/chibifire/*`"
 
   prose ~S"""
+  :: hook
+  A HuggingFace dataset renders in the viewer when it matches five rules at author time.
+  :: intrigue
+  Three dataset rebuilds on 2026-09-03 each failed a different silent gate: too-big `.arrow`
+  shards crashed the auto-viewer, xet finalize stalled at 6 KB/s and timed out twice, and one
+  dataset silently dropped every 2-image row because shared image paths collided.
+  :: exit
+  Read `DETAILS.md`, one section per rule, before you publish a dataset.
   :: decision
   Publish HuggingFace datasets as zstd-compressed parquet shards under
   `data/`, one wide denormalized row per logical example, with row
@@ -16,15 +24,9 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   commits.
 
   The viewer's contract is enforced silently by an auto-indexer that
-  either succeeds or falls back to a "Preview" badge. The five rules and
-  the errors each surfaces are in `DETAILS.md`, one section per rule.
+  either succeeds or falls back to a "Preview" badge.
   :: problem
-  Three rebuilds on 2026-09-03 (`chibifire/editreward-bench`,
-  `chibifire/editscore-rl-train`, `chibifire/editscore-reward-train`)
-  each failed a different silent gate: too-big `.arrow` shards
-  crashed the auto-viewer, xet finalize stalled at 6 KB/s and timed out
-  twice, and one dataset silently dropped every 2-image row because
-  shared image paths collided. Landing a dataset that renders needs
+  Landing a dataset that renders needs
   each of the five rules matched at author time, not fixed after the
   push has happened.
   :: related
@@ -37,6 +39,9 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   details_title "HuggingFace dataset viewer rules"
 
   prose ~S"""
+  :: details The three rebuilds
+  The three rebuilds were `chibifire/editreward-bench`,
+  `chibifire/editscore-rl-train` and `chibifire/editscore-reward-train`.
   :: details The viewer's contract, verbatim from what it enforces
   | Rule | What breaks if you skip it | Error surface |
   |---|---|---|

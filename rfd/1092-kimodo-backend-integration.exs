@@ -7,6 +7,14 @@ rfd 1092, "Kimodo backend integration", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  A Kimodo job failure has one document that explains it, and it lives on the DGX.
+  :: intrigue
+  The DGX side owns every failure mode, prefetch step, and timeout, in its own ops document,
+  not in this repository. An agent debugging a Kimodo job failure needs to know that document
+  exists, and where.
+  :: exit
+  Read the DGX-side ops document before debugging a Kimodo job failure.
   :: decision
   Read the DGX-side ops document first, before debugging a Kimodo job
   failure here. Its path:
@@ -20,10 +28,7 @@ rfd 1092, "Kimodo backend integration", :committed do
   produced `studio_motion.json`, the expected output.
   :: problem
   The frontend triggers text-to-motion through
-  `KimodoMotionPromptBar.jsx` and `taskManager.js`. The DGX side owns
-  every failure mode, prefetch step, and timeout, in its own ops
-  document, not in this repository. An agent debugging a Kimodo job
-  failure needs to know that document exists, and where.
+  `KimodoMotionPromptBar.jsx` and `taskManager.js`.
   :: related
   `taskManager.js` dispatches the job. `KimodoMotionPromptBar.jsx`
   triggers it from the animation bar.

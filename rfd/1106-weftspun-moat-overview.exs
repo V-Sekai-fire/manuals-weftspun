@@ -7,6 +7,13 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  One public page states where the open client ends and the proprietary service begins.
+  :: intrigue
+  The client source is open. A fork could read that as an invitation to run as "Weftspun," or
+  reuse the hosted AI and registry backends.
+  :: exit
+  Read `DETAILS.md` for the architecture split diagram and the per-area table.
   :: decision
   Publish one page stating the split, with no pricing, revenue
   target, or investor detail in it. The client (`LICENSE`) is open,
@@ -14,12 +21,7 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   proprietary, not granted by the OSS license: the trademark, the
   hosted `3DAIGC-API` with its model tuning and quality gates, and the
   marketplace/personalization services built on it.
-
-  See `DETAILS.md` for the architecture split diagram and the
-  per-area table.
   :: problem
-  The client source is open. A fork could read that as an invitation
-  to run as "Weftspun," or reuse the hosted AI and registry backends.
   Nothing public states where the open license ends and the
   proprietary service begins.
   :: related

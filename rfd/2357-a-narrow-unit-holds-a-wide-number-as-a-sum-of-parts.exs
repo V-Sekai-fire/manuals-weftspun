@@ -8,9 +8,14 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  A narrow unit gives wide precision when each number is split into parts it can hold.
+  :: intrigue
+  A float32 coordinate 3.8e8 m from the origin cannot hold a 1 mm step, and a bf16 unit holds 8
+  bits of mantissa.
+  :: exit
+  Record the measured error of a kernel before it claims float32 or df32 accuracy.
   :: decision
-  **A narrow unit gives wide precision when each number is split into parts it can hold.**
-
   A TPU computes a float32 product as 3 or 6 bf16 passes. A df32 pair computes a wide
   coordinate as a high and a low float32. Both split a number into a sum of narrow parts.
 
@@ -19,12 +24,9 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   2. A kernel states its part count: 1, 2 or 3 bf16 parts, or one df32 pair.
   3. Each part count carries a measured error against a float64 reference, and a control
      that fails when the count drops by one.
-
-  Record the measured error of a kernel before it claims float32 or df32 accuracy.
   :: problem
-  A float32 coordinate 3.8e8 m from the origin cannot hold a 1 mm step, and a bf16 unit holds
-  8 bits of mantissa. RFD66606-2293 chose df32 for the first. This RFD adds the second and
-  puts both under one rule with one set of measured bounds.
+  RFD66606-2293 chose df32 for the first. This RFD adds the second and puts both under one rule
+  with one set of measured bounds.
   :: related
   RFD66606-2293 chooses df32 for guest geometry. RFD66606-1025 gives the bf16 memory
   arithmetic. The BLOCKLIST row on XLA and PJRT keeps the Cloud TPU route open.

@@ -8,12 +8,16 @@ rfd 2297, "the first rung's dev.3", :discussion do
   scope "the pen's `v<date>-dev.3` release"
 
   prose ~S"""
+  :: hook
+  dev.3 is one Windows executable with its pack inside, played on the Frame.
+  :: intrigue
+  dev.1 and dev.2 shipped the double editor, the addon and the guest ELFs, so a player needs
+  a pen checkout to open them.
+  :: exit
+  Read RFD66606-2293 next for the release rules that hold here.
   :: decision
   dev.3 ships the game as one Windows x86_64 executable with its `.pck`
   embedded, exported at double precision, and plays it on the Frame.
-  :: problem
-  dev.1 and dev.2 shipped the double editor, the addon and the guest
-  ELFs, so a player needs a pen checkout to open them.
   :: related
   - RFD66606-2293, the workspace, the ladder and dev.1; its release rules hold here.
   - RFD66606-2296, dev.2; RFD66606-2298, dev.next.

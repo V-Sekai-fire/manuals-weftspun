@@ -7,16 +7,18 @@ rfd 2358, "A party is one player and three seats", :discussion do
   scope "the party of four, its seats, and the takeover."
 
   prose ~S"""
+  :: hook
+  A party is one player and three seats that a friend or an agent can fill.
+  :: intrigue
+  A player may want to play the part an agent plays.
+  :: exit
+  Run the takeover gate: after a player takes a seat, its actions come only from the player.
   :: decision
-  **A party is one player and three seats that a friend or an agent can fill.**
-
   - The party is one player and three seats named Aria, Ember and Quill. A friend or an agent on
     the Agent2Agent protocol fills each seat, and a player takes a seat from its agent at any time
     (operator, 2026-10-30).
-
-  Run the takeover gate: after a player takes a seat, its actions come only from the player.
   :: problem
-  A player may want to play the part an agent plays. RFD66606-2045 proved a loop with bot players.
+  RFD66606-2045 proved a loop with bot players.
   :: related
   - RFD66606-2340, the campus; RFD66606-2359, the shop; RFD66606-2360, the one beta.
   - RFD66606-2045, the loop with bot players, is abandoned.

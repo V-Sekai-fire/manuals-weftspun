@@ -12,31 +12,41 @@ the same precision, transport-meshing-pen, and the zone, client, CA, asset, lass
 garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from the desk."
 
   prose ~S"""
+  :: hook
+  A person in a headset draws an outfit and wears it, and a second person sees it.
+  :: intrigue
+  RFD66606-2262 asks whether people make and wear what they draw where others see it. Only
+  people in the world answer that.
+  :: exit
+  Read RFD66606-2262 next, the ladder this rung sits on.
   :: decision
   The first rung is two people in one zone, each with their own avatar: one in a headset, one on a
   desktop. They see each other and talk. The engine is base Godot built with double precision and
-  the godot-sandbox addon, and it relays UDP and nothing else. Everything that computes is a C++
-  guest ELF on ggml-rd or compute-rd: the WebTransport stack (RFD66606-2256), the zones, the
-  certificate authority, the voice codec and the dress-on loop. A worker zone owns the garment
+  the godot-sandbox addon, and it relays UDP and nothing else.
+  A worker zone owns the garment
   while it makes it; its ghost materializes in the players' zone, and then its ownership hands
   over to that zone. One zone owns it at every frame. The garment attaches rigidly to the avatar's
   bones. The headset is the Steam Frame on a PC VR stream from the desk; its standalone mode and
   the Steam Deck are parked (operator, 2026-10-30).
-  :: problem
-  RFD66606-2262 asks whether people make and wear what they draw where others see it. Only people
-  in the world answer that. The fabric already proves one owner per entity across zones; the rung
-  carries that rule into a guest, so the engine stays base Godot.
   :: related
   - RFD66606-2262, the ladder; RFD66606-2136, the precedent; RFD66606-2263, step 2's test.
   - RFD66606-2256, the transport; RFD66606-2271, guests with Lean tests; RFD66606-2288,
     capabilities.
-  - Abandons RFD66606-2211, RFD66606-2001 and RFD66606-2075: the engine is base Godot; zones are
-    `zone.elf`.
   """
 
   details_title "the first rung: draw it and wear it in a headset"
 
   prose ~S"""
+  :: details What the rung abandons
+  Abandons RFD66606-2211, RFD66606-2001 and RFD66606-2075: the engine is base Godot; zones are
+  `zone.elf`.
+  :: details What computes
+  Everything that computes is a C++
+  guest ELF on ggml-rd or compute-rd: the WebTransport stack (RFD66606-2256), the zones, the
+  certificate authority, the voice codec and the dress-on loop.
+  :: details Why the engine stays base Godot
+  The fabric already proves one owner per entity across zones; the rung
+  carries that rule into a guest, so the engine stays base Godot.
   :: details How the guests are built and tested
   The zone, client, CA, asset, lasso and voice ELFs are C++, built from
   the fabric's, the lasso's and the codec's own sources against the

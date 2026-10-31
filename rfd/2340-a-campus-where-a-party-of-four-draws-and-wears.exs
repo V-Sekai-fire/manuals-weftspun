@@ -9,9 +9,14 @@ party of four walks from the campus shop to a room and back"
   scope "the campus zone, the pen's first rung, and where the code lands"
 
   prose ~S"""
+  :: hook
+  The first playable is a campus where students draw outfits and wear them.
+  :: intrigue
+  The pen's first rung proves two people see a drawn outfit, and it has no campus to wear it in.
+  :: exit
+  The party is RFD66606-2358, the shopkeeper is RFD66606-2359, and the beta is RFD66606-2360.
+  Run the pen's gates in the campus zone first.
   :: decision
-  **The first playable is a campus where students draw outfits and wear them.**
-
   - The first playable is a college campus: college-age students draw outfits with the pen and
     wear them in a shared zone, and a party of four walks from the campus shop to a room and
     back (operator, 2026-10-30).
@@ -19,11 +24,7 @@ party of four walks from the campus shop to a room and back"
     campus zone before the party loop is built (operator, 2026-10-30).
   - RFD66606-2045 (loot-action slice) is abandoned. This RFD keeps its loop of hub, room, first
     touch and return, and replaces its party and its store (operator, 2026-10-30).
-
-  The party is RFD66606-2358, the shopkeeper is RFD66606-2359, and the beta is RFD66606-2360.
-  Run the pen's gates in the campus zone first.
   :: problem
-  The pen's first rung proves two people see a drawn outfit, and it has no campus to wear it in.
   RFD66606-2045 has no setting a person returns to.
   :: related
   - RFD66606-2287, the pen; RFD66606-2339, the persona; RFD66606-2321, the autobattler.

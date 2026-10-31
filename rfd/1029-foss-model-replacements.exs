@@ -7,6 +7,12 @@ rfd 1029, "FOSS model replacements", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Three removed models get permissive replacements, MIT or BSD.
+  :: intrigue
+  RFD66606-1028 removes three models from the catalog.
+  :: exit
+  Read `DETAILS.md` for each replacement's candidates and license.
   :: decision
   Replace each deleted model with a permissive alternative. Prefer the
   MIT license and the BSD license.
@@ -14,7 +20,7 @@ rfd 1029, "FOSS model replacements", :published do
   See `DETAILS.md` for the PartField, FastMesh, and PartPacker
   replacements, each with its candidates and its license.
   :: problem
-  RFD66606-1028 removes three models from the catalog. Their tasks still
+  Their tasks still
   need a model.
   :: related
   RFD66606-1028 records the license gate. RFD66606-1031 records the geometry

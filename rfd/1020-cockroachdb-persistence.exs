@@ -7,6 +7,13 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Catalog facts live in one SQLite file, so a trust change survives a restart.
+  :: intrigue
+  The fact store holds facts in memory, so a trust change dies when the node stops and a
+  retracted fact comes back.
+  :: exit
+  Read `DETAILS.md` for the schema, the seed, the modules, the settings and the open risk.
   :: decision
   **Use SQLite for storage, and Ecto for the mapping.** The service owns one
   file. `Ecto.Adapters.SQLite3` drives it through `ecto_sqlite3`, and the
@@ -15,15 +22,12 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   This RFD covers `weftspun_studio/`. `character_taxonomy/` runs under
   RFD66606-1065 on the same store.
 
-  See `DETAILS.md` for the schema, the seed, the modules, the settings and
-  the open risk.
   :: problem
   RFD66606-1019 builds an API server. An API server must keep its data.
 
   The fact store in `WeftspunStudio.FactStore` holds facts in memory.
   An Agent rebuilds the store from the RFD66606-1016 inventory at every
-  boot. A trust change dies when the node stops, and a retracted fact
-  comes back.
+  boot.
 
   RFD66606-1016 records that catalog facts change fast. A license gate
   vetoes a model, a benchmark moves a recommendation, and a backend

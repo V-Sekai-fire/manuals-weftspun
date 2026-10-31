@@ -9,6 +9,13 @@ opts in"
 `bootstrap.sh` and `bootstrap.ps1`, and the private working agreements"
 
   prose ~S"""
+  :: hook
+  One workspace checkout holds both the taskweft rows and this workspace's own.
+  :: intrigue
+  The taskweft workspace and this one were two clients of two manifests. Work that needed
+  both had no single checkout.
+  :: exit
+  Read the details for the checks that passed and the work still open.
   :: decision
   The workspace manifest is a superset of the taskweft manifest, by path.
   Where both place a path, this workspace's row wins, so rung pins never
@@ -18,11 +25,6 @@ opts in"
   bootstrap runs `repo init -g default,taskweft`, so a new workspace
   syncs both sets. A plain `repo init` still syncs the workspace's own
   rows only.
-  :: problem
-  The taskweft workspace and this one were two clients of two manifests.
-  Work that needed both had no single checkout. Taskweft rows track
-  branches and include rows this org blocks, so a plain copy would have
-  broken the pin rule and put blocked repos in every default sync.
   :: related
   - RFD66606-2346, the last change that added manifest rows;
     RFD66606-2341, dev.next.
@@ -41,6 +43,10 @@ opts in"
   2. New rows are pinned to a commit, as every upstream row here is.
   3. The rows are an opt-in group. The bootstrap opts in.
      `WEFTSPUN_GROUPS=default` gives the workspace's own rows alone.
+  :: details Why a plain copy fails
+  Taskweft rows track
+  branches and include rows this org blocks, so a plain copy would have
+  broken the pin rule and put blocked repos in every default sync.
   :: details The merge rules
   The comparison is by path, because a path is what `repo` collides on.
   11 paths are in both manifests. At the bootstrap path the two rows

@@ -8,6 +8,14 @@ rfd 2345, "Video intermediate: CineForm and FLAC in Matroska", :committed do
 interactor"
 
   prose ~S"""
+  :: hook
+  Every rendered video is one format: CineForm and FLAC in Matroska.
+  :: intrigue
+  The decider-pong recorders wrote H.264 and AAC in MP4. That is a lossy delivery format, and
+  a second encode loses more.
+  :: exit
+  Check a video with `ffprobe`, which must report `cfhd`, `gbrp12le`, 1920x1080 and the
+  `matroska` format.
   :: decision
   Every rendered video is written as CineForm video and FLAC audio
   in a Matroska (`.mkv`) file. CineForm runs at `gbrp12le`, so RGB frames
@@ -16,22 +24,22 @@ interactor"
   path that does not end in `.mkv`. Uncompressed PCM audio is accepted in
   place of FLAC (operator, 2026-10-23); both are lossless.
   :: problem
-  The decider-pong recorders wrote H.264 and AAC in MP4. That is a lossy
-  delivery format, and a second encode loses more. An intermediate must
-  survive re-encoding and keep sharp synthetic edges. The workspace had
-  no written format, so each recorder picked its own.
+  The workspace had no written format, so each recorder picked its own.
   :: related
   - RFD66606-2349, which replaces the encoder, the live recorder and the
     file check below. The format here stands.
   - RFD66606-2346, decider-pong in the workspace; RFD66606-2347, the
     decider-pong review.
-  - The private blocklist, which lists MP4.
-  - The decider-pong skill carries the same rule for agents.
   """
 
   details_title "The format, how fast it encodes, and how a file is checked"
 
   prose ~S"""
+  :: details Also related
+  - The private blocklist, which lists MP4.
+  - The decider-pong skill carries the same rule for agents.
+  :: details Why an intermediate
+  An intermediate must survive re-encoding and keep sharp synthetic edges.
   :: details Encoder settings
   The homebrew ffmpeg ships the `cfhd` encoder. It takes `yuv422p10le`,
   `gbrp12le` and `gbrap12le`. The recorders use `gbrp12le`, because

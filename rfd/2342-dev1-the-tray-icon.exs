@@ -8,6 +8,12 @@ rung"
   scope "the tray's `v<date>-dev.1` release"
 
   prose ~S"""
+  :: hook
+  The tray icon ships first: one Godot scene with a borrowed mascot's face.
+  :: intrigue
+  Install, integrity, silence and uninstall must work before anything is drawn.
+  :: exit
+  Run the gates in `tools/gate_dev1.exs` against OXRSys.
   :: decision
   dev.1 ships one Godot scene, built with the pinned double editor and
   exported with its templates for macOS and Windows. A borrowed mascot's
@@ -15,8 +21,7 @@ rung"
   line, a zone line, a disabled "Draw" button and the mascot playing Idle.
   :: problem
   In dev.2 the tray is the zone host and the desktop client's launcher.
-  Install, integrity, silence and uninstall must work before anything
-  is drawn, so the plumbing ships first, with a face.
+  So the plumbing ships first, with a face.
   :: related
   - RFD66606-2343, dev.2, the first playable core.
   - RFD66606-2341, dev.next.

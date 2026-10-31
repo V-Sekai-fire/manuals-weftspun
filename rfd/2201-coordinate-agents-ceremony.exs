@@ -7,6 +7,15 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   scope "the coordinator role (RFD66606-2200) and any session that steps into it"
 
   prose ~S"""
+  :: hook
+  "Coordinate agents" is a named seven-step ceremony, and each step leaves an artefact.
+  :: intrigue
+  A pass done by memory shipped good work in one turn and
+  broke a peer's PR the next, because the safeguards were named
+  retroactively (in RFD66606-2195 DETAILS, after the mistake) rather than
+  carried in the procedure itself.
+  :: exit
+  Read `DETAILS.md` for the seven steps, then follow the `coordinate-agents` skill.
   :: decision
   Fold the workspace's ad-hoc coordination sweep into a named, bounded
   ceremony that the coordinator role runs when asked. The ceremony has
@@ -19,15 +28,8 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   "Coordinate agents" was a sentence the operator said and the
   coordinator did a pass by memory: check the store, message peers,
   enqueue clean PRs, surface stuck ones, remember the do-not-touch-peer-
-  branch rule. A pass done by memory shipped good work in one turn and
-  broke a peer's PR the next, because the safeguards were named
-  retroactively (in RFD66606-2195 DETAILS, after the mistake) rather than
-  carried in the procedure itself. A named ceremony carries them
+  branch rule. A named ceremony carries them
   prospectively.
-  :: section Non-goals
-  Not a scheduler; not a hook (the prettier-only exception is a shape a
-  hook would reject); not any-agent-runs-this, only the coordinator
-  role from RFD66606-2200.
   :: related
   RFD66606-2195 (Bao PKI + Gotchas), RFD66606-2200 (roles), `agent-sync` and
   `coordinate-agents` skills in dot-claude.
@@ -41,6 +43,10 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   the step done. A step that produces no artefact is not skipped; it is
   recorded as `nothing to do` so the next step doesn't run against an
   unclear state.
+  :: details Non-goals
+  Not a scheduler; not a hook (the prettier-only exception is a shape a
+  hook would reject); not any-agent-runs-this, only the coordinator
+  role from RFD66606-2200.
   :: details Step 1: refresh own heartbeat
   Coordinator writes its own row to `agents/<coordinator-cn>` with the
   current `phase` set to `coordinating` and `task` naming the sweep. If

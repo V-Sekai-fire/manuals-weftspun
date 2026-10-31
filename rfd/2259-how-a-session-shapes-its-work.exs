@@ -8,6 +8,13 @@ budget and parks work the same way every time"
   scope "every repository in the goal manifest and every agent session\nthat works in them"
 
   prose ~S"""
+  :: hook
+  A coding session names branches, commits RFDs, spends its budget and parks work one way.
+  :: intrigue
+  `head/*` and bare branch names, RFDs spread over three commits, and a feature branch left
+  checked out that `repo sync` rebased into conflict markers all happened in one session.
+  :: exit
+  Read RFD66606-2258 next, the gates each pushed branch runs.
   :: decision
   - Branches start with a stage: `dev/`, `beta/`, `rc/`, `release/` or
     `archived/` (operator, 2026-10-12). A pushed branch is renamed
@@ -20,19 +27,18 @@ budget and parks work the same way every time"
     `dev/`, `beta/`, `rc/` and `release/` branches (operator, 2026-10-17).
   - Each RFD lands as one commit; a revision amends it before merge.
   - Maintenance takes at most a tenth of a session's budget.
-  - Parked work is committed and pushed with its known defects
-    named in the message, and the checkout is detached so
-    `repo sync` cannot rebase it.
-  :: problem
-  `head/*` and bare branch names, RFDs spread over three commits,
-  and a feature branch left checked out that `repo sync` rebased
-  into conflict markers all happened in one session.
   :: related
   - RFD66606-2026 (commit messages), the subject line these commits use.
   - RFD66606-2258, the gates each pushed branch runs.
   """
 
   details_title "how a session shapes its work"
+
+  details "Parked work", ~S"""
+  Parked work is committed and pushed with its known defects
+  named in the message, and the checkout is detached so
+  `repo sync` cannot rebase it.
+  """
 
   details "Why the checkout is detached", ~S"""
   `repo sync` rebases a local branch that tracks the manifest's

@@ -4,14 +4,20 @@ use RFD.DSL
 
 rfd 2064, "Kebab case repos snake case local checkouts", :prediscussion do
   prose ~S"""
+  :: hook
+  Repo names are kebab-case on GitHub, and local checkouts keep the names the build expects.
+  :: intrigue
+  Repositories across our orgs grew inconsistent names. The loot-action slice under
+  `v-sekai-multiplayer-fabric` mixed kebab-case (`combat-core`, `loot-core`) with snake_case
+  (`entity_packet`), and the `sinew-mocap` org carried `mount_drift` and `vr_bridge` alongside
+  kebab-case peers.
+  :: exit
+  Check a repository with `gh repo list <org>`, which shows no repository name matching
+  `[_A-Z]`.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem
-  Repositories across our orgs grew inconsistent names. The loot-action
-  slice under `v-sekai-multiplayer-fabric` mixed kebab-case
-  (`combat-core`, `loot-core`) with snake_case (`entity_packet`), and
-  the `sinew-mocap` org carried `mount_drift` and `vr_bridge` alongside
-  kebab-case peers. We want one repo-naming convention so clones, links,
+  We want one repo-naming convention so clones, links,
   and code search stay predictable.
   :: related
   See `DETAILS.md` for the full argument.

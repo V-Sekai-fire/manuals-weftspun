@@ -8,6 +8,13 @@ rfd 1146, "The latent-to-Pixal3D loop", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Loop 4 leaves the image plane, and its router waits on calibration.
+  :: intrigue
+  The router decides which repair arm runs, and it decides on a statistic nobody has
+  calibrated.
+  :: exit
+  Read RFD66606-1143 next, the first of the other three loops.
   :: decision
   Build it, and treat the router as uncalibrated until measured.
 
@@ -26,9 +33,6 @@ rfd 1146, "The latent-to-Pixal3D loop", :published do
   latent state, then views, then a glb; EditScore scores; and the repair
   arm forks between VoxHammer and OmniGen2. At size XL it is the largest
   of the four, and it is the only loop with a router.
-
-  The router decides which repair arm runs, and it decides on a statistic
-  nobody has calibrated.
   :: related
   RFD66606-1143, RFD66606-1144 and RFD66606-1145 are the other three loops. RFD66606-1122 is
   the goal, and RFD66606-1132 lists what converts.

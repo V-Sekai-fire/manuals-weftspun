@@ -10,6 +10,15 @@ desk without taking it from the person who is using it"
 Frame headset, and every agent job that runs there"
 
   prose ~S"""
+  :: hook
+  An agent reads the shared VR desk's state before it acts and leaves it as found.
+  :: intrigue
+  On 2026-10-09 the agent learned these rules by breaking them. A build on
+  every core, a recorder, two chat clients and a VR game overloaded the VR GPU,
+  and the compositor watchdog killed the compositor twice.
+  :: exit
+  Before you pilot or switch, read the last `Using existing HMD` line of the SteamVR server
+  log.
   :: decision
   The desk is shared, so an agent reads its state before it acts and leaves it
   as it found it. It runs in one of two modes, XR Pilot on OXRSys or SteamVR
@@ -19,13 +28,6 @@ Frame headset, and every agent job that runs there"
   log, at low priority and with a capped job count; services run as logon
   tasks with restart on failure. Each endpoint has its own SSH key on the
   headset (operator, 2026-10-09).
-  :: problem
-  On 2026-10-09 the agent learned these rules by breaking them. A build on
-  every core, a recorder, two chat clients and a VR game overloaded the VR GPU,
-  and the compositor watchdog killed the compositor twice. A build started
-  with a backgrounded SSH command died with no exit file. The desk swapped to
-  streaming mode while the agent assumed pilot mode. None of this was written
-  down outside an agent's session.
   :: related
   - RFD66606-2294, agent knowledge lives in RFDs; RFD66606-2305, the credit ledger.
   - RFD66606-2303, the XR requirements; RFD66606-2307, recording the pilot's stream.
@@ -34,6 +36,12 @@ Frame headset, and every agent job that runs there"
   details_title "operating the shared windows vr desk"
 
   prose ~S"""
+  :: details What broke on the first day
+  A build started
+  with a backgrounded SSH command died with no exit file. The desk swapped to
+  streaming mode while the agent assumed pilot mode. None of this was written
+  down outside an agent's session.
+
   :: details The two modes
   SteamVR runs one headset driver at a time and must restart to change it.
 

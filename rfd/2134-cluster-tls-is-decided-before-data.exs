@@ -10,6 +10,14 @@ rfd 2134,
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Cluster TLS is decided before data, and every certificate carries v3 extensions.
+  :: intrigue
+  The weftspun-fdb cluster came up plaintext, and its backup could not
+  reach the blob store: FoundationDB uses one TLS policy for peers and
+  for S3, so a cluster with no trust store cannot speak HTTPS to Tigris.
+  :: exit
+  Read DETAILS.md for the profile and the procedure on a live plaintext cluster.
   :: decision
   Mutual TLS from a private CA, per-machine certificates named by Fly
   machine ID, and one client certificate per consuming service, all
@@ -18,21 +26,11 @@ rfd 2134,
   The profile, the local Docker proof with its negative control, and the
   full procedure are in DETAILS.md.
 
-  The known wall is recorded in datasource-store's fdb-entrypoint and
-  held exactly: there is no in-place path from a plaintext cluster to a
-  TLS one, because `:tls` is part of a coordinator's address and the
-  coordinated state on disk names addresses that no longer exist. The
-  gated `WEFT_FDB_RESET=1` wipe is the remedy, so TLS is decided before
-  there is data worth keeping; this cluster held one test event.
-
   A client is a TLS peer like any other: it presents its own leaf
   (`CN=fdb-spot-broker.chibifire.com`) through the `FDB_TLS_*` env vars
   libfdb_c reads, and verifies the cluster with the same rule the
   cluster uses (`Check.Valid=1,S.CN>=fdb-,S.CN<=.chibifire.com`).
   :: problem
-  The weftspun-fdb cluster came up plaintext, and its backup could not
-  reach the blob store: FoundationDB uses one TLS policy for peers and
-  for S3, so a cluster with no trust store cannot speak HTTPS to Tigris.
   Turning TLS on after the fact hit two walls, one known and one new.
   :: section Verification
   A matched pair in local Docker before any push: v3 certificates form a
@@ -44,6 +42,13 @@ rfd 2134,
   details_title "Cluster TLS is decided before data, and certificates carry v3 extensions"
 
   prose ~S"""
+  :: details The known wall
+  The known wall is recorded in datasource-store's fdb-entrypoint and
+  held exactly: there is no in-place path from a plaintext cluster to a
+  TLS one, because `:tls` is part of a coordinator's address and the
+  coordinated state on disk names addresses that no longer exist. The
+  gated `WEFT_FDB_RESET=1` wipe is the remedy, so TLS is decided before
+  there is data worth keeping; this cluster held one test event.
   :: details The failure this profile exists for
   With certificates from a bare `openssl req -x509` CA and extension-less
   `openssl x509 -req` leaves, every fdbserver logged, on each handshake:

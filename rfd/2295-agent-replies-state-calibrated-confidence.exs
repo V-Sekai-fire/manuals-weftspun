@@ -10,6 +10,13 @@ rfd 2295, "agent replies state calibrated confidence", :committed do
 closing questions in both, and `scripts/check_confidence_tags.py`"
 
   prose ~S"""
+  :: hook
+  An unverified claim carries its confidence as a word and a probability.
+  :: intrigue
+  Agent replies stated forecasts and diagnoses in the same voice as checked facts. A
+  reader cannot weigh a claim that does not say how sure it is.
+  :: exit
+  Run `scripts/check_confidence_tags.py` to check that each tag's number fits its word.
   :: decision
   A claim an agent has not verified carries its confidence as a word and a
   probability in one tag: `(likely, p=0.80)`. The word comes from a fixed
@@ -19,19 +26,9 @@ closing questions in both, and `scripts/check_confidence_tags.py`"
   this RFD's source and fails any tag whose word and number
   disagree, so the scale and the gate cannot drift apart.
   :: problem
-  Agent replies stated forecasts and diagnoses in the same voice as checked
-  facts. On 2026-10-02 a reply described a Metal shader port as "Slang-to-MSL"
-  when the shaders were hand-written, and the operator caught it. A reader
-  cannot weigh a claim that does not say how sure it is, and a bare
+  On 2026-10-02 a reply described a Metal shader port as "Slang-to-MSL"
+  when the shaders were hand-written, and the operator caught it. A bare
   percentage reads as code rather than as language.
-  :: related
-  Lin, Hilton and Evans, "Teaching Models to Express Their Uncertainty in
-  Words" (2022, DOI 10.48550/arXiv.2205.14334, registered with DataCite)
-  is the method: a model states its confidence in words and numbers, and
-  the statement is scored for calibration. RFD66606-2294 (agent knowledge lives
-  in RFDs) is why the rule is here and not in a desk's memory. `CLAUDE.md`'s
-  "How Work Is Verified" rule 3 (a silent skip reads like a pass) is why a
-  verified fact and a guess must look different.
   """
 
   details_title "agent replies state calibrated confidence"
@@ -83,6 +80,14 @@ closing questions in both, and `scripts/check_confidence_tags.py`"
   word with the recommended option marked. None are asked when nothing is
   unknown, and never more than four (operator, 2026-10-02). Replies are
   not files, so this holds by agreement.
+  :: details Related
+  Lin, Hilton and Evans, "Teaching Models to Express Their Uncertainty in
+  Words" (2022, DOI 10.48550/arXiv.2205.14334, registered with DataCite)
+  is the method: a model states its confidence in words and numbers, and
+  the statement is scored for calibration. RFD66606-2294 (agent knowledge lives
+  in RFDs) is why the rule is here and not in a desk's memory. `CLAUDE.md`'s
+  "How Work Is Verified" rule 3 (a silent skip reads like a pass) is why a
+  verified fact and a guess must look different.
   :: details What is checked
   `scripts/check_confidence_tags.py` scans `logbook/*.md` and every RFD
   source for tags, and fails a tag whose word is not on

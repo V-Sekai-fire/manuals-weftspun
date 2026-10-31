@@ -8,6 +8,14 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   attest_in :none
 
   prose ~S"""
+  :: hook
+  An agent session loads five capped layers of files, not the whole project.
+  :: intrigue
+  A coding agent session that loads every project file, every closed issue, and every past
+  design spends context on history instead of the current task.
+  :: exit
+  Read `DETAILS.md` for the file map, the context-layer table, the workflow-selection rules,
+  and the technical decisions from `DECISIONS.md` not already covered by another RFD.
   :: decision
   Weftspun3DStudio adopted RepoResident on 2026-07-23, replacing an
   earlier "MindLink" personal-memory approach, now archived to
@@ -20,14 +28,8 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   conversational personas. `STATE.md` stays a live handoff, not a
   decision record; it holds no lasting content and does not become
   part of this RFD.
-
-  See `DETAILS.md` for the file map, the context-layer table, the
-  workflow-selection rules, and the technical decisions from
-  `DECISIONS.md` not already covered by another RFD.
   :: problem
-  A coding agent session that loads every project file, every closed
-  issue, and every past design spends context on history instead of
-  the current task. Without a named procedure per task type, agents
+  Without a named procedure per task type, agents
   improvise process, and a large model and a small model handle
   ambiguity differently. Without a place for state to persist,
   knowledge learned in one session does not reach the next.

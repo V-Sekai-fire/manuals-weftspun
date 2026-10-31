@@ -8,6 +8,13 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
   scope "the persona repository, the planner it requires as a library, and its register row"
 
   prose ~S"""
+  :: hook
+  A persona answers from a goal-task network, so a goal gives an exact plan with no sampling.
+  :: intrigue
+  A request in words reaches a persona only by way of whoever authors the domain. A domain
+  with a thin vocabulary answers a thin set of goals.
+  :: exit
+  Read RFD66606-2292 next, the organization domain this workspace's RFDs render into.
   :: decision
   - A persona answers from a goal-task network rather than from weights: a domain and a
     goal go in, an exact plan comes out, and no sampling is involved (operator, 2026-10-30).
@@ -19,11 +26,8 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
     dimension, packed mixed-radix, the shape residual FSQ stacks its stages in.
   - A code the codebook does not hold, a variable the domain does not declare, and a goal
     the domain cannot reach are refused by name.
-  - It is its own repository on the interactor side, placed when it is created, and the
-    planner revision it builds against is recorded in its manifest.
   :: problem
-  A request in words reaches a persona only by way of whoever authors the domain. A
-  domain with a thin vocabulary answers a thin set of goals, and a persona cannot answer
+  A persona cannot answer
   a question that is not a goal.
   :: related
   - RFD66606-2292, the organization domain this workspace's own RFDs render into.
@@ -33,6 +37,9 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
   details_title "a persona answers from a planning domain"
 
   prose ~S"""
+  :: details Where it lives
+  It is its own repository on the interactor side, placed when it is created, and the
+  planner revision it builds against is recorded in its manifest.
   :: details What landed
   The persona is a Lean package of its own: a domain of state variables, a codebook and
   actions, a goal over the planner's own node space, and a search that composes the plan.

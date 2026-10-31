@@ -19,23 +19,26 @@ and the plan it compiles to rendered into that RFD's own Markdown"
 `rectgtn/organization.ex`, `rectgtn/problems/`, and
 `scripts/check_rectgtn_plan.exs`"
 
+    hook("Ask an RFD what comes next and get a plan, not a paragraph.")
+
+    intrigue(~S"""
+    RFD66606-2287 states its critical path as eight numbered paragraphs.
+    """)
+
+    exit(~S"""
+    Run `elixir scripts/check_rectgtn_plan.exs` to hold each solution against
+    the planner.
+    """)
+
     decision ~S"""
     The organization is the domain and each RFD is a problem against it. The
     domain holds the ladder an RFD climbs and what preparing a document,
     running a step and landing it are; a problem holds one RFD's place on that
-    ladder and the state of each step it declares. Both halves are Taskweft's
-    own Elixir DSL, rendered by `mix rfd.rectgtn` from the RFD sources, and
-    `Taskweft.Compose.compose_strings/2` merges a pair so the planner compiles
-    it into a solution. That solution renders into the RFD's `DETAILS.md`, and a
-    gate holds it against what the planner returns.
+    ladder and the state of each step it declares.
     """
 
     problem ~S"""
-    RFD66606-2287 states its critical path as eight numbered paragraphs. A paragraph
-    cannot be asked which step comes next, which steps are blocked, or what a
-    failure costs, and the eight repeat a shape every rung of every ladder in
-    this workspace already has: a step names a repository, what is missing, and
-    the check it ends at. Written once as a domain, the question "what is next
+    Written once as a domain, the question "what is next
     for this RFD" is a plan rather than a reading.
     """
 
@@ -49,6 +52,22 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     drafted_by :ai
 
     details_title "the organization is one RECTGTN domain"
+
+    details "Why a paragraph is the wrong shape", ~S"""
+    A paragraph
+    cannot be asked which step comes next, which steps are blocked, or what a
+    failure costs, and the eight repeat a shape every rung of every ladder in
+    this workspace already has: a step names a repository, what is missing, and
+    the check it ends at.
+    """
+
+    details "How the solution is held", ~S"""
+    Both halves are Taskweft's
+    own Elixir DSL, rendered by `mix rfd.rectgtn` from the RFD sources, and
+    `Taskweft.Compose.compose_strings/2` merges a pair so the planner compiles
+    it into a solution. That solution renders into the RFD's `DETAILS.md`, and a
+    gate holds it against what the planner returns.
+    """
 
     details "Where the declarations live", ~S"""
     A `steps` block inside an `rfd` block declares the critical path:

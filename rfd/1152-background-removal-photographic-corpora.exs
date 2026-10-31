@@ -7,6 +7,13 @@ rfd 1152, "Background removal for photographic corpora", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Background removal uses a photo-trained matting model, not a union of part masks.
+  :: intrigue
+  See-Through decomposes a character into semantic layers, and the union of its
+  nineteen part masks is an obvious foreground matte.
+  :: exit
+  Read `DETAILS.md` for the ground-truth ranking and the dtype it depends on.
   :: decision
   Background removal uses a photo-trained dichotomous matting model, not a union of
   semantic part masks. `ZhengPeng7/BiRefNet_HR-matting` is the default. It has no
@@ -19,10 +26,17 @@ rfd 1152, "Background removal for photographic corpora", :published do
 
   `DETAILS.md` carries the ground-truth ranking and the dtype it depends on.
   :: problem
-  See-Through decomposes a character into semantic layers, and the union of its
-  nineteen part masks is an obvious foreground matte. It is already in the
+  It is already in the
   manifest, already loaded, and on most frames it produces a clean cutout.
+  :: related
+  RFD66606-1006 covers layer decomposition. RFD66606-1153 covers how the resulting mattes are
+  judged. RFD66606-1030 records the See-Through components.
+  """
 
+  details_title "Background removal for photographic corpora"
+
+  prose ~S"""
+  :: details Why the union of part masks fails
   It is the wrong instrument for a photographic corpus, for a structural reason
   rather than a quality one. A union of semantic classes can only keep what it can
   name, and the model is trained on anime characters. Measured on a cosplay
@@ -34,14 +48,6 @@ rfd 1152, "Background removal for photographic corpora", :published do
   The same measurement showed the clothing classes fire on body region rather than
   on cloth: a nude torso is labelled `topwear`, and mask-derived coverage reads
   0.81 to 0.93 on images that are largely bare skin.
-  :: related
-  RFD66606-1006 covers layer decomposition. RFD66606-1153 covers how the resulting mattes are
-  judged. RFD66606-1030 records the See-Through components.
-  """
-
-  details_title "Background removal for photographic corpora"
-
-  prose ~S"""
   :: details Why a matting model rather than a segmenter
   A dichotomous segmenter is trained against binary ground truth, so its only soft
   pixels are silhouette antialiasing; a veil comes back either fully kept or fully

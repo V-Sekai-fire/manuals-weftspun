@@ -7,16 +7,18 @@ rfd 2360, "The campus ships one beta", :discussion do
   scope "the stages, the one beta, and the nongoals."
 
   prose ~S"""
-  :: decision
-  **The campus ships one beta, and every feature outside it is abandoned.**
-
-  - One beta, a feature-complete freeze after dev, holds the features the details list; every
-    nongoal is abandoned (operator, 2026-10-30).
-
+  :: hook
+  The campus ships one beta, and every feature outside it is abandoned.
+  :: intrigue
+  Dev is development: features land and change.
+  :: exit
   A new idea that matches a nongoal is refused. Cut the beta when every gate passes with
   its control.
+  :: decision
+  - One beta, a feature-complete freeze after dev, holds the features the details list; every
+    nongoal is abandoned (operator, 2026-10-30).
   :: problem
-  Dev is development: features land and change. After the beta is cut, only fixes land.
+  After the beta is cut, only fixes land.
   :: related
   - RFD66606-2340, the campus; RFD66606-2358, the party; RFD66606-2359, the shop.
   - RFD66606-2312, the form of the release tag.

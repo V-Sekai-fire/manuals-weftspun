@@ -7,6 +7,13 @@ rfd 1058, "Zero trust networking", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  weftspun_studio and its CockroachDB host run as Podman Quadlets on loopback-only ports.
+  :: intrigue
+  A perimeter firewall is not a boundary here. The router and the database run on the same
+  host as every other process the operator runs.
+  :: exit
+  Run `sudo bash scripts/deploy-weftspun-quadlet.sh`; `DETAILS.md` holds the verified status.
   :: decision
   Run weftspun_studio and its CockroachDB host as Podman Quadlets. A
   Quadlet is a `.container`, `.volume`, `.network`, or `.build` file.
@@ -21,13 +28,7 @@ rfd 1058, "Zero trust networking", :published do
   boot bugs this RFD found and fixed, the deploy command, and the
   verified status.
   :: problem
-  RFD66606-1055 selects plain Docker images, on this box first. The router
-  and the CockroachDB host need a deploy shape on this box too, the
-  single 4090 RTX box this project develops on.
-
-  A perimeter firewall is not a boundary here. The router and the
-  database run on the same host as every other process the operator
-  runs. Trust must come from isolation, not from network position.
+  Trust must come from isolation, not from network position.
   :: related
   RFD66606-1019 gives the API server. RFD66606-1020 pins the CockroachDB build.
   RFD66606-1037 gives the taskweft job/task split. RFD66606-1055 selects Docker
@@ -39,6 +40,10 @@ rfd 1058, "Zero trust networking", :published do
   details_title "Zero trust networking"
 
   prose ~S"""
+  :: details Why the deploy shape
+  RFD66606-1055 selects plain Docker images, on this box first. The router
+  and the CockroachDB host need a deploy shape on this box too, the
+  single 4090 RTX box this project develops on.
   :: details Zero trust, in this deployment
   Zero trust denies a request by default. It grants access by
   identity and by context, not by network position. The two

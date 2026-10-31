@@ -16,20 +16,17 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
   scope "`SERIALS-*.usda` schema, `scripts/render_flight_level_pages.py`,\n`_quarto.yml` navbar, `pages/flight-level-*.qmd`"
 
   prose ~S"""
+  :: hook
+  Tag an RFD's altitude and find all the strategy decisions at once.
+  :: intrigue
+  A reader wanting "all the strategy decisions" reads every RFD and infers.
+  :: exit
+  Read DETAILS.md for the tag schema, the render script's shape, and the Klaus Leopold citation.
   :: decision
   Every RFD carries an optional `flight_level` tag, L1/L2/L3 (Flight Levels: execution / coordination / strategy), and three Quarto listings render from that tag; tagging is opt-in.
   :: problem
-  An RFD describes a decision at some altitude of work (portfolio bet, cross-team coordination, or a single team's execution), but the register carries no field for that altitude. A reader wanting "all the strategy decisions" reads every RFD and infers.
-  :: section Details
-    L1  Operations    how a single team executes; fast cadence
-    L2  Coordination  how work flows across teams to deliver value
-    L3  Strategy      portfolio decisions about where to invest
-
-  Numbering follows Klaus Leopold's original: L1 is ground, L3 is altitude, matching the flight-altitude metaphor. The register is greenfield for this axis, so no earlier convention needs inverting.
-
-  `scripts/render_flight_level_pages.py` reads the tag from every serial register and writes three Quarto listings under `pages/flight-level-{1,2,3}-*.qmd`. Navbar carries a Flight Levels dropdown. Untagged RFDs stay off the three pages.
-
-  See DETAILS.md for the tag schema, the render script's shape, and the Klaus Leopold citation.
+  An RFD describes a decision at some altitude of work (portfolio bet, cross-team coordination,
+  or a single team's execution), but the register carries no field for that altitude.
   :: related
   RFD66606-1000 (RFD conventions), RFD66606-1053 (OpenUSD internal format), RFD66606-2174
   (open-abandoned index) and RFD66606-2176 (committed-terminal index): same pattern of one
@@ -39,6 +36,16 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
   details_title "flight levels taxonomy"
 
   prose ~S"""
+  :: details Levels and rendering
+    L1  Operations    how a single team executes; fast cadence
+    L2  Coordination  how work flows across teams to deliver value
+    L3  Strategy      portfolio decisions about where to invest
+
+  Numbering follows Klaus Leopold's original: L1 is ground, L3 is altitude, matching the flight-altitude metaphor. The register is greenfield for this axis, so no earlier convention needs inverting.
+
+  `scripts/render_flight_level_pages.py` reads the tag from every serial register and writes three Quarto listings under `pages/flight-level-{1,2,3}-*.qmd`. Navbar carries a Flight Levels dropdown. Untagged RFDs stay off the three pages.
+
+  See DETAILS.md for the tag schema, the render script's shape, and the Klaus Leopold citation.
   :: details Tag schema
   Every RFD entry in `SERIALS.usda` or `SERIALS-vsekai-fabric.usda` may
   carry a `flight_level` field:

@@ -9,6 +9,12 @@ app and both upstream orgs"
 private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
 
   prose ~S"""
+  :: hook
+  Two innovation tokens cover the app and both upstream orgs.
+  :: intrigue
+  The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
+  :: exit
+  Read `DETAILS.md` for how the ledger was found and what is still split.
   :: decision
   A token is a substrate: the thing a failure takes down with it. The
   ledger has two. Token 1 is guest ELFs on the pinned double engine. The
@@ -23,10 +29,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   and the operator moved the two documents on 2026-10-30 rather than
   wait for a rung to claim them.
   :: problem
-  The ledger counts features. The pen and `zone.elf` take two tokens and
-  run on one substrate. Elixir runs every tool and spends no token. The
-  upstream orgs ran a second database. Of 312 repos that use a non-boring
-  technology, 182 fit inside one token when each technology is its own.
+  Elixir runs every tool and spends no token.
   :: related
   - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
   - RFD66606-2006 and RFD66606-2075, abandoned.
@@ -36,6 +39,9 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   details_title "one token ledger for three orgs"
 
   prose ~S"""
+  :: details The measured gap
+  The upstream orgs ran a second database. Of 312 repos that use a non-boring
+  technology, 182 fit inside one token when each technology is its own.
   :: details How the ledger was found
   The operator requested it on 2026-10-18: study the three orgs and
   consolidate the tokens with frontier learning, with no limit on the

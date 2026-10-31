@@ -8,6 +8,12 @@ rfd 2296, "the first rung's dev.2", :discussion do
   scope "the pen's `v<date>-dev.2` release"
 
   prose ~S"""
+  :: hook
+  dev.2 closes dev.1's counted gaps and rebases the godot-sandbox fork.
+  :: intrigue
+  The dev rungs past dev.1 change daily while the rest of the workspace plan does not.
+  :: exit
+  Read RFD66606-2293 next for the release rules that hold here.
   :: decision
   dev.2 closes the gaps dev.1's logbook counts, rebases the godot-sandbox
   fork on upstream and releases the addon from it, and rebuilds every

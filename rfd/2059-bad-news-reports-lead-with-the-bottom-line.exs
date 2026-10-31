@@ -4,13 +4,20 @@ use RFD.DSL
 
 rfd 2059, "Bad news reports lead with the bottom line", :prediscussion do
   prose ~S"""
-  :: decision
-  See `DETAILS.md` for the full argument.
-  :: problem
+  :: hook
+  A status report opens on its outcome, then gives the why and the next step.
+  :: intrigue
   A status report carries an outcome the reader acts on: a slipped date,
   a broken build, a failed smoke. A report that opens with progress and
   buffers the outcome to the end makes the reader scan for the catch
-  before the report says anything they can use. How does a report in
+  before the report says anything they can use.
+  :: exit
+  Check that a status report opens on its outcome, with the explanation and the next step
+  after it.
+  :: decision
+  See `DETAILS.md` for the full argument.
+  :: problem
+  How does a report in
   this project phrase an outcome the reader needs first?
   :: related
   See `DETAILS.md` for the full argument.

@@ -7,6 +7,12 @@ rfd 1070, "Keep options open", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Wait for a commitment before opening an RFD; waiting holds an asset.
+  :: intrigue
+  This repository wrote down three RFDs for a build nobody started.
+  :: exit
+  Read `DETAILS.md` for the three RFDs this rule removed and what it left in place.
   :: decision
   Do not open an RFD for a build this project has not committed to.
 
@@ -17,11 +23,7 @@ rfd 1070, "Keep options open", :published do
 
   The rule stops a new RFD from opening before commitment. It does not
   reach back into one already running.
-
-  See `DETAILS.md` for the three RFDs this rule removed, what made each
-  speculative, and what the rule left in place.
   :: problem
-  This repository wrote down three RFDs for a build nobody started.
   Each carried a reading cost, a cross-reference to keep current, and
   an index row, for an option nobody had exercised.
   :: references

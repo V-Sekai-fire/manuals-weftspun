@@ -7,6 +7,13 @@ rfd 1011, "Spatial fabric publish", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  A completed mesh task publishes to the spatial fabric in one flow.
+  :: intrigue
+  A completed mesh task should reach shared worlds, and the app has no publish path to
+  the spatial fabric.
+  :: exit
+  Read `docs/SPATIAL_FABRIC_INTEGRATION.md` for the integration.
   :: decision
   Add a publish flow for completed tasks.
 
@@ -16,8 +23,7 @@ rfd 1011, "Spatial fabric publish", :published do
   The flow opens the Scene Assembler in a new tab. The spatial
   fabric adapter checks the manifest and the tier presets.
   :: problem
-  A completed mesh task should reach shared worlds. The app needs a
-  publish path to the spatial fabric. The fabric needs a valid
+  The fabric needs a valid
   manifest and a scene assembler.
   :: references
   - Adapter: `src/library/spatialFabricAdapter.js`

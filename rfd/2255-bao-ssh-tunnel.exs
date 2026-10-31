@@ -11,6 +11,13 @@ one-hour SSH certificate that Bao itself signs"
 `ssh/roles/bao-tunnel` and the `ssh-bao-tunnel` policy"
 
   prose ~S"""
+  :: hook
+  A desk with no tailnet reaches Bao through sshd, with a one-hour certificate Bao signs.
+  :: intrigue
+  Bao is reached over the tailnet or the private network, and a desk can lack both: a WSL
+  distro is on neither, and its WireGuard peer fails to add its route.
+  :: exit
+  Follow the steps under Using it in the details to open the tunnel.
   :: decision
   The Bao machine runs sshd on port 2222. It trusts one user CA,
   the key of Bao's own `ssh/` engine, and accepts one principal,
@@ -21,20 +28,18 @@ one-hour SSH certificate that Bao itself signs"
   the second factor: the tunnel carries TLS, it does not replace
   it.
   :: problem
-  Bao is reached over the tailnet or the private network, and a
-  desk can lack both: a WSL distro is on neither, and its
-  WireGuard peer fails to add its route. Every other route in
-  use was an operator-held proxy, which is a person, not a path.
+  Every other route in use was an operator-held proxy, which is a person, not a path.
   :: related
   - RFD66606-2195 (Bao over the tailnet), the path this complements.
-  - RFD66606-2146 (Bao is the secret store), the cert-auth identities
-    that sign here.
-  - RFD66606-2142 (Bao PKI), the root the agent certificates chain to.
   """
 
   details_title "an SSH tunnel to Bao for Bao-signed certificates"
 
   prose ~S"""
+  :: details Related RFDs
+  - RFD66606-2146 (Bao is the secret store), the cert-auth identities
+    that sign here.
+  - RFD66606-2142 (Bao PKI), the root the agent certificates chain to.
   :: details Using it
   With a Bao token from cert login (RFD66606-2195's four variables):
 

@@ -7,6 +7,14 @@ rfd 1036, "Model packaging convention", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Each model ships as a plain Docker image that serves HTTP, and never as a Cog package.
+  :: intrigue
+  The DGX API ran each model through its own adapter, each with its own weight loader, CUDA
+  pin, and output writer.
+  :: exit
+  Read `DETAILS.md` for target, rules, the two-stage Dockerfile, files, composites, and
+  unconverted folders.
   :: decision
   Package each model as a plain Docker image that serves HTTP.
 
@@ -20,16 +28,8 @@ rfd 1036, "Model packaging convention", :committed do
   Name the repo for its model, and never for a package format. A
   format is a decision this RFD already changed once. A folder name
   that carries one goes stale on the next change.
-
-  See `DETAILS.md` for target, rules, the two-stage Dockerfile, files,
-  composites, and unconverted folders.
-
-  Committed 2026-09-02: the convention has been in force for months;
-  CLAUDE.md closes compute (local desktop GPU only; RunPod/Vast.ai
-  blocklisted). Earlier rental-target framing retracted in DETAILS.md.
   :: problem
-  The DGX API ran each model through its own adapter, each with its
-  own weight loader, CUDA pin, and output writer. There is no DGX now.
+  There is no DGX now.
   This RFD first selected Cog; `DETAILS.md` records why it was withdrawn.
   :: related
   RFD66606-1016 lists the models. RFD66606-1025 gives the memory. RFD66606-1027 the
@@ -119,5 +119,9 @@ rfd 1036, "Model packaging convention", :committed do
   Convert one when the model is next worked on, and not in a sweep. A
   folder converted without a build produces a `server.py` that nobody
   ran, which is what the Cog files already are.
+  :: details When it was committed
+  Committed 2026-09-02: the convention has been in force for months;
+  CLAUDE.md closes compute (local desktop GPU only; RunPod/Vast.ai
+  blocklisted). Earlier rental-target framing retracted in DETAILS.md.
   """
 end

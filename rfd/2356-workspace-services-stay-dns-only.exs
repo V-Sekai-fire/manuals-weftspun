@@ -7,18 +7,18 @@ rfd 2356, "Workspace services stay DNS-only", :discussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  Workspace services stay DNS-only, so no CDN reads their traffic.
+  :: intrigue
+  A proxied record puts Cloudflare between a client and the service for every request.
+  :: exit
+  If a workspace service lands under a proxied subdomain, take the proxy flag off before it
+  serves requests.
   :: decision
-  **Workspace services stay DNS-only, so no CDN reads their traffic.**
-
   CF-proxied records have Cloudflare terminating TLS at its edge, every byte plaintext at
   CF for the round trip. Workspace services stay DNS-only; edge cache, if needed, is
   Fly-side or origin-side.
-
-  If a workspace service lands under a proxied subdomain, take the proxy flag off before it
-  serves requests.
   :: problem
-  A proxied record puts Cloudflare between a client and the service for every request.
-
   Services here carry auth tokens and hostname-bound credentials.
   :: related
   RFD66606-2146.

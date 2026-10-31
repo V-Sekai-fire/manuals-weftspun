@@ -9,15 +9,20 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Services on 6PN authenticate to bao with a client certificate over TLS.
+  :: intrigue
+  Services on 6PN read secrets from bao over plaintext HTTP. The root token in
+  1Password is for emergencies; sharing it with services is the credential distribution
+  problem bao exists to solve.
+  :: exit
+  Read RFD66606-2146 for the role and policy map.
   :: decision
   Implemented 2026-09-01; see RFD66606-2146 for the role/policy map.
 
   `DETAILS.md` carries the full text of this RFD.
   :: problem
-  Services on 6PN read secrets from bao over plaintext HTTP. The root
-  token in 1Password is for emergencies; sharing it with services is
-  the credential distribution problem bao exists to solve. Any 6PN
-  neighbor can observe or modify traffic to the listener.
+  Any 6PN neighbor can observe or modify traffic to the listener.
   :: related
   RFD66606-2140 (bao on FDB), RFD66606-2141 (FDB TLS rotation).
   """

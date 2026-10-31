@@ -9,6 +9,14 @@ by time in a file listing and parses as a version in every package tool"
 2026-10-13 on, and `scripts/check_release_tags.exs`"
 
   prose ~S"""
+  :: hook
+  A release tag is computed from its commit, so it sorts by time and parses everywhere.
+  :: intrigue
+  The orgs' releases carry four naming schemes and no rule. No single scheme among them
+  sorts by time in a file listing and also parses as a version in Mix, Cargo, npm and Go.
+  :: exit
+  Run `elixir scripts/check_release_tags.exs` to recompute every tag, and read `DETAILS.md`
+  for the later parts.
   :: decision
   A release tag is `v0.0.0-<time>-<hash>`: the tagged commit's committer
   time in UTC as `YYYYMMDDhhmmss`, then the first 12 hex digits of the
@@ -17,16 +25,11 @@ by time in a file listing and parses as a version in every package tool"
   a "1.0" goes in the release title and the stage branch, not in the tag.
   The operator chose the form on 2026-10-12 ("I like go's").
 
-  The tag is the first of three parts of one release system. Each part does
-  one job: identity is a hash, order is a fixed-width UTC time, stage is a
-  pointer that moves, and compatibility is a version on the interface that
-  breaks. The details give the later parts.
-  :: problem
-  The orgs' releases carry four naming schemes and no rule. Of 60 GitHub
+    :: problem
+  Of 60 GitHub
   releases in repositories pushed since 2026-06-01, 33 are SemVer
   pre-releases in at least four spellings, 7 are dates, 2 are plain SemVer
-  and 18 are free names. No single scheme among them sorts by time in a
-  file listing and also parses as a version in Mix, Cargo, npm and Go.
+  and 18 are free names.
   :: related
   - RFD66606-2294, interchangeable sessions: the stage branches this RFD leaves
     the stage to.
@@ -36,6 +39,11 @@ by time in a file listing and parses as a version in every package tool"
   details_title "release tags are go pseudo-versions"
 
   prose ~S"""
+  :: details The three parts
+  The tag is the first of three parts of one release system. Each part does
+  one job: identity is a hash, order is a fixed-width UTC time, stage is a
+  pointer that moves, and compatibility is a version on the interface that
+  breaks. The details give the later parts.
   :: details Sources
   Drafted on 2026-10-12 from the release inventory, the sort runs and the
   parser runs below, all taken the same day. The form and the "everywhere"

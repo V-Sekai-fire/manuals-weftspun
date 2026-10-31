@@ -7,6 +7,12 @@ rfd 1000, "Conventions", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  One convention sets how this repository writes, numbers and states its RFDs.
+  :: intrigue
+  Two repositories allocated RFD numbers from what each treated as a private space.
+  :: exit
+  Read `DETAILS.md` for the numbering rule, and run `mix rfd.check` before you push.
   :: decision
   This repository writes Request-for-Discussion documents in the Oxide
   style. Each RFD has a state: prediscussion, ideation, discussion,
@@ -15,10 +21,6 @@ rfd 1000, "Conventions", :published do
   Technical writing follows ASD-STE100 Simplified Technical English.
   An essay follows the AI-trope gate, and a section names which one it
   takes. RFD66606-1125 gives that rule. Code and identifiers follow neither.
-
-  The repository keeps designs in one place. The decisions directory
-  records durable decisions. The docs tree holds detailed designs.
-  An RFD points to its source. It does not copy the source.
 
   Each RFD's `README.md` stays at 40 lines or fewer. It states the
   decision first, then the problem, in the fewest lines that keep
@@ -30,9 +32,6 @@ rfd 1000, "Conventions", :published do
   - RFD style: `rfd-driven-architecture` skill
   - Numbering rule and OID arc: `DETAILS.md`. Serials in use: `SERIALS.usda`
   - STE spec: https://www.asd-ste100.org/ Tropes: https://tropes.fyi
-  - STE linter: the `simplified-technical-english` Claude Code plugin
-    (`fire/claude-ste-plugin`). RFD66606-1063 records the move off a
-    repo-local script.
   :: related
   See the DRY policy and the STE policy in `decisions/README.md`.
   """
@@ -40,6 +39,15 @@ rfd 1000, "Conventions", :published do
   details_title "Conventions"
 
   prose ~S"""
+  :: details The STE linter
+  STE linter: the `simplified-technical-english` Claude Code plugin
+  (`fire/claude-ste-plugin`). RFD66606-1063 records the move off a
+  repo-local script.
+
+  :: details Where designs live
+  The repository keeps designs in one place. The decisions directory
+  records durable decisions. The docs tree holds detailed designs.
+  An RFD points to its source. It does not copy the source.
   :: details The problem this rule answers
   Two repositories allocated RFD numbers from what each treated as a private
   space. The spaces were the same space. This repository held 116 RFDs numbered
@@ -148,128 +156,20 @@ rfd 1000, "Conventions", :published do
   `RFD NNNN` in rendered prose outside code and quotes, and
   `check_commit_style.py` refuses one in a commit subject; each has a planted
   control that must fail.
-  :: details Why the digits are decimal
-  The first version of this rule made the digits hexadecimal. It shipped. 131
-  RFDs carried hex numbers for the life of it, and this section withdraws it.
+  :: details The HIDE beats
+  Every live RFD declares three keywords beside its decision (operator, 2026-10-31).
+  `RFD.Hide` checks them when the source compiles, so `mix rfd.render` and `mix rfd.check`
+  refuse a source without them. In a `prose` block each one opens with `:: hook`,
+  `:: intrigue` or `:: exit`.
 
-  An OID arc is decimal. A hex document number therefore needed a conversion at
-  each crossing between the folder name and the identifier. Serial 100a was arc
-  4106, and nothing in the name said so. That put two representations of one
-  number in service at once, which is the condition the rule above exists to
-  remove.
+  - `hook`: one paragraph, the promise. The README prints it in bold above the decision.
+  - `intrigue`: one paragraph that ends in a sentence. The README prints it first in the
+    problem.
+  - `exit`: one paragraph that ends in a period and is not a list item, a table row or a
+    code fence. The README prints it last in the decision.
+  - The decision is the Delivery, and the README prints it between the hook and the exit.
 
-  Hexadecimal offered 4096 serials to each organization and decimal offers 1000.
-  This repository uses 131. The ceiling was never the constraint the rule was
-  written against.
-  :: details A third sibling: SKILL.md
-  The README states the problem and the decision. DETAILS.md holds the
-  measurement. Neither says what to do, in what order, and both are the
-  wrong shape for it: a procedure is not a decision, and it is not a
-  result either.
-
-  So an RFD may carry a `SKILL.md`, in `apparatus/NNNN-slug/`, with the
-  frontmatter a skill takes:
-
-      ---
-      name: <kebab-case, matching the RFD folder's subject>
-      description: <when to reach for it, not what it contains>
-      ---
-
-  It holds the order to do things in and the errors that name the wrong
-  cause. RFD66606-1040 is the first: eighteen packaging gaps, each found by
-  running the thing rather than by reading the file, and every one of
-  them reporting either success or a cause that is not the cause. That
-  knowledge fits nowhere in a README bounded at 40 lines, and putting it
-  in DETAILS.md would mix a procedure into a measurement.
-
-  The test for whether something belongs here: a reader following it in
-  order should not need to have read either sibling. A skill that only
-  makes sense after the DETAILS is a section of the DETAILS.
-  :: details Apparatus lives in apparatus/NNNN-slug/
-  `rfd/NNNN-slug.exs` is the source. `mix rfd.render` writes `README.md`
-  and `DETAILS.md` into `rfd/NNNN-slug/`, and that directory holds those
-  two files and nothing else, so deleting it costs a render and no
-  information.
-
-  Everything else an RFD carries lives in `apparatus/NNNN-slug/`. A
-  `SKILL.md`, an HTN `domain.ex`/`problem.ex`/`plan.ex`, a measurement
-  probe, a `.cff` citation, a report template, a USD layer. The word is
-  the logbook's: an entry clips the experimental apparatus, enough to
-  re-run the test.
-
-  The rule is a gate, because it was not one before.
-  `scripts/check_rfd_dirs_rendered_only.py` fails a tracked file under
-  `rfd/NNNN-slug/`. Sixty-five of them had accumulated there by
-  2026-09-07: Cog predictors, five HTN triples, ten skills, six
-  citations, both fourloops layers. A `rm -rf rfd/*/` would have taken
-  all of them, leaving two symlinks and four gates pointing into the
-  hole.
-
-  Renders are ignored, apparatus is tracked, so the two never mix in a
-  diff.
-  :: details The serial register
-  `SERIALS.usda` lists every serial this site has allocated. It carries the live
-  ones and the deleted ones, because a deleted number stays cited.
-
-  It is USD rather than a table, and in Essential Tuple Normal Form: one prim
-  per tuple, the primary key in the prim name, the remaining columns as typed
-  attributes on that prim. A row count is the number of children. A packed row
-  was rejected early, because a value with a space in it splits into two columns
-  without saying so.
-
-  **It held parallel arrays until this revision, one per column, indexed
-  together.** Two arrays that correspond by position can stop corresponding, and
-  nothing in the layer says so: `[1, 1, 2]` is a legal `int[]` carrying a
-  duplicate key, and a reader that walks the columns with `zip` stops at the
-  shorter one, so a register missing a slug reports one fewer serial and no
-  error. That failure was gated rather than prevented. Under the row form USD
-  refuses two siblings of one name, so a duplicate key cannot be authored, and
-  a missing value belongs to one row rather than shifting every row after it.
-
-  Other sites still author the array form, and the readers take both. A reader
-  that understood only the new shape would compose their registers to nothing,
-  which reads exactly like a site with no serials.
-
-  It holds this site's serials and no other site's. A copy of another site's
-  rows would be a second record of one fact, and the first copy edited would win
-  by accident. `pen-66606.usda` composes the sites with sublayers, so the whole
-  PEN reads as one stage and no site restates another.
-
-  The published page holds no copies either. `multiplayer-fabric-manuals`
-  renders `pages/serials.qmd` from these registers at build time, reading each
-  site's over HTTPS, so the identifiers exist once and a reader sees what the
-  registers say rather than what a generator last wrote.
-
-  There was a generator, and it wrote that page into the site. It needed a gate
-  to catch the page drifting from the registers, and that gate went red twice in
-  a week, correctly both times. The page reading the registers itself removes
-  the copy rather than watching it, and the generator and its gate are deleted.
-
-  A serial is appended once. It is never removed and never reused. A slug
-  follows its directory, because a retitle renames a document and does not
-  renumber it. The two look alike in a diff and are not alike. A renumbering
-  takes serials out of the register, so `scripts/check-rfd-serials.py` fails on
-  what went missing rather than on what arrived. RFD66606-1124's gate borrows that
-  script's reader, so the two gates cannot disagree about which numbers exist.
-
-  This entry is the reason the register exists. Renumbering 131 RFDs took 121
-  directory renames and 295 file rewrites, and nothing in the repository would
-  have objected if the mapping had been wrong.
-  :: details What this rule does not repair
-  Git history and pull request titles hold two older forms. 67 commit subjects
-  cite an RFD by its first number. 48 more cite a hex one. Git history does not
-  change.
-
-  `ALIASES.md` held 122 rows mapping the first numbers to hex. It is deleted
-  rather than extended, because the first form now resolves by a rule instead of
-  a table. The decimal serial equals the first number in all 122 rows. The
-  document that opened as 0123 is RFD66606-1123, and the lookup is "prepend the
-  organization digit". Hexadecimal
-  was the detour, and leaving it returned every document to the number it
-  started with.
-
-  A hex number resolves no such way. A reader who finds one in a commit subject
-  converts it or reads the commit. 48 subjects carry that cost, and it is the
-  price of deleting the table rather than adding a third column to it.
+  An abandoned stub is outside the rule. The test file `test/rfd_hide_test.exs` plants a
+  source that lacks each beat in turn, and each one must be refused.
   """
 end

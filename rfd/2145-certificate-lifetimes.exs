@@ -7,6 +7,13 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  Each private CA and leaf gets a lifetime and a rotation cadence set by its risk.
+  :: intrigue
+  RFD66606-2134, RFD66606-2141, RFD66606-2142 landed with 10-year CAs and 1-to-2-year leaves.
+  2144 minted a 10-year WebTransport intermediate on the same pattern.
+  :: exit
+  Read `DETAILS.md` for the citations and the current-state audit.
   :: decision
       role                              notAfter       rotate every
       -----------------------------     ------------   ------------
@@ -23,13 +30,7 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   Rotation is a **5-year policy commitment**, enforced by
   `check_anti_entropy.py`, not by cert validation. Intermediates and
   leaves are the opposite: their `notAfter` IS the rotation gate.
-
-  `DETAILS.md` carries the citations (RFC 5280, Mozilla Root Store
-  Policy, CA/B Forum SC-081v3, NCSC, NIST SP 800-57 Pt.1 §5.3.6) and
-  the current-state audit.
   :: problem
-  RFD66606-2134, RFD66606-2141, RFD66606-2142 landed with 10-year CAs and 1-to-2-year leaves.
-  2144 minted a 10-year WebTransport intermediate on the same pattern.
   The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by
   2029-03) and a Mozilla Root Store Policy that removes public trust
   after 15 years of key material.
@@ -56,7 +57,7 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
 
   RFC 5280 permits the "never expires" sentinel (`99991231235959Z`) for
   certs the issuer treats as having no defined end date. Some private
-  CAs use it. This RFD does not, for two reasons. First, OpenSSL prints
+  CAs use it. This RFD does not, for the reasons below. First, OpenSSL prints
   `notAfter=Dec 31 23:59:59 9999 GMT` and some X.509 parsers reject the
   year field as out of range: RFC 5280 requires UTCTime for years
   1950-2049 and GeneralizedTime after, so pre-1994 parsers and some

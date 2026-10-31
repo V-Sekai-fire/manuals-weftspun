@@ -10,18 +10,22 @@ toolchain and one credential store serve the whole session"
 and the pixi environments the gates run in"
 
   prose ~S"""
+  :: hook
+  Workspace tools run in one place, so one toolchain and one credential store serve a session.
+  :: intrigue
+  A tool installed on both sides keeps two copies of its state: the password manager answered
+  on one side and not the other, and the Bao CLI existed on only one.
+  :: exit
+  Read RFD66606-2255 next, the SSH tunnel to Bao that IPv6 opened.
   :: decision
   The desk's host operating system is blocklisted as a place to run
   workspace tooling: `repo`, `pixi`, the `bao` and 1Password CLIs,
   the gates, builds and runs all run in the Linux subsystem. The
   subsystem uses mirrored networking (`networkingMode=mirrored` in
   `%UserProfile%\.wslconfig`), so it shares the host's IPv6 route.
-  A release artifact built for the host is still tested on the
-  host; this rule governs where tools run, not what ships.
+  A release artifact built for the host is still tested on the host.
   :: problem
-  A tool installed on both sides keeps two copies of its state: the
-  password manager answered on one side and not the other, and the
-  Bao CLI existed on only one. Under NAT the subsystem had no IPv6,
+  Under NAT the subsystem had no IPv6,
   so it could not reach Bao's public tunnel address at all.
   :: related
   - RFD66606-2255 (SSH tunnel to Bao), the path IPv6 opened.
@@ -32,6 +36,8 @@ and the pixi environments the gates run in"
   details_title "workspace tooling runs in the Linux subsystem"
 
   prose ~S"""
+  :: details What the rule governs
+  This rule governs where tools run, not what ships.
   :: details What is measured
   Under NAT, `ip -6 route` held only the link-local route and an
   IPv6 fetch returned nothing, while the host reached the same

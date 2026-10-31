@@ -7,15 +7,15 @@ rfd 2359, "The shopkeeper keeps the books for each conversation", :discussion do
   scope "the campus shop, its persona, and the books."
 
   prose ~S"""
+  :: hook
+  The shopkeeper keeps the books for each conversation, so a met request needs no more.
+  :: intrigue
+  RFD66606-2045 names a store this workspace has retired.
+  :: exit
+  Run the memory gate: the second request for a goal in one conversation returns an empty plan.
   :: decision
-  **The shopkeeper keeps the books for each conversation, so a met request needs no more.**
-
   - The shopkeeper is a persona (RFD66606-2339, planning-domain persona) that keeps a saved world
     for each conversation in SQLite on FoundationDB (operator, 2026-10-30).
-
-  Run the memory gate: the second request for a goal in one conversation returns an empty plan.
-  :: problem
-  RFD66606-2045 names a store this workspace has retired.
   :: related
   - RFD66606-2339, the persona; RFD66606-2340, the campus; RFD66606-2358, the party.
   """

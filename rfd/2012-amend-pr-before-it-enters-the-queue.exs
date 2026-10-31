@@ -4,6 +4,13 @@ use RFD.DSL
 
 rfd 2012, "Amend pr before it enters the queue", :prediscussion do
   prose ~S"""
+  :: hook
+  A late fix to an enqueued PR can merge, or be orphaned. The sequence decides which.
+  :: intrigue
+  A correction pushed seconds after enqueueing was orphaned, because the queue had already
+  snapshotted the earlier commit.
+  :: exit
+  Read `DETAILS.md` for the options and the confirmation check.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

@@ -37,6 +37,9 @@ defmodule RFD.Doc do
             feature: nil,
             scope: nil,
             flight_level: nil,
+            hook: nil,
+            intrigue: nil,
+            exit: nil,
             decision: nil,
             problem: nil,
             references: [],
@@ -106,6 +109,7 @@ defmodule RFD.Doc do
     |> Kernel.++(rebac_problems(d))
     |> Kernel.++(RFD.RECTGTN.problems(d))
     |> Kernel.++(length_problems(d))
+    |> Kernel.++(RFD.Hide.problems(d))
     |> Enum.reverse()
   end
 
@@ -115,7 +119,8 @@ defmodule RFD.Doc do
   """
   def tropes(%__MODULE__{} = d) do
     prose =
-      [d.title, d.feature, d.scope, d.preamble, d.decision, d.problem] ++
+      [d.title, d.feature, d.scope, d.preamble, d.hook, d.intrigue, d.exit] ++
+        [d.decision, d.problem] ++
         List.wrap(d.references) ++
         [d.related, d.details_title, d.details_preamble] ++
         Enum.flat_map(d.details ++ d.sections ++ generated_sections(d), &Tuple.to_list/1)
@@ -224,8 +229,8 @@ defmodule RFD.Doc do
       end
 
     spine = [
-      {:decision, d.decision && section("Decision", d.decision <> details_pointer(d))},
-      {:problem, d.problem && section("Problem", d.problem)},
+      {:decision, d.decision && section("Decision", decision_text(d) <> details_pointer(d))},
+      {:problem, (d.problem || d.intrigue) && section("Problem", problem_text(d))},
       {:references, refs && section("References", refs)},
       {:related, d.related && section("Related", d.related)}
     ]
@@ -233,7 +238,7 @@ defmodule RFD.Doc do
     extras = for {h, b} <- d.sections, do: {{:section, h}, section(h, b)}
     all = spine ++ extras
     # Declaration order when the source gave one; otherwise the spine, then the extras.
-    keys = if d.order == [], do: Enum.map(all, &elem(&1, 0)), else: d.order
+    keys = if d.order == [], do: Enum.map(all, &elem(&1, 0)), else: with_problem(d)
 
     sections =
       keys
@@ -288,6 +293,34 @@ defmodule RFD.Doc do
     "def \"S#{d.serial}\"\n{\n    custom string slug = \"#{slug}\"#{level}\n}\n"
   end
 
+  defp with_problem(%__MODULE__{intrigue: nil, order: order}), do: order
+
+  defp with_problem(%__MODULE__{order: order}) do
+    if :problem in order do
+      order
+    else
+      {before, rest} = Enum.split_while(order, &(&1 != :decision))
+      before ++ Enum.take(rest, 1) ++ [:problem] ++ Enum.drop(rest, 1)
+    end
+  end
+
+  def decision_text(%__MODULE__{hook: nil, exit: nil, decision: decision}), do: decision
+
+  def decision_text(%__MODULE__{} = d) do
+    hook = d.hook && "**" <> String.trim(d.hook) <> "**"
+    join_blocks([hook, d.decision, d.exit])
+  end
+
+  def problem_text(%__MODULE__{intrigue: nil, problem: problem}), do: problem
+  def problem_text(%__MODULE__{} = d), do: join_blocks([d.intrigue, d.problem])
+
+  defp join_blocks(blocks) do
+    blocks
+    |> Enum.reject(&(&1 in [nil, ""]))
+    |> Enum.map_join("\n\n", &String.trim/1)
+    |> Kernel.<>("\n")
+  end
+
   defp section(heading, body), do: "## #{heading}\n\n#{String.trim_trailing(body)}"
 
   defp details_pointer(%{details: [], details_preamble: nil, rebac: nil, steps: []}), do: ""
@@ -295,7 +328,8 @@ defmodule RFD.Doc do
 
   defp details_pointer(d) do
     prose =
-      [d.preamble, d.decision, d.problem, d.related, List.wrap(d.references)] ++
+      [d.preamble, d.hook, d.intrigue, d.exit, d.decision, d.problem, d.related] ++
+        [List.wrap(d.references)] ++
         Enum.map(d.sections, &elem(&1, 1))
 
     prose = List.flatten(prose)

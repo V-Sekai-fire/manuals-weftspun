@@ -10,20 +10,20 @@ chibifire-stages, and the operator's rules that lived in one desk's memory, writ
 rules below"
 
   prose ~S"""
+  :: hook
+  What any agent learns about V-Sekai-fire and chibifire-stages lives in an RFD, not a desk.
+  :: intrigue
+  An agent session's memory is a directory on one desk, so no session sees every rule.
+  :: exit
+  Write a generic rule into its RFD in the same session; the details hold the steps.
   :: decision
   What any agent needs to know about V-Sekai-fire and chibifire-stages, their
   repositories, the headset and the services lives in an RFD in this repository:
   the RFD that owns the topic, or this one when none does. A desk's local memory
   keeps only what is true of that desk alone, such as its paths, its identities
   and its tools; a local note about a generic rule names the RFD that states it.
-  An agent that learns a generic rule writes it into the RFD in the same session,
-  through a pull request like any other change.
   :: problem
-  An agent session's memory is a directory on one desk. On 2026-10-01 the
-  operator's rules for locomotion, offline deployment, video and the station
-  lived only on the Mac desk, and those for where compute runs and for binary
-  translation only on the Windows desks, so no session saw all of them, and a
-  rule changed on one desk disagreed with the others without anyone being told.
+  A rule changed on one desk disagreed with the others without anyone being told.
   :: related
   - RFD66606-2287, the first rung, whose interface moves a person by the world grab
     described under Locomotion.
@@ -37,6 +37,14 @@ rules below"
   details_title "agent knowledge lives in RFDs, not in desk memory"
 
   prose ~S"""
+  :: details Writing a generic rule down
+  An agent that learns a generic rule writes it into the RFD in the same session,
+  through a pull request like any other change.
+  :: details What lived on one desk
+  On 2026-10-01 the
+  operator's rules for locomotion, offline deployment, video and the station
+  lived only on the Mac desk, and those for where compute runs and for binary
+  translation only on the Windows desks, so no session saw all of them.
   :: details Starting out in the workspace
   A new agent, a small local model included, starts here and does one step at a
   time. It begins right after the bootstrap script has run.

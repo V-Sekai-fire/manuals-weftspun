@@ -7,6 +7,12 @@ rfd 1030, "See-Through component models", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  One catalog row hides nine models, and this RFD names each of them.
+  :: intrigue
+  The `seethrough_layer_decomposition` entry names one task. The task runs nine models.
+  :: exit
+  Read `DETAILS.md` for the component table, the two runtimes, and the bf16 and GGUF figures.
   :: decision
   Name each component here. Record its base model, its role, and its
   memory.
@@ -20,8 +26,7 @@ rfd 1030, "See-Through component models", :published do
   derives from an OpenRAIL++-M model. The table remains accurate about
   what the project is made of and is no longer a plan to run it.
   :: problem
-  The `seethrough_layer_decomposition` entry names one task. The task
-  runs nine models. One catalog row hides that fact.
+  One catalog row hides that fact.
   :: related
   RFD66606-1006 records the layer decomposition design. RFD66606-1019 selects the
   same ggml runtime for the Elixir core. RFD66606-1025 carries the single
