@@ -65,9 +65,16 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   | A `## Decision` section is present | 114 of 116 |
   | Every citation resolves to a directory or an ALIASES.md row | 116 of 116 |
   | No citation uses the old decimal form | 84 of 116 |
-  | A README names its `DETAILS.md` | 87 of 89 |
+  | A README names its `DETAILS.md` (rescinded, see below) | 87 of 89 |
   | `DETAILS.md` reads `RFD <num> details: <title>` | 94 of 95 |
   | A README is 40 lines or fewer | 108 of 116 |
+
+  **Rescinded: a README names its `DETAILS.md`.** The gate held this rule at
+  87 of 89 and then stopped checking it. The site prints `DETAILS.md` on the
+  same page as its README, so a reader no longer needs a pointer to find it.
+  The row above stays as it was measured, next to what it retracts.
+  `check-rfd-structure.py` accepts a `DETAILS.md` the README does not name,
+  and its self-test says so.
 
   Two of these need their exception stated, because the number above is
   not 116 and the rule still shipped.
