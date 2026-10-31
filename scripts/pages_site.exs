@@ -255,7 +255,6 @@ defmodule PagesSite do
           do: {s, Enum.sort_by(es, & &1.serial)}
 
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
-    latest_rfds = rfds |> Enum.sort_by(&{&1.date, &1.serial}, :desc) |> Enum.take(10)
 
     [
       "# manuals-weftspun",
@@ -267,10 +266,7 @@ defmodule PagesSite do
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
       pin_cards(rfds),
-      nongoal_card(rfds),
-      "## Recently changed RFDs",
-      dated_table(latest_rfds),
-      legend()
+      nongoal_card(rfds)
     ]
     |> Enum.join("\n\n")
   end
@@ -379,18 +375,6 @@ defmodule PagesSite do
 
   defp log_list(es), do: Enum.map_join(es, "\n", &"- [#{&1.label}](#{&1.href})")
 
-  defp dated_table(es) do
-    rows =
-      Enum.map_join(
-        es,
-        "\n",
-        &"| #{&1.date} | #{link(&1)} | #{&1.status} | #{escape(&1.label)} |"
-      )
-
-    "| changed | RFD | status | title |\n| --- | --- | --- | --- |\n" <> rows
-  end
-
-  defp escape(text), do: String.replace(text, "|", "\\|")
   defp link(e), do: "[#{short(e.serial)}](#{e.href})"
   defp short(serial), do: "RFD66606-#{serial}"
 
@@ -406,13 +390,6 @@ defmodule PagesSite do
     Regex.replace(@cited, text, fn _, ns ->
       Regex.replace(~r/(?:RFD66606-)?(\d{4})/, ns, fn _, n -> to.(String.to_integer(n)) end)
     end)
-  end
-
-  defp legend do
-    "Status: 📝 prediscussion, 💡 ideation, 💬 discussion, 📢 published, " <>
-      "✅ committed, 🪦 abandoned; " <>
-      "🧑‍🦰 drafted by aria-fire-persona and read by a human, " <>
-      "✍️ drafted by a human; 📎 has details."
   end
 
   # The theme's edit link points at the generated copy; this one points at the tracked source.
