@@ -172,7 +172,6 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
       Decision written before Problem
       a decimal citation split across a line break
       a citation that resolves nowhere
-      a DETAILS.md the README never names
       a DETAILS.md titled for another RFD
       a README past the line limit RFD 1000 gives
 
