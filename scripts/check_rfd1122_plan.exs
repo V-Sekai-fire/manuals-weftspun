@@ -15,7 +15,6 @@ defmodule Rfd1122PlanGate do
   @sources [
     "BLOCKLIST.md",
     "AGENTS.md",
-    "rfd/1142-the-mac-against-the-ugen300.exs",
     "logbook/logbook-rfd1122-hailo-first-rerank.md",
     "logbook/logbook-rfd1142-neural-engine-against-the-ugen300.md",
     "logbook/logbook-rfd1122-plan-apparatus-survives-the-rfd.md"
