@@ -17,7 +17,7 @@ one-hour SSH certificate that Bao itself signs"
   Bao is reached over the tailnet or the private network, and a desk can lack both: a WSL
   distro is on neither, and its WireGuard peer fails to add its route.
   :: exit
-  Follow the steps under Using it in the details to open the tunnel.
+  Follow the steps under Using it below to open the tunnel.
   :: decision
   The Bao machine runs sshd on port 2222. It trusts one user CA,
   the key of Bao's own `ssh/` engine, and accepts one principal,

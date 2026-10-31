@@ -13,7 +13,7 @@ rfd 1058, "Zero trust networking", :published do
   A perimeter firewall is not a boundary here. The router and the database run on the same
   host as every other process the operator runs.
   :: exit
-  Run `sudo bash scripts/deploy-weftspun-quadlet.sh`; `DETAILS.md` holds the verified status.
+  Run `sudo bash scripts/deploy-weftspun-quadlet.sh`; the sections below hold the verified status.
   :: decision
   Run weftspun_studio and its CockroachDB host as Podman Quadlets. A
   Quadlet is a `.container`, `.volume`, `.network`, or `.build` file.

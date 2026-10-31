@@ -14,7 +14,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   cannot tell the two apart.
   :: exit
   Check a new entry against the rule above: an algorithm that holds no weights goes in the
-  algorithm table in `DETAILS.md`, and a neural model goes in RFD66606-1016.
+  algorithm table below, and a neural model goes in RFD66606-1016.
   :: decision
   List the geometric algorithms apart from the neural models. RFD66606-1016
   holds the neural models.

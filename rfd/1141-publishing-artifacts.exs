@@ -14,7 +14,7 @@ rfd 1141, "Publishing artifacts", :discussion do
   Code goes to GitHub, and the goal manifest places every repository on a side of the hexagon.
   Artifacts had no such rule.
   :: exit
-  Read `SKILL.md` for the procedure and `DETAILS.md` for what is not published.
+  Read `SKILL.md` for the procedure and the sections below for what is not published.
   :: decision
   Artifacts go to Hugging Face. Code stays on GitHub, and each names the
   other. A dataset repository holds corpora; a model repository holds

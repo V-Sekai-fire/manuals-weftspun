@@ -45,11 +45,11 @@ defmodule RFDTest do
     assert RFD.Doc.problems(doc()) == []
   end
 
-  test "details render to DETAILS.md and the README names it" do
+  test "details render to DETAILS.md and the README does not point at it" do
     d = doc(details: [{"How it was checked", "Every number came from a run."}])
     assert RFD.Doc.details(d) =~ "# RFD66606-2999 details: a test RFD\n\n"
     assert RFD.Doc.details(d) =~ "## How it was checked\n\nEvery number came from a run."
-    assert RFD.Doc.readme(d) =~ "`DETAILS.md` carries the rest of this RFD."
+    refute RFD.Doc.readme(d) =~ "DETAILS.md"
     assert RFD.Doc.details(doc()) == nil
   end
 
@@ -390,7 +390,7 @@ defmodule RFDTest do
     assert %RFD.ReBAC{tuples: [%{subject: "a", verb: :owns}]} = doc.rebac
     assert RFD.Doc.details(doc) =~ "## The verbs\n\n| verb | meaning |"
     assert RFD.Doc.details(doc) =~ "## The tuples\n\n```rebac\na--owns--card\n```"
-    assert RFD.Doc.readme(doc) =~ "`DETAILS.md` carries the rest of this RFD."
+    refute RFD.Doc.readme(doc) =~ "DETAILS.md"
   end
 
   test "a tuple over an undeclared verb is refused at compile time" do

@@ -12,7 +12,7 @@ rfd 1025, "Model memory arithmetic", :published do
   :: intrigue
   RFD66606-1016 says what each model is. It does not say what each model costs.
   :: exit
-  Look up the model in `DETAILS.md`, then apply the safe rule for one resident model.
+  Look up the model below, then apply the safe rule for one resident model.
   :: decision
   Compute the memory from the parameter count. Apply the rule to each catalog model, and
   treat the estimated rows as an upper bound for planning.

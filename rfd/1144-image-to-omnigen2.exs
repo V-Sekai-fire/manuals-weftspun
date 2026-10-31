@@ -14,7 +14,7 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   A filename that matches no key is skipped without a word, so a run reports success and
   edits nothing.
   :: exit
-  Check each quantity in `fourloops-plan.usda` against the measurements in `DETAILS.md`.
+  Check each quantity in `fourloops-plan.usda` against the measurements below.
   :: decision
   Run loop 2 first among the four, and let it carry the measurements.
 

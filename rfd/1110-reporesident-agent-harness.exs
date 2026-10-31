@@ -14,8 +14,8 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   A coding agent session that loads every project file, every closed issue, and every past
   design spends context on history instead of the current task.
   :: exit
-  Read `DETAILS.md` for the file map, the context-layer table, the workflow-selection rules,
-  and the technical decisions from `DECISIONS.md` not already covered by another RFD.
+  Read below for the file map, the context-layer table, the workflow-selection rules, and the
+  technical decisions from `DECISIONS.md` not already covered by another RFD.
   :: decision
   Weftspun3DStudio adopted RepoResident on 2026-07-23, replacing an
   earlier "MindLink" personal-memory approach, now archived to

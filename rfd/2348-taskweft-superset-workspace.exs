@@ -15,7 +15,7 @@ opts in"
   The taskweft workspace and this one were two clients of two manifests. Work that needed
   both had no single checkout.
   :: exit
-  Read the details for the checks that passed and the work still open.
+  Read below for the checks that passed and the work still open.
   :: decision
   The workspace manifest is a superset of the taskweft manifest, by path.
   Where both place a path, this workspace's row wins, so rung pins never

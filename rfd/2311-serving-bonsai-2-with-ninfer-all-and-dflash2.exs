@@ -15,7 +15,7 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   No RFD decided how a card serves Bonsai 2, and the setup lived in agents' notes, tied to
   whichever machine held the cards that week.
   :: exit
-  Build the engine and the host as the details say, then run the witnesses.
+  Build the engine and the host as the sections below say, then run the witnesses.
   :: decision
   A Bonsai 2 language server is ninfer-all serving the t2
   `bonsai2-27b-heretic.ninfer` artifact with `--spec dflash2 --draft-tokens 5`,

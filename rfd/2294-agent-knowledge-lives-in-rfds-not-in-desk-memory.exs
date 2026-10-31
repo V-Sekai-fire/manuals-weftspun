@@ -15,7 +15,7 @@ rules below"
   :: intrigue
   An agent session's memory is a directory on one desk, so no session sees every rule.
   :: exit
-  Write a generic rule into its RFD in the same session; the details hold the steps.
+  Write a generic rule into its RFD in the same session; the sections below hold the steps.
   :: decision
   What any agent needs to know about V-Sekai-fire and chibifire-stages, their
   repositories, the headset and the services lives in an RFD in this repository:

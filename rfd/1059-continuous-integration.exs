@@ -13,7 +13,7 @@ rfd 1059, "Continuous integration, in one step", :published do
   `.github/workflows/main.yml` ran `npm run test:anim-regression`. `package.json` never
   defined that script.
   :: exit
-  Run `scripts/ci.sh` before committing, and read `DETAILS.md` for the three steps in order.
+  Run `scripts/ci.sh` before committing, and read below for the three steps in order.
   :: decision
   Follow Martin Fowler's ["Continuous
   Integration"](https://martinfowler.com/articles/continuousIntegration.html).

@@ -323,19 +323,5 @@ defmodule RFD.Doc do
 
   defp section(heading, body), do: "## #{heading}\n\n#{String.trim_trailing(body)}"
 
-  defp details_pointer(%{details: [], details_preamble: nil, rebac: nil, steps: []}), do: ""
-  defp details_pointer(%{details_pointer: false}), do: ""
-
-  defp details_pointer(d) do
-    prose =
-      [d.preamble, d.hook, d.intrigue, d.exit, d.decision, d.problem, d.related] ++
-        [List.wrap(d.references)] ++
-        Enum.map(d.sections, &elem(&1, 1))
-
-    prose = List.flatten(prose)
-
-    if Enum.any?(prose, &(is_binary(&1) and String.contains?(&1, "DETAILS.md"))),
-      do: "",
-      else: "\n\n`DETAILS.md` carries the rest of this RFD."
-  end
+  defp details_pointer(_), do: ""
 end

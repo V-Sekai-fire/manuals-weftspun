@@ -14,7 +14,7 @@ rfd 1021, "A shared holographic algebra library", :published do
   a vector from one carries no meaning in the other.
   :: exit
   Run the golden fixture `test/fixtures/hrr_golden.json` and check parity with the Python
-  `holographic.py` reference to 1.0e-12. `DETAILS.md` holds the rationale and the risks.
+  `holographic.py` reference to 1.0e-12. The sections below hold the rationale and the risks.
   :: decision
   Extract the earlier port into a library, and depend on it.
 

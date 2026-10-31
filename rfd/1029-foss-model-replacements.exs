@@ -14,7 +14,7 @@ rfd 1029, "FOSS model replacements", :published do
   tasks still need a model.
   :: exit
   Check a replacement against the license gate in RFD66606-1028 before you adopt it. Its
-  candidates and licenses are in `DETAILS.md`.
+  candidates and licenses are below.
   :: decision
   Replace each deleted model with a permissive alternative. Prefer the
   MIT license and the BSD license.

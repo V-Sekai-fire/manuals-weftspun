@@ -14,8 +14,8 @@ rfd 2174, "Index of open RFDs citing abandoned RFDs", :committed do
   RFDs that lean on an abandoned RFD's decision as if it still holds, without knowing the
   citation went stale.
   :: exit
-  Look up your RFD in DETAILS.md and migrate any citation of an abandoned RFD to the successor
-  named there.
+  Look up your RFD below and migrate any citation of an abandoned RFD to the successor named
+  there.
   :: decision
   This RFD is the citable index for open-to-abandoned citation drift; the 32 pairs sit in
   DETAILS.md, and individual RFDs migrate their citations when next touched.

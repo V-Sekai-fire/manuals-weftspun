@@ -14,7 +14,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   A backup on Fly's own object storage goes with the cluster in a disaster naming "all Fly
   infra gone".
   :: exit
-  Read the DR runbook in `DETAILS.md`, and run `fdbbackup status -t dr` to check the tag.
+  Read the DR runbook below, and run `fdbbackup status -t dr` to check the tag.
   :: decision
   The `fdbbackup` tag `dr` writes to R2 IA (`weftspun-fdb-dr`), reached
   via a stunnel loopback listener that adds the SNI FoundationDB does

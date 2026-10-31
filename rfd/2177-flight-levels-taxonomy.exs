@@ -22,8 +22,8 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
   A reader wanting "all the strategy decisions" must read every RFD and infer each altitude,
   because the register carries no field for it.
   :: exit
-  Run `scripts/render_flight_level_pages.py` after you add a `flight_level` tag, then check
-  the RFD appears on its per-level page. DETAILS.md holds the tag schema and the citation.
+  Run `scripts/render_flight_level_pages.py` after you add a `flight_level` tag, then check the
+  RFD appears on its per-level page. The sections below hold the tag schema and the citation.
   :: decision
   Every RFD carries an optional `flight_level` tag, L1/L2/L3 (Flight Levels: execution / coordination / strategy), and three Quarto listings render from that tag; tagging is opt-in.
   :: problem

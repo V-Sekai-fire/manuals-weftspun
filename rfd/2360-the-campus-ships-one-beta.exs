@@ -13,8 +13,8 @@ rfd 2360, "The campus ships one beta", :discussion do
   Dev is development: features land and change, and a feature that misses the one beta is
   abandoned rather than deferred.
   :: exit
-  Read the details for the four features. Refuse a new idea that matches a nongoal. Cut the
-  beta when every gate passes with its control.
+  Read below for the four features. Refuse a new idea that matches a nongoal. Cut the beta when
+  every gate passes with its control.
   :: decision
   - One beta, a feature-complete freeze after dev, holds the features the details list. Every
     nongoal is abandoned (operator, 2026-10-30).

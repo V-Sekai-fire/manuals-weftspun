@@ -14,7 +14,7 @@ rfd 1153, "Judging matte quality", :published do
   was broken.
   :: exit
   Judge a matte as a composite onto a flat backing, in native 100x100 crops, scored for
-  connectivity and gradient apart; `DETAILS.md` derives where EditScore fits.
+  connectivity and gradient apart; the sections below derive where EditScore fits.
   :: decision
   Judging follows the field's standard benchmark. Rhemann et al., *A Perceptually
   Motivated Online Benchmark for Image Matting* (CVPR 2009), derived error

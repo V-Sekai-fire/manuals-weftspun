@@ -14,8 +14,8 @@ rfd 2170, "allosaurus runs universal + a 27-language commercial localization set
   Per-corpus priors make runs incomparable. RFD66606-2164 shipped allosaurus at three
   inventories, picked because the first speaker was Kazakh L2 English.
   :: exit
-  Check that a panel run scores each clip under all 28 inventories in the set. A clip whose L1
-  is out-of-set scores under `universal` alone; `DETAILS.md` holds the codes.
+  Check that a panel run scores each clip under all 28 inventories in the set. A clip whose L1 is
+  out-of-set scores under `universal` alone; the sections below hold the codes.
   :: decision
   allosaurus runs at `universal` plus the 27-language commercial localization set commonly
   shipped by an actively-maintained AAA multiplayer game (captured 2018-12-15, unchanged through

@@ -16,8 +16,8 @@ rfd 2240,
   A `.cff` beside a clip is separated from it the first time either is copied, and no editor
   or player reads YAML attribution.
   :: exit
-  Run `mix cff.xmp` with `--check` on a sidecar to catch a stale derivation, and read
-  `DETAILS.md` for the mapping matrix and the precedence rules.
+  Run `mix cff.xmp` with `--check` on a sidecar to catch a stale derivation, and read below for
+  the mapping matrix and the precedence rules.
   :: decision
   `CITATION.cff` stays the master attribution record and every other metadata artefact is derived
   from it. The machine serialization is ISO 16684-1 (XMP) as RDF/XML, in a sidecar named for the

@@ -19,7 +19,7 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
   MCP tools answer one call and forget it, so an agent driven through them loses the turn's
   context. Taskweft had a planner and no executor.
   :: exit
-  Read the details for the session store, the executor sides and what was measured.
+  Read below for the session store, the executor sides and what was measured.
   :: decision
   The agent holds no language model. A prompt is a slash command or a phrase matched against the
   domain's method names; taskweft plans it; every step is one ACP tool call through the client's

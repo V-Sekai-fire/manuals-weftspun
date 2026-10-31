@@ -12,7 +12,7 @@ rfd 1000, "Conventions", :published do
   :: intrigue
   Two repositories allocated RFD numbers from what each treated as a private space.
   :: exit
-  Read `DETAILS.md` for the numbering rule, and run `mix rfd.check` before you push.
+  Read below for the numbering rule, and run `mix rfd.check` before you push.
   :: decision
   This repository writes Request-for-Discussion documents in the Oxide
   style. Each RFD has a state: prediscussion, ideation, discussion,

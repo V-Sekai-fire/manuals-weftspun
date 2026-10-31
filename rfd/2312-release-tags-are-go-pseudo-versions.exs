@@ -15,8 +15,8 @@ by time in a file listing and parses as a version in every package tool"
   The orgs' releases carry four naming schemes and no rule. No single scheme among them
   sorts by time in a file listing and also parses as a version in Mix, Cargo, npm and Go.
   :: exit
-  Run `elixir scripts/check_release_tags.exs` to recompute every tag, and read `DETAILS.md`
-  for the later parts.
+  Run `elixir scripts/check_release_tags.exs` to recompute every tag, and read below for the later
+  parts.
   :: decision
   A release tag is `v0.0.0-<time>-<hash>`: the tagged commit's committer
   time in UTC as `YYYYMMDDhhmmss`, then the first 12 hex digits of the

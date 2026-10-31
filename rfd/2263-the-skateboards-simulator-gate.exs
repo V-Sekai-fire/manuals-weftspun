@@ -16,7 +16,7 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   A person in a headset is the real test, but slow and unrepeatable; the simulator is the test
   that runs on every change.
   :: exit
-  Read the details for the state of the gate on each platform.
+  Read below for the state of the gate on each platform.
   :: decision
   OXRSys is the OpenXR runtime, and tools/replay_oxrsys.py is its hand:
   tracking packets at 90 Hz, a calibration hold, then each stroke with
