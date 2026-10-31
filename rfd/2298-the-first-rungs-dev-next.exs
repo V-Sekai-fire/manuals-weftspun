@@ -76,7 +76,7 @@ rfd 2298, "the first rung's dev.next", :discussion do
     return when the campus loop of RFD66606-2340 runs end to end over the
     stream;
   - the Hyper-V machine and its emulated TPM, parked (operator,
-    2026-10-30). RFD66606-2147's `tpm` mode stays as measured on the
+    2026-10-30). RFD66606-2354's `tpm` mode stays as measured on the
     desktop's firmware TPM. They return when a second machine has to start
     a Bao with nobody typing.
   :: details Which features are likely to bring joy

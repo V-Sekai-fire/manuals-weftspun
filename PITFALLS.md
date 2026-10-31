@@ -4,7 +4,7 @@ Each entry names a way this system goes wrong, what it costs, and the guard that
 Every one holds for real code in these repos rather than in general. Most recur at three or
 more sites, which is why they live here rather than in memory.
 
-Written in the present per RFD66606-2025: a mode that stops applying is a line to delete rather
+Written in the present per RFD66606-2172: a mode that stops applying is a line to delete rather
 than a line to date. Ordered by cost.
 
 ---
@@ -13,17 +13,17 @@ than a line to date. Ordered by cost.
 
 Every defect in this system sits at a boundary between two things:
 
-| boundary                                        | cost                                                |
-| ----------------------------------------------- | --------------------------------------------------- |
-| ANNY gender `0=male` against GNM `FEMALE=0`     | flips sex on 800k images                            |
+| boundary                                                   | cost                                                |
+| ---------------------------------------------------------- | --------------------------------------------------- |
+| ANNY gender `0=male` against GNM `FEMALE=0`                | flips sex on 800k images                            |
 | ANNY Z-up/metres against SOMA-2603.16858 +Y-up/centimetres | 100x scale, or a body on its side                   |
-| "local Z" against the bone's roll axis          | measures a bend and calls it a twist                |
-| `rest_bone_heads` against `vertices`            | 55 mm on an adult, **500 mm on a child**            |
-| `lowerarm01` / `lowerarm02` weight boundary     | the forearm twist defect                            |
-| twist bones against LabRCSF's joint list        | 12 ANNY bones carry no canonical name               |
-| forearm / hand mask boundary                    | mesh mean understates finger error 4x               |
-| train / val split                               | contamination                                       |
-| BVH bind orientation against ANNY's             | 29.6 deg per-limb offset; blocks the poses relation |
+| "local Z" against the bone's roll axis                     | measures a bend and calls it a twist                |
+| `rest_bone_heads` against `vertices`                       | 55 mm on an adult, **500 mm on a child**            |
+| `lowerarm01` / `lowerarm02` weight boundary                | the forearm twist defect                            |
+| twist bones against LabRCSF's joint list                   | 12 ANNY bones carry no canonical name               |
+| forearm / hand mask boundary                               | mesh mean understates finger error 4x               |
+| train / val split                                          | contamination                                       |
+| BVH bind orientation against ANNY's                        | 29.6 deg per-limb offset; blocks the poses relation |
 
 Components get tested because they are easy to name. Interfaces belong to nobody.
 

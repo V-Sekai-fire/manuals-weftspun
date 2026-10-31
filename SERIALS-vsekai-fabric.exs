@@ -163,6 +163,10 @@ defmodule Serials.VSekaiFabric do
       serial 2350, "inventory-in-a-private-journal"
       serial 2351, "one-token-ledger-for-three-orgs"
       serial 2352, "second-hand-garments-for-the-avatar"
+      serial 2353, "bao-runs-three-replicas-on-the-fdb-machines", flight_level: :l2
+      serial 2354, "bao-unseals-itself-through-a-seal-bao-on-fly", flight_level: :l2
+      serial 2355, "consumers-cache-bao-reads-in-memory", flight_level: :l2
+      serial 2356, "workspace-services-stay-dns-only", flight_level: :l2
     end
 
     deleted do
