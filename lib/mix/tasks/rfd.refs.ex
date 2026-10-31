@@ -179,9 +179,29 @@ defmodule Mix.Tasks.Rfd.Refs.Check do
   use Mix.Task
   alias Mix.Tasks.Rfd.Refs.Update
 
+  @smoke_water "https://github.com/chibifire-smoke-water/"
+
   @impl true
   def run(_) do
     url = Update.manifest_url()
+
+    if skip?(url, System.get_env("GITHUB_ACTIONS"), System.get_env("RFD_TOKEN")) do
+      Mix.shell().info(
+        "skip #{url}: a CI run without RFD_TOKEN cannot read the smoke-water manifest"
+      )
+    else
+      check(url)
+    end
+  end
+
+  @doc """
+  The smoke-water manifest is private to its own org, so a CI run that has no `RFD_TOKEN`
+  cannot read it. That run skips the check and says so. Any other run checks.
+  """
+  def skip?(url, github_actions, token),
+    do: String.starts_with?(url, @smoke_water) and github_actions == "true" and token in [nil, ""]
+
+  defp check(url) do
     calls = Update.calls()
     {_, commit} = Update.tip!(url)
 
