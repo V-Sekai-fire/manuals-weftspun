@@ -298,9 +298,8 @@ defmodule PagesSite do
   defp nongoals(d) do
     case List.keyfind(d.details, "Nongoals", 0) do
       {_, body} ->
-        for "- " <> item <- body |> String.split("
-") |> Enum.map(&String.trim/1),
-            do: item
+        lines = body |> String.split("\n") |> Enum.map(&String.trim/1)
+        for "- " <> item <- lines, do: item
 
       nil ->
         []
@@ -311,22 +310,13 @@ defmodule PagesSite do
     for e <- rfds, e.serial in @pinned, e.nongoals != [] do
       esc = fn x -> x |> String.replace("&", "&amp;") |> String.replace("<", "&lt;") end
       style = "border:1px solid #d0d7de;border-radius:6px;padding:12px 16px;margin:16px 0"
-      items = Enum.map_join(e.nongoals, "
-", &"<li>#{esc.(&1)}</li>")
+      items = Enum.map_join(e.nongoals, "\n", fn x -> "<li>" <> esc.(x) <> "</li>" end)
+      link = ~s(<a href="#{e.href}">RFD66606-#{e.serial}</a>)
+      head = "<div>🚫 Not in the beta · abandoned, not deferred · " <> link <> "</div>"
 
-      ~s(<div style="#{style}">
-) <>
-        ~s(<div>🚫 Not in the beta · abandoned, not deferred · ) <>
-        ~s(<a href="#{e.href}">RFD66606-#{e.serial}</a></div>
-) <>
-        "<ul>
-#{items}
-</ul>
-</div>"
+      ~s(<div style="#{style}">\n) <> head <> "\n<ul>\n" <> items <> "\n</ul>\n</div>"
     end
-    |> Enum.join("
-
-")
+    |> Enum.join("\n\n")
   end
 
   defp pin_cards(rfds) do
