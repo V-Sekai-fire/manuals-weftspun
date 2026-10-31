@@ -95,6 +95,7 @@ defmodule PagesSite do
         group: to_string(d.state),
         serial: d.serial,
         hook: d.hook && d.hook |> String.split() |> Enum.join(" "),
+        nongoals: nongoals(d),
         label: shorten(d.title, &short/1),
         status: status |> Enum.reject(&(&1 in [nil, false])) |> Enum.join(" "),
         href: "rfd/#{slug}/",
@@ -282,6 +283,7 @@ defmodule PagesSite do
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
       pin_cards(rfds),
+      nongoal_card(rfds),
       "## Recently changed RFDs",
       dated_table(latest_rfds),
       "## Logbook (#{length(logs)} entries)",
@@ -291,6 +293,40 @@ defmodule PagesSite do
       rfd_body
     ]
     |> Enum.join("\n\n")
+  end
+
+  defp nongoals(d) do
+    case List.keyfind(d.details, "Nongoals", 0) do
+      {_, body} ->
+        for "- " <> item <- body |> String.split("
+") |> Enum.map(&String.trim/1),
+            do: item
+
+      nil ->
+        []
+    end
+  end
+
+  defp nongoal_card(rfds) do
+    for e <- rfds, e.serial in @pinned, e.nongoals != [] do
+      esc = fn x -> x |> String.replace("&", "&amp;") |> String.replace("<", "&lt;") end
+      style = "border:1px solid #d0d7de;border-radius:6px;padding:12px 16px;margin:16px 0"
+      items = Enum.map_join(e.nongoals, "
+", &"<li>#{esc.(&1)}</li>")
+
+      ~s(<div style="#{style}">
+) <>
+        ~s(<div>🚫 Not in the beta · abandoned, not deferred · ) <>
+        ~s(<a href="#{e.href}">RFD66606-#{e.serial}</a></div>
+) <>
+        "<ul>
+#{items}
+</ul>
+</div>"
+    end
+    |> Enum.join("
+
+")
   end
 
   defp pin_cards(rfds) do
