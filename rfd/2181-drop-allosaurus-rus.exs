@@ -13,7 +13,8 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
   :: intrigue
   The panel runs a Russian phone inventory on every clip regardless of the speaker's L1.
   :: exit
-  Read RFD66606-2179 next.
+  Run the panel at 7 tracks, with `universal` as the default and `eng` as the control. Read
+  RFD66606-2179 for the Whisper models the panel also drops.
   :: decision
   Drop the `allosaurus-rus` phone-inventory control; the panel drops from 8 tracks to 7, keeping
   `universal` as the language-inventory-free default and `eng` as the English control.

@@ -14,7 +14,8 @@ rfd 1145, "The stylized-to-OmniGen2 loop", :published do
   Why is loop 3 a separate loop rather than a variant? Where its input comes from, and
   that is a licensing question before it is a technical one.
   :: exit
-  Read RFD66606-1143 next.
+  Before any loop 3 output leaves evaluation, confirm it feeds no training run. Read
+  RFD66606-1143 for the keypoints-to-ANNY loop it follows.
   :: decision
   Run it, and treat everything it touches as evaluation only.
 
