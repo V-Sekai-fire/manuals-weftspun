@@ -26,7 +26,7 @@ rfd 1000, "Conventions", :published do
   decision first, then the problem, in the fewest lines that keep
   both true. The `draft-readable-rfd` skill has the BLUF rules.
   Measurement, verification log, deep walkthrough, or code sample
-  moves to a sibling `DETAILS.md` named in one line. Retractions
+  moves to a sibling `DETAILS.md`, which the site prints on the same page. Retractions
   move with the rest, and stay next to what they retract.
   :: references
   - RFD style: `rfd-driven-architecture` skill
