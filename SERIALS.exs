@@ -25,7 +25,6 @@ defmodule Serials.Weftspun do
       serial 1020, "cockroachdb-persistence"
       serial 1021, "shared-hrr-library"
       serial 1025, "model-memory-arithmetic"
-      serial 1026, "bf16-memory-per-model"
       serial 1027, "gpu-residency-budget", flight_level: :l2
       serial 1028, "model-license-gate"
       serial 1029, "foss-model-replacements"
@@ -81,6 +80,7 @@ defmodule Serials.Weftspun do
       serial 1022, "hexagonal-client"
       serial 1023, "ports-and-adapters-with-headless-cms-style"
       retired 1024, recorded_in: 1070
+      serial 1026, "bf16-memory-per-model"
       serial 1031, "geometry-refinement-and-alpha-wrap"
       retired 1032, recorded_in: 1070
       serial 1034, "krea-memory-cross-check"

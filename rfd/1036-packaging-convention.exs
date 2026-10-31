@@ -32,7 +32,7 @@ rfd 1036, "Model packaging convention", :committed do
   own weight loader, CUDA pin, and output writer. There is no DGX now.
   This RFD first selected Cog; `DETAILS.md` records why it was withdrawn.
   :: related
-  RFD66606-1016 lists the models. RFD66606-1026 gives the memory. RFD66606-1027 the
+  RFD66606-1016 lists the models. RFD66606-1025 gives the memory. RFD66606-1027 the
   GPU tier. RFD66606-1037 the composite convention. RFD66606-1053 the asset
   format. RFD66606-1028 gates the license.
   """

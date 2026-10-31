@@ -11,7 +11,7 @@ rfd 1027, "GPU tier per model", :committed do
   Size each model on its own. The question is which GPU tier one model
   needs, and not whether a set of models co-resides.
 
-  Two numbers decide the tier: the weights RFD66606-1026 gives per model,
+  Two numbers decide the tier: the weights RFD66606-1025 gives per model,
   and the activation peak, which depends on the resolution and the
   batch size.
 
@@ -35,7 +35,7 @@ rfd 1027, "GPU tier per model", :committed do
   in its own container per RFD66606-1036, so two never compete for one
   device. The old finding was an artifact.
   :: related
-  RFD66606-1025 gives the arithmetic. RFD66606-1026 gives the memory per model.
+  RFD66606-1025 gives the arithmetic and the memory per model.
   RFD66606-1036 gives the packaging that sets the tier.
   """
 

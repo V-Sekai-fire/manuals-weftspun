@@ -25,7 +25,7 @@ rfd 1057, "Open work", :published do
   still owed.
   :: related
   RFD66606-1055 selects the host. RFD66606-1056 selects the development system.
-  RFD66606-1036 packages the models. RFD66606-1026 holds the memory numbers.
+  RFD66606-1036 packages the models. RFD66606-1025 holds the memory numbers.
 
   RFD66606-1058 gives the Quadlet deployment. RFD66606-1059 gives the one-step
   build. RFD66606-1061 gives the `idtx_core` upload-prep decision. RFD66606-1062
