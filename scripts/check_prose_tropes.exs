@@ -54,6 +54,7 @@
 #
 # Usage:
 #     elixir scripts/check_prose_tropes.exs [<repo>] [--base <ref>]
+#     elixir scripts/check_prose_tropes.exs [<repo>] --base <ref> --hooks   (hook ratchet only)
 #     elixir scripts/check_prose_tropes.exs --self-test
 #     elixir scripts/check_prose_tropes.exs --rate <file>
 #
@@ -172,7 +173,9 @@ defmodule ProseTropes do
     end
   end
 
-  def check(repo, base) do
+  def check(repo, base), do: check(repo, base, false)
+
+  def check(repo, base, hooks_only) do
     changed =
       (git(repo, ["diff", "--name-only", base]) || "")
       |> String.split("\n", trim: true)
@@ -182,7 +185,8 @@ defmodule ProseTropes do
       IO.puts("no prose files changed")
       0
     else
-      Enum.reduce(changed, 0, fn path, bad -> bad + score(repo, base, path) + hook_gate(repo, base, path) end)
+      Enum.reduce(changed, 0, fn path, bad -> bad + if(hooks_only, do: 0, else: score(repo, base, path)) + hook_gate(repo, base, path)
+      end)
       |> report()
     end
   end
@@ -369,7 +373,7 @@ case System.argv() do
     System.halt(0)
 
   args ->
-    {opts, rest, _} = OptionParser.parse(args, strict: [base: :string])
+    {opts, rest, _} = OptionParser.parse(args, strict: [base: :string, hooks: :boolean])
     repo = List.first(rest) || "."
-    System.halt(ProseTropes.check(repo, opts[:base] || "HEAD"))
+    System.halt(ProseTropes.check(repo, opts[:base] || "HEAD", opts[:hooks] || false))
 end

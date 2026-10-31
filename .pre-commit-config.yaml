@@ -164,6 +164,13 @@ repos:
 
       # The gate's own controls, run whenever the gate changes. Half of them must FAIL on
       # known-broken input, because a check that cannot fail certifies the defect.
+      - id: prose-tropes-self-test
+        name: the hook gate still fails on a new declarative hook
+        entry: elixir scripts/check_prose_tropes.exs --self-test
+        language: system
+        files: ^scripts/check_prose_tropes\.exs$
+        pass_filenames: false
+
       - id: double-join-self-test
         name: the double-join gate still fails on known-broken prose
         entry: elixir scripts/check_double_join.exs --self-test
@@ -639,6 +646,14 @@ repos:
       - id: ci-trope-density
         name: trope density did not rise against the base
         entry: bash -c 'python scripts/check_tropes.py --base "${GATE_BASE:?GATE_BASE unset}"'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+
+      - id: ci-rfd-hooks
+        name: no RFD hook that is new or edited states the answer against the base
+        entry: bash -c 'elixir scripts/check_prose_tropes.exs . --hooks --base "${GATE_BASE:?GATE_BASE unset}"'
         language: system
         pass_filenames: false
         always_run: true
