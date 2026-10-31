@@ -53,6 +53,26 @@ TELLS = {
         re.I,
     ),
     "pompous_verb": re.compile(r"\b(?:serves|functions|acts)\s+as\b", re.I),
+    "forced_sass": re.compile(
+        r"\bhere'?s (?:the (?:truth|deal|catch|kicker)|what nobody|why that matters)\b"
+        r"|\bhot take:|\band honestly\?|\bthen i realized:|(?:^|(?<=[.!?] ))the result\?",
+        re.I | re.M,
+    ),
+    "buzzword": re.compile(
+        r"\bdelv(?:e|es|ed|ing)\b|\btapestry\b|\bempower(?:s|ed|ing)?\b"
+        r"|\bleverag(?:e|es|ed|ing)\b|\bfoster(?:s|ed|ing)? (?:a|an|the)\b",
+        re.I,
+    ),
+    "cliche_opener": re.compile(
+        r"\bin today'?s (?:fast-paced|digital|ever-changing)\b"
+        r"|\bin the (?:dynamic|ever-evolving) (?:world|landscape) of\b"
+        r"|\bas the world continues to evolve\b|\bshouting into the void\b|\bno fluff\b",
+        re.I,
+    ),
+    "no_no_just": re.compile(r"\bNo [^.\n]{1,40}\. No [^.\n]{1,40}\. Just\b"),
+    "the_real_x": re.compile(r"\bthat'?s the real (?!reason\b)[a-z]+", re.I),
+    "tight_em_dash": re.compile("(?<=\\S)\u2014(?=\\S)"),
+    "assistant_leak": re.compile(r"\bas an? (?:large )?language model\b", re.I),
     "welded_clauses": re.compile(
         r"(?<!when )(?<!where )(?<!unless )(?<!only when )"
         r"\b(?:A|An|The)\s+[a-z][a-z-]*\s+(?:is|are)\s+"
@@ -251,6 +271,23 @@ def self_test() -> int:
         ("no preamble", "The gate is red.", "preamble", 0),
         ("pompous verb", "The table serves as the index.", "pompous_verb", 1),
         ("plain is", "The table is the index.", "pompous_verb", 0),
+        ("ta-da phrase", "But here's the truth: the gate is red.", "forced_sass", 1),
+        ("ta-da question", "The gate failed. The result? A red build.", "forced_sass", 1),
+        ("plain but", "But the gate is red.", "forced_sass", 0),
+        ("a result in a sentence", "The result is a red build.", "forced_sass", 0),
+        ("buzzword delve", "We delve into the gate.", "buzzword", 1),
+        ("buzzword leverage", "It leverages the cache.", "buzzword", 1),
+        ("plain verb", "We read the gate.", "buzzword", 0),
+        ("cliche opener", "In today's fast-paced digital landscape the gate runs.", "cliche_opener", 1),
+        ("plain opener", "The gate runs on every push.", "cliche_opener", 0),
+        ("no no just", "No config. No setup. Just run it.", "no_no_just", 1),
+        ("one no is not the pattern", "No config is needed. Just run it.", "no_no_just", 0),
+        ("the real unlock", "That's the real unlock.", "the_real_x", 1),
+        ("the real reason is exempt", "That's the real reason it failed.", "the_real_x", 0),
+        ("tight em-dash", "The gate ran\u2014every control fired.", "tight_em_dash", 1),
+        ("spaced em-dash is the other gate", "The gate ran \u2014 every control fired.", "tight_em_dash", 0),
+        ("assistant leak", "As a large language model, I cannot run it.", "assistant_leak", 1),
+        ("not just X, also Y", "It's not just a check. It's also a ratchet.", "negative_parallelism", 1),
         (
             "two clauses welded by a bare and",
             "A release is one flat namespace and every build tree says fdbserver.",
