@@ -111,6 +111,7 @@ defmodule Serials.VSekaiFabric do
       serial 2354, "bao-unseals-itself-through-a-seal-bao-on-fly", flight_level: :l2
       serial 2355, "consumers-cache-bao-reads-in-memory", flight_level: :l2
       serial 2356, "workspace-services-stay-dns-only", flight_level: :l2
+      serial 2357, "a-narrow-unit-holds-a-wide-number-as-a-sum-of-parts", flight_level: :l2
     end
 
     deleted do
