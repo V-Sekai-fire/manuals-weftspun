@@ -14,6 +14,7 @@ defmodule PagesSite do
     "abandoned" => "🪦"
   }
   @pages ~w(README.md AGENTS.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
+  @pinned [2360]
 
   def main([out]) do
     root = Path.expand("..", __DIR__)
@@ -93,6 +94,7 @@ defmodule PagesSite do
         source: "rfd/#{slug}.exs",
         group: to_string(d.state),
         serial: d.serial,
+        hook: d.hook && d.hook |> String.split() |> Enum.join(" "),
         label: shorten(d.title, &short/1),
         status: status |> Enum.reject(&(&1 in [nil, false])) |> Enum.join(" "),
         href: "rfd/#{slug}/",
@@ -279,6 +281,7 @@ defmodule PagesSite do
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
+      pin_cards(rfds),
       "## Recently changed RFDs",
       dated_table(latest_rfds),
       "## Logbook (#{length(logs)} entries)",
@@ -288,6 +291,25 @@ defmodule PagesSite do
       rfd_body
     ]
     |> Enum.join("\n\n")
+  end
+
+  defp pin_cards(rfds) do
+    for e <- rfds, e.serial in @pinned, e.hook do
+      esc = fn x -> x |> String.replace("&", "&amp;") |> String.replace("<", "&lt;") end
+      style = "border:1px solid #d0d7de;border-radius:6px;padding:12px 16px;margin:16px 0"
+
+      ~s(<div style="#{style}">
+) <>
+        ~s(<div>📌 Pinned · RFD66606-#{e.serial} · #{e.status}</div>
+) <>
+        ~s(<div><a href="#{e.href}"><strong>#{esc.(e.label)}</strong></a></div>
+) <>
+        ~s(<div>#{esc.(e.hook)}</div>
+</div>)
+    end
+    |> Enum.join("
+
+")
   end
 
   defp serials(root, rfds) do
