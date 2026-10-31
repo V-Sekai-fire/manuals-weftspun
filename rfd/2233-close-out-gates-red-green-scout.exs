@@ -14,7 +14,8 @@ rfd 2233, "Close-out gates: red control, green, scout", :prediscussion do
   A gate recorded only passing is decoration: it has never shown it can detect the broken
   state, and a pass without its command cannot be re-run.
   :: exit
-  Read `DETAILS.md` for the reference case with its measurements.
+  Check each close-out logbook entry for the red command failing, the green command passing,
+  and a scout inventory non-empty before cleanup and empty after.
   :: decision
   Work closes with three gates in the logbook, each with runnable
   apparatus. Backfilling any of them is permitted: the record is the

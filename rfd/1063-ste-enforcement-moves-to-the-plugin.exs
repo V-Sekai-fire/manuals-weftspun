@@ -10,9 +10,11 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   :: hook
   STE enforcement runs once, in the plugin's `Stop` hook, not in three places.
   :: intrigue
-  Three places ran the same check on the same files.
+  Three places ran the same STE check on the same files: the script, its `npm run lint:ste`
+  step in CI, and its `ste-lint` hook in `.pre-commit-config.yaml`.
   :: exit
-  Read `DETAILS.md` for what moved to the plugin.
+  Check that the script, its `lint:ste` entry, its step in `scripts/ci.sh` and its hook in
+  `.pre-commit-config.yaml` are gone, so the plugin's `Stop` hook is the only STE check.
   :: decision
   Delete `scripts/ste-lint-decisions.py`. Delete its `npm run lint:ste`
   entry in `thirdparty/3d_studio/package.json`. Delete its step in

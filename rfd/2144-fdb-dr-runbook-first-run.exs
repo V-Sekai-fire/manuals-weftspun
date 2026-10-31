@@ -14,8 +14,8 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
   CA was not in 1Password. On 2026-09-01, `weftspun-fdb`, `weftspun-bao`,
   `spot-broker` and `chibifire-com` were gone from Fly.
   :: exit
-  Read `DETAILS.md` for the R2 snapshot age, the `fdbrestore` timings and the twelve inline
-  defects the runbook did not name.
+  Check that `fdbbackup describe` reports `Restorable: true` for the R2 bucket before you rely
+  on the restore, then read `DETAILS.md` for the `fdbrestore` timings.
   :: decision
   Mint the break-glass CA at DR-time, stash to `op://Personal/FDB-CA/`,
   execute the R2-primary restore, and land the follow-ups the run surfaces:

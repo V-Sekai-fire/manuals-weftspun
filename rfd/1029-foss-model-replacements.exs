@@ -10,9 +10,11 @@ rfd 1029, "FOSS model replacements", :published do
   :: hook
   Three removed models get permissive replacements, MIT or BSD.
   :: intrigue
-  RFD66606-1028 removes three models from the catalog.
+  RFD66606-1028 removes three models from the catalog on its license gate, and their
+  tasks still need a model.
   :: exit
-  Read `DETAILS.md` for each replacement's candidates and license.
+  Check a replacement against the license gate in RFD66606-1028 before you adopt it. Its
+  candidates and licenses are in `DETAILS.md`.
   :: decision
   Replace each deleted model with a permissive alternative. Prefer the
   MIT license and the BSD license.
@@ -20,8 +22,7 @@ rfd 1029, "FOSS model replacements", :published do
   See `DETAILS.md` for the PartField, FastMesh, and PartPacker
   replacements, each with its candidates and its license.
   :: problem
-  Their tasks still
-  need a model.
+  The PartField, FastMesh, and PartPacker tasks have no model until each gets a replacement.
   :: related
   RFD66606-1028 records the license gate. RFD66606-1031 records the geometry
   refinement path and its alpha wrap problem.

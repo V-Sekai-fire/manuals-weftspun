@@ -13,8 +13,8 @@ rfd 1036, "Model packaging convention", :committed do
   The DGX API ran each model through its own adapter, each with its own weight loader, CUDA
   pin, and output writer.
   :: exit
-  Read `DETAILS.md` for target, rules, the two-stage Dockerfile, files, composites, and
-  unconverted folders.
+  Check a new model image against the rule above before you merge it: a plain Docker image
+  that serves HTTP, with a `Dockerfile`, a `server.py`, and a `test_input.json`.
   :: decision
   Package each model as a plain Docker image that serves HTTP.
 

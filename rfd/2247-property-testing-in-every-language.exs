@@ -15,7 +15,8 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   work, so the suite encodes the author's assumptions rather than testing them, and it goes
   green over a harness that measures nothing.
   :: exit
-  Read `DETAILS.md` for the property shapes and the harness bug behind this rule.
+  Pair each new property with its negative control: the input that should violate it, with
+  the test failing if the violation goes undetected. `DETAILS.md` lists the property shapes.
   :: decision
   A test asserts an invariant over generated input, not an outcome for one
   hand-chosen input. Every language the workspace builds in uses its

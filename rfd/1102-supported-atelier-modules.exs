@@ -12,11 +12,9 @@ adapters)"
   :: hook
   Every atelier module runs on ggml, and one live catalog lists them.
   :: intrigue
-  Models with no upstream GGUF conversion carry a "port needed" note.
+  Wan-VACE, Pixal3D and MoGe-3 have no upstream GGUF conversion and carry "port needed".
   :: exit
-  Read `DETAILS.md` for the backend API, the current per-task table with per-model GGUF sizes and
-  port-needed flags, the six-step migration recipe, the two pipeline diagrams, and the packaging
-  pointer.
+  Check a new atelier module against the decision above before you merge it.
   :: decision
   Every module in the atelier catalog runs on **ggml** (RFD66606-2188). Weights ship as GGUF,
   quantised to Q4. The set of Docker images this workspace ships per RFD66606-1036 (plain HTTP,

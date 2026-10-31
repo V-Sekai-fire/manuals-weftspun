@@ -13,7 +13,8 @@ rfd 2341, "dev.next", :discussion do
   Reducing churn is an absolute requirement. An ask added to an open rung moves its pins or
   edits its file, which the churn gate counts as a failure.
   :: exit
-  Read `DETAILS.md` for the parked items.
+  Write a new ask into dev.next instead of an open rung, and check that the open rung's
+  file and pins stay unchanged. `DETAILS.md` lists the parked items.
   :: decision
   dev.next holds every ask that no numbered rung has claimed. An idea
   that arrives while a rung is open is written here, and the open rung's

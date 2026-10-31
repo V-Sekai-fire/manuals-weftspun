@@ -13,7 +13,8 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   Reaching OpenBao from any of the operator's laptops or workstations without opening a
   public IP needs a private overlay.
   :: exit
-  Read `DETAILS.md` for the full steps and scripts.
+  Follow the steps in `DETAILS.md`: set `TS_AUTHKEY` as a Fly secret, extend `Dockerfile.fdb`,
+  add `entrypoint.sh`, then run `flyctl deploy --app weftspun-bao`.
   :: decision
   Add a Tailscale sidecar to the `weftspun-bao` Fly.io machine so
   peers on the user's tailnet reach OpenBao at

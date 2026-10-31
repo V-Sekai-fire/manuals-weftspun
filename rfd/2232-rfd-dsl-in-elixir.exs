@@ -14,8 +14,7 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   The shape was enforced after the fact by Python gates reading Markdown, and 143 problems
   accumulated before one pass fixed them.
   :: exit
-  Read `DETAILS.md` for the layout, what the render is checked against, and what the
-  conversion found.
+  Add a new RFD as `rfd/NNNN-slug.exs` plus a `serial` line, then run `mix rfd.serials`.
   :: decision
   An RFD is an Elixir module that uses `RFD.DSL`: one `rfd` block with `state`, `feature`,
   `scope`, `flight_level`, `decision`, `problem`, `references`, `related`, `details` sections and
@@ -29,9 +28,6 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   :: references
   - RFD66606-1000, the shape
   - RFD66606-2177, the flight_level tag on the register
-  :: related
-  RFD66606-1000 (the README limit and the spine), RFD66606-2177, RFD66606-2026 (commit
-  style the rendered files ride on).
   """
 
   details_title "RFD authoring as an Elixir DSL"
@@ -93,6 +89,9 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   format` re-indents a heredoc to its call, so a file whose body lines
   already run past the formatter's `line_length` stays on `details` strings:
   RFD66606-2062 carries an inventory table of 124 such lines.
+  :: details Related RFDs
+  RFD66606-1000 (the README limit and the spine), RFD66606-2177, RFD66606-2026 (commit
+  style the rendered files ride on).
   :: details What the DSL does not do
   It does not read the register from the RFD sources: a serial is a fact the
   register records once, and a deleted serial has no source to derive it

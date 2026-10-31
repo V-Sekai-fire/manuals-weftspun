@@ -13,7 +13,8 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   The client source is open. A fork could read that as an invitation to run as "Weftspun," or
   reuse the hosted AI and registry backends.
   :: exit
-  Read `DETAILS.md` for the architecture split diagram and the per-area table.
+  Check any public statement of the license boundary against the three proprietary areas
+  above before you publish it; `DETAILS.md` holds the per-area table.
   :: decision
   Publish one page stating the split, with no pricing, revenue
   target, or investor detail in it. The client (`LICENSE`) is open,

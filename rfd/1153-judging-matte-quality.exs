@@ -13,7 +13,8 @@ rfd 1153, "Judging matte quality", :published do
   Background removal produced three candidate mattes per image and no way to say which
   was broken.
   :: exit
-  Read `DETAILS.md` for the derivation of where EditScore fits.
+  Judge a matte as a composite onto a flat backing, in native 100x100 crops, scored for
+  connectivity and gradient apart; `DETAILS.md` derives where EditScore fits.
   :: decision
   Judging follows the field's standard benchmark. Rhemann et al., *A Perceptually
   Motivated Online Benchmark for Image Matting* (CVPR 2009), derived error

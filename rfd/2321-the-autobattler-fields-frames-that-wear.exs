@@ -11,7 +11,8 @@ solids, rolled on survey tables, and it carries wear from round to round"
   :: hook
   Autobattler fighters are Frames that carry wear from round to round.
   :: intrigue
-  Each unit was one solid: a box, a cylinder, a sphere or a torus.
+  Each unit was one bare solid with no identity, and every round started from zero.
+  Nothing on screen said which unit was hurt or why a round ended.
   :: exit
   Run the game script with `--selftest` and `--rounds=N` to read a sim of the rounds.
   :: decision
@@ -23,9 +24,7 @@ solids, rolled on survey tables, and it carries wear from round to round"
   The operator asked for more Frames, game feel, the Gyre flavour and readability
   on 2026-10-17.
   :: problem
-  Units had no
-  identity, every round started from zero, and nothing on screen said which unit
-  was hurt or why a round ended.
+  Each unit was one solid: a box, a cylinder, a sphere or a torus.
   :: related
   - RFD66606-2294, where the desktop builds ship: the release that carries this game.
   - RFD66606-2085, RFD66606-2091 and RFD66606-2120, the Gyre setting (abandoned): the source of

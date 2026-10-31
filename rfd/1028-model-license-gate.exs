@@ -10,11 +10,11 @@ rfd 1028, "Model license gate", :published do
   :: hook
   Models for paying users clear one hard commercial-use gate first.
   :: intrigue
-  Some model weights permit non-commercial use only. Some carry territory rules and user-count
-  rules.
+  Some model weights permit non-commercial use only, and some carry territory rules and
+  user-count rules. Shipped to paying users, either breaks the license.
   :: exit
-  Read `DETAILS.md` for the deleted models and the blocklisted models, each with its license
-  and its replacement.
+  Check a new model against the commercial-use gate in MODEL_LICENSES.md before it ships to
+  paying users, and read RFD66606-1029 for the FOSS replacements.
   :: decision
   Any model shipped to paying users must clear commercial use. The gate
   is the hard prerequisite in MODEL_LICENSES.md. The repository keeps a

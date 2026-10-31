@@ -15,8 +15,8 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   This repository held 116 RFDs and one gate. That gate checked numbers. Nothing checked the
   shape of a document, so the shape stayed an agreement each writer kept from memory.
   :: exit
-  Read `DETAILS.md` for each rule, its count, the ungated conventions, the defects repaired,
-  and the negative controls.
+  Check a new rule against every RFD, with no exception list, before it joins
+  `scripts/check-rfd-structure.py`.
   :: decision
   `scripts/check-rfd-structure.py` parses each `README.md` and `DETAILS.md`
   into a CommonMark AST and checks the document against that tree. It

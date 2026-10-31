@@ -18,7 +18,8 @@ loader path, memory `consolidate-interchangeable-parts`"
   RFD66606-2188 named one ggml source for the whole workspace, yet the manifest still ships
   three ggml checkouts.
   :: exit
-  Read `DETAILS.md` for the full text of this RFD.
+  Check a new module, fork or loader path against the rule in `DETAILS.md` before you land
+  it: extend the existing part, or name it and measure why it does not work.
   :: decision
   Operator directive 2026-09-05, verbatim: *"like ford's factories
   we have to conslidate our interchagable parts. we have too many

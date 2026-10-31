@@ -10,7 +10,8 @@ rfd 2358, "A party is one player and three seats", :discussion do
   :: hook
   A party is one player and three seats that a friend or an agent can fill.
   :: intrigue
-  A player may want to play the part an agent plays.
+  A player may want to play the part an agent plays, yet the abandoned RFD66606-2045 loop
+  proved only bot players.
   :: exit
   Run the takeover gate: after a player takes a seat, its actions come only from the player.
   :: decision

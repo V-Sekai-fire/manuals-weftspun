@@ -13,7 +13,8 @@ rfd 1035, "Legacy model identifiers", :published do
   Seven model identifiers remain in the code after the TRELLIS.2 move. A reader who sees
   them in a picker cannot tell them from the current models.
   :: exit
-  Read `DETAILS.md` for the seven identifiers and the two rules that still apply.
+  Check that every picker lists the identifiers in `LEGACY_MODEL_IDS` after the current
+  models, and that none of them is deleted from the code.
   :: decision
   Keep the identifiers, and list them last in every picker.
   `LEGACY_MODEL_IDS` in src/library/aiModelsCatalog.js drives that

@@ -13,7 +13,7 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   Upstream reserves its names and its orbital clock logo artwork. Its terms require a
   rebrand for each fork.
   :: exit
-  Read `DETAILS.md` for the compatibility fallbacks, the known risks, and file references.
+  Check that the server accepts `weftspun_image_to_world`, or Image to World tasks fail.
   :: decision
   This repository takes the name Weftspun 3D Studio. The code token is
   Weftspun3DStudio. The package name is weftspun-3d-studio. The

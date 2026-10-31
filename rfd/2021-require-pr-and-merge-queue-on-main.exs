@@ -11,7 +11,8 @@ rfd 2021, "Require pr and merge queue on main", :prediscussion do
   or by manually merging pull requests, with no guarantee that a PR's checks ran against the
   tip it was about to join.
   :: exit
-  Read `DETAILS.md` for the ruleset, the commands that confirm it, and the merge-method argument.
+  Run `gh api repos/<org>/<repo>/rulesets/<id> --jq '.rules[].type'` to confirm the rule
+  list carries no `merge_queue` entry, and read `DETAILS.md` for the merge-method argument.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

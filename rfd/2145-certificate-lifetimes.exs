@@ -13,7 +13,8 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   RFD66606-2134, RFD66606-2141, RFD66606-2142 landed with 10-year CAs and 1-to-2-year leaves.
   2144 minted a 10-year WebTransport intermediate on the same pattern.
   :: exit
-  Read `DETAILS.md` for the citations and the current-state audit.
+  Check a new private CA or leaf against the lifetime table above before you issue it;
+  `DETAILS.md` holds the citations and the audit.
   :: decision
       role                              notAfter       rotate every
       -----------------------------     ------------   ------------
@@ -31,9 +32,7 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   `check_anti_entropy.py`, not by cert validation. Intermediates and
   leaves are the opposite: their `notAfter` IS the rotation gate.
   :: problem
-  The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by
-  2029-03) and a Mozilla Root Store Policy that removes public trust
-  after 15 years of key material.
+  The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by 2029-03).
   :: related
   RFD66606-2134, RFD66606-2141, RFD66606-2142, RFD66606-2144. Each carries a retraction pointing
   here.
@@ -42,6 +41,9 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   details_title "Certificate lifetimes, from a risk-based ceiling"
 
   prose ~S"""
+  :: details The second thing the guidance predates
+  The guidance also predates a Mozilla Root Store Policy that removes public trust
+  after 15 years of key material.
   :: details Why the root cert has an expiry at all
   RFC 5280 §4.1.2.5 makes `notAfter` a MANDATORY field on every X.509
   certificate. There is no valid X.509 leaf, intermediate, or root that
