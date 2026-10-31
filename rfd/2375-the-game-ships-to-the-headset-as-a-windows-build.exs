@@ -23,11 +23,11 @@ rfd 2375, "the game ships to the headset as a Windows build", :discussion do
     runtime that loads under that layer, never code generated at run time into writable
     executable memory.
   - A Linux `.so` serves the Linux zone servers and never reaches the headset. The compatibility
-    layer runs that same Windows build, so the Windows desk is where it is tested. RFD66606-2293
+    layer runs that same Windows build, so the Windows desk is where it is tested. RFD66606-2390
     builds the libraries.
   :: related
   - RFD66606-2294, where this rule lived before the split.
-  - RFD66606-2293, the Skateboard's workspace, which builds the translated libraries.
+  - RFD66606-2390, which builds the translated libraries.
   """
 
   details_title "the game ships to the headset as a Windows build"

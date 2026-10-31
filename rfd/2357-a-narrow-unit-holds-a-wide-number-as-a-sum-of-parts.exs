@@ -25,10 +25,10 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   3. Each part count carries a measured error against a float64 reference, and a control
      that fails when the count drops by one.
   :: problem
-  RFD66606-2293 chose df32 for the first. This RFD adds the second and puts both under one rule
+  RFD66606-2392 chose df32 for the first. This RFD adds the second and puts both under one rule
   with one set of measured bounds.
   :: related
-  RFD66606-2293 chooses df32 for guest geometry. RFD66606-1025 gives the bf16 memory
+  RFD66606-2392 chooses df32 for guest geometry. RFD66606-1025 gives the bf16 memory
   arithmetic. The BLOCKLIST row on XLA and PJRT keeps the Cloud TPU route open.
   """
 
@@ -62,7 +62,7 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
 
   df32 is the same split one level up. The high part is the float32 value and the low part
   is the float32 residual of a float64. `two_sum`, `quick_two_sum` and `two_prod` carry the
-  rounding error of each operation into the low part, as RFD66606-2293 lists.
+  rounding error of each operation into the low part, as RFD66606-2392 lists.
   :: details Measured on the host
   A host emulation, not a TPU. Matrices 64 by K times K by 64, standard normal entries, 8
   seeds. Error is the norm of the difference from a float64 product, over the norm of that
@@ -98,7 +98,7 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   The bf16 round is round to nearest even on the upper 16 bits of a float32. Parts come from
   the residual rule above. Products and sums ran in float32 on the host with numpy. The df32
   steps use `two_sum` and `quick_two_sum` on float32 scalars. The numbers above are the output
-  of a short script that is not committed; the kernels that RFD66606-2293 lists are the place
+  of a short script that is not committed; the kernels that RFD66606-2392 lists are the place
   for a permanent gate.
   :: details What is not known
   - The error of a real TPU product at each precision setting. The first step is one run on a

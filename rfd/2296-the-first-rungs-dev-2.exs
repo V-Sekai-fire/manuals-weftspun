@@ -23,8 +23,8 @@ rfd 2296, "the first rung's dev.2", :discussion do
   dev rungs past dev.1 change daily while the rest of it does not. Kept
   there, each rung's edit is a diff to the workspace plan.
   :: related
-  - RFD66606-2293, the workspace, the ladder and dev.1; its release rules
-    (tag, GitHub release, playtest, gates with controls) hold here.
+  - RFD66606-2293, the plan and the ladder; its release rules
+    (tag, GitHub release, playtest, gates with controls) hold here. RFD66606-2408 is dev.1.
   - RFD66606-2287, the rung; RFD66606-2262, the ladder.
   - RFD66606-2295, the forecast tags; RFD66606-2370, the visual comparisons.
   - RFD66606-2297, dev.3; RFD66606-2298, dev.next.
@@ -54,7 +54,7 @@ rfd 2296, "the first rung's dev.2", :discussion do
   lands its packed acquire on the array-window call. Playable: dev.1's
   route.
   :: details Which features are likely to bring joy
-  Each forecast uses RFD66606-2293's sense-of-wonder rubric and RFD66606-2295's
+  Each forecast uses RFD66606-2412's sense-of-wonder rubric and RFD66606-2295's
   tag form.
 
   | rung | feature | criteria | joy |
