@@ -5,7 +5,7 @@ Whether the simulation replays bit for bit, which is a property rather than a nu
 ## 2026-08-12: the simulation replays, so lockstep is not ruled out
 
 Not a timing entry. Deterministic lockstep sends intent and nothing else, and every peer arrives
-at the same world by simulating it — which only works if the same inputs give the same state bit
+at the same world by simulating it, which only works if the same inputs give the same state bit
 for bit. That is a property, not a number, and it gates a whole topology, so it was asked before
 anything was built on the answer.
 

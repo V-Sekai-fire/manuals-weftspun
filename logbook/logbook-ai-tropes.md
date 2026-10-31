@@ -17,8 +17,8 @@ Two regexes, for the two orders the construction takes:
     B  "is Y, not X"          is (a|an|the)? [word], not (a|an|the)? [word]
 
 Run twice over every `*.md` in this repository: once against the raw bytes, once against
-prose extracted from a CommonMark AST -- `markdown-it-py` 4.2.0 in `commonmark` mode,
-keeping `text` children of `inline` tokens and dropping `code_inline` and `html_inline`.
+prose extracted from a CommonMark AST (`markdown-it-py` 4.2.0 in `commonmark` mode,
+keeping `text` children of `inline` tokens and dropping `code_inline` and `html_inline`).
 Word counts are of the extracted prose, so density is per thousand words a reader reads.
 
 ## Result 1: the AST finds more, not less
@@ -54,7 +54,7 @@ Density per thousand prose words:
 
 An earlier commit message on this branch says the construction "occurs more in this
 workspace's own prose than in mine". **That is wrong, and it is wrong because it compared
-raw absolute counts across corpora of very different size** -- 13 against 3 -- without
+raw absolute counts across corpora of very different size** (13 against 3) without
 normalising. Per thousand words the session's prose is about 22% denser, not less dense.
 
 What survives the correction is the conclusion that mattered: both sit near 1 per 1000
@@ -66,7 +66,7 @@ part of how this workspace already writes.
 
 A regex that catches the construction catches this repository's own prose at a similar rate
 to the prose it was aimed at. A density threshold set to pass the existing corpus has to sit
-above 3.68 per thousand -- `determinism.md` -- which passes every document measured here,
+above 3.68 per thousand (`determinism.md`), which passes every document measured here,
 including the sentence that prompted the request.
 
 The narrowest form is gateable and nearly worthless. Requiring the negation and its
@@ -76,7 +76,7 @@ cost. It also does not catch the line this started with, so it would be a gate t
 green on the defect it was built for.
 
 The distinguishing property is not grammatical. This repository's instances contrast
-concrete technical referents -- "is booked, not a trailing year", "is allocated, not
+concrete technical referents: "is booked, not a trailing year", "is allocated, not
 summed". The removed line contrasted two abstractions and was built to be quotable, which
 tropes.fyi lists separately as *Quotable one-liners*. No regex separates those two, and a
 gate that cannot tell them apart would spend its budget failing on `CLAUDE.md`.

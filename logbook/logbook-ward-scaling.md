@@ -16,10 +16,10 @@ rather than chosen once network interfaces are per-VM.
 A combined process wastes whichever resource it does not bind on. Split, each saturates the one
 it is actually limited by.
 
-The fan is worth stating as an asymmetry: a fan-out process pays **22.4 Mbps of ingress once** —
-one copy of zone state — however many subscribers it serves, and everything above that is egress.
+The fan is worth stating as an asymmetry: a fan-out process pays **22.4 Mbps of ingress once**
+(one copy of zone state) however many subscribers it serves, and everything above that is egress.
 On a 1 Gbit interface at the measured 0.349 Mbps a subscriber that is 2797 subscribers, an
-amplification of 43.7×. **Interest management is what makes the fan possible**: 64 of 1398
+amplification of 43.7×. **Interest management makes the fan possible**: 64 of 1398
 entities is 21.8×, and without it the same interface carries 130 subscribers rather than 2797.
 
 No cascade is needed at any scale being discussed. At 22.4 Mbps per downstream a 1 Gbit zone
@@ -27,7 +27,7 @@ feeds 44 fan-out processes, about 123,000 subscribers, on a flat tier.
 
 ### Which shape of machine
 
-Modelled, not measured — `N`-core machines at a flat $31/core/month, 1 Gbit per machine, egress
+Modelled, not measured: `N`-core machines at a flat $31/core/month, 1 Gbit per machine, egress
 at $0.02/GB, one million players:
 
 | | zone VMs | fan VMs | machines | cores | compute/mo |
@@ -37,14 +37,14 @@ at $0.02/GB, one million players:
 | **large zone, small fan** | 63 | 153 | **216** | 1161 | **$35,991** |
 
 Neither extreme is right because the tiers want opposite shapes. Zones want **large**: islands are
-independent so cores fill exactly, and — the better reason — islands on one machine coordinate
+independent so cores fill exactly, and (the better reason) islands on one machine coordinate
 through memory rather than through the network, so a large zone machine makes many zones' worth of
 seams free. Fan-out wants **small**: the interface is per-machine, so a large fan-out machine pays
 for cores it cannot feed.
 
 **Egress is 96% of the bill at that scale and is identical in every row.** Machine shape is a
-3.6% cost decision and a 5× machine-count decision. At lower egress prices — committed transit,
-private links — the shape choice becomes most of the bill instead, so the ratio is worth
+3.6% cost decision and a 5× machine-count decision. At lower egress prices (committed transit,
+private links) the shape choice becomes most of the bill instead, so the ratio is worth
 re-deriving rather than inheriting.
 
 ### What this does not say
@@ -62,8 +62,8 @@ re-deriving rather than inheriting.
 Nothing. That is the finding, and it is worth the entry because it says which constraints are
 real.
 
-Sweeping both together -- per-subscriber bandwidth divided by `f`, per-body and per-player
-simulate cost divided by `f` -- and asking what binds:
+Sweeping both together (per-subscriber bandwidth divided by `f`, per-body and per-player
+simulate cost divided by `f`) and asking what binds:
 
 | improvement | Mbps a subscriber | players a zone (CPU) | subscribers a NIC | what binds |
 | ---: | ---: | ---: | ---: | --- |
@@ -75,7 +75,7 @@ simulate cost divided by `f` -- and asking what binds:
 The binding constraint never changes, because **none of the walls are made of hardware**:
 
 - `WARD_AUTHORITY` 1400 gives `(1400 - 900) / 3` = **166 players a zone**. It is a bare
-  constant, and `AbyssalSLA.lean` -- where it comes from -- derives nothing: it states 1800 with
+  constant, and `AbyssalSLA.lean` (where it comes from) derives nothing: it states 1800 with
   no proof behind it, for a jellyfish demo at 56 entities a player and 16 players a zone.
 - `WARD_REPLY_MAX` caps a full snapshot at 2621 entities, so **873 players** before a join reply
   cannot be sent whole. `CLAUDE.md` already says the answer is a chunked reply; nothing
@@ -84,7 +84,7 @@ The binding constraint never changes, because **none of the walls are made of ha
   does not move a lower bound on message delay.
 
 So the compression work and the solver work both pay a bill and neither buys a player. At a
-thousand players egress is 349 Mbps -- one NIC -- and the tick has room; what stops the zone is a
+thousand players egress is 349 Mbps (one NIC) and the tick has room; what stops the zone is a
 number somebody wrote down for a different game.
 
 **This is the argument for re-deriving the budget rather than optimising underneath it.** Two
@@ -95,7 +95,7 @@ constants and a chunking routine are worth more than any factor of sixteen on th
 - The CPU column is optimistic in the way [one_core.md](logbook-ward-one-core.md) warns about: it prices a
   player at 2.23 us, which is the *contactless* cost measured with no cubes in the scene. Players
   in a dense zone contact things. The column should be read as an upper bound, and the argument
-  does not need it -- the entity budget binds an order of magnitude below even this.
+  does not need it: the entity budget binds an order of magnitude below even this.
 - Nothing here measures a zone at 166 players with players actually touching the cubes. That
   measurement is what would put a real number in the CPU column.
 - The sweep divides both costs by the same factor, which is a modelling convenience. Compression
@@ -106,7 +106,7 @@ constants and a chunking routine are worth more than any factor of sixteen on th
 A Jenga tower is one contact island top to bottom, so it is the sharpest test of what a
 boundary does to something spanning it. `bench/jenga_torture.py` cuts one every awkward way:
 horizontal slabs from two up to eighteen, a vertical plane that slices through levels rather
-than between them, and both crossed into a 3D grid. Ghosts are the naive kind -- a block
+than between them, and both crossed into a 3D grid. Ghosts are the naive kind: a block
 outside a zone is a static geom at its start position, no velocity, no handoff.
 
 | partition | settled tower | collapsing tower |
@@ -153,8 +153,8 @@ degenerates when they crowd. And now a seam costs in proportion to the motion cr
 ## 2026-08-12: a tall tower, and a pull done as an avatar motion
 
 Everything above deleted a block to make a tower fall, which is not what a player does. A
-player's hands are mocap bodies -- no degrees of freedom, position written every tick, still
-colliding -- so `bench/jenga_tall.py` makes the block being removed a mocap body and slides it
+player's hands are mocap bodies (no degrees of freedom, position written every tick, still
+colliding), so `bench/jenga_tall.py` makes the block being removed a mocap body and slides it
 out over time. The tower has to survive being handled rather than survive a deletion.
 
 ### How tall it stands, and what it costs
@@ -167,8 +167,8 @@ out over time. The tower has to survive being handled rather than survive a dele
 | 60 | 180 | 89 cm | falls | 141.47 |
 
 Thirty levels is about the limit, and it already costs 55 ms of a 50 ms tick while it is
-settling. Timed over the settling, so this is the expensive window rather than the steady state
--- the same trap the sleep entry documents, and worth naming again here because the number looks
+settling. Timed over the settling, so this is the expensive window rather than the steady state,
+the same trap the sleep entry documents, and worth naming again here because the number looks
 alarming out of context.
 
 ### The pull matters as much as the block
@@ -183,7 +183,7 @@ At thirty levels, only one extraction leaves it standing:
 
 A slow pull at mid-height survives; brisk at the same block does not. **The speed of the avatar
 motion is as much of a variable as which block is chosen**, which nothing in this workspace had
-considered -- an avatar's hands move at whatever speed a person moves them, and that is an input
+considered: an avatar's hands move at whatever speed a person moves them, and that is an input
 the zone does not control.
 
 ### Across zones, a collapsing tall tower does not merely drift
@@ -196,8 +196,8 @@ the zone does not control.
 | 10 | 9 | 284.78 mm | 651.27 mm |
 
 651 mm on a 44 cm tower. The zones are not disagreeing about where a block is, they are
-simulating **different collapses**. And the seam-count rule holds even here -- one seam to nine
-costs 13 mm out of 651 -- which confirms it at a scale where the error is total rather than
+simulating **different collapses**. And the seam-count rule holds even here (one seam to nine
+costs 13 mm out of 651), which confirms it at a scale where the error is total rather than
 marginal.
 
 So the earlier finding stands and sharpens: seam count is free, motion is not, and past some
@@ -213,7 +213,7 @@ amount of motion the boundary stops being an approximation and becomes a differe
   red. It renders at **0.99x realtime**, which is marginally under the bar the video work set
   and is stated rather than rounded up.
 
-## 2026-08-12: the category, costed -- and Jenga was the wrong model
+## 2026-08-12: the category, costed, and Jenga was the wrong model
 
 Almost nothing in this category does rigid-body contact. An avatar is driven from outside, the
 world it stands on is static geometry that never enters the broadphase, and props are decoration.

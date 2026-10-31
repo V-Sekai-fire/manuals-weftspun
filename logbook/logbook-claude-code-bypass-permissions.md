@@ -35,7 +35,7 @@ ones need the NULs removed first, and that is the whole trick:
 
     tr -d '\000' < claude | grep -a -o -E ".{0,160}consent to it.{0,60}"
 
-One pass over the binary costs **1.1 s** wall (0.83 user, 0.77 sys) — about as long as it
+One pass over the binary costs **1.1 s** wall (0.83 user, 0.77 sys), about as long as it
 takes to read this sentence aloud, so an exploratory grep is free and there is no reason to
 guess instead.
 
@@ -52,7 +52,7 @@ guess instead.
 The token is an accepted mode value, listed beside `plan`, `acceptEdits`, `auto`, `default`
 and `dontAsk`. **H1 is dead.**
 
-No message names project scope, or any settings-file scope, as the reason for a refusal.
+No message names project scope, or any settings-file scope, as grounds for a refusal.
 **H2 is dead.**
 
 Three messages name the host, and one of them is the whole answer:
@@ -72,7 +72,7 @@ not write itself back into a settings file even when it succeeds.
 
 **H3 survives.** The value is read, then discarded, and the discard is the editor's
 decision rather than the CLI's. The consent is deliberately not delegable to a file the
-repository can commit — which is consistent: a file in a repository can be written by
+repository can commit, which is consistent: a file in a repository can be written by
 anything that can write to the repository, and this mode is exactly the one where that
 matters.
 
@@ -80,7 +80,7 @@ matters.
 
 The setting is a checkbox in VS Code, reached by its label rather than by anything this
 workspace can hold. The CLI flag `--dangerously-skip-permissions` is read *before* the host
-gate, so a terminal session takes the mode with no editor consent involved — which is the
+gate, so a terminal session takes the mode with no editor consent involved, which is the
 usable answer for anyone who wants it today.
 
 ## Not measured
@@ -89,7 +89,7 @@ Stated because the entry would otherwise read as complete:
 
 - **The VS Code setting's id was not found**, only its display label. The extension passes
   it to the CLI as `allowDangerouslySkipPermissions`, and the dotted id lives in the
-  extension's `package.json`, which is not on this desk — `~/.vscode/extensions` does not
+  extension's `package.json`, which is not on this desk: `~/.vscode/extensions` does not
   exist here and no `anthropic.claude-code*` directory was found under `~`. Writing a
   guessed key into VS Code's `settings.json` would be a silent no-op if wrong, so none was
   written.
@@ -100,7 +100,7 @@ Stated because the entry would otherwise read as complete:
 
 ## A second observation, from the same afternoon
 
-Not a designed experiment — it happened while the above was being written, and it is here
+Not a designed experiment; it happened while the above was being written, and it is here
 because it changed what got committed.
 
 `.claude/settings.json` lost its `permissions.allow` block. The hypothesis that the edit
@@ -110,7 +110,7 @@ heredoc, and again before the commit. `.claude/settings.local.json`, written in 
 window, was deleted outright.
 
 Apparatus is just `git -C .claude diff` after each write. The conclusion is that the
-running session owns that file while it runs, and rewrites it rather than merging into it —
+running session owns that file while it runs, and rewrites it rather than merging into it:
 `/plugin install` writing `enabledPlugins` is what dropped the permissions in the first
 place. A hand-restore from inside the session that is doing the writing does not survive,
 so the restore belongs in a different session, and the permissions were committed as

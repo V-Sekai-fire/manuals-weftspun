@@ -27,7 +27,7 @@ own docstring recorded 5.3% delivery against 27.2% docs when it was written, a r
 
 ### A finer ruler on one afternoon
 
-One instruction -- hold `service-zone` out of the manifest until the work reaches it --
+One instruction (hold `service-zone` out of the manifest until the work reaches it)
 produced, in about eight hours: **6 merged pull requests across 3 repositories, 19 commits.**
 The chain was not padding. Each step was a real defect found by fixing the one before it:
 
@@ -68,7 +68,7 @@ Four things carry the discipline, and none of them is "try to finish":
 3. **The release is an artefact, not an event.** `update version after 7.3.77 release` and
    `Release notes for 7.3.{78,79}` are commits. Something exists to point at.
 4. **Reverting is ordinary.** A revert carries its own PR number and no apology. Backing a
-   change out is a normal move rather than an admission, which is what makes the narrow
+   change out is a normal move rather than an admission, and that makes the narrow
    admission rule affordable.
 
 What carries the discipline is that "is this in?" resolves against a branch, so the
@@ -76,7 +76,7 @@ answer is looked up rather than argued.
 
 ## The gate
 
-**An enhancement is finished when the gates are green at the current resolution -- not when
+**An enhancement is finished when the gates are green at the current resolution, not when
 it is right.** The gates are the ruler. Detail they cannot see is out of scope by
 definition, and the honest response to finding it is to *record* it, not to fix it inside
 the change that tripped over it.
@@ -97,8 +97,8 @@ question is whether the detail it reveals is worth the walking.
 
 ## The fallback constraint
 
-When no ruler can be agreed -- when nobody can say in advance what "done" means for a piece
-of work -- fall back to the ledger, because it is the one constraint here that does not
+When no ruler can be agreed (when nobody can say in advance what "done" means for a piece
+of work), fall back to the ledger, because it is the one constraint here that does not
 depend on judgement:
 
 > **Documents may not outspend the delivery they describe.** When `Expenses:Docs` exceeds
@@ -112,7 +112,7 @@ it is a description of a debt already owed.
 It is a *fallback* rather than the primary rule because it constrains the aggregate and not
 the change. It cannot tell you whether this enhancement is finished. It can tell you that
 the last ninety days answered that question wrong, which is the thing nobody notices without
-counting -- and, per the ledger's own docstring, the thing that went unnoticed before.
+counting; and, per the ledger's own docstring, the thing that went unnoticed before.
 
 This entry is itself booked to `Expenses:Docs`.
 
@@ -124,15 +124,15 @@ was fixed.
 - **`subprocess.run(..., text=True)` decodes as cp1252 on Windows.** Git log output is
   UTF-8, so a non-ASCII commit subject killed the reader thread and `.stdout` came back
   `None`. Fixed by naming `encoding="utf-8"` at all five call sites.
-- **`relative_to()` yields backslashes on Windows.** Every lookup keyed on that string --
-  `LANES`, the `.repo/manifests` special case -- is written with forward slashes, so on this
+- **`relative_to()` yields backslashes on Windows.** Every lookup keyed on that string
+  (`LANES`, the `.repo/manifests` special case) is written with forward slashes, so on this
   desk none of them matched. Fixed with `as_posix()`.
 
 **A correction, since it was reported wrongly first.** The second defect was announced here
-as having made the 69.6% `Expenses:Other` figure an artefact. It did not. `report` reads the
+as having made the 69.6% `Expenses:Other` figure an artefact. It did not: `report` reads the
 committed books, which were generated on a desk where the paths were already correct, so the
-split was sound. The near-identical numbers after a Windows rebuild -- 69.6% to 69.4%, Docs
-18.4% to 18.3% -- are the evidence that the fix works rather than evidence that anything was
+split was sound. The near-identical numbers after a Windows rebuild (69.6% to 69.4%, Docs
+18.4% to 18.3%) are the evidence that the fix works rather than evidence that anything was
 wrong. `Expenses:Fabric` moved 4.7% to 5.1% because `.repo/manifests` is now booked.
 
 **Not measured.** `ledger.py verify` still cannot run here: it shells out to `bean-check`,

@@ -9,7 +9,7 @@ Split out of this file as it grew: [determinism.md](logbook-ward-determinism.md)
 Unless an entry says otherwise:
 
 - Host: this desk. Windows 11, MSVC, Release, one core, pinned with `SetThreadAffinityMask`.
-  It is the machine the headset is on, which is the reason to measure here at all.
+  It is the machine the headset is on, so this is where to measure.
 - MuJoCo 3.11.0, from `thirdparty/mujoco-riscv64`, simulating at 60 Hz and publishing at 20.
 - The packet is `XRGridEntityPacket`, 100 integral bytes, from `thirdparty/entity-packet`.
 - The fan-out is `fanout_one` from `thirdparty/fanout-edge`, unmodified, with a counting sink
@@ -31,9 +31,9 @@ Three shapes, sixty ticks each.
 |     166 |   900 |     1398 | 20.53 ms |       41% |    19.59 |   0.06 |   0.45 |
 |     466 |     0 |     1398 |  3.98 ms |        8% |     1.04 |   0.04 |   3.02 |
 
-Run to run the cubed medians move by about 2 ms and the worst tick by much more — 58 ms in one
+Run to run the cubed medians move by about 2 ms and the worst tick by much more: 58 ms in one
 of the four-player runs, which is over budget on its own. That spread is a desktop with a
-browser open, and it is the reason the sections below argue from ratios between stages rather
+browser open, and it is why the sections below argue from ratios between stages rather
 than from any single figure.
 
 **166 players fit beside 900 cubes, and the entity budget is what stopped it, not the core.**
@@ -41,8 +41,8 @@ than from any single figure.
 could hold with 59% of the tick unspent. The answer to "how many players on one core" is
 therefore not a CPU number at this scene size. It is `(1400 - cubes) / 3`.
 
-**Cubes cost, players do not.** Going from 4 players to 166 — five hundred more entities to
-simulate, encode and filter — moved the median by less than a millisecond, well inside the
+**Cubes cost, players do not.** Going from 4 players to 166 (five hundred more entities to
+simulate, encode and filter) moved the median by less than a millisecond, well inside the
 run-to-run spread. Removing the 900 cubes took the simulate stage from 20 ms to 1.0. What the physics is paying for is 3600
 contacts, and contacts come from cubes resting on each other and the floor, not from people.
 
@@ -56,12 +56,12 @@ that decides the shape of any zone with more people than props.
 
 ### The limit is the NIC, not the core
 
-The interest filter passed a full slice to every subscriber in all three runs — 64.0, 64.0, 63.9
+The interest filter passed a full slice to every subscriber in all three runs: 64.0, 64.0, 63.9
 against a cap of 64. With 900 cubes packed at 0.6 m and an interest box of 10 m, everything near
 a subscriber overlaps, so what bounds a slice is `MAX_SLICE_ENTITIES` and not the geometry.
 
 That makes the egress arithmetic fixed per subscriber: 64 × 100 bytes × 20 Hz is **1.02 Mbps,
-uncompressed**. At 166 players that is 170 Mbps, and at 466 it is 477 Mbps — from one core that
+uncompressed**. At 166 players that is 170 Mbps, and at 466 it is 477 Mbps, from one core that
 was 8% busy.
 
 The article's whole four-player host fitted in about 1 Mbps, and under 256 kbps a player,
@@ -75,7 +75,7 @@ with 92% of its tick free is not the constraint, and adding cores will not help 
 - No transport. The sink counts bytes; it does not send them, so nothing above measures what
   QUIC, pacing or retransmission add.
 - No authority or ownership sequences, and no prediction. The article's mechanism is not
-  modelled — this measures whether the budget is reachable at all.
+  modelled; this measures whether the budget is reachable at all.
 - The 900 cubes are a settled grid, not the twenty-metre stacks the article describes. A stack
   is a harder contact problem and the simulate stage would cost more.
 - Contacts were 3600 in every cubed run, which is the field at rest. A session where players
@@ -101,7 +101,7 @@ is the maximally-contacting arrangement: 100 cubes make 1345 contacts, 400 make 
 that does not fall over is the shape that costs the most.
 
 A column is worse and fails differently. Fifty 0.4 m cubes is an aspect ratio of fifty to one,
-and nothing stands at fifty to one. It does not topple, it ejects — the top cube leaves 19.9 m
+and nothing stands at fifty to one. It does not topple, it ejects: the top cube leaves 19.9 m
 and reaches 23 m within two seconds, with the gap between levels closed to zero.
 
 ### The knobs that do not work
@@ -109,7 +109,7 @@ and reaches 23 m within two seconds, with the gap between levels closed to zero.
 - **Solver iterations.** 100 → 20 → 10 → 5 moved the worst tick by noise, and 10 came out worse
   than 100. There is no solver problem to cap.
 - **Sleeping.** `<flag sleep="enable"/>` takes the reported contact count to zero and changes the
-  run time not at all -- **in the window this was measured over, which was from t=0 while the pile
+  run time not at all, **in the window this was measured over, which was from t=0 while the pile
   was still collapsing.** That is a real result and it is not the general statement it reads as.
   Re-measured across three scene shapes with repetitions, timing after the scene settles:
 
@@ -124,7 +124,7 @@ and reaches 23 m within two seconds, with the gap between levels closed to zero.
   than 0, and the gain is 4.4x rather than a thousand. **The saving is not a property of the flag,
   it is a property of how completely the scene settles.**
 
-  A sandbox is mostly settled -- somebody builds a stack and walks away -- so the steady-state
+  A sandbox is mostly settled (somebody builds a stack and walks away), so the steady-state
   cost is far below what 900 dynamic cubes suggests. What this does NOT rescue is the moment of
   collapse, which is where the 1840 ms tick came from and where sleep is worth exactly nothing.
 Both point the same way, and it is the same way the iteration result pointed. The time is spent
@@ -139,8 +139,8 @@ Two mechanisms, and only the second is a guarantee:
 - **Weld settled assemblies.** A stack that has not moved for some frames becomes one body, which
   is what the large commercial sandboxes do and what turns 1345 contacts into a handful. MuJoCo
   can do it: `mjSpec` and
-  `mj_compile` allow the model to be edited and recompiled at runtime. It is deterministic — the
-  same state welds the same way everywhere — so the weld rule joins the wire contract beside the
+  `mj_compile` allow the model to be edited and recompiled at runtime. It is deterministic (the
+  same state welds the same way everywhere), so the weld rule joins the wire contract beside the
   simulation rate.
 - **Time-box the tick.** Budget the wall clock inside the tick, drop substeps when it is spent,
   publish anyway. Fidelity degrades and the deadline never does. This is the only bound a player
@@ -161,8 +161,8 @@ Two mechanisms, and only the second is a guarantee:
 
 A reading taken from the entries above was wrong, and wrong in a way worth writing down because
 the arithmetic looked fine. The first entry says 166 players fit at 41% of the tick, and 41% was
-read as 59% of headroom to sell. It is not. The marginal cost of a player was taken from the
-`466 players, 0 cubes` row — a scene in which **the players have nothing to touch** — and then
+read as 59% of headroom to sell. That reading is wrong. The marginal cost of a player was taken from the
+`466 players, 0 cubes` row (a scene in which **the players have nothing to touch**) and then
 spent in a scene where they would be touching constantly. Pricing the free case and billing the
 expensive one.
 
@@ -216,7 +216,7 @@ it cannot be exceeded by any input. It also kills island merging, which welding 
 disjoint volumes cannot couple.
 
 900 bodies at E=3 is 41.6 ms and fits; at E=5 it is 59.4 ms and does not. So the cost is legible
-and paid in gameplay — **stacks are three high** — rather than paid in dropped ticks by everyone
+and paid in gameplay (**stacks are three high**) rather than paid in dropped ticks by everyone
 in the zone. That is the same limit welding would impose, moved to where a player can see it.
 
 ### What this does not say
@@ -228,7 +228,7 @@ in the zone. That is the same limit welding would impose, moved to where a playe
   K = 1..30, which nothing has run.
 - Locked volumes are not implemented and not measured. The claim here is that the bound is
   *enforceable*, which is an argument about the mechanism, not evidence about its cost.
-- Lock acquisition is a distributed mutex and has its own floor — see the entry below.
+- Lock acquisition is a distributed mutex and has its own floor; see the entry below.
 
 
 ## 2026-08-12: what a Godot humanoid costs, driven and simulated
@@ -240,7 +240,7 @@ loose objects, and two things follow that the archetype model assumed away.
 **A player is atomic.** Fifty-six bones are one coupled kinematic chain; a forearm and its hand
 cannot sit in different zones. The unit of assignment is an avatar, so 1400 entities is really
 **twenty-five avatars**. Skeletons do not couple to each other, so zones still split freely at
-player boundaries -- the same shape as ships passing at range, and the opposite of a stack.
+player boundaries, the same shape as ships passing at range, and the opposite of a stack.
 
 **And the cost depends entirely on whether the bones are driven or simulated.**
 
@@ -260,7 +260,7 @@ Simulated is a different cost class: **103x**, and a zone of twenty-five ragdoll
 
 Worth noticing where that lands. A simulated bone at 24.05 us is almost exactly a loose dynamic
 cube at 21.40 us. **A ragdoll bone costs about what a physics crate costs**, which says the
-articulation is not doing anything special -- it is fifty-five more bodies to solve.
+articulation is not doing anything special: it is fifty-five more bodies to solve.
 
 So the entity budget is generous for driven avatars and cannot survive ragdolls at full
 occupancy. That is a **concurrent-ragdoll limit** rather than a player limit, it is a normal
@@ -278,11 +278,11 @@ twenty-five is two thirds.
 - One run per configuration.
 
 
-## 2026-08-13: freeze on settle — a dead end, then not one
+## 2026-08-13: freeze on settle: a dead end, then not one
 
 `bench/freeze.{h,c}` promotes a settled body into the worldbody: copy its geoms to the world
 at the pose it reached, delete the body, `mj_recompile`. Measured by `bench/freeze_test.c`,
-which asserts rather than prints -- 300 boxes, every one freezes, and the tick goes from
+which asserts rather than prints: 300 boxes, every one freezes, and the tick goes from
 **0.85 ms to 0.025 ms, 34x**. `mj_recompile` carries `mjData` across, so everything still
 moving keeps its velocity and nothing jolts when a neighbour freezes.
 
@@ -295,7 +295,7 @@ because there is no message delay: the delete and the add happen in one spec edi
 exactly-once by construction where a network handoff has to survive `u/2`.
 
 Seeing that named a real defect. The first version froze bodies one at a time, so a settled
-stack would transfer piecemeal -- the bottom becoming immovable while the top still leaned on
+stack would transfer piecemeal, the bottom becoming immovable while the top still leaned on
 it, which is a different structure from the one that settled. **The unit of transfer is
 whatever is internally coupled**, the same rule as a skeleton or a ship. `dof_island` already
 computes the grouping, so an island is ripe only when every body in it is.
@@ -305,7 +305,7 @@ computes the grouping, so an island is ripe only when every body in it is.
 `mjs_addGeom(world, NULL)` sets no name. **The transfer destroyed identity.** Once a piece was
 in the worldbody nothing recorded what it had been, so it could not be unfrozen, deleted,
 attributed to a builder, or described. Under "only things in the physics engine exist" that is
-not a missing index somewhere else -- the object had stopped existing as an object and was now
+not a missing index somewhere else; the object had stopped existing as an object and was now
 scenery.
 
 That made it a **one-way ratchet**. A world using it can only calcify, and a creative game
@@ -350,13 +350,13 @@ picked back up.
   invisible in the tick; 40,000 frozen geoms may not be.
 - Thaw caps at 32 pieces per identity and re-derives mass as a constant `0.2` rather than
   carrying the body's inertia across. A round trip therefore preserves shape and pose but not
-  mass properties -- fine for the boxes here, wrong for anything a player tuned.
+  mass properties: fine for the boxes here, wrong for anything a player tuned.
 
 ## Every run, as it was logged
 
 `bench_players --log docs/logbook/one_core.md` appends here. The rows below are the raw
 conditions and outcomes; the sections above are what they mean. Rows are never edited or
-removed — a measurement that turned out to be wrong gets a section saying so.
+removed. A measurement that turned out to be wrong gets a section saying so.
 
 | when             | run   | players | cubes | per player | entities | sim Hz | pub Hz | interest m | ticks | median ms | worst ms | simulate | encode | fanout | contacts |  sent |   bytes |
 | ---------------- | ----- | ------: | ----: | ---------: | -------: | -----: | -----: | ---------: | ----: | --------: | -------: | -------: | -----: | -----: | -------: | ----: | ------: |

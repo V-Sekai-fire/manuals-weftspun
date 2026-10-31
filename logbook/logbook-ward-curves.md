@@ -6,8 +6,8 @@ Which curve orders the tree, why the tree carries two, and the day the deployed 
 
 ### Yields and bounds
 
-Sorting the optimisations by what they do in the worst case — everything moving, everyone in one
-place — separates them cleanly, and the separation predicts which will disappoint:
+Sorting the optimisations by what they do in the worst case (everything moving, everyone in one
+place) separates them cleanly, and the separation predicts which will disappoint:
 
 | | kind | in the churn case |
 | --- | --- | ---: |
@@ -30,7 +30,7 @@ second still gives it when everyone stands in one place.
 
 The second entry left lockstep open on the grounds that the simulation replays. Its bandwidth
 advantage is real and smaller than it looks: a lost input in lockstep is not a glitch but a
-permanent desync, so inputs need redundancy, and every peer needs every input — there is no
+permanent desync, so inputs need redundancy, and every peer needs every input; there is no
 interest management for intent. Crossover against a fixed 64-entity slice:
 
 | intent encoding | crossover |
@@ -54,7 +54,7 @@ because it came up as "surely one of them is redundant" and the answer is no:
 | worst single window | 5 | **4** |
 
 Morton is a bit permutation and therefore GF(2)-linear. A butterfly overlay is the Cayley graph of
-(ℤ/2)ⁿ under XOR, so its stages are XOR by a basis vector — linearity is what makes a stage a
+(ℤ/2)ⁿ under XOR, so its stages are XOR by a basis vector. Linearity makes a stage a
 spatial translation rather than an arbitrary jump. Hilbert is not linear, because each level's
 rotation is chosen by the prefix.
 
@@ -62,7 +62,7 @@ What Hilbert buys is locality **on query windows only**, and the cluster counts 
 doing without it.
 
 It does not partition better, which is what this entry first claimed. Cutting the code space into
-equal contiguous ranges — how `Fabric.lean` assigns entities by prefix — costs the same seams
+equal contiguous ranges (how `Fabric.lean` assigns entities by prefix) costs the same seams
 under either curve at every zone count tried:
 
 | zones | row-major | Morton | Hilbert |
@@ -76,18 +76,18 @@ while costing 240 seams against 96. Measuring at a two-way split hides this, bec
 gives a half-rectangle there and all three tie at 16.
 
 Morton is not optimal among linear curves either. Exhaustively over all 720 bit permutations at
-order 3, one clusters 15% better at equal seam cost — but it does not survive to order 4, where
+order 3, one clusters 15% better at equal seam cost, but it does not survive to order 4, where
 the best that still ties on seams is only 3% better. **15% to 3% across one doubling** is why
 Morton stays rather than a second addressing scheme being introduced.
 
 Neither is the other's dual. (ℤ/2)ⁿ is Pontryagin self-dual, so Morton's structure is its own
-dual — which is why a butterfly can be transposed and run in reverse at all. Hilbert has no
+dual, which is why a butterfly can be transposed and run in reverse at all. Hilbert has no
 characters to dualise. **They are complements, not alternatives**, and carrying both is forced.
 
 ### What this does not say
 
 - The curve figures are exact and proved by `native_decide` on 8×8 and 16×16 grids. Whether the
-  ratios hold at the 30-bit codes actually used is not proved — and the one trend that was checked
+  ratios hold at the 30-bit codes actually used is not proved, and the one trend that was checked
   across a doubling **shrank**, so extrapolating them upward is not safe.
 - **Every Hilbert figure above is for a correct Hilbert curve, and the deployed one was not.**
   See the amendment below; it was found after this section was written.
@@ -96,13 +96,13 @@ characters to dualise. **They are complements, not alternatives**, and carrying 
   a wrong reflection term reported 146/4000 and would have supported the same conclusion for the
   wrong reason.
 - No routing overlay is built. The curve work says which code it would have to use, not that it
-  is worth building — at present scales the log-depth saving is a wash.
+  is worth building. At present scales the log-depth saving is a wash.
 
 ## 2026-08-12 (amendment): the curve we were measuring was not the curve we were running
 
 The section above compares Morton against Hilbert and reasons about which to keep. It is sound
-about the two curves and was answering the wrong question, because `Shared.hilbert3D` — the
-encoder every zone assignment, BVH sort key and authority lookup in this workspace goes through —
+about the two curves and was answering the wrong question, because `Shared.hilbert3D` (the
+encoder every zone assignment, BVH sort key and authority lookup in this workspace goes through)
 **was not a Hilbert curve.**
 
 Walk the codes in order and every step must move exactly one cell. Measured:
@@ -128,13 +128,13 @@ any other bijection**, and that is the whole lesson: the tests asserted conseque
 property instead of the property.
 
 Two deviations from Skilling 2004, both needed. The main loop omitted `i = 0`, where the exchange
-branch is a no-op — which is why it looks droppable — but the invert branch is not; and it ran
+branch is a no-op (which is why it looks droppable), but the invert branch is not; and it ran
 the remaining pairs backwards, which matters because every step mutates `X[0]`. The interleave
 then emitted `z` as the most significant bit of each group where `x` belongs. Fixing only the
 first leaves 87.5% unchanged.
 
 Fixed in `lean-shared-core#2`, with the defining property as a build-time gate, plus the
-worst-case run-extent bound — a run of L consecutive codes fits in a box of side `2·L^(1/3) − 1`,
+worst-case run-extent bound: a run of L consecutive codes fits in a box of side `2·L^(1/3) − 1`,
 which is the actual reason to pay for this curve, since Morton has no such bound at any L.
 
 ### What this costs, and what it does not say
@@ -146,7 +146,7 @@ which is the actual reason to pay for this curve, since Morton has no such bound
 - `thirdparty/spatial-oracle` here is a vendored copy still carrying the old inverse. It is not
   re-vendored yet, because the rule is to fix upstream first and vendor a merged fix.
 - **No timing in this logbook is invalidated.** The bug is a locality defect, not a cost one, and
-  no entry above measured broadphase or zone assignment — the benchmarks use ghost-AABB overlap
+  no entry above measured broadphase or zone assignment; the benchmarks use ghost-AABB overlap
   with a counting sink. What is invalidated is any *locality* claim made about production.
 - The head-to-head numbers behind the amendment were produced by two agents in a scratch
   directory, not by anything in this tree, and are not reproducible from this repository.

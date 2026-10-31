@@ -9,7 +9,7 @@ finding: **no topology has been chosen, and none of the entries above says so.**
 was made in conversation and a recommendation is not a decision, which is exactly the difference
 this file exists to keep.
 
-The comparison the plan called for -- `bench_players --topology authority|lockstep|relay` -- was
+The comparison the plan called for (`bench_players --topology authority|lockstep|relay`) was
 never built. The plan said plainly that it "does not pick a topology, it produces the table that
 a decision can be made from". The table does not exist.
 
@@ -41,8 +41,8 @@ which is not free. Crossover against a 64-entity slice:
 Below that lockstep wins by a wide margin, which is why the article's four-player host chose it.
 A ward of 166 is not below it.
 
-Distributed authority was estimated at 0.402 Mbps a subscriber. **That number is a guess** -- slice
-cost plus an assumed authority overhead -- and nothing has measured it.
+Distributed authority was estimated at 0.402 Mbps a subscriber. **That number is a guess** (slice
+cost plus an assumed authority overhead), and nothing has measured it.
 
 ### What is a theorem
 
@@ -58,7 +58,7 @@ estimate.
 
 **Deterministic rollback.** Glenn's three are lockstep, client-server and distributed authority,
 and rollback was folded into the first without being examined. It is a different animal: same
-input-only bandwidth, so it inherits lockstep's O(N) unfilterable problem unchanged -- but it does
+input-only bandwidth, so it inherits lockstep's O(N) unfilterable problem unchanged, but it does
 **not** wait for the slowest peer. It predicts and resimulates on correction.
 
 That matters because O(N) bandwidth was the whole case against lockstep, and it survives; while
@@ -69,13 +69,13 @@ option that is neither ruled out nor examined.
 ### Rollback, and the version that escapes O(N)
 
 Rollback inherits lockstep's bandwidth problem: every peer needs every input, because a distant
-player's action propagates. The escape is to bound propagation -- interest-filter the inputs
+player's action propagates. The escape is to bound propagation: interest-filter the inputs
 through a relay, so a peer receives only the inputs that could reach it inside the rollback
 window.
 
 **Sizing the intent is the whole answer, and the first attempt got it wrong.** An intent here is
 three tracked poses and nothing else: quantised i16 delta position (6 B) and swing-twist i16
-rotation (6 B) is 12 B an entity, so 37 B an avatar. No velocity, no class, no sub-index -- those
+rotation (6 B) is 12 B an entity, so 37 B an avatar. No velocity, no class, no sub-index; those
 are state, not input. The first model in this entry used 60 B doubled to 120, which is above the
 104 B break-even, and concluded rollback did not pay. That conclusion was an artefact of the
 estimate.
@@ -87,7 +87,7 @@ estimate.
 | 166 | 1.954 | **0.249** | 0.349 |
 | 1000 | 11.828 | **0.249** | 0.349 |
 
-At 37 B doubled for redundancy, relayed rollback saturates at **0.249 Mbps -- 1.41x cheaper than
+At 37 B doubled for redundancy, relayed rollback saturates at **0.249 Mbps, 1.41x cheaper than
 client-server**, at any population. Delta-coding the redundancy instead of duplicating it takes it
 to 0.188 Mbps and 1.86x. It is O(1) and it is the cheapest of the three on the wire.
 
@@ -95,7 +95,7 @@ The break-even is 104 B an intent at an interest set of 21. Anything under that 
 state, which is the shape one expects: an input is what a pose IS, and a state packet is that plus
 everything derived from it.
 
-**The latency is the same 2d**, client to relay to client -- identical to input up and state down.
+**The latency is the same 2d**, client to relay to client, identical to input up and state down.
 So against client-server this is not a latency-for-bandwidth trade at all. It is cheaper on the
 wire at the same delay.
 
@@ -107,7 +107,7 @@ client is a headset. Client-server's case was never really the wire; it was that
 simulates and the others draw. That is the comparison worth measuring, and nothing here has.
 ### Can the crossover be pushed to a thousand players?
 
-Only for the UNFILTERED form, and it is the wrong question -- but the arithmetic is worth having
+Only for the UNFILTERED form, and it is the wrong question, but the arithmetic is worth having
 because it says how much room is left.
 
 Unfiltered lockstep is O(N), so the crossover is wherever `(n-1) x intent` meets the slice. To
@@ -128,7 +128,7 @@ entity, so 25.4 B an avatar: a **12x further compression** to reach the first co
 reach the second.
 
 Under a bit per degree of freedom is not obviously impossible for band-limited human motion at
-20 Hz, but nothing here is close to it, and the client-server side is a moving target -- every
+20 Hz, but nothing here is close to it, and the client-server side is a moving target: every
 improvement there raises the bar rather than lowering it.
 
 **The question is wrong because the filtered form does not have a crossover.** Interest-filtering
@@ -136,8 +136,8 @@ removes the N dependence entirely: relayed rollback saturates at 0.249 Mbps and 
 thousand players, at ten thousand, at any number. It is already cheaper than client-server
 everywhere. There is nothing to push.
 
-What that buys is worth stating plainly: the reason to chase a smaller intent is not to reach a
-crossover, it is that a smaller intent makes the filtered form cheaper still. 37 B doubled is
+What that buys is worth stating plainly: a smaller intent is not worth chasing to reach a
+crossover; it is worth chasing because it makes the filtered form cheaper still. 37 B doubled is
 0.249 Mbps; delta-coded at 1.5x it is 0.188. The compression work pays either way and the
 crossover arithmetic is a distraction from it.
 
@@ -149,7 +149,7 @@ and interpolates and simulates nothing.
 
 Clustered rollback is the interesting one, because clustering changes what a client has to
 simulate. In full lockstep every peer simulates the whole world. Filtered by interest, a peer
-only needs the 64 entities in its slice -- **21x less than the 1398 in the zone**. Costed against
+only needs the 64 entities in its slice: **21x less than the 1398 in the zone**. Costed against
 the measured island law:
 
 | | server, per tick | client, per tick | per-client |
@@ -171,8 +171,8 @@ There is a structural problem underneath the arithmetic, and it is worth stating
 easy to model past.
 
 Rollback works because every peer simulating the same inputs reaches the same state. A peer that
-simulates only its interest set is not simulating the same world as a peer whose set is different
--- they agree in the overlap and diverge outside it. So a clustered rollback needs a rule for what
+simulates only its interest set is not simulating the same world as a peer whose set is different;
+they agree in the overlap and diverge outside it. So a clustered rollback needs a rule for what
 happens at the boundary between two peers' sets: who is authoritative for a body both can see,
 and what happens when it crosses.
 
@@ -181,8 +181,8 @@ the other three; it is topology 3 with prediction bolted on, and it inherits top
 a linearizable handoff cannot beat **u/2** (Attiya & Welch 1994), which at 20 ms of jitter is
 10 ms of a 50 ms tick.
 
-Unclustered rollback avoids this entirely -- everyone simulates everything, so there are no
-boundaries -- and pays O(N) bandwidth for the privilege. The bandwidth and the seam are the same
+Unclustered rollback avoids this entirely (everyone simulates everything, so there are no
+boundaries) and pays O(N) bandwidth for the privilege. The bandwidth and the seam are the same
 trade seen from two ends: filtering is what creates the boundary that then needs a protocol.
 
 **That is the finding.** The three topologies are not three points; lockstep and distributed

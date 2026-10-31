@@ -6,9 +6,9 @@ says why: a review that is deleted teaches nothing twice.
 
 ## 2026-08-12: LightSpeed's XPR model, read for loopholes
 
-Source: *XPR Model — building a truly scalable virtual world*, LightSpeed Studios, GDC 2023.
-Expand, Propagate, Reduce, with Extract and Update added in practice. The framing is quantum —
-superposition, decoherence, light cones — and the framing is not the interesting part. What is
+Source: *XPR Model: building a truly scalable virtual world*, LightSpeed Studios, GDC 2023.
+Expand, Propagate, Reduce, with Extract and Update added in practice. The framing is quantum
+(superposition, decoherence, light cones), and the framing is not the interesting part. What is
 interesting is which of its mechanisms attack walls this workspace has measured.
 
 Reviewed twice. The first reading dismissed the central mechanism for the wrong reason and
@@ -26,7 +26,7 @@ branch heavy, a remote speculative branch light, and the reduce resolves toward 
 authoritative answer **without anyone taking a lock**.
 
 That matters because of the one hard result in the topology work. Attiya & Welch bound
-*linearizable* objects at `u/2`, and superposition does not implement one — both branches
+*linearizable* objects at `u/2`, and superposition does not implement one; both branches
 proceed and reconcile afterwards. It is not a way of beating the theorem; it is a way of not
 being covered by it. Cost moves from every interaction to only the conflicting ones.
 
@@ -73,9 +73,9 @@ made cheaper, and it is a question worth asking of anything that looks unsplitta
 
 **Not memory, which the first version of this entry got wrong.** Superposition is k copies of an entity, and this was recorded as expensive because the entity budget is the binding constraint. That confuses two things. `WARD_ENTITIES` binds on simulation cost and on the size of a reply, not on memory: 1800 entities at 100 bytes is 180 KB, and a server holding four copies of that would not notice.
 
-The asymmetry is the point. **A server has RAM precisely because it is not rendering** -- no textures, no meshes, no render targets, none of what fills a client's memory -- and a headset has none spare for the same reason. In a client-server design the clients never hold branches at all, because they do not simulate. So the machine that genuinely cannot spare memory is the one place this mechanism never reaches.
+The asymmetry is the point. **A server has RAM precisely because it is not rendering** (no textures, no meshes, no render targets, none of what fills a client's memory), and a headset has none spare for the same reason. In a client-server design the clients never hold branches at all, because they do not simulate. So the machine that genuinely cannot spare memory is the one place this mechanism never reaches.
 
-The real cost is **k times the compute on contested entities**, and the deck creates copies only for out-reaching interactions rather than for everything -- a small subset, on the machine with the headroom. That is a much better trade than the first reading recorded.
+The real cost is **k times the compute on contested entities**, and the deck creates copies only for out-reaching interactions rather than for everything: a small subset, on the machine with the headroom. That is a much better trade than the first reading recorded.
 
 **Reduce is unsolved for contact.** Averaging two branches of a stack gives interpenetration:
 the mean of two valid states is not a valid state when the states satisfy contact constraints.
@@ -89,8 +89,8 @@ technique to adopt piecemeal.
 
 - Nothing here was measured. This is a reading of a slide deck against numbers taken elsewhere
   in this logbook, and every claim about XPR is theirs rather than tested.
-- The `1/16 c` propagation figure and the log-depth routing check out arithmetically — 10^43
-  CPUs is 143 butterfly hops, 143 × 5 ms across an Earth diameter — but arithmetic that checks
+- The `1/16 c` propagation figure and the log-depth routing check out arithmetically (10^43
+  CPUs is 143 butterfly hops, 143 × 5 ms across an Earth diameter), but arithmetic that checks
   out is not a result about this workspace.
 - The one thing recommended for adoption, vector-clock independence detection, is recommended on
   reasoning and not on a measurement. It is cheap enough that the reasoning may be enough.

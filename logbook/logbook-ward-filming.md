@@ -20,7 +20,7 @@ So the procedure is written down here beside the measurements it checks.
   version, so what is rendered is what is simulated. It is a rendering dependency and is
   deliberately not in the build.
 - `mujoco.Renderer` offscreen. MuJoCo's `simulate` GUI is disabled in `cmake/mujoco.cmake` and
-  stays disabled — a viewer is a dependency the service does not need.
+  stays disabled: a viewer is a dependency the service does not need.
 - `ffmpeg`, fed raw frames over a pipe.
 
 ### Two things that will waste an hour if forgotten
@@ -30,7 +30,7 @@ So the procedure is written down here beside the measurements it checks.
   compiling, or `Renderer` refuses any larger size.
 - The generated scene has **no lights and no colours**, because the simulation does not need
   them. Rendered as-is it is a black rectangle. Lights and `rgba` are injected into the copy
-  that is filmed and never into the scene that is measured — a render that changed the model
+  that is filmed and never into the scene that is measured; a render that changed the model
   would be a picture of a different run.
 
 ### Frames go to the encoder, not to memory
@@ -42,13 +42,13 @@ as it is rendered costs nothing and bounds the memory.
 ### Realtime is a result, not a setting
 
 Wall clock is measured while rendering and reported as a factor. An offline render played back
-at 30 fps looks realtime whatever the simulation cost — a scene at 0.02× and a scene at 4× make
+at 30 fps looks realtime whatever the simulation cost: a scene at 0.02× and a scene at 4× make
 the same video. The flat field measured **4.15×** with 912 bodies and 3678 contacts; the same
 run is honest to publish only because that number was taken.
 
 ### Citation travels in the file
 
-`CITATION.cff` is read at encode time and its fields become container metadata — title, author,
+`CITATION.cff` is read at encode time and its fields become container metadata: title, author,
 ORCID, licence, version, date, and a comment naming the repository and pointing at the citation
 file. A clip separated from the repository still says what it is and who made it, which a
 filename does not.
