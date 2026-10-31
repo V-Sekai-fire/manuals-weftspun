@@ -35,7 +35,7 @@ rfd 2360, "The campus ships one beta", :discussion do
   fixes land, and a feature that is not in it is abandoned. There is one beta.
   The tag stays in RFD66606-2312's form, and the stage goes in the release title.
 
-  The beta has these features and no non-goals:
+  The beta has these features:
 
   - You can see each other: two people in the campus zone, one in the Steam Frame on a PC VR stream and
     one on the desktop, each sees the other's avatar.
