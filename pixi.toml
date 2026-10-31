@@ -25,9 +25,19 @@ platforms = ["osx-arm64", "win-64", "linux-64"]
 # wrong.
 [feature.gate.dependencies]
 python = "3.11.*"
+# The trope gate reads RFD prose with a dependency parse, not a regex: a semicolon that joins
+# two clauses differs from one that separates list items only in the parse. Both come from
+# conda-forge, so the runner never fetches a model over the network, and both are pinned
+# because a new model version changes which sentences parse as which.
+# markdown-it-py moved here from the PyPI table: spaCy pulls rich, rich pulls the conda build of
+# markdown-it-py, and a PyPI pin to the same package makes the solve unsatisfiable. Same version.
+markdown-it-py = "==3.0.0"
+spacy = "==3.8.7"
+# spaCy imports click at load and the conda build does not declare it.
+click = "*"
+spacy-model-en_core_web_sm = "==3.8.0"
 
 [feature.gate.pypi-dependencies]
-markdown-it-py = "==3.0.0"
 jsonschema = "==4.23.0"
 usd-core = "==26.8"
 # RFD66606-1166 ranks by STAR, and a hand-rolled runoff is a claim about STAR rather

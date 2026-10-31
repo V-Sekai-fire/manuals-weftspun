@@ -261,20 +261,29 @@ repos:
       # (triple-dot), which is empty on a local commit, so the hook runs the
       # report mode and the self-test twin below is what proves the gate
       # still fires on planted-broken input.
+      # `language: system`, because the parse needs spaCy and its pinned model, which the locked
+      # pixi gate environment carries and a pip hook environment would have to download. Outside
+      # that environment `trope_nlp.py` exits 2 and says so; it never reports a clean file it
+      # could not read.
       - id: trope-density
         name: trope density (report mode; self-test does the gating)
         entry: python scripts/check_tropes.py
-        additional_dependencies: ["markdown-it-py==3.0.0"]
-        language: python
-        files: '^(rfd/[0-9]{4}-[^/]+\.exs|rfd/[^/]+/(README|DETAILS)\.md|logbook/.*\.md|scripts/check_tropes\.py)$'
+        language: system
+        files: '^(rfd/[0-9]{4}-[^/]+\.exs|rfd/[^/]+/(README|DETAILS)\.md|logbook/.*\.md|scripts/(check_tropes|trope_nlp)\.py)$'
         pass_filenames: false
 
       - id: trope-density-self-test
         name: the trope-density gate still fails on planted-broken prose
         entry: python scripts/check_tropes.py --self-test
-        additional_dependencies: ["markdown-it-py==3.0.0"]
-        language: python
-        files: ^scripts/check_tropes\.py$
+        language: system
+        files: ^scripts/(check_tropes|trope_nlp)\.py$
+        pass_filenames: false
+
+      - id: detrope-fix-self-test
+        name: the detrope editor still edits the parse tree and refuses what it cannot verify
+        entry: python scripts/detrope_fix.py --self-test
+        language: system
+        files: ^scripts/(detrope_fix|trope_nlp)\.py$
         pass_filenames: false
 
       - id: confidence-tags
