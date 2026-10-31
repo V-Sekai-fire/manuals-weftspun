@@ -32,6 +32,7 @@ here corresponds to an entry.
 - **`giraffe.glb`** (SkinTokens example asset): bundled art with no stated provenance; the repo's MIT covers its code — see below
 - **git submodules**: a second dependency mechanism `repo status` cannot see — use `default.xml`, see below
 - **Windows** as a host for workspace tooling: operator directive 2026-09-25, reversing the WSL row: tooling runs under WSL; a published Windows artifact is still tested on Windows — see below
+- **Git Bash** as the Windows shell for workspace commands: MSYS rewrites paths and quotes, and `elixir` fails to boot from it where `cmd.exe` runs it; operator 2026-10-31 — use Nushell, see below
 - **`uv` for project environments**: an environment nothing declares and nobody can rebuild — use `pixi`; **an embedded interpreter pinning its deps in source is exempt**, see below
 - ~~**tinygrad NVIDIA eGPU** (TinyGPU dext) as compute~~: **unblocked 2026-09-03**: compute rule widened to include owned eGPUs; the three failure modes stand and are accepted, see below
 - **onnxruntime GPU providers on macOS**: CoreML EP is the same Metal path Core ML gives; WebGPU EP measured 0.27x of it — see below
@@ -2108,3 +2109,21 @@ zombies would be too small for the people the game actually holds.
 The game holds pedestrians, players and props, not zombies (operator,
 2026-10-19). Network tests use pedestrian motion, recorded where a recording
 with a clean licence exists, and report every class apart.
+
+### Git Bash is blocklisted on the Windows desk, and what it rewrites is why
+
+Git Bash sits between a command and the Windows program it starts. It rewrites path
+arguments, and it re-quotes arguments a second time on the way through. A command that
+works typed into `cmd.exe` can fail there with no error naming the shell.
+
+Two failures were measured on the desk on 2026-10-31. `--body-file /tmp/pr.md` reached `gh`
+as written, and `gh` could not open the path. `elixir` aborted at boot from
+Git Bash with `Failed to load module 'elixir'`, and the same Elixir 1.20.5 over OTP 29 ran
+`check_prose_tropes.exs --self-test` to all 17 controls through `cmd.exe /c elixir.bat`.
+Neither failure names the shell, so a reader blames the tool.
+
+The two workarounds in use cost a line each: `MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'`
+for `/`-switches, and a `.cmd` file for `start ""`. A workaround that every command needs
+is the shell being wrong.
+
+Windows commands run in Nushell. Linux builds run in the desk's WSL Ubuntu 22.04 (operator, 2026-10-31).
