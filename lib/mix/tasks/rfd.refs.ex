@@ -194,10 +194,6 @@ defmodule Mix.Tasks.Rfd.Refs.Check do
     end
   end
 
-  @doc """
-  The smoke-water manifest is private to its own org, so a CI run that has no `RFD_TOKEN`
-  cannot read it. That run skips the check and says so. Any other run checks.
-  """
   def skip?(url, github_actions, token),
     do: String.starts_with?(url, @smoke_water) and github_actions == "true" and token in [nil, ""]
 
