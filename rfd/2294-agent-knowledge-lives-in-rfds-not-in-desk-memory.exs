@@ -26,7 +26,8 @@ rules below"
   A rule changed on one desk disagreed with the others without anyone being told.
   :: related
   - RFD66606-2200, the desk agent's ReBAC rows.
-  - RFD66606-2363 to RFD66606-2381, the rules this RFD held before the split, one RFD each.
+  - RFD66606-2363 to RFD66606-2381 and RFD66606-2413 to RFD66606-2419, the rules this RFD held
+    before the split, one RFD each.
   """
 
   details_title "agent knowledge lives in RFDs, not in desk memory"
@@ -69,8 +70,8 @@ rules below"
      Credit to people stays, such as a co-author trailer for the person whose
      work a commit carries. "Interchangeable sessions" below names the commit
      author and how to strip a footer a tool appends. Push only the feature
-     branch, and open the pull request in V-Sekai-fire or chibifire-stages.
-     The operator merges.
+     branch, and open the pull request in V-Sekai-fire or chibifire-stages,
+     where the operator merges it.
   6. Remove the worktree when the pull request is open.
 
   An RFD is amended in `rfd/NNNN-slug.exs` of &{repo("manuals-weftspun")}, never in
@@ -126,31 +127,6 @@ rules below"
   mid-task becomes a checklist line in the issue that found it, and an operator
   request is still filed, with the queue's depth reported back so the operator can
   say what waits.
-  :: details How a desk works
-  An agent works from the placed tree, and branches where a pin is old. A
-  procedure a desk repeats becomes an Elixir DSL or a tool in the tree rather than
-  one-off shell. No workflow or background subagent runs unless the operator asks
-  for one. Test marks go only in test scenes, never in a scene that ships. A
-  large area is parked one top-level entry at a time, each pushed or moved into
-  the tree and then removed until the area is empty, with no census of every file
-  first, so the area visibly shrinks.
-
-  All GitHub activity stays in V-Sekai-fire and chibifire-stages: forks, new
-  repositories and pushes, and no pull request, issue, comment or mention in any
-  other organisation, though reading and cloning public repositories is fine.
-  Pushed text cites an upstream change by its bare commit SHA, never by an
-  `owner/repo#N` reference or an issue or pull request URL, since GitHub posts
-  those back onto the upstream's timeline.
-  Our line of an upstream branch is `dev/<branch>` on the V-Sekai-fire fork,
-  created at the upstream commit, so the upstream's branch-keyed workflows do not
-  fire on it. A branch named `main/<x>` cannot sit beside one named `main`, since
-  git stores each ref as a path.
-
-  From Git Bash on Windows, a command with `/`-switches runs under
-  `MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'`, so the switches are not rewritten
-  into paths. `start "" ...` goes in a `.cmd` file: passed inline, the empty
-  title arrives as `\"\"` and `start` tries to run `\`. Godot raises its own
-  process to above-normal priority, so a desk run lowers it by PID once started.
   :: details Interchangeable sessions
   Any agent session, on a desk or in the cloud, can pick up any task another
   session started, because each follows the practices below and reads them here

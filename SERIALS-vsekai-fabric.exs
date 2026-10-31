@@ -139,6 +139,20 @@ defmodule Serials.VSekaiFabric do
       serial 2379, "desktop-zips-ship-as-release-assets", flight_level: :l2
       serial 2380, "the-skintokens-packages-live-in-a-model-repository", flight_level: :l2
       serial 2381, "a-windows-host-answers-four-system-calls-as-linux-does", flight_level: :l2
+
+      serial 2413, "a-desk-works-from-the-placed-tree-and-turns-a-repeated-procedure-into-a-tool",
+        flight_level: :l2
+
+      serial 2414, "no-workflow-or-background-subagent-runs-unless-the-operator-asks",
+        flight_level: :l2
+
+      serial 2415, "test-marks-go-only-in-test-scenes", flight_level: :l2
+      serial 2416, "a-large-area-is-parked-one-top-level-entry-at-a-time", flight_level: :l2
+      serial 2417, "github-activity-stays-in-our-two-organisations", flight_level: :l2
+      serial 2418, "our-line-of-an-upstream-branch-is-dev-branch-on-the-fork", flight_level: :l2
+
+      serial 2419, "git-bash-on-windows-runs-slash-switch-commands-under-a-path-conversion-guard",
+        flight_level: :l2
     end
 
     deleted do
