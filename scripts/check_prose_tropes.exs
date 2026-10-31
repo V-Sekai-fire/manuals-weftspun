@@ -54,8 +54,13 @@
 #
 # Usage:
 #     elixir scripts/check_prose_tropes.exs [<repo>] [--base <ref>]
+#     elixir scripts/check_prose_tropes.exs [<repo>] --base <ref> --hooks   (hook ratchet only)
 #     elixir scripts/check_prose_tropes.exs --self-test
 #     elixir scripts/check_prose_tropes.exs --rate <file>
+#
+# THE FLAT HOOK. A second ratchet on `rfd/*.exs`: a hook that is new or edited must ask or tease,
+# which the gate reads as a question mark. Hooks that already stand are not read, so the tree
+# walks toward the rule one rewrite at a time. 136 of 137 hooks on main stated the answer.
 #
 # Exit codes: 0 within the ratchet, 1 a file rose or crossed, 2 bad usage.
 
@@ -125,6 +130,42 @@ defmodule ProseTropes do
   def judge(_before, now, true),
     do: {now <= @commons, @commons, "at or under commons; may not cross"}
 
+  @hook ~r/:: hook\s*\n(.*?)\n\s*::\s/s
+
+  @doc "The hook beat of an RFD source, whitespace folded, or nil when the text has none."
+  def hook(text) do
+    case Regex.run(@hook, String.replace(text, "\r\n", "\n")) do
+      [_, h] -> h |> String.split() |> Enum.join(" ")
+      _ -> nil
+    end
+  end
+
+  @doc "A new or edited hook must ask or tease; one left as it stands is not read."
+  def hook_ok?(_before, nil), do: true
+  def hook_ok?(before, now) when before == now, do: true
+  def hook_ok?(_before, now), do: String.contains?(now, "?")
+
+  defp hook_gate(repo, base, path) do
+    full = Path.join(repo, path)
+
+    if not (String.starts_with?(path, "rfd/") and String.ends_with?(path, ".exs") and
+              File.exists?(full)) do
+      0
+    else
+      now = hook(File.read!(full))
+      prev = git(repo, ["show", "#{base}:#{path}"])
+      before = if prev, do: hook(prev), else: nil
+
+      if hook_ok?(before, now) do
+        0
+      else
+        IO.puts("  FAIL #{path}: the hook states the answer; ask or tease, with a question mark")
+        IO.puts(~s(        "#{String.slice(now, 0, 86)}"))
+        1
+      end
+    end
+  end
+
   def git(repo, args) do
     case System.cmd("git", ["-C", repo | args], stderr_to_stdout: true) do
       {out, 0} -> out
@@ -132,7 +173,9 @@ defmodule ProseTropes do
     end
   end
 
-  def check(repo, base) do
+  def check(repo, base), do: check(repo, base, false)
+
+  def check(repo, base, hooks_only) do
     changed =
       (git(repo, ["diff", "--name-only", base]) || "")
       |> String.split("\n", trim: true)
@@ -142,7 +185,10 @@ defmodule ProseTropes do
       IO.puts("no prose files changed")
       0
     else
-      Enum.reduce(changed, 0, fn path, bad -> bad + score(repo, base, path) end)
+      Enum.reduce(changed, 0, fn path, bad ->
+        rate = if hooks_only, do: 0, else: score(repo, base, path)
+        bad + rate + hook_gate(repo, base, path)
+      end)
       |> report()
     end
   end
@@ -183,9 +229,13 @@ defmodule ProseTropes do
   end
 
   defp report(bad) do
-    IO.puts("\n#{bad} file(s) reach for the maxim more than they did, or more than the " <>
-              "commons rate of #{f(@commons)} per 1000 words.")
+    IO.puts(
+      "\n#{bad} file(s) fail: a maxim past the commons rate of #{f(@commons)} per 1000 words, " <>
+        "or a new hook with no question."
+    )
+
     IO.puts("Say the thing plainly, or carry the argument the maxim stands in for.")
+    IO.puts("A hook asks or teases and leaves the answer for the decision.")
     1
   end
 
@@ -279,8 +329,38 @@ defmodule ProseTropes do
         if got == want, do: acc, else: [label | acc]
       end)
 
+    IO.puts("hook controls:")
+
+    hooks = [
+      {"a new declarative hook is rejected", {nil, "The campus ships one beta."}, false},
+      {"a new question hook is accepted", {nil, "What ships in the beta? Four features."}, true},
+      {"an unchanged declarative hook is accepted", {"Size a machine.", "Size a machine."}, true},
+      {"an edited declarative hook is rejected", {"Size a machine.", "Size it alone."}, false},
+      {"an edit into a question is accepted", {"Size a machine.", "Which machine fits?"}, true},
+      {"a source with no hook is not read", {"Size a machine.", nil}, true}
+    ]
+
+    bad =
+      Enum.reduce(hooks, bad, fn {label, {b, n}, want}, acc ->
+        got = hook_ok?(b, n)
+        IO.puts("  #{if got == want, do: "ok  ", else: "BAD "} #{label}")
+        if got == want, do: acc, else: [label | acc]
+      end)
+
+    src = ":: hook\r\nAsk?\r\n  more words\r\n  :: intrigue\r\nx\r\n"
+
+    bad =
+      if hook(src) == "Ask? more words" do
+        IO.puts("  ok   a hook is read across lines and CRLF")
+        bad
+      else
+        IO.puts("  BAD  a hook is read across lines and CRLF")
+        ["hook extraction" | bad]
+      end
+
     if bad == [] do
-      IO.puts("\nAll #{length(detector) + length(decision)} controls behaved.")
+      total = length(detector) + length(decision) + length(hooks) + 1
+      IO.puts("\nAll #{total} controls behaved.")
       0
     else
       IO.puts("\n#{length(bad)} control(s) failed.")
@@ -299,7 +379,7 @@ case System.argv() do
     System.halt(0)
 
   args ->
-    {opts, rest, _} = OptionParser.parse(args, strict: [base: :string])
+    {opts, rest, _} = OptionParser.parse(args, strict: [base: :string, hooks: :boolean])
     repo = List.first(rest) || "."
-    System.halt(ProseTropes.check(repo, opts[:base] || "HEAD"))
+    System.halt(ProseTropes.check(repo, opts[:base] || "HEAD", opts[:hooks] || false))
 end
