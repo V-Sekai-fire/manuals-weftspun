@@ -1,33 +1,19 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Remove the AI-writing tells that have one safe rewrite, by editing the parse tree.
 
-ORDER OF WORK, AND IT IS THE POINT. The text is parsed first and edited second.
+Parse first, edit second: markdown-it gives the CommonMark blocks of each heredoc, spaCy gives a
+dependency tree per block, and each edit replaces one token's character span. Edits apply from
+the end of the file, then the result is re-parsed and refused unless the block structure held
+and only the edited tells fell.
 
-    1. Parse the document structure. markdown-it-py gives the blocks of the CommonMark AST, each
-       with its source line range. An RFD source is Elixir, so the heredoc bodies are the
-       documents. Code, tables and headings are not prose and are never offered to the editor.
-    2. Parse each prose block into a dependency tree with spaCy. Every token carries its
-       character offset in the source, its part of speech, its morphology and its head.
-    3. Find the tells as nodes of that tree. A semicolon is a clause join only when a verb with
-       a subject sits on each side of it. "serves as" is a copula only when the verb's
-       lemma is serve, function or act and the next word is "as".
-    4. Compute each edit as a replacement of one token's character span, never a text search.
-       The verb's tense and the subject's number come from the token's morphology, and the first
-       word of the new sentence is capitalised only when the parse says it is a lowercase word.
-    5. Apply the edits from the end of the file backwards, so each offset is still true.
-    6. Parse the result again and check it: the block structure is unchanged, the fixed tells are
-       gone and no other tell appeared.
+Always edited: a clause semicolon becomes a full stop; "serves as" becomes a form of "is".
+With --claims, for text we own: a negated half answered by a reply is cut, and the cut is
+printed for review. Everything else is reported with a line number.
 
-WHAT IS NOT EDITED. Negative parallelism, preambles, personified abstractions, emphasis
-fragments and adjective triplets change what a sentence says or need a writer's choice, and
-`prose-detrope` forbids rewriting a claim. They are reported with a line number.
-
-    pixi run -e gate python scripts/detrope_fix.py <file> ...             # dry run, prints the edits
-    pixi run -e gate python scripts/detrope_fix.py --write <file> ...     # applies them
+    pixi run -e gate python scripts/detrope_fix.py [--write] [--claims] <file> ...
     pixi run -e gate python scripts/detrope_fix.py --self-test
 
-Exit codes: 0 nothing to edit, or edits applied and verified, 1 an edit failed verification
-and nothing was written, 2 bad usage or no parser.
+Exit codes: 0 done or nothing to edit, 1 verification failed and nothing was written, 2 usage.
 """
 
 import os
@@ -43,8 +29,8 @@ from markdown_it import MarkdownIt
 MARKER = re.compile(r"^\s*::")
 QUOTED = re.compile(r'"[^"\n]*"')
 EDITABLE = ("clause_semicolon", "pompous_verb")
+CLAIM_EDITS = ("negative_parallelism",)
 REPORT_ONLY = (
-    "negative_parallelism",
     "personified_abstraction",
     "emphasis_fragment",
     "adjective_triplet",
@@ -132,7 +118,55 @@ def _depth(masked, upto):
     return masked.count("(", 0, upto) - masked.count(")", 0, upto)
 
 
-def edits_for(path, text):
+def _span_of(tokens):
+    return tokens[0].idx, tokens[-1].idx + len(tokens[-1].text)
+
+
+MAX_CUT = 90
+
+
+def negation_edit(masked, nh, kind, partner):
+    cut = _negation_cut(masked, nh, kind, partner)
+    if cut is None or cut[1] - cut[0] > MAX_CUT + (30 if kind == "next" else 0):
+        return None
+    return cut
+
+
+def _negation_cut(masked, nh, kind, partner):
+    """The span to cut when the owner lets a claim be rewritten, as (start, end, capital_at).
+
+    Only the negated half goes; the half that says what the thing is stays. Returns None when
+    the cut would take a lead-in or leave a fragment, and the caller reports it instead."""
+    sent = nh.sent
+    neg = next(c for c in nh.children if c.dep_ == "neg")
+    sub = trope_nlp._subject(nh) or (trope_nlp._subject(nh.head) if nh.dep_ in ("ccomp", "conj", "xcomp") else None)
+    if kind == "but":
+        stop = partner.idx + len(partner.text)
+        tail = masked[stop:]
+        stop += len(tail) - len(tail.lstrip())
+        also = masked[stop : stop + 4]
+        if also.lower() == "also" and masked[stop + 4 : stop + 5].isspace():
+            stop += 5
+        return neg.idx, stop, None
+    if kind == "same":
+        reply_sub = trope_nlp._subject(partner)
+        if sub is None or reply_sub is None or reply_sub.i <= sub.i:
+            return None
+        before = masked[: sub.idx].rstrip()
+        cap = reply_sub.idx if (not before or before[-1] in ".!?:-*") and reply_sub.text[:1].islower() else None
+        return sub.idx, reply_sub.idx, cap
+    if kind == "next":
+        nxt = partner.sent
+        end = sent.end_char - 0
+        lead = masked[sent[0].idx : sub.idx].strip() if sub is not None else "?"
+        if sub is None or lead:
+            return None
+        stop = nxt[0].idx
+        return sent[0].idx, stop, None
+    return None
+
+
+def edits_for(path, text, claims=False):
     """([(start, end, replacement, label)], [(line, tell, sentence)]) for the whole file."""
     nlp = trope_nlp.load()
     edits, findings = [], []
@@ -162,13 +196,37 @@ def edits_for(path, text):
                         if verb.text[0].isupper():
                             word = word.capitalize()
                         edits.append((at + verb.idx, at + as_tok.idx + len(as_tok.text), word, tell))
+                    elif tell in CLAIM_EDITS and claims and partner is not None:
+                        kind, other = partner
+                        cut = negation_edit(masked, anchor, kind, other)
+                        if cut is None:
+                            findings.append((line, tell + " (not edited: would cut a lead-in or a long exclusion list)", anchor.sent.text.strip()))
+                            continue
+                        start, end, cap = cut
+                        edits.append((at + start, at + end, "", tell))
+                        if cap is not None:
+                            edits.append((at + cap, at + cap + 1, masked[cap].upper(), tell))
                     else:
                         findings.append((line, tell, anchor.sent.text.strip()))
     return edits, findings
 
 
 def apply(text, edits):
-    """Apply from the end so every earlier offset is still true. Overlap is an error."""
+    """Apply from the end so every earlier offset is still true. An edit inside a larger cut is
+    absorbed by it; a partial overlap is an error."""
+    cuts = [e for e in edits if e[3] == "negative_parallelism" and e[2] == ""]
+    absorbed = {
+        c[1] for c in cuts if any(o[3] == "clause_semicolon" and o[2] == "." and c[0] <= o[0] < c[1] for o in edits)
+    }
+    edits = [
+        e for e in edits
+        if not (e[3] == "clause_semicolon" and len(e[2]) == 1 and e[2].isupper() and e[0] in absorbed)
+    ]
+    edits = list({(e[0], e[1], e[2]): e for e in edits}.values())
+    edits = [
+        e for e in edits
+        if not any(o is not e and o[0] <= e[0] and e[1] <= o[1] and (o[1] - o[0]) > (e[1] - e[0]) for o in edits)
+    ]
     ordered = sorted(edits, key=lambda e: e[0], reverse=True)
     for (s1, e1, _, _), (s2, e2, _, _) in zip(ordered, ordered[1:]):
         if s1 < e2:
@@ -192,7 +250,10 @@ def verify(path, before, after, edits):
     if structure(path, before) != structure(path, after):
         problems.append("the markdown block structure changed")
     was, now = trope_nlp.count(_prose(path, before)), trope_nlp.count(_prose(path, after))
-    fixed = {t: sum(1 for e in edits if e[3] == t and (t != "clause_semicolon" or e[2] == ".")) for t in EDITABLE}
+    fixed = {
+        t: sum(1 for e in edits if e[3] == t and (t == "pompous_verb" or e[2] in (".", "") and e[1] > e[0]))
+        for t in EDITABLE + CLAIM_EDITS
+    }
     for tell in trope_nlp.TELLS:
         want = was[tell] - fixed.get(tell, 0)
         if now[tell] != want:
@@ -204,16 +265,18 @@ def _prose(path, text):
     return "\n\n".join(b for _, b in bodies(path, text))
 
 
-def run(paths, write):
+def run(paths, write, claims=False):
     status = 0
     for path in paths:
         text = open(path, encoding="utf8", newline="").read()
-        edits, findings = edits_for(path, text)
+        edits, findings = edits_for(path, text, claims)
         label = os.path.relpath(path)
         print(f"{label}: {len(edits)} edit(s), {len(findings)} left for a writer")
         for start, end, repl, tell in sorted(edits):
             line = text.count("\n", 0, start) + 1
             print(f"  edit  {line}: {tell}: {text[start:end]!r} -> {repl!r}")
+            if tell in CLAIM_EDITS and not repl:
+                print(f"        cut claim: {text[start:end].strip()!r}  (owner reviews; revert if it carried information)")
         for line, tell, sentence in findings:
             print(f"  read  {line}: {tell}: {sentence[:90]}")
         if not edits:
@@ -279,6 +342,7 @@ def self_test():
     checks.append(("a result that changes the block structure fails verification",
                    verify(path, FIXTURE, mutated, edits) != []))
     checks.append(("overlapping edits are refused", _overlap_refused()))
+    checks += claim_checks()
     failed = 0
     for label, ok in checks:
         print(f"  {'ok  ' if ok else 'BAD '} {label}")
@@ -288,6 +352,34 @@ def self_test():
         return 1
     print(f"ok   {len(checks)} of {len(checks)} controls behaved")
     return 0
+
+
+def _claim_fixture(body):
+    q = chr(34) * 3
+    lines = ['rfd 1, "F", :discussion do', "  prose ~S" + q, "  :: problem", "  " + body, "  " + q, "end", ""]
+    return chr(10).join(lines)
+
+
+def claim_checks():
+    cases = [
+        ("a negated half answered after a semicolon is cut", "It is not a pipeline; it is a star.", "It is a star."),
+        ("a negated sentence answered by the next is cut", "It is not a pipeline. It is a star.", "It is a star."),
+        ("not just X but Y keeps Y", "The gate is not just a check but a ratchet.", "The gate is a ratchet."),
+        ("a lead-in survives the cut", "In practice, it is not a pipeline; it is a star.", "In practice, it is a star."),
+    ]
+    out = []
+    for label, before, want in cases:
+        src = _claim_fixture(before)
+        edits, _ = edits_for("f.exs", src, claims=True)
+        after = apply(src, edits)
+        out.append((label, want in after and "not" not in after.split(":: problem")[1]
+                    and verify("f.exs", src, after, edits) == []))
+    src = _claim_fixture("It is not a pipeline; it is a star.")
+    edits, findings = edits_for("f.exs", src)
+    out.append(("without --claims the claim is reported, not edited",
+                not any(e[3] == "negative_parallelism" for e in edits)
+                and any("negative_parallelism" in f[1] for f in findings)))
+    return out
 
 
 def _overlap_refused():
@@ -303,8 +395,9 @@ if __name__ == "__main__":
     if args == ["--self-test"]:
         sys.exit(self_test())
     write = "--write" in args
+    claims = "--claims" in args
     files = [a for a in args if not a.startswith("--")]
     if not files:
         print(__doc__)
         sys.exit(2)
-    sys.exit(run(files, write))
+    sys.exit(run(files, write, claims))

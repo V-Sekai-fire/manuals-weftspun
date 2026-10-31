@@ -235,7 +235,8 @@ semicolon and "the server serves assets" do not count. Without the parser the ga
 `scripts/detrope_fix.py` removes the two with one safe rewrite. It parses the CommonMark
 blocks, parses each block into a dependency tree, edits token spans, applies them from the
 end of the file, then re-parses and refuses to write when the structure moved or any other tell
-changed. The rest it reports with a line number.
+changed. The rest it reports with a line number. With `--claims`, for text we own, it also cuts the
+negated half of "It is not X; it is Y" and prints the cut so the owner can revert it.
 
     pixi run -e gate python scripts/detrope_fix.py [--write] <file> ...
     pixi run -e gate python scripts/detrope_fix.py --self-test

@@ -1,26 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """AI-writing tells that need a parse, not a pattern.
 
-WHY THIS EXISTS. A regex sees characters. "It is not a pipeline; it is a star" and a
-semicolon that separates "RFD66606-2340, the campus; RFD66606-2358, the party" are the same
-character to it, and only the second is correct. A dependency parse tells them apart: the first
-has a subject and a verb on both sides of the semicolon, the second has neither. The same holds
-for a negation answered by a reply clause with the same subject, and for "serves as", which
-a pattern finds in "the server serves assets" only if it is told not to.
+A semicolon between two clauses and a semicolon between list items are the same character to a
+regex and different trees to a parser. The model is pinned in pixi.toml. A missing model exits
+2: a gate that cannot load its parser must not read as a clean file.
 
-THE MODEL IS PINNED, AND THAT IS LOAD-BEARING. `pixi.toml` pins spaCy 3.8.7 and
-`en_core_web_sm` 3.8.0 from conda-forge, so a runner never downloads a model and a new model
-version never changes which sentences parse as which without a diff somebody approves.
-
-A MISSING MODEL IS AN ERROR, NOT A SKIP. A gate that returns zero hits because it could not load
-its parser reads exactly like a clean file. `load()` exits 2 and says what is missing.
-
-THE PARSER IS SMALL AND SOMETIMES WRONG, so no detector trusts one arc. It reads token facts the
-small model gets right (a negation token, a subject token, a verb lemma, the order of clauses)
-and treats the attachment of a clause as a hint.
-
-    python scripts/trope_nlp.py "It is not a pipeline; it is a star."     # print the hits
-    python scripts/trope_nlp.py --self-test
+    python scripts/trope_nlp.py "It is not a pipeline; it is a star."
 """
 
 import sys
@@ -51,7 +36,6 @@ _NLP = None
 
 
 def load():
-    """The parser, or exit 2. Never an empty result standing in for a missing one."""
     global _NLP
     if _NLP is None:
         try:
@@ -68,7 +52,6 @@ def load():
 
 
 def paragraphs(text):
-    """Each inline run a reader reads as one paragraph: no code blocks, tables or urls."""
     out, in_table = [], False
     for token in md_ast.tokens(text):
         if token.type in ("table_open", "table_close"):
@@ -106,7 +89,6 @@ def _negated_heads(sent):
 
 
 def _reply_after(doc, sent_tokens, neg_head, subject_text):
-    """A later clause whose verb has the same pronoun subject and no negation."""
     for t in sent_tokens:
         if t.i <= neg_head.i or not _is_verb(t) or t is neg_head:
             continue
@@ -133,17 +115,18 @@ def _negative_parallelism(doc):
             if any(t.lower_ in ("just", "only", "merely") for t in after[:2]) and any(
                 t.lower_ == "but" for t in after
             ):
-                hits.append((nh, None))
+                hits.append((nh, ("but", next(t for t in after if t.lower_ == "but"))))
                 continue
             # the question/issue/problem isn't ...
             if sub is not None and sub.lemma_ in ("question", "issue", "problem", "point"):
-                hits.append((nh, None))
+                hits.append((nh, ("question", None)))
                 continue
             if sub is None or sub.lower_ not in _REPLY_SUBJECTS:
                 continue
             # reply in the same sentence, or the first clause of the next sentence
-            if _reply_after(doc, toks, nh, sub.lower_) is not None:
-                hits.append((nh, None))
+            reply = _reply_after(doc, toks, nh, sub.lower_)
+            if reply is not None:
+                hits.append((nh, ("same", reply)))
             elif si + 1 < len(sents):
                 nxt = sents[si + 1]
                 first = next((t for t in nxt if _is_verb(t)), None)
@@ -155,12 +138,11 @@ def _negative_parallelism(doc):
                         and not any(c.dep_ == "neg" for c in first.children)
                         and s2.i - nxt.start <= 1
                     ):
-                        hits.append((nh, None))
+                        hits.append((nh, ("next", first)))
     return hits
 
 
 def _clause_semicolons(doc):
-    """(semicolon, first word of the clause after it) for each semicolon joining two clauses."""
     hits = []
     for t in doc:
         if t.text != ";":
@@ -175,7 +157,6 @@ def _clause_semicolons(doc):
 
 
 def _pompous_verbs(doc):
-    """(verb, the word as) for each serves as, functions as and acts as."""
     hits = []
     for t in doc:
         nxt = doc[t.i + 1] if t.i + 1 < len(doc) else None
