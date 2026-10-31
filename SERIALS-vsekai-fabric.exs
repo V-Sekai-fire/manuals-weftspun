@@ -139,6 +139,51 @@ defmodule Serials.VSekaiFabric do
       serial 2379, "desktop-zips-ship-as-release-assets", flight_level: :l2
       serial 2380, "the-skintokens-packages-live-in-a-model-repository", flight_level: :l2
       serial 2381, "a-windows-host-answers-four-system-calls-as-linux-does", flight_level: :l2
+      serial 2382, "the-skateboard-has-a-manifest-of-its-own", flight_level: :l1
+
+      serial 2383, "the-assistant-draws-with-the-pen-through-steamvr-priority-mode",
+        flight_level: :l1
+
+      serial 2384, "the-station-is-ported-to-godot-module-by-module-against-a-reference",
+        flight_level: :l1
+
+      serial 2385, "the-proton-tweak-on-the-frame-is-reproduced-by-script", flight_level: :l1
+      serial 2386, "this-mac-is-the-desktop-client", flight_level: :l1
+      serial 2387, "github-actions-builds-every-double-binary", flight_level: :l1
+
+      serial 2388, "the-servers-linux-double-build-comes-only-from-the-workflow",
+        flight_level: :l1
+
+      serial 2389, "the-sandbox-addon-is-built-at-double", flight_level: :l1
+      serial 2390, "every-elf-guest-ships-with-its-native-translation", flight_level: :l1
+      serial 2391, "guests-are-built-at-double-precision", flight_level: :l1
+      serial 2392, "df32-holds-guest-geometry-far-from-the-origin", flight_level: :l1
+      serial 2393, "the-pen-builds-and-ships-only-the-first-rung-s-guests", flight_level: :l1
+      serial 2394, "the-template-release-fault-is-diagnosed-not-guessed", flight_level: :l1
+      serial 2395, "the-draw-step-runs-the-pipeline-and-lassoes-a-target", flight_level: :l1
+      serial 2396, "the-wear-step-attaches-the-garment-to-the-avatar-s-hips", flight_level: :l1
+
+      serial 2397, "the-transport-step-puts-a-certificate-authority-and-capabilities-in-guests",
+        flight_level: :l1
+
+      serial 2398, "the-zone-step-ports-the-fabric-zone-into-a-guest", flight_level: :l1
+      serial 2399, "the-zone-journal-lives-in-bao-over-foundationdb", flight_level: :l1
+      serial 2400, "the-worker-zone-dispatches-and-a-sidecar-computes", flight_level: :l1
+      serial 2401, "the-talk-step-carries-voice-as-datagrams", flight_level: :l1
+      serial 2402, "the-ghost-servers-run-on-fly-as-weftspun-zone", flight_level: :l1
+      serial 2403, "the-zone-reaches-bao-by-a-certificate-bao-issues", flight_level: :l1
+      serial 2404, "the-evidence-step-records-one-session", flight_level: :l1
+      serial 2405, "the-rung-s-setup-uses-a-fixed-set-of-credentials", flight_level: :l1
+      serial 2406, "the-desk-s-stored-github-credentials-are-destroyed", flight_level: :l1
+      serial 2407, "dev-1-and-dev-2-play-on-macos-through-oxrsys", flight_level: :l1
+      serial 2408, "dev-1-one-person-visits-the-station", flight_level: :l1
+      serial 2409, "beta-one-person-wears-what-they-draw", flight_level: :l1
+      serial 2410, "rc-two-people-in-one-zone-talking", flight_level: :l1
+
+      serial 2411, "released-the-rung-is-live-and-reproducible-from-a-bare-machine",
+        flight_level: :l1
+
+      serial 2412, "each-feature-carries-a-joy-forecast", flight_level: :l1
 
       serial 2413, "a-desk-works-from-the-placed-tree-and-turns-a-repeated-procedure-into-a-tool",
         flight_level: :l2

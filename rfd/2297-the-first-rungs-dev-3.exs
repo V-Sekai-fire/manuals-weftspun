@@ -64,7 +64,7 @@ rfd 2297, "the first rung's dev.3", :discussion do
   """
 
   details "Which features are likely to bring joy", ~S"""
-  Each forecast uses RFD66606-2293's sense-of-wonder rubric and RFD66606-2295's
+  Each forecast uses RFD66606-2412's sense-of-wonder rubric and RFD66606-2295's
   tag form.
 
   | rung | feature | criteria | joy |

@@ -29,7 +29,7 @@ gates, and each guest solve"
   frame ends only when every thread group's `_process` returns.
   :: related
   - RFD66606-2287, the rung whose headset runs at 144 Hz; RFD66606-2263, the replay gate.
-  - RFD66606-2293, native translation, which shrinks every slice's count.
+  - RFD66606-2390, native translation, which shrinks every slice's count.
   - RFD66606-2274, the MuJoCo guest; RFD66606-2265, curvenet off the main thread.
   """
 

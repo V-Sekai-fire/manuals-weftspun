@@ -135,7 +135,7 @@ of transport-meshing-pen#26. `release.yml` published the prerelease, and every a
 from it passes `shasum -a 256 -c SHA256SUMS`: the double engine, the addon library and the
 `curvenet`, `dress_on`, `mujoco`, `rd_worker` and `usd` ELFs.
 
-## Deviations from RFD66606-2293's dev rung
+## Deviations from RFD66606-2408's dev rung
 
 - macOS through oxrsys, not the Frame.
 - The playtest is a persona run driven by the assistant, with no human seat.

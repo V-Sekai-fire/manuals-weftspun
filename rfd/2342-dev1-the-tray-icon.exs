@@ -101,7 +101,7 @@ rung"
   first-launch override. Pass: three icons running at day's end. Every
   install question is logged.
   :: details Which features are likely to bring joy
-  Each forecast uses the sense-of-wonder rubric of RFD66606-2293 and
+  Each forecast uses the sense-of-wonder rubric of RFD66606-2412 and
   the tag form of RFD66606-2295.
 
   | rung | feature | criteria | joy |

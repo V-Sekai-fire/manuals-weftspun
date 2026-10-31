@@ -22,7 +22,7 @@ rfd 2374, "everything in a godot-sandbox runs binary-translated", :discussion do
     translation, and a script that does not compile is a counted FAIL, not a fallback.
   :: related
   - RFD66606-2294, where this rule lived before the split.
-  - RFD66606-2293, the Skateboard's workspace, which builds the translated libraries.
+  - RFD66606-2390, which builds the translated libraries.
   """
 
   details_title "everything in a godot-sandbox runs binary-translated"
