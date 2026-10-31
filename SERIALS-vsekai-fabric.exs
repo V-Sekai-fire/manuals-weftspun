@@ -220,7 +220,7 @@ defmodule Serials.VSekaiFabric do
       serial 2262, "make-it-with-the-pen-and-wear-it-together", flight_level: :l3
       serial 2263, "the-skateboards-simulator-gate", flight_level: :l1
       serial 2264, "mesh-repair-by-voxel-remesh", flight_level: :l1
-      serial 2265, "curvenet-on-compute-rd", flight_level: :l1
+      serial 2265, "curvenet-on-compute-rd"
       serial 2266, "simulator-runtime-on-linux"
       serial 2267, "persona-npcs-in-ported-scenes"
       serial 2268, "the-recommender-is-a-decision-model", flight_level: :l1
@@ -250,7 +250,7 @@ defmodule Serials.VSekaiFabric do
       serial 2290, "trim-the-independent-ggml-runtimes"
       serial 2291, "capability-rebac-is-a-dsl-feature", flight_level: :l2
       serial 2292, "the-organization-is-one-rectgtn-domain"
-      serial 2293, "the-skateboards-workspace-and-the-first-rungs-plan", flight_level: :l1
+      serial 2293, "the-skateboards-workspace-and-the-first-rungs-plan"
       serial 2294, "agent-knowledge-lives-in-rfds-not-in-desk-memory", flight_level: :l2
       serial 2295, "agent-replies-state-calibrated-confidence", flight_level: :l2
       serial 2296, "the-first-rungs-dev-2", flight_level: :l1

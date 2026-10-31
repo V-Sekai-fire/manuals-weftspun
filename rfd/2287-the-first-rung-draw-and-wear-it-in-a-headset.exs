@@ -9,7 +9,7 @@ while a second person in the same zone sees it and talks with them; a
 worker zone makes the garment, and its ghost materializes in their zone"
   scope "entities-godot master built with precision=double, the godot-sandbox addon at
 the same precision, transport-meshing-pen, and the zone, client, CA, asset, lasso, voice and
-garment-stage guest ELFs. Using a standalone mode Steam Frame."
+garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from the desk."
 
   prose ~S"""
   :: decision
@@ -20,7 +20,8 @@ garment-stage guest ELFs. Using a standalone mode Steam Frame."
   certificate authority, the voice codec and the dress-on loop. A worker zone owns the garment
   while it makes it; its ghost materializes in the players' zone, and then its ownership hands
   over to that zone. One zone owns it at every frame. The garment attaches rigidly to the avatar's
-  bones.
+  bones. The headset is the Steam Frame on a PC VR stream from the desk; its standalone mode and
+  the Steam Deck are parked (operator, 2026-10-30).
   :: problem
   RFD66606-2262 asks whether people make and wear what they draw where others see it. Only people
   in the world answer that. The fabric already proves one owner per entity across zones; the rung

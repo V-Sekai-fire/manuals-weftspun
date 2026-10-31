@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2265, "Curvenet on compute-rd", :discussion do
-  flight_level :l1
   feature "the pen-meshing loop holds 90Hz with headroom on the standalone
 headset, by moving the curve-network off the main thread onto the GPU"
   scope "the curvenet guest at `3-interactor/curvenet/guest/curvenet`,
