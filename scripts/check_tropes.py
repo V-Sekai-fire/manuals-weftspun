@@ -39,6 +39,20 @@ TELLS = {
         r"\s+not\s*\.",
         re.I | re.M,
     ),
+    "negative_parallelism": re.compile(
+        r"\b(?:it'?s|it is|this is|that is|they'?re|they are)\s+not\b[^.;\n]{1,80}[.,;]\s+"
+        r"(?:it'?s|it is|this is|that is|they'?re|they are|but)\b"
+        r"|\bnot\s+(?:just|only|merely)\b[^.\n]{1,80}\bbut\b"
+        r"|\b(?:question|issue|problem|point)\s+(?:isn't|is not)\b",
+        re.I,
+    ),
+    "semicolon_join": re.compile(r";"),
+    "preamble": re.compile(
+        r"\b(?:let me|let's (?:dive|unpack|break)|(?:it'?s|it is) worth (?:noting|mentioning)|"
+        r"worth noting that|here'?s the thing)\b",
+        re.I,
+    ),
+    "pompous_verb": re.compile(r"\b(?:serves|functions|acts)\s+as\b", re.I),
     "welded_clauses": re.compile(
         r"(?<!when )(?<!where )(?<!unless )(?<!only when )"
         r"\b(?:A|An|The)\s+[a-z][a-z-]*\s+(?:is|are)\s+"
@@ -225,6 +239,18 @@ def self_test() -> int:
             "elided_predicate",
             0,
         ),
+        ("negative parallelism, two sentences", "It is not a pipeline. It is a star.", "negative_parallelism", 1),
+        ("negative parallelism, comma", "It's not bold, it's backwards.", "negative_parallelism", 1),
+        ("not just X but Y", "The gate is not just a check but a ratchet.", "negative_parallelism", 1),
+        ("the question isn't", "The question isn't whether to optimize.", "negative_parallelism", 1),
+        ("a plain negation is not a parallelism", "The gate is not wired into CI. Wire it in the next change.", "negative_parallelism", 0),
+        ("semicolon join", "One beta holds the features; every nongoal is abandoned.", "semicolon_join", 1),
+        ("two sentences instead", "One beta holds the features. Every nongoal is abandoned.", "semicolon_join", 0),
+        ("a semicolon in a code span is not prose", "Run `a; b` to chain.", "semicolon_join", 0),
+        ("preamble", "Worth noting that the gate is red.", "preamble", 1),
+        ("no preamble", "The gate is red.", "preamble", 0),
+        ("pompous verb", "The table serves as the index.", "pompous_verb", 1),
+        ("plain is", "The table is the index.", "pompous_verb", 0),
         (
             "two clauses welded by a bare and",
             "A release is one flat namespace and every build tree says fdbserver.",
