@@ -191,6 +191,33 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
     `static` seal.
   - Keep two passkeys, stored apart, since one lost token otherwise ends recovery. A
     passkey stays out of the backup bucket and off any Fly host.
+  :: details How the key arrives, and rotating the seal
+  A Bao on a `static` seal holds one 32-byte key. How that key reaches the process is a
+  mode in the start-up script, not part of the seal. Every mode supplies the same key, so
+  a node changes mode with no migration (operator, 2026-10-30).
+
+  - `tpm`: a non-exportable TPM key unwraps a wrapped copy of the key at start, with no
+    PIN and no touch. The wrapped file opens only on that machine.
+  - `kms`: the start-up script asks the Seal Bao, or on Fly the machine's own KMS, for
+    the key.
+  - `passkey`: a person touches the passkey at each start.
+  - `manual`: the script asks a person for the key, for example from the offline Shamir
+    shares, and then starts Bao. Bao does not start without the key, and a `static` seal
+    has no manual unseal of its own. A node left in this mode starts nothing on its own.
+  - The plain key is held in memory-backed storage only for the start, and the file is
+    deleted once Bao reports unsealed.
+  - Changing the seal type is a different act: it is seal key rotation, run with
+    `bao operator unseal -migrate` while the old seal still answers, and it needs a
+    restart.
+
+  Measured on the operator's desktop on 2026-10-30, a TPM 2.0 firmware TPM: a 32-byte key
+  wrapped to a non-exportable key unwrapped to the same bytes; a changed byte in the
+  wrapped file, an export of the private key and a deleted key were each refused. A Bao
+  with a `static` seal fed by that unwrap initialised, restarted and unsealed with nobody
+  typing, and a wrong key left it sealed. Not measured: a reboot, a copy of the wrapped file
+  on another machine, and the `kms`, `passkey` and `manual` modes. The Steam Deck shows a
+  TPM 2.0 device that `systemd-creds` cannot use without root; the Steam Frame is
+  unchecked.
   :: details Consumer-side cache: what and for how long
   Every read against Bao is a Bao dependency. Two ends of the spectrum:
 
