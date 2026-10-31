@@ -19,7 +19,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   reader who plans memory cannot tell the two apart. They scale in
   different ways.
   :: related
-  RFD66606-1016 lists the neural models. RFD66606-1026 gives their bf16 memory.
+  RFD66606-1016 lists the neural models. RFD66606-1025 gives their bf16 memory.
   """
 
   details_title "Geometric algorithms in the catalog"

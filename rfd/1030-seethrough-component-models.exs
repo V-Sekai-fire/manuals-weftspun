@@ -24,7 +24,7 @@ rfd 1030, "See-Through component models", :published do
   runs nine models. One catalog row hides that fact.
   :: related
   RFD66606-1006 records the layer decomposition design. RFD66606-1019 selects the
-  same ggml runtime for the Elixir core. RFD66606-1026 carries the single
+  same ggml runtime for the Elixir core. RFD66606-1025 carries the single
   catalog row that this RFD breaks down.
   """
 
