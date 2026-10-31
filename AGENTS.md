@@ -226,6 +226,21 @@ working agreements (`CLAUDE.md`, `BLOCKLIST.md`, `PITFALLS.md`,
     python scripts/check_tropes.py --base origin/main           # gate
     python scripts/check_tropes.py --self-test                  # 8 controls
 
+The tells that need a sentence read, not a pattern, come from a dependency parse
+(`scripts/trope_nlp.py`, spaCy 3.8.7 and `en_core_web_sm` 3.8.0 from the pixi gate
+environment): a semicolon joining two clauses, "serves as", a negation answered by a reply
+clause, a personified abstraction, an emphasis fragment and an adjective triplet. A list
+semicolon and "the server serves assets" do not count. Without the parser the gate exits 2.
+
+`scripts/detrope_fix.py` removes the two with one safe rewrite. It parses the CommonMark
+blocks, parses each block into a dependency tree, edits token spans, applies them from the
+end of the file, then re-parses and refuses to write when the structure moved or any other tell
+changed. The rest it reports with a line number. With `--claims`, for text we own, it also cuts the
+negated half of "It is not X; it is Y" and prints the cut so the owner can revert it.
+
+    pixi run -e gate python scripts/detrope_fix.py [--write] <file> ...
+    pixi run -e gate python scripts/detrope_fix.py --self-test
+
 ## How Commit Messages Are Written
 
 Commit subjects are sentence-case prose with no Conventional-Commits

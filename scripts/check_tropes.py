@@ -16,6 +16,7 @@ import textwrap
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import md_ast
+import trope_nlp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -39,20 +40,11 @@ TELLS = {
         r"\s+not\s*\.",
         re.I | re.M,
     ),
-    "negative_parallelism": re.compile(
-        r"\b(?:it'?s|it is|this is|that is|they'?re|they are)\s+not\b[^.;\n]{1,80}[.,;]\s+"
-        r"(?:it'?s|it is|this is|that is|they'?re|they are|but)\b"
-        r"|\bnot\s+(?:just|only|merely)\b[^.\n]{1,80}\bbut\b"
-        r"|\b(?:question|issue|problem|point)\s+(?:isn't|is not)\b",
-        re.I,
-    ),
-    "semicolon_join": re.compile(r";"),
     "preamble": re.compile(
         r"\b(?:let me|let's (?:dive|unpack|break)|(?:it'?s|it is) worth (?:noting|mentioning)|"
         r"worth noting that|here'?s the thing)\b",
         re.I,
     ),
-    "pompous_verb": re.compile(r"\b(?:serves|functions|acts)\s+as\b", re.I),
     "forced_sass": re.compile(
         r"\bhere'?s (?:the (?:truth|deal|catch|kicker)|what nobody|why that matters)\b"
         r"|\bhot take:|\band honestly\?|\bthen i realized:|(?:^|(?<=[.!?] ))the result\?",
@@ -99,6 +91,7 @@ def in_scope(path: str) -> bool:
 def count_tropes(text: str) -> tuple[int, dict[str, int]]:
     readable = md_ast.prose(text, tables=False)
     per = {name: len(rx.findall(readable)) for name, rx in TELLS.items()}
+    per.update(trope_nlp.count(text))
     return sum(per.values()), per
 
 
@@ -264,9 +257,9 @@ def self_test() -> int:
         ("not just X but Y", "The gate is not just a check but a ratchet.", "negative_parallelism", 1),
         ("the question isn't", "The question isn't whether to optimize.", "negative_parallelism", 1),
         ("a plain negation is not a parallelism", "The gate is not wired into CI. Wire it in the next change.", "negative_parallelism", 0),
-        ("semicolon join", "One beta holds the features; every nongoal is abandoned.", "semicolon_join", 1),
-        ("two sentences instead", "One beta holds the features. Every nongoal is abandoned.", "semicolon_join", 0),
-        ("a semicolon in a code span is not prose", "Run `a; b` to chain.", "semicolon_join", 0),
+        ("semicolon join", "One beta holds the features; every nongoal is abandoned.", "clause_semicolon", 1),
+        ("two sentences instead", "One beta holds the features. Every nongoal is abandoned.", "clause_semicolon", 0),
+        ("a semicolon in a code span is not prose", "Run `a; b` to chain.", "clause_semicolon", 0),
         ("preamble", "Worth noting that the gate is red.", "preamble", 1),
         ("no preamble", "The gate is red.", "preamble", 0),
         ("pompous verb", "The table serves as the index.", "pompous_verb", 1),
@@ -288,6 +281,16 @@ def self_test() -> int:
         ("spaced em-dash is the other gate", "The gate ran \u2014 every control fired.", "tight_em_dash", 0),
         ("assistant leak", "As a large language model, I cannot run it.", "assistant_leak", 1),
         ("not just X, also Y", "It's not just a check. It's also a ratchet.", "negative_parallelism", 1),
+        ("a semicolon between list items is not a join", "See RFD66606-2340, the campus; RFD66606-2358, the party; RFD66606-2359, the shop.", "clause_semicolon", 0),
+        ("a verb serving something is not serves as", "The server serves assets to clients.", "pompous_verb", 0),
+        ("negation answered in the next sentence", "It is not a pipeline. It is a star.", "negative_parallelism", 1),
+        ("a negation with no reply", "The gate is not wired into CI. Wire it in the next change.", "negative_parallelism", 0),
+        ("personified abstraction", "Nothing chose which gates a change needed.", "personified_abstraction", 1),
+        ("a person chooses", "The operator chose which gates a change needed.", "personified_abstraction", 0),
+        ("manufactured emphasis fragment", "A hidden director plans the day. Two boxes. That is the whole gap.", "emphasis_fragment", 1),
+        ("a short imperative is not a fragment", "The gate is red. Fix it.", "emphasis_fragment", 0),
+        ("adjective triplet", "The system is fast, reliable, and scalable.", "adjective_triplet", 1),
+        ("two adjectives are not a triplet", "The system is fast and reliable.", "adjective_triplet", 0),
         (
             "two clauses welded by a bare and",
             "A release is one flat namespace and every build tree says fdbserver.",
