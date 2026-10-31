@@ -66,7 +66,6 @@ here corresponds to an entry.
 - **ONNX Runtime Web** and **TensorFlow.js** as in-browser inference runtimes: operator directive 2026-09-05: both blocklisted as browser inference runtimes; the workspace's inference path is ggml (RFD66606-2188) with the Vulkan backend on native, not a second JS-runtime stack — see below
 - **WebGPU** as a workspace render / compute target: on native, Vulkan has ~10 years of production QA vs WebGPU's ~2, is Godot 4's primary renderer, and skips a translation layer on Linux/Windows (MoltenVK's two hops on macOS are battle-tested vs Dawn's newer Metal backend) — see below
 - **CorridorKey** as a matte generator: green/blue screen unmixer needing an alpha hint the matting model already makes, and CC BY-NC-SA 4.0 plus terms, which is both the share-alike row and the generator row — see below
-- **FFmpeg** as a codec dependency: LGPL-2.1-or-later, and a Godot export links into one binary, which is relinking the licence asks for and we cannot offer; the CineForm SDK is Apache-2.0 OR MIT and does both directions — see below
 - **Mitsuba 3's CPU variants** as a render target: `llvm_ad_*` and `scalar_*`: measured at 78 s a frame against 0.34 s on the card, a factor of 230, and the fallback that reached them was silent; measurement and a card-less desk are exempt — see below
 - **Eigen** and **libigl** as dependencies: operator directive 2026-09-28; both MPL-2.0, and the robust skin weights transfer port replaces them with pmp-subset and compute-rd — see below
 - **OpenComposite** as the route from OpenVR games to an OpenXR runtime: operator directive 2026-10-03; it swaps the user's OpenVR runtime for every OpenVR title at once, and an OXRSys SteamVR driver is the sanctioned route — see below
@@ -1781,62 +1780,6 @@ licences and are out of scope here.
 **Substitute:** the matting model already in the dress-on pipeline, pinned to
 a revision sha, with the model name, that sha and the input photograph's sha
 recorded per matte. RFD66606-2239 carries the argument in full.
-
-### FFmpeg is blocklisted, and the single-binary export is why
-
-**The licence decides this, not the capability.** FFmpeg can encode CineForm;
-`libavcodec/cfhdenc.c` exists and this workspace's own `scripts/cfhd_probe.py`
-once drove it with `-c:v cfhd -quality film3+`. Capability was never the
-question. FFmpeg is LGPL-2.1-or-later, and what this workspace ships is one
-native binary per platform out of a Godot fork, with every module linked in.
-The LGPL asks that a user be able to relink the covered library with their own
-build. A single statically linked export cannot offer that, so taking FFmpeg
-into the shipping tree takes on an obligation we cannot meet.
-
-**The alternative is not a compromise.** The GoPro CineForm SDK is
-`Apache-2.0 OR MIT`, matching our own code, and it holds both an encoder and a
-decoder, so one dependency covers both directions. RFD66606-1123 made that choice
-and RFD66606-1137's pair does the work today: `transport-cineform-tui` sends a job,
-`interactor-cineform` encodes, `service-cineform` owns the bus and the runtime.
-Inside the engine the same codec is `modules/cineform`, a `MovieWriter` and a
-`VideoStream` on the fork.
-
-**Operator directive, 2026-09-08, on being asked:** "remember ffmpeg is still
-banned." This row was overdue; RFD66606-1175 had asserted the ban since it was
-written and no row carried it, which is exactly the drift
-`check_blocklist_detail.py` exists to catch in the other direction.
-
-**Measured on this desk the same day, correcting a claim made an hour
-earlier.** "FFmpeg is not on this desk" was wrong. It is not installed and not
-on `PATH`, and two runnable copies sit in package caches, reachable by absolute
-path: `imageio_ffmpeg`'s bundled build under the `uv` cache and a second under
-the rattler cache. The one that runs reports `ffmpeg version
-7.1-essentials_build`, configured `--enable-gpl --enable-version3`, and lists
-`VF...D cfhd  GoPro CineForm HD` among its encoders. So the cached build is
-**GPL**, not the LGPL the argument above is written against, which fails the
-test harder rather than softer.
-
-**Nothing in the workspace depends on it, and this row breaks no build.** Every
-`ffmpeg` line in `taskweft-nmm-personas`, `tropes-removal-model` and
-`voxhammer-upstream`'s lock files is an optional extra of `imageio`'s own
-metadata (`extra == 'ffmpeg'`), never a selected package; no `pixi.lock` here
-locks an ffmpeg package, and no `.pixi/envs` tree contains the binary. The
-caches are residue, not a dependency.
-
-**What this row blocks.** FFmpeg, libav\* and any wrapper over them
-(`imageio-ffmpeg`, `av`, `moviepy`) as a dependency of anything the workspace
-ships or of any pipeline in the manifest; `ffmpeg` or `ffprobe` invoked as a
-build-time or corpus-time tool, because a corpus tool that nobody else can run
-is not reproducible and the CineForm pair already runs here.
-
-**What the row does not cover.** Reading FFmpeg's source to understand a
-container or a codec. A measurement already recorded that used it, which stays
-in the record as a measurement rather than being retracted. A third party's
-own use of it outside anything we ship.
-
-**Substitute:** the CineForm SDK for the codec, `interactor-cineform` for
-batch encoding, `modules/cineform` for the engine's `--write-movie`, and
-Matroska as the container (RFD66606-1123 measured why, and RFD66606-2240 restates it).
 
 ### Mitsuba 3's CPU variants are blocklisted, and the silent fallback is why
 
