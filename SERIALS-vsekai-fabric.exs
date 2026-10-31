@@ -112,6 +112,9 @@ defmodule Serials.VSekaiFabric do
       serial 2355, "consumers-cache-bao-reads-in-memory", flight_level: :l2
       serial 2356, "workspace-services-stay-dns-only", flight_level: :l2
       serial 2357, "a-narrow-unit-holds-a-wide-number-as-a-sum-of-parts", flight_level: :l2
+      serial 2358, "a-party-is-one-player-and-three-seats", flight_level: :l1
+      serial 2359, "the-shopkeeper-keeps-the-books-for-each-conversation", flight_level: :l1
+      serial 2360, "the-campus-ships-one-beta", flight_level: :l1
     end
 
     deleted do
