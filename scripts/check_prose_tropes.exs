@@ -185,7 +185,9 @@ defmodule ProseTropes do
       IO.puts("no prose files changed")
       0
     else
-      Enum.reduce(changed, 0, fn path, bad -> bad + if(hooks_only, do: 0, else: score(repo, base, path)) + hook_gate(repo, base, path)
+      Enum.reduce(changed, 0, fn path, bad ->
+        rate = if hooks_only, do: 0, else: score(repo, base, path)
+        bad + rate + hook_gate(repo, base, path)
       end)
       |> report()
     end
@@ -227,8 +229,11 @@ defmodule ProseTropes do
   end
 
   defp report(bad) do
-    IO.puts("\n#{bad} file(s) fail: a maxim past the commons rate of #{f(@commons)} per 1000 words, " <>
-              "or a new hook with no question.")
+    IO.puts(
+      "\n#{bad} file(s) fail: a maxim past the commons rate of #{f(@commons)} per 1000 words, " <>
+        "or a new hook with no question."
+    )
+
     IO.puts("Say the thing plainly, or carry the argument the maxim stands in for.")
     IO.puts("A hook asks or teases and leaves the answer for the decision.")
     1
@@ -354,7 +359,8 @@ defmodule ProseTropes do
       end
 
     if bad == [] do
-      IO.puts("\nAll #{length(detector) + length(decision) + length(hooks) + 1} controls behaved.")
+      total = length(detector) + length(decision) + length(hooks) + 1
+      IO.puts("\nAll #{total} controls behaved.")
       0
     else
       IO.puts("\n#{length(bad)} control(s) failed.")
