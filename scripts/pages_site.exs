@@ -265,11 +265,6 @@ defmodule PagesSite do
         "### #{g} (#{length(es)})\n\n" <> log_list(es)
       end)
 
-    rfd_body =
-      Enum.map_join(rfd_groups, "\n\n", fn {s, es} ->
-        "### #{@emoji[s]} #{s} (#{length(es)})\n\n" <> rfd_table(es)
-      end)
-
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
     latest_rfds = rfds |> Enum.sort_by(&{&1.date, &1.serial}, :desc) |> Enum.take(10)
 
@@ -286,11 +281,9 @@ defmodule PagesSite do
       nongoal_card(rfds),
       "## Recently changed RFDs",
       dated_table(latest_rfds),
-      "## Logbook (#{length(logs)} entries)",
-      log_body,
-      "## RFDs (#{length(rfds)})",
       legend(),
-      rfd_body
+      "## Logbook (#{length(logs)} entries)",
+      log_body
     ]
     |> Enum.join("\n\n")
   end
@@ -382,17 +375,6 @@ defmodule PagesSite do
   defp row_state(table, _opts, _docs, _serial), do: String.replace(to_string(table), "_", " ")
 
   defp log_list(es), do: Enum.map_join(es, "\n", &"- [#{&1.label}](#{&1.href})")
-
-  defp rfd_table(es) do
-    rows =
-      Enum.map_join(
-        es,
-        "\n",
-        &"| #{link(&1)} | #{&1.status} | #{String.replace(&1.label, "|", "\\|")} |"
-      )
-
-    "| RFD | status | title |\n| --- | --- | --- |\n" <> rows
-  end
 
   defp dated_table(es) do
     rows =
