@@ -204,6 +204,11 @@ rfd 2147, "Bao is critical infrastructure now", :discussion do
   - `manual`: the script asks a person for the key, for example from the offline Shamir
     shares, and then starts Bao. Bao does not start without the key, and a `static` seal
     has no manual unseal of its own. A node left in this mode starts nothing on its own.
+  - A node lists the modes it has in order and uses the first that works, for example
+    `tpm`, then `kms`, then `passkey`, then `manual`. Each node wraps the key once per
+    mode it lists, so any one is enough (operator, 2026-10-30). The script logs which mode
+    unwrapped the key, so a fallback shows. Splitting the key so that several modes are all
+    required is not used: one broken mode would then block the start.
   - The plain key is held in memory-backed storage only for the start, and the file is
     deleted once Bao reports unsealed.
   - Changing the seal type is a different act: it is seal key rotation, run with
