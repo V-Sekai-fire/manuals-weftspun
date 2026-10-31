@@ -268,7 +268,8 @@ defmodule PagesSite do
           r.rows
           |> Enum.sort_by(&elem(&1, 1))
           |> Enum.map_join("\n", fn {table, serial, slug, opts} ->
-            "| #{serial_cell(serial, docs)} | #{slug || ""} | #{row_state(table, opts, docs, serial)} |"
+            state = row_state(table, opts, docs, serial)
+            "| #{serial_cell(serial, docs)} | #{slug || ""} | #{state} |"
           end)
 
         "## #{r.name} (site #{r.layer[:site]})\n\n#{r.thesis}\n\n" <>
