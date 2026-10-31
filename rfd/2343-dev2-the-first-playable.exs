@@ -14,7 +14,8 @@ world grab"
   The first version of this rung promised a shared world, a wardrobe, the mascot's
   requests and the signs. None of them is built.
   :: exit
-  Read RFD66606-2344, which proves each of these.
+  Run the proof in RFD66606-2344 against each dev.2 claim: the XR pen, the closed shell, the
+  dress-on statue, world grab and the station walker.
   :: decision
   dev.2 is what the pen holds at its pinned commit, written down and nothing more.
   A person draws with the XR pen, curvenet.elf closes the strokes into one shell,

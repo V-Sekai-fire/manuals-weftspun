@@ -13,7 +13,8 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
   RFD66606-2287 is the active rung. No project on this desk cites these 42 in code
   or commits.
   :: exit
-  Read RFD66606-2287 next.
+  Before you cite one of the 42 abandoned RFDs, read RFD66606-2287, the rung that replaced their
+  route. Their full text stays in git.
   :: decision
   Abandon 42 RFDs off RFD66606-2287's critical path that no placed code
   implements. Each moves to `abandoned` with this document. Its details

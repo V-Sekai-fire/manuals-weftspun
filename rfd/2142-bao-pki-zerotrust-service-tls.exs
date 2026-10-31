@@ -16,7 +16,8 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   1Password is for emergencies; sharing it with services is the credential distribution
   problem bao exists to solve.
   :: exit
-  Read RFD66606-2146 for the role and policy map.
+  Before a service on 6PN logs in to bao, read RFD66606-2146 for the role and policy map it
+  needs, and give it a client certificate.
   :: decision
   Implemented 2026-09-01; see RFD66606-2146 for the role/policy map.
 

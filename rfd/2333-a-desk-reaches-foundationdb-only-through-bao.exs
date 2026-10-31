@@ -18,7 +18,9 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   FoundationDB checks no permission per key: a client certificate opens every key, Bao's
   own storage included.
   :: exit
-  Read RFD66606-2316 for what Bao may hold.
+  Before a desk keeps state in FDB, route it through
+  &{repo("service-bao-sqlite-fdb")} with the desk's agent certificate. Read RFD66606-2316 for
+  what Bao may hold.
   :: decision
   - No desk or other endpoint outside the cluster's machines holds an FDB client certificate
     or a route into the cluster's private network (operator, 2026-10-23).
