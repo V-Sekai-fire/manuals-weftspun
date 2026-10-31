@@ -23,15 +23,15 @@ that keeps the books"
     touch and return, and replaces its party and its store (operator, 2026-10-30).
   - The shopkeeper is a persona (RFD66606-2339, planning-domain persona) that keeps a saved world
     for each conversation in SQLite on FoundationDB (operator, 2026-10-30).
+  - One beta, a feature-complete freeze after dev, holds the features the details list; every
+    nongoal is abandoned (operator, 2026-10-30).
   :: problem
   RFD66606-2045 proved a loop with bot players, names a store this workspace has retired, and
   has no setting a person returns to. The pen's first rung proves two people see a drawn outfit,
   and it has no campus to wear it in.
   :: related
-  - RFD66606-2287, the pen's first rung; RFD66606-2339, the persona; RFD66606-2321, the
-    autobattler.
-  - Abandons RFD66606-2045. RFD66606-2057 (repository map) and RFD66606-2069 (defer
-    hardening) cite it.
+  - RFD66606-2287, the pen; RFD66606-2339, the persona; RFD66606-2321, the autobattler.
+  - Abandons RFD66606-2045, which RFD66606-2057 and RFD66606-2069 cite.
   """
 
   details_title "a campus where a party of four draws and wears"
@@ -83,11 +83,35 @@ that keeps the books"
   FoundationDB, one database for each instance. This replaces the retired store the loot-action
   slice named.
 
-  :: details Cut from the first playable
-  The following stay out of the first playable (operator, 2026-10-30): a hidden director that
-  plans the day, friendships and romance, a shared limit gauge with a team finisher, shop prices
-  and a loan, an end-of-day report, a job board where each seat accepts or refuses a job, and
-  campuses built by players.
+  :: details The stages and the one beta
+  The campus has two stages before release (operator, 2026-10-30). Dev is development: features
+  land and change. Beta is a traditional feature-complete freeze: after the beta is cut, only
+  fixes land, and a feature that is not in it is abandoned. There is one beta.
+  The tag stays in RFD66606-2312's form, and the stage goes in the release title.
+
+  The beta holds these features and no others:
+
+  - See each other: two people in the campus zone, one in the Steam Frame on a PC VR stream and
+    one on the desktop, each sees the other's avatar.
+  - Hear each other: voice between the two, played at the speaker's avatar.
+  - Draw and wear: the pen's first rung, RFD66606-2287, in the campus zone; the drawn outfit is
+    worn and the other person sees it.
+  - The party and the shop: one player and the three seats, each filled by a friend or an agent,
+    the takeover, the walk from the shop to a room and back, and the shopkeeper persona with its
+    saved world.
+
+  The beta is cut when every gate below passes with its control.
+
+  :: details Nongoals
+  Everything outside the beta is cut, and every nongoal is abandoned rather than deferred
+  (operator, 2026-10-30). A new idea that matches a nongoal is refused, and the list is not argued
+  again before the beta ships. The nongoals named so far:
+
+  - a hidden director that plans the day, friendships and romance, a shared limit gauge with a
+    team finisher, shop prices and a loan, an end-of-day report, a job board where each seat
+    accepts or refuses a job, and campuses built by players;
+  - the Steam Frame's standalone mode, the Steam Deck, and the Hyper-V machine with its emulated
+    TPM.
 
   :: details Gates and controls
   Each gate has a control that plants the defect and must fail.
