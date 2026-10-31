@@ -70,10 +70,11 @@ rfd 2298, "the first rung's dev.next", :discussion do
     for that approval;
   - the headset path: the Frame streaming from the desktop over oxrsys,
     and the extra companion controllers;
-  - the Steam Frame's standalone mode and the Steam Deck, parked with
-    RFD66606-2293 and RFD66606-2265 (operator, 2026-10-30). PC VR streaming
-    to the Frame stays the headset path. They return when the campus loop
-    of RFD66606-2340 runs end to end over the stream;
+  - the Steam Frame's standalone mode and the Steam Deck, parked as
+    vehicles only (operator, 2026-10-30): the RFDs that name them stay on
+    the board. PC VR streaming to the Frame stays the headset path. They
+    return when the campus loop of RFD66606-2340 runs end to end over the
+    stream;
   - the Hyper-V machine and its emulated TPM, parked (operator,
     2026-10-30). RFD66606-2147's `tpm` mode stays as measured on the
     desktop's firmware TPM. They return when a second machine has to start
