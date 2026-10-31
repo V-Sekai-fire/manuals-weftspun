@@ -42,6 +42,7 @@ defmodule PagesSite do
     File.write!(Path.join(out, "_layouts/default.html"), layout())
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
     File.write!(Path.join(out, "page-SERIALS.md"), serials(root, rfds))
+    File.write!(Path.join(out, "page-LOGBOOK.md"), logbook_page(logs))
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
 
@@ -247,23 +248,11 @@ defmodule PagesSite do
 
   # Records become groups, and groups become expanders.
   defp index(logs, rfds, ed) do
-    {topics, single} =
-      logs |> Enum.group_by(& &1.group) |> Enum.split_with(fn {_, es} -> length(es) > 1 end)
-
-    log_groups =
-      Enum.sort(topics) ++
-        if(single == [], do: [], else: [{"other", single |> Enum.flat_map(&elem(&1, 1))}])
-
     rfd_groups =
       for s <- @states,
           es = Enum.filter(rfds, &(&1.group == s)),
           es != [],
           do: {s, Enum.sort_by(es, & &1.serial)}
-
-    log_body =
-      Enum.map_join(log_groups, "\n\n", fn {g, es} ->
-        "### #{g} (#{length(es)})\n\n" <> log_list(es)
-      end)
 
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
     latest_rfds = rfds |> Enum.sort_by(&{&1.date, &1.serial}, :desc) |> Enum.take(10)
@@ -273,7 +262,7 @@ defmodule PagesSite do
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
         "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html) · " <>
-        "[serials](page-SERIALS.html)",
+        "[serials](page-SERIALS.html) · [logbook](page-LOGBOOK.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
@@ -281,9 +270,7 @@ defmodule PagesSite do
       nongoal_card(rfds),
       "## Recently changed RFDs",
       dated_table(latest_rfds),
-      legend(),
-      "## Logbook (#{length(logs)} entries)",
-      log_body
+      legend()
     ]
     |> Enum.join("\n\n")
   end
@@ -329,6 +316,22 @@ defmodule PagesSite do
     |> Enum.join("
 
 ")
+  end
+
+  defp logbook_page(logs) do
+    {topics, single} =
+      logs |> Enum.group_by(& &1.group) |> Enum.split_with(fn {_, es} -> length(es) > 1 end)
+
+    groups =
+      Enum.sort(topics) ++
+        if(single == [], do: [], else: [{"other", single |> Enum.flat_map(&elem(&1, 1))}])
+
+    body =
+      Enum.map_join(groups, "\n\n", fn {g, es} ->
+        "## #{g} (#{length(es)})\n\n" <> log_list(es)
+      end)
+
+    "# Logbook (#{length(logs)} entries)\n\nWhat the workspace measured, grouped by topic.\n\n" <> body
   end
 
   defp serials(root, rfds) do
