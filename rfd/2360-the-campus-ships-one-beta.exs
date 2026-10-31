@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2360, "The campus ships one beta", :discussion do
+rfd 2360, "The campus as a beta", :discussion do
   flight_level :l1
   scope "the stages, the one beta, and the nongoals."
 
