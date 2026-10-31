@@ -35,14 +35,14 @@ rfd 2360, "The campus ships one beta", :discussion do
   fixes land, and a feature that is not in it is abandoned. There is one beta.
   The tag stays in RFD66606-2312's form, and the stage goes in the release title.
 
-  The beta holds these features and no others:
+  The beta has these features and no non-goals:
 
-  - See each other: two people in the campus zone, one in the Steam Frame on a PC VR stream and
+  - You can see each other: two people in the campus zone, one in the Steam Frame on a PC VR stream and
     one on the desktop, each sees the other's avatar.
-  - Hear each other: voice between the two, played at the speaker's avatar.
-  - Draw and wear: the pen's first rung, RFD66606-2287, in the campus zone; the drawn outfit is
+  - You can hear each other: voice between the two, played at the speaker's avatar.
+  - You can draw and wear: the pen's first rung, RFD66606-2287, in the campus zone; the drawn outfit is
     worn and the other person sees it.
-  - The party and the shop: one player and the three seats, each filled by a friend or an agent,
+  - You have a party and a shop: one player and the three seats, each filled by a friend or an persona,
     the takeover, the walk from the shop to a room and back, and the shopkeeper persona with its
     saved world.
 
