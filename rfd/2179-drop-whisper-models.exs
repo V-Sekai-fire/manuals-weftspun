@@ -8,24 +8,21 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
 `emit_10track_panel.py`"
 
   prose ~S"""
+  :: hook
+  The ASR panel drops Whisper entirely, for latency and not for accuracy.
+  :: intrigue
+  whisper-large-v3 dominates panel wall-time (several seconds each on MPS versus
+  sub-second for Voxtral and Parakeet).
+  :: exit
+  Read `DETAILS.md` for the per-clip WER table behind this.
   :: decision
   Drop all three Whisper models (whisper-large-v3, ipa-whisper-small, ipa-whisper-base) from the ASR panel; the panel drops from 12 tracks to 9, and Whisper is not replaced.
   :: problem
   RFD66606-2164 (Rung 1 corpus)'s 12-track panel carries whisper-large-v3, ipa-whisper-small,
-  ipa-whisper-base. whisper-large-v3 dominates panel wall-time (several seconds each on MPS versus
-  sub-second for Voxtral and Parakeet); the ipa-whisper variants share that latency, and the IPA
+  ipa-whisper-base. The ipa-whisper variants share that latency, and the IPA
   slot is already served by Voxtral-IPA and Gemma-IPA. A 15-clip WER pass across the surviving
   text tracks (DETAILS.md) puts whisper-large-v3 at 0.339 mean, beating Parakeet (0.501) and
   wav2vec2 (0.571); Voxtral leads at 0.000. The reason to drop is latency, not accuracy.
-  :: section Panel after the drop
-    text-track    Parakeet TDT 0.6B v3, Voxtral Mini 3B, wav2vec2,
-                  Gemma-4-12B auto
-    IPA-track     Voxtral-IPA, Gemma-4-12B GBNF-IPA
-    phone-track   allosaurus (universal + eng + rus)
-
-  Voxtral is the accuracy leader; Parakeet stays as the CC-BY-4.0 alternate.
-
-  Follow-ups: `emit_10track_panel.py` drops the whisper backends; downstream RFDs and CITATION.cff drop Whisper entries. Gemma-auto shipped empty transcripts on all 15 clips (WER 1.000); separate follow-up to fix or drop.
   :: related
   Retracts three rows from RFD66606-2164 (Rung 1 corpus); amends RFD66606-2178 (QAFT stack plan),
   three Class B rungs go.
@@ -38,6 +35,15 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   Per-clip WER against SpeakingFaces canonical text. Lower is better.
   Zero = exact match on the canonical wording (case-insensitive, whitespace-
   split, Levenshtein / reference word count).
+  :: details Panel after the drop
+    text-track    Parakeet TDT 0.6B v3, Voxtral Mini 3B, wav2vec2,
+                  Gemma-4-12B auto
+    IPA-track     Voxtral-IPA, Gemma-4-12B GBNF-IPA
+    phone-track   allosaurus (universal + eng + rus)
+
+  Voxtral is the accuracy leader; Parakeet stays as the CC-BY-4.0 alternate.
+
+  Follow-ups: `emit_10track_panel.py` drops the whisper backends; downstream RFDs and CITATION.cff drop Whisper entries. Gemma-auto shipped empty transcripts on all 15 clips (WER 1.000); separate follow-up to fix or drop.
   :: details Per-clip
   | clip                     | parakeet | whisper | voxtral | wav2vec2 | gemma-auto |
   | ------------------------ | -------: | ------: | ------: | -------: | ---------: |

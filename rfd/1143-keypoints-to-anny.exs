@@ -8,6 +8,14 @@ rfd 1143, "The keypoints-to-ANNY loop", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Two scorers catch a fit that looks right while the joints are wrong.
+  :: intrigue
+  `fourloops-plan.usda` carries four loops as prims, each with its stages, its artifact and
+  one line of hazard. A prim holds the wiring and cannot hold the argument, so the reason a
+  loop is shaped this way lived in a logbook entry that the plan named as a source.
+  :: exit
+  Read RFD66606-1144, RFD66606-1145 and RFD66606-1146 for the other three loops.
   :: decision
   Propose with Keypoints, AnnyFit and Render; score with EditScore and
   the Referee; repair by refitting. The artifact is a render png. It is
@@ -23,11 +31,6 @@ rfd 1143, "The keypoints-to-ANNY loop", :published do
   explicit subset, or it compares different things and reports a number
   for it. RFD66606-1122 records the same gap for the wholebody chain.
   :: problem
-  `fourloops-plan.usda` carries four loops as prims, each with its
-  stages, its artifact and one line of hazard. A prim holds the wiring
-  and cannot hold the argument, so the reason a loop is shaped this way
-  lived in a logbook entry that the plan named as a source.
-
   All four loops are wanted. What was missing is a document per loop:
   the plan holds the wiring for four, and one logbook entry held the
   argument for all of them. This RFD is loop 1's own.

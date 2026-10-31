@@ -63,9 +63,11 @@ defmodule RFD.DSL do
       Module.register_attribute(__MODULE__, :rfd_sections, accumulate: true)
       Module.register_attribute(__MODULE__, :rfd_order, accumulate: true)
       unquote(for {k, v} <- head, do: quote(do: @rfd_fields({unquote(k), unquote(v)})))
+      import Kernel, except: [exit: 1]
       import RFD.DSL.Fields
       unquote(block)
       import RFD.DSL.Fields, only: []
+      import Kernel
 
       @rfd_doc RFD.DSL.build(
                  unquote(serial),
@@ -184,7 +186,7 @@ defmodule RFD.DSL do
     end
   end
 
-  @prose_one ~w(decision problem references related preamble details_preamble)a
+  @prose_one ~w(hook intrigue exit decision problem references related preamble details_preamble)a
   @prose_two ~w(details section)a
 
   @doc "The fields a `prose` block may open, without and with a heading."
@@ -297,6 +299,9 @@ defmodule RFD.DSL do
     defmacro feature(v), do: field(:feature, v)
     defmacro scope(v), do: field(:scope, v)
     defmacro flight_level(v), do: field(:flight_level, v)
+    defmacro hook(v), do: field(:hook, v)
+    defmacro intrigue(v), do: field(:intrigue, v)
+    defmacro exit(v), do: field(:exit, v)
     defmacro decision(v), do: ordered(:decision, v)
     defmacro problem(v), do: ordered(:problem, v)
     defmacro references(v), do: ordered(:references, v)

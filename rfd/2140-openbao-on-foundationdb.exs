@@ -8,6 +8,12 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  OpenBao stores its data in FoundationDB again, restored from the Vault v1.14.8 backend.
+  :: intrigue
+  OpenBao dropped every storage plugin when it forked from Vault v1.14.x.
+  :: exit
+  Read RFD66606-2353 next for how Bao runs beside the FDB server on each machine.
   :: decision
   Restore the FoundationDB backend from Vault v1.14.8 (last MPL-2.0
   release), connecting to the existing weftspun-fdb cluster over 6PN.
@@ -21,8 +27,7 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   as a TLS client. Interface details and deploy measurements are in
   DETAILS.md.
   :: problem
-  OpenBao dropped every storage plugin when it forked from Vault
-  v1.14.x. The weftspun-fdb cluster already runs three machines with
+  The weftspun-fdb cluster already runs three machines with
   double redundancy, TLS, and backup, and raft on a single shared-cpu
   machine has no replication path.
   :: section Verification

@@ -9,6 +9,13 @@ Simulator through cua-driver, in the background"
 `oxrsys/scripts/xr-cua-oxrsys-register.sh`"
 
   prose ~S"""
+  :: hook
+  An agent sees and drives the OXRSys Simulator on the Mac without taking the operator's focus.
+  :: intrigue
+  The simulator is a desktop window. Without a way for an agent to see it and
+  give it input, every simulator run needed a person at the keyboard.
+  :: exit
+  Run `scripts/xr-cua-oxrsys-register.sh` to register `xr-cua-oxrsys`; it prints the diff.
   :: decision
   An agent drives the OXRSys Simulator on the Mac through cua-driver's own MCP
   server, registered under the name `xr-cua-oxrsys`. It launches the simulator,
@@ -16,9 +23,6 @@ Simulator through cua-driver, in the background"
   elements, and sends keys, clicks, typing and scrolls into the view. Every call
   runs in the background: no focus change and no cursor move, so the operator
   keeps working in another window. The operator ruled it done on 2026-10-17.
-  :: problem
-  The simulator is a desktop window. Without a way for an agent to see it and
-  give it input, every simulator run needed a person at the keyboard.
   :: related
   - RFD66606-2263, the simulator gate: OXRSys is the runtime this drives.
   - RFD66606-2235, the agent that plans with taskweft through the editor, done in

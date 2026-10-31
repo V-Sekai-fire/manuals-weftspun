@@ -7,31 +7,32 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Each app lives in its own repository, with its history carried over.
+  :: intrigue
+  A monorepo checkout, one `scripts/ci.sh` building all three apps, and one shared
+  self-hosted deploy script no longer matched three apps with separate Fly deploy targets.
+  :: exit
+  Read `DETAILS.md` for the exact path changes, the new `/opt/weftspun/<repo>/` deploy
+  convention, and open follow-up work.
   :: decision
   Each app moved to its own repository, with history preserved by
   `git subtree split --prefix=apps/<app>`, then pushed as that repo's
   `main`: `weftspun/weftspun-studio`,
   `weftspun/weftspun-character-taxonomy`, and
-  `weftspun/weftspun-usd-viewer`. `apps/`, `scripts/ci.sh`, and
-  `scripts/studio-test.sh` were removed from `weftspun-3d-studio`,
-  since none apply to a repo with no app code left. `deploy/`,
+  `weftspun/weftspun-usd-viewer`. `deploy/`,
   `.github/workflows/deploy-fly.yml`, and
   `scripts/deploy-weftspun-quadlet.sh` moved into `weftspun-studio`,
   the one app that requires the other two reachable.
   `thirdparty/3d_studio/` and `thirdparty/android-xr-face-bridge/`
   moved to `weftspun-3d-studio`'s own repo root, leaving that repo the
   browser client and the companion APK only.
-
-  See `DETAILS.md` for the exact path changes, the new
-  `/opt/weftspun/<repo>/` deploy convention, and open follow-up work.
   :: problem
   `weftspun-3d-studio` held three independently deployed apps
   (`weftspun_studio`, `character_taxonomy`, `usd_viewer_app`) under one
   `apps/` directory (RFD66606-1076), plus a large vendored browser client
-  and a companion APK under `thirdparty/`. A monorepo checkout, one
-  `scripts/ci.sh` building all three, and one shared self-hosted
-  deploy script no longer matched three apps with three separate Fly
-  deploy targets and no code sharing between them.
+  and a companion APK under `thirdparty/`. The three apps had no code
+  sharing between them.
   :: related
   RFD66606-1058 gives the Quadlet deploy this split's `deploy/` move
   adapts. RFD66606-1060 and RFD66606-1076 give the repo-layout history this RFD
@@ -75,6 +76,8 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   entry here; it deploys to Fly alone, with no self-hosted or
   cross-app dependency.
   :: details Removed, not moved
+  `apps/`, `scripts/ci.sh`, and `scripts/studio-test.sh` were removed from
+  `weftspun-3d-studio`, since none apply to a repo with no app code left.
   - `scripts/ci.sh`: built the JS suite, the Elixir suite, and both
     container images from one checkout. No longer applies with three
     separate repos.

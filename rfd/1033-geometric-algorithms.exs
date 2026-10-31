@@ -7,6 +7,13 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Geometric algorithms get their own list, apart from the neural models.
+  :: intrigue
+  The catalog mixes deep learning models and geometric algorithms. A reader who plans memory
+  cannot tell the two apart.
+  :: exit
+  Read `DETAILS.md` for the algorithm table, and RFD66606-1016 for the neural models.
   :: decision
   List the geometric algorithms apart from the neural models. RFD66606-1016
   holds the neural models.
@@ -15,9 +22,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   size instead of parameter count, and a license note on
   `quadwild_retopology`.
   :: problem
-  The catalog mixes deep learning models and geometric algorithms. A
-  reader who plans memory cannot tell the two apart. They scale in
-  different ways.
+  The two kinds scale in different ways.
   :: related
   RFD66606-1016 lists the neural models. RFD66606-1025 gives their bf16 memory.
   """

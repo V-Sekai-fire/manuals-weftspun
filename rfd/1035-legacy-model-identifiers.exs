@@ -7,17 +7,20 @@ rfd 1035, "Legacy model identifiers", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Seven legacy model identifiers stay in the code and sort last.
+  :: intrigue
+  Seven model identifiers remain in the code after the TRELLIS.2 move. A reader who sees
+  them in a picker cannot tell them from the current models.
+  :: exit
+  Read `DETAILS.md` for the seven identifiers and the two rules that still apply.
   :: decision
   Keep the identifiers, and list them last in every picker.
   `LEGACY_MODEL_IDS` in src/library/aiModelsCatalog.js drives that
   order. Do not delete them, because saved tasks reference them.
 
-  See `DETAILS.md` for the seven identifiers and the two rules that
-  still apply to two of them.
   :: problem
-  Seven model identifiers remain in the code after the TRELLIS.2 move.
-  A reader who sees them in a picker cannot tell them from the current
-  models.
+  The picker lists the legacy identifiers beside the current models.
   :: related
   RFD66606-1016 lists the active models. RFD66606-1005 records the avatar
   pipeline. RFD66606-1028 records the license gate.

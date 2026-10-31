@@ -10,6 +10,13 @@ hand and curvenet closes it, repeatably, on a desk and in CI"
 tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
 
   prose ~S"""
+  :: hook
+  A simulated OpenXR hand draws a scripted outfit, and the gate passes or fails it.
+  :: intrigue
+  A person in a headset is the real test, but slow and unrepeatable; the simulator is the test
+  that runs on every change.
+  :: exit
+  Read the details for the state of the gate on each platform.
   :: decision
   OXRSys is the OpenXR runtime, and tools/replay_oxrsys.py is its hand:
   tracking packets at 90 Hz, a calibration hold, then each stroke with
@@ -20,8 +27,7 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   passes under a software rasterizer in a virtual X server.
   :: problem
   The first testable release (RFD66606-2262) asks whether a drawn outfit comes back as a
-  garment that fits. A person in a headset is the real test, but slow
-  and unrepeatable; the simulator is the test that runs on every change.
+  garment that fits.
   :: related
   - RFD66606-2262 (make it with the pen), whose first testable release this gates.
   - RFD66606-2234 (dress-on pipeline), the stages the strokes run through.

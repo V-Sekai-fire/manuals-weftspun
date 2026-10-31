@@ -9,6 +9,13 @@ rfd 2316, "Bao holds a bounded set", :discussion do
 the plugins built for it"
 
   prose ~S"""
+  :: hook
+  Bao stays the same size however many users, sessions or requests arrive.
+  :: intrigue
+  Bao's default is to keep a lease for every dynamic secret, so an engine on the defaults
+  grows with its traffic until a write fails.
+  :: exit
+  Read RFD66606-2317 next, the first engine held to this rule.
   :: decision
   - Bao stores keys, configuration, policies and ReBAC tuples, and nothing that
     grows with users, sessions or requests (operator, 2026-10-13).
@@ -19,11 +26,7 @@ the plugins built for it"
     engine's storage unchanged, and a control that stores each one fails it.
   :: problem
   Bao's storage is FoundationDB on three small machines, and the FDB backend
-  writes each entry as one FDB value. FoundationDB refuses a value over
-  100,000 bytes and a transaction over 10,000,000 bytes, so the limit is part
-  of the design and not a setting. Bao's default is to keep a lease for every
-  dynamic secret, so an engine on the defaults grows with its traffic until a
-  write fails.
+  writes each entry as one FDB value.
   :: related
   - RFD66606-2140, Bao on FDB.
   - RFD66606-2353, Bao runs three replicas on the FDB machines.
@@ -34,6 +37,9 @@ the plugins built for it"
   details_title "Bao holds a bounded set"
 
   prose ~S"""
+  :: details Why the limit is part of the design
+  FoundationDB refuses a value over 100,000 bytes and a transaction over
+  10,000,000 bytes, so the limit is part of the design and not a setting.
   :: details Sources
   Written on 2026-10-13 from the operator's note that Bao has a hard data
   limit by design. The FDB backend was read in our OpenBao fork: `Put`

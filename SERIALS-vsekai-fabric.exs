@@ -115,6 +115,8 @@ defmodule Serials.VSekaiFabric do
       serial 2358, "a-party-is-one-player-and-three-seats", flight_level: :l1
       serial 2359, "the-shopkeeper-keeps-the-books-for-each-conversation", flight_level: :l1
       serial 2360, "the-campus-ships-one-beta", flight_level: :l1
+      serial 2361, "a-section-names-its-own-gate", flight_level: :l2
+      serial 2362, "a-prose-rule-ships-after-it-runs-against-the-corpus", flight_level: :l2
     end
 
     deleted do

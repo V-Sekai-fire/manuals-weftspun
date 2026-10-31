@@ -7,23 +7,22 @@ rfd 1060, "A thirdparty/ reset", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Two moves make the browser client a dependency and the API server the repository root.
+  :: intrigue
+  108 files outside `src/library/` still imported from it, and RFD66606-1023's per-file
+  move rule gave no place to put those files a port did not cover yet.
+  :: exit
+  Read `DETAILS.md` for why this was a real move, and not an import rewrite, plus every
+  path the move touched and the verified results.
   :: decision
   Two moves, one after the other. First, `src/library/` to
   `thirdparty/library/`, as real files and not a symlink. Second,
   `weftspun_studio/` becomes the repository root, and everything that
   was at the root moves to `thirdparty/3d_studio/` instead.
-
-  Gall's law: a complex system that works grew from a simple system
-  that worked. Moving the browser client to `thirdparty/` marks it a
-  dependency, not the workspace.
-
-  `DETAILS.md` also gives why this was a real move, and not an import
-  rewrite, plus every path the move touched and the verified results.
   :: problem
   `src/library/` held 139 files and 56,376 lines. It predates
-  RFD66606-1019's strangler fig and RFD66606-1023's `src/core/` split. 108 files
-  outside it still imported from it. RFD66606-1023's per-file move rule
-  gave no place to put those 108 files a port did not cover yet.
+  RFD66606-1019's strangler fig and RFD66606-1023's `src/core/` split.
 
   The repository root carried the same problem at a larger scale.
   `weftspun_studio/` sat as a subdirectory of the browser client's
@@ -40,6 +39,10 @@ rfd 1060, "A thirdparty/ reset", :committed do
   details_title "A thirdparty/ reset"
 
   prose ~S"""
+  :: details Why a dependency directory
+  Gall's law: a complex system that works grew from a simple system
+  that worked. Moving the browser client to `thirdparty/` marks it a
+  dependency, not the workspace.
   :: details The symlink attempt, and why it failed
   The first attempt at moving `src/library/` left a symlink at
   `src/library`. A working session found that symlink broke relative

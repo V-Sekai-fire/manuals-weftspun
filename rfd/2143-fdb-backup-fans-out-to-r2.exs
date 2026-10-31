@@ -8,18 +8,19 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  The FDB backup lives off Fly, in R2, where an all-Fly disaster cannot reach it.
+  :: intrigue
+  A backup on Fly's own object storage goes with the cluster in a disaster naming "all Fly
+  infra gone".
+  :: exit
+  Read the DR runbook in `DETAILS.md`, and run `fdbbackup status -t dr` to check the tag.
   :: decision
   The `fdbbackup` tag `dr` writes to R2 IA (`weftspun-fdb-dr`), reached
   via a stunnel loopback listener that adds the SNI FoundationDB does
   not send. R2 IA carries a 30-day minimum storage duration and free
   egress. It is the cluster's only backup: the `default` tag's Tigris
   destination is retired, and its credentials are not restored.
-
-  R2 S3 credentials live in Bao at `secret/data/weftspun-fdb/r2-dr`,
-  cached as Fly secrets on `weftspun-fdb` because Bao's storage is FDB
-  and FDB cannot read Bao at boot. The Cloudflare API bearer token
-  stays in 1Password; the S3 keys are regenerated from it at DR time
-  rather than restored, so no long-lived material sits outside Bao.
 
   **Gate:** `fdbbackup status -t dr` reports the tag restorable and its
   newest complete log within `WEFT_BACKUP_MAX_BEHIND`, read by
@@ -30,8 +31,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   writes no `/dr`, and the `dr` check reports critical rather than
   passing on nothing.
   :: problem
-  A backup on Fly's own object storage goes with the cluster in a
-  disaster naming "all Fly infra gone". Beside it: Bao holds the FDB CA key as
+  Beside it: Bao holds the FDB CA key as
   `type=internal`, and Bao's storage backend is FDB, so the CA rides
   FDB backups. A restore that cannot read the backup cannot issue the
   machine leaves the restored cluster needs.
@@ -42,6 +42,14 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   details_title "FDB backup fans out to R2 for off-Fly durability"
 
   prose ~S"""
+  :: details Where the S3 keys live
+  R2 S3 credentials live in Bao at `secret/data/weftspun-fdb/r2-dr`,
+  cached as Fly secrets on `weftspun-fdb` because Bao's storage is FDB
+  and FDB cannot read Bao at boot. The Cloudflare API bearer token
+  stays in 1Password; the S3 keys are regenerated from it at DR time
+  rather than restored, so no long-lived material sits outside Bao.
+
+
   :: details What was measured on 2026-08-31
   `fdbbackup status` on `84e69ef2251558` reported the `default` tag
   restorable and continuing to

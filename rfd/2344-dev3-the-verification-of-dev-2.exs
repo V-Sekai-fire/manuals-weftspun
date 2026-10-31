@@ -8,14 +8,20 @@ seen to fail"
   scope "the pen and the tray at the pins of RFD66606-2343; no new feature"
 
   prose ~S"""
+  :: hook
+  dev.3 runs every dev.2 claim under the private pins, with each control seen to fail.
+  :: intrigue
+  The pen's gates were written on the FOSS side, several run headless, and none
+  has run under the private pins.
+  :: exit
+  Read RFD66606-2343 for the dev.2 list that dev.3 proves.
   :: decision
   dev.3 proves what RFD66606-2343 lists and adds nothing. Each dev.2 gate runs on
   the pinned double editor with a real renderer, on OXRSys and flat, and each of
   its controls is seen to fail as planted. A claim with no passing run is a
   counted gap, not a feature.
   :: problem
-  The pen's gates were written on the FOSS side, several run headless, and none
-  has run under the private pins. Until they do, dev.2 is a list, not a result.
+  Until they do, dev.2 is a list, not a result.
   :: related
   - RFD66606-2342, dev.1; RFD66606-2343, dev.2; RFD66606-2341, dev.next.
   - The private brief, the private blocklist and the private pitfalls list.

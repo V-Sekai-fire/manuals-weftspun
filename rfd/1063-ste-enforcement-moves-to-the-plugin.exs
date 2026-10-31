@@ -7,6 +7,12 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  STE enforcement runs once, in the plugin's `Stop` hook, not in three places.
+  :: intrigue
+  Three places ran the same check on the same files.
+  :: exit
+  Read `DETAILS.md` for what moved to the plugin.
   :: decision
   Delete `scripts/ste-lint-decisions.py`. Delete its `npm run lint:ste`
   entry in `thirdparty/3d_studio/package.json`. Delete its step in
@@ -21,15 +27,7 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   RFD66606-1000 named `scripts/ste-lint-decisions.py` as this repository's
   STE linter. It scored each RFD's prose at violations per 100 words.
   It ran in CI, through `npm run lint:ste`. It ran again in
-  `.pre-commit-config.yaml`'s `ste-lint` hook. Three places ran the
-  same check on the same files.
-
-  `fire/claude-ste-plugin` is a Claude Code plugin. It checks at a
-  better point in the process. It lints the reply before the reply
-  reaches a file, and it asks for a rewrite. The old script
-  caught a violation only after a commit already held it. Two
-  enforcement points for one rule is the DRY policy's own complaint,
-  turned on this repository's own tooling.
+  `.pre-commit-config.yaml`'s `ste-lint` hook. 
   :: related
   RFD66606-1000 named the deleted script. RFD66606-1059 wired `npm run lint:ste`
   into `scripts/ci.sh`. This RFD removes that step, and nothing
@@ -40,6 +38,13 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   details_title "STE enforcement moves to the plugin"
 
   prose ~S"""
+  :: details Why the plugin checks earlier
+  `fire/claude-ste-plugin` is a Claude Code plugin. It checks at a
+  better point in the process. It lints the reply before the reply
+  reaches a file, and it asks for a rewrite. The old script
+  caught a violation only after a commit already held it. Two
+  enforcement points for one rule is the DRY policy's own complaint,
+  turned on this repository's own tooling.
   :: details What moved where
   Several checks the deleted script hand-wrote already existed in the
   plugin, and more precisely. The plugin cites an ASD-STE100 Part 1

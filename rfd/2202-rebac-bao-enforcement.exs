@@ -7,6 +7,16 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   scope "Bao coordination store, mps-admin policy, all live agent identities"
 
   prose ~S"""
+  :: hook
+  A role change is one tuple write and one reconciler run, enforced by Bao.
+  :: intrigue
+  RFD66606-2200 shipped the role tuples as data and named enforcement as a separate RFD.
+  Today's provisioning cycles bit twice on the gap: MPS had to hand-attach an `agents-rw`
+  policy to HAILO's entity to unblock a 403 (documented in RFD66606-2195's cert-auth-swap
+  gotcha), and the "assist" role change for HAILO landed as a tuple update with no mechanical
+  effect on what capabilities HAILO's token actually carried.
+  :: exit
+  Run `python scripts/sync_rebac_groups.py` for a dry-run that exits 1 on drift.
   :: decision
   Bao **identity groups** enforce the ReBAC role tuples RFD66606-2200
   landed. One group per role, each carrying role-scoped policies;
@@ -15,19 +25,9 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   memberships. See `DETAILS.md` for the mapping, reconciler contract,
   and non-enforcement scope for hardware `may-use` tuples.
   :: problem
-  RFD66606-2200 shipped the role tuples as data and named enforcement as a
-  separate RFD. Today's provisioning cycles bit twice on the gap: MPS
-  had to hand-attach an `agents-rw` policy to HAILO's entity to unblock
-  a 403 (documented in RFD66606-2195's cert-auth-swap gotcha), and the
-  "assist" role change for HAILO landed as a tuple update with no
-  mechanical effect on what capabilities HAILO's token actually
-  carried. Groups close that gap: a role change is one tuple write and
+  Groups close that gap: a role change is one tuple write and
   one reconciler run, and the token's next login reflects the new
   policies through group membership.
-  :: section Non-goals
-  `may-use--<device>` tuples stay documentation; Bao does not gate
-  GPU/NPU access. Future compute-lease broker consults them, out of
-  scope here.
   :: related
   RFD66606-2200 (tuples as data), RFD66606-2195 (PKI + cert-auth), RFD66606-2201
   (coordinate-agents ceremony).
@@ -36,6 +36,10 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   details_title "ReBAC role tuples enforced via Bao identity groups"
 
   prose ~S"""
+  :: details Non-goals
+  `may-use--<device>` tuples stay documentation; Bao does not gate
+  GPU/NPU access. Future compute-lease broker consults them, out of
+  scope here.
   :: details Role → group → policy mapping
   One group per role in RFD66606-2200's vocabulary. Group names are
   `agents-<role>` for greppability. Policies are what each role's

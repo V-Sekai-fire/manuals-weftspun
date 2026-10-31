@@ -12,14 +12,19 @@ future RFDs that add a new module / fork / build fragment /
 loader path, memory `consolidate-interchangeable-parts`"
 
   prose ~S"""
+  :: hook
+  Before a new part lands, check whether an existing part covers the interface.
+  :: intrigue
+  RFD66606-2188 named one ggml source for the whole workspace, yet the manifest still ships
+  three ggml checkouts.
+  :: exit
+  Read `DETAILS.md` for the full text of this RFD.
   :: decision
   Operator directive 2026-09-05, verbatim: *"like ford's factories
   we have to conslidate our interchagable parts. we have too many
   parts"* + trademark-scrub follow-up *"please avoid using the
   company name ford as a trademark for inventing the interchable
   parts process"*.
-
-  `DETAILS.md` carries the full text of this RFD.
   :: related
   - RFD66606-2188 (one ggml across workspace), the reference
     consolidation this RFD generalises.
@@ -30,13 +35,14 @@ loader path, memory `consolidate-interchangeable-parts`"
   - Memory `consolidate-interchangeable-parts`, the operator
     directive + how-to-apply, kept as the working memory next to
     this policy.
-  - Memory `coordinator-verify-before-relay`, records the earlier
-    trademark violation this RFD's naming was scrubbed against.
   """
 
   details_title "interchangeable-parts consolidation as workspace policy"
 
   prose ~S"""
+  :: details Related memory
+  - Memory `coordinator-verify-before-relay`, records the earlier
+    trademark violation this RFD's naming was scrubbed against.
   :: details The policy
   Operator directive 2026-09-05, verbatim: *"like ford's factories
   we have to conslidate our interchagable parts. we have too many

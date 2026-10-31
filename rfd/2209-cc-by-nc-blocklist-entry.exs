@@ -13,6 +13,14 @@ document; today's concrete case is
 against the dataforged repo"
 
   prose ~S"""
+  :: hook
+  CC-BY-NC joins CC-BY-SA on the blocklist, and build scripts drop CC-BY-NC rows before shipping.
+  :: intrigue
+  Dataforged, the community JSON rendering of the Starforged and Ironsworn SRDs, carries a mixed
+  licence. Without a filter the Starforged corpus on HuggingFace would ship CC-BY-NC rows mixed
+  with CC-BY-4.0 rows under a single licence declaration.
+  :: exit
+  Run `scripts/check_starforged_hf.py`, which asserts every surviving row is CC-BY-4.0.
   :: decision
   Add a row to CLAUDE.md's "Blocklists" table:
 
@@ -25,11 +33,6 @@ against the dataforged repo"
   - CLAUDE.md's existing `CC-BY-SA` row, same shape, same argument.
   - RFD66606-2205 (Taskweft in Bao), the Starforged play surface whose
     corpus is the concrete case.
-  - Codebase: `2-contract/manuals-weftspun/scripts/build_starforged_hf.py`
-    and `build_starforged_sqlite.py`, the reference filter
-    implementations.
-  - Codebase: `2-contract/manuals-weftspun/scripts/check_starforged_hf.py`
-   , the downstream CI assertion.
   """
 
   details_title "CC-BY-NC as a blocklist entry"

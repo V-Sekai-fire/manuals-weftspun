@@ -7,18 +7,18 @@ rfd 2355, "Consumers cache Bao reads in memory", :discussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  A consumer that holds a bearer for a few minutes keeps Bao out of its critical path.
+  :: intrigue
+  Every read against Bao is a Bao dependency.
+  :: exit
+  On a Bao error, retry; do not hold the stale value.
   :: decision
-  **A consumer that holds a bearer for a few minutes keeps Bao out of its critical path.**
-
   Consumers cache what they can. A bearer held for a few minutes puts Bao in the critical
   path only at cache expiry.
-
-  On a Bao error, retry; do not hold the stale value.
   :: problem
-  Every read against Bao is a Bao dependency.
-
-  RFD66606-2146 moved every routine credential read onto Bao, so every consumer now depends
-  on Bao being up.
+  RFD66606-2146 moved every routine credential read onto Bao, so every consumer now depends on
+  Bao being up.
   :: related
   RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2353 (replicas), 2354 (unseal), 2356 (no CDN proxy).

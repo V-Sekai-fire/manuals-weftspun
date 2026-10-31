@@ -10,6 +10,12 @@ load, test and solve has a stated wall-clock budget"
 gates, and each guest solve"
 
   prose ~S"""
+  :: hook
+  Every guest call fits a frame slice, and every load, test and solve has a budget.
+  :: intrigue
+  A guest call returns when it is done, so a long solve stalls every frame behind it.
+  :: exit
+  Read `logbook-guest-frame-budget.md` for the station scene and dress flow measurements.
   :: decision
   No work blocks the main loop longer than one 144 Hz frame, 6.94 ms.
   Guest work runs in slices: the host first asks nicely, through a
@@ -19,8 +25,7 @@ gates, and each guest solve"
   capped at one minute, and each solve, one guest call or one stroke
   commit, times out at 60 s.
   :: problem
-  A guest call returns when it is done, so a long solve stalls every
-  frame behind it. Moving the call to a sub-thread does not help: a
+  Moving the call to a sub-thread does not help: a
   frame ends only when every thread group's `_process` returns.
   :: related
   - RFD66606-2287, the rung whose headset runs at 144 Hz; RFD66606-2263, the replay gate.

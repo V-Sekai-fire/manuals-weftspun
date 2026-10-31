@@ -8,6 +8,12 @@ as read access to one Bao path, confirmed by the operator"
   scope "Bao's `auth/cert` entries, `secret/gh/*` and the per-path read\npolicies bound to them"
 
   prose ~S"""
+  :: hook
+  A shared credential is read access to one Bao path, granted only by the operator.
+  :: intrigue
+  The persona key sat under another desk's agent tree, readable by nothing else.
+  :: exit
+  Read RFD66606-2255 next to see how an enrolled agent reaches Bao.
   :: decision
   An agent generates its key and sends a CSR and an SSH public key;
   its private key never leaves its desk. An enrolled agent signs it
@@ -16,9 +22,8 @@ as read access to one Bao path, confirmed by the operator"
   with a read policy on that path alone, bound only after the
   operator confirms it; a request relayed by a peer does not grant.
   :: problem
-  The persona key sat under another desk's agent tree, readable by
-  nothing else, and a peer asked for it through a relay, which is
-  how a grant slides sideways without a human seeing it.
+  A peer asked for it through a relay, which is how a grant slides sideways without a
+  human seeing it.
   :: related
   - RFD66606-2195 (Bao over the tailnet), the cert-auth convention.
   - RFD66606-2255 (SSH tunnel to Bao), how an enrolled agent reaches Bao.

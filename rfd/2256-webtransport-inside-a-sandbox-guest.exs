@@ -11,17 +11,20 @@ server and clients that host it, and a token-minting channel;
 `interactor-fabric-zone`'s ELFs (RFD66606-2287) are its first user"
 
   prose ~S"""
+  :: hook
+  A sandbox guest carries QUIC traffic and mints tokens from a key the host never sees.
+  :: intrigue
+  A key on the desk, or a helper that hands out a token, is open to every script there.
+  :: exit
+  Read RFD66606-2287 next, the first rung and the first user of this guest.
   :: decision
   QUIC, HTTP/3 and WebTransport run inside a RISC-V guest ELF that
   libriscv binary-translates to near native speed: picoquic with
-  h3zero, TLS 1.3 through picotls on mbedTLS. The host relays UDP
-  through `PacketPeerUDP` and ticks timers without seeing
-  plaintext. The first channel is a signer on a zone server whose
+  h3zero, TLS 1.3 through picotls on mbedTLS. The first channel is a signer on a zone server whose
   app key lives only in guest memory; it checks a ReBAC tuple and
   returns a one-hour installation token, never the key.
   :: problem
-  A key on the desk, or a helper that hands out a token, is open to
-  every script there. Only a separate peer keeps it out of reach.
+  Only a separate peer keeps it out of reach.
   :: related
   - RFD66606-2255 (SSH tunnel to Bao), the path the signer peer's
     identity can use to reach Bao.
@@ -33,6 +36,8 @@ server and clients that host it, and a token-minting channel;
   details_title "a token-minting guest over WebTransport"
 
   prose ~S"""
+  :: details The host's part
+  The host relays UDP through `PacketPeerUDP` and ticks timers without seeing plaintext.
   :: details The exchange
   1. The signer guest starts, logs in to Bao with its own cert
      identity over mTLS terminated inside the guest, and reads the

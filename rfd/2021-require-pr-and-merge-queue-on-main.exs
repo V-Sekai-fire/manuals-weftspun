@@ -4,12 +4,17 @@ use RFD.DSL
 
 rfd 2021, "Require pr and merge queue on main", :prediscussion do
   prose ~S"""
+  :: hook
+  Every change to `main` arrives through a pull request tested against the tip it joins.
+  :: intrigue
+  The `manuals` repo had no branch protection on `main`. Changes landed by pushing directly
+  or by manually merging pull requests, with no guarantee that a PR's checks ran against the
+  tip it was about to join.
+  :: exit
+  Read `DETAILS.md` for the ruleset, the commands that confirm it, and the merge-method argument.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem
-  The `manuals` repo had no branch protection on `main`. Changes landed
-  by pushing directly or by manually merging pull requests, with no
-  guarantee that a PR's checks ran against the tip it was about to join.
   Two PRs can each pass against an older `main` and then conflict or
   break the Quarto build once both land. How should changes reach `main`
   so that every merge is reviewable and tested against the tip it will

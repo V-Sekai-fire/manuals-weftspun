@@ -9,6 +9,13 @@ tokens, and this RFD is how to set that up again from nothing on any Fedora 44 h
 Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
 
   prose ~S"""
+  :: hook
+  Each card serves Bonsai 2 through ninfer-all with a DFlash2 drafter, set up from nothing.
+  :: intrigue
+  No RFD decided how a card serves Bonsai 2, and the setup lived in agents' notes, tied to
+  whichever machine held the cards that week.
+  :: exit
+  Build the engine and the host as the details say, then run the witnesses.
   :: decision
   A Bonsai 2 language server is ninfer-all serving the t2
   `bonsai2-27b-heretic.ninfer` artifact with `--spec dflash2 --draft-tokens 5`,
@@ -16,15 +23,10 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   Each server binds loopback only and takes an API key. stunnel with mutual
   TLS is the only way in from off the host. Clients reach every server
   through one router port. Fedora 44 is the only supported OS (operator,
-  2026-10-17). The operator chose the engine and drafter on 2026-10-12
-  ("The ninfer with dflash won") after the A-B-A run in the details.
+  2026-10-17).
   :: problem
-  No RFD decided how a card serves Bonsai 2, and the setup lived in agents'
-  notes, tied to whichever machine held the cards that week. Every move of
-  the cards rebuilt it by hand.
+  Every move of the cards rebuilt it by hand.
   :: related
-  - BLOCKLIST.md, "Speculative decoders other than MTP-3" and "1-bit
-    PTQ1_0 bodies", both for the ggml language server.
   - RFD66606-2308 (Mac ninfer port), which uses this server as its reference.
   - RFD66606-2319 (endpoint certificates), where the front's certificate comes
     from.
@@ -34,6 +36,14 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   details_title "serving bonsai 2 with ninfer-all and dflash2"
 
   prose ~S"""
+  :: details The choice
+  The operator chose the engine and drafter on 2026-10-12
+  ("The ninfer with dflash won") after the A-B-A run in the details.
+
+  :: details Blocklist
+  - BLOCKLIST.md, "Speculative decoders other than MTP-3" and "1-bit
+    PTQ1_0 bodies", both for the ggml language server.
+
   :: details Sources
   Drafted on 2026-10-12 from an A-B-A run on one RTX 4090. Rewritten on
   2026-10-17 to describe the setup rather than the machines it ran on, after

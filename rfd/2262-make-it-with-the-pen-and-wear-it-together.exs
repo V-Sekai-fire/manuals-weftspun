@@ -11,19 +11,19 @@ it where others see it, and gets a grade that teaches them to draw better"
 V-Sekai client and server that host the loop"
 
   prose ~S"""
+  :: hook
+  A person draws an outfit with the meshing pen, wears it, and moves in it where others see it.
+  :: intrigue
+  An anonymous 16-person survey of the shared world's own community asked for two things: to
+  create and share what others can see (8), and to be with people (8).
+  :: exit
+  Read RFD66606-2263 next, the active release's simulator gate.
   :: decision
   The strategy is a release ladder: each release is a whole product put
   in front of real people to test one assumption, never a half-built
-  release. One release advances at a time; later releases change with
-  what the active one teaches. The loop is godot-sandbox guest ELFs a host
-  loads, with no engine module of its own. The scoring it relies on
-  runs the same shape: EditScore and MaskScore are decision models,
-  godot-sandbox guests on ggml-rd and compute-rd, not a second
-  runtime. OpenUSD is the internal format, VRM the one a player shares.
+  release.
   :: problem
-  An anonymous 16-person survey of the shared world's own community
-  asked for two things: to create and share what others can see (8),
-  and to be with people (8). One asked for emotes; none for rendered
+  One asked for emotes; none for rendered
   clips, hair motion or faces.
   :: related
   - RFD66606-2263 and RFD66606-2287, the active release's simulator gate and first rung.
@@ -37,7 +37,14 @@ V-Sekai client and server that host the loop"
   details_title "make it with the pen and wear it together"
 
   prose ~S"""
+  :: details The loop
+  The loop is godot-sandbox guest ELFs a host
+  loads, with no engine module of its own. The scoring it relies on
+  runs the same shape: EditScore and MaskScore are decision models,
+  godot-sandbox guests on ggml-rd and compute-rd, not a second
+  runtime. OpenUSD is the internal format, VRM the one a player shares.
   :: details The releases
+  One release advances at a time; later releases change with what the active one teaches.
   Each release names what it tests, who tries it and where it stands.
 
   - **Demand test.** Do people want to make 3D things with a pen in VR,

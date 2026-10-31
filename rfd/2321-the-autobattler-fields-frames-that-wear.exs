@@ -8,6 +8,12 @@ solids, rolled on survey tables, and it carries wear from round to round"
   scope "the SolidCraft autobattler: its game script, its page and its zone version"
 
   prose ~S"""
+  :: hook
+  Autobattler fighters are Frames that carry wear from round to round.
+  :: intrigue
+  Each unit was one solid: a box, a cylinder, a sphere or a torus.
+  :: exit
+  Run the game script with `--selftest` and `--rounds=N` to read a sim of the rounds.
   :: decision
   Each squad in the SolidCraft autobattler fields five Frames. A Frame's body is
   put together from solids the guest kernel builds, and its species, presentation
@@ -16,15 +22,8 @@ solids, rolled on survey tables, and it carries wear from round to round"
   after five rounds, and each side earns scrip per round, as in the Gyre setting.
   The operator asked for more Frames, game feel, the Gyre flavour and readability
   on 2026-10-17.
-
-  Each Frame also has one of three roles, melee, range or cyber, that beat each
-  other as in rock, paper, scissors. The operator requested the roles on
-  2026-10-18. Each role and the plant also need a prop in a mirrored arena:
-  cover, a relay per side or soil. The operator requested them the same day.
-  On 2026-10-19 the operator requested that the game also run as a fabric zone
-  that headsets join, with the store kept off every frame and every tick.
   :: problem
-  Each unit was one solid: a box, a cylinder, a sphere or a torus. Units had no
+  Units had no
   identity, every round started from zero, and nothing on screen said which unit
   was hurt or why a round ended.
   :: related
@@ -36,6 +35,14 @@ solids, rolled on survey tables, and it carries wear from round to round"
   details_title "the autobattler fields Frames that wear"
 
   prose ~S"""
+  :: details Roles, props and the zone as requested
+  Each Frame also has one of three roles, melee, range or cyber, that beat each
+  other as in rock, paper, scissors. The operator requested the roles on
+  2026-10-18. Each role and the plant also need a prop in a mirrored arena:
+  cover, a relay per side or soil. The operator requested them the same day.
+  On 2026-10-19 the operator requested that the game also run as a fabric zone
+  that headsets join, with the store kept off every frame and every tick.
+
   :: details Sources
   Drafted on 2026-10-17 from the game script as shipped, its self-test logs on
   each system and the operator's requests of the same day.

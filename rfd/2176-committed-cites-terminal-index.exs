@@ -7,13 +7,17 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   scope "every `committed` or `published` RFD that cites an\n`abandoned` or `moved` RFD"
 
   prose ~S"""
+  :: hook
+  Settled RFDs citing withdrawn ones: 39 pairs found, and only 11 need follow-up.
+  :: intrigue
+  Settled decisions leaning on withdrawn ones read as authoritative, so this class of drift is
+  higher severity than RFD66606-2174 (open-to-abandoned index)'s open-to-abandoned class.
+  :: exit
+  Read `DETAILS.md` for the successor annotation of each of the 11 real-drift pairs.
   :: decision
   This RFD is the citable index for settled-to-terminal citation drift; a Lean-verified audit
   found 39 pairs, and only 11 real-drift pairs need per-RFD follow-up.
   :: problem
-  Settled decisions leaning on withdrawn ones read as authoritative, so this class of drift is
-  higher severity than RFD66606-2174 (open-to-abandoned index)'s open-to-abandoned class.
-
   Of the 39 pairs:
 
   - 14 retraction chains. The RFD is the retraction (2168-2175, 2159). Correct as-is.
@@ -22,11 +26,6 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   was correct when written.
   - 11 real drift pairs. A settled decision references a terminal RFD without acknowledging the
   retraction chain. Per-pair successor annotations in [DETAILS.md](DETAILS.md).
-  :: section Details
-  Same pattern as RFD66606-2174. The 14 retraction chains need no action. The 14
-  historical-framing pairs stay as-is (retitling a published RFD to name a successor for a
-  citation that describes a superseded problem framing does more damage than the drift). The 11
-  real-drift pairs migrate on next edit; DETAILS.md names each successor.
   :: related
   Spine: urn:oid:1.3.6.1.4.1.66606.1.1.1000 (RFD conventions).
   Companion: urn:oid:1.3.6.1.4.1.66606.1.2.2174 (open-to-abandoned).
@@ -40,6 +39,11 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   Full list from the Lean 4 audit (`Report.lean` output). Three classes:
   retraction chain (keep), historical framing (keep, weakly stale), real
   drift (successor annotated).
+  :: details Disposition of the classes
+  Same pattern as RFD66606-2174. The 14 retraction chains need no action. The 14
+  historical-framing pairs stay as-is (retitling a published RFD to name a successor for a
+  citation that describes a superseded problem framing does more damage than the drift). The 11
+  real-drift pairs migrate on next edit; DETAILS.md names each successor.
   :: details Retraction chains (14, keep as-is)
   The citer IS the retraction; citation is by design.
 

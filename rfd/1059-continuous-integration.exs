@@ -7,6 +7,13 @@ rfd 1059, "Continuous integration, in one step", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  One command builds and self-tests the whole system before every commit.
+  :: intrigue
+  `.github/workflows/main.yml` ran `npm run test:anim-regression`. `package.json` never
+  defined that script.
+  :: exit
+  Run `scripts/ci.sh` before committing, and read `DETAILS.md` for the three steps in order.
   :: decision
   Follow Martin Fowler's ["Continuous
   Integration"](https://martinfowler.com/articles/continuousIntegration.html).
@@ -14,20 +21,10 @@ rfd 1059, "Continuous integration, in one step", :published do
   it before committing, and the integration machine runs the identical
   command.
 
-  Two of his practices name the fault directly. "Automate the Build"
-  and "Make Your Build Self-Testing" are the two. A broken `npm run`
-  line that only ran on GitHub's machine shows what happens when the
-  person who last touched a build never runs it.
-
   `scripts/ci.sh` is that one command. A developer runs it before
   committing, and an integration machine runs the identical command.
-
-  See `DETAILS.md` for the three steps in order, why one script beats
-  three CI steps, why the GitHub workflow is deleted for now, and what
-  this deliberately does not cover.
   :: problem
-  `.github/workflows/main.yml` ran `npm run test:anim-regression`.
-  `package.json` never defined that script. Every run of this job
+  Every run of this job
   failed at that line. CI stayed red, or silently skipped, since
   whenever that step was added.
 
@@ -41,6 +38,11 @@ rfd 1059, "Continuous integration, in one step", :published do
   details_title "Continuous integration, in one step"
 
   prose ~S"""
+  :: details Fowler's two practices
+  Two of his practices name the fault directly. "Automate the Build"
+  and "Make Your Build Self-Testing" are the two. A broken `npm run`
+  line that only ran on GitHub's machine shows what happens when the
+  person who last touched a build never runs it.
   :: details What the one step does
   In order, stopping at the first failure:
 

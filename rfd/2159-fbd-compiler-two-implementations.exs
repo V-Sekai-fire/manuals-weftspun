@@ -10,13 +10,19 @@ same fixtures; both are graded against the spec."
   scope "two sibling repos + a differential harness"
 
   prose ~S"""
+  :: hook
+  Two independent .elf compilers cross-check each other against the Lean spec.
+  :: intrigue
+  RFD66606-2157's Lean formalisation is the ground truth. RFD66606-2158 blocks
+  Lean-emitted ELF today (upstream RFC 12655 open).
+  :: exit
+  Read `DETAILS.md` for the differential harness and the fixture format.
   :: decision
   Green-lit; C++ and Rust both to ship.
 
   `DETAILS.md` carries the full text of this RFD.
   :: problem
-  RFD66606-2157's Lean formalisation is the ground truth. RFD66606-2158 blocks
-  Lean-emitted ELF today (upstream RFC 12655 open). Trusting one
+  Trusting one
   backend makes soundness a hope; two agreeing backends give the
   property `compile_correct` alone cannot.
   :: references

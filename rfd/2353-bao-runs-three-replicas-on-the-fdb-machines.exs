@@ -7,20 +7,20 @@ rfd 2353, "Bao runs three replicas on the FDB machines", :discussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  Bao runs as three replicas, one beside each FDB machine.
+  :: intrigue
+  Bao was one machine, and every consumer now depends on it.
+  :: exit
+  Deploy one machine at a time and unseal each; the details hold the steps.
   :: decision
-  **Bao runs as three replicas, one beside each FDB machine.**
-
   `ha_enabled = true`, coordinated over FDB (operator, 2026-10-13). The `weftspun-bao`
   app retires once the three instances serve.
-
-  Deploy one machine at a time and unseal each; the details hold the steps.
   :: problem
-  Bao was one machine, and every consumer now depends on it.
-
   RFD66606-2140's `ha_enabled = "false"` fit that framing. RFD66606-2146 then moved every
-  routine credential read, coordination write, and policy check onto Bao. Every consumer
-  now depends on Bao being up, and RFD66606-2140's reliability budget is smaller than what
-  routes through Bao now needs.
+  routine credential read, coordination write, and policy check onto Bao. Every consumer now
+  depends on Bao being up, and RFD66606-2140's reliability budget is smaller than what routes
+  through Bao now needs.
   :: related
   RFD66606-2140, RFD66606-2144, RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2354 (unseal), 2355 (cache), 2356 (no CDN proxy).

@@ -7,6 +7,13 @@ rfd 2349, "Recording a live run: house recorder at 4K, CineForm, no FFmpeg tool"
   scope "every recording of a live run in the workspace, first the decider games"
 
   prose ~S"""
+  :: hook
+  A live run is recorded at 4K, in CineForm, with the house recorder.
+  :: intrigue
+  Movie Maker renders at a fixed frame rate, so the game waits for the model and the video
+  hides its latency. A video of a live model must show the latency it has.
+  :: exit
+  Read RFD66606-2345 for the format this RFD amends.
   :: decision
   A live run is recorded with the house recorder on the Mac at a
   3840x2160 canvas. The recorder writes CineForm video and FLAC audio in
@@ -16,9 +23,7 @@ rfd 2349, "Recording a live run: house recorder at 4K, CineForm, no FFmpeg tool"
   replaces its encoder, its live recorder and its file check.
   :: problem
   RFD66606-2345 encodes with the homebrew `ffmpeg` and checks files with
-  `ffprobe`. FFmpeg as a tool is now banned. Movie Maker renders at a
-  fixed frame rate, so the game waits for the model and the video hides
-  its latency. A video of a live model must show the latency it has.
+  `ffprobe`. FFmpeg as a tool is now banned.
   :: related
   - RFD66606-2345, the video format, which this RFD amends;
     RFD66606-2347, the decider-pong review.

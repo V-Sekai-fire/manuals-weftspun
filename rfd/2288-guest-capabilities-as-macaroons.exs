@@ -11,6 +11,13 @@ call and cached for the VM"
 makes host calls, and the ReBAC tuples of RFD66606-2200"
 
   prose ~S"""
+  :: hook
+  A guest ELF reaches outside its own memory only through a macaroon minted from ReBAC.
+  :: intrigue
+  A ReBAC check on every host call is too slow for calls made every frame, and no check makes
+  every guest a leak.
+  :: exit
+  Read RFD66606-2200 next for the ReBAC tuples that decide what a capability grants.
   :: decision
   Capabilities are an allowlist. A guest starts with none. Each host
   call that reaches outside the guest's own memory needs one, and a new
@@ -23,20 +30,19 @@ makes host calls, and the ReBAC tuples of RFD66606-2200"
   verifies the macaroon again every 5 s. Bumping a VM's epoch voids its
   cached grants at their next call. A guest's writes to its own memory
   are not host calls, and nothing checks them.
-  :: problem
-  RFD66606-2287's CA keeps its root key in guest memory, but a VM transfer
-  carries all of that memory, and so does a host read of it. A ReBAC
-  check on every host call is too slow for calls made every frame, and
-  no check makes every guest a leak. So the check runs once per grant,
-  needs no network round trip, and costs little to repeat.
   :: related
   - RFD66606-2200, the ReBAC tuples that decide what a capability grants.
-  - RFD66606-2287, whose CA relies on no transfer capability for its VM.
   """
 
   details_title "guest capabilities: macaroons minted from ReBAC"
 
   prose ~S"""
+  :: details Related
+  RFD66606-2287, whose CA relies on no transfer capability for its VM.
+  :: details Why check once per grant
+  RFD66606-2287's CA keeps its root key in guest memory, but a VM transfer
+  carries all of that memory, and so does a host read of it. So the check runs once per grant,
+  needs no network round trip, and costs little to repeat.
   :: details The macaroon
   The host that runs the guest holds the macaroon root key and mints.
   Before it mints, it asks the ReBAC store whether a tuple relates the

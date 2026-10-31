@@ -8,6 +8,13 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  An Elixir app reaches Python one way, and a gate keeps it that way.
+  :: intrigue
+  A notebook named three packages while the loop depended on five environments it never
+  named, so it ran on one desk and nowhere else.
+  :: exit
+  Read `DETAILS.md` for the failure behind this rule, then RFD66606-1134.
   :: decision
   An Elixir app reaches Python through pythonx and through nothing else.
   `priv/python/check_pixi_free.py` fails the build on a call to the other
@@ -27,15 +34,20 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   :: problem
   `service-livebook` embeds a Python interpreter with `pythonx`. Its setup
   cell names the packages and the pins travel in the notebook file. Beside
-  that, a helper shelled into five environments in another repository. The
-  notebook described three packages while the loop depended on five
-  environments it never names, so it ran on one desk and nowhere else.
+  that, a helper shelled into five environments in another repository.
+  :: related
+  RFD66606-1134 tests these notebooks in the browser.
+  """
+
+  details_title "One Python environment per Elixir app"
+
+  prose ~S"""
+  :: details The failure was not theoretical
+  RFD66606-1134 tests these notebooks in the browser, which is how the missing
+  renderer was found.
 
   The failure was not theoretical. Loop 1 stopped with `No module named
   'drjit'`, because it called the `anny` environment for a renderer that
   only the default environment carries. The notebook cannot show that.
-  :: related
-  RFD66606-1134 tests these notebooks in the browser, which is how the missing
-  renderer was found.
   """
 end

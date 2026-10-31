@@ -13,6 +13,13 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
           "`weftspun-taskweft-acp`, the executor sides that dial into it"
 
   prose ~S"""
+  :: hook
+  A no-model agent plans with taskweft and runs every step through the editor.
+  :: intrigue
+  MCP tools answer one call and forget it, so an agent driven through them loses the turn's
+  context. Taskweft had a planner and no executor.
+  :: exit
+  Read the details for the session store, the executor sides and what was measured.
   :: decision
   The agent holds no language model. A prompt is a slash command or a phrase matched against the
   domain's method names; taskweft plans it; every step is one ACP tool call through the client's
@@ -23,14 +30,7 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
   writer and OpenBao's sqlite-fdb engine the fallback. The Fly door is gated by OpenBao tokens,
   never GitHub, and runs no step itself: executor sides dial in under a bao-held policy with a
   local override. `DETAILS.md` carries the rest.
-  :: problem
-  MCP tools answer one call and forget it, so an agent driven through them loses the turn's
-  context; taskweft had a planner and no executor; the editor already owns the files, the
-  terminals and the permission dialog. Hosting the bridge raised the question of where steps run,
-  and a machine on Fly is not the desk with the checkout, the GPU box, or the editor a human is
-  watching.
   :: references
-  - RFD66606-2232, the RFD DSL this document is written in
   - RFD66606-2154, RFD66606-2157 and RFD66606-2159, the plan-to-Godot-Sandbox path the export
     follows
   - RFD66606-2140, RFD66606-2146 and RFD66606-2205, OpenBao and the sqlite-fdb engine the fallback
@@ -43,6 +43,13 @@ rfd 2235, "An ACP agent that plans with taskweft and executes through the editor
   details_title "An ACP agent that plans with taskweft and executes through the editor"
 
   prose ~S"""
+  :: details Document form
+  RFD66606-2232, the RFD DSL this document is written in.
+  :: details Where steps run
+  The editor already owns the files, the
+  terminals and the permission dialog. Hosting the bridge raised the question of where steps run,
+  and a machine on Fly is not the desk with the checkout, the GPU box, or the editor a human is
+  watching.
   :: details The shape in the decompilable-model vocabulary
   A natively decompilable model separates perception from execution, routes
   with hard gates instead of continuous attention, keeps its state discrete,

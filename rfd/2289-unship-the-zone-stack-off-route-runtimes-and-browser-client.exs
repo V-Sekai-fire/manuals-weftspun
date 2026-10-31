@@ -7,6 +7,13 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
   scope "the 42 RFDs this document retracts"
 
   prose ~S"""
+  :: hook
+  Forty-two RFDs with no placed code move to abandoned.
+  :: intrigue
+  RFD66606-2287 is the active rung. No project on this desk cites these 42 in code
+  or commits.
+  :: exit
+  Read RFD66606-2287 next.
   :: decision
   Abandon 42 RFDs off RFD66606-2287's critical path that no placed code
   implements. Each moves to `abandoned` with this document. Its details
@@ -20,21 +27,21 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
     EditScore's basis and EditScore becomes a decision model (RFD66606-2268).
   - The browser studio client, its dev setup and its asset edge.
   :: problem
-  RFD66606-2287 is the active rung. No project on this desk cites these 42 in
-  code or commits, and a search of the placed tree finds no implementation,
+  A search of the placed tree finds no implementation,
   or one on a runtime the workspace does not use.
   :: related
-  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.1.{1006,1008,1022,1023,1031,1042,1043,1056,1061,1077}
-  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.1.{1148,1169,1172}
-  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2002,2004,2005,2010,2014,2066,2070,2072,2073,2074}
-  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2076,2077,2078,2079,2080,2081,2082,2083,2084,2085}
-  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2086,2091,2092,2108,2110,2116,2120,2163,2214}
   - RFD66606-2285, the same walk-back; RFD66606-2242, the retracted native ggml modules.
   """
 
   details_title "Unship the zone stack, the off-route runtimes and the browser client"
 
   prose ~S"""
+  :: details The retracted OIDs
+  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.1.{1006,1008,1022,1023,1031,1042,1043,1056,1061,1077}
+  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.1.{1148,1169,1172}
+  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2002,2004,2005,2010,2014,2066,2070,2072,2073,2074}
+  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2076,2077,2078,2079,2080,2081,2082,2083,2084,2085}
+  - Retracts: urn:oid:1.3.6.1.4.1.66606.1.2.{2086,2091,2092,2108,2110,2116,2120,2163,2214}
   :: details The groups
   - Zone stack: 2002, 2004, 2005, 2010, 2014, 2066, 2070, 2072, 2073,
     2074, 2076 to 2086, 2091, 2092, 2108, 2110, 2116, 2120. The manifest

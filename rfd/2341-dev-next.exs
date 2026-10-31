@@ -7,15 +7,20 @@ rfd 2341, "dev.next", :discussion do
   scope "everything past dev.2 that waits for a rung of its own"
 
   prose ~S"""
+  :: hook
+  Parked work waits in one place, and no open rung changes to make room for it.
+  :: intrigue
+  Reducing churn is an absolute requirement. An ask added to an open rung moves its pins or
+  edits its file, which the churn gate counts as a failure.
+  :: exit
+  Read `DETAILS.md` for the parked items.
   :: decision
   dev.next holds every ask that no numbered rung has claimed. An idea
   that arrives while a rung is open is written here, and the open rung's
   definition does not change. An item leaves dev.next when a numbered
   rung is planned around it.
   :: problem
-  Reducing churn is an absolute requirement. An ask added to an open
-  rung moves its pins or edits its file, which the churn gate counts as
-  a failure. Parked work still needs one place to wait.
+  Parked work still needs one place to wait.
   :: related
   - RFD66606-2342, dev.1; RFD66606-2343, dev.2; RFD66606-2344, dev.3.
   - RFD66606-2298, the FOSS side's dev.next.

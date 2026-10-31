@@ -7,6 +7,15 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   scope "Bao coordination store, all live agents, future onboarding flow"
 
   prose ~S"""
+  :: hook
+  Agent roles are relationship tuples in Bao KV, not per-agent policies.
+  :: intrigue
+  The current `agents-rw` policy is one shared grant across every
+  peer. Adding a fourth agent that shouldn't touch GPU code, or a
+  Hailo-specific agent that must not touch the 3090, means either a
+  new per-agent policy (RBAC sprawl) or ad-hoc restrictions in prose.
+  :: exit
+  Run `mix rfd.rebac` to hold every rebac block in the corpus against the verb vocabulary.
   :: decision
   Model agent roles as **ReBAC relationship tuples** in a Bao KV mount
   at `relationships/`, one tuple per row, key shape
@@ -16,19 +25,9 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   fall out: coordinator (MPS), gpu-experimenter (CUDA),
   edge-qat-specialist (HAILO). `DETAILS.md` carries verbs, rows, scopes.
   :: problem
-  The current `agents-rw` policy is one shared grant across every
-  peer. Adding a fourth agent that shouldn't touch GPU code, or a
-  Hailo-specific agent that must not touch the 3090, means either a
-  new per-agent policy (RBAC sprawl) or ad-hoc restrictions in prose.
   Neither answers the question the shared-$HOME clobber raised: the
   risk is the **relationship** between two agents, not the identity of
   either.
-  :: section Non-goals
-  Not enforced today. The tuples are data; nothing gates a KV write
-  against them yet. When enforcement lands it goes in a separate RFD.
-  Also not covered: an external ReBAC engine (OpenFGA, SpiceDB).
-  The tuples-in-KV shim is the minimum that answers the question we
-  have. A production ReBAC engine is a future call.
   :: related
   RFD66606-2195 (Bao PKI + agent-provisioning discipline), agent-sync skill
   in dot-claude.
@@ -37,6 +36,12 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   details_title "ReBAC agent roles as tuples, not per-agent policy sprawl"
 
   prose ~S"""
+  :: details Non-goals
+  Not enforced today. The tuples are data; nothing gates a KV write
+  against them yet. When enforcement lands it goes in a separate RFD.
+  Also not covered: an external ReBAC engine (OpenFGA, SpiceDB).
+  The tuples-in-KV shim is the minimum that answers the question we
+  have. A production ReBAC engine is a future call.
   :: details The tuple shape
   Each tuple is one KV row under `relationships/`. Key format is
   `<subject>--<verb>--<object>` (double-hyphen separator, all segments

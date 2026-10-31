@@ -9,6 +9,13 @@ signed by Bao's agent CA v2 without the root token"
 every stunnel or edge endpoint that serves under an agent identity"
 
   prose ~S"""
+  :: hook
+  A serving host gets its tailnet server certificate from agent CA v2, with no root token.
+  :: intrigue
+  Bao has two agent CAs, and nothing said which one does what. Bao signs a certificate in
+  `pki-agents` that names the tailnet host anyway, and every client then rejects it.
+  :: exit
+  Read the details for the mounts and the `agent-endpoint` role.
   :: decision
   A host that serves takes a second certificate for its agent name from the
   `pki-agents-v2` mount, through role `agent-endpoint`. That role sets server
@@ -17,12 +24,6 @@ every stunnel or edge endpoint that serves under an agent identity"
   The `csr-signer` policy may sign through it, so an agent identity issues an
   endpoint certificate without the root token. The key is made on the host and
   never leaves it.
-  :: problem
-  Bao has two agent CAs, and nothing said which one does what. `pki-agents`
-  holds the agent CA, whose name constraints allow only `chibifire.com` and
-  `agents.weftspun`. Bao signs a certificate there that names the tailnet host
-  anyway, and every client then rejects it. On 2026-10-16 a server certificate
-  for the Linux 4090 host failed this way.
   :: related
   - RFD66606-2142 (Bao PKI service TLS), the first PKI mount.
   - RFD66606-2145 (certificate lifetimes), the 90-day leaf ceiling.
@@ -33,6 +34,11 @@ every stunnel or edge endpoint that serves under an agent identity"
   details_title "a serving host's certificate comes from agent CA v2"
 
   prose ~S"""
+  :: details What failed
+  `pki-agents`
+  holds the agent CA, whose name constraints allow only `chibifire.com` and
+  `agents.weftspun`. On 2026-10-16 a server certificate
+  for the Linux 4090 host failed this way.
   :: details Sources
   Read on 2026-10-16 from the live cluster through the active `weftspun-fdb`
   machine: each mount's CA certificate and name constraints, the

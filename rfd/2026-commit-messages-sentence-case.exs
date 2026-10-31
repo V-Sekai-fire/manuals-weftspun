@@ -4,11 +4,16 @@ use RFD.DSL
 
 rfd 2026, "Commit messages sentence case", :committed do
   prose ~S"""
+  :: hook
+  A commit subject reads as a plain capitalised sentence, with no type prefix.
+  :: intrigue
+  A commit subject is the first line a reader meets in `git log`, a blame, or a release note.
+  Two conventions compete for how it reads.
+  :: exit
+  Run `python scripts/check_commit_style.py --base origin/main` before you push.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem
-  A commit subject is the first line a reader meets in `git log`, a
-  blame, or a release note. Two conventions compete for how it reads.
   Conventional Commits prefixes each subject with a machine-readable
   type and optional scope, such as `feat:` or `fix(parser):`, and
   lower-cases the summary that follows. Plain prose writes the subject

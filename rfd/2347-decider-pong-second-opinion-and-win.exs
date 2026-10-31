@@ -9,6 +9,13 @@ wins"
 and `PEER_REVIEW.md`"
 
   prose ~S"""
+  :: hook
+  A live Pong model wins 7-0 and 8-0, and the write-up says who does the predicting.
+  :: intrigue
+  The shipped video showed "a live decider" playing Pong. The model was right on 34 to 52
+  percent of its replies, answered "up" most of the time, and lost 0-25 in 2 minutes.
+  :: exit
+  Read `PEER_REVIEW.md` in decider-pong, which carries every number.
   :: decision
   The live paddle plays with four parts. Code predicts the y where the
   ball will reach the paddle by running `Pong.step` forward. The model
@@ -18,10 +25,7 @@ and `PEER_REVIEW.md`"
   7-0 and 8-0 on its own points over two 5-minute runs. The teacher
   controls on the same seeds end 7-6 and 9-8.
   :: problem
-  The shipped video showed "a live decider" playing Pong. The model was
-  right on 34 to 52 percent of its replies, answered "up" most of the
-  time, and lost 0-25 in 2 minutes. Under the repo physics no paddle can
-  win: the teacher never misses. Code does the predicting in the winning
+  Code does the predicting in the winning
   runs, and the write-up must say so.
   :: related
   - RFD66606-2345, the video format; RFD66606-2346, decider-pong in the
@@ -42,6 +46,7 @@ and `PEER_REVIEW.md`"
   hundredths, serves were seeded from the clock, and 600 frames sat in
   memory. The README contradicted the files on disk.
   :: details Why the game could not be won
+  Under the repo physics no paddle can win: the teacher never misses.
   A hit never changes the ball's vertical speed, which stays under 4.1
   px a frame. A paddle moves 10 px a frame. Teacher against teacher held
   0-0 for 30 simulated minutes on three seeds. The classic angle rule,

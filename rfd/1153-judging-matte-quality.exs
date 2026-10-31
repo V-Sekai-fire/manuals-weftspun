@@ -7,6 +7,13 @@ rfd 1153, "Judging matte quality", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Matte judging uses composites, native crops and two scored categories.
+  :: intrigue
+  Background removal produced three candidate mattes per image and no way to say which
+  was broken.
+  :: exit
+  Read `DETAILS.md` for the derivation of where EditScore fits.
   :: decision
   Judging follows the field's standard benchmark. Rhemann et al., *A Perceptually
   Motivated Online Benchmark for Image Matting* (CVPR 2009), derived error
@@ -20,16 +27,9 @@ rfd 1153, "Judging matte quality", :published do
      448px.
   3. Two categories scored separately: **connectivity** (detached fragments, holes)
      and **gradient** (oversmoothing, or false hard edges).
-
-  EditScore, configured as published, reproduces the ground-truth ordering of the
-  three backends; misconfigured it inverts it. It cannot pick between them on one
-  image, because it scores *edits* and three mattes of a photograph are
-  near-identical as edits. Use it where candidates differ semantically, and alpha
-  error where they differ by pixels of silhouette. `DETAILS.md` derives this.
   :: problem
-  Background removal produced three candidate mattes per image and no way to say
-  which was broken. The available proxy, soft-alpha pixels per silhouette
-  perimeter, ranks model families but cannot judge one matte. Two attempts with
+  The available proxy, soft-alpha pixels per silhouette perimeter, ranks model
+  families but cannot judge one matte. Two attempts with
   EditScore failed: whole images flattened onto grey scored near-constant within
   each image, so the judge was reading the photograph rather than the cutout, and a
   twin panel of cutout beside alpha returned exactly 8.00 for all eighteen.
@@ -41,6 +41,12 @@ rfd 1153, "Judging matte quality", :published do
   details_title "Judging matte quality"
 
   prose ~S"""
+  :: details Where EditScore fits
+  EditScore, configured as published, reproduces the ground-truth ordering of the
+  three backends; misconfigured it inverts it. It cannot pick between them on one
+  image, because it scores *edits* and three mattes of a photograph are
+  near-identical as edits. Use it where candidates differ semantically, and alpha
+  error where they differ by pixels of silhouette.
   :: details Result
   72 crops, four per cutout, across three backends and six photographs chosen for
   sheer fabric, specular surfaces and wispy hair.

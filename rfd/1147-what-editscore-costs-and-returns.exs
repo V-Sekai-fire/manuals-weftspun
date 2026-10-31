@@ -8,6 +8,13 @@ rfd 1147, "What EditScore costs and returns", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  The scorer shared by all four loops has one document for its cost and its score.
+  :: intrigue
+  EditScore's measurements were written into RFD66606-1144, so a reader of loop 3 had to know
+  to look in loop 2 for what the scorer costs.
+  :: exit
+  Read `DETAILS.md` for the peak memory, the overall score, and the negative control.
   :: decision
   Give the scorer its own RFD, and let the loops cite it.
 
@@ -21,18 +28,9 @@ rfd 1147, "What EditScore costs and returns", :published do
   nonsense instruction returns 0.0 overall. A scorer that returns a
   middling figure for nonsense has not discriminated, and its score for a
   real edit would mean nothing.
-
-  `logbook-fourloops-first-runs.md` keeps the apparatus, and this RFD
-  keeps the result. The entry says how the runs were made, which is what
-  lets somebody make them again.
   :: problem
   EditScore is the `score` stage of every loop in `fourloops-plan.usda`.
   Loops 1 through 4 each name it, and loop 1 pairs it with the Referee.
-
-  Its measurements were written into RFD66606-1144 because loop 2 is the
-  smallest loop that exercises it. That put a figure belonging to four
-  loops inside the document for one of them, so a reader of loop 3 had to
-  know to look in loop 2 for what the scorer costs.
   :: related
   RFD66606-1143 through RFD66606-1146 are the four loops that score with it.
   RFD66606-1122 is the goal they serve.
@@ -73,6 +71,14 @@ rfd 1147, "What EditScore costs and returns", :published do
   The seconds are a range rather than a median, and deliberately. The run-to-run
   spread at 512 is wider than the gap between the two OmniGen2 precisions RFD66606-1144
   reports, so a single figure would imply a resolution these runs do not support.
+  :: details Where the apparatus lives
+  `logbook-fourloops-first-runs.md` keeps the apparatus, and this RFD
+  keeps the result. The entry says how the runs were made, which is what
+  lets somebody make them again.
+  :: details Why the measurements moved
+  Its measurements were written into RFD66606-1144 because loop 2 is the
+  smallest loop that exercises it. That put a figure belonging to four
+  loops inside the document for one of them.
   :: details Why this lives in its own document
   Every loop in `fourloops-plan.usda` names EditScore as its `score` stage, and
   loop 1 pairs it with the Referee because an image scorer and a body scorer

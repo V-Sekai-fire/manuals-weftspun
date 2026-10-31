@@ -8,6 +8,12 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
 `add_allosaurus_control.py`; `CITATION.cff`"
 
   prose ~S"""
+  :: hook
+  The ASR panel drops one control and keeps a language-free default.
+  :: intrigue
+  The panel runs a Russian phone inventory on every clip regardless of the speaker's L1.
+  :: exit
+  Read RFD66606-2179 next.
   :: decision
   Drop the `allosaurus-rus` phone-inventory control; the panel drops from 8 tracks to 7, keeping
   `universal` as the language-inventory-free default and `eng` as the English control.
@@ -17,7 +23,15 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
   SpeakingFaces subject (Kazakh L2 English speaker); RFD66606-2170 (allosaurus language set) then
   generalised the set. The panel's implementation still carries `rus` as a per-clip inventory and
   runs it on every clip regardless of the speaker's L1.
-  :: section Panel after the drop
+  :: related
+  Extends RFD66606-2179 (Whisper drop) and RFD66606-2180 (gemma-auto drop). Amends the panel row
+  in RFD66606-2170 (allosaurus language set)'s decision that named `universal + eng + rus`.
+  """
+
+  details_title "Drop the allosaurus-rus phone-inventory control"
+
+  prose ~S"""
+  :: details Panel after the drop
     text-track   Parakeet TDT 0.6B v3, Voxtral Mini 3B, wav2vec2
     IPA-track    Voxtral-IPA, Gemma-4-12B GBNF-IPA
     phone-track  allosaurus universal + eng
@@ -28,8 +42,5 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
   Follow-ups: `emit_10track_panel.py` and `add_allosaurus_control.py` drop the `rus` inventory;
   downstream RFDs lose their `rus` mentions; `CITATION.cff` unaffected (allosaurus itself
   stays).
-  :: related
-  Extends RFD66606-2179 (Whisper drop) and RFD66606-2180 (gemma-auto drop). Amends the panel row
-  in RFD66606-2170 (allosaurus language set)'s decision that named `universal + eng + rus`.
   """
 end

@@ -7,6 +7,13 @@ rfd 1027, "GPU tier per model", :committed do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Each model gets its own GPU tier, sized alone and not as part of a set.
+  :: intrigue
+  Does every model fit one device at once? This RFD first summed 116.45 GB against a
+  128 GB DGX Spark, found about 10 GB of headroom, and called the margin too small.
+  :: exit
+  Read `DETAILS.md` for the tier table of every model.
   :: decision
   Size each model on its own. The question is which GPU tier one model
   needs, and not whether a set of models co-resides.
@@ -19,17 +26,8 @@ rfd 1027, "GPU tier per model", :committed do
   standardizes on **QAFT 4-bit** as the default weights format where
   upstream ships one (Gemma-4-12B QAT Q4_0 is the canonical example
   and reasoning core per RFD66606-2169). Models without a QAFT release run
-  at published precision (bf16) with staged loading. See `DETAILS.md`.
-
-  Committed 2026-09-02: 24-GB tier and QAFT-first rule settled.
-  CLAUDE.md retracted Condition 5 the same day (precision is not a
-  corpus hazard), so quantised weights are permitted for corpus
-  generation, not only inference.
+  at published precision (bf16) with staged loading.
   :: problem
-  This RFD first asked whether every model fits one device at once. It
-  summed 116.45 GB against a 128 GB DGX Spark, found about 10 GB of
-  headroom, and called the margin too small.
-
   That question came from hardware this project does not have. CLAUDE.md
   now names the local desktop GPU as the only compute; each model runs
   in its own container per RFD66606-1036, so two never compete for one
@@ -113,6 +111,11 @@ rfd 1027, "GPU tier per model", :committed do
 
   Every surviving model reaches a 24 GB card. Wan-VACE reaches it
   staged; every other model reaches it flat.
+  :: details Commitment
+  Committed 2026-09-02: 24-GB tier and QAFT-first rule settled.
+  CLAUDE.md retracted Condition 5 the same day (precision is not a
+  corpus hazard), so quantised weights are permitted for corpus
+  generation, not only inference.
   :: details QAFT-first is the rule
   QAFT 4-bit (quantization-aware fine-tuning) is preferred where
   upstream ships one. Only Gemma ships true QAFT for the current stack;

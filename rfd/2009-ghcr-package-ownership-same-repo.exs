@@ -4,6 +4,12 @@ use RFD.DSL
 
 rfd 2009, "Ghcr package ownership same repo", :prediscussion do
   prose ~S"""
+  :: hook
+  Why a zone deploy could not pull an image from another repo's package.
+  :: intrigue
+  The zone deploy workflow tried to pull the zone server image and received 403 Forbidden.
+  :: exit
+  Read `DETAILS.md` for the full argument and its consequences.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

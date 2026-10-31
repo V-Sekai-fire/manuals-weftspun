@@ -8,6 +8,13 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   scope "a new skateboard manifest, the pen, the double build, and the rung's guests"
 
   prose ~S"""
+  :: hook
+  The first rung gets a manifest of its own and eight steps that ship as four releases.
+  :: intrigue
+  The rung ran once in the headset at 72 fps from a build made by hand outside every
+  repository, with no zone, no CA and no voice.
+  :: exit
+  Read RFD66606-2287 next for the rung this plan builds.
   :: decision
   A new manifest,
   &{repo("contract-manifest-skateboard", planned: "2-contract")}, places
@@ -17,8 +24,7 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   Zones run as ghost servers on Fly's headless Linux double build; GPU
   stages run on a sidecar client; every guest runs natively translated.
   :: problem
-  The rung ran once in the headset at 72 fps from a build made by hand
-  outside every repository, with no zone, no CA and no voice. None of it
+  None of it
   is reproducible from a checkout, and every guest is single precision
   against a double engine.
   :: related
@@ -26,8 +32,6 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   - RFD66606-2296, dev.2; RFD66606-2297, dev.3; RFD66606-2298, dev.next.
   - RFD66606-2256, the transport; RFD66606-2288 and RFD66606-2291, the capabilities.
   - RFD66606-2289, a placement is the manifest row; RFD66606-2142, the Bao PKI.
-  - Abandons RFD66606-2067: the ladder's tags are the pen's `v<date>-dev.N`, and
-    the packaging repository its semver tags named is not placed.
   """
 
   details_title "the Skateboard's workspace, and the first rung's plan"
@@ -775,5 +779,8 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   6. `mix rfd.check && mix rfd.render && mix rfd.board --check && prek run
      --all-files` in &{repo("manuals-weftspun")};
      `python scripts/check_anti_entropy.py` read in full.
+  :: details What this abandons
+  Abandons RFD66606-2067: the ladder's tags are the pen's `v<date>-dev.N`, and
+  the packaging repository its semver tags named is not placed.
   """
 end

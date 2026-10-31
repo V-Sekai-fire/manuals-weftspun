@@ -9,6 +9,14 @@ adapters)"
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Every atelier module runs on ggml, and one live catalog lists them.
+  :: intrigue
+  Models with no upstream GGUF conversion carry a "port needed" note.
+  :: exit
+  Read `DETAILS.md` for the backend API, the current per-task table with per-model GGUF sizes and
+  port-needed flags, the six-step migration recipe, the two pipeline diagrams, and the packaging
+  pointer.
   :: decision
   Every module in the atelier catalog runs on **ggml** (RFD66606-2188). Weights ship as GGUF,
   quantised to Q4. The set of Docker images this workspace ships per RFD66606-1036 (plain HTTP,
@@ -22,14 +30,6 @@ adapters)"
   - **The gacha critical path** (RFD66606-2136): ten-rung ladder from a language prompt to a
     public roll-button-dispensed VRM.
 
-  Consumer projects wrap the shared `2-contract/ggml/` runtime; the native `modules/ggml/` module
-  (RFD66606-2230) exposes a GDExtension surface (`Ggml.load_model`, `Ggml.run_inference`,
-  `Ggml.load_lora`) consumed by per-model GDScript adapter files loaded under Godot's script
-  sandbox.
-
-  `DETAILS.md` carries the backend API, the current per-task table (with per-model GGUF sizes and
-  port-needed flags), the six-step migration recipe, the two pipeline diagrams, and the packaging
-  pointer.
   :: related
   RFD66606-1036 (Docker packaging), RFD66606-1053 (OpenUSD internal + glTF/VRM at edge),
   RFD66606-1027 (GPU tier), RFD66606-1173 (multimodal pipeline), RFD66606-2136 (gacha ladder),
@@ -52,6 +52,11 @@ adapters)"
   RFD66606-2230. Models with no upstream GGUF conversion carry a "port
   needed" note; the six-step migration recipe is at the end of this
   file.
+  :: details Consumers and the GDExtension surface
+  Consumer projects wrap the shared `2-contract/ggml/` runtime; the native `modules/ggml/` module
+  (RFD66606-2230) exposes a GDExtension surface (`Ggml.load_model`, `Ggml.run_inference`,
+  `Ggml.load_lora`) consumed by per-model GDScript adapter files loaded under Godot's script
+  sandbox.
   :: details Model catalog
   | Task                          | Model                         | Weights (Q4 target)             | Runtime                                        |
   | ----------------------------- | ----------------------------- | ------------------------------- | ---------------------------------------------- |

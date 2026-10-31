@@ -4,26 +4,26 @@ use RFD.DSL
 
 rfd 2016, "Checking sccache", :committed do
   prose ~S"""
+  :: hook
+  One command shows whether the shared sccache bucket is really in use.
+  :: intrigue
+  The failure mode is silent: if the `SCCACHE_*` environment is missing, the credentials are
+  wrong, or the region/endpoint is off, sccache quietly falls back to a local disk cache, or
+  records read/write errors, while the build still succeeds.
+  :: exit
+  Run `sccache --show-stats` after a build and check that `Cache errors` reads 0.
   :: decision
   `sccache --show-stats` is how anyone confirms the cache is healthy, and
   `Cache errors 0` after a build is the confirmation that the bucket,
   region and credentials are all right. Nothing else proves it: a
   misconfigured sccache falls back to local disk and the build still
   succeeds, so "the build worked" is not evidence the cache worked.
-
-  Native builds route through sccache against `chibifire-sccache`, and
-  `scons` keeps its own cache alongside it. That pairing is settled; an
-  install that forgets the `SCCACHE_*` environment is an installation
-  defect rather than an open question.
   :: problem
   Native builds route compilation through sccache
   (https://github.com/mozilla/sccache) backed by a shared DigitalOcean
   Spaces bucket (`chibifire-sccache`, region `tor1`), so object files
   are cached across machines and CI (see
-  `rfd/2017-compiling-godot-engine/index.md`). The failure mode is
-  silent: if the `SCCACHE_*` environment is missing, the credentials are
-  wrong, or the region/endpoint is off, sccache quietly falls back to a
-  local disk cache, or records read/write errors, while the build
+  `rfd/2017-compiling-godot-engine/index.md`).
   :: related
   - RFD66606-2017 compiles the engine through this cache.
   """
@@ -88,6 +88,11 @@ rfd 2016, "Checking sccache", :committed do
   rebuild, so the remote backend, region, and `do-tor1` credentials are
   all working.
   :: details More Information
+  Native builds route through sccache against `chibifire-sccache`, and
+  `scons` keeps its own cache alongside it. That pairing is settled; an
+  install that forgets the `SCCACHE_*` environment is an installation
+  defect rather than an open question.
+
   - The non-secret `SCCACHE_*` variables (`SCCACHE_BUCKET`,
     `SCCACHE_ENDPOINT`, `SCCACHE_REGION`, `SCCACHE_S3_USE_SSL`,
     `SCCACHE_S3_KEY_PREFIX`) are set globally; credentials live in the

@@ -8,6 +8,13 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Loop 2 runs first, and its measurements become the numbers the plan checks against.
+  :: intrigue
+  A filename that matches no key is skipped without a word, so a run reports success and
+  edits nothing.
+  :: exit
+  Read `DETAILS.md` for what OmniGen2 and EditScore cost at bf16 and at four bits.
   :: decision
   Run loop 2 first among the four, and let it carry the measurements.
 
@@ -27,9 +34,6 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   EditScore scores it, OmniGen2 repairs. One propose stage, one scorer,
   one repair arm, size M, and it runs second because the harness is the
   only thing it waits on.
-
-  Being smallest makes it the one that measures the two components every
-  other loop also uses, so its numbers are the plan's numbers.
   :: related
   RFD66606-1143, RFD66606-1145 and RFD66606-1146 are the other three loops. RFD66606-1128
   records four-bit tolerance for another model on the same card.
@@ -67,6 +71,9 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   to fit the loop on this desk, and never a way to make data with it. RFD66606-1128
   reaches the same place for a different model, and records that four bits bought
   no speed there either.
+  :: details Why loop 2 carries the numbers
+  Being smallest makes it the one that measures the two components every
+  other loop also uses, so its numbers are the plan's numbers.
   :: details What EditScore costs and returns
   RFD66606-1147 holds it. Every loop scores with EditScore and only loops 2 and 3
   propose with OmniGen2, so the scorer's figures belong to the plan rather than to

@@ -8,6 +8,13 @@ rfd 2233, "Close-out gates: red control, green, scout", :prediscussion do
   attest_in :details
 
   prose ~S"""
+  :: hook
+  Work closes with three recorded gates: red control, green and scout.
+  :: intrigue
+  A gate recorded only passing is decoration: it has never shown it can detect the broken
+  state, and a pass without its command cannot be re-run.
+  :: exit
+  Read `DETAILS.md` for the reference case with its measurements.
   :: decision
   Work closes with three gates in the logbook, each with runnable
   apparatus. Backfilling any of them is permitted: the record is the
@@ -25,9 +32,7 @@ rfd 2233, "Close-out gates: red control, green, scout", :prediscussion do
 
   `DETAILS.md` carries the reference case with its measurements.
   :: problem
-  A gate recorded only passing is decoration: it has never shown it
-  can detect the broken state, and a pass without its command cannot
-  be re-run. Sessions also shed side effects, stray processes, /tmp
+  Sessions also shed side effects, stray processes, /tmp
   files, caches, credentials, that no gate inspects, and a defect can
   hide inside them. The first inventory run found a stale server
   holding a port behind a probe that reported the same identity for

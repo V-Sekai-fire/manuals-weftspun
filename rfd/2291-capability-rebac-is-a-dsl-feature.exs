@@ -10,6 +10,13 @@ and the tables and the fenced block render from them"
 `scripts/check_rebac.exs`, and RFD66606-2200, RFD66606-2202 and RFD66606-2288"
 
   prose ~S"""
+  :: hook
+  Capability ReBAC is declared once in a `rebac` block, and the tables render from it.
+  :: intrigue
+  The authority for what verbs exist was a table layout in a generated file, read by matching
+  pipes in RFD66606-2200's rendered Markdown table.
+  :: exit
+  Run `mix rfd.rebac` to hold every block against the verbs the corpus declares.
   :: decision
   Capability ReBAC is declared, not written twice. A `rebac` block inside
   an `rfd` block carries `verb`, `relate`, `deny` and `capability` lines;
@@ -21,21 +28,23 @@ and the tables and the fenced block render from them"
   :: problem
   `scripts/check_rebac.exs` read its verb vocabulary by matching pipes in
   RFD66606-2200's rendered Markdown table, and RFD66606-2232 (the RFD DSL) makes
-  that Markdown a build artifact, so the authority for what verbs exist
-  was a table layout in a generated file. A second copy of the rows sat in
-  `CLAUDE.md` by hand. Two RFDs use verbs RFD66606-2200 never named and nothing
-  reports it, because the rows the gate reads avoid them.
+  that Markdown a build artifact.
   :: related
   RFD66606-2200 (the verbs and the tuples) declares them here; RFD66606-2232 (RFD
-  authoring as an Elixir DSL) gives the build-artifact rule this follows;
-  RFD66606-2288 (guest capabilities as macaroons) and RFD66606-2202 (role tuples
-  through Bao groups) carry their capabilities and role rows as
-  declarations.
+  authoring as an Elixir DSL) gives the build-artifact rule this follows.
   """
 
   details_title "capability ReBAC is a DSL feature"
 
   prose ~S"""
+  :: details The old problem
+  A second copy of the rows sat in
+  `CLAUDE.md` by hand. Two RFDs use verbs RFD66606-2200 never named and nothing
+  reports it, because the rows the gate reads avoid them.
+  :: details Who else declares
+  RFD66606-2288 (guest capabilities as macaroons) and RFD66606-2202 (role tuples
+  through Bao groups) carry their capabilities and role rows as
+  declarations.
   :: details The surface
   One block per RFD, inside the `rfd` block:
 

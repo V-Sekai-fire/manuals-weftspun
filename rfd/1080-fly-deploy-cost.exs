@@ -7,10 +7,17 @@ rfd 1080, "What the three Fly deploys cost", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  The three Fly deploys have a priced cost, checked live and not estimated.
+  :: intrigue
+  `weftspun-studio`, `weftspun-character-taxonomy`, and `weftspun-usd-viewer` all run
+  as real, billed Fly Machines and Volumes now.
+  :: exit
+  Read `DETAILS.md` for the full breakdown by app.
   :: decision
   Record it, from Fly's own published pricing page, against this
   deployment's own real machine sizes, checked live with `flyctl`, not
-  estimated. See `DETAILS.md` for the full breakdown.
+  estimated.
 
   **Total: $0.012845/hour, $9.26/month, $111.12/year**, at today's
   sizes: three `shared-cpu-1x` machines (two 512MB, one 256MB, the
@@ -21,9 +28,7 @@ rfd 1080, "What the three Fly deploys cost", :published do
   before per-GB billing), and any future Tigris usage RFD66606-1073's
   still-open fetch-path work would add.
   :: problem
-  `weftspun-studio`, `weftspun-character-taxonomy`, and
-  `weftspun-usd-viewer` all run as real, billed Fly Machines and
-  Volumes now. No record states what that costs, hourly, monthly, or
+  No record states what that costs, hourly, monthly, or
   yearly.
   :: related
   RFD66606-1062 gives the Fly.io toplevel. RFD66606-1076 gives the `apps/` split

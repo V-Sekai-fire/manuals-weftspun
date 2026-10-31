@@ -14,7 +14,13 @@
 #     elixir scripts/check_rectgtn_plan.exs --self-test
 # Exit codes: 0 every rendered solution is the planner's, 1 one is not, 2 bad usage.
 
-for f <- ["lib/rfd/rebac.ex", "lib/rfd/rectgtn.ex", "lib/rfd/doc.ex", "lib/rfd/dsl.ex"],
+for f <- [
+          "lib/rfd/rebac.ex",
+          "lib/rfd/rectgtn.ex",
+          "lib/rfd/hide.ex",
+          "lib/rfd/doc.ex",
+          "lib/rfd/dsl.ex"
+        ],
     do: Code.require_file(f)
 
 defmodule RectgtnPlanGate do

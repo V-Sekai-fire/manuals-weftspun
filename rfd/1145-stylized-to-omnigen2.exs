@@ -8,6 +8,13 @@ rfd 1145, "The stylized-to-OmniGen2 loop", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  Loop 3 runs, and everything it touches stays evaluation only.
+  :: intrigue
+  Why is loop 3 a separate loop rather than a variant? Where its input comes from, and
+  that is a licensing question before it is a technical one.
+  :: exit
+  Read RFD66606-1143 next.
   :: decision
   Run it, and treat everything it touches as evaluation only.
 
@@ -25,10 +32,6 @@ rfd 1145, "The stylized-to-OmniGen2 loop", :published do
   Loop 3 is loop 2 with a style transfer in front of it: CycleGAN
   proposes a restyled image, OmniGen2 edits it, EditScore scores the
   result and OmniGen2 repairs. The artifact is an edited png at the size M, the same as loop 2.
-
-  What makes it a separate loop rather than a variant is where its input
-  comes from, and that is a licensing question before it is a technical
-  one.
   :: related
   RFD66606-1143, RFD66606-1144 and RFD66606-1146 are the other three loops. RFD66606-1122 is
   the goal that the four serve.

@@ -7,6 +7,13 @@ rfd 1057, "Open work", :published do
   attest_in :none
 
   prose ~S"""
+  :: hook
+  One list in `DETAILS.md` tells finished work from work still owed.
+  :: intrigue
+  This branch changed the host, the packaging, the backend, and the planner. Some of that work
+  is complete, some is measured but not built, and some is written but never run.
+  :: exit
+  Read `DETAILS.md` for the five sections of open work.
   :: decision
   Keep one list of open work, in `DETAILS.md`. Each entry names the
   RFD that owns it, and what closing it needs. Delete an entry when it
@@ -16,10 +23,6 @@ rfd 1057, "Open work", :published do
   never run, measured and not built, unknown and blocking a number, and
   decided but waiting.
   :: problem
-  This branch changed the host, the packaging, the backend, and the
-  planner. Some of that work is complete, some is measured but not
-  built, and some is written but never run.
-
   A reader who returns to this cannot tell those apart from the RFDs
   alone. Each RFD records its own decision, and none records what is
   still owed.

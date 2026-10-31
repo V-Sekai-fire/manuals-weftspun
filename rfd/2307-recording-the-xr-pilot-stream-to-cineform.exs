@@ -10,6 +10,13 @@ step decodes them on an idle GPU into a CineForm intermediate"
 build, and the av1mkv delivery of a recording"
 
   prose ~S"""
+  :: hook
+  A recording keeps the runtime's own video stream and encodes it later on an idle GPU.
+  :: intrigue
+  Encoding live on the VR GPU would compete with the compositor, which an overload had
+  already killed twice that day.
+  :: exit
+  Read RFD66606-2306 next, on operating the shared desk.
   :: decision
   A recording is the runtime's own video stream, not a screen capture. The
   pilot appends each PyroWave packet to a `.pwrec` file with its presentation
@@ -20,9 +27,7 @@ build, and the av1mkv delivery of a recording"
   :: problem
   The first two-minute sweep was saved as left-eye PNG frames and encoded at
   10 fps, because a full-rate 4K clip passes the size limits of the CineForm
-  RIFF writer and of the MKV writer built with llvm-mingw. Encoding live on the
-  VR GPU would compete with the compositor, which an overload had already
-  killed twice that day.
+  RIFF writer and of the MKV writer built with llvm-mingw.
   :: related
   - RFD66606-2303, the XR requirements; RFD66606-2294, the recording rules.
   - RFD66606-2306, operating the shared desk; RFD66606-2302, the frame budget.

@@ -10,6 +10,13 @@ rfd 2240,
   scope "every repository that ships a deliverable; `2-contract/manuals-weftspun` (the converter and its gate), the three CineForm repositories, and the `CITATION.cff` beside every placed project"
 
   prose ~S"""
+  :: hook
+  One citation record is the master, and every asset's metadata derives from it.
+  :: intrigue
+  A `.cff` beside a clip is separated from it the first time either is copied, and no editor
+  or player reads YAML attribution.
+  :: exit
+  Read `DETAILS.md` for the mapping matrix and the precedence rules.
   :: decision
   `CITATION.cff` stays the master attribution record and every other metadata artefact is derived
   from it. The machine serialization is ISO 16684-1 (XMP) as RDF/XML, in a sidecar named for the
@@ -19,15 +26,7 @@ rfd 2240,
   review timeline is OpenTimelineIO with OpenColorIO naming the display. The converter is Elixir.
   `DETAILS.md` carries the mapping matrix, the precedence rules, and the two places this workspace
   differs from the specification as it arrived.
-  :: problem
-  The workspace already required a `.cff` beside a deliverable and already encoded intermediates
-  as CineForm, but nothing said how a citation reaches the asset a reviewer opens. A `.cff` beside
-  a clip is separated from it the first time either is copied, and no editor or player reads YAML
-  attribution. Review timelines had no interchange, the vector formats were used without being
-  named, and the same citation was retyped by hand.
   :: references
-  - Citation File Format 1.2.0, and ISO 16684-1:2012, the XMP data model and its RDF/XML
-    serialization
   - W3C SVG 1.1 and 2.0; Lottie under IANA `video/lottie+json`
   - SMPTE VC-5, the CineForm intra-frame wavelet codec, and RFD66606-1123 which chose its SDK
   - Academy Software Foundation OpenTimelineIO and OpenColorIO 2
@@ -40,6 +39,14 @@ rfd 2240,
   details_title "One citation, one metadata serialization, one vector pair, one intermediate, one review timeline"
 
   prose ~S"""
+  :: details Standards
+  Citation File Format 1.2.0, and ISO 16684-1:2012, the XMP data model and its RDF/XML
+  serialization.
+  :: details What was missing
+  The workspace already required a `.cff` beside a deliverable and already encoded intermediates
+  as CineForm, but nothing said how a citation reaches the asset a reviewer opens. Review
+  timelines had no interchange, the vector formats were used without being
+  named, and the same citation was retyped by hand.
   :: details The stack
   | layer | standard | in this workspace |
   | --- | --- | --- |

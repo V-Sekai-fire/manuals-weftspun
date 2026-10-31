@@ -8,35 +8,46 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
 `SERIALS-vsekai-fabric.exs`"
 
   prose ~S"""
+  :: hook
+  An RFD is an Elixir file, and the compiler refuses a malformed one before it is written.
+  :: intrigue
+  The shape was enforced after the fact by Python gates reading Markdown, and 143 problems
+  accumulated before one pass fixed them.
+  :: exit
+  Read `DETAILS.md` for the layout, what the render is checked against, and what the
+  conversion found.
   :: decision
   An RFD is an Elixir module that uses `RFD.DSL`: one `rfd` block with `state`, `feature`,
   `scope`, `flight_level`, `decision`, `problem`, `references`, `related`, `details` sections and
   `drafted_by`. The block builds an `RFD.Doc` and validates it against RFD66606-1000 while the
   file compiles, so a state outside the list, a missing Decision or a README over 40 lines is a
-  compile error that names the rule. A site's serial register is a module that uses
-  `RFD.Register`: `allocated`, `unused` and `deleted` blocks of `serial`, `never_written` and
-  `retired` rows. `mix rfd.render` writes README.md, DETAILS.md and `SERIALS*.usda`, the shape the
-  gates and `pen-66606.usda` read, and those files are ignored by git. `DETAILS.md` carries the
-  rest.
+  compile error that names the rule.
   :: problem
-  The shape was enforced after the fact by Python gates reading Markdown, and 143 problems
-  accumulated before one pass fixed them. The register was a hand-edited layer nothing compiled:
+  The register was a hand-edited layer nothing compiled:
   it carried one serial on two directories, one serial allocated and deleted at once, and two
-  slugs that no longer matched their directories. The taskweft domains beside many RFDs are
-  already Elixir, so the authoring form that can refuse a malformed document before it is written
-  is the language the repository already runs.
+  slugs that no longer matched their directories.
   :: references
   - RFD66606-1000, the shape
   - RFD66606-2177, the flight_level tag on the register
   :: related
-  RFD66606-1000 (the README limit and the spine), RFD66606-2177 (the register carries
-  `flight_level`, so the DSL writes it to the register row, not the README), RFD66606-2026 (commit
+  RFD66606-1000 (the README limit and the spine), RFD66606-2177, RFD66606-2026 (commit
   style the rendered files ride on).
   """
 
   details_title "RFD authoring as an Elixir DSL"
 
   prose ~S"""
+  :: details The register and the render
+  A site's serial register is a module that uses `RFD.Register`: `allocated`, `unused` and
+  `deleted` blocks of `serial`, `never_written` and `retired` rows.
+  `mix rfd.render` writes README.md, DETAILS.md and `SERIALS*.usda`, the shape the
+  gates and `pen-66606.usda` read, and those files are ignored by git.
+  :: details Why Elixir
+  The taskweft domains beside many RFDs are already Elixir, so the authoring form that can
+  refuse a malformed document before it is written is the language the repository already runs.
+  :: details The flight level
+  RFD66606-2177: the register carries `flight_level`, so the DSL writes it to the register
+  row, not the README.
   :: details Layout
   One file per RFD, `rfd/NNNN-slug.exs`, rendered into `rfd/NNNN-slug/`.
   A directory exists in git only when it carries apparatus beside the

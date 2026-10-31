@@ -7,19 +7,18 @@ rfd 1025, "Model memory arithmetic", :published do
   attest_in :none
 
   prose ~S"""
-  :: decision
-  **Size a machine from a model's parameter count.**
-
-  Compute the memory from the parameter count. Apply the rule to each catalog model, and
-  treat the estimated rows as an upper bound for planning. Prefer `measured` over every other
-  source, and prefer bf16 over fp16 where a checkpoint offers both. The two formats cost the
-  same memory, and bf16 carries the wider exponent range.
-
+  :: hook
+  Size a machine from a model's parameter count.
+  :: intrigue
+  RFD66606-1016 says what each model is. It does not say what each model costs.
+  :: exit
   Look up the model in `DETAILS.md`, then apply the safe rule for one resident model.
+  :: decision
+  Compute the memory from the parameter count. Apply the rule to each catalog model, and
+  treat the estimated rows as an upper bound for planning.
   :: problem
-  RFD66606-1016 says what each model is. It does not say what each model
-  costs. A reader cannot size a machine from the inventory alone. The backend must decide
-  which models stay resident, and that decision needs a number per model.
+  A reader cannot size a machine from the inventory alone. The backend must decide which
+  models stay resident, and that decision needs a number per model.
   :: section The rule
   bf16 holds one parameter in 2 bytes. The weight bytes are therefore
   the parameter count multiplied by 2.
@@ -55,6 +54,10 @@ rfd 1025, "Model memory arithmetic", :published do
   device memory = weight GB x 1.1 + activation peak
   ```
   :: details bf16 memory per model
+  Prefer `measured` over every other source, and prefer bf16 over fp16 where a checkpoint
+  offers both. The two formats cost the same memory, and bf16 carries the wider exponent
+  range.
+
   RFD66606-1027 permits two formats. bf16 holds one parameter in 2 bytes, and
   Q4_K_M holds one in about 0.55 bytes. The table gives both, per model.
 

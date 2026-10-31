@@ -4,13 +4,19 @@ use RFD.DSL
 
 rfd 2013, "Archival file naming convention", :prediscussion do
   prose ~S"""
-  :: decision
-  See `DETAILS.md` for the full argument.
-  :: problem
+  :: hook
+  Committed assets carry a date-first, lowercase, sequenced name.
+  :: intrigue
   The manuals repo now commits binary assets alongside prose, starting
   with screenshots under `decisions/attachments/`. Ad-hoc names like
   `image.png` collide, sort poorly, and lose their provenance once they
-  leave the page that referenced them. What naming convention should
+  leave the page that referenced them.
+  :: exit
+  Read `DETAILS.md` for the full argument and the naming rules.
+  :: decision
+  See `DETAILS.md` for the full argument.
+  :: problem
+  What naming convention should
   committed assets follow so they stay unique, sortable, and
   self-describing?
   :: related

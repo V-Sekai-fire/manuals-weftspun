@@ -12,7 +12,8 @@
 #
 # Exit codes: 0 every row is well formed, 1 a row is not or a precondition is unmet, 2 bad usage.
 
-for f <- ~w(lib/rfd/rebac.ex lib/rfd/ref.ex lib/rfd/rectgtn.ex lib/rfd/doc.ex lib/rfd/dsl.ex),
+for f <- ~w(lib/rfd/rebac.ex lib/rfd/ref.ex lib/rfd/rectgtn.ex lib/rfd/hide.ex lib/rfd/doc.ex
+         lib/rfd/dsl.ex),
     do: Code.require_file(f)
 
 defmodule ReBACGate do
