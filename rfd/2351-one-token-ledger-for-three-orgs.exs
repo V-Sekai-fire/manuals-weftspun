@@ -1,0 +1,118 @@
+# Copyright (c) 2026 K. S. Ernest (iFire) Lee
+# SPDX-License-Identifier: MIT
+use RFD.DSL
+
+rfd 2351, "one token ledger for three orgs", :discussion do
+  feature "the innovation tokens count what the code runs on, so two tokens cover the
+app and both upstream orgs"
+  scope "the token ledger in the private working agreements and the private plan, the
+private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
+
+  prose ~S"""
+  :: decision
+  A token is a substrate: the thing a failure takes down with it. The
+  ledger has two. Token 1 is guest ELFs on the pinned double engine. The
+  meshing pen and `zone.elf` both run there, so they share it, with the
+  ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
+  Token 2 is one store, SQLite on FoundationDB pages. CockroachDB is
+  retired (operator, 2026-10-18). The BEAM spends no token. Elixir is
+  boring technology whose failure modes are known, its failure takes down
+  a tool or a gate rather than the app, and it ships nothing into the
+  app. The guest BEAM is unship (operator, 2026-10-29). The count was
+  three and is two. The ledger changes between rungs, not in an open one,
+  and the operator moved the two documents on 2026-10-30 rather than
+  wait for a rung to claim them.
+  :: problem
+  The ledger counts features. The pen and `zone.elf` take two tokens and
+  run on one substrate. Elixir runs every tool and spends no token. The
+  upstream orgs ran a second database. Of 312 repos that use a non-boring
+  technology, 182 fit inside one token when each technology is its own.
+  :: related
+  - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
+  - RFD66606-2006 and RFD66606-2075, abandoned.
+  - The private blocklist, the CockroachDB row.
+  """
+
+  details_title "one token ledger for three orgs"
+
+  prose ~S"""
+  :: details How the ledger was found
+  The operator requested it on 2026-10-18: study the three orgs and
+  consolidate the tokens with frontier learning, with no limit on the
+  count. Each org is a level. Each repo that uses a non-boring technology
+  is a problem: 298 in V-Sekai-fire, 10 in the private org (the local
+  checkouts, because the token cannot list the org) and 4 in
+  chibifire-stages. A problem passes when every technology it uses is in
+  one token. Repos were tagged against 33 technologies from their names,
+  descriptions, topics and languages.
+
+  A step tries one move, "technology X rides on token Y". The level with
+  the most regret picks it. The move is kept only when total passes rise
+  and at least two repos use both. Two planted moves with no relation
+  (Ink onto OpenBao, Janet onto CockroachDB) were controls, and both were
+  rejected.
+
+  :: details What it measured
+  - Passes rose from 182 to 263 of 312 (58% to 84%): 23 moves kept, 11 rejected.
+  - Per level at the end: V-Sekai-fire 251 of 298, the private org 8 of
+    10, chibifire-stages 4 of 4.
+  - Kept onto the guest token: the pen, `zone.elf`, ggml-rd (and the
+    Python reference models and Slang kernels behind it), MuJoCo,
+    OpenUSD, voice, Rust guests, `slug.elf`, the double engine with
+    xr-pilot and CineForm, and Lean as tests.
+  - Kept onto the BEAM: taskweft, MCP, holographic reduced representations.
+  - Not merged, for want of shared repos: CockroachDB, the casync chunk
+    store, OpenBao and parquet into the store. Retiring CockroachDB was
+    an operator decision, not a measured one.
+
+  :: details What is still split
+  - Elixir and guest code meet in 29 repos (taskweft compiled to a
+    guest, the Godot build service, the MCP guest, the private org's
+    double-engine repository). That boundary decides two big tokens or
+    one.
+  - Fly and Terraform, Ink, Janet, TLA+, gaussian splats, hypercore and
+    Go each sit alone. Each is a candidate to retire or park.
+  - The tagging reads metadata, not code. Two third-party engine
+    scripting tags landed in the guest token on a loose keyword. The
+    moves were written by the agent; the measurement only checked them
+    against shared repos.
+
+  :: details CockroachDB, retired
+  - The private org: a row in the private blocklist.
+  - Weftspun: a manuals pull request, merged.
+  - Moved to SQLite on FoundationDB, all merged 2026-10-18: the zone
+    backend contract (its leftover CockroachDB deploy and notes), the
+    taskweft MMOG agent and the residual FSQ recommender (both tested in
+    CI on a real FoundationDB), and the multiplayer fabric hosting
+    service (compose only, never run: no desk runs containers).
+  - Also moved, merged 2026-10-18: weftspun-character-taxonomy (its
+    image no longer starts a CockroachDB node; CI finds its test
+    database's keys in FoundationDB). The smoke-test scripts in the
+    multiplayer fabric meta repo wait for a merge with no CI.
+  - Archived: the fabric's CockroachDB service, the Dokku CockroachDB
+    service, the vertex interactor, the fabric's container service, the
+    fabric gateway transport and the fabric infra service (the Terraform
+    for the Fly app; its daily backup found no started machine on
+    2026-10-18).
+  - The pinned taskweft dependency still pulls postgrex.
+  - The analysis script was Python in a scratch directory. It is not kept
+    here, by the languages rule.
+
+  :: details The BEAM row, unship (operator, 2026-10-29)
+  No guest runs BEAM bytecode, and no `beam.elf` exists in the tree. The
+  only novel piece of the row is RFD66606-2330's static riscv64 BEAM, and
+  that is the piece to unship. Counting the BEAM as a token spent the slot
+  that merging the pen and the shared world freed.
+
+  :: details The two rows, moved (operator, 2026-10-30)
+  - The private plan: "The three innovation tokens" is two. The ledger
+    table's pen row and zones row are one guest row, which absorbs the
+    "already paid" RISC-V row, and the store row is token 2.
+  - The private working agreements: "There are three, and all three are
+    spent" is two, naming guest ELFs on the pinned double engine as the
+    token the pen and `zone.elf` share.
+  - The operator moved both on 2026-10-30, outside a rung, rather than
+    waiting for one to claim them, and RFD66606-2341's item left
+    dev.next.
+  """
+end

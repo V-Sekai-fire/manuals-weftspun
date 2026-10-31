@@ -151,6 +151,18 @@ defmodule Serials.VSekaiFabric do
       serial 2333, "a-desk-reaches-foundationdb-only-through-bao", flight_level: :l1
       serial 2339, "a-persona-answers-from-a-planning-domain", flight_level: :l1
       serial 2340, "a-campus-where-a-party-of-four-draws-and-wears", flight_level: :l1
+      serial 2341, "dev-next"
+      serial 2342, "dev1-the-tray-icon"
+      serial 2343, "dev2-the-first-playable"
+      serial 2344, "dev3-the-verification-of-dev-2"
+      serial 2345, "video-intermediate-cineform-flac-mkv"
+      serial 2346, "decider-pong-in-the-workspace"
+      serial 2347, "decider-pong-second-opinion-and-win"
+      serial 2348, "taskweft-superset-workspace"
+      serial 2349, "recording-a-live-run"
+      serial 2350, "inventory-in-a-private-journal"
+      serial 2351, "one-token-ledger-for-three-orgs"
+      serial 2352, "second-hand-garments-for-the-avatar"
     end
 
     deleted do
