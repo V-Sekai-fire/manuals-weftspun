@@ -139,15 +139,6 @@ rfd 2240,
   is the right shape; it is transcribed rather than adopted. A Python file
   that survives in this workspace is a runner wrapping a model and says so in
   its first line, which a metadata converter is not.
-
-  FFmpeg is blocklisted and now carries the row that says so. RFD66606-1175 had
-  asserted the ban since it was written while no row backed it; the operator
-  confirmed it on 2026-09-08 and the row and its argument landed in the same
-  change as this document. The argument is the licence: FFmpeg is
-  LGPL-2.1-or-later, what this workspace ships is one statically linked
-  binary per platform, and the relinking the licence asks for is a thing that
-  binary cannot offer. Capability was never the question, since FFmpeg does
-  hold a CineForm encoder.
   :: details What is built and what is not
   Read on this desk, 2026-09-08:
 
