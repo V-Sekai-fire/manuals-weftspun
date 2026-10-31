@@ -2,7 +2,7 @@
 
 What a zone tick costs on one core, with the conditions it ran under. A number without its conditions is not a result. Each entry names the apparatus, the method and the outcome. An entry that turned out to be invalid stays and says why: a run that is deleted teaches nothing twice.
 
-Split out of this file as it grew: [determinism.md](determinism.md), [scaling.md](scaling.md), [curves.md](curves.md), [topology.md](topology.md), [filming.md](filming.md), [borrowed_tricks.md](borrowed_tricks.md).
+Split out of this file as it grew: [determinism.md](logbook-ward-determinism.md), [scaling.md](logbook-ward-scaling.md), [curves.md](logbook-ward-curves.md), [topology.md](logbook-ward-topology.md), [filming.md](logbook-ward-filming.md), [borrowed_tricks.md](logbook-ward-borrowed-tricks.md).
 
 ## Apparatus
 

@@ -143,7 +143,7 @@ crossover arithmetic is a distraction from it.
 
 ### The clustered forms, and where they stop being different things
 
-Clustered client-server is the model already in [scaling.md](scaling.md): zone cores that
+Clustered client-server is the model already in [scaling.md](logbook-ward-scaling.md): zone cores that
 simulate, a stateless fan-out tier that distributes, seams carried as ghosts. The client draws
 and interpolates and simulates nothing.
 

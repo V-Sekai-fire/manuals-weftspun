@@ -92,7 +92,7 @@ constants and a chunking routine are worth more than any factor of sixteen on th
 
 ### What this does not say
 
-- The CPU column is optimistic in the way [one_core.md](one_core.md) warns about: it prices a
+- The CPU column is optimistic in the way [one_core.md](logbook-ward-one-core.md) warns about: it prices a
   player at 2.23 us, which is the *contactless* cost measured with no cubes in the scene. Players
   in a dense zone contact things. The column should be read as an upper bound, and the argument
   does not need it -- the entity budget binds an order of magnitude below even this.

@@ -41,7 +41,7 @@ coupling is the thing being solved. That much this workspace had right.
 
 A bubble is a *spatial* cell. Broadphase inside one is independent of broadphase inside another,
 so bubbles parallelise **collision detection** — which is where the time actually goes, per the
-sleep result in [one_core.md](one_core.md). Bounding islands bounds the solve, and the solve was
+sleep result in [one_core.md](logbook-ward-one-core.md). Bounding islands bounds the solve, and the solve was
 never the cost.
 
 **The first reading conflated the two** and concluded that bounding island size lets a zone use
