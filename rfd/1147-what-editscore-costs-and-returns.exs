@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 1147, "What EditScore costs and returns", :published do
-  flight_level :l1
   feature "the scorer shared by all four loops"
   scope "`fourloops-plan.usda`"
   attest_in :none

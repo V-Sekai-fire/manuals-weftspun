@@ -267,15 +267,15 @@ defmodule Serials.VSekaiFabric do
       serial 2308, "ninfer-kernels-in-slang-inside-mlx", flight_level: :l2
       serial 2309, "frontier-learning-for-the-alyx-planner", flight_level: :l1
       serial 2310, "eye-landmarks-from-a-frontier-learned-render-domain", flight_level: :l1
-      serial 2311, "serving-bonsai-2-with-ninfer-all-and-dflash2", flight_level: :l1
-      serial 2312, "release-tags-are-go-pseudo-versions", flight_level: :l1
+      serial 2311, "serving-bonsai-2-with-ninfer-all-and-dflash2"
+      serial 2312, "release-tags-are-go-pseudo-versions"
       serial 2313, "the-full-loop-over-colour-passthrough", flight_level: :l2
       serial 2314, "the-skintokens-space-viewer-runs-as-sandbox-guests", flight_level: :l2
       serial 2315, "web-shaders-are-baked-by-the-browser-that-runs-them"
       serial 2316, "bao-holds-a-bounded-set", flight_level: :l2
       serial 2317, "a-browser-joins-a-webtransport-server-with-a-bao-ticket", flight_level: :l2
       serial 2318, "the-avatar-space-is-built-smallest-joy-first", flight_level: :l2
-      serial 2319, "a-serving-hosts-certificate-comes-from-agent-ca-v2", flight_level: :l1
+      serial 2319, "a-serving-hosts-certificate-comes-from-agent-ca-v2"
       serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
       serial 2321, "the-autobattler-fields-frames-that-wear"
       serial 2322, "a-mac-dashboard-and-theatre-mode", flight_level: :l1

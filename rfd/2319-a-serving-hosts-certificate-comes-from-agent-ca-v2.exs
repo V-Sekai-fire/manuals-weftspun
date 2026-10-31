@@ -3,7 +3,6 @@
 use RFD.DSL
 
 rfd 2319, "a serving host's certificate comes from agent CA v2", :committed do
-  flight_level :l1
   feature "a host that serves on the tailnet gets a server certificate for its own agent identity,
 signed by Bao's agent CA v2 without the root token"
   scope "weftspun-bao's `pki-agents` and `pki-agents-v2` mounts, the `csr-signer` policy, and

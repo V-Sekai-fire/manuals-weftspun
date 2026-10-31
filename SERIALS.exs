@@ -132,7 +132,7 @@ defmodule Serials.Weftspun do
       serial 1144, "image-to-omnigen2", flight_level: :l1
       serial 1145, "stylized-to-omnigen2", flight_level: :l1
       serial 1146, "latent-to-pixal3d", flight_level: :l1
-      serial 1147, "what-editscore-costs-and-returns", flight_level: :l1
+      serial 1147, "what-editscore-costs-and-returns"
       serial 1148, "the-runtime-that-reaches-the-device"
       serial 1149, "mtoon-shades-against-the-key-light"
       serial 1150, "shade-colour-solved-per-tone"
