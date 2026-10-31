@@ -13,7 +13,8 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   The catalog mixes deep learning models and geometric algorithms. A reader who plans memory
   cannot tell the two apart.
   :: exit
-  Read `DETAILS.md` for the algorithm table, and RFD66606-1016 for the neural models.
+  Check a new entry against the rule above: an algorithm that holds no weights goes in the
+  algorithm table in `DETAILS.md`, and a neural model goes in RFD66606-1016.
   :: decision
   List the geometric algorithms apart from the neural models. RFD66606-1016
   holds the neural models.

@@ -10,7 +10,8 @@ rfd 2360, "The campus ships one beta", :discussion do
   :: hook
   The campus ships one beta, and every feature outside it is abandoned.
   :: intrigue
-  Dev is development: features land and change.
+  Dev is development: features land and change, and a feature that misses the one beta is
+  abandoned rather than deferred.
   :: exit
   A new idea that matches a nongoal is refused. Cut the beta when every gate passes with
   its control.

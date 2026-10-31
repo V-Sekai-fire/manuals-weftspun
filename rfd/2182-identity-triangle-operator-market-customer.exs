@@ -14,7 +14,8 @@ rfd 2182, "Identity triangle for operator, partner project, market", :committed 
   Who runs the atelier-workshop, who receives the shuttle, and which market? Three
   L3 (Flight Levels: strategy altitude) gaps stayed open.
   :: exit
-  Read `DETAILS.md` for the full text of this RFD.
+  Check an RFD title, public prose, README tagline or pitch against the three anchors in the
+  decision above before you merge it.
   :: decision
   chibifire.com runs the atelier-workshop (the pipeline), V-Sekai is its co-founded partner
   project that receives the shuttle (the portable-character deliverable), and the market is

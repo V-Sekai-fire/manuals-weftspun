@@ -10,9 +10,12 @@ rfd 2355, "Consumers cache Bao reads in memory", :discussion do
   :: hook
   A consumer that holds a bearer for a few minutes keeps Bao out of its critical path.
   :: intrigue
-  Every read against Bao is a Bao dependency.
+  Every read against Bao is a Bao dependency, and DNS, R2 writes and the FDB coordinator
+  lookup all read from it.
   :: exit
-  On a Bao error, retry; do not hold the stale value.
+  Check a consumer that reads Bao against the rule above: it caches the value in its own
+  memory for less time than the value protects, and on a Bao error it retries rather than
+  holding the stale value.
   :: decision
   Consumers cache what they can. A bearer held for a few minutes puts Bao in the critical
   path only at cache expiry.

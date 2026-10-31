@@ -14,7 +14,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   :: intrigue
   The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
   :: exit
-  Read `DETAILS.md` for how the ledger was found and what is still split.
+  Check a new technology against the rule: a token is what a failure takes down with it.
   :: decision
   A token is a substrate: the thing a failure takes down with it. The
   ledger has two. Token 1 is guest ELFs on the pinned double engine. The
@@ -30,10 +30,6 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   wait for a rung to claim them.
   :: problem
   Elixir runs every tool and spends no token.
-  :: related
-  - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
-  - RFD66606-2006 and RFD66606-2075, abandoned.
-  - The private blocklist, the CockroachDB row.
   """
 
   details_title "one token ledger for three orgs"
@@ -82,6 +78,11 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     scripting tags landed in the guest token on a loose keyword. The
     moves were written by the agent; the measurement only checked them
     against shared repos.
+
+  :: details Related RFDs
+  - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
+  - RFD66606-2006 and RFD66606-2075, abandoned.
+  - The private blocklist, the CockroachDB row.
 
   :: details CockroachDB, retired
   - The private org: a row in the private blocklist.

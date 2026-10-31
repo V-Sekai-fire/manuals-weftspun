@@ -13,8 +13,8 @@ rfd 1021, "A shared holographic algebra library", :published do
   Two representations of one idea is one too many. The two also do not interoperate, because
   a vector from one carries no meaning in the other.
   :: exit
-  Read `DETAILS.md` for why the phase representation wins, the dimension choice, the
-  migration effects, the risks, the Lean proofs and the verified status.
+  Run the golden fixture `test/fixtures/hrr_golden.json` and check parity with the Python
+  `holographic.py` reference to 1.0e-12. `DETAILS.md` holds the rationale and the risks.
   :: decision
   Extract the earlier port into a library, and depend on it.
 

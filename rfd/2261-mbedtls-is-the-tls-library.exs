@@ -11,7 +11,8 @@ certificate or signs a token"
   :: hook
   New TLS, mutual-TLS and signing code builds on mbedTLS.
   :: intrigue
-  Each new component chose its own TLS stack.
+  Each new component chose its own TLS stack, and a guest ELF that must reach Bao cannot lean on
+  the engine's HTTP client.
   :: exit
   Read RFD66606-2256 next: its QUIC stack runs TLS 1.3 through picotls on mbedTLS.
   :: decision

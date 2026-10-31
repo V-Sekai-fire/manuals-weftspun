@@ -12,10 +12,11 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   OpenUSD is the working format, and glTF and VRM stay at the edge.
   :: intrigue
   Each pipeline stage reads a GLB and writes a GLB. A rig stage rewrites the whole file to add
-  bones.
+  bones, a texture stage rewrites it again, and when a mesh is wrong no record says which stage
+  made it wrong.
   :: exit
-  Read `DETAILS.md` for why layers beat a flat mesh format, the internal/transmission boundary,
-  worlds, the shared runtime, and what every model image must return.
+  Convert to glTF or VRM at the boundary only, and check that each model image's `predict()`
+  returns the USD layer as well as the transmission file.
   :: decision
   OpenUSD is the internal format. Every stage reads a stage and writes a
   layer. glTF, VRM, and KHR avatar stay the transmission formats, and
@@ -27,11 +28,8 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   Elixir studio core; the `fabric-stage-runtime` Hex package still
   ships OpenUSD to every consumer.
   :: problem
-  A texture stage rewrites it again.
-
   Every rewrite loses what came before. glTF holds one flat result, thus
   a stage cannot add an opinion without erasing the previous author.
-  When a mesh is wrong, no record says which stage made it wrong.
   :: related
   RFD66606-1036 gives the model image convention. `fabric-stage-runtime`
   (Hex) links this runtime to every stage. RFD66606-1002 records the

@@ -13,8 +13,8 @@ rfd 1054, "The planner inside the studio core", :published do
   `extension/` ran Elixir in an editor panel, through Popcorn and AtomVM. It proved the
   pipeline, and it could not ship.
   :: exit
-  Read `DETAILS.md` for the wrong-answer record of a second application, the port-mocking
-  rule, the measured plans, three taskweft fixes this work needed, and the two planner routes.
+  Run `pipeline_test.exs`, which mocks nothing and runs the real planner over the real
+  planning documents, before you merge a change to the planner.
   :: decision
   Delete `extension/`. Put the planner inside `weftspun_studio`, which
   RFD66606-1019 already makes the API server.

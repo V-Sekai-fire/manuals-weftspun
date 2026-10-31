@@ -14,7 +14,7 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   A notebook named three packages while the loop depended on five environments it never
   named, so it ran on one desk and nowhere else.
   :: exit
-  Read `DETAILS.md` for the failure behind this rule, then RFD66606-1134.
+  Run `priv/python/check_pixi_free.py` before you merge, then read RFD66606-1134.
   :: decision
   An Elixir app reaches Python through pythonx and through nothing else.
   `priv/python/check_pixi_free.py` fails the build on a call to the other
@@ -25,12 +25,6 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   dependency set is a second app: its own mix project, its own setup cell,
   its own runtime. The gate holds that too. It reads the `pyproject.toml`
   cell of every notebook in an app and fails when two of them differ.
-
-  This is what the corpus repository's environments were for. OmniGen2 pins
-  torch 2.6.0+cu124 and EditScore pins cu128, and no interpreter holds
-  both. That separation stays, as apps beside each other rather than
-  environments inside one app. The corpus repository keeps its own
-  environments, and what is forbidden is this app calling into them.
   :: problem
   `service-livebook` embeds a Python interpreter with `pythonx`. Its setup
   cell names the packages and the pins travel in the notebook file. Beside
@@ -42,6 +36,12 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   details_title "One Python environment per Elixir app"
 
   prose ~S"""
+  :: details Where the separation went
+  This is what the corpus repository's environments were for. OmniGen2 pins
+  torch 2.6.0+cu124 and EditScore pins cu128, and no interpreter holds
+  both. That separation stays, as apps beside each other rather than
+  environments inside one app. The corpus repository keeps its own
+  environments, and what is forbidden is this app calling into them.
   :: details The failure was not theoretical
   RFD66606-1134 tests these notebooks in the browser, which is how the missing
   renderer was found.

@@ -10,7 +10,8 @@ rfd 2359, "The shopkeeper keeps the books for each conversation", :discussion do
   :: hook
   The shopkeeper keeps the books for each conversation, so a met request needs no more.
   :: intrigue
-  RFD66606-2045 names a store this workspace has retired.
+  RFD66606-2045 names a store this workspace has retired, and the shop needs a saved world for
+  each conversation to answer a met request with nothing left to do.
   :: exit
   Run the memory gate: the second request for a goal in one conversation returns an empty plan.
   :: decision

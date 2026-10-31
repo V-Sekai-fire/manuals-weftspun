@@ -16,7 +16,8 @@ same fixtures; both are graded against the spec."
   RFD66606-2157's Lean formalisation is the ground truth. RFD66606-2158 blocks
   Lean-emitted ELF today (upstream RFC 12655 open).
   :: exit
-  Read `DETAILS.md` for the differential harness and the fixture format.
+  Run both `.elf` implementations on the RFD66606-2157 fixture set and check that they agree
+  byte-for-byte.
   :: decision
   Green-lit; C++ and Rust both to ship.
 

@@ -18,7 +18,8 @@ rfd 2172, "Prose speaks in the tenseless continuous present", :committed do
   :: hook
   Every sentence of prose in this workspace states what is true of the system now.
   :: intrigue
-  A reader opens a comment and cannot tell whether it still holds.
+  A reader opens a comment written as history or as a plan and cannot check it against the
+  code in front of them.
   :: exit
   Reject a sentence in review when it breaks one of the three habits below.
   :: decision

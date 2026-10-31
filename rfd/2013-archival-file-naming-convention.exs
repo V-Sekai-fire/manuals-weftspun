@@ -12,7 +12,8 @@ rfd 2013, "Archival file naming convention", :prediscussion do
   `image.png` collide, sort poorly, and lose their provenance once they
   leave the page that referenced them.
   :: exit
-  Read `DETAILS.md` for the full argument and the naming rules.
+  Check a new asset under `decisions/attachments/` against `YYYYMMDD_project_description_NNNN.ext`
+  and confirm it has a matching entry under `references:` in `CITATION.cff`.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

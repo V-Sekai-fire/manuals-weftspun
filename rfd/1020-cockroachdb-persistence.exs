@@ -13,7 +13,8 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   The fact store holds facts in memory, so a trust change dies when the node stops and a
   retracted fact comes back.
   :: exit
-  Read `DETAILS.md` for the schema, the seed, the modules, the settings and the open risk.
+  Run `mix ecto.migrate` to create the `facts` table in the SQLite file, which is made on
+  demand, and read `DETAILS.md` for the schema, the seed and the open risk.
   :: decision
   **Use SQLite for storage, and Ecto for the mapping.** The service owns one
   file. `Ecto.Adapters.SQLite3` drives it through `ecto_sqlite3`, and the

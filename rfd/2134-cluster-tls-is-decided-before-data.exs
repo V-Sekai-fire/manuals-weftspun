@@ -17,7 +17,8 @@ rfd 2134,
   reach the blob store: FoundationDB uses one TLS policy for peers and
   for S3, so a cluster with no trust store cannot speak HTTPS to Tigris.
   :: exit
-  Read DETAILS.md for the profile and the procedure on a live plaintext cluster.
+  Check a new cluster or client certificate against the v3 profile before you push it.
+  DETAILS.md holds the profile and the procedure on a live plaintext cluster.
   :: decision
   Mutual TLS from a private CA, per-machine certificates named by Fly
   machine ID, and one client certificate per consuming service, all

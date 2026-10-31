@@ -13,7 +13,8 @@ rfd 1027, "GPU tier per model", :committed do
   Does every model fit one device at once? This RFD first summed 116.45 GB against a
   128 GB DGX Spark, found about 10 GB of headroom, and called the margin too small.
   :: exit
-  Read `DETAILS.md` for the tier table of every model.
+  Size a new model alone against the weights RFD66606-1025 gives and its activation peak, then
+  place it in the tier table in `DETAILS.md`.
   :: decision
   Size each model on its own. The question is which GPU tier one model
   needs, and not whether a set of models co-resides.

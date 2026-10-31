@@ -14,7 +14,8 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   whisper-large-v3 dominates panel wall-time (several seconds each on MPS versus
   sub-second for Voxtral and Parakeet).
   :: exit
-  Read `DETAILS.md` for the per-clip WER table behind this.
+  Drop the whisper backends from `emit_10track_panel.py`, and the Whisper entries from
+  `CITATION.cff` and the downstream RFDs.
   :: decision
   Drop all three Whisper models (whisper-large-v3, ipa-whisper-small, ipa-whisper-base) from the ASR panel; the panel drops from 12 tracks to 9, and Whisper is not replaced.
   :: problem

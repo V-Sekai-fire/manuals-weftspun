@@ -13,7 +13,8 @@ rfd 1057, "Open work", :published do
   This branch changed the host, the packaging, the backend, and the planner. Some of that work
   is complete, some is measured but not built, and some is written but never run.
   :: exit
-  Read `DETAILS.md` for the five sections of open work.
+  Close an entry in `DETAILS.md` by doing what it names, then delete it, and check that every
+  remaining entry names its owning RFD and what closing it needs.
   :: decision
   Keep one list of open work, in `DETAILS.md`. Each entry names the
   RFD that owns it, and what closing it needs. Delete an entry when it

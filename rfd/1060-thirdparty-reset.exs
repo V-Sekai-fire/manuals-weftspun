@@ -13,8 +13,8 @@ rfd 1060, "A thirdparty/ reset", :committed do
   108 files outside `src/library/` still imported from it, and RFD66606-1023's per-file
   move rule gave no place to put those files a port did not cover yet.
   :: exit
-  Read `DETAILS.md` for why this was a real move, and not an import rewrite, plus every
-  path the move touched and the verified results.
+  Put new work at the repository root, and compose with `thirdparty/3d_studio/` through a port
+  per RFD66606-1023, or leave it alone.
   :: decision
   Two moves, one after the other. First, `src/library/` to
   `thirdparty/library/`, as real files and not a symlink. Second,

@@ -10,10 +10,11 @@ rfd 1152, "Background removal for photographic corpora", :published do
   :: hook
   Background removal uses a photo-trained matting model, not a union of part masks.
   :: intrigue
-  See-Through decomposes a character into semantic layers, and the union of its
-  nineteen part masks is an obvious foreground matte.
+  The union of See-Through's nineteen part masks looks like an obvious foreground matte. On a
+  cosplay photograph it put a real Santa hat in the background and deleted it.
   :: exit
-  Read `DETAILS.md` for the ground-truth ranking and the dtype it depends on.
+  Adopt `ZhengPeng7/BiRefNet_HR-matting` as the default background remover, and use See-Through
+  part masks only as regions, never as labels.
   :: decision
   Background removal uses a photo-trained dichotomous matting model, not a union of
   semantic part masks. `ZhengPeng7/BiRefNet_HR-matting` is the default. It has no
@@ -26,7 +27,7 @@ rfd 1152, "Background removal for photographic corpora", :published do
 
   `DETAILS.md` carries the ground-truth ranking and the dtype it depends on.
   :: problem
-  It is already in the
+  The See-Through union is already in the
   manifest, already loaded, and on most frames it produces a clean cutout.
   :: related
   RFD66606-1006 covers layer decomposition. RFD66606-1153 covers how the resulting mattes are

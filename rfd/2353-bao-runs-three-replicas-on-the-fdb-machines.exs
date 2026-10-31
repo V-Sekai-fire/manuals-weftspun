@@ -10,9 +10,11 @@ rfd 2353, "Bao runs three replicas on the FDB machines", :discussion do
   :: hook
   Bao runs as three replicas, one beside each FDB machine.
   :: intrigue
-  Bao was one machine, and every consumer now depends on it.
+  Bao was one machine, and every consumer now depends on it: every routine credential read,
+  coordination write and policy check routes through Bao, so one outage stops them all.
   :: exit
-  Deploy one machine at a time and unseal each; the details hold the steps.
+  Deploy the image to the three weftspun-fdb machines one at a time and unseal each, then
+  destroy the `weftspun-bao` app once the three serve.
   :: decision
   `ha_enabled = true`, coordinated over FDB (operator, 2026-10-13). The `weftspun-bao`
   app retires once the three instances serve.

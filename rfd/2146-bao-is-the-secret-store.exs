@@ -17,7 +17,8 @@ already presents a per-identity TLS leaf."
   credential: a shared bearer for reads, a root token for writes, a
   network ACL as an identity substitute.
   :: exit
-  Read `DETAILS.md` for the role table, the walkthrough and the negative controls.
+  Check a new service against the rule above: one policy, one role, an exact-match CN with
+  no globs. `DETAILS.md` holds the role table.
   :: decision
   The cert is the answer. Bao's cert auth backend accepts each
   identity's per-service leaf as the login credential, mints a scoped

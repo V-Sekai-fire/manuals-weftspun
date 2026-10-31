@@ -13,7 +13,8 @@ rfd 2173, "Qwen3-VL to Gemma-4-12B migration index", :committed do
   Ten open RFDs still name Qwen3-VL, but not all of those mentions are drift: some are
   load-bearing references to real artifacts.
   :: exit
-  Read `DETAILS.md` for the per-RFD annotations.
+  Look up the RFD in the per-RFD annotations in `DETAILS.md` before you rewrite its Qwen3-VL
+  mention, and keep the measured ones.
   :: decision
   This RFD is the citable index for the Qwen3-VL to Gemma-4-12B swap; ten open RFDs still name
   Qwen3-VL, and each migrates its mention as follow-on when next touched.

@@ -14,7 +14,8 @@ rfd 1147, "What EditScore costs and returns", :published do
   EditScore's measurements were written into RFD66606-1144, so a reader of loop 3 had to know
   to look in loop 2 for what the scorer costs.
   :: exit
-  Read `DETAILS.md` for the peak memory, the overall score, and the negative control.
+  Cite this RFD, and not RFD66606-1144, when a loop needs the scorer's peak memory or its
+  overall score.
   :: decision
   Give the scorer its own RFD, and let the loops cite it.
 

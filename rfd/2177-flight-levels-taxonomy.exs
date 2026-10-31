@@ -19,14 +19,16 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
   :: hook
   Tag an RFD's altitude and find all the strategy decisions at once.
   :: intrigue
-  A reader wanting "all the strategy decisions" reads every RFD and infers.
+  A reader wanting "all the strategy decisions" must read every RFD and infer each altitude,
+  because the register carries no field for it.
   :: exit
-  Read DETAILS.md for the tag schema, the render script's shape, and the Klaus Leopold citation.
+  Run `scripts/render_flight_level_pages.py` after you add a `flight_level` tag, then check
+  the RFD appears on its per-level page. DETAILS.md holds the tag schema and the citation.
   :: decision
   Every RFD carries an optional `flight_level` tag, L1/L2/L3 (Flight Levels: execution / coordination / strategy), and three Quarto listings render from that tag; tagging is opt-in.
   :: problem
   An RFD describes a decision at some altitude of work (portfolio bet, cross-team coordination,
-  or a single team's execution), but the register carries no field for that altitude.
+  or a single team's execution).
   :: related
   RFD66606-1000 (RFD conventions), RFD66606-1053 (OpenUSD internal format), RFD66606-2174
   (open-abandoned index) and RFD66606-2176 (committed-terminal index): same pattern of one

@@ -10,7 +10,7 @@ rfd 2012, "Amend pr before it enters the queue", :prediscussion do
   A correction pushed seconds after enqueueing was orphaned, because the queue had already
   snapshotted the earlier commit.
   :: exit
-  Read `DETAILS.md` for the options and the confirmation check.
+  Confirm the PR is still `OPEN` after a corrective push, or dequeue it before you push the fix.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

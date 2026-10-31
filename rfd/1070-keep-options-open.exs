@@ -10,9 +10,12 @@ rfd 1070, "Keep options open", :published do
   :: hook
   Wait for a commitment before opening an RFD; waiting holds an asset.
   :: intrigue
-  This repository wrote down three RFDs for a build nobody started.
+  This repository wrote down three RFDs for a build nobody started. Each carried a reading
+  cost, a cross-reference to keep current, and an index row, for an option nobody had
+  exercised.
   :: exit
-  Read `DETAILS.md` for the three RFDs this rule removed and what it left in place.
+  Check a new RFD against the rule above before you open it: the project must have
+  committed to the build.
   :: decision
   Do not open an RFD for a build this project has not committed to.
 
@@ -23,9 +26,6 @@ rfd 1070, "Keep options open", :published do
 
   The rule stops a new RFD from opening before commitment. It does not
   reach back into one already running.
-  :: problem
-  Each carried a reading cost, a cross-reference to keep current, and
-  an index row, for an option nobody had exercised.
   :: references
   - Kent Beck, "The Cost YAGNI Was Never About":
     https://newsletter.kentbeck.com/p/the-cost-yagni-was-never-about

@@ -10,9 +10,11 @@ rfd 2362, "A prose rule ships after it runs against the corpus", :discussion do
   :: hook
   A prose rule ships only after it has run against the corpus.
   :: intrigue
-  A zero from a broken detector reads exactly like a clean corpus.
+  Twelve detectors report zero on the corpus, and three of those zeros come from detectors that
+  cannot fire, so a broken detector reads exactly like a clean corpus.
   :: exit
-  Run `--audit` first; it exits non-zero while any detector is broken.
+  Run `--audit` first, before you trust any zero; it exits non-zero while any detector is
+  broken.
   :: decision
   **A rule ships only after it runs against the corpus**, the bar RFD66606-1124 set.
   Three of the table's fifteen detectors cannot fire, so they wait on repair.

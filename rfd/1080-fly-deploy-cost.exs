@@ -11,9 +11,10 @@ rfd 1080, "What the three Fly deploys cost", :published do
   The three Fly deploys have a priced cost, checked live and not estimated.
   :: intrigue
   `weftspun-studio`, `weftspun-character-taxonomy`, and `weftspun-usd-viewer` all run
-  as real, billed Fly Machines and Volumes now.
+  as real, billed Fly Machines and Volumes now, yet no record states what they cost.
   :: exit
-  Read `DETAILS.md` for the full breakdown by app.
+  Re-run `flyctl machine list` and `flyctl volumes list` against the three apps to check the
+  sizes behind the total before you cite it. `DETAILS.md` holds the breakdown by app.
   :: decision
   Record it, from Fly's own published pricing page, against this
   deployment's own real machine sizes, checked live with `flyctl`, not
@@ -28,8 +29,7 @@ rfd 1080, "What the three Fly deploys cost", :published do
   before per-GB billing), and any future Tigris usage RFD66606-1073's
   still-open fetch-path work would add.
   :: problem
-  No record states what that costs, hourly, monthly, or
-  yearly.
+  Fly bills Machines by the second and Volumes by the month.
   :: related
   RFD66606-1062 gives the Fly.io toplevel. RFD66606-1076 gives the `apps/` split
   across three Fly apps. RFD66606-1079 gives `versitygw`'s removal, no

@@ -10,7 +10,8 @@ rfd 2361, "A section names its own gate", :discussion do
   :: hook
   A section names its own gate, in an HTML comment under its heading.
   :: intrigue
-  Neither kind of writing owns a whole file.
+  A `DETAILS.md` carries a measurement beside the reasoning that motivates it, so neither
+  kind of writing owns a whole file.
   :: exit
   Put `<!-- gate: tropes -->` or `<!-- gate: ste100 -->` under each heading.
   :: decision
@@ -19,7 +20,7 @@ rfd 2361, "A section names its own gate", :discussion do
 
   **An unmarked section fails.** A silent skip reads exactly like a pass.
   :: problem
-  A `DETAILS.md` carries a measurement beside the reasoning that motivates it.
+  Any file-level rule has to be wrong about one of the two kinds of writing.
   :: related
   RFD66606-1125 splits the two gates by kind of writing. RFD66606-2362 measures the
   AI-trope table. RFD66606-1124 gives the reason these gates read an AST.
