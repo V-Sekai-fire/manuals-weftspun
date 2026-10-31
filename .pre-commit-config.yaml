@@ -67,7 +67,7 @@ repos:
         name: RFD66606-1122's plan agrees with its graph and with the documents citing it
         entry: elixir scripts/check_rfd1122_plan.exs --self-test
         language: system
-        files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|AGENTS\.md|BLOCKLIST\.md|rfd/1142-the-mac-against-the-ugen300\.exs|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
+        files: ^(apparatus/1122-the-wholebody-gap/rfd1122-plan\.exs|scripts/check_rfd1122_plan\.exs|lib/rfd/plan\.ex|AGENTS\.md|BLOCKLIST\.md|logbook/logbook-rfd11(22|42)-[^/]+\.md)$
         pass_filenames: false
 
       # The four loops are described twice on purpose: `fourloops-plan.usda` is the task

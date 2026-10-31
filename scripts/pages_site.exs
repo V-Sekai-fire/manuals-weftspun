@@ -1,6 +1,6 @@
 # Copyright (c) 2026 K. S. Ernest (iFire) Lee
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Builds the Pages source as one flow: sources -> records -> groups -> expanders -> files.
+# Builds the Pages source as one flow: sources -> records -> groups -> sections -> files.
 # A masthead and the newest RFDs lead; the logbook and RFD archives follow, dated from git.
 #   mix run scripts/pages_site.exs <out-dir>
 defmodule PagesSite do
@@ -40,6 +40,7 @@ defmodule PagesSite do
     File.mkdir_p!(Path.join(out, "_layouts"))
     File.write!(Path.join(out, "_layouts/default.html"), layout())
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
+    File.write!(Path.join(out, "page-SERIALS.md"), serials(root, rfds))
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
 
@@ -224,13 +225,13 @@ defmodule PagesSite do
           do: {s, Enum.sort_by(es, & &1.serial)}
 
     log_body =
-      Enum.map_join(log_groups, "\n", fn {g, es} ->
-        expander("#{g} (#{length(es)})", log_list(es), false)
+      Enum.map_join(log_groups, "\n\n", fn {g, es} ->
+        "### #{g} (#{length(es)})\n\n" <> log_list(es)
       end)
 
     rfd_body =
-      Enum.map_join(rfd_groups, "\n", fn {s, es} ->
-        expander("#{@emoji[s]} #{s} (#{length(es)})", rfd_table(es), false)
+      Enum.map_join(rfd_groups, "\n\n", fn {s, es} ->
+        "### #{@emoji[s]} #{s} (#{length(es)})\n\n" <> rfd_table(es)
       end)
 
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
@@ -240,29 +241,64 @@ defmodule PagesSite do
       "# manuals-weftspun",
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
-        "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html)",
+        "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html) · " <>
+        "[serials](page-SERIALS.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records).",
       tally,
       "## Recently changed RFDs",
       dated_table(latest_rfds),
-      "## Archive",
-      expander("Logbook (#{length(logs)} entries)", log_body, false),
-      expander("RFDs (#{length(rfds)})", legend() <> "\n\n" <> rfd_body, false)
+      "## Logbook (#{length(logs)} entries)",
+      log_body,
+      "## RFDs (#{length(rfds)})",
+      legend(),
+      rfd_body
     ]
     |> Enum.join("\n\n")
   end
 
-  defp expander(summary, body, open?) do
-    """
-    <details#{if open?, do: " open", else: ""} markdown="1">
-    <summary>#{summary}</summary>
+  defp serials(root, rfds) do
+    docs = Map.new(rfds, &{&1.serial, &1})
 
-    #{body}
+    sites =
+      for path <- Path.wildcard(Path.join(root, "SERIALS*.exs")) |> Enum.sort() do
+        r = RFD.Source.load(path)
 
-    </details>
-    """
+        rows =
+          r.rows
+          |> Enum.sort_by(&elem(&1, 1))
+          |> Enum.map_join("\n", fn {table, serial, slug, opts} ->
+            state = row_state(table, opts, docs, serial)
+            "| #{serial_cell(serial, docs)} | #{slug || ""} | #{state} |"
+          end)
+
+        "## #{r.name} (site #{r.layer[:site]})\n\n#{r.thesis}\n\n" <>
+          "| serial | slug | state |\n| --- | --- | --- |\n" <> rows
+      end
+
+    [
+      edit_from("SERIALS.exs") <> "# Serials",
+      "Every serial each register holds, allocated or deleted. A deleted serial keeps its " <>
+        "row, so a citation of it still names one document."
+      | sites
+    ]
+    |> Enum.join("\n\n")
   end
+
+  defp serial_cell(serial, docs) do
+    case docs[serial] do
+      nil -> short(serial)
+      e -> link(e)
+    end
+  end
+
+  defp row_state(:allocated, _opts, docs, serial),
+    do: if(docs[serial], do: docs[serial].group, else: "allocated")
+
+  defp row_state(:retired, opts, _docs, _serial),
+    do: "retired, recorded in #{short(opts[:recorded_in])}"
+
+  defp row_state(table, _opts, _docs, _serial), do: String.replace(to_string(table), "_", " ")
 
   defp log_list(es), do: Enum.map_join(es, "\n", &"- [#{&1.label}](#{&1.href})")
 
