@@ -12,8 +12,8 @@ rfd 2433, "the catalog is the backend API and runs on any RenderingDevice GPU", 
   :: intrigue
   What if the backend depended on one GPU vendor? A module would then run on that vendor only.
   :: exit
-  Call each module's `/health` and `/predict` over plain HTTP, or call
-  `Ggml.run_inference()` in process.
+  Reach a module from the native shell over plain HTTP at `/health` and `/predict`, or in
+  process with `Ggml.run_inference()` when its adapter is loaded in the binary.
   :: decision
   - This catalog is the backend API. The native shell (RFD66606-2215) calls
     each module's `/health` and `/predict` over plain HTTP, or `Ggml.run_inference()` in process

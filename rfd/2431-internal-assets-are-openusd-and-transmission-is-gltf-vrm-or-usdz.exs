@@ -12,7 +12,8 @@ rfd 2431, "internal assets are OpenUSD and transmission is glTF, VRM or USDZ", :
   :: intrigue
   Each stage adds a layer to the OpenUSD stage, and only the boundary may convert it.
   :: exit
-  Check a new asset path against the rule: convert at the boundary only.
+  Before you pass an asset between stages, keep it as an OpenUSD `.usda` or `.usdc` layer.
+  Convert to glTF binary, VRM or USDZ only at the boundary.
   :: decision
   - Internal: OpenUSD `.usda` / `.usdc` (RFD66606-1053 `committed`), each stage adds a layer.
   - Convert at the boundary only.

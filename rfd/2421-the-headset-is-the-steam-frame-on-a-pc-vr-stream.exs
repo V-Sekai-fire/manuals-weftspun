@@ -12,7 +12,8 @@ rfd 2421, "the headset is the Steam Frame on a PC VR stream", :discussion do
   :: intrigue
   PyroWave encodes both eyes at 200 Mbit/s against 317 Mbit/s of measured Wi-Fi. Does it fit?
   :: exit
-  Open `logbook/logbook-steam-frame-sizing.md` for the apparatus and the numbers.
+  Before you size work for the headset, open `logbook/logbook-steam-frame-sizing.md` for the
+  apparatus and the numbers.
   :: decision
   - The headset is aarch64 SteamOS with SteamVR's OpenXR runtime, two 2160 by 2160 panels at 108,
     120 or 144 Hz, a recommended render target of 1728 by 1728 per eye, and 16 GB of memory shared
