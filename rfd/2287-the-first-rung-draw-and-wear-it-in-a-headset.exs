@@ -27,7 +27,7 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
   while it makes it; its ghost materializes in the players' zone, and then its ownership hands
   over to that zone. One zone owns it at every frame. The garment attaches rigidly to the avatar's
   bones. The headset is the Steam Frame on a PC VR stream from the desk; its standalone mode and
-  the Steam Deck are parked (operator, 2026-10-30).
+  the Steam Deck are abandoned by RFD66606-2360 (operator, 2026-10-30).
   :: related
   - RFD66606-2262, the ladder; RFD66606-2136, the precedent; RFD66606-2263, step 2's test.
   - RFD66606-2256, the transport; RFD66606-2271, guests with Lean tests; RFD66606-2288,

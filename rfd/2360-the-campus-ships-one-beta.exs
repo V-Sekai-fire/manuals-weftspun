@@ -54,10 +54,15 @@ rfd 2360, "The campus ships one beta", :discussion do
   (operator, 2026-10-30). A new idea that matches a nongoal is refused, and the list is not argued
   again before the beta ships. The nongoals named so far:
 
-  - a hidden director that plans the day, friendships and romance, a shared limit gauge with a
-    team finisher, shop prices and a loan, an end-of-day report, a job board where each seat
-    accepts or refuses a job, and campuses built by players;
-  - the Steam Frame's standalone mode, the Steam Deck, and the Hyper-V machine with its emulated
-    TPM.
+  - a hidden director that plans the day
+  - friendships and romance
+  - a shared limit gauge with a team finisher
+  - shop prices and a loan
+  - an end-of-day report
+  - a job board where each seat accepts or refuses a job
+  - campuses built by players
+  - the Steam Frame's standalone mode
+  - the Steam Deck
+  - the Hyper-V machine with its emulated TPM
   """
 end
