@@ -115,22 +115,51 @@ defmodule PagesSite do
       File.mkdir_p!(Path.dirname(Path.join(out, to)))
 
       text =
-        File.read!(from)
-        |> String.replace("`DETAILS.md`", "[`DETAILS.md`](DETAILS.html)")
-        |> linked(up, slugs, Map.get(e, :serial))
+        cond do
+          not paired ->
+            File.read!(from) |> linked(up, slugs, Map.get(e, :serial))
 
-      text = if paired, do: nav(Path.basename(to), text), else: text
+          Path.basename(to) == "README.md" ->
+            merged(files) |> linked(up, slugs, Map.get(e, :serial))
+
+          true ->
+            details_moved()
+        end
+
       File.write!(Path.join(out, to), edit_from(e.source, index_of(to)) <> text)
     end
   end
 
-  defp nav("README.md", text), do: under_title(text, "> **[Read the details →](DETAILS.html)**")
-  defp nav("DETAILS.md", text), do: under_title(text, "> **[← Back to the RFD](./)**")
-  defp nav(_, text), do: text
+  defp details_moved do
+    refresh = ~s(<meta http-equiv="refresh" content="0; url=./">)
+    refresh <> "\n\nThe details moved to [the RFD page](./).\n"
+  end
 
-  defp under_title(text, line) do
-    [title | rest] = String.split(text, "\n", parts: 2)
-    Enum.join([title, "", line, "", String.trim_leading(hd(rest ++ [""]))], "\n")
+  defp merged([{readme, _}, {details, _}]) do
+    top =
+      File.read!(readme)
+      |> String.replace("\n\n`DETAILS.md` carries the rest of this RFD.", "")
+      |> then(&Regex.replace(~r/(^|[.!?]\s+|
+
+)`DETAILS\.md`/, &1, fn _, pre -> pre <> "The details section" end))
+      |> String.replace("`DETAILS.md`", "the details section")
+
+    [_title, body] = String.split(File.read!(details), "\n", parts: 2)
+    seen = String.split(top, ~r/\n\s*\n/) |> Enum.map(&String.trim/1)
+
+    rest =
+      body
+      |> String.split(~r/\n\s*\n/)
+      |> Enum.reject(&(String.trim(&1) in seen))
+      |> Enum.join("\n\n")
+
+    case String.split(top, "\n## Related", parts: 2) do
+      [head, tail] ->
+        String.trim_trailing(head) <> "\n\n" <> String.trim(rest) <> "\n\n## Related" <> tail
+
+      [_] ->
+        String.trim_trailing(top) <> "\n\n" <> String.trim(rest) <> "\n"
+    end
   end
 
   # Names a reader would click become links: RFD serials, the blocklist, org repositories.
@@ -171,6 +200,10 @@ defmodule PagesSite do
           )
         )
     end)
+  end
+
+  defp found(%{files: [{_, to}, {_, _}]} = e) do
+    [doc(merged(e.files), url_of(to), e.kind, Map.get(e, :status, ""), e.date)]
   end
 
   defp found(e) do
