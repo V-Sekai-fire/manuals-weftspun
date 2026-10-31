@@ -13,8 +13,8 @@ rfd 2428, "every model follows a six-step migration recipe", :discussion do
   Which quantization does a vision model get? Q4_K_M only if it produces a measurable EditScore
   win over Q4_0 on held-out inputs.
   :: exit
-  Follow the six steps in order for a model, starting with the Q4 quantize, and finish with its
-  Docker image.
+  Run the six steps in order for each new model, from the Q4 quantize to its Docker image. Mark
+  the model "port needed" in RFD66606-1102 when upstream has no GGUF conversion.
   :: decision
   - Every model follows the recipe RFD66606-2229 named as the interchangeable-parts consolidation
     shape, one row per consumer.
