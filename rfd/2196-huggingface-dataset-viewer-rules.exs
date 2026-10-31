@@ -14,7 +14,7 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   shards crashed the auto-viewer, xet finalize stalled at 6 KB/s and timed out twice, and one
   dataset silently dropped every 2-image row because shared image paths collided.
   :: exit
-  Check a dataset against each rule in the decision before you publish; see `DETAILS.md`.
+  Check a dataset against each rule in the decision before you publish; see below.
   :: decision
   Publish HuggingFace datasets as zstd-compressed parquet shards under
   `data/`, one wide denormalized row per logical example, with row

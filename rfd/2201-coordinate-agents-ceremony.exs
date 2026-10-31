@@ -15,8 +15,8 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   retroactively (in RFD66606-2195 DETAILS, after the mistake) rather than
   carried in the procedure itself.
   :: exit
-  Run the ceremony by following the `coordinate-agents` skill step by step and recording
-  each step's artefact; `DETAILS.md` enumerates the seven steps.
+  Run the ceremony by following the `coordinate-agents` skill step by step and recording each
+  step's artefact; the sections below enumerate the seven steps.
   :: decision
   Fold the workspace's ad-hoc coordination sweep into a named, bounded
   ceremony that the coordinator role runs when asked. The ceremony has

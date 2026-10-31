@@ -14,7 +14,7 @@ rfd 1027, "GPU tier per model", :committed do
   128 GB DGX Spark, found about 10 GB of headroom, and called the margin too small.
   :: exit
   Size a new model alone against the weights RFD66606-1025 gives and its activation peak, then
-  place it in the tier table in `DETAILS.md`.
+  place it in the tier table below.
   :: decision
   Size each model on its own. The question is which GPU tier one model
   needs, and not whether a set of models co-resides.

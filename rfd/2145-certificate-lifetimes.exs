@@ -13,8 +13,8 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   RFD66606-2134, RFD66606-2141, RFD66606-2142 landed with 10-year CAs and 1-to-2-year leaves.
   2144 minted a 10-year WebTransport intermediate on the same pattern.
   :: exit
-  Check a new private CA or leaf against the lifetime table above before you issue it;
-  `DETAILS.md` holds the citations and the audit.
+  Check a new private CA or leaf against the lifetime table above before you issue it; the
+  sections below hold the citations and the audit.
   :: decision
       role                              notAfter       rotate every
       -----------------------------     ------------   ------------

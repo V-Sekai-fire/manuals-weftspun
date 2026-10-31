@@ -13,8 +13,8 @@ rfd 1080, "What the three Fly deploys cost", :published do
   `weftspun-studio`, `weftspun-character-taxonomy`, and `weftspun-usd-viewer` all run
   as real, billed Fly Machines and Volumes now, yet no record states what they cost.
   :: exit
-  Re-run `flyctl machine list` and `flyctl volumes list` against the three apps to check the
-  sizes behind the total before you cite it. `DETAILS.md` holds the breakdown by app.
+  Re-run `flyctl machine list` and `flyctl volumes list` against the three apps to check the sizes
+  behind the total before you cite it. The sections below hold the breakdown by app.
   :: decision
   Record it, from Fly's own published pricing page, against this
   deployment's own real machine sizes, checked live with `flyctl`, not

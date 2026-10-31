@@ -9,8 +9,8 @@ rfd 2009, "Ghcr package ownership same repo", :prediscussion do
   :: intrigue
   The zone deploy workflow tried to pull the zone server image and received 403 Forbidden.
   :: exit
-  Check that a package and the workflow that pulls it share one repository before you rely
-  on the pull. `DETAILS.md` lists the consequences.
+  Check that a package and the workflow that pulls it share one repository before you rely on the
+  pull. The sections below list the consequences.
   :: decision
   See `DETAILS.md` for the full argument.
   :: problem

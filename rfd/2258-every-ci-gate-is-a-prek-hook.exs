@@ -15,7 +15,7 @@ ruleset 23145233 in this repository"
   Nine jobs repeated checks prek could run, and the ruleset required nine names that had to
   match the workflow by hand.
   :: exit
-  Run a `ci-*` hook locally with `GATE_BASE` set; `DETAILS.md` holds what was measured.
+  Run a `ci-*` hook locally with `GATE_BASE` set; the sections below hold what was measured.
   :: decision
   The workflow has one job, `prek`. Gates that need only the tree
   are ordinary hooks. Gates that need a base ref or a code-host

@@ -13,8 +13,8 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   Settled decisions leaning on withdrawn ones read as authoritative, so this class of drift is
   higher severity than RFD66606-2174 (open-to-abandoned index)'s open-to-abandoned class.
   :: exit
-  Check each of the 11 real-drift pairs against its successor annotation in `DETAILS.md`
-  when you next edit the citing RFD.
+  Check each of the 11 real-drift pairs against its successor annotation below when you next edit
+  the citing RFD.
   :: decision
   This RFD is the citable index for settled-to-terminal citation drift; a Lean-verified audit
   found 39 pairs, and only 11 real-drift pairs need per-RFD follow-up.

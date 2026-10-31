@@ -14,7 +14,7 @@ rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :publishe
   (WER 1.000, .vtt files carried only the WEBVTT header). Follow-up was fix-or-drop.
   :: exit
   Check any proposal to restore the gemma-auto track against the numbers above: it must beat
-  Voxtral's 0.000 WER at sub-second latency, and `DETAILS.md` holds the 15-clip WER table.
+  Voxtral's 0.000 WER at sub-second latency, and the sections below hold the 15-clip WER table.
   :: decision
   Drop the gemma-auto ASR track; the bug that produced empty transcripts is fixable, but the fixed track's WER of 0.690 at several-seconds latency loses to Voxtral's 0.000 at sub-second.
   :: problem

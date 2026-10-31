@@ -12,7 +12,7 @@ rfd 2354, "Bao unseals itself through a Seal Bao on Fly", :discussion do
   :: intrigue
   Three Baos mean three seal states and three unseal calls per fleet restart.
   :: exit
-  Pass the recovery test on clean hosts before prod moves; the details hold the steps.
+  Pass the recovery test on clean hosts before prod moves; the sections below hold the steps.
   :: decision
   A transit seal on a Seal Bao on Fly, unwrapped from Fly KMS at boot (operator,
   2026-10-30). It replaces the Mac mini seal, which the operator rescinded. Recovery

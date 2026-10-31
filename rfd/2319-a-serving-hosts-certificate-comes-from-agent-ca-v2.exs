@@ -15,7 +15,7 @@ every stunnel or edge endpoint that serves under an agent identity"
   Bao has two agent CAs, and nothing said which one does what. Bao signs a certificate in
   `pki-agents` that names the tailnet host anyway, and every client then rejects it.
   :: exit
-  Read the details for the mounts and the `agent-endpoint` role.
+  Read below for the mounts and the `agent-endpoint` role.
   :: decision
   A host that serves takes a second certificate for its agent name from the
   `pki-agents-v2` mount, through role `agent-endpoint`. That role sets server

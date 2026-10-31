@@ -12,8 +12,7 @@ rfd 1030, "See-Through component models", :published do
   :: intrigue
   The `seethrough_layer_decomposition` entry names one task. The task runs nine models.
   :: exit
-  Record the base model, role and memory of any component you name here, using the table in
-  `DETAILS.md`.
+  Record the base model, role and memory of any component you name here, using the table below.
   :: decision
   Name each component here. Record its base model, its role, and its
   memory.

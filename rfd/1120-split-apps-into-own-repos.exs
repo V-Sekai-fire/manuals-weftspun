@@ -13,8 +13,8 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   Three apps with separate Fly deploy targets shared one monorepo checkout, one
   `scripts/ci.sh` building all three, and one self-hosted deploy script.
   :: exit
-  Check a deploy against the `/opt/weftspun/<repo>/` convention, one directory per repo,
-  before you run it. `DETAILS.md` holds the path changes and open follow-up work.
+  Check a deploy against the `/opt/weftspun/<repo>/` convention, one directory per repo, before
+  you run it. The sections below hold the path changes and open follow-up work.
   :: decision
   Each app moved to its own repository, with history preserved by
   `git subtree split --prefix=apps/<app>`, then pushed as that repo's
