@@ -30,10 +30,6 @@ rfd 2360, "The campus as a beta", :discussion do
 
   prose ~S"""
   :: details The stages and the one beta
-  The campus has two stages before release (operator, 2026-10-30). Dev is development: features
-  land and change. Beta is a traditional feature-complete freeze: after the beta is cut, only
-  fixes land, and a feature that is not in it is abandoned. There is one beta.
-  The tag stays in RFD66606-2312's form, and the stage goes in the release title.
 
   The beta has these features:
 
