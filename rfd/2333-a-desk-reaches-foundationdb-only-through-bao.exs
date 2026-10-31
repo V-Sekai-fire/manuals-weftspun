@@ -28,7 +28,7 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   storage included. Desks are the least guarded machines in the workspace, so an FDB client
   there would hand the whole cluster to the weakest host.
   :: related
-  - RFD66606-2140 and RFD66606-2147, Bao on FDB; RFD66606-2316, what Bao may hold.
+  - RFD66606-2140 and RFD66606-2353, Bao on FDB; RFD66606-2316, what Bao may hold.
   """
 
   details_title "A desk reaches FoundationDB only through Bao"

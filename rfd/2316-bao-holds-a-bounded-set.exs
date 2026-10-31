@@ -26,7 +26,7 @@ the plugins built for it"
   write fails.
   :: related
   - RFD66606-2140, Bao on FDB.
-  - RFD66606-2147, Bao is critical infrastructure now.
+  - RFD66606-2353, Bao runs three replicas on the FDB machines.
   - RFD66606-2200, ReBAC agent roles.
   - RFD66606-2317, the first engine held to this rule.
   """
