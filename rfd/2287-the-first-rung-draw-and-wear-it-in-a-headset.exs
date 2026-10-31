@@ -24,55 +24,31 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
   desktop. They see each other and talk. The engine is base Godot built with double precision and
   the godot-sandbox addon, and it relays UDP and nothing else.
   A worker zone owns the garment
-  while it makes it; its ghost materializes in the players' zone, and then its ownership hands
+  while it makes it. Its ghost materializes in the players' zone, and then its ownership hands
   over to that zone. One zone owns it at every frame. The garment attaches rigidly to the avatar's
-  bones. The headset is the Steam Frame on a PC VR stream from the desk; its standalone mode and
+  bones. The headset is the Steam Frame on a PC VR stream from the desk. Its standalone mode and
   the Steam Deck are abandoned by RFD66606-2360 (operator, 2026-10-30).
   :: related
   - RFD66606-2262, the ladder; RFD66606-2136, the precedent; RFD66606-2263, step 2's test.
   - RFD66606-2256, the transport; RFD66606-2271, guests with Lean tests; RFD66606-2288,
     capabilities.
+  - RFD66606-2420 to RFD66606-2427, the rung's build, headset, interface, setting, fitting,
+    avatars and timing, one RFD each.
   """
 
   details_title "the first rung: draw it and wear it in a headset"
 
   prose ~S"""
   :: details What the rung abandons
-  Abandons RFD66606-2211, RFD66606-2001 and RFD66606-2075: the engine is base Godot; zones are
+  Abandons RFD66606-2211, RFD66606-2001 and RFD66606-2075: the engine is base Godot. Zones are
   `zone.elf`.
   :: details What computes
   Everything that computes is a C++
   guest ELF on ggml-rd or compute-rd: the WebTransport stack (RFD66606-2256), the zones, the
   certificate authority, the voice codec and the dress-on loop.
   :: details Why the engine stays base Godot
-  The fabric already proves one owner per entity across zones; the rung
+  The fabric already proves one owner per entity across zones. The rung
   carries that rule into a guest, so the engine stays base Godot.
-  :: details How the guests are built and tested
-  The zone, client, CA, asset, lasso and voice ELFs are C++, built from
-  the fabric's, the lasso's and the codec's own sources against the
-  namespaced engine shim in contract-guest-runtime that the curvenet guest already uses. Their
-  tests are a Lean package beside them that links that C++ through a
-  small FFI shim, as frame-eye-osc does; Lean is never in the running
-  path. Every property the tests check is paired with a control that
-  plants the defect and must be found.
-
-  Every guest is built against the double-precision addon: a guest's
-  `Variant` is 24 bytes at single precision and 40 at double, so a
-  single-precision guest misreads every value the engine hands it.
-  What is missing: the vendored sandbox-api in contract-guest-runtime, fabric-zone
-  and voice does not pass `DOUBLE_PRECISION` to its own library, and
-  its `node2d.cpp` and `vector.cpp` fail to compile at double;
-  `fit.elf`, `usd.elf` and `mujoco.elf` are single precision.
-  :: details The headset
-  The headset is aarch64 SteamOS with SteamVR's OpenXR runtime, two
-  2160 by 2160 panels at 108, 120 or 144 Hz, a recommended render
-  target of 1728 by 1728 per eye, and 16 GB of memory shared with an
-  Adreno 750. One Slang kernel measures 1.28 FP32 and 2.57 FP16
-  TFLOPS on that GPU and 107 GFLOPS across its 8 CPU cores, about
-  0.39 to 0.48 of the desk's M2 Pro on each. PyroWave encodes both eyes
-  at 200 Mbit/s and 72 Hz in 12.4 ms through the CPU-buffer path,
-  against 317 Mbit/s of measured Wi-Fi. `logbook/logbook-steam-frame-sizing.md`
-  carries the apparatus and the numbers.
   :: details The critical path
   Each step starts when the one before it runs. Each names its
   repository, what is missing, and its check.
@@ -80,22 +56,22 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
   1. **Build.** Base Godot `master` with `precision=double` for x86_64
      Linux and Windows, and the godot-sandbox addon rebuilt at double
      precision. The headset runs the Windows build through its
-     compatibility layer; a desktop OpenXR runtime also streams to it,
+     compatibility layer. A desktop OpenXR runtime also streams to it,
      and that stream is PyroWave, an intra-only wavelet codec in
      Vulkan compute whose exact rate control holds a frame to its byte
      budget. CineForm stays the recording codec. The Windows double
-     editor build holds 72 fps in the headset; the exported
+     editor build holds 72 fps in the headset. The exported
      `template_release` build faults in a `StringName` copy once the
      sandbox addon loads, and the Linux x86_64 build lacks XCursor and
      xkbcommon in the compatibility layer's root filesystem.
      Check: an OpenXR session starts on each path and the pen scene
-     draws in it; transport-meshing-pen's headless gates pass on the double build.
+     draws in it. Transport-meshing-pen's headless gates pass on the double build.
      A path that fails is logged with its error, and the rung goes
      ahead on the other. (&{repo("entities-godot")}, the godot-sandbox addon)
   2. **Draw.** Strokes become a curvenet in the headset through
      `curvenet.elf` in the pen's sandbox, in the xr-grid scene, with
      the lasso from `lasso.elf` for picking far targets. Check:
-     RFD66606-2263's replay still passes; the Lean tests link the lasso's C++
+     RFD66606-2263's replay still passes. The Lean tests link the lasso's C++
      and check it picks the target nearest the cone's axis, with a
      control that swaps two targets' distances.
      (&{repo("transport-meshing-pen")}, &{repo("interactor-lasso")})
@@ -107,7 +83,7 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
      `PacketPeerUDP` and never sees plaintext. Connections are direct.
      `ca.elf` makes the session's root key in guest memory and issues
      one-hour certificates for zones and players, names limited to
-     `*.zone.fabric.internal`; every end accepts only that root. A
+     `*.zone.fabric.internal`. Every end accepts only that root. A
      guest's VM carries its memory, so every VM transfer (serializing
      it, snapshotting it, moving it to another zone, or a host read of
      its memory) needs a capability: a macaroon that a ReBAC check
@@ -121,17 +97,17 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
      guest (entity pools, STAGING, ghosts, the SQLite journal and the
      predictive BVH), hosting the headset and desktop clients with a
      humanoid pose payload for both avatars. Check: each client sees
-     the other's pose; the Lean tests search for a frame with two
+     the other's pose. The Lean tests search for a frame with two
      owners or none, with a control that plants a double hand-off.
      (&{repo("interactor-fabric-zone")})
   6. **Worker zone.** A second `zone.elf` takes a stroke set and runs
      `curvenet.elf`, its kernels on compute-rd, and stores the garment
-     with `asset.elf` (casync); the garment's ghost, carrying its hash,
+     with `asset.elf` (casync). The garment's ghost, carrying its hash,
      materializes in the players' zone, each client fetches it by the
      hash, then its ownership hands over. Check: exactly one zone owns
-     the garment at every frame; a fetched garment's chunks match its
+     the garment at every frame. A fetched garment's chunks match its
      index, with a control that corrupts one chunk and must be caught;
-     the handover is timed as below.
+     RFD66606-2426 times the handover.
   7. **Talk.** `voice.elf`, the Opus codec as a guest, sends its packets
      as WebTransport datagrams, played at the speaker's avatar. Check:
      speech round-trips between the two clients; the Lean tests check
@@ -144,128 +120,6 @@ garment-stage guest ELFs. The Steam Frame runs as a PC VR headset streamed from 
   If the end of the rung's window arrives short, the steps land in this
   order and the rest wait: build, draw, wear, then transport and zone,
   then talk.
-  :: details The interface
-  The interface derives from xr-grid and CASSIE: the pen draws in a
-  world-locked grid, and CASSIE's strokes, boundary marks and
-  curvenet are what the person sees form. Selection far away is the
-  lasso: a pointing cone that snaps to the nearest target, its math
-  (`LassoDB`, `LassoPoint`) moved from the engine module into
-  `lasso.elf`. Near things are touched directly. What a person makes
-  is stored by content hash with casync (`.caibx` chunk indexes, the
-  fabric asset code moved into `asset.elf`), so the other client
-  fetches the garment by its hash, and the ghost carries only the
-  hash.
-
-  It keeps to common OpenXR practice:
-
-  - Input binds to actions in the action map, never to raw buttons,
-    with a profile for each controller and for hand tracking.
-  - The reference space is local-floor. Interface panels are
-    world-locked, 1 to 3 m away, never locked to the head, and their
-    text is at least 1 degree tall.
-  - The frame rate holds the headset's refresh rate. A person moves by
-    xr-grid's world grab, both grips pinching the world, with no smooth
-    acceleration (RFD66606-2363).
-  - A haptic pulse confirms each stroke closed, lasso target taken
-    and garment worn.
-  - The mirror is a world-locked object the person walks up to, not a
-    window on their view.
-  :: details The setting
-  The two players stand in a train-station plaza, a port of the
-  MIT-licensed procedural three.js scene `sakuragaoka-station`, placed
-  at &{repo("sakuragaoka-station")} (&{pin("sakuragaoka-station")}). Its
-  43,727 lines of JavaScript under `src/` generate every texture in
-  code and keep no mesh on disk, so the port rebuilds the scene in the
-  engine with MToon materials rather than importing it. The port lives
-  in &{repo("entities-sakuragaoka-station")}, and the pen vendors it with
-  `tools/vendor_station.sh <commit>`, which takes only a commit some
-  remote branch contains.
-  :: details Fitting a free-space sketch to the avatar
-  A sketch drawn in free space is placed on the avatar from
-  anthropometric keypoints in `starforged-std-3001-appendix-e`:
-  stature, crotch height as stature less sitting height, and hip
-  breadth. Appendix E carries no waist height, so it comes from the
-  ISO 7250 typical value. Then each stroke, in drawing order, is
-  pushed out of the body by `mujoco.elf`: rays against the mesh
-  triangles, a point inside when its exit normal says so, and 4 mm of
-  clearance, about five credit cards stacked. A junction
-  stays pinned to the earlier stroke's pushed position. On CASSIE's
-  dress session, 0 of 12307 points end inside the body by winding
-  number, and 4 junctions miss. This is placement; the drape stays on
-  the next rung.
-  :: details The avatars
-  Both avatars are free original models under the Apache-2.0 licence,
-  each in its own repository with its licence file and its Unity
-  humanoid bone map (53 roles): &{repo("character-mille-mire-feuille")}
-  for the headset player and &{repo("character-marocchino")}
-  for the desktop player.
-  :: details Timing the garment handover
-  The store and the backend stay together in one region, and the zones
-  run on a server near the players (operator, 2026-10-23). The round
-  trip from a player's desk to the store's region measured 22 to 28 ms,
-  so the handover is the step that crosses it, and the rung times it.
-  Running several servers is expected: a system that tolerates faulty or
-  lying members needs more machines to match one machine's reliability,
-  so the measure is per server and per leg, never a count to minimise
-  (operator, 2026-10-23).
-
-  The time runs from the worker zone finishing the garment to its ghost
-  drawn in the players' zone, split by leg: the store commit, the
-  ownership handover, and the fetch by hash. The load is a replay of
-  recorded pen strokes with the players' recorded head and hand tracks,
-  pauses included, never scripted motion. It holds for 5 minutes and is
-  judged on the 95th and 99th percentiles, never on a mean.
-
-  - A zone confirms a handover only after the store commits it; writes
-    may group into one commit, and every waiter waits for that commit.
-  - The zone's tick never waits on the store.
-  - A player who pauses keeps their session; the replay's pauses must
-    not cause a reconnect.
-  - The report names what stopped the run: tick time, memory, the
-    store commit, or sessions.
-  - The first run on a new host repeats a reference build, so a change
-    of machine is not read as a change of code.
-
-  Checks, each with a control that must fail:
-
-  - The legs add up to the measured total; a control that adds a delay
-    to the store commit must show up in that leg and nowhere else.
-  - No player sees a garment confirmed before its commit; a control
-    that confirms first must be caught.
-  - The replay is not the bottleneck: the replay host's own load is
-    reported beside the zone's, and a control that throttles the replay
-    must be named as the limit.
-
-  The pass limits are not set yet: the first sustained run measures
-  them, and the operator sets them from it.
-  :: details Frontier learning picks the timing runs
-  The timing runs are levels in RFD66606-2309's sense, scheduled the way
-  RFD66606-2323 schedules the store's attacks. A level is a load template with fixed
-  attributes: players, the recorded replay, the zone's distance from the
-  store, the commit group size, and the injected round trip and loss. A
-  problem is one 5 minute run with a drawn seed and replay offset.
-
-  Each level runs on the rung as it is and on the rung with that level's
-  defect planted:
-
-  | Level | Planted defect | Found when |
-  | --- | --- | --- |
-  | store commit leg | a delay added to each commit | that leg's 95th percentile moves |
-  | confirm order | confirm sent before the commit | a garment seen before its commit |
-  | tick isolation | the tick waits on the store | a tick over its budget |
-  | paused players | a short idle timeout | a reconnect during a pause |
-  | replay limit | the replay host throttled | the replay named as the limit |
-
-  On the planted target, success is the defect found. Regret
-  `1[s ≥ 1] − s/n` over the last eight runs is high when the level finds
-  its defect only some of the time, so its result is luck. Mutation moves
-  one attribute, kept only when the planted find rate rises. A clean run on
-  the real rung counts only after its level found the planted defect in
-  each of its last eight runs. A finding on the real rung is never averaged
-  into a rate: it stops the lane and becomes a level that runs every time.
-
-  The percentiles the pass limits come from are read only from calibrated
-  levels, so a limit is never set from a load that could not see a slow leg.
   :: details What the rung leaves out
   | Left out | Why | The rung that takes it |
   | --- | --- | --- |

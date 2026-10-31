@@ -198,6 +198,37 @@ defmodule Serials.VSekaiFabric do
 
       serial 2419, "git-bash-on-windows-runs-slash-switch-commands-under-a-path-conversion-guard",
         flight_level: :l2
+
+      serial 2420, "the-rung-s-guests-are-c-built-at-double-and-tested-with-lean",
+        flight_level: :l1
+
+      serial 2421, "the-headset-is-the-steam-frame-on-a-pc-vr-stream", flight_level: :l1
+
+      serial 2422, "the-interface-follows-xr-grid-and-cassie-and-common-openxr-practice",
+        flight_level: :l1
+
+      serial 2423, "the-setting-is-a-port-of-the-sakuragaoka-station-plaza", flight_level: :l1
+      serial 2424, "a-free-space-sketch-is-fitted-to-the-avatar-from-keypoints", flight_level: :l1
+      serial 2425, "both-avatars-are-free-apache-2-0-models", flight_level: :l1
+      serial 2426, "the-garment-handover-is-timed-per-leg", flight_level: :l1
+      serial 2427, "frontier-learning-picks-the-garment-handover-timing-runs", flight_level: :l1
+      serial 2428, "every-model-follows-a-six-step-migration-recipe", flight_level: :l2
+      serial 2429, "the-maskscore-pipeline-runs-from-a-container-to-hf", flight_level: :l2
+
+      serial 2430, "the-gacha-critical-path-is-ten-rungs-from-a-prompt-to-a-public-roll",
+        flight_level: :l2
+
+      serial 2431, "internal-assets-are-openusd-and-transmission-is-gltf-vrm-or-usdz",
+        flight_level: :l2
+
+      serial 2432, "a-module-ships-as-a-plain-docker-image-around-the-shared-native-binary",
+        flight_level: :l2
+
+      serial 2433, "the-catalog-is-the-backend-api-and-runs-on-any-renderingdevice-gpu",
+        flight_level: :l2
+
+      serial 2434, "consumers-wrap-the-shared-ggml-runtime-through-a-gdextension-surface",
+        flight_level: :l2
     end
 
     deleted do
