@@ -45,10 +45,10 @@ rfd 2360, "The campus as a beta", :discussion do
   The beta is cut when every gate in RFD66606-2340, RFD66606-2358 and RFD66606-2359 passes
   with its control.
 
-  :: details Nongoals
+  :: details Non-goals
   Everything outside the beta is cut, and every nongoal is abandoned rather than deferred
   (operator, 2026-10-30). A new idea that matches a nongoal is refused, and the list is not argued
-  again before the beta ships. The nongoals named so far:
+  again before the beta ships. The non-goals named so far:
 
   - a hidden director that plans the day
   - friendships and romance
