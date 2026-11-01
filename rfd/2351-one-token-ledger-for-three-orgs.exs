@@ -3,19 +3,19 @@
 use RFD.DSL
 
 rfd 2351, "one token ledger for three orgs", :discussion do
-  feature "the innovation tokens count what the stack cannot run without, so four tokens cover the
-app and both upstream orgs"
+  feature "a token is what the stack cannot run without, so four tokens cover the app and
+both upstream orgs"
   scope "the token ledger in the private working agreements and the private plan, the
 private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
 
   prose ~S"""
   :: hook
-  Four innovation tokens cover the app and both upstream orgs.
+  How many innovation tokens does the app and both upstream orgs spend?
   :: intrigue
   The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
   :: exit
-  Check a new technology against the rule: a token is a substrate, and when it fails the app
-  fails with it.
+  Check a new technology against the rule: a token is a substrate, and the tech stack
+  crashes without it.
   :: decision
   A token is a substrate: delete it and the tech stack crashes (operator, 2026-11-01). The
   ledger has four. Token 1 is guest ELFs on the pinned double engine. The
@@ -27,8 +27,8 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   boring technology whose failure modes are known, its failure takes down
   a tool or a gate rather than the app, and it ships nothing into the
   app. The guest BEAM is unship (operator, 2026-10-29). The count was
-  three, then two, and is four with Bao and Fly. The ledger changes between rungs, not in an open one,
-  and the operator moved the two documents on 2026-10-30 rather than
+  three, then two, and is four with Bao and Fly. The ledger changes between rungs, not in an
+  open one, and the operator moved the two documents on 2026-10-30 rather than
   wait for a rung to claim them.
   """
 
@@ -88,7 +88,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   - Tailscale spends no token. When it fails, desks and jobs lose Bao, and players never reach
     Bao, so the app keeps running.
   - pixi and prek spend no token. When they fail, a build or a gate stops, and nothing ships
-    into the app. Whether tools count as part of the tech stack is not ruled.
+    into the app. No ruling says whether tools count as part of the tech stack.
   - The Fedora cross-build image with LLVM, llvm-mingw and osxcross spends no token. When it
     fails, a build stops.
 
