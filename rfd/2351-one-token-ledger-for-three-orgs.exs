@@ -76,13 +76,14 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     Go each sit alone. Each is a candidate to retire or park.
   - The tagging reads metadata, not code. Two third-party engine
     scripting tags landed in the guest token on a loose keyword. The
-    moves were written by the agent; the measurement only checked them
+    moves were written by the agent. The measurement only checked them
     against shared repos.
 
   :: details The parts added on 2026-11-01, classified
   The operator asked for the ledger to name these parts and ruled that Bao and Fly are
   tokens (operator, 2026-11-01). The other classes follow from the rule and await a ruling.
-  - Bao is token 3. Delete it and the zone loses its certificate login to the store.
+  - Bao is token 3. The zone talks to the store directly, and reaches Bao rarely, to get or
+    renew the credential it presents to the store (operator, 2026-11-01).
   - Fly is token 4. Delete it and the store, Bao and the KMS key that unseals Bao go with it.
   - GitHub's identity-token login rides token 3, because it is a login to Bao.
   - Tailscale spends no token. When it fails, desks and jobs lose Bao, and players never reach
