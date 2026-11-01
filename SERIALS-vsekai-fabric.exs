@@ -231,6 +231,7 @@ defmodule Serials.VSekaiFabric do
         flight_level: :l2
 
       serial 2435, "a-garment-is-repaired-as-a-distance-field-surface", flight_level: :l1
+      serial 2436, "presence-is-an-independent-native-slice", flight_level: :l1
     end
 
     deleted do
