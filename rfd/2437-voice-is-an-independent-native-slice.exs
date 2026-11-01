@@ -19,11 +19,14 @@ rfd 2437, "voice is an independent native slice", :discussion do
   Run the placement gate on recorded frames and a fixed pair of avatar positions. A player that
   ignores the speaker's position must fail it.
   :: decision
-  - Voice ships as one native program with a command line and no editor or browser. It carries
+  - Voice ships as one native program with no editor or browser. It carries
     voice frames from a speaker to a listener and places them at the speaker's avatar (operator,
     2026-11-01).
   - The slice runs with no sight, pen, party or shop present. Its inputs are recorded voice frames
     and fixed avatar positions (operator, 2026-11-01).
+  - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
+    2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
+    RFD66606-2390).
   :: related
   - RFD66606-2360, the one beta; RFD66606-2340, the campus.
   - The sibling slices are RFD66606-2436, RFD66606-2438, RFD66606-2439 and RFD66606-2440.
@@ -60,9 +63,6 @@ rfd 2437, "voice is an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - Whether native means a host binary or a guest ELF for the sandbox. The operator asked for
-    native independent slices on 2026-11-01 and has not chosen. The first step builds the gate as
-    a host binary, and the choice stays open.
   - Which codec and frame size carry the voice. The first step names the candidates and what each
     costs.
   - Whether the Steam Frame's stream and the desktop client share one capture path. Nothing has

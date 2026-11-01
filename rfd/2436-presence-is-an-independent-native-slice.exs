@@ -17,10 +17,13 @@ rfd 2436, "presence is an independent native slice", :discussion do
   Run the sight gate against a recorded pose stream. A zone that drops one side's poses must fail
   it.
   :: decision
-  - Presence ships as one native program with a command line and no editor or browser. It owns the
+  - Presence ships as one native program with no editor or browser. It owns the
     zone's list of people and their avatar poses (operator, 2026-11-01).
   - The slice runs with no voice, pen, party or shop present. Its inputs are recorded pose streams
     in place of those parts (operator, 2026-11-01).
+  - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
+    2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
+    RFD66606-2390).
   :: related
   - RFD66606-2360, the one beta; RFD66606-2340, the campus.
   - The sibling slices are RFD66606-2437 to RFD66606-2440.
@@ -54,9 +57,6 @@ rfd 2436, "presence is an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - Whether native means a host binary or a guest ELF for the sandbox. The operator asked for
-    native independent slices on 2026-11-01 and has not chosen. The first step builds the gate as
-    a host binary, and the choice stays open.
   - Which pose message shape the PC VR stream and the desktop client both send. The first step
     reads it from the clients and writes it down.
   - Whether a zone holds the pose rate for two people. Nothing has run, and no number is claimed.

@@ -24,6 +24,9 @@ rfd 2439, "party seats are an independent native slice", :discussion do
     agent at any time, and the agent's later actions are ignored (operator, 2026-11-01).
   - The slice runs with no sight, voice, pen or shop present. Its inputs are scripted seat answers
     (operator, 2026-11-01).
+  - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
+    2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
+    RFD66606-2390).
   :: related
   - RFD66606-2358, the party; RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436 to RFD66606-2438 and RFD66606-2440.
@@ -57,9 +60,6 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - Whether native means a host binary or a guest ELF for the sandbox. The operator asked for
-    native independent slices on 2026-11-01 and has not chosen. The first step builds the gate as
-    a host binary, and the choice stays open.
   - What happens to a fight in progress when a player takes a seat. The first step decides it
     (RFD66606-2358).
   - Whether an agent answers the server's call for a seat fast enough, and how it behaves with

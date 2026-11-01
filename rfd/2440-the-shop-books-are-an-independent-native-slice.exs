@@ -23,6 +23,9 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
     statements (operator, 2026-11-01).
   - The slice runs with no sight, voice, pen or seats present. Its inputs are scripted requests
     (operator, 2026-11-01).
+  - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
+    2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
+    RFD66606-2390).
   :: related
   - RFD66606-2359, the shopkeeper; RFD66606-2339, the persona; RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436 to RFD66606-2439.
@@ -54,9 +57,6 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - Whether native means a host binary or a guest ELF for the sandbox. The operator asked for
-    native independent slices on 2026-11-01 and has not chosen. The first step builds the gate as
-    a host binary, and the choice stays open.
   - Whether many instances of one campus each keep a separate books database. One database for
     each instance is possible, and no run has opened more than one (RFD66606-2359).
   :: details The problem
