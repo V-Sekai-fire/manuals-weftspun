@@ -14,9 +14,10 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   :: intrigue
   The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
   :: exit
-  Check a new technology against the rule: a token is what a failure takes down with it.
+  Check a new technology against the rule: a token is a substrate, and when it fails the app
+  fails with it.
   :: decision
-  A token is a substrate: the thing a failure takes down with it. The
+  A token is a substrate: when it fails, the app fails with it. The
   ledger has two. Token 1 is guest ELFs on the pinned double engine. The
   meshing pen and `zone.elf` both run there, so they share it, with the
   ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
@@ -70,12 +71,27 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     guest, the Godot build service, the MCP guest, the private org's
     double-engine repository). That boundary decides two big tokens or
     one.
-  - Fly and Terraform, Ink, Janet, TLA+, gaussian splats, hypercore and
+  - Terraform, Ink, Janet, TLA+, gaussian splats, hypercore and
     Go each sit alone. Each is a candidate to retire or park.
   - The tagging reads metadata, not code. Two third-party engine
     scripting tags landed in the guest token on a loose keyword. The
     moves were written by the agent; the measurement only checked them
     against shared repos.
+
+  :: details The parts added on 2026-11-01, classified
+  The operator asked for the ledger to name these parts. Each class below follows from the
+  rule, and the operator has not yet ruled on the classes.
+  - Bao rides token 2. Its data lives in the FoundationDB cluster that token 2 names, so Bao
+    goes down when that store fails.
+  - Fly rides token 2. One Fly machine runs the store and Bao, and Fly KMS holds the key that
+    unseals Bao at boot, so both share the store's failure.
+  - GitHub's identity-token login rides token 2, because it is a login to Bao.
+  - Tailscale spends no token. When it fails, desks and jobs lose Bao, and players never reach
+    Bao, so the app keeps running.
+  - pixi and prek spend no token. When they fail, a build or a gate stops, and nothing ships
+    into the app.
+  - The Fedora cross-build image with LLVM, llvm-mingw and osxcross spends no token. When it
+    fails, a build stops.
 
   :: details Related RFDs
   - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
