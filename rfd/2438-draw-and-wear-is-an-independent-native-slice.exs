@@ -26,7 +26,7 @@ rfd 2438, "draw and wear is an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2287, the pen's first rung; RFD66606-2340, the campus; RFD66606-2360, the one beta.
+  - RFD66606-2287, the pen's first rung; RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436, RFD66606-2437, RFD66606-2439 and RFD66606-2440.
   """
 
@@ -89,7 +89,7 @@ rfd 2438, "draw and wear is an independent native slice", :discussion do
 
   :: details What is not known
   - Whether the pen's outfits and the rigged models reach the campus zone unchanged. Each part is
-    read for its precision and format first (RFD66606-2340).
+    read for its precision and format first.
   - Whether an agent in a seat can wear a drawn outfit. No ruling covers it.
   :: details The problem
   RFD66606-2360 lists four features and names no way to build one without the others.

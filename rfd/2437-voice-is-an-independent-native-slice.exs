@@ -28,7 +28,7 @@ rfd 2437, "voice is an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2360, the one beta; RFD66606-2340, the campus.
+  - RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436, RFD66606-2438, RFD66606-2439 and RFD66606-2440.
   """
 
