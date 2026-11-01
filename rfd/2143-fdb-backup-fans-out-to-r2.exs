@@ -3,27 +3,25 @@
 use RFD.DSL
 
 rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
-  feature "the `fdbbackup` tag `dr` writes to R2 IA, the cluster's only backup"
-  scope "weftspun-fdb (3 machines)"
+  feature "the `dr` tag writes the off-Fly copy to R2 IA, beside the main backup on Tigris"
+  scope "weftspun-fdb (one machine)"
   attest_in :none
 
   prose ~S"""
   :: hook
-  The FDB backup lives off Fly, in R2, where an all-Fly disaster cannot reach it.
+  Where does a copy of the FDB backup live that an all-Fly disaster cannot reach?
   :: intrigue
   A backup on Fly's own object storage goes with the cluster in a disaster naming "all Fly
   infra gone".
   :: exit
   Read the DR runbook below, and run `fdbbackup status -t dr` to check the tag.
   :: decision
-  The `fdbbackup` tag `dr` writes to R2 IA (`weftspun-fdb-dr`), reached
+  Two `fdbbackup` tags run. The `default` tag writes to Tigris on Fly and is the main backup.
+  The `dr` tag writes to R2 IA (`weftspun-fdb-dr`) and is the off-Fly second copy, reached
   via a stunnel loopback listener that adds the SNI FoundationDB does
   not send. R2 IA carries a 30-day minimum storage duration and free
-  egress. It is the cluster's only backup: the `default` tag's Tigris
-  destination is retired, and its credentials are not restored. Since 2026-11-01 the cluster
-  runs on the operator's Mac and reaches R2 through an S3 gateway on the tailnet, which holds
-  the R2 keys so FoundationDB never does (operator, 2026-11-01). A second tag writes a
-  gateway folder that is copied to a Google shared drive.
+  egress. Since 2026-11-01 the cluster runs as one machine on Fly again, and Tigris is the
+  main backup again (operator, 2026-11-01).
 
   **Gate:** `fdbbackup status -t dr` reports the tag restorable and its
   newest complete log within `WEFT_BACKUP_MAX_BEHIND`, read by
@@ -44,7 +42,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   R2 S3 credentials live in Bao at `secret/data/weftspun-fdb/r2-dr`,
   cached as Fly secrets on `weftspun-fdb` because Bao's storage is FDB
   and FDB cannot read Bao at boot. The Cloudflare API bearer token
-  stays in 1Password; the S3 keys are regenerated from it at DR time
+  stays in 1Password. The S3 keys are regenerated from it at DR time
   rather than restored, so no long-lived material sits outside Bao.
 
 
@@ -88,8 +86,8 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   regenerable from the bearer token, so no copy of them needs to sit
   outside Bao waiting for a disaster.
   :: details Entrypoint change
-  The Tigris destination's `AWS_*` variables are unset, which leaves its
-  block inert. Five variables drive the R2 destination:
+  The Tigris destination's `AWS_*` variables, when set, drive the `default`
+  tag. Five variables drive the R2 destination:
 
       R2_ACCESS_KEY_ID
       R2_SECRET_ACCESS_KEY
@@ -139,7 +137,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
      `weftspun-fdb-dr` bucket. Copy both to a scratch note; do not put
      them back in 1P.
   2. `flyctl apps create weftspun-fdb --org personal` and set:
-     * no `AWS_*`: the Tigris destination is retired
+     * no `AWS_*`: Tigris went with Fly in this disaster
      * `R2_*` from step 1
      * `WEFT_FDB_CLUSTER_ID` to the value in the archived `fdb.toml`;
        coordinator addresses change, cluster identity does not.
