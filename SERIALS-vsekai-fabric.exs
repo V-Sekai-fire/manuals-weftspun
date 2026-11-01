@@ -236,6 +236,7 @@ defmodule Serials.VSekaiFabric do
       serial 2438, "draw-and-wear-is-an-independent-native-slice", flight_level: :l1
       serial 2439, "party-seats-are-an-independent-native-slice", flight_level: :l1
       serial 2440, "the-shop-books-are-an-independent-native-slice", flight_level: :l1
+      serial 2441, "github-job-logs-in-to-bao-with-its-identity-token", flight_level: :l1
     end
 
     deleted do
