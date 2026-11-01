@@ -43,7 +43,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   R2 S3 credentials live in Bao at `secret/data/weftspun-fdb/r2-dr`,
   cached as Fly secrets on `weftspun-fdb` because Bao's storage is FDB
   and FDB cannot read Bao at boot. The Cloudflare API bearer token
-  stays in 1Password; the S3 keys are regenerated from it at DR time
+  stays in 1Password. The S3 keys are regenerated from it at DR time
   rather than restored, so no long-lived material sits outside Bao.
 
 
