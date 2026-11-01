@@ -95,6 +95,7 @@ defmodule Serials.VSekaiFabric do
       serial 2320, "an-agent-drives-the-oxrsys-simulator-through-cua-driver"
       serial 2321, "the-autobattler-fields-frames-that-wear"
       serial 2333, "a-desk-reaches-foundationdb-only-through-bao", flight_level: :l1
+      serial 2337, "a-garment-fit-at-mesh-on-the-gpu-l-bfgs-b"
       serial 2339, "a-persona-answers-from-a-planning-domain", flight_level: :l1
       serial 2340, "a-campus-where-a-party-of-four-draws-and-wears", flight_level: :l1
       serial 2341, "dev-next"
@@ -487,7 +488,6 @@ defmodule Serials.VSekaiFabric do
       serial 2334, "decider-examples-from-traces"
       serial 2335, "ggml-stablehlo-bit-exact-on-pjrt"
       serial 2336, "pixal3d-as-a-ggml-rd-guest"
-      serial 2337, "a-garment-fit-at-mesh-on-the-gpu-l-bfgs-b"
       serial 2338, "a-skin-fit-to-four-influences-on-the-gpu-l-bfgs-b"
       serial 2350, "inventory-in-a-private-journal"
       serial 2352, "second-hand-garments-for-the-avatar"
