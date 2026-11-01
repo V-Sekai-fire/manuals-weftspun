@@ -61,7 +61,7 @@ rfd 2353, "Bao runs three replicas on the FDB machines", :discussion do
     tailnet identity, the SSH host key and renewed listener certificates.
   - Each instance advertises its own machine address as `api_addr` and
     `cluster_addr`, so standbys forward to the active instance. Standbys
-    are not assumed to serve reads.
+    forward every read to the active instance.
   - Clients keep verifying the listener as `weftspun-bao.internal`; the
     name in the certificate does not move with the app.
   - One machine carries the existing tailnet state and keeps the
