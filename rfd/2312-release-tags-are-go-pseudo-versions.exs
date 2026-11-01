@@ -25,7 +25,7 @@ by time in a file listing and parses as a version in every package tool"
   a "1.0" goes in the release title and the stage branch, not in the tag.
   The operator chose the form on 2026-10-12 ("I like go's").
 
-    :: problem
+  :: problem
   Of 60 GitHub
   releases in repositories pushed since 2026-06-01, 33 are SemVer
   pre-releases in at least four spellings, 7 are dates, 2 are plain SemVer
