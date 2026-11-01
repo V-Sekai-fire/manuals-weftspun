@@ -79,6 +79,7 @@ here corresponds to an entry.
 - The closed-source game engine editor, driven by an agent on the Mac mini: no agent there opens, drives or installs it, on the Mac or on the Windows desk over SSH. With the editor open on the desk, Bonsai 2 decode fell from 309 to 225 tok/s on the 4090 and from 246 to 160 tok/s on the 3090; the cause is suspected, not proven. The operator's own use at the desk is not covered (operator, 2026-10-17)
 - **CockroachDB** as a store: operator directive 2026-10-18 ("Retire crdb"); FoundationDB is the one transactional store, and SQLite on FoundationDB pages (`datasource-store`) takes the relational work — see below
 - **IEC 61131-3 function-block-diagram (FBD)**: operator 2026-10-29; the glTF behaviour graph is the framing we use instead, see the allowlist
+- AVX and AVX2 (and every flag that lets the compiler emit them: `-mavx*`, `-mfma`, `-march=native`, `-march=x86-64-v3` and up, MSVC `/arch:AVX*`) in `entities-godot` builds: the engine's x86 baseline is SSE4.2 with POPCNT, because AVX is missing on recent low-end Intel CPUs; a distribution compiler that defaults to x86-64-v3 (AlmaLinux 10) defines `__AVX__` and breaks the embree link, so `SConstruct` pins `-march=x86-64` and refuses AVX flags in `ccflags` and `cxxflags`; libwebp's own runtime-dispatched AVX2 sources are upstream's CPU detection and stay (operator, 2026-10-31)
 
 ### Abliteration is blocked, and the model's own card is the argument
 
