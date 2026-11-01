@@ -15,6 +15,7 @@ defmodule PagesSite do
   }
   @pages ~w(README.md AGENTS.md BLOCKLIST.md PITFALLS.md KEYPOINTS.md)
   @pinned [2360]
+  @alive ~w(discussion prediscussion ideation published committed)
 
   def main([out]) do
     root = Path.expand("..", __DIR__)
@@ -301,7 +302,8 @@ defmodule PagesSite do
         "## #{g} (#{length(es)})\n\n" <> log_list(es)
       end)
 
-    "# Logbook (#{length(logs)} entries)\n\nWhat the workspace measured, grouped by topic.\n\n" <> body
+    "# Logbook (#{length(logs)} entries)\n\nWhat the workspace measured, grouped by topic.\n\n" <>
+      body
   end
 
   defp serials(root, rfds) do
@@ -311,32 +313,75 @@ defmodule PagesSite do
       for path <- Path.wildcard(Path.join(root, "SERIALS*.exs")) |> Enum.sort() do
         r = RFD.Source.load(path)
 
-        rows =
+        {dead, alive} =
           r.rows
           |> Enum.sort_by(&elem(&1, 1))
-          |> Enum.map_join("\n", fn {table, serial, slug, opts} ->
-            state = row_state(table, opts, docs, serial)
-            "| #{serial_cell(serial, docs)} | #{slug || ""} | #{state} |"
+          |> Enum.map(fn {table, serial, slug, opts} ->
+            {row_state(table, opts, docs, serial), serial, slug}
           end)
+          |> Enum.split_with(fn {state, _, _} -> dead?(state) end)
+
+        alive = Enum.sort_by(alive, fn {state, serial, _} -> {rank(state), serial} end)
 
         "## #{r.name} (site #{r.layer[:site]})\n\n#{r.thesis}\n\n" <>
-          "| serial | slug | state |\n| --- | --- | --- |\n" <> rows
+          "<h3>Alive (#{length(alive)})</h3>\n\n" <>
+          serial_table(alive, docs) <>
+          "\n\n<details>\n<summary>Deleted, abandoned and retired " <>
+          "(#{length(dead)})</summary>\n" <>
+          "<p>Serials: #{ranges(dead)}</p>\n" <> serial_table(dead, docs) <> "\n</details>"
       end
 
     [
       edit_from("SERIALS.exs") <> "# Serials",
-      "Every serial each register holds, allocated or deleted. A deleted serial keeps its " <>
-        "row, so a citation of it still names one document."
+      "Every serial each register holds. Live documents come first, newest work on top. " <>
+        "A dead serial keeps its row in the fold below, so a citation of it still names one " <>
+        "document.",
+      "Search ranks abandoned stubs below live documents."
       | sites
     ]
     |> Enum.join("\n\n")
   end
 
-  defp serial_cell(serial, docs) do
+  defp dead?(state), do: state not in @alive
+
+  defp rank(state), do: Enum.find_index(@alive, &(&1 == state))
+
+  defp serial_table(rows, docs) do
+    body =
+      Enum.map_join(rows, "\n", fn {state, serial, slug} ->
+        "<tr><td>#{serial_link(serial, docs)}</td><td>#{slug}</td><td>#{state}</td></tr>"
+      end)
+
+    "<table>\n<thead><tr><th>serial</th><th>slug</th><th>state</th></tr></thead>\n" <>
+      "<tbody>\n#{body}\n</tbody>\n</table>"
+  end
+
+  defp serial_link(serial, docs) do
     case docs[serial] do
       nil -> short(serial)
-      e -> link(e)
+      e -> ~s(<a href="#{e.href}">#{short(serial)}</a>)
     end
+  end
+
+  defp ranges(rows) do
+    rows
+    |> Enum.map(&elem(&1, 1))
+    |> Enum.chunk_while(
+      [],
+      fn
+        n, [] -> {:cont, [n]}
+        n, [last | _] = run when n == last + 1 -> {:cont, [n | run]}
+        n, run -> {:cont, Enum.reverse(run), [n]}
+      end,
+      fn
+        [] -> {:cont, []}
+        run -> {:cont, Enum.reverse(run), []}
+      end
+    )
+    |> Enum.map_join(", ", fn
+      [n] -> "#{n}"
+      run -> "#{hd(run)}–#{List.last(run)}"
+    end)
   end
 
   defp row_state(:allocated, _opts, docs, serial),
@@ -349,7 +394,6 @@ defmodule PagesSite do
 
   defp log_list(es), do: Enum.map_join(es, "\n", &"- [#{&1.label}](#{&1.href})")
 
-  defp link(e), do: "[#{short(e.serial)}](#{e.href})"
   defp short(serial), do: "RFD66606-#{serial}"
 
   defp cite(n, up, slugs, own) do

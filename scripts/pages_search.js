@@ -135,7 +135,8 @@
           s += gs;
         }
         if (s > 0 && (all || matched)) {
-          const lead = d.k === "rfd" || d.k === "page" ? 1.15 : 1;
+          const dead = d.s.includes("🪦") ? 0.4 : 1;
+          const lead = (d.k === "rfd" || d.k === "page" ? 1.15 : 1) * dead;
           out.push({ d, s: s * lead * (all ? 1 : matched / groups.length) });
         }
       }
