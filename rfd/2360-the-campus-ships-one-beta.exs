@@ -18,7 +18,8 @@ rfd 2360, "The campus as a beta", :discussion do
   :: decision
   - One beta, a feature-complete freeze after dev, holds the features the details list. Every
     nongoal is abandoned (operator, 2026-10-30).
-  - The four are: see each other, hear each other, draw and wear, and the party and the shop.
+  - The four are: see each other, hear each other, draw and wear, and the adventure party and
+    the shop.
   :: related
   - RFD66606-2436 to RFD66606-2440, the five slices that carry the features.
   - RFD66606-2312, the form of the release tag.
@@ -36,9 +37,9 @@ rfd 2360, "The campus as a beta", :discussion do
   - You can hear each other: voice between the two, played at the speaker's avatar.
   - You can draw and wear: the pen's first rung, RFD66606-2287, in the campus zone; the drawn outfit is
     worn and the other person sees it.
-  - You have a party and a shop: one player and the three seats, each filled by a friend or an persona,
-    the takeover, the walk from the shop to a room and back, and the shopkeeper persona with its
-    saved world.
+  - You have an adventure party and a shop: one player and the three seats, each filled by a
+    friend or an persona, the takeover, the walk from the shop to a room and back, and the
+    shopkeeper persona with its saved world.
 
   The beta is cut when every gate in RFD66606-2436 to RFD66606-2440 passes with its
   control.

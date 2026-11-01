@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2439, "party seats are an independent native slice", :discussion do
+rfd 2439, "adventure party seats are an independent native slice", :discussion do
   flight_level :l1
-  feature "a party of one player and three seats runs from a program that needs no campus."
-  scope "the seats half of the party-and-shop beta feature as its own native program, its gates
-  and its controls."
+
+  feature "an adventure party of one player and three seats runs from a program with no campus."
+
+  scope "the seats half of the adventure party and shop feature, as its own program."
 
   prose ~S"""
   :: hook
@@ -32,7 +33,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   - The sibling slices are RFD66606-2436 to RFD66606-2438 and RFD66606-2440.
   """
 
-  details_title "party seats are an independent native slice"
+  details_title "adventure party seats are an independent native slice"
 
   prose ~S"""
   :: details What the beta asks
@@ -59,7 +60,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   schedules the store's attacks.
   A level is an input family with fixed attributes: the number of seats filled by agents, the
   answer delay, the moment of the takeover, and the contention among four bot players. A problem
-  is one scripted party of four with a drawn seed and a drawn takeover tick.
+  is one scripted adventure party of four with a drawn seed and a drawn takeover tick.
 
   | Level | Planted defect | Found when |
   | --- | --- | --- |
