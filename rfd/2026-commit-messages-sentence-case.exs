@@ -13,12 +13,6 @@ rfd 2026, "Commit messages sentence case", :committed do
   Run `python scripts/check_commit_style.py --base origin/main` before you push.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  Conventional Commits prefixes each subject with a machine-readable
-  type and optional scope, such as `feat:` or `fix(parser):`, and
-  lower-cases the summary that follows. Plain prose writes the subject
-  as an ordinary capitalised sentence. How should a commit subject in
-  this repo read?
   :: related
   See `DETAILS.md` for the full argument.
   """
@@ -105,5 +99,11 @@ rfd 2026, "Commit messages sentence case", :committed do
   (`rfd/2025-tenseless-continuous-present-voice`): a commit body states
   what the change makes true of the system, the same way comments and
   docs do.
+  :: details The problem
+  Conventional Commits prefixes each subject with a machine-readable
+  type and optional scope, such as `feat:` or `fix(parser):`, and
+  lower-cases the summary that follows. Plain prose writes the subject
+  as an ordinary capitalised sentence. How should a commit subject in
+  this repo read?
   """
 end

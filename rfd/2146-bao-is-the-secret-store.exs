@@ -30,11 +30,6 @@ already presents a per-identity TLS leaf."
   The store becomes the source of truth for every secret; 1P retains
   the material as an offline mirror. Role table, walkthrough, negative
   controls in `DETAILS.md`.
-  :: problem
-  Every one becomes a rotation
-  problem and a leak surface. When the store sits behind mTLS, the
-  client already presents a per-identity cert at the TLS handshake,
-  and the API layer above ignores it and re-asks with a token.
   :: related
   RFD66606-2140, RFD66606-2142 (implemented here), 2144, 2145.
   """
@@ -142,5 +137,10 @@ already presents a per-identity TLS leaf."
   - RFD66606-2142, service TLS design; this RFD's role table is its
     implementation.
   - RFD66606-2145, cert lifetimes that constrain how often roles rotate.
+  :: details The problem
+  Every one becomes a rotation
+  problem and a leak surface. When the store sits behind mTLS, the
+  client already presents a per-identity cert at the TLS handshake,
+  and the API layer above ignores it and re-asks with a token.
   """
 end

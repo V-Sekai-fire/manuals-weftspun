@@ -21,9 +21,6 @@ world grab"
   A person draws with the XR pen, curvenet.elf closes the strokes into one shell,
   and the shell shows on the dress-on statue. World grab and the station walker
   work. RFD66606-2344 proves each of these under the private working agreements.
-  :: problem
-  A rung that lists
-  unbuilt work as done cannot be verified, so this one lists only what exists.
   :: related
   - RFD66606-2342, dev.1 (tray); RFD66606-2344, dev.3 (the proof); RFD66606-2341 (dev.next).
   - RFD66606-2287, RFD66606-2293, RFD66606-2296 (the pen's release ladder).
@@ -64,5 +61,8 @@ world grab"
   - Our meshing pen and our curvenet interactor.
   - Our XR pilot interactor: OXRSys and xr_pilot_mcp.
   - The tray's dev.1 build.
+  :: details The problem
+  A rung that lists
+  unbuilt work as done cannot be verified, so this one lists only what exists.
   """
 end

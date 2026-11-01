@@ -54,7 +54,6 @@ defmodule RFD.Import do
   @canary_human "This RFD was drafted by a human without AI help."
   @spine %{
     "Decision" => :decision,
-    "Problem" => :problem,
     "References" => :references,
     "Related" => :related
   }
@@ -160,7 +159,6 @@ defmodule RFD.Import do
       scope: meta["Scope"],
       flight_level: flight_level(String.to_integer(serial), dir),
       decision: strip_canary(by["Decision"]),
-      problem: strip_canary(by["Problem"]),
       references: strip_canary(by["References"]),
       related: strip_canary(by["Related"]),
       sections: for({h, b} <- sections, not Map.has_key?(@spine, h), do: {h, strip_canary(b)}),
@@ -365,7 +363,6 @@ defmodule RFD.Import do
   end
 
   defp body_item(doc, :decision), do: doc.decision && "    decision #{heredoc(doc.decision)}"
-  defp body_item(doc, :problem), do: doc.problem && "    problem #{heredoc(doc.problem)}"
 
   defp body_item(doc, :references),
     do: doc.references && "    references #{heredoc(doc.references)}"

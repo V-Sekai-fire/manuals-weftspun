@@ -19,9 +19,6 @@ rfd 1028, "Model license gate", :published do
   Any model shipped to paying users must clear commercial use. The gate
   is the hard prerequisite in MODEL_LICENSES.md. The repository keeps a
   FOSS blocklist for permissive licenses only.
-  :: problem
-  The catalog must not ship them
-  to paying users.
   :: related
   RFD66606-1016 lists the active models. RFD66606-1029 gives the FOSS
   replacements. RFD66606-1035 lists the legacy models. The license audit is
@@ -56,5 +53,8 @@ rfd 1028, "Model license gate", :published do
 
   The FOSS replacement for raw mesh generation is TRELLIS.2. It uses the
   MIT license. The catalog already carries it.
+  :: details The problem
+  The catalog must not ship them
+  to paying users.
   """
 end

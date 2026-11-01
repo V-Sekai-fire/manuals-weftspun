@@ -28,9 +28,6 @@ rfd 1036, "Model packaging convention", :committed do
   Name the repo for its model, and never for a package format. A
   format is a decision this RFD already changed once. A folder name
   that carries one goes stale on the next change.
-  :: problem
-  There is no DGX now.
-  This RFD first selected Cog; `DETAILS.md` records why it was withdrawn.
   :: related
   RFD66606-1016 lists the models. RFD66606-1025 gives the memory. RFD66606-1027 the
   GPU tier. RFD66606-1037 the composite convention. RFD66606-1053 the asset
@@ -123,5 +120,8 @@ rfd 1036, "Model packaging convention", :committed do
   Committed 2026-09-02: the convention has been in force for months;
   CLAUDE.md closes compute (local desktop GPU only; RunPod/Vast.ai
   blocklisted). Earlier rental-target framing retracted in DETAILS.md.
+  :: details The problem
+  There is no DGX now.
+  This RFD first selected Cog; `DETAILS.md` records why it was withdrawn.
   """
 end

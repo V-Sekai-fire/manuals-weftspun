@@ -13,14 +13,6 @@ rfd 2012, "Amend pr before it enters the queue", :prediscussion do
   Confirm the PR is still `OPEN` after a corrective push, or dequeue it before you push the fix.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  The merge queue captures a PR's head commit the moment its checks pass
-  and it is enqueued. While drafting the gitassembly tag MADR, a
-  correction was pushed to the PR branch seconds after enqueueing; the
-  queue had already snapshotted the earlier commit, so it merged the
-  draft and orphaned the fix. The correction had to land as a second PR.
-  How should a late fix to an in-flight PR be sequenced so it is not
-  lost to the queue?
   :: related
   See `DETAILS.md` for the full argument.
   """
@@ -62,5 +54,13 @@ rfd 2012, "Amend pr before it enters the queue", :prediscussion do
   work-in-progress discipline the bounded steering queue
   (`decisions/20260606-bounded-llm-steering-queue.md`) relies on: one
   finished concern per PR, merged before the next.
+  :: details The problem
+  The merge queue captures a PR's head commit the moment its checks pass
+  and it is enqueued. While drafting the gitassembly tag MADR, a
+  correction was pushed to the PR branch seconds after enqueueing; the
+  queue had already snapshotted the earlier commit, so it merged the
+  draft and orphaned the fix. The correction had to land as a second PR.
+  How should a late fix to an in-flight PR be sequenced so it is not
+  lost to the queue?
   """
 end

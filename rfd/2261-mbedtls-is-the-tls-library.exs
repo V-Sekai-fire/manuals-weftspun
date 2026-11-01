@@ -20,13 +20,16 @@ certificate or signs a token"
   the same library Godot vendors, so an engine build and a guest
   ELF share one implementation. It covers mutual TLS with an agent
   certificate and the RS256 signing an app-token JWT needs.
-  :: problem
-  A guest ELF that
-  must reach Bao needs client certificates the engine's HTTP client
-  cannot present.
   :: related
   - RFD66606-2256 (WebTransport inside a sandbox guest), whose QUIC stack
     runs TLS 1.3 through picotls on mbedTLS.
+  """
+
+  prose ~S"""
+  :: details The problem
+  A guest ELF that
+  must reach Bao needs client certificates the engine's HTTP client
+  cannot present.
   """
 
   details_title "mbedTLS is the TLS library"

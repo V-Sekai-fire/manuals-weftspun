@@ -21,8 +21,6 @@ rfd 2379, "desktop zips ship as release assets", :discussion do
     2026-10-17).
   - The Space keeps the web game and the page.
   - The upload script deletes any zip from the Space.
-  :: problem
-  A Space holds at most 1 GB, and every earlier upload of the zips still counted in its history.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   - RFD66606-2321, the autobattler game, which this release carries.
@@ -47,5 +45,7 @@ rfd 2379, "desktop zips ship as release assets", :discussion do
   were, so only the `.pck` of each zip is replaced. Each new zip started translated and
   printed `RESULT PASS` on its own system on 2026-10-17. The web game's slowest frame in the
   first round read 139 to 145 ms before and after the change.
+  :: details The problem
+  A Space holds at most 1 GB, and every earlier upload of the zips still counted in its history.
   """
 end

@@ -32,12 +32,6 @@ rfd 2233, "Close-out gates: red control, green, scout", :prediscussion do
      cleanup and empty after, plus what was improved beyond the task.
 
   `DETAILS.md` carries the reference case with its measurements.
-  :: problem
-  Sessions also shed side effects, stray processes, /tmp
-  files, caches, credentials, that no gate inspects, and a defect can
-  hide inside them. The first inventory run found a stale server
-  holding a port behind a probe that reported the same identity for
-  the broken and the fixed build.
   """
 
   details_title "Close-out gates: red control, green, scout"
@@ -88,5 +82,11 @@ rfd 2233, "Close-out gates: red control, green, scout", :prediscussion do
   to this record. The gate shapes above are the published part; the
   values flow through a logbook entry when they are measurements, and
   through nothing at all when they are secrets.
+  :: details The problem
+  Sessions also shed side effects, stray processes, /tmp
+  files, caches, credentials, that no gate inspects, and a defect can
+  hide inside them. The first inventory run found a stale server
+  holding a port behind a probe that reported the same identity for
+  the broken and the fixed build.
   """
 end

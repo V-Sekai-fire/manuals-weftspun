@@ -24,9 +24,6 @@ and the pixi environments the gates run in"
   subsystem uses mirrored networking (`networkingMode=mirrored` in
   `%UserProfile%\.wslconfig`), so it shares the host's IPv6 route.
   A release artifact built for the host is still tested on the host.
-  :: problem
-  Under NAT the subsystem had no IPv6,
-  so it could not reach Bao's public tunnel address at all.
   :: related
   - RFD66606-2255 (SSH tunnel to Bao), the path IPv6 opened.
   - RFD66606-2016 (checking sccache), whose cross-shell driver this
@@ -49,5 +46,8 @@ and the pixi environments the gates run in"
   install --environment elixir`), the same pair CI pins, and
   `~/.pixi/bin` sits ahead of the host PATH the subsystem appends.
   The request-for-discussion pixi workspace declares `linux-64`.
+  :: details The problem
+  Under NAT the subsystem had no IPv6,
+  so it could not reach Bao's public tunnel address at all.
   """
 end

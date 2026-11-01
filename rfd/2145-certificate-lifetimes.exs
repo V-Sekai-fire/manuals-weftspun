@@ -31,8 +31,6 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   Rotation is a **5-year policy commitment**, enforced by
   `check_anti_entropy.py`, not by cert validation. Intermediates and
   leaves are the opposite: their `notAfter` IS the rotation gate.
-  :: problem
-  The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by 2029-03).
   :: related
   RFD66606-2134, RFD66606-2141, RFD66606-2142, RFD66606-2144. Each carries a retraction pointing
   here.
@@ -183,5 +181,7 @@ rfd 2145, "Certificate lifetimes, from a risk-based ceiling", :discussion do
   - `40-ncsc-pki-principles.cff` ("as short as practical")
   - `50-nist-sp-800-57-part1.cff` (cryptoperiod framing)
   - `60-webtransport-servercerthashes.cff` (14-day WT ceiling)
+  :: details The problem
+  The guidance predates CA/Browser Forum SC-081v3 (200 days now, 47 by 2029-03).
   """
 end

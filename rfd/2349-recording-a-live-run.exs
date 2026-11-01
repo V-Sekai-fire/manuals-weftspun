@@ -21,9 +21,6 @@ rfd 2349, "Recording a live run: house recorder at 4K, CineForm, no FFmpeg tool"
   and never waits for the model. Godot Movie Maker is blocklisted.
   FFmpeg never runs as a tool. RFD66606-2345's format stands; this RFD
   replaces its encoder, its live recorder and its file check.
-  :: problem
-  RFD66606-2345 encodes with the homebrew `ffmpeg` and checks files with
-  `ffprobe`. FFmpeg as a tool is now banned.
   :: related
   - RFD66606-2345, the video format, which this RFD amends;
     RFD66606-2347, the decider-pong review.
@@ -76,5 +73,8 @@ rfd 2349, "Recording a live run: house recorder at 4K, CineForm, no FFmpeg tool"
   - The decider-pong recorders named in RFD66606-2345 still call
     `ffmpeg`. They move to the house recorder or the SDK route when that
     project is next worked on.
+  :: details The problem
+  RFD66606-2345 encodes with the homebrew `ffmpeg` and checks files with
+  `ffprobe`. FFmpeg as a tool is now banned.
   """
 end

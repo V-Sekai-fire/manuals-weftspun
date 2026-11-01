@@ -25,12 +25,6 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   next step gated on the previous. The steps are enumerated in
   `DETAILS.md`; a companion skill `coordinate-agents` in
   `weftspun/dot-claude` is the operational how-to.
-  :: problem
-  "Coordinate agents" was a sentence the operator said and the
-  coordinator did a pass by memory: check the store, message peers,
-  enqueue clean PRs, surface stuck ones, remember the do-not-touch-peer-
-  branch rule. A named ceremony carries them
-  prospectively.
   :: related
   RFD66606-2195 (Bao PKI + Gotchas), RFD66606-2200 (roles), `agent-sync` and
   `coordinate-agents` skills in dot-claude.
@@ -190,5 +184,11 @@ rfd 2201, "The coordinate-agents ceremony", :discussion do
   a peer-request policy widen that was declined after CUDA reflected it
   back. Both incidents produced the anti-goals in the ceremony,
   prospectively for the next sweep.
+  :: details The problem
+  "Coordinate agents" was a sentence the operator said and the
+  coordinator did a pass by memory: check the store, message peers,
+  enqueue clean PRs, surface stuck ones, remember the do-not-touch-peer-
+  branch rule. A named ceremony carries them
+  prospectively.
   """
 end

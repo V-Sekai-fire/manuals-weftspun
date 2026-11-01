@@ -25,8 +25,6 @@ rfd 1030, "See-Through component models", :published do
   the checkpoints named below state no licence, and the depth component
   derives from an OpenRAIL++-M model. The table remains accurate about
   what the project is made of and is no longer a plan to run it.
-  :: problem
-  One catalog row hides that fact.
   :: related
   RFD66606-1006 records the layer decomposition design. RFD66606-1019 selects the
   same ggml runtime for the Elixir core. RFD66606-1025 carries the single
@@ -60,5 +58,7 @@ rfd 1030, "See-Through component models", :published do
   about 0.55 bytes, thus the same nine components need about 2.7 GB.
   Plan the Replicate path against 9.82 GB. Plan the local path against
   2.7 GB.
+  :: details The problem
+  One catalog row hides that fact.
   """
 end

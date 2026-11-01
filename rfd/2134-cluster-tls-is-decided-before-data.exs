@@ -31,8 +31,6 @@ rfd 2134,
   (`CN=fdb-spot-broker.chibifire.com`) through the `FDB_TLS_*` env vars
   libfdb_c reads, and verifies the cluster with the same rule the
   cluster uses (`Check.Valid=1,S.CN>=fdb-,S.CN<=.chibifire.com`).
-  :: problem
-  Turning TLS on after the fact hit two walls, one known and one new.
   :: section Verification
   A matched pair in local Docker before any push: v3 certificates form a
   database; the previous extension-less certificates reproduce the
@@ -159,5 +157,7 @@ rfd 2134,
   stunnel's literal dial). datasource-store PRs #4 and #5 carry the
   change; `logbook-rfd2134-backup-through-the-sni-hop.md` carries the
   measurements, ending with kvrange objects listed in the bucket.
+  :: details The problem
+  Turning TLS on after the fact hit two walls, one known and one new.
   """
 end

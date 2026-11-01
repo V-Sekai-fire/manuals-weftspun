@@ -21,11 +21,6 @@ decider interactor"
   more. Both are in the local mirror, and a fresh offline client syncs
   them with 0 failures. The OpenBao credential helper was removed from
   the tree.
-  :: problem
-  The contract places a repo in the manifest
-  the day it is created and pins upstreams as manifest rows. The repo
-  also carried a blocklisted OpenBao helper. Two questions remain open:
-  the repo is all Python, and its name lacks a side prefix.
   :: related
   - RFD66606-2341, dev.next, where the two open questions are parked.
   - RFD66606-2345, the video format; RFD66606-2347, the decider-pong
@@ -73,5 +68,10 @@ decider interactor"
   GitHub. After the rename the manifest row changes by one line. The
   removed helper stays in history from the commit that added it;
   dropping it means rewriting a published branch.
+  :: details The problem
+  The contract places a repo in the manifest
+  the day it is created and pins upstreams as manifest rows. The repo
+  also carried a blocklisted OpenBao helper. Two questions remain open:
+  the repo is all Python, and its name lacks a side prefix.
   """
 end

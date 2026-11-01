@@ -16,11 +16,14 @@ rfd 2059, "Bad news reports lead with the bottom line", :prediscussion do
   after it.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  How does a report in
-  this project phrase an outcome the reader needs first?
   :: related
   See `DETAILS.md` for the full argument.
+  """
+
+  prose ~S"""
+  :: details The problem
+  How does a report in
+  this project phrase an outcome the reader needs first?
   """
 
   details_title "Bad news reports lead with the bottom line"

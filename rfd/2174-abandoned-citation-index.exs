@@ -19,10 +19,6 @@ rfd 2174, "Index of open RFDs citing abandoned RFDs", :committed do
   :: decision
   This RFD is the citable index for open-to-abandoned citation drift; the 32 pairs sit in
   DETAILS.md, and individual RFDs migrate their citations when next touched.
-  :: problem
-  Not all are drift: a retraction
-  chain legitimately cites what it walks back, and RFD66606-2168 (wholebody detector retraction)
-  and 2169 (studio-core abandonment) do exactly this.
   :: section Details
   Each pair in DETAILS.md is annotated with what the citing RFD's claim depends on and where the
   successor lives. Cheaper than 32 amendments; provides one URN to cite when a reader hits a
@@ -112,5 +108,9 @@ rfd 2174, "Index of open RFDs citing abandoned RFDs", :committed do
 
   Roughly 60% of the 32 pairs are legitimate retraction chains. The
   remaining ~13 pairs (marked with a successor or drop) are real drift.
+  :: details The problem
+  Not all are drift: a retraction
+  chain legitimately cites what it walks back, and RFD66606-2168 (wholebody detector retraction)
+  and 2169 (studio-core abandonment) do exactly this.
   """
 end

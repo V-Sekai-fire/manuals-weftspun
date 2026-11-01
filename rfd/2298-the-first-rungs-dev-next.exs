@@ -17,9 +17,6 @@ rfd 2298, "the first rung's dev.next", :discussion do
   :: decision
   dev.next holds everything not yet assigned to a dev rung, and an item
   leaves it when a numbered rung is planned.
-  :: problem
-  Work that no rung has claimed needs one place to wait, or it is
-  lost between rungs.
   :: related
   - RFD66606-2293, the workspace, the ladder and dev.1; its release rules hold here.
   - RFD66606-2296, dev.2; RFD66606-2297, dev.3; RFD66606-2298, dev.next.
@@ -95,5 +92,8 @@ rfd 2298, "the first rung's dev.next", :discussion do
   | dev.next | `.sgd` scripts, generated bindings | none | (remote, p=0.05) |
 
   The most joy rests on the drawing, companion and avatar features.
+  :: details The problem
+  Work that no rung has claimed needs one place to wait, or it is
+  lost between rungs.
   """
 end

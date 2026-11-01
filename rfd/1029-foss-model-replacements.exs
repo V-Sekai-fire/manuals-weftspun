@@ -21,8 +21,6 @@ rfd 1029, "FOSS model replacements", :published do
 
   See `DETAILS.md` for the PartField, FastMesh, and PartPacker
   replacements, each with its candidates and its license.
-  :: problem
-  The PartField, FastMesh, and PartPacker tasks have no model until each gets a replacement.
   :: related
   RFD66606-1028 records the license gate. RFD66606-1031 records the geometry
   refinement path and its alpha wrap problem.
@@ -156,5 +154,7 @@ rfd 1029, "FOSS model replacements", :published do
   :: details PartPacker replacement (image to raw mesh)
   The catalog already carries TRELLIS.2 and TRELLIS. Both use the MIT
   license. Prefer them over PartPacker.
+  :: details The problem
+  The PartField, FastMesh, and PartPacker tasks have no model until each gets a replacement.
   """
 end

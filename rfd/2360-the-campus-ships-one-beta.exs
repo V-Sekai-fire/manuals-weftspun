@@ -19,8 +19,6 @@ rfd 2360, "The campus as a beta", :discussion do
   - One beta, a feature-complete freeze after dev, holds the features the details list. Every
     nongoal is abandoned (operator, 2026-10-30).
   - The four are: see each other, hear each other, draw and wear, and the party and the shop.
-  :: problem
-  After the beta is cut, only fixes land.
   :: related
   - RFD66606-2340, the campus; RFD66606-2358, the party; RFD66606-2359, the shop.
   - RFD66606-2312, the form of the release tag.
@@ -60,5 +58,7 @@ rfd 2360, "The campus as a beta", :discussion do
   - the Steam Frame's standalone mode
   - the Steam Deck
   - the Hyper-V machine with its emulated TPM
+  :: details The problem
+  After the beta is cut, only fixes land.
   """
 end

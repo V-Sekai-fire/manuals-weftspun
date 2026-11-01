@@ -24,9 +24,6 @@ gates, and each guest solve"
   loads to its first frame in 5 s or less, every test or gate run is
   capped at one minute, and each solve, one guest call or one stroke
   commit, times out at 60 s.
-  :: problem
-  Moving the call to a sub-thread does not help: a
-  frame ends only when every thread group's `_process` returns.
   :: related
   - RFD66606-2287, the rung whose headset runs at 144 Hz; RFD66606-2263, the replay gate.
   - RFD66606-2390, native translation, which shrinks every slice's count.
@@ -61,5 +58,8 @@ gates, and each guest solve"
 
   The station scene and the dress flow measured on 2026-10-04 are in
   `logbook-guest-frame-budget.md`.
+  :: details The problem
+  Moving the call to a sub-thread does not help: a
+  frame ends only when every thread group's `_process` returns.
   """
 end

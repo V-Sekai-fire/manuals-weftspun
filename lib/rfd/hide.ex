@@ -6,9 +6,8 @@ defmodule RFD.Hide do
   The HIDE beats every live RFD declares: `hook`, `intrigue`, `exit`, and the decision as
   the Delivery.
 
-  - `hook`: one paragraph, the promise. The README prints it in bold above the decision.
-  - `intrigue`: one paragraph that ends in a sentence. The README prints it first in the
-    problem.
+  - `hook`: one paragraph, the promise. The README prints it in bold first in the decision.
+  - `intrigue`: one paragraph that ends in a sentence. The README prints it after the hook.
   - `exit`: one paragraph that ends in a period and is not a list item, a table row or a
     code fence. The README prints it last in the decision.
   """

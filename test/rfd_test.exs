@@ -18,7 +18,6 @@ defmodule RFDTest do
           intrigue: "The thing was not done.",
           exit: "Run the steps.",
           decision: "It is done in steps.",
-          problem: "It waits.",
           references: ["RFD 1000"],
           related: "RFD 1000.",
           drafted_by: :ai
@@ -37,7 +36,8 @@ defmodule RFDTest do
            )
 
     assert readme =~
-             "\n## Decision\n\n**Do the thing.**\n\nIt is done in steps.\n\nRun the steps.\n"
+             "\n**Do the thing.**\n\nThe thing was not done." <>
+               "\n\nIt is done in steps.\n\nRun the steps.\n"
 
     assert readme =~ "\n## References\n\n- RFD 1000\n\n## Related\n"
     assert String.ends_with?(readme, RFD.Doc.canary(:ai) <> "\n")
@@ -72,12 +72,12 @@ defmodule RFDTest do
 
   test "a README over 40 lines is refused" do
     long = Enum.map_join(1..40, "\n", &"line #{&1}")
-    assert ["README renders to " <> _] = RFD.Doc.problems(doc(problem: long))
+    assert ["README renders to " <> _] = RFD.Doc.problems(doc(related: long))
   end
 
   test "an em-dash join, a pompous copula and an exact on a soft noun are named as tropes" do
     assert [_] = RFD.Doc.tropes(doc(decision: "Do the thing — it matters."))
-    assert [_] = RFD.Doc.tropes(doc(problem: "This is what makes it work."))
+    assert [_] = RFD.Doc.tropes(doc(decision: "This is what makes it work."))
     assert [_] = RFD.Doc.tropes(doc(related: "the exact moment it failed"))
     assert RFD.Doc.tropes(doc()) == []
   end
@@ -87,7 +87,7 @@ defmodule RFDTest do
           doc(decision: "Do the thing — it matters."),
           doc(decision: "Do the thing --\nit matters."),
           doc(decision: "Do the thing\n— it matters."),
-          doc(problem: "Stages run in order – each one checked."),
+          doc(decision: "Stages run in order – each one checked."),
           doc(feature: "a feature — with an aside"),
           doc(details: [{"Staging is what makes the tier", "Body."}])
         ] do
@@ -117,7 +117,7 @@ defmodule RFDTest do
              "---\nname: x\n---\n\n# RFD66606-2999: a test RFD\n\n**State:**"
            )
 
-    assert r =~ "**Scope:** the scope\n\nShelved 2026-09-02: waiting.\n\n## Decision\n"
+    assert r =~ "**Scope:** the scope\n\nShelved 2026-09-02: waiting.\n\n**Do the thing.**\n"
     assert length(Regex.scan(~r/DETAILS\.md/, r)) == 1
   end
 
@@ -137,7 +137,6 @@ defmodule RFDTest do
         intrigue "It was not done."
         exit "Run it."
         decision "It runs."
-        problem "It waits."
         drafted_by :human
       end
     end
@@ -171,9 +170,6 @@ defmodule RFDTest do
         decision ~S\"""
         It runs.
         \"""
-        problem ~S\"""
-        It waits.
-        \"""
         details "How", ~S\"""
         Like so.
         \"""
@@ -194,8 +190,6 @@ defmodule RFDTest do
       Run it.
       :: decision
       It runs.
-      :: problem
-      It waits.
       :: details How
       Like so.
       \"""
@@ -223,7 +217,6 @@ defmodule RFDTest do
         intrigue "It was not done."
         exit "Run it."
         decision "It runs."
-        problem "It waits."
     #{body}
         drafted_by :ai
       end
@@ -374,7 +367,6 @@ defmodule RFDTest do
         intrigue "It was not done."
         exit "Run it."
         decision "It runs."
-        problem "It waits."
         rebac do
           verb :owns, "holds the object as hardware"
     """

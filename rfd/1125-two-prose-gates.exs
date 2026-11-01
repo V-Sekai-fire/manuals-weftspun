@@ -23,12 +23,6 @@ rfd 1125, "Two prose gates, one for each kind of writing", :discussion do
   **An essay answers to `seeds/ai_trope.parquet`**, which already exists,
   seeded from https://tropes.fyi. A `README.md` is an essay throughout. That
   table assigns READMEs to ASD-STE100 today, and this RFD reverses it.
-  :: problem
-  ASD-STE100 is a controlled language for technical writing, and a schema table is better under
-  it. An argument is not, because a controlled vocabulary flattens an argument into a
-  specification. An essay also fails in a way ASD-STE100 never describes, since it can read as
-  though a model wrote it. Neither kind owns a whole file either: a `DETAILS.md` carries a
-  measurement beside the reasoning that motivates it.
   :: related
   RFD66606-1000 states the rule this supersedes. RFD66606-1063 moved enforcement to a
   write-time hook, so this adds a hook and not a script. RFD66606-1124 gives the
@@ -102,5 +96,11 @@ rfd 1125, "Two prose gates, one for each kind of writing", :discussion do
   is not holding a standard, it is producing noise, and people stop running it.
   `prose_nodes.py` was written to avoid the same outcome, which arrives here
   through the choice of table rather than through the choice of parser.
+  :: details The problem
+  ASD-STE100 is a controlled language for technical writing, and a schema table is better under
+  it. An argument is not, because a controlled vocabulary flattens an argument into a
+  specification. An essay also fails in a way ASD-STE100 never describes, since it can read as
+  though a model wrote it. Neither kind owns a whole file either: a `DETAILS.md` carries a
+  measurement beside the reasoning that motivates it.
   """
 end

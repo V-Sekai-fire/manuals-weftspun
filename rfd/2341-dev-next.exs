@@ -20,8 +20,6 @@ rfd 2341, "dev.next", :discussion do
   that arrives while a rung is open is written here, and the open rung's
   definition does not change. An item leaves dev.next when a numbered
   rung is planned around it.
-  :: problem
-  Parked work still needs one place to wait.
   :: related
   - RFD66606-2342, dev.1; RFD66606-2343, dev.2; RFD66606-2344, dev.3.
   - RFD66606-2298, the FOSS side's dev.next.
@@ -177,5 +175,7 @@ rfd 2341, "dev.next", :discussion do
     CineForm.
   - The forge READMEs still off the house shape, and the README churn
     gate run on this workspace.
+  :: details The problem
+  Parked work still needs one place to wait.
   """
 end

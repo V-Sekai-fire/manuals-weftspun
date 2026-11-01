@@ -16,7 +16,7 @@ defmodule RFD.DSL do
         prose ~S\"\"\"
         :: decision
         ...
-        :: problem
+        :: intrigue
         ...
         \"\"\"
 
@@ -28,11 +28,11 @@ defmodule RFD.DSL do
       end
 
   At the top of a file `rfd` defines the module `RFD2232` itself, and `prose` stands for
-  the `decision`, `problem` and `details` calls its `::` lines open. `drafted_by` defaults
+  the `decision` and `details` calls its `::` lines open. `drafted_by` defaults
   to `:ai`. The `defmodule RFD2232 do ... end` form with `state` inside the block still loads.
 
   Sections render in the order they are declared; the spine must still run
-  Decision, Problem, References, Related. A file that breaks the shape does not
+  Decision, References, Related. A file that breaks the shape does not
   compile; the error names the rule.
   """
 
@@ -186,7 +186,7 @@ defmodule RFD.DSL do
     end
   end
 
-  @prose_one ~w(hook intrigue exit decision problem references related preamble details_preamble)a
+  @prose_one ~w(hook intrigue exit decision references related preamble details_preamble)a
   @prose_two ~w(details section)a
 
   @doc "The fields a `prose` block may open, without and with a heading."
@@ -303,7 +303,6 @@ defmodule RFD.DSL do
     defmacro intrigue(v), do: field(:intrigue, v)
     defmacro exit(v), do: field(:exit, v)
     defmacro decision(v), do: ordered(:decision, v)
-    defmacro problem(v), do: ordered(:problem, v)
     defmacro references(v), do: ordered(:references, v)
     defmacro related(v), do: ordered(:related, v)
     defmacro drafted_by(v), do: field(:drafted_by, v)

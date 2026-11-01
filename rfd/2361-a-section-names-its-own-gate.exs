@@ -19,8 +19,6 @@ rfd 2361, "A section names its own gate", :discussion do
   gates read a CommonMark AST, so the mark is a block token they see already.
 
   **An unmarked section fails.** A silent skip reads exactly like a pass.
-  :: problem
-  Any file-level rule has to be wrong about one of the two kinds of writing.
   :: related
   RFD66606-1125 splits the two gates by kind of writing. RFD66606-2362 measures the
   AI-trope table. RFD66606-1124 gives the reason these gates read an AST.
@@ -42,5 +40,7 @@ rfd 2361, "A section names its own gate", :discussion do
   preference. A `DETAILS.md` is where a measurement lands, and it is also where
   the reasoning that motivates the measurement lands. Those are two kinds of
   writing in one file, and any file-level rule has to be wrong about one of them.
+  :: details The problem
+  Any file-level rule has to be wrong about one of the two kinds of writing.
   """
 end

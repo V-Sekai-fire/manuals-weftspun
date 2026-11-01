@@ -28,12 +28,6 @@ rfd 1153, "Judging matte quality", :published do
      448px.
   3. Two categories scored separately: **connectivity** (detached fragments, holes)
      and **gradient** (oversmoothing, or false hard edges).
-  :: problem
-  The available proxy, soft-alpha pixels per silhouette perimeter, ranks model
-  families but cannot judge one matte. Two attempts with
-  EditScore failed: whole images flattened onto grey scored near-constant within
-  each image, so the judge was reading the photograph rather than the cutout, and a
-  twin panel of cutout beside alpha returned exactly 8.00 for all eighteen.
   :: related
   RFD66606-1152 selects the background remover this judges. RFD66606-1006 covers layer
   decomposition.
@@ -155,5 +149,11 @@ rfd 1153, "Judging matte quality", :published do
   divides the answer by `score_range / 10`. A rubric injected without the same
   replace is answered on a 0-10 scale and rescaled as if it were 0-25. Full marks
   then read 4.00, and the range looks compressed into three levels when it is not.
+  :: details The problem
+  The available proxy, soft-alpha pixels per silhouette perimeter, ranks model
+  families but cannot judge one matte. Two attempts with
+  EditScore failed: whole images flattened onto grey scored near-constant within
+  each image, so the judge was reading the photograph rather than the cutout, and a
+  twin panel of cutout beside alpha returned exactly 8.00 for all eighteen.
   """
 end

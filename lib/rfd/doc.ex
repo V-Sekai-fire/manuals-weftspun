@@ -7,7 +7,7 @@ defmodule RFD.Doc do
 
   The README rendering is what `scripts/check-rfd-structure.py` and the site
   read: CommonMark, `# RFD NNNN: title`, the metadata lines State / Feature /
-  Scope in that order, then the spine Decision, Problem, References, Related,
+  Scope in that order, then the spine Decision, References, Related,
   then the attestation sentence.
   """
 
@@ -25,7 +25,7 @@ defmodule RFD.Doc do
     {~r/\bthe exact (window|moment|shape|line|point|reason|failure)\b/i,
      "an `exact` on a soft noun"}
   ]
-  @spine_rank %{decision: 0, problem: 1, references: 2, related: 3}
+  @spine_rank %{decision: 0, references: 1, related: 2}
 
   @enforce_keys [:serial, :title]
   defstruct serial: nil,
@@ -41,7 +41,6 @@ defmodule RFD.Doc do
             intrigue: nil,
             exit: nil,
             decision: nil,
-            problem: nil,
             references: [],
             related: nil,
             sections: [],
@@ -97,10 +96,10 @@ defmodule RFD.Doc do
       "each section entry is {heading, body}"
     )
     |> check(
-      Enum.all?(d.sections, fn {h, _} -> h not in ~w(Decision Problem References Related) end),
+      Enum.all?(d.sections, fn {h, _} -> h not in ~w(Decision References Related) end),
       "a spine section goes in its own field, not in section/2"
     )
-    |> check(spine_in_order?(d.order), "the spine runs Decision, Problem, References, Related")
+    |> check(spine_in_order?(d.order), "the spine runs Decision, References, Related")
     |> check(
       d.rebac == nil or match?(%RFD.ReBAC{}, d.rebac),
       "rebac holds the model the rebac block builds"
@@ -120,7 +119,7 @@ defmodule RFD.Doc do
   def tropes(%__MODULE__{} = d) do
     prose =
       [d.title, d.feature, d.scope, d.preamble, d.hook, d.intrigue, d.exit] ++
-        [d.decision, d.problem] ++
+        [d.decision] ++
         List.wrap(d.references) ++
         [d.related, d.details_title, d.details_preamble] ++
         Enum.flat_map(d.details ++ d.sections ++ generated_sections(d), &Tuple.to_list/1)
@@ -229,8 +228,7 @@ defmodule RFD.Doc do
       end
 
     spine = [
-      {:decision, d.decision && section("Decision", decision_text(d) <> details_pointer(d))},
-      {:problem, (d.problem || d.intrigue) && section("Problem", problem_text(d))},
+      {:decision, d.decision && delivery(d)},
       {:references, refs && section("References", refs)},
       {:related, d.related && section("Related", d.related)}
     ]
@@ -238,7 +236,7 @@ defmodule RFD.Doc do
     extras = for {h, b} <- d.sections, do: {{:section, h}, section(h, b)}
     all = spine ++ extras
     # Declaration order when the source gave one; otherwise the spine, then the extras.
-    keys = if d.order == [], do: Enum.map(all, &elem(&1, 0)), else: with_problem(d)
+    keys = if d.order == [], do: Enum.map(all, &elem(&1, 0)), else: d.order
 
     sections =
       keys
@@ -293,26 +291,19 @@ defmodule RFD.Doc do
     "def \"S#{d.serial}\"\n{\n    custom string slug = \"#{slug}\"#{level}\n}\n"
   end
 
-  defp with_problem(%__MODULE__{intrigue: nil, order: order}), do: order
+  defp delivery(%__MODULE__{hook: nil, intrigue: nil, exit: nil} = d),
+    do: section("Decision", decision_text(d) <> details_pointer(d))
 
-  defp with_problem(%__MODULE__{order: order}) do
-    if :problem in order do
-      order
-    else
-      {before, rest} = Enum.split_while(order, &(&1 != :decision))
-      before ++ Enum.take(rest, 1) ++ [:problem] ++ Enum.drop(rest, 1)
-    end
-  end
+  defp delivery(%__MODULE__{} = d),
+    do: String.trim_trailing(decision_text(d) <> details_pointer(d))
 
-  def decision_text(%__MODULE__{hook: nil, exit: nil, decision: decision}), do: decision
+  def decision_text(%__MODULE__{hook: nil, intrigue: nil, exit: nil, decision: decision}),
+    do: decision
 
   def decision_text(%__MODULE__{} = d) do
     hook = d.hook && "**" <> String.trim(d.hook) <> "**"
-    join_blocks([hook, d.decision, d.exit])
+    join_blocks([hook, d.intrigue, d.decision, d.exit])
   end
-
-  def problem_text(%__MODULE__{intrigue: nil, problem: problem}), do: problem
-  def problem_text(%__MODULE__{} = d), do: join_blocks([d.intrigue, d.problem])
 
   defp join_blocks(blocks) do
     blocks

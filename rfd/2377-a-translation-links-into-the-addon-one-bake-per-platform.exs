@@ -21,9 +21,6 @@ rfd 2377, "a translation links into the addon, one bake per platform", :discussi
     desktop builds of the same game use the same route.
   - Each platform bakes its own C. The game runs once on that platform with the emitter on,
     and the emitted C is compiled for that platform.
-  :: problem
-  Chrome refuses to compile a WebAssembly module larger than 8 MB on the main thread, and a
-  game's translation is larger.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   """
@@ -44,5 +41,8 @@ rfd 2377, "a translation links into the addon, one bake per platform", :discussi
   :: details A change to the host's system calls
   A change to the host's system calls leaves the guest's translation as it was, so the
   compiled objects and the hash stay valid and only a relink is needed.
+  :: details The problem
+  Chrome refuses to compile a WebAssembly module larger than 8 MB on the main thread, and a
+  game's translation is larger.
   """
 end

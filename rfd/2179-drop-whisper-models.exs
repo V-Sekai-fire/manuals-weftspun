@@ -18,12 +18,6 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   `CITATION.cff` and the downstream RFDs.
   :: decision
   Drop all three Whisper models (whisper-large-v3, ipa-whisper-small, ipa-whisper-base) from the ASR panel; the panel drops from 12 tracks to 9, and Whisper is not replaced.
-  :: problem
-  RFD66606-2164 (Rung 1 corpus)'s 12-track panel carries whisper-large-v3, ipa-whisper-small,
-  ipa-whisper-base. The ipa-whisper variants share that latency, and the IPA
-  slot is already served by Voxtral-IPA and Gemma-IPA. A 15-clip WER pass across the surviving
-  text tracks (DETAILS.md) puts whisper-large-v3 at 0.339 mean, beating Parakeet (0.501) and
-  wav2vec2 (0.571); Voxtral leads at 0.000. The reason to drop is latency, not accuracy.
   :: related
   Retracts three rows from RFD66606-2164 (Rung 1 corpus); amends RFD66606-2178 (QAFT stack plan),
   three Class B rungs go.
@@ -97,5 +91,11 @@ rfd 2179, "Drop all Whisper models from the ASR panel", :published do
   Parakeet loses, wav2vec2 loses) do not necessarily generalise to
   other accents. If a wider corpus lands (Rung 2, more SpeakingFaces
   subjects), rerun.
+  :: details The problem
+  RFD66606-2164 (Rung 1 corpus)'s 12-track panel carries whisper-large-v3, ipa-whisper-small,
+  ipa-whisper-base. The ipa-whisper variants share that latency, and the IPA
+  slot is already served by Voxtral-IPA and Gemma-IPA. A 15-clip WER pass across the surviving
+  text tracks (DETAILS.md) puts whisper-large-v3 at 0.339 mean, beating Parakeet (0.501) and
+  wav2vec2 (0.571); Voxtral leads at 0.000. The reason to drop is latency, not accuracy.
   """
 end

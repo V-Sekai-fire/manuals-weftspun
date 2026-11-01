@@ -21,10 +21,6 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   `drafted_by`. The block builds an `RFD.Doc` and validates it against RFD66606-1000 while the
   file compiles, so a state outside the list, a missing Decision or a README over 40 lines is a
   compile error that names the rule.
-  :: problem
-  The register was a hand-edited layer nothing compiled:
-  it carried one serial on two directories, one serial allocated and deleted at once, and two
-  slugs that no longer matched their directories.
   :: references
   - RFD66606-1000, the shape
   - RFD66606-2177, the flight_level tag on the register
@@ -97,5 +93,9 @@ rfd 2232, "RFD authoring as an Elixir DSL", :discussion do
   register records once, and a deleted serial has no source to derive it
   from. It does not write: the endpoint answers, and a change is a pull
   request.
+  :: details The problem
+  The register was a hand-edited layer nothing compiled:
+  it carried one serial on two directories, one serial allocated and deleted at once, and two
+  slugs that no longer matched their directories.
   """
 end

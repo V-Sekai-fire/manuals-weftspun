@@ -25,10 +25,6 @@ rfd 2171, "The atelier-workshop / shuttle vocabulary", :committed do
   :: decision
   The pipeline is `atelier-workshop`, the deliverable that leaves it is `shuttle`. One word for each, used verbatim in RFD titles, changelogs, and public prose.
   Never use `atelier` alone in shipping prose (loanword, pretentious without the gloss). `Workshop` alone is permitted where context already fixes it (the 2021 `character-workshop` decision doc stays).
-  :: problem
-  `nx-shuttle` already uses "shuttle" (carrying a graph across to another runtime,
-  weft-across-warp). Without a settled vocabulary, prose drifts between studio, pipeline,
-  workshop, atelier.
   :: related
   Spine: chibifire.com public tagline; RFD66606-2136 (gacha ladder).
   Applies to: this file and every subsequent public README.
@@ -44,5 +40,9 @@ rfd 2171, "The atelier-workshop / shuttle vocabulary", :committed do
   - `shuttle` (the portable-character deliverable), a portable VRM at rung 6 of RFD66606-2136.
     Retained without change; `nx-shuttle` already uses it for the same weft-across-warp metaphor.
     The two uses do not conflict: one shuttles a character out, the other shuttles a graph across.
+  :: details The problem
+  `nx-shuttle` already uses "shuttle" (carrying a graph across to another runtime,
+  weft-across-warp). Without a settled vocabulary, prose drifts between studio, pipeline,
+  workshop, atelier.
   """
 end

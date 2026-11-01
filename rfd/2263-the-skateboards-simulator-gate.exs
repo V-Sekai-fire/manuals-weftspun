@@ -25,9 +25,6 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
   replay plan in the runtime's frame, and passes when strokes made
   equal strokes planned, with 2 cycles and 2 openings. On Linux it
   passes under a software rasterizer in a virtual X server.
-  :: problem
-  The first testable release (RFD66606-2262) asks whether a drawn outfit comes back as a
-  garment that fits.
   :: related
   - RFD66606-2262 (make it with the pen), whose first testable release this gates.
   - RFD66606-2234 (dress-on pipeline), the stages the strokes run through.
@@ -115,5 +112,8 @@ tools/replay_oxrsys.py and CI workflows; the stage guest ELFs it builds"
     the XR mode off; redirected stdout is buffered, so results go to
     a file; a quit-after flag never fires with XR on, so the gate
     quits on a wall clock.
+  :: details The problem
+  The first testable release (RFD66606-2262) asks whether a drawn outfit comes back as a
+  garment that fits.
   """
 end

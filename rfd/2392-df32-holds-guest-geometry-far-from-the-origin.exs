@@ -19,10 +19,6 @@ rfd 2392, "df32 holds guest geometry far from the origin", :discussion do
     scalar for guest geometry that must hold far from the origin,
     with `two_sum`, `quick_two_sum` and `two_prod` as the anny Slang
     kernels write them.
-  :: problem
-  On the Moon, about 3.8e8 m out, float32
-  spacing is about 32 m, some 480 soda cans, so float32 world
-  coordinates cannot place a stroke there.
   :: related
   - RFD66606-2293, where this rule lived before the split.
   """
@@ -35,5 +31,9 @@ rfd 2392, "df32 holds guest geometry far from the origin", :discussion do
   canvas-local coordinates. The canvas origin crosses the API
   boundary in df32 or double. float32 stays a one-line switch, kept
   for comparison against float32 sources.
+  :: details The problem
+  On the Moon, about 3.8e8 m out, float32
+  spacing is about 32 m, some 480 soda cans, so float32 world
+  coordinates cannot place a stroke there.
   """
 end

@@ -20,8 +20,6 @@ seen to fail"
   the pinned double editor with a real renderer, on OXRSys and flat, and each of
   its controls is seen to fail as planted. A claim with no passing run is a
   counted gap, not a feature.
-  :: problem
-  Until they do, dev.2 is a list, not a result.
   :: related
   - RFD66606-2342, dev.1; RFD66606-2343, dev.2; RFD66606-2341, dev.next.
   - The private brief, the private blocklist and the private pitfalls list.
@@ -74,5 +72,7 @@ seen to fail"
   - Our meshing pen and our curvenet interactor.
   - Our XR pilot interactor: OXRSys and xr_pilot_mcp.
   - The tray's dev.1 build.
+  :: details The problem
+  Until they do, dev.2 is a list, not a result.
   """
 end

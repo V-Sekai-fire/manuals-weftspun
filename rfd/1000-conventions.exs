@@ -23,8 +23,8 @@ rfd 1000, "Conventions", :published do
   takes. RFD66606-1125 gives that rule. Code and identifiers follow neither.
 
   Each RFD's `README.md` stays at 40 lines or fewer. It states the
-  decision first, then the problem, in the fewest lines that keep
-  both true. The `draft-readable-rfd` skill has the BLUF rules.
+  hook, intrigue, decision and exit (HIDE), in the fewest lines that
+  keep them true. The `draft-readable-rfd` skill has the BLUF rules.
   Measurement, verification log, deep walkthrough, or code sample
   moves to a sibling `DETAILS.md`, which the site prints on the same page. Retractions
   move with the rest, and stay next to what they retract.

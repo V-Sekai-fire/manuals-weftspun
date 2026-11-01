@@ -26,11 +26,14 @@ rfd 1092, "Kimodo backend integration", :committed do
 
   Verified working, this session's own check: job `544b726e…`
   produced `studio_motion.json`, the expected output.
-  :: problem
-  The frontend triggers text-to-motion through
-  `KimodoMotionPromptBar.jsx` and `taskManager.js`.
   :: related
   `taskManager.js` dispatches the job. `KimodoMotionPromptBar.jsx`
   triggers it from the animation bar.
+  """
+
+  prose ~S"""
+  :: details The problem
+  The frontend triggers text-to-motion through
+  `KimodoMotionPromptBar.jsx` and `taskManager.js`.
   """
 end

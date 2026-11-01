@@ -22,8 +22,6 @@ rules below"
   the RFD that owns the topic, or this one when none does. A desk's local memory
   keeps only what is true of that desk alone, such as its paths, its identities
   and its tools. A local note about a generic rule names the RFD that states it.
-  :: problem
-  A rule changed on one desk disagreed with the others without anyone being told.
   :: related
   - RFD66606-2200, the desk agent's ReBAC rows.
   - RFD66606-2363 to RFD66606-2381 and RFD66606-2413 to RFD66606-2419, the rules this RFD held
@@ -230,5 +228,7 @@ rules below"
   in S3 for 30 days and then rolled over (operator, 2026-10-01): Bao's storage is
   FoundationDB, whose backup goes to R2 (RFD66606-2143). An entry deleted from Bao
   stays in that copy until it rolls over.
+  :: details The problem
+  A rule changed on one desk disagreed with the others without anyone being told.
   """
 end

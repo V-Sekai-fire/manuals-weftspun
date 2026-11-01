@@ -17,10 +17,6 @@ rfd 2168, "Retract RFD66606-1122's bespoke wholebody detector; keep the renderer
   :: decision
   Retract RFD66606-1122 (wholebody detector); keep its renderer-first rule and let successor RFDs
   carry deployment. RFD66606-1122 moves to `abandoned` alongside this document landing.
-  :: problem
-  RFD66606-1143 (propose-score loop, published), RFD66606-1168 (layer
-  segmentation, ideation), and RFD66606-1173 (edit-reward corpus, discussion) settled the
-  deployment differently, so RFD66606-1122's `discussion` state stopped tracking reality.
   :: related
   Retracts: urn:oid:1.3.6.1.4.1.66606.1.1.1122
   Superseded by: urn:oid:1.3.6.1.4.1.66606.1.1.{1143,1168,1173}
@@ -40,5 +36,9 @@ rfd 2168, "Retract RFD66606-1122's bespoke wholebody detector; keep the renderer
   Retracted: train a 104-point head on rendered ANNY (RFD66606-1168 moves layer segmentation into
   the 3D latent via rf-detr-Seg), and the wholebody-detector deployment premise. ANNY is the pose
   primitive throughout, propose through score.
+  :: details The problem
+  RFD66606-1143 (propose-score loop, published), RFD66606-1168 (layer
+  segmentation, ideation), and RFD66606-1173 (edit-reward corpus, discussion) settled the
+  deployment differently, so RFD66606-1122's `discussion` state stopped tracking reality.
   """
 end

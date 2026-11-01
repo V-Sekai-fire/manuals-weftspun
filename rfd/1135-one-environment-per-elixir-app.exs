@@ -25,10 +25,6 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   dependency set is a second app: its own mix project, its own setup cell,
   its own runtime. The gate holds that too. It reads the `pyproject.toml`
   cell of every notebook in an app and fails when two of them differ.
-  :: problem
-  `service-livebook` embeds a Python interpreter with `pythonx`. Its setup
-  cell names the packages and the pins travel in the notebook file. Beside
-  that, a helper shelled into five environments in another repository.
   :: related
   RFD66606-1134 tests these notebooks in the browser.
   """
@@ -49,5 +45,9 @@ rfd 1135, "One Python environment per Elixir app", :discussion do
   The failure was not theoretical. Loop 1 stopped with `No module named
   'drjit'`, because it called the `anny` environment for a renderer that
   only the default environment carries. The notebook cannot show that.
+  :: details The problem
+  `service-livebook` embeds a Python interpreter with `pythonx`. Its setup
+  cell names the packages and the pins travel in the notebook file. Beside
+  that, a helper shelled into five environments in another repository.
   """
 end

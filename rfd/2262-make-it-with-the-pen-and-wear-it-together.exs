@@ -22,9 +22,6 @@ V-Sekai client and server that host the loop"
   The strategy is a release ladder: each release is a whole product put
   in front of real people to test one assumption, never a half-built
   release.
-  :: problem
-  One asked for emotes; none for rendered
-  clips, hair motion or faces.
   :: related
   - RFD66606-2263 and RFD66606-2287, the active release's simulator gate and first rung.
   - RFD66606-2234 (dress-on pipeline), the loop the releases ride on.
@@ -163,5 +160,8 @@ V-Sekai client and server that host the loop"
     exists (interactor-rf-detr-ggml PR #25), and a 300-image CC0 VRM
     pilot carries exact masks (datasource-anny-render-corpus PR #41).
     Unpark when a release needs avatar-person detection.
+  :: details The problem
+  One asked for emotes; none for rendered
+  clips, hair motion or faces.
   """
 end

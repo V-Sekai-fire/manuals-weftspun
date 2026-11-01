@@ -15,13 +15,16 @@ rfd 2021, "Require pr and merge queue on main", :prediscussion do
   carries no `merge_queue` entry, and read below for the merge-method argument.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
+  :: related
+  See `DETAILS.md` for the full argument.
+  """
+
+  prose ~S"""
+  :: details The problem
   Two PRs can each pass against an older `main` and then conflict or
   break the Quarto build once both land. How should changes reach `main`
   so that every merge is reviewable and tested against the tip it will
   actually join?
-  :: related
-  See `DETAILS.md` for the full argument.
   """
 
   details_title "Require pr and merge queue on main"

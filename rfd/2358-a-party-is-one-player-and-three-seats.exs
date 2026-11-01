@@ -18,8 +18,6 @@ rfd 2358, "A party is one player and three seats", :discussion do
   - The party is one player and three seats named Aria, Ember and Quill. A friend or an agent on
     the Agent2Agent protocol fills each seat, and a player takes a seat from its agent at any time
     (operator, 2026-10-30).
-  :: problem
-  RFD66606-2045 proved a loop with bot players.
   :: related
   - RFD66606-2340, the campus; RFD66606-2359, the shop; RFD66606-2360, the one beta.
   - RFD66606-2045, the loop with bot players, is abandoned.
@@ -46,5 +44,7 @@ rfd 2358, "A party is one player and three seats", :discussion do
   - What happens to a fight in progress when a player takes a seat. The first step decides it.
   - Whether an agent answers the server's call for a seat fast enough, and how it behaves with
     three seats open at once. Nothing has run.
+  :: details The problem
+  RFD66606-2045 proved a loop with bot players.
   """
 end

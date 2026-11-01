@@ -22,8 +22,6 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   Implemented 2026-09-01; see RFD66606-2146 for the role/policy map.
 
   `DETAILS.md` carries the full text of this RFD.
-  :: problem
-  Any 6PN neighbor can observe or modify traffic to the listener.
   :: related
   RFD66606-2140 (bao on FDB), RFD66606-2141 (FDB TLS rotation).
   """
@@ -200,5 +198,7 @@ rfd 2142, "Zero-trust service TLS via OpenBao PKI", :discussion do
   without rotating FDB again.
   :: details Related
   RFD66606-2140 (bao on FDB), RFD66606-2141 (FDB TLS rotation).
+  :: details The problem
+  Any 6PN neighbor can observe or modify traffic to the listener.
   """
 end

@@ -37,11 +37,6 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     ladder and the state of each step it declares.
     """
 
-    problem ~S"""
-    Written once as a domain, the question "what is next
-    for this RFD" is a plan rather than a reading.
-    """
-
     related ~S"""
     RFD66606-2287 (the first rung) is the first problem; RFD66606-2204 (RECTGTN fleet
     coordination) plans over peers rather than documents; RFD66606-2232 (RFD
@@ -52,6 +47,11 @@ and the plan it compiles to rendered into that RFD's own Markdown"
     drafted_by :ai
 
     details_title "the organization is one RECTGTN domain"
+
+    details "The problem", ~S"""
+    Written once as a domain, the question "what is next
+    for this RFD" is a plan rather than a reading.
+    """
 
     details "Why a paragraph is the wrong shape", ~S"""
     A paragraph

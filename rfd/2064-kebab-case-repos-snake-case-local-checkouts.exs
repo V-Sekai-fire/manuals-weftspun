@@ -16,11 +16,14 @@ rfd 2064, "Kebab case repos snake case local checkouts", :prediscussion do
   `[_A-Z]`.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  We want one repo-naming convention so clones, links,
-  and code search stay predictable.
   :: related
   See `DETAILS.md` for the full argument.
+  """
+
+  prose ~S"""
+  :: details The problem
+  We want one repo-naming convention so clones, links,
+  and code search stay predictable.
   """
 
   details_title "Kebab case repos snake case local checkouts"

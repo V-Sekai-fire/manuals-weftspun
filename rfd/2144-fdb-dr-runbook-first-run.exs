@@ -29,9 +29,6 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
 
   `logbook-rfd2144-dr-runbook-first-run.md` records what was measured
   during the run itself.
-  :: problem
-  Tigris and R2 both
-  survived (compute lost, storage kept), so the runbook had to run.
   :: related
   RFD66606-2134, RFD66606-2135, RFD66606-2140, RFD66606-2141 (prereq landed here), 2143 (runbook
   executed).
@@ -245,5 +242,8 @@ rfd 2144, "The DR runbook runs, and the CA it needed lands", :discussion do
     and it stays so. R2's copy of Bao's mount metadata is unencrypted.
   - **Recovering `chibifire-com`.** The domain and cert setup was not
     part of this run; recreating it is a separate task.
+  :: details The problem
+  Tigris and R2 both
+  survived (compute lost, storage kept), so the runbook had to run.
   """
 end

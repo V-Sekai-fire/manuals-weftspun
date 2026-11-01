@@ -30,11 +30,6 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   **Negative control:** a machine started without `R2_ACCESS_KEY_ID`
   writes no `/dr`, and the `dr` check reports critical rather than
   passing on nothing.
-  :: problem
-  Beside it: Bao holds the FDB CA key as
-  `type=internal`, and Bao's storage backend is FDB, so the CA rides
-  FDB backups. A restore that cannot read the backup cannot issue the
-  machine leaves the restored cluster needs.
   :: related
   RFD66606-2134, RFD66606-2140, RFD66606-2141, RFD66606-2135. DR runbook in DETAILS.md.
   """
@@ -185,5 +180,10 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
     key management story.
   - **PITR window.** The `dr` tag keeps 10-day snapshots
     (`Snapshot interval is 864000 seconds`), at IA rates.
+  :: details The problem
+  Beside it: Bao holds the FDB CA key as
+  `type=internal`, and Bao's storage backend is FDB, so the CA rides
+  FDB backups. A restore that cannot read the backup cannot issue the
+  machine leaves the restored cluster needs.
   """
 end

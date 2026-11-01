@@ -26,9 +26,6 @@ rfd 1152, "Background removal for photographic corpora", :published do
   covers what.
 
   `DETAILS.md` carries the ground-truth ranking and the dtype it depends on.
-  :: problem
-  The See-Through union is already in the
-  manifest, already loaded, and on most frames it produces a clean cutout.
   :: related
   RFD66606-1006 covers layer decomposition. RFD66606-1153 covers how the resulting mattes are
   judged. RFD66606-1030 records the See-Through components.
@@ -107,5 +104,8 @@ rfd 1152, "Background removal for photographic corpora", :published do
   first for the right answer by an unreliable route, and RFD66606-1153's judged ordering,
   which had ranked the segmenter best on gradient, inverted, since ground truth
   puts it roughly 3x worse.
+  :: details The problem
+  The See-Through union is already in the
+  manifest, already loaded, and on most frames it produces a clean cutout.
   """
 end

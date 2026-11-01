@@ -26,10 +26,6 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
   server on each weftspun-fdb machine (RFD66606-2353) and reaches the cluster
   as a TLS client. Interface details and deploy measurements are in
   DETAILS.md.
-  :: problem
-  The weftspun-fdb cluster already runs three machines with
-  double redundancy, TLS, and backup, and raft on a single shared-cpu
-  machine has no replication path.
   :: section Verification
   `bao status`: Storage foundationdb, unsealed. KV v2 at `secret/`,
   anchor creds written from weftspun-fdb over 6PN. Root in 1Password.
@@ -102,5 +98,9 @@ rfd 2140, "OpenBao on FoundationDB", :discussion do
 
   Both were written from a weftspun-fdb machine over 6PN, where the
   Fly secrets are available as environment variables.
+  :: details The problem
+  The weftspun-fdb cluster already runs three machines with
+  double redundancy, TLS, and backup, and raft on a single shared-cpu
+  machine has no replication path.
   """
 end

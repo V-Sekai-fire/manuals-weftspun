@@ -20,12 +20,6 @@ rfd 1054, "The planner inside the studio core", :published do
   RFD66606-1019 already makes the API server.
 
   RFD66606-1023 gives the shape, and this RFD does not restate it.
-  :: problem
-  AtomVM needs `SharedArrayBuffer`, thus the page must be cross-origin
-  isolated. An editor webview is not isolated, and an extension cannot
-  set the headers. The panel worked only with `codium --enable-coi`.
-
-  The proof stands, and the vehicle does not.
   :: related
   RFD66606-1019 makes this the API server. RFD66606-1023 gives the shape. RFD66606-1037
   gives the composite convention. RFD66606-1055 selects the worker host.
@@ -91,5 +85,11 @@ rfd 1054, "The planner inside the studio core", :published do
 
   `Pipeline.parse/1` takes `String.to_existing_atom/1`. An HTTP caller
   must not fill the atom table, which never shrinks.
+  :: details The problem
+  AtomVM needs `SharedArrayBuffer`, thus the page must be cross-origin
+  isolated. An editor webview is not isolated, and an extension cannot
+  set the headers. The panel worked only with `codium --enable-coi`.
+
+  The proof stands, and the vehicle does not.
   """
 end

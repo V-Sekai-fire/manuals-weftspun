@@ -23,16 +23,6 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   This RFD covers `weftspun_studio/`. `character_taxonomy/` runs under
   RFD66606-1065 on the same store.
 
-  :: problem
-  RFD66606-1019 builds an API server. An API server must keep its data.
-
-  The fact store in `WeftspunStudio.FactStore` holds facts in memory.
-  An Agent rebuilds the store from the RFD66606-1016 inventory at every
-  boot.
-
-  RFD66606-1016 records that catalog facts change fast. A license gate
-  vetoes a model, a benchmark moves a recommendation, and a backend
-  drops a model. The store must keep those changes.
   :: related
   RFD66606-1016 (the inventory the seed reads), RFD66606-1019 (the API server),
   RFD66606-1021 (the vector encoding), RFD66606-1065 (`character_taxonomy/`).
@@ -117,5 +107,15 @@ rfd 1020, "SQLite persistence for catalog facts", :committed do
   The column types, the settings and their defaults are read from the
   migration and `config/`; they hold by agreement, and no gate compares
   this page with them.
+  :: details The problem
+  RFD66606-1019 builds an API server. An API server must keep its data.
+
+  The fact store in `WeftspunStudio.FactStore` holds facts in memory.
+  An Agent rebuilds the store from the RFD66606-1016 inventory at every
+  boot.
+
+  RFD66606-1016 records that catalog facts change fast. A license gate
+  vetoes a model, a benchmark moves a recommendation, and a backend
+  drops a model. The store must keep those changes.
   """
 end

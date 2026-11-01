@@ -56,7 +56,7 @@ _serials = _ilu.module_from_spec(_spec)
 _spec.loader.exec_module(_serials)
 
 # The order these carry when present. Extra headings may sit between them.
-SPINE = ("Decision", "Problem", "References", "Related")
+SPINE = ("Decision", "References", "Related")
 # A retracted decision renames its own heading, so the match is a prefix.
 # RFD66606-1067's "Decision, as published and now retracted" is the case.
 REQUIRED = "Decision"
@@ -246,7 +246,7 @@ def check_length(name, source, limit):
     return []
 
 
-def check_sections(name, tokens, state):
+def check_sections(name, tokens, state, source=""):
     problems = []
     h2 = [h[1] for h in headings(tokens) if h[0] == 2]
     seen = []
@@ -262,8 +262,9 @@ def check_sections(name, tokens, state):
         problems.append(
             f"{name}: sections run {seen}, and the order is {list(SPINE)}"
         )
-    if REQUIRED not in seen and state not in NO_DECISION_STATES:
-        problems.append(f"{name}: has no '## {REQUIRED}' section")
+    hide = re.search(r"^\*\*(?!State:|Feature:|Scope:)[^*]", source, re.M) is not None
+    if REQUIRED not in seen and not hide and state not in NO_DECISION_STATES:
+        problems.append(f"{name}: has no '## {REQUIRED}' section and no bold hook")
     return problems
 
 
@@ -382,7 +383,7 @@ def check(root):
         problems += check_title(name, num, toks, TITLE_RE, "RFD66606-<num>: <title>")
         pre, state = check_preamble(name, toks, states)
         problems += pre
-        problems += check_sections(name, toks, state)
+        problems += check_sections(name, toks, state, stripped)
         problems += check_citations(name, toks, nums)
 
         skill = os.path.join(root, "apparatus", d, "SKILL.md")
@@ -438,11 +439,7 @@ GOOD_README = """# RFD66606-1001: A title
 
 ## Decision
 
-A decision.
-
-## Problem
-
-A problem. RFD66606-1002 is the neighbour.
+A decision. RFD66606-1002 is the neighbour.
 
 ## Related
 
@@ -507,10 +504,10 @@ def self_test():
         ("an unknown metadata field",
          {"readme": GOOD_README.replace("**Feature:** a feature", "**Owner:** somebody")}, True),
         ("no Decision section",
-         {"readme": GOOD_README.replace("## Decision\n\nA decision.\n\n", "")}, True),
-        ("Problem written before Decision",
-         {"readme": GOOD_README.replace("## Decision\n\nA decision.\n\n## Problem\n\nA problem. RFD66606-1002 is the neighbour.\n\n",
-                                        "## Problem\n\nA problem. RFD66606-1002 is the neighbour.\n\n## Decision\n\nA decision.\n\n")}, True),
+         {"readme": GOOD_README.replace("## Decision\n\nA decision. RFD66606-1002 is the neighbour.\n\n", "")}, True),
+        ("Related written before Decision",
+         {"readme": GOOD_README.replace("## Decision\n\nA decision. RFD66606-1002 is the neighbour.\n\n## Related\n\nSee `DETAILS.md` for the rest.\n",
+                                        "## Related\n\nSee `DETAILS.md` for the rest.\n\n## Decision\n\nA decision. RFD66606-1002 is the neighbour.\n")}, True),
         ("a decimal citation split across a line break", {"readme": wrapped}, True),
         ("a citation that resolves nowhere",
          {"readme": GOOD_README.replace("RFD66606-1002", "RFD66606-1153")}, True),

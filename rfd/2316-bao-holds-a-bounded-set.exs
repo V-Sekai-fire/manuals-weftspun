@@ -24,9 +24,6 @@ the plugins built for it"
   - Application data lives outside Bao, in the service that owns it.
   - Every engine ships a growth gate: issuing many credentials leaves the
     engine's storage unchanged, and a control that stores each one fails it.
-  :: problem
-  Bao's storage is FoundationDB on three small machines, and the FDB backend
-  writes each entry as one FDB value.
   :: related
   - RFD66606-2140, Bao on FDB.
   - RFD66606-2353, Bao runs three replicas on the FDB machines.
@@ -72,5 +69,8 @@ the plugins built for it"
   The control flips the engine to store each credential and must fail the
   same gate. The end-to-end test does the same against a dev server and also
   checks that the response carries no lease id.
+  :: details The problem
+  Bao's storage is FoundationDB on three small machines, and the FDB backend
+  writes each entry as one FDB value.
   """
 end

@@ -20,15 +20,6 @@ rfd 1060, "A thirdparty/ reset", :committed do
   `thirdparty/library/`, as real files and not a symlink. Second,
   `weftspun_studio/` becomes the repository root, and everything that
   was at the root moves to `thirdparty/3d_studio/` instead.
-  :: problem
-  `src/library/` held 139 files and 56,376 lines. It predates
-  RFD66606-1019's strangler fig and RFD66606-1023's `src/core/` split.
-
-  The repository root carried the same problem at a larger scale.
-  `weftspun_studio/` sat as a subdirectory of the browser client's
-  tree, even though RFD66606-1019 makes it the API server the client is one
-  consumer of. The end-shape system was the guest. The system it
-  replaces was the host.
   :: related
   RFD66606-1019 gives the strangler fig this reset makes room for. RFD66606-1023
   gives the per-file move rule this RFD does not replace. RFD66606-1057
@@ -156,5 +147,14 @@ rfd 1060, "A thirdparty/ reset", :committed do
   It does not touch RFD66606-1023's `src/core/` / `src/chain/` split. Both
   trees moved together, under `thirdparty/3d_studio/src/`, with every
   import between them intact.
+  :: details The problem
+  `src/library/` held 139 files and 56,376 lines. It predates
+  RFD66606-1019's strangler fig and RFD66606-1023's `src/core/` split.
+
+  The repository root carried the same problem at a larger scale.
+  `weftspun_studio/` sat as a subdirectory of the browser client's
+  tree, even though RFD66606-1019 makes it the API server the client is one
+  consumer of. The end-shape system was the guest. The system it
+  replaces was the host.
   """
 end

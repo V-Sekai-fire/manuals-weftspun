@@ -24,10 +24,6 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
   `relationships/<agent>--role--<role>` and reconciles group
   memberships. See `DETAILS.md` for the mapping, reconciler contract,
   and non-enforcement scope for hardware `may-use` tuples.
-  :: problem
-  Groups close that gap: a role change is one tuple write and
-  one reconciler run, and the token's next login reflects the new
-  policies through group membership.
   :: related
   RFD66606-2200 (tuples as data), RFD66606-2195 (PKI + cert-auth), RFD66606-2201
   (coordinate-agents ceremony).
@@ -182,6 +178,10 @@ rfd 2202, "ReBAC role tuples enforced via Bao identity groups", :committed do
       export BAO_CLIENT_KEY=~/.bao-creds/mps-admin/key.pem
       export BAO_TOKEN=$(cat ~/.bao-creds/cert-session-token)
       python scripts/sync_rebac_groups.py
+  :: details The problem
+  Groups close that gap: a role change is one tuple write and
+  one reconciler run, and the token's next login reflects the new
+  policies through group membership.
   """
 
   rebac do

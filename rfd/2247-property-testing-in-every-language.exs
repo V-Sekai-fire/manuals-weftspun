@@ -23,9 +23,6 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   property-testing library. On top of that, every property ships its
   falsification: the input that SHOULD violate it, with the test failing if
   the violation goes undetected.
-  :: problem
-  A property without a negative control is barely better: it establishes that
-  the assertion is reachable, not that it discriminates.
   """
 
   details_title "Properties worth stating, and how falsification pairs with them"
@@ -107,5 +104,8 @@ rfd 2247, "Property testing in every language, with falsification", :discussion 
   `2-contract/manuals-weftspun/apparatus/springbone_mujoco.py` and its test
   suite, `3-interactor/g1-sim-to-real/` (add_cloth_chains.py,
   bench_silhouette.py, coacd_calibrate.py).
+  :: details The problem
+  A property without a negative control is barely better: it establishes that
+  the assertion is reachable, not that it discriminates.
   """
 end

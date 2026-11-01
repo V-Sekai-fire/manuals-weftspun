@@ -22,9 +22,6 @@ rfd 1011, "Spatial fabric publish", :published do
 
   The flow opens the Scene Assembler in a new tab. The spatial
   fabric adapter checks the manifest and the tier presets.
-  :: problem
-  The fabric needs a valid
-  manifest and a scene assembler.
   :: references
   - Adapter: `src/library/spatialFabricAdapter.js`
   - Hook: `src/hooks/useSpatialFabric.js`
@@ -33,5 +30,11 @@ rfd 1011, "Spatial fabric publish", :published do
   :: related
   RFD66606-1007 replaces the publish terminal validation with motion
   validation in the Studio pipeline.
+  """
+
+  prose ~S"""
+  :: details The problem
+  The fabric needs a valid
+  manifest and a scene assembler.
   """
 end

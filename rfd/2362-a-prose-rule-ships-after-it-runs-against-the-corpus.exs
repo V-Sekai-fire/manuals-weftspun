@@ -18,8 +18,6 @@ rfd 2362, "A prose rule ships after it runs against the corpus", :discussion do
   :: decision
   **A rule ships only after it runs against the corpus**, the bar RFD66606-1124 set.
   Three of the table's fifteen detectors cannot fire, so they wait on repair.
-  :: problem
-  The catalog and the parser exist and are not connected.
   :: related
   RFD66606-1125 assigns the AI-trope table to essays. RFD66606-2361 marks each section with
   its gate. RFD66606-1124 gives the measure-first rule.
@@ -148,5 +146,7 @@ rfd 2362, "A prose rule ships after it runs against the corpus", :discussion do
 
   The default path is `../.request_for_discussion`, which holds when both projects
   sit at the workspace root. `default.xml` places them there.
+  :: details The problem
+  The catalog and the parser exist and are not connected.
   """
 end

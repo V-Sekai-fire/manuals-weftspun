@@ -27,12 +27,6 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   `thirdparty/3d_studio/` and `thirdparty/android-xr-face-bridge/`
   moved to `weftspun-3d-studio`'s own repo root, leaving that repo the
   browser client and the companion APK only.
-  :: problem
-  `weftspun-3d-studio` held three independently deployed apps
-  (`weftspun_studio`, `character_taxonomy`, `usd_viewer_app`) under one
-  `apps/` directory (RFD66606-1076), plus a large vendored browser client
-  and a companion APK under `thirdparty/`. The three apps had no code
-  sharing between them.
   :: related
   RFD66606-1058 gives the Quadlet deploy this split's `deploy/` move
   adapts. RFD66606-1060 and RFD66606-1076 give the repo-layout history this RFD
@@ -95,5 +89,11 @@ rfd 1120, "Split apps/ into their own repos", :committed do
   Quadlet deploy script is updated but not re-run against a live host
   since this split; a first run after this change should be treated
   as a fresh deploy, not an incremental one.
+  :: details The problem
+  `weftspun-3d-studio` held three independently deployed apps
+  (`weftspun_studio`, `character_taxonomy`, `usd_viewer_app`) under one
+  `apps/` directory (RFD66606-1076), plus a large vendored browser client
+  and a companion APK under `thirdparty/`. The three apps had no code
+  sharing between them.
   """
 end

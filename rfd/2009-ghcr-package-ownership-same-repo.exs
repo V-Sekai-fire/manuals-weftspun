@@ -13,11 +13,6 @@ rfd 2009, "Ghcr package ownership same repo", :prediscussion do
   pull. The sections below list the consequences.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  The zone server binary was built by `multiplayer-fabric-baker` and
-  pushed to `ghcr.io/v-sekai-fire/godot-zone-double`. The zone deploy
-  workflow (in `multiplayer-fabric-zone`) used `--local-only` with
-  `docker/login-action` to pull that image, but received 403 Forbidden.
   :: related
   See `DETAILS.md` for the full argument.
   """
@@ -41,5 +36,10 @@ rfd 2009, "Ghcr package ownership same repo", :prediscussion do
     `delete:packages` API scope) and rebuilding, or renaming.
   - Cross-repo GHCR access requires either a PAT with `read:packages`
     scope or making the package public.
+  :: details The problem
+  The zone server binary was built by `multiplayer-fabric-baker` and
+  pushed to `ghcr.io/v-sekai-fire/godot-zone-double`. The zone deploy
+  workflow (in `multiplayer-fabric-zone`) used `--local-only` with
+  `docker/login-action` to pull that image, but received 403 Forbidden.
   """
 end

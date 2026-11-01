@@ -21,13 +21,16 @@ as read access to one Bao path, confirmed by the operator"
   and `default`. A shared credential lives at `secret/gh/<name>`
   with a read policy on that path alone, bound only after the
   operator confirms it; a request relayed by a peer does not grant.
-  :: problem
-  A peer asked for it through a relay, which is how a grant slides sideways without a
-  human seeing it.
   :: related
   - RFD66606-2195 (Bao over the tailnet), the cert-auth convention.
   - RFD66606-2255 (SSH tunnel to Bao), how an enrolled agent reaches Bao.
   - RFD66606-2060 (org-scoped app token), what the persona key mints.
+  """
+
+  prose ~S"""
+  :: details The problem
+  A peer asked for it through a relay, which is how a grant slides sideways without a
+  human seeing it.
   """
 
   details_title "agent credentials are shared by path in Bao"

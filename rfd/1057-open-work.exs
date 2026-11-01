@@ -23,10 +23,6 @@ rfd 1057, "Open work", :published do
   `DETAILS.md` holds five sections: verified and running, written and
   never run, measured and not built, unknown and blocking a number, and
   decided but waiting.
-  :: problem
-  A reader who returns to this cannot tell those apart from the RFDs
-  alone. Each RFD records its own decision, and none records what is
-  still owed.
   :: related
   RFD66606-1055 selects the host. RFD66606-1056 selects the development system.
   RFD66606-1036 packages the models. RFD66606-1025 holds the memory numbers.
@@ -113,5 +109,9 @@ rfd 1057, "Open work", :published do
   `lib/weftspun_studio/inventory.ex` still marks all four `:active`.
   Update each reference, or mark the four `:vetoed`, when the catalog
   is next touched.
+  :: details The problem
+  A reader who returns to this cannot tell those apart from the RFDs
+  alone. Each RFD records its own decision, and none records what is
+  still owed.
   """
 end

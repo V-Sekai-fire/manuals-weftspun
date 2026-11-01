@@ -28,8 +28,6 @@ rfd 1080, "What the three Fly deploys cost", :published do
   Not included: outbound bandwidth (usage-based, has a free tier
   before per-GB billing), and any future Tigris usage RFD66606-1073's
   still-open fetch-path work would add.
-  :: problem
-  Fly bills Machines by the second and Volumes by the month.
   :: related
   RFD66606-1062 gives the Fly.io toplevel. RFD66606-1076 gives the `apps/` split
   across three Fly apps. RFD66606-1079 gives `versitygw`'s removal, no
@@ -99,5 +97,7 @@ rfd 1080, "What the three Fly deploys cost", :published do
     org, unrelated to the three this RFD scopes (`weftspun-studio`,
     `weftspun-character-taxonomy`, `weftspun-usd-viewer`). Its own
     cost is real but out of this RFD's scope.
+  :: details The problem
+  Fly bills Machines by the second and Volumes by the month.
   """
 end

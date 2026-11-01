@@ -23,13 +23,6 @@ rfd 1059, "Continuous integration, in one step", :published do
 
   `scripts/ci.sh` is that one command. A developer runs it before
   committing, and an integration machine runs the identical command.
-  :: problem
-  Every run of this job
-  failed at that line. CI stayed red, or silently skipped, since
-  whenever that step was added.
-
-  It also tested one of three parts of this repository. `weftspun_studio/`
-  had no CI at all, and neither did the two Podman images RFD66606-1058 adds.
   :: related
   RFD66606-1058 gives the two container images this script builds. RFD66606-1020
   gives the CockroachDB the Elixir step tests against.
@@ -91,5 +84,12 @@ rfd 1059, "Continuous integration, in one step", :published do
   Continuous integration is not continuous deployment, and RFD66606-1058's
   open firewall question means that script cannot pass on this host
   yet regardless.
+  :: details The problem
+  Every run of this job
+  failed at that line. CI stayed red, or silently skipped, since
+  whenever that step was added.
+
+  It also tested one of three parts of this repository. `weftspun_studio/`
+  had no CI at all, and neither did the two Podman images RFD66606-1058 adds.
   """
 end

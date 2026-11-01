@@ -23,8 +23,6 @@ server and clients that host it, and a token-minting channel;
   h3zero, TLS 1.3 through picotls on mbedTLS. The first channel is a signer on a zone server whose
   app key lives only in guest memory; it checks a ReBAC tuple and
   returns a one-hour installation token, never the key.
-  :: problem
-  Only a separate peer keeps it out of reach.
   :: related
   - RFD66606-2255 (SSH tunnel to Bao), the path the signer peer's
     identity can use to reach Bao.
@@ -65,5 +63,7 @@ server and clients that host it, and a token-minting channel;
   - **Which peer.** A zone server the operator runs, on owned
     hardware or the existing hosting; the choice decides who can
     read that peer's memory.
+  :: details The problem
+  Only a separate peer keeps it out of reach.
   """
 end

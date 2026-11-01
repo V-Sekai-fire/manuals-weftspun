@@ -25,10 +25,6 @@ closing questions in both, and `scripts/check_confidence_tags.py`"
   carries no tag. `scripts/check_confidence_tags.py` reads the bands from
   this RFD's source and fails any tag whose word and number
   disagree, so the scale and the gate cannot drift apart.
-  :: problem
-  On 2026-10-02 a reply described a Metal shader port as "Slang-to-MSL"
-  when the shaders were hand-written, and the operator caught it. A bare
-  percentage reads as code rather than as language.
   """
 
   details_title "agent replies state calibrated confidence"
@@ -96,5 +92,9 @@ closing questions in both, and `scripts/check_confidence_tags.py`"
   outside its band, and asserts the gate passes the first and fails the
   other two. Replies are not files, so the gate cannot see them; the rule
   holds there by agreement.
+  :: details The problem
+  On 2026-10-02 a reply described a Metal shader port as "Slang-to-MSL"
+  when the shaders were hand-written, and the operator caught it. A bare
+  percentage reads as code rather than as language.
   """
 end

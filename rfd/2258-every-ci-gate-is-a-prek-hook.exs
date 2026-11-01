@@ -23,11 +23,6 @@ ruleset 23145233 in this repository"
   id with `GATE_BASE` and `GH_TOKEN` set; a local commit never runs
   them. An unset `GATE_BASE` fails the hook. The merge queue
   requires one check, `prek`.
-  :: problem
-  Nine jobs repeated checks prek could run, each rendering the RFDs
-  again, and the ruleset required nine names that had to match the
-  workflow by hand. The list the working agreements stated had
-  already drifted from the ruleset.
   :: related
   - RFD66606-2245, the red merge that made gates required.
   - RFD66606-2232, the render every gate reads.
@@ -47,5 +42,10 @@ ruleset 23145233 in this repository"
   deprecates. The job silences that one warning only when jose, OTP
   and Elixir read 1.11.12, 29 and 1.20.4, and any other tuple leaves
   the warnings on with a notice naming what it found.
+  :: details The problem
+  Nine jobs repeated checks prek could run, each rendering the RFDs
+  again, and the ruleset required nine names that had to match the
+  workflow by hand. The list the working agreements stated had
+  already drifted from the ruleset.
   """
 end
