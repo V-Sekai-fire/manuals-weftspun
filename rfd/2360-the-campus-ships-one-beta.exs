@@ -22,8 +22,9 @@ rfd 2360, "The campus as a beta", :discussion do
     the shop.
   - The beta ships one win64 build. It runs natively on Windows, and through FEX on the Steam
     Frame in standalone and desktop modes and on the Steam Deck (operator, 2026-11-01).
-  - The server infra follows the same rule. A test on the Mac also runs the win64 build through
-    Proton and FEX (operator, 2026-11-01).
+  - Every server piece is win64: the zone server, the stores and the secrets engine. Where the
+    host is ARM it runs through FEX. A test on the Mac also runs through Proton and FEX
+    (operator, 2026-11-01).
   :: related
   - RFD66606-2436 to RFD66606-2440, the five slices that carry the features.
   - RFD66606-2312, the form of the release tag.
@@ -62,8 +63,8 @@ rfd 2360, "The campus as a beta", :discussion do
   - campuses built by players
   - the Hyper-V machine with its emulated TPM
   :: details What is not known
-  - What the rule means for each server piece. The zone server could ship as the win64 build, and
-    the stores and the secrets engine run on Linux today. The operator has not said which.
+  - Whether each server piece has a win64 build, and which RFDs that describe the Linux images
+    the rule replaces. Each is read from its source before it is amended.
   - How a Mac runs FEX and Proton. Both need a Linux guest on the Mac, and no run has made one.
   :: details The problem
   After the beta is cut, only fixes land.
