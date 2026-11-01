@@ -17,7 +17,9 @@ rfd 2353, "Bao runs three replicas on the FDB machines", :discussion do
   destroy the `weftspun-bao` app once the three serve.
   :: decision
   `ha_enabled = true`, coordinated over FDB (operator, 2026-10-13). The `weftspun-bao`
-  app retires once the three instances serve.
+  app retires once the three instances serve. Superseded on 2026-11-01: Bao left Fly for one
+  instance beside a single-node FDB cluster on the operator's Mac, restored from the R2
+  backup, with `ha_enabled = false` (operator, 2026-11-01).
   :: related
   RFD66606-2140, RFD66606-2144, RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2354 (unseal), 2355 (cache), 2356 (no CDN proxy).

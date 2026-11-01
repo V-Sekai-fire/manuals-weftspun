@@ -15,8 +15,9 @@ rfd 2354, "Bao unseals itself through a Seal Bao on Fly", :discussion do
   Pass the recovery test on clean hosts before prod moves; the sections below hold the steps.
   :: decision
   A transit seal on a Seal Bao on Fly, unwrapped from Fly KMS at boot (operator,
-  2026-10-30). It replaces the Mac mini seal, which the operator rescinded. Recovery
-  becomes hands-off, not operator-with-1P.
+  2026-10-30). Recovery becomes hands-off, not operator-with-1P. Superseded on 2026-11-01:
+  Bao left Fly and unseals through the Seal Bao on the operator's Mac, so the Mac seal is
+  the live one again (operator, 2026-11-01).
   :: related
   RFD66606-2144, RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2353 (replicas), 2355 (cache), 2356 (no CDN proxy).
