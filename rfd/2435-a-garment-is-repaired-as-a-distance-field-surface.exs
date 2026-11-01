@@ -9,11 +9,11 @@ rfd 2435, "a garment is repaired as a distance-field surface", :discussion do
 
   prose ~S"""
   :: hook
-  A garment is repaired for the cloth-fit solve as one surface of a distance field around it.
+  Can a garment that crosses itself start the cloth-fit solve clean?
   :: intrigue
-  Can a garment that crosses itself 1316 times start the solve clean? The solver takes one
-  connected manifold mesh with no crossings, and a union of the garment's 53 shells did not
-  give one.
+  The pants cross themselves 1316 times across 53 shells. The solver takes one connected
+  manifold mesh with no crossings, and a union of those shells did not give one. A surface
+  of the garment's distance field might.
   :: exit
   Count the crossing pairs and the shells of the proxy. The solve takes it when they read 0 and
   1, and a planted second shell must read 2.
