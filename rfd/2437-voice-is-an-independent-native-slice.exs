@@ -22,13 +22,13 @@ rfd 2437, "voice is an independent native slice", :discussion do
   - Voice ships as one native program with no editor or browser. It carries
     voice frames from a speaker to a listener and places them at the speaker's avatar (operator,
     2026-11-01).
-  - The slice runs with no sight, pen, party or shop present. Its inputs are recorded voice frames
-    and fixed avatar positions (operator, 2026-11-01).
+  - The slice runs with no sight, pen, adventure party or shop present. Its inputs are recorded
+    voice frames and fixed avatar positions (operator, 2026-11-01).
   - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2360, the one beta; RFD66606-2340, the campus.
+  - RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436, RFD66606-2438, RFD66606-2439 and RFD66606-2440.
   """
 

@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2439, "party seats are an independent native slice", :discussion do
+rfd 2439, "adventure party seats are an independent native slice", :discussion do
   flight_level :l1
-  feature "a party of one player and three seats runs from a program that needs no campus."
-  scope "the seats half of the party-and-shop beta feature as its own native program, its gates
-  and its controls."
+
+  feature "an adventure party of one player and three seats runs from a program with no campus."
+
+  scope "the seats half of the adventure party and shop feature, as its own program."
 
   prose ~S"""
   :: hook
@@ -28,16 +29,16 @@ rfd 2439, "party seats are an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2358, the party; RFD66606-2360, the one beta.
+  - RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436 to RFD66606-2438 and RFD66606-2440.
   """
 
-  details_title "party seats are an independent native slice"
+  details_title "adventure party seats are an independent native slice"
 
   prose ~S"""
   :: details What the beta asks
   One player and three seats, each filled by a friend or a persona, with the takeover.
-  RFD66606-2358 decides the seats and the takeover, and this slice keeps that decision as written.
+  The seats and the takeover are decided in this RFD, carried from the abandoned RFD66606-2358.
 
   :: details What exists
   Read from the repository descriptions in our organization, not from the code: an Agent2Agent
@@ -59,7 +60,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   schedules the store's attacks.
   A level is an input family with fixed attributes: the number of seats filled by agents, the
   answer delay, the moment of the takeover, and the contention among four bot players. A problem
-  is one scripted party of four with a drawn seed and a drawn takeover tick.
+  is one scripted adventure party of four with a drawn seed and a drawn takeover tick.
 
   | Level | Planted defect | Found when |
   | --- | --- | --- |
@@ -85,8 +86,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - What happens to a fight in progress when a player takes a seat. The first step decides it
-    (RFD66606-2358).
+  - What happens to a fight in progress when a player takes a seat. The first step decides it.
   - Whether an agent answers the server's call for a seat fast enough, and how it behaves with
     three seats open at once. Nothing has run.
   :: details The problem

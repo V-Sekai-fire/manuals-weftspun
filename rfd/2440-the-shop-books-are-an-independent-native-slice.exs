@@ -5,8 +5,8 @@ use RFD.DSL
 rfd 2440, "the shop books are an independent native slice", :discussion do
   flight_level :l1
   feature "the shopkeeper keeps a saved world for each conversation, from one program."
-  scope "the shop half of the party-and-shop beta feature as its own native program, its gate and
-  its control."
+
+  scope "the shop half of the adventure party and shop feature, as its own program."
 
   prose ~S"""
   :: hook
@@ -27,7 +27,7 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2359, the shopkeeper; RFD66606-2339, the persona; RFD66606-2360, the one beta.
+  - RFD66606-2339, the persona; RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436 to RFD66606-2439.
   """
 
@@ -36,7 +36,7 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
   prose ~S"""
   :: details What the beta asks
   The shopkeeper persona and its saved world, so a request it has met is answered with nothing
-  left to do. RFD66606-2359 decides the books, and this slice keeps that decision as written.
+  left to do. The books are decided in this RFD, carried from the abandoned RFD66606-2359.
 
   :: details What exists
   Read from the repository descriptions in our organization, not from the code: a planning-domain
@@ -83,7 +83,7 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
 
   :: details What is not known
   - Whether many instances of one campus each keep a separate books database. One database for
-    each instance is possible, and no run has opened more than one (RFD66606-2359).
+    each instance is possible, and no run has opened more than one.
   :: details The problem
   RFD66606-2360 lists four features and names no way to build one without the others.
   """
