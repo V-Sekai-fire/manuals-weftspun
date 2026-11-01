@@ -36,8 +36,8 @@ rfd 2441, "a GitHub job logs in to Bao with its identity token", :discussion do
     division of the seal key with n=1 (operator, 2026-11-01).
   - Other endpoints keep certificate login. This RFD covers GitHub only (operator, 2026-11-01).
   :: related
-  - RFD66606-2146, the cert-auth roles copied here. RFD66606-2195, Bao on Tailscale.
-    RFD66606-2406, the desk keeps no stored GitHub credentials.
+  - RFD66606-2146 (cert-auth roles), RFD66606-2195 (Bao on Tailscale) and RFD66606-2406 (the desk
+    keeps no stored GitHub credentials) set the rules this RFD builds on.
   """
 
   details_title "a GitHub job logs in to Bao with its identity token"
