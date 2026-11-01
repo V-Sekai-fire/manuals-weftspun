@@ -9,7 +9,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
 
   prose ~S"""
   :: hook
-  The FDB backup keeps a copy off Fly, in R2, where an all-Fly disaster cannot reach it.
+  Where does a copy of the FDB backup live that an all-Fly disaster cannot reach?
   :: intrigue
   A backup on Fly's own object storage goes with the cluster in a disaster naming "all Fly
   infra gone".
