@@ -28,7 +28,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2358, the party; RFD66606-2360, the one beta.
+  - RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2436 to RFD66606-2438 and RFD66606-2440.
   """
 
@@ -37,7 +37,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   prose ~S"""
   :: details What the beta asks
   One player and three seats, each filled by a friend or a persona, with the takeover.
-  RFD66606-2358 decides the seats and the takeover, and this slice keeps that decision as written.
+  The seats and the takeover are decided in this RFD, carried from the abandoned RFD66606-2358.
 
   :: details What exists
   Read from the repository descriptions in our organization, not from the code: an Agent2Agent
@@ -85,8 +85,7 @@ rfd 2439, "party seats are an independent native slice", :discussion do
   repositories stay read-only.
 
   :: details What is not known
-  - What happens to a fight in progress when a player takes a seat. The first step decides it
-    (RFD66606-2358).
+  - What happens to a fight in progress when a player takes a seat. The first step decides it.
   - Whether an agent answers the server's call for a seat fast enough, and how it behaves with
     three seats open at once. Nothing has run.
   :: details The problem

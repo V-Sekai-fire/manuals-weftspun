@@ -25,7 +25,7 @@ rfd 2436, "presence is an independent native slice", :discussion do
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
   :: related
-  - RFD66606-2360, the one beta; RFD66606-2340, the campus.
+  - RFD66606-2360, the one beta.
   - The sibling slices are RFD66606-2437 to RFD66606-2440.
   """
 
@@ -36,6 +36,12 @@ rfd 2436, "presence is an independent native slice", :discussion do
   The beta's first feature is two people in the campus zone, one in the Steam Frame on a PC VR
   stream and one on the desktop. Each sees the other's avatar. The slice holds that and nothing
   more: who is in the zone, where each avatar stands, and the pose each person sends.
+
+  :: details The campus
+  A campus is a world, and a world runs as instances. Any player starts an instance for friends,
+  public or invite-only. One zone server is the authority for one instance. Each instance keeps
+  its own shop books. One campus ships first, and building a campus stays with the V-Sekai
+  content tools (operator, 2026-10-30).
 
   :: details The slice's edge
   In: the zone's list of people, a pose from each, and a view of the others for each person. Out:

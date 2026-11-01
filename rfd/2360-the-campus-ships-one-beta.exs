@@ -20,7 +20,7 @@ rfd 2360, "The campus as a beta", :discussion do
     nongoal is abandoned (operator, 2026-10-30).
   - The four are: see each other, hear each other, draw and wear, and the party and the shop.
   :: related
-  - RFD66606-2340, the campus; RFD66606-2358, the party; RFD66606-2359, the shop.
+  - RFD66606-2436 to RFD66606-2440, the five slices that carry the features.
   - RFD66606-2312, the form of the release tag.
   """
 
@@ -40,8 +40,8 @@ rfd 2360, "The campus as a beta", :discussion do
     the takeover, the walk from the shop to a room and back, and the shopkeeper persona with its
     saved world.
 
-  The beta is cut when every gate in RFD66606-2340, RFD66606-2358 and RFD66606-2359 passes
-  with its control.
+  The beta is cut when every gate in RFD66606-2436 to RFD66606-2440 passes with its
+  control.
 
   :: details Non-goals
   Everything outside the beta is cut, and every nongoal is abandoned rather than deferred
