@@ -20,7 +20,7 @@ rfd 2143, "FDB backup fans out to R2 for off-Fly durability", :discussion do
   via a stunnel loopback listener that adds the SNI FoundationDB does
   not send. R2 IA carries a 30-day minimum storage duration and free
   egress. It is the cluster's only backup: the `default` tag's Tigris
-  destination is retired, and its credentials are not restored. Since 2026-11-01 the cluster
+  destination is retired. Nothing restores its credentials. Since 2026-11-01 the cluster
   runs as one machine on Fly again (operator, 2026-11-01). A second tag writes a
   gateway folder that is copied to a Google shared drive.
 
