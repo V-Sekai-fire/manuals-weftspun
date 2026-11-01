@@ -20,6 +20,11 @@ rfd 2360, "The campus as a beta", :discussion do
     nongoal is abandoned (operator, 2026-10-30).
   - The four are: see each other, hear each other, draw and wear, and the adventure party and
     the shop.
+  - The beta ships one win64 build. It runs natively on Windows, and through FEX on the Steam
+    Frame in standalone and desktop modes and on the Steam Deck (operator, 2026-11-01).
+  - Every server piece is win64: the zone server, the stores and the secrets engine. Where the
+    host is ARM it runs through FEX. A test on the Mac also runs through Proton and FEX
+    (operator, 2026-11-01).
   :: related
   - RFD66606-2436 to RFD66606-2440, the five slices that carry the features.
   - RFD66606-2312, the form of the release tag.
@@ -56,9 +61,11 @@ rfd 2360, "The campus as a beta", :discussion do
   - an end-of-day report
   - a job board where each seat accepts or refuses a job
   - campuses built by players
-  - the Steam Frame's standalone mode
-  - the Steam Deck
   - the Hyper-V machine with its emulated TPM
+  :: details What is not known
+  - Whether each server piece has a win64 build, and which RFDs that describe the Linux images
+    the rule replaces. Each is read from its source before it is amended.
+  - How a Mac runs FEX and Proton. Both need a Linux guest on the Mac, and no run has made one.
   :: details The problem
   After the beta is cut, only fixes land.
   """
