@@ -229,6 +229,9 @@ defmodule Serials.VSekaiFabric do
 
       serial 2434, "consumers-wrap-the-shared-ggml-runtime-through-a-gdextension-surface",
         flight_level: :l2
+
+      serial 2435, "a-garment-is-repaired-as-a-distance-field-surface",
+        flight_level: :l1
     end
 
     deleted do
