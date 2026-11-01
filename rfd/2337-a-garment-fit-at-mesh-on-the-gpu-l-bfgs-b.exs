@@ -28,7 +28,7 @@ rfd 2337, "a garment fit at MESH on the GPU L-BFGS-B", :discussion do
     on RenderingDevice and holds the IPC kernels. `drape.elf` comes back to
     &{repo("transport-meshing-pen")} (operator, 2026-10-27).
   - The pen's check that no garment vertex is inside the body reads the fitted mesh. The
-    scripted skirt's ring clearance goes back to 1 cm.
+    scripted skirt's ring clearance goes back to 1 cm, a little more than a pencil's width.
   :: related
   - RFD66606-2293, which cut the fit from the pen; RFD66606-2249, cloth by vertex block
     descent; RFD66606-2294, where compute runs.
@@ -38,7 +38,8 @@ rfd 2337, "a garment fit at MESH on the GPU L-BFGS-B", :discussion do
 
   prose ~S"""
   :: details The problem
-  Nine of 1910 vertices end up 3 to 12 mm inside the body. A 2 cm ring clearance hides it
+  Nine of 1910 vertices end up 3 to 12 mm inside the body, from two pennies to nearly a AA
+  battery's width. A 2 cm ring clearance, two AAA batteries side by side, hides it
   without moving the surface.
 
   :: details The solve
@@ -80,7 +81,8 @@ rfd 2337, "a garment fit at MESH on the GPU L-BFGS-B", :discussion do
   :: details What is not known
   - `ks`, `kl`, `kappa`, `dhat`, `d0` and `N`: measured on the fixtures first.
   - Time per fit on the GPU for about 2000 garment vertices.
-  - Whether float32 vectors converge with the barrier near a 1 mm `dhat`.
+  - Whether float32 vectors converge with the barrier near a 1 mm `dhat`, about a card's
+    thickness.
   - The statue's body is open (870 boundary edges, 28 components): whether its normals give a
     clean shrink.
   """
