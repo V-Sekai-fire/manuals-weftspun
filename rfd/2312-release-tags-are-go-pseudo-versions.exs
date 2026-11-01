@@ -25,11 +25,6 @@ by time in a file listing and parses as a version in every package tool"
   a "1.0" goes in the release title and the stage branch, not in the tag.
   The operator chose the form on 2026-10-12 ("I like go's").
 
-  :: problem
-  Of 60 GitHub
-  releases in repositories pushed since 2026-06-01, 33 are SemVer
-  pre-releases in at least four spellings, 7 are dates, 2 are plain SemVer
-  and 18 are free names.
   :: related
   - RFD66606-2294, interchangeable sessions: the stage branches this RFD leaves
     the stage to.
@@ -137,5 +132,11 @@ by time in a file listing and parses as a version in every package tool"
   - Two commits in one UTC second get tags in hash order, not commit order.
   - Whether a Windows build needs the numeric version before part 3 lands.
   - Docker's acceptance is read off its grammar, not run.
+
+  :: details The problem
+  Of 60 GitHub
+  releases in repositories pushed since 2026-06-01, 33 are SemVer
+  pre-releases in at least four spellings, 7 are dates, 2 are plain SemVer
+  and 18 are free names.
   """
 end

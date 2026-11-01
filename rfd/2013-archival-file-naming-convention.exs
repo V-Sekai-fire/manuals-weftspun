@@ -16,10 +16,6 @@ rfd 2013, "Archival file naming convention", :prediscussion do
   and confirm it has a matching entry under `references:` in `CITATION.cff`.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
-  What naming convention should
-  committed assets follow so they stay unique, sortable, and
-  self-describing?
   :: related
   See `DETAILS.md` for the full argument.
   """
@@ -68,5 +64,9 @@ rfd 2013, "Archival file naming convention", :prediscussion do
   Based on the Library of Congress guidance on file naming for digital
   preservation (descriptive, no spaces, lowercase, ISO dates, zero-padded
   sequences).
+  :: details The problem
+  What naming convention should
+  committed assets follow so they stay unique, sortable, and
+  self-describing?
   """
 end

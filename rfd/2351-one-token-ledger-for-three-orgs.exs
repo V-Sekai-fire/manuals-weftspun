@@ -28,8 +28,6 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   three and is two. The ledger changes between rungs, not in an open one,
   and the operator moved the two documents on 2026-10-30 rather than
   wait for a rung to claim them.
-  :: problem
-  Elixir runs every tool and spends no token.
   """
 
   details_title "one token ledger for three orgs"
@@ -121,5 +119,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   - The operator moved both on 2026-10-30, outside a rung, rather than
     waiting for one to claim them, and RFD66606-2341's item left
     dev.next.
+  :: details The problem
+  Elixir runs every tool and spends no token.
   """
 end

@@ -24,8 +24,6 @@ rfd 2378, "desktop libraries build in WSL and cross-build from the Mac", :discus
     Mac.
   - Steps that run in WSL go in a script file on the Windows side, which `wsl.exe` runs as
     root with `sh` from `/mnt/c/`.
-  :: problem
-  Nested quoting from `cmd` into WSL returns empty output.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   - RFD66606-2374, which holds the rest of the paragraph on the Apple clang measurement.
@@ -48,5 +46,7 @@ rfd 2378, "desktop libraries build in WSL and cross-build from the Mac", :discus
   38.4 ms from osxcross with clang 18, so the osxcross build is the one that ships. The
   cause of that difference is not measured. Readings taken while another build ran on the
   same machine overstated the gap: Windows interpreted read 848 to 907 ms then.
+  :: details The problem
+  Nested quoting from `cmd` into WSL returns empty output.
   """
 end

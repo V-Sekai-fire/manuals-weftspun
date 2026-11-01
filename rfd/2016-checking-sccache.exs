@@ -18,12 +18,6 @@ rfd 2016, "Checking sccache", :committed do
   region and credentials are all right. Nothing else proves it: a
   misconfigured sccache falls back to local disk and the build still
   succeeds, so "the build worked" is not evidence the cache worked.
-  :: problem
-  Native builds route compilation through sccache
-  (https://github.com/mozilla/sccache) backed by a shared DigitalOcean
-  Spaces bucket (`chibifire-sccache`, region `tor1`), so object files
-  are cached across machines and CI (see
-  `rfd/2017-compiling-godot-engine/index.md`).
   :: related
   - RFD66606-2017 compiles the engine through this cache.
   """
@@ -104,5 +98,11 @@ rfd 2016, "Checking sccache", :committed do
     `SCCACHE_ERROR_LOG` in the sccache service launcher and reinstall the
     service so the supervised server picks them up
     (`decisions/20260606-windows-background-services-nssm.md`).
+  :: details The problem
+  Native builds route compilation through sccache
+  (https://github.com/mozilla/sccache) backed by a shared DigitalOcean
+  Spaces bucket (`chibifire-sccache`, region `tor1`), so object files
+  are cached across machines and CI (see
+  `rfd/2017-compiling-godot-engine/index.md`).
   """
 end

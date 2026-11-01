@@ -27,9 +27,6 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
     Diffusion reaches the GPU through that route, because it is
     EditScore's basis and EditScore becomes a decision model (RFD66606-2268).
   - The browser studio client, its dev setup and its asset edge.
-  :: problem
-  A search of the placed tree finds no implementation,
-  or one on a runtime the workspace does not use.
   :: related
   - RFD66606-2285, the same walk-back; RFD66606-2242, the retracted native ggml modules.
   """
@@ -69,5 +66,8 @@ rfd 2289, "Unship the zone stack, the off-route runtimes and the browser client"
 
   The 26 manifest paths absent from this desk, most of them engine
   branches, are unchecked.
+  :: details The problem
+  A search of the placed tree finds no implementation,
+  or one on a runtime the workspace does not use.
   """
 end

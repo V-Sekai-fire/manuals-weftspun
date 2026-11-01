@@ -17,8 +17,6 @@ rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :publishe
   Voxtral's 0.000 WER at sub-second latency, and the sections below hold the 15-clip WER table.
   :: decision
   Drop the gemma-auto ASR track; the bug that produced empty transcripts is fixable, but the fixed track's WER of 0.690 at several-seconds latency loses to Voxtral's 0.000 at sub-second.
-  :: problem
-  Investigation (DETAILS.md): `gemma_cli_run` used prompt "Transcribe this audio verbatim" with `-n 200`. Gemma-4-12B heard the audio as spoken user input, reasoned about how to respond as an AI assistant, and expired the token budget inside chain-of-thought without reaching the final channel. Empty output.
   :: section Fix and panel
   Fix, for the record: firmer ASR-only prompt plus `-n 400`. 15-clip WER pass with the fix: 0.690
   mean (6 exact, 3 accent-mishears, 6 still truncated mid-reasoning). Voxtral runs the same clips
@@ -114,5 +112,7 @@ rfd 2180, "Drop the gemma-auto ASR track (bug fixed, drop confirmed)", :publishe
   Gemma-IPA stays: the GBNF constraint pins output to IPA characters
   and forces short completions, so the failure modes (misread as
   command, chain-of-thought overrun) do not appear on that track.
+  :: details The problem
+  Investigation (DETAILS.md): `gemma_cli_run` used prompt "Transcribe this audio verbatim" with `-n 200`. Gemma-4-12B heard the audio as spoken user input, reasoned about how to respond as an AI assistant, and expired the token budget inside chain-of-thought without reaching the final channel. Empty output.
   """
 end

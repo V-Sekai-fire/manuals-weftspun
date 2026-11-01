@@ -25,10 +25,6 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
 
   The viewer's contract is enforced silently by an auto-indexer that
   either succeeds or falls back to a "Preview" badge.
-  :: problem
-  Landing a dataset that renders needs
-  each of the five rules matched at author time, not fixed after the
-  push has happened.
   :: related
   Companion skills `hf-datasets-no-etnf`, `hf-parquet-image-column`,
   `hf-upload-large`, `hf-download-streaming` are the single-page how-to
@@ -249,5 +245,9 @@ rfd 2196, "HuggingFace dataset viewer rules", :discussion do
   - `chibifire/editscore-rl-train`, post-fix commit (row_group_size=100), 110 shards under
   `data/`.
   - `chibifire/editscore-reward-train`, post-fix commit, 97,256 rows written, no silent drops.
+  :: details The problem
+  Landing a dataset that renders needs
+  each of the five rules matched at author time, not fixed after the
+  push has happened.
   """
 end

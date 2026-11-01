@@ -32,9 +32,6 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
     its startup catalog registers, and only the rows they write go to FDB.
   - The engine picks the caller's database from the caller's Bao identity, not from the path.
   - Each database has a size cap, a write-rate cap and a growth gate, as RFD66606-2316 asks.
-  :: problem
-  Desks are the least guarded machines in the workspace, so an FDB client
-  there would hand the whole cluster to the weakest host.
   """
 
   details_title "A desk reaches FoundationDB only through Bao"
@@ -129,5 +126,8 @@ and every desk-side client that stores state, first the cua-driver fork's Elixir
   - Whether a templated policy can name a database by the cert login's alias, or needs the
     entity id; the engine-side check settles the identity either way.
   - Latency through Bao against a direct FDB client; the first consumer's tests measure it.
+  :: details The problem
+  Desks are the least guarded machines in the workspace, so an FDB client
+  there would hand the whole cluster to the weakest host.
   """
 end

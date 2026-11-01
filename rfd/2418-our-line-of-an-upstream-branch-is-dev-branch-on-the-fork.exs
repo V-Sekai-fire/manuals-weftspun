@@ -18,10 +18,13 @@ rfd 2418, "our line of an upstream branch is dev/branch on the fork", :discussio
   :: decision
   - Our line of an upstream branch is `dev/<branch>` on the V-Sekai-fire fork, created at the
     upstream commit, so the upstream's branch-keyed workflows do not fire on it.
-  :: problem
-  A branch named `main/<x>` cannot sit beside one named `main`, since git stores each ref as a
-  path.
   :: related
   - RFD66606-2294, where this rule lived before the split.
+  """
+
+  prose ~S"""
+  :: details The problem
+  A branch named `main/<x>` cannot sit beside one named `main`, since git stores each ref as a
+  path.
   """
 end

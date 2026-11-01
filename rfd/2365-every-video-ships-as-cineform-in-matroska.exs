@@ -17,8 +17,6 @@ rfd 2365, "every video ships as CineForm in Matroska", :discussion do
   :: decision
   Every video ships as CineForm with FLAC in Matroska, with its `.cff`, and no
   WebM is made.
-  :: problem
-  Videos are uploaded by hand, and a WebM does not play on every desk.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   """
@@ -33,5 +31,7 @@ rfd 2365, "every video ships as CineForm in Matroska", :discussion do
   through the encoder BLOCKLIST.md bars or through the desktop driver's own
   recorder: recordings are CineForm, the live stream is PyroWave, and the headset
   view comes from the compositor mirror.
+  :: details The problem
+  Videos are uploaded by hand, and a WebM does not play on every desk.
   """
 end

@@ -27,8 +27,6 @@ rfd 1058, "Zero trust networking", :published do
   also covers the two images, the migrate-before-serve entrypoint, two
   boot bugs this RFD found and fixed, the deploy command, and the
   verified status.
-  :: problem
-  Trust must come from isolation, not from network position.
   :: related
   RFD66606-1019 gives the API server. RFD66606-1020 pins the CockroachDB build.
   RFD66606-1037 gives the taskweft job/task split. RFD66606-1055 selects Docker
@@ -196,5 +194,7 @@ rfd 1058, "Zero trust networking", :published do
   status weftspun-crdb.service` show `active (running)` after any
   future rebuild, the same caution RFD66606-1057 gives the dev container
   and the Pixal3D worker stage.
+  :: details The problem
+  Trust must come from isolation, not from network position.
   """
 end

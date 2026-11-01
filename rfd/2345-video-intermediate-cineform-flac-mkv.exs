@@ -23,8 +23,6 @@ interactor"
   are not written as outputs. A tool that writes video refuses an output
   path that does not end in `.mkv`. Uncompressed PCM audio is accepted in
   place of FLAC (operator, 2026-10-23); both are lossless.
-  :: problem
-  The workspace had no written format, so each recorder picked its own.
   :: related
   - RFD66606-2349, which replaces the encoder, the live recorder and the
     file check below. The format here stands.
@@ -79,5 +77,7 @@ interactor"
   deleted: `recorder_live.py`, `recorder_pong_live.py`,
   `recorder_pong_vector.py` and `recorder_realtime.py`. Every MP4 the
   session had made was removed and re-rendered.
+  :: details The problem
+  The workspace had no written format, so each recorder picked its own.
   """
 end

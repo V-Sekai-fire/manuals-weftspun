@@ -24,8 +24,6 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   TLS is the only way in from off the host. Clients reach every server
   through one router port. Fedora 44 is the only supported OS (operator,
   2026-10-17).
-  :: problem
-  Every move of the cards rebuilt it by hand.
   :: related
   - RFD66606-2308 (Mac ninfer port), which uses this server as its reference.
   - RFD66606-2319 (endpoint certificates), where the front's certificate comes
@@ -184,5 +182,7 @@ Fedora 44 (native or WSL2), the mTLS front and the client's single router port"
   - DFlash2 at six and seven draft tokens is measured on one card only.
   - The unit and stunnel files are written by hand on each host and are in
     no repository.
+  :: details The problem
+  Every move of the cards rebuilt it by hand.
   """
 end

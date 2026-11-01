@@ -18,15 +18,6 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
   :: decision
   This RFD is the citable index for settled-to-terminal citation drift; a Lean-verified audit
   found 39 pairs, and only 11 real-drift pairs need per-RFD follow-up.
-  :: problem
-  Of the 39 pairs:
-
-  - 14 retraction chains. The RFD is the retraction (2168-2175, 2159). Correct as-is.
-  - 14 historical framing pairs in published loop-RFDs (1030, 1143-1147 cite RFD66606-1122;
-  1020-1060 cite the pre-MaskScore (edit-reward corpus) RFD66606-1019). Weakly stale; the framing
-  was correct when written.
-  - 11 real drift pairs. A settled decision references a terminal RFD without acknowledging the
-  retraction chain. Per-pair successor annotations in [DETAILS.md](DETAILS.md).
   :: related
   Spine: urn:oid:1.3.6.1.4.1.66606.1.1.1000 (RFD conventions).
   Companion: urn:oid:1.3.6.1.4.1.66606.1.2.2174 (open-to-abandoned).
@@ -112,5 +103,14 @@ rfd 2176, "Index of committed/published RFDs citing terminal RFDs", :committed d
 
   Counterexamples are extensional (a real inhabitant of the pair list,
   not a missing proof); the classification above cites the full 39.
+  :: details The problem
+  Of the 39 pairs:
+
+  - 14 retraction chains. The RFD is the retraction (2168-2175, 2159). Correct as-is.
+  - 14 historical framing pairs in published loop-RFDs (1030, 1143-1147 cite RFD66606-1122;
+  1020-1060 cite the pre-MaskScore (edit-reward corpus) RFD66606-1019). Weakly stale; the framing
+  was correct when written.
+  - 11 real drift pairs. A settled decision references a terminal RFD without acknowledging the
+  retraction chain. Per-pair successor annotations in [DETAILS.md](DETAILS.md).
   """
 end

@@ -25,10 +25,6 @@ and the tables and the fenced block render from them"
   declarations. `verbs_from` states tuples over another RFD's vocabulary,
   which `mix rfd.rebac` resolves across the corpus, and `renders_into`
   gives an RFD the fenced block of a document outside `rfd/`.
-  :: problem
-  `scripts/check_rebac.exs` read its verb vocabulary by matching pipes in
-  RFD66606-2200's rendered Markdown table, and RFD66606-2232 (the RFD DSL) makes
-  that Markdown a build artifact.
   :: related
   RFD66606-2200 (the verbs and the tuples) declares them here; RFD66606-2232 (RFD
   authoring as an Elixir DSL) gives the build-artifact rule this follows.
@@ -108,5 +104,9 @@ and the tables and the fenced block render from them"
   The planner's own ReBAC engine is untouched: `tw_rebac.hpp`'s relation
   types, the Lean specification over them and `capabilities` in a RECTGTN
   domain are a separate vocabulary with a separate check.
+  :: details The problem
+  `scripts/check_rebac.exs` read its verb vocabulary by matching pipes in
+  RFD66606-2200's rendered Markdown table, and RFD66606-2232 (the RFD DSL) makes
+  that Markdown a build artifact.
   """
 end

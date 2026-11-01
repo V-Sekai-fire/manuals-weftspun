@@ -19,9 +19,6 @@ rung"
   exported with its templates for macOS and Windows. A borrowed mascot's
   face is the icon. A click opens a popup with the version, a headset
   line, a zone line, a disabled "Draw" button and the mascot playing Idle.
-  :: problem
-  In dev.2 the tray is the zone host and the desktop client's launcher.
-  So the plumbing ships first, with a face.
   :: related
   - RFD66606-2343, dev.2, the first playable core.
   - RFD66606-2341, dev.next.
@@ -115,5 +112,8 @@ rung"
   After the tag: the three installs, the logbook, the counted gaps, one
   batch of pin bumps, and RFD66606-2343 (dev.2) opened with its pins
   frozen.
+  :: details The problem
+  In dev.2 the tray is the zone host and the desktop client's launcher.
+  So the plumbing ships first, with a face.
   """
 end

@@ -24,10 +24,6 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
   the verbs are data rather than a table a gate parses. Three named roles
   fall out: coordinator (MPS), gpu-experimenter (CUDA),
   edge-qat-specialist (HAILO). `DETAILS.md` carries verbs, rows, scopes.
-  :: problem
-  Neither answers the question the shared-$HOME clobber raised: the
-  risk is the **relationship** between two agents, not the identity of
-  either.
   :: related
   RFD66606-2195 (Bao PKI + agent-provisioning discipline), agent-sync skill
   in dot-claude.
@@ -169,6 +165,10 @@ rfd 2200, "ReBAC agent roles as tuples, not per-agent policy sprawl", :discussio
 
   A `list_agent_roles.py` helper would do this more efficiently
   against the API; not written today.
+  :: details The problem
+  Neither answers the question the shared-$HOME clobber raised: the
+  risk is the **relationship** between two agents, not the identity of
+  either.
   """
 
   rebac do

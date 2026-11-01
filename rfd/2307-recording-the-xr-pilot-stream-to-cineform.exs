@@ -24,10 +24,6 @@ build, and the av1mkv delivery of a recording"
   decodes the packets on the GPU that is not driving VR and encodes CineForm
   on the CPU. The CineForm file is the intermediate the delivery step wraps
   as MKV with a `.cff` (operator, 2026-10-09).
-  :: problem
-  The first two-minute sweep was saved as left-eye PNG frames and encoded at
-  10 fps, because a full-rate 4K clip passes the size limits of the CineForm
-  RIFF writer and of the MKV writer built with llvm-mingw.
   :: related
   - RFD66606-2303, the XR requirements; RFD66606-2365, the recording rules.
   - RFD66606-2306, operating the shared desk; RFD66606-2302, the frame budget.
@@ -75,5 +71,9 @@ build, and the av1mkv delivery of a recording"
     two-minute stream and deliver it.
   - Count compositor sync timeouts in the driver and give the sparklines fault
     thresholds (RFD66606-2306).
+  :: details The problem
+  The first two-minute sweep was saved as left-eye PNG frames and encoded at
+  10 fps, because a full-rate 4K clip passes the size limits of the CineForm
+  RIFF writer and of the MKV writer built with llvm-mingw.
   """
 end

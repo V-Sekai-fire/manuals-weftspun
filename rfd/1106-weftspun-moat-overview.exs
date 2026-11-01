@@ -22,9 +22,6 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   proprietary, not granted by the OSS license: the trademark, the
   hosted `3DAIGC-API` with its model tuning and quality gates, and the
   marketplace/personalization services built on it.
-  :: problem
-  Nothing public states where the open license ends and the
-  proprietary service begins.
   :: related
   The public Vercel demo (`0098-public-deploy/`) runs the open client
   with none of the proprietary services exposed. Trademark terms live
@@ -68,5 +65,8 @@ rfd 1106, "The open/proprietary boundary, in public words", :published do
   local-only files this session found and removed from public view
   once discovered, not in any RFD; this repository's own history
   carries that redaction as a real commit, not a silent one.
+  :: details The problem
+  Nothing public states where the open license ends and the
+  proprietary service begins.
   """
 end

@@ -17,9 +17,6 @@ rfd 2354, "Bao unseals itself through a Seal Bao on Fly", :discussion do
   A transit seal on a Seal Bao on Fly, unwrapped from Fly KMS at boot (operator,
   2026-10-30). It replaces the Mac mini seal, which the operator rescinded. Recovery
   becomes hands-off, not operator-with-1P.
-  :: problem
-  Bao was one machine, Shamir seal single share, operator+1P recovery per restart. Shamir with a
-  manual share is the right seal for one-of-one, wrong for three-of-three.
   :: related
   RFD66606-2144, RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2353 (replicas), 2355 (cache), 2356 (no CDN proxy).
@@ -170,5 +167,8 @@ rfd 2354, "Bao unseals itself through a Seal Bao on Fly", :discussion do
   - Vault auto-unseal precedent for the KMS wrapper pattern
     (`cloud kms auto-unseal`, applies unchanged to OpenBao forks).
   - RFD66606-2144 (its eleventh defect: the without-auto-unseal failure mode).
+  :: details The problem
+  Bao was one machine, Shamir seal single share, operator+1P recovery per restart. Shamir with a
+  manual share is the right seal for one-of-one, wrong for three-of-three.
   """
 end

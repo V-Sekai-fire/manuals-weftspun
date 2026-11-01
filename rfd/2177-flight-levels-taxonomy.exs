@@ -26,9 +26,6 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
   RFD appears on its per-level page. The sections below hold the tag schema and the citation.
   :: decision
   Every RFD carries an optional `flight_level` tag, L1/L2/L3 (Flight Levels: execution / coordination / strategy), and three Quarto listings render from that tag; tagging is opt-in.
-  :: problem
-  An RFD describes a decision at some altitude of work (portfolio bet, cross-team coordination,
-  or a single team's execution).
   :: related
   RFD66606-1000 (RFD conventions), RFD66606-1053 (OpenUSD internal format), RFD66606-2174
   (open-abandoned index) and RFD66606-2176 (committed-terminal index): same pattern of one
@@ -103,5 +100,8 @@ rfd 2177, "Flight Levels taxonomy for RFDs", :committed do
     to match RFD-serial-lower-is-more-foundational was proposed and
     rejected: the flight-altitude metaphor is the naming, and a
     greenfield tag has no reason to invert its source.
+  :: details The problem
+  An RFD describes a decision at some altitude of work (portfolio bet, cross-team coordination,
+  or a single team's execution).
   """
 end

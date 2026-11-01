@@ -23,11 +23,6 @@ rfd 2137, "RFD reports share one sheet", :discussion do
   at the token level. To publish a report, copy the file, replace every
   bracketed slot, and keep the worked example's shape.
 
-  :: problem
-  The working
-  agreements the documents encode (retractions in place, baselines
-  beside numbers, controls named) have no slot a page reminds an author
-  to fill.
   :: section Verification
   The worked example filling the slots is RFD66606-2134, so the template is
   demonstrated by a report that shipped rather than by lorem.
@@ -50,5 +45,10 @@ rfd 2137, "RFD reports share one sheet", :discussion do
   - the provenance foot points at the logbook, the PRs, and the
     command to re-run, and pairs physical measurements with a
     household-object equivalent.
+  :: details The problem
+  The working
+  agreements the documents encode (retractions in place, baselines
+  beside numbers, controls named) have no slot a page reminds an author
+  to fill.
   """
 end

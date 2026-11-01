@@ -20,8 +20,6 @@ rfd 1035, "Legacy model identifiers", :published do
   `LEGACY_MODEL_IDS` in src/library/aiModelsCatalog.js drives that
   order. Do not delete them, because saved tasks reference them.
 
-  :: problem
-  The picker lists the legacy identifiers beside the current models.
   :: related
   RFD66606-1016 lists the active models. RFD66606-1005 records the avatar
   pipeline. RFD66606-1028 records the license gate.
@@ -46,5 +44,7 @@ rfd 1035, "Legacy model identifiers", :published do
 
   UniRig is the only backend for the template VRM mode. SkinTokens
   rejects that mode.
+  :: details The problem
+  The picker lists the legacy identifiers beside the current models.
   """
 end

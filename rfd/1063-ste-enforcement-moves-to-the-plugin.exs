@@ -25,11 +25,6 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   See `DETAILS.md` for what moved to the plugin, including three new
   checks this repository contributed upstream. It also names what the
   deleted script's aggregate score this repository does not gain back.
-  :: problem
-  RFD66606-1000 named `scripts/ste-lint-decisions.py` as this repository's
-  STE linter. It scored each RFD's prose at violations per 100 words.
-  It ran in CI, through `npm run lint:ste`. It ran again in
-  `.pre-commit-config.yaml`'s `ste-lint` hook. 
   :: related
   RFD66606-1000 named the deleted script. RFD66606-1059 wired `npm run lint:ste`
   into `scripts/ci.sh`. This RFD removes that step, and nothing
@@ -75,5 +70,10 @@ rfd 1063, "STE enforcement moves to the plugin", :discussion do
   asked for a score. It asked for STE prose. The `Stop` hook catches a
   violation earlier than a CI gate can, on every reply that touches
   this repository, not only on a push.
+  :: details The problem
+  RFD66606-1000 named `scripts/ste-lint-decisions.py` as this repository's
+  STE linter. It scored each RFD's prose at violations per 100 words.
+  It ran in CI, through `npm run lint:ste`. It ran again in
+  `.pre-commit-config.yaml`'s `ste-lint` hook. 
   """
 end

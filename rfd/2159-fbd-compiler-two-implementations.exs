@@ -22,10 +22,6 @@ same fixtures; both are graded against the spec."
   Green-lit; C++ and Rust both to ship.
 
   `DETAILS.md` carries the full text of this RFD.
-  :: problem
-  Trusting one
-  backend makes soundness a hope; two agreeing backends give the
-  property `compile_correct` alone cannot.
   :: references
   1. RFD66606-2157 (Lean spec), RFD66606-2158 (self-host blockers)
   2. godot-sandbox CI:
@@ -62,5 +58,9 @@ same fixtures; both are graded against the spec."
   2. godot-sandbox CI:
     `libriscv/godot-sandbox/.github/workflows/build_gdscript_elf.yml`
   3. Rust riscv64 target: platform-support docs
+  :: details The problem
+  Trusting one
+  backend makes soundness a hope; two agreeing backends give the
+  property `compile_correct` alone cannot.
   """
 end

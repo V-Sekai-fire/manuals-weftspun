@@ -30,11 +30,6 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
 
   See `DETAILS.md` for the compatibility fallbacks, the known risks,
   and file references.
-  :: problem
-  Upstream reserves the names "Space-Time" and "OpenNexus3DStudio".
-  A fork must remove the
-  upstream names, logos, and trade dress. A fork must then take a
-  unique name.
   :: related
   RFD66606-1018 records the M3 documentation removal.
   """
@@ -65,5 +60,10 @@ rfd 1017, "Fork rebrand to Weftspun", :published do
   - Android icon: `native/android-xr-face-bridge/app/src/main/res/raw/ic_app_icon.svg`
   - Fallbacks: `src/library/taskPersistence.js`, `src/library/viewportLighting.js`
   - Commit: `16afbc27`
+  :: details The problem
+  Upstream reserves the names "Space-Time" and "OpenNexus3DStudio".
+  A fork must remove the
+  upstream names, logos, and trade dress. A fork must then take a
+  unique name.
   """
 end

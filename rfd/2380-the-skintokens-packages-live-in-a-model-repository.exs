@@ -18,9 +18,6 @@ rfd 2380, "the SkinTokens packages live in a model repository", :discussion do
   :: decision
   - The packages are files of a public model repository on Hugging Face, and the auto-rig Space
     links that repository's `main`.
-  :: problem
-  The SkinTokens viewer's packages hold the rig model, about 1.3 GB each, more than a Space can
-  hold.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   """
@@ -31,5 +28,8 @@ rfd 2380, "the SkinTokens packages live in a model repository", :discussion do
   :: details Dev releases
   A dev release puts the same files on its `dev` branch, so visitors keep the files on `main`
   until the operator promotes it (operator, 2026-10-18).
+  :: details The problem
+  The SkinTokens viewer's packages hold the rig model, about 1.3 GB each, more than a Space can
+  hold.
   """
 end

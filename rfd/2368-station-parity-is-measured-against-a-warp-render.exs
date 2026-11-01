@@ -23,9 +23,6 @@ rfd 2368, "station parity is measured against a WARP render", :discussion do
     deterministic and seam-free.
   - A change lands only when no view's full-resolution MAD rises against the reference, unless
     the operator accepts the exception on issue 72.
-  :: problem
-  ANGLE's Vulkan path hashes the cloud noise's lattice corners from float sums differently on
-  each side of a cell edge.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   """
@@ -35,5 +32,8 @@ rfd 2368, "station parity is measured against a WARP render", :discussion do
   prose ~S"""
   :: details The port's hashing
   The port hashes from integer corners.
+  :: details The problem
+  ANGLE's Vulkan path hashes the cloud noise's lattice corners from float sums differently on
+  each side of a cell edge.
   """
 end

@@ -24,9 +24,6 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   2. A kernel states its part count: 1, 2 or 3 bf16 parts, or one df32 pair.
   3. Each part count carries a measured error against a float64 reference, and a control
      that fails when the count drops by one.
-  :: problem
-  RFD66606-2392 chose df32 for the first. This RFD adds the second and puts both under one rule
-  with one set of measured bounds.
   :: related
   RFD66606-2392 chooses df32 for guest geometry. RFD66606-1025 gives the bf16 memory
   arithmetic. The BLOCKLIST row on XLA and PJRT keeps the Cloud TPU route open.
@@ -108,5 +105,8 @@ rfd 2357, "A narrow unit holds a wide number as a sum of parts", :discussion do
   - Whether the part count a kernel needs follows its inputs' range as well as its size. The
     first step is the same table over inputs with a wide exponent spread.
   - The cost of each part count in time. No timing ran.
+  :: details The problem
+  RFD66606-2392 chose df32 for the first. This RFD adds the second and puts both under one rule
+  with one set of measured bounds.
   """
 end

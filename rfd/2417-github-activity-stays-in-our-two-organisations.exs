@@ -20,8 +20,6 @@ rfd 2417, "GitHub activity stays in our two organisations", :discussion do
     pushes, and no pull request, issue, comment or mention in any other organisation.
   - Pushed text cites an upstream change by its bare commit SHA, never by an `owner/repo#N`
     reference or an issue or pull request URL.
-  :: problem
-  GitHub posts those back onto the upstream's timeline.
   :: related
   - RFD66606-2294, where this rule lived before the split.
   """
@@ -31,5 +29,7 @@ rfd 2417, "GitHub activity stays in our two organisations", :discussion do
   prose ~S"""
   :: details Reading is fine
   Reading and cloning public repositories is fine.
+  :: details The problem
+  GitHub posts those back onto the upstream's timeline.
   """
 end

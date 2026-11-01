@@ -25,17 +25,6 @@ rfd 1021, "A shared holographic algebra library", :published do
   The algebra and the atom generation move over unchanged, so
   `test/fixtures/hrr_golden.json` still certifies parity with the
   Python `holographic.py` reference to 1.0e-12.
-  :: problem
-  RFD66606-1019 gave the studio core a local module, `WeftspunStudio.Hrr`.
-  It held a real-valued Holographic Reduced Representation. Binding
-  used a Fourier transform, and the inverse worked only on unitary
-  vectors.
-
-  A search of the weftspun repositories found an earlier port of the
-  same idea. `weftspun/residual-fsq-recommender` held `Holo.Core.HRR`,
-  a phase-angle representation. An ADR of 2026-07-14 removed it,
-  because a trained model replaced the training-free recommender that
-  used it. The algebra itself was never in doubt.
   """
 
   details_title "A shared holographic algebra library"
@@ -156,5 +145,16 @@ rfd 1021, "A shared holographic algebra library", :published do
   - Publish the library to Hex.
   - Run `lake build` in continuous integration, so a change to the
     algebra cannot pass without the proofs.
+  :: details The problem
+  RFD66606-1019 gave the studio core a local module, `WeftspunStudio.Hrr`.
+  It held a real-valued Holographic Reduced Representation. Binding
+  used a Fourier transform, and the inverse worked only on unitary
+  vectors.
+
+  A search of the weftspun repositories found an earlier port of the
+  same idea. `weftspun/residual-fsq-recommender` held `Holo.Core.HRR`,
+  a phase-angle representation. An ADR of 2026-07-14 removed it,
+  because a trained model replaced the training-free recommender that
+  used it. The algebra itself was never in doubt.
   """
 end

@@ -23,8 +23,6 @@ solids, rolled on survey tables, and it carries wear from round to round"
   after five rounds, and each side earns scrip per round, as in the Gyre setting.
   The operator asked for more Frames, game feel, the Gyre flavour and readability
   on 2026-10-17.
-  :: problem
-  Each unit was one solid: a box, a cylinder, a sphere or a torus.
   :: related
   - RFD66606-2379, where the desktop builds ship: the release that carries this game.
   - RFD66606-2085, RFD66606-2091 and RFD66606-2120, the Gyre setting (abandoned): the source of
@@ -281,5 +279,7 @@ solids, rolled on survey tables, and it carries wear from round to round"
   Frame sideways only, and in one round two range Frames stayed blocked for
   34 s until the 45 s limit ended it. A blocked range Frame now walks around
   the block, and no round of the twelve reached the limit.
+  :: details The problem
+  Each unit was one solid: a box, a cylinder, a sphere or a torus.
   """
 end

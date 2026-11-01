@@ -27,8 +27,6 @@ one-hour SSH certificate that Bao itself signs"
   and runs `ssh -N -L` to the listener. The listener's mTLS stays
   the second factor: the tunnel carries TLS, it does not replace
   it.
-  :: problem
-  Every other route in use was an operator-held proxy, which is a person, not a path.
   :: related
   - RFD66606-2195 (Bao over the tailnet), the path this complements.
   """
@@ -77,5 +75,7 @@ one-hour SSH certificate that Bao itself signs"
 
   The host key sits on the data volume and survives a redeploy.
   Its fingerprint is `SHA256:6xkNw5/8n/fRVyYU9SC0/ON+qRh+WSfVCYp8CCeuaXg`.
+  :: details The problem
+  Every other route in use was an operator-held proxy, which is a person, not a path.
   """
 end

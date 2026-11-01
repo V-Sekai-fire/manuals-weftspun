@@ -28,11 +28,6 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   conversational personas. `STATE.md` stays a live handoff, not a
   decision record; it holds no lasting content and does not become
   part of this RFD.
-  :: problem
-  Without a named procedure per task type, agents
-  improvise process, and a large model and a small model handle
-  ambiguity differently. Without a place for state to persist,
-  knowledge learned in one session does not reach the next.
   :: related
   RFD66606-1086 gives the Surface/DGX topology `PROJECT.md`'s sync-ownership
   rule depends on. RFD66606-1099 gives the operator command cheat sheet this
@@ -111,5 +106,10 @@ rfd 1110, "RepoResident, a file-based operating harness for coding agents", :com
   the Surface, API on the DGX (RFD66606-1086); scp-based sync with no agent
   git push (RFD66606-1086, RFD66606-1099); RepoResident's own adoption,
   replacing MindLink (this RFD's README).
+  :: details The problem
+  Without a named procedure per task type, agents
+  improvise process, and a large model and a small model handle
+  ambiguity differently. Without a place for state to persist,
+  knowledge learned in one session does not reach the next.
   """
 end

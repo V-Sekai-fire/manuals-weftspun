@@ -28,13 +28,16 @@ rfd 1146, "The latent-to-Pixal3D loop", :published do
   a mesh where the loop carries a latent. So the arm passes through
   `/extract` first, and a route that skips that step fails inside the
   tool rather than at the boundary.
-  :: problem
+  :: related
+  RFD66606-1143, RFD66606-1144 and RFD66606-1145 are the other three loops. RFD66606-1122 is
+  the goal, and RFD66606-1132 lists what converts.
+  """
+
+  prose ~S"""
+  :: details The problem
   Loop 4 is the only one that leaves the image plane. Pixal3D proposes a
   latent state, then views, then a glb; EditScore scores; and the repair
   arm forks between VoxHammer and OmniGen2. At size XL it is the largest
   of the four, and it is the only loop with a router.
-  :: related
-  RFD66606-1143, RFD66606-1144 and RFD66606-1145 are the other three loops. RFD66606-1122 is
-  the goal, and RFD66606-1132 lists what converts.
   """
 end

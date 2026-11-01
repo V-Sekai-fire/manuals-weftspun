@@ -18,10 +18,6 @@ rfd 2296, "the first rung's dev.2", :discussion do
   dev.2 closes the gaps dev.1's logbook counts, rebases the godot-sandbox
   fork on upstream and releases the addon from it, and rebuilds every
   guest for the moved packed-array calls.
-  :: problem
-  RFD66606-2293 is the Skateboard's workspace and its whole ladder, and the
-  dev rungs past dev.1 change daily while the rest of it does not. Kept
-  there, each rung's edit is a diff to the workspace plan.
   :: related
   - RFD66606-2293, the plan and the ladder; its release rules
     (tag, GitHub release, playtest, gates with controls) hold here. RFD66606-2408 is dev.1.
@@ -62,5 +58,9 @@ rfd 2296, "the first rung's dev.2", :discussion do
   | dev.2 | the godot-sandbox rebase | none | (remote, p=0.05) |
 
   dev.2's own feature is plumbing, so its joy rests on what it unblocks.
+  :: details The problem
+  RFD66606-2293 is the Skateboard's workspace and its whole ladder, and the
+  dev rungs past dev.1 change daily while the rest of it does not. Kept
+  there, each rung's edit is a diff to the workspace plan.
   """
 end

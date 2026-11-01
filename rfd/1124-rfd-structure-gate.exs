@@ -28,12 +28,6 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   its README line limit out of RFD66606-1000, so document and gate cannot drift
   apart. It takes one dependency, `markdown-it-py`, pinned. The number
   gate keeps numbering only, and its weaker citation scan moved here.
-  :: problem
-  A measurement over all 116 found nine kinds of defect. The largest was
-  37 citations still in the old decimal form. The number gate looked for
-  those and reported 3. An RFD wraps its prose at about 72 columns, so a
-  citation splits across a line break, and a scan of the bytes cannot see
-  it. That gate measured the file. The rule is about the sentence.
   :: related
   RFD66606-1000 gives the conventions this gate measures. RFD66606-1063 moves the
   prose rules to a plugin, and this gate checks structure only.
@@ -211,5 +205,11 @@ rfd 1124, "The RFD structure gate reads a CommonMark AST", :committed do
   The row reading "No citation uses the old decimal form" now covers two
   withdrawn forms. A number beginning with 0 is the first. A serial carrying
   a letter is the second, and 131 RFDs wore it.
+  :: details The problem
+  A measurement over all 116 found nine kinds of defect. The largest was
+  37 citations still in the old decimal form. The number gate looked for
+  those and reported 3. An RFD wraps its prose at about 72 columns, so a
+  citation splits across a line break, and a scan of the bytes cannot see
+  it. That gate measured the file. The rule is about the sentence.
   """
 end

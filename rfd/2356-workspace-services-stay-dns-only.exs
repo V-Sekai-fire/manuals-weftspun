@@ -18,8 +18,6 @@ rfd 2356, "Workspace services stay DNS-only", :discussion do
   CF-proxied records have Cloudflare terminating TLS at its edge, every byte plaintext at
   CF for the round trip. Workspace services stay DNS-only; edge cache, if needed, is
   Fly-side or origin-side.
-  :: problem
-  Services here carry auth tokens and hostname-bound credentials.
   :: related
   RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2353 (replicas), 2354 (unseal), 2355 (cache).
@@ -46,5 +44,7 @@ rfd 2356, "Workspace services stay DNS-only", :discussion do
   network endpoint, outside this workspace's scope. If a workspace
   service ever lands under a subdomain that is currently proxied, the
   proxy flag comes off before the service starts serving requests.
+  :: details The problem
+  Services here carry auth tokens and hostname-bound credentials.
   """
 end

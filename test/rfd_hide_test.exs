@@ -18,7 +18,6 @@ defmodule RFDHideTest do
           intrigue: "The thing was not done.",
           exit: "Run the steps.",
           decision: "It is done in steps.",
-          problem: "It waits.",
           related: "RFD 1000.",
           drafted_by: :ai
         ],
@@ -32,13 +31,15 @@ defmodule RFDHideTest do
     assert RFD.Hide.problems(doc()) == []
   end
 
-  test "the README prints the Hook in bold, the Delivery, the Exit, and the Intrigue first" do
+  test "the README prints the Hook in bold, the Intrigue, the Delivery and the Exit" do
     readme = RFD.Doc.readme(doc())
 
     assert readme =~
-             "## Decision\n\n**Do the thing.**\n\nIt is done in steps.\n\nRun the steps.\n"
+             "**Do the thing.**\n\nThe thing was not done." <>
+               "\n\nIt is done in steps.\n\nRun the steps.\n"
 
-    assert readme =~ "## Problem\n\nThe thing was not done.\n\nIt waits.\n"
+    refute readme =~ "## Problem"
+    refute readme =~ "## Decision"
   end
 
   # Negative controls: each beat removed on its own must be named, or the rule is decoration.
@@ -92,8 +93,6 @@ defmodule RFDHideTest do
       Run it.
       :: decision
       It runs.
-      :: problem
-      It waits.
       \"""
     end
     """

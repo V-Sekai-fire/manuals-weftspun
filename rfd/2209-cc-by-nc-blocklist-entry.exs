@@ -25,10 +25,6 @@ against the dataforged repo"
   Add a row to CLAUDE.md's "Blocklists" table:
 
   `DETAILS.md` carries the full text of this RFD.
-  :: problem
-  Concrete case that produced this RFD: **dataforged**, the
-  community JSON rendering of the Starforged and Ironsworn SRDs at
-  `github.com/rsek/dataforged`, carries a mixed licence:
   :: related
   - CLAUDE.md's existing `CC-BY-SA` row, same shape, same argument.
   - RFD66606-2205 (Taskweft in Bao), the Starforged play surface whose
@@ -163,5 +159,9 @@ against the dataforged repo"
     implementations.
   - Codebase: `2-contract/manuals-weftspun/scripts/check_starforged_hf.py`
    , the downstream CI assertion.
+  :: details The problem
+  Concrete case that produced this RFD: **dataforged**, the
+  community JSON rendering of the Starforged and Ironsworn SRDs at
+  `github.com/rsek/dataforged`, carries a mixed licence:
   """
 end

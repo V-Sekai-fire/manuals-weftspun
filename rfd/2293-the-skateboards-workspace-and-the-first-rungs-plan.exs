@@ -23,10 +23,6 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   each playable on the Steam Frame through the Windows double build.
   Zones run as ghost servers on Fly's headless Linux double build. GPU
   stages run on a sidecar client. Every guest runs natively translated.
-  :: problem
-  None of it
-  is reproducible from a checkout, and every guest is single precision
-  against a double engine.
   :: related
   - RFD66606-2262, the ladder; RFD66606-2287, the rung; RFD66606-2263, the simulator gate.
   - RFD66606-2296, dev.2; RFD66606-2297, dev.3; RFD66606-2298, dev.next.
@@ -102,5 +98,9 @@ rfd 2293, "the Skateboard's workspace, and the first rung's plan", :discussion d
   :: details What this abandons
   Abandons RFD66606-2067: the ladder's tags are the pen's `v<date>-dev.N`, and
   the packaging repository its semver tags named is not placed.
+  :: details The problem
+  None of it
+  is reproducible from a checkout, and every guest is single precision
+  against a double engine.
   """
 end

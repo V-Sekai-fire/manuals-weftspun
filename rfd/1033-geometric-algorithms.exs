@@ -22,8 +22,6 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   See `DETAILS.md` for the algorithm table, how they scale with mesh
   size instead of parameter count, and a license note on
   `quadwild_retopology`.
-  :: problem
-  The two kinds scale in different ways.
   :: related
   RFD66606-1016 lists the neural models. RFD66606-1025 gives their bf16 memory.
   """
@@ -61,5 +59,7 @@ rfd 1033, "Geometric algorithms in the catalog", :published do
   quadwild_retopology uses the GPL-3 license, which RFD66606-1028 excludes.
   Instant Meshes is the permissive replacement, and RFD66606-1029 records the
   other options.
+  :: details The problem
+  The two kinds scale in different ways.
   """
 end

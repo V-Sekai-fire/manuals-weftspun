@@ -24,8 +24,6 @@ party of four walks from the campus shop to a room and back"
     campus zone before the party loop is built (operator, 2026-10-30).
   - RFD66606-2045 (loot-action slice) is abandoned. This RFD keeps its loop of hub, room, first
     touch and return, and replaces its party and its store (operator, 2026-10-30).
-  :: problem
-  RFD66606-2045 has no setting a person returns to.
   :: related
   - RFD66606-2287, the pen; RFD66606-2339, the persona; RFD66606-2321, the autobattler.
   - RFD66606-2358, the party; RFD66606-2359, the shop; RFD66606-2360, the one beta.
@@ -81,5 +79,7 @@ party of four walks from the campus shop to a room and back"
   :: details What is not known
   - Whether the pen's outfits and the rigged models reach the campus unchanged. Each part is read
     for its precision and format before the campus uses it.
+  :: details The problem
+  RFD66606-2045 has no setting a person returns to.
   """
 end

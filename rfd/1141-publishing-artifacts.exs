@@ -26,10 +26,6 @@ rfd 1141, "Publishing artifacts", :discussion do
 
   The name matches the source repository, and the README names the side
   it sits on, so a reader who finds the artifact first reaches the code.
-  :: problem
-  A checkpoint also lies about its own size: the trainer writes the whole
-  model, so a 19.5 MiB adapter arrives as 14.8 GiB of mostly somebody
-  else's Apache-2.0 base weights.
   :: references
   - `SKILL.md` is the procedure. `DETAILS.md` says what is not published.
   :: related
@@ -144,5 +140,9 @@ rfd 1141, "Publishing artifacts", :discussion do
   licence detector agrees with a dual `Apache-2.0 OR MIT` pair. The last of those has a known
   answer on GitHub, two `LICENSE-*` files at the root read as "Other" until one is on the
   default branch, and nothing here has checked the hub.
+  :: details The problem
+  A checkpoint also lies about its own size: the trainer writes the whole
+  model, so a 19.5 MiB adapter arrives as 14.8 GiB of mostly somebody
+  else's Apache-2.0 base weights.
   """
 end

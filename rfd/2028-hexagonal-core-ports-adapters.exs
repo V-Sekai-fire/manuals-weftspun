@@ -16,12 +16,15 @@ rfd 2028, "Hexagonal core ports adapters", :prediscussion do
   Read RFD66606-2111 next, which defines the service that components compose into.
   :: decision
   See `DETAILS.md` for the full argument.
-  :: problem
+  :: related
+  See `DETAILS.md` for the full argument.
+  """
+
+  prose ~S"""
+  :: details The problem
   A
   shared monolith or a single in-memory object model does not hold
   across those boundaries.
-  :: related
-  See `DETAILS.md` for the full argument.
   """
 
   details_title "Hexagonal core ports adapters"

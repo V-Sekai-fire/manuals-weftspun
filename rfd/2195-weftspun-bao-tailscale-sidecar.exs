@@ -22,12 +22,6 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   service exposure. Mutual-TLS at OpenBao's listener stays as the
   second factor; Tailscale is transport only.
 
-  :: problem
-  OpenBao is the workspace's PKI + KV store for agent secrets
-  (future: KV v2 at `agents/`, cert-auth issued via bao's PKI). It
-  runs on Fly at `weftspun-bao` (sjc, 1 machine, FoundationDB
-  backend, mTLS listener). Tailscale is what the workspace already uses for
-  a private overlay.
   :: related
   `weftspun-bao` Fly app (state summarised in DETAILS.md),
   `weftspun-fdb` (FoundationDB backend), RFD66606-2142 (bao PKI zerotrust
@@ -534,5 +528,11 @@ rfd 2195, "Expose weftspun-bao privately via Tailscale", :discussion do
   than as "no node online". And a desk that reads `RxBytes: 0` with
   `Online: true` on a node that has been up for days treats that as the
   fault, not the health list.
+  :: details The problem
+  OpenBao is the workspace's PKI + KV store for agent secrets
+  (future: KV v2 at `agents/`, cert-auth issued via bao's PKI). It
+  runs on Fly at `weftspun-bao` (sjc, 1 machine, FoundationDB
+  backend, mTLS listener). Tailscale is what the workspace already uses for
+  a private overlay.
   """
 end

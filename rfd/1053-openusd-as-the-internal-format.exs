@@ -27,9 +27,6 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   bulk; zip and gzip banned; usdz exempt). RFD66606-2169 abandoned the
   Elixir studio core; the `fabric-stage-runtime` Hex package still
   ships OpenUSD to every consumer.
-  :: problem
-  Every rewrite loses what came before. glTF holds one flat result, thus
-  a stage cannot add an opinion without erasing the previous author.
   :: related
   RFD66606-1036 gives the model image convention. `fabric-stage-runtime`
   (Hex) links this runtime to every stage. RFD66606-1002 records the
@@ -87,5 +84,8 @@ rfd 1053, "OpenUSD as the internal format", :committed do
   file as well. The caller keeps the layer, and it ships the other.
 
   RFD66606-1036 records this in the model image convention.
+  :: details The problem
+  Every rewrite loses what came before. glTF holds one flat result, thus
+  a stage cannot add an opinion without erasing the previous author.
   """
 end

@@ -24,9 +24,6 @@ and `PEER_REVIEW.md`"
   teacher. With the classic angle rule on both paddles, the model wins
   7-0 and 8-0 on its own points over two 5-minute runs. The teacher
   controls on the same seeds end 7-6 and 9-8.
-  :: problem
-  Code does the predicting in the winning
-  runs, and the write-up must say so.
   :: related
   - RFD66606-2345, the video format; RFD66606-2346, decider-pong in the
     workspace.
@@ -85,5 +82,8 @@ and `PEER_REVIEW.md`"
   mode, seed and length, with its decision log. Runs that exposed a bug
   keep a suffix that says so, such as `_stale-reply-bug`. The commits
   that carry this work are on decider-pong `main`.
+  :: details The problem
+  Code does the predicting in the winning
+  runs, and the write-up must say so.
   """
 end

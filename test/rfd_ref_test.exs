@@ -136,7 +136,7 @@ defmodule RFDRefTest do
   test "an abandoned doc with an extra section is outside the shape" do
     d = %RFD.Doc{serial: 2999, title: "t", state: :abandoned, abandoned_at: "x", decision: "d"}
     assert RFD.Doc.problems(d) == []
-    assert [_] = RFD.Doc.problems(%{d | problem: "more"})
+    assert [_] = RFD.Doc.problems(%{d | related: "more"})
     assert [_] = RFD.Doc.problems(%{d | abandoned_at: nil})
     assert [_] = RFD.Doc.problems(%{d | flight_level: :l2})
     assert [_] = RFD.Doc.problems(%{d | details_title: "More"})

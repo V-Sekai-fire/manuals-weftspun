@@ -30,12 +30,15 @@ rfd 1143, "The keypoints-to-ANNY loop", :published do
   the render asset emits 23. A comparison across those two takes an
   explicit subset, or it compares different things and reports a number
   for it. RFD66606-1122 records the same gap for the wholebody chain.
-  :: problem
-  All four loops are wanted. What was missing is a document per loop:
-  the plan holds the wiring for four, and one logbook entry held the
-  argument for all of them. This RFD is loop 1's own.
   :: related
   RFD66606-1144, RFD66606-1145 and RFD66606-1146 are the other three loops. RFD66606-1122 is
   the goal, and `logbook-fourloops-first-runs.md` holds the first runs.
+  """
+
+  prose ~S"""
+  :: details The problem
+  All four loops are wanted. What was missing is a document per loop:
+  the plan holds the wiring for four, and one logbook entry held the
+  argument for all of them. This RFD is loop 1's own.
   """
 end

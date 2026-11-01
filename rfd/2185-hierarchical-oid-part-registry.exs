@@ -22,9 +22,6 @@ rfd 2185, "Hierarchical OID part registry under PEN", :discussion do
   Every part gets a stable OID under `1.3.6.1.4.1.66606.<arc>.parts.<hierarchy>`.
   Hierarchical addressing: `body/head/hair/front-fringe`, so a v4
   addition is a new child, not a schema break.
-  :: problem
-  String labels lose meaning across versions;
-  OIDs do not. RFD66606-1122 (AlternativeTopology) is the precedent shape.
   :: related
   RFD66606-2183 (layer-decomp pipeline; V3 stopgap sits under this),
   RFD66606-2184 (EditScore bootstrap for unmapped parts), RFD66606-1122
@@ -41,5 +38,8 @@ rfd 2185, "Hierarchical OID part registry under PEN", :discussion do
   PASCAL-Part (public benchmark interop), VRM 1.0 humanoid bones
   (deployment interop). Ingest maps any leaf alias to the canonical
   OID; storage is OID, not string, so v3->v4 never rewrites a corpus.
+  :: details The problem
+  String labels lose meaning across versions;
+  OIDs do not. RFD66606-1122 (AlternativeTopology) is the precedent shape.
   """
 end

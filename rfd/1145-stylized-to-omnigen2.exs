@@ -29,12 +29,15 @@ rfd 1145, "The stylized-to-OmniGen2 loop", :published do
   So loop 3 produces no training data, whatever it produces. A stylized
   corpus that reaches a training run has taken the holdout with it, and
   nothing downstream would report that it had.
-  :: problem
-  Loop 3 is loop 2 with a style transfer in front of it: CycleGAN
-  proposes a restyled image, OmniGen2 edits it, EditScore scores the
-  result and OmniGen2 repairs. The artifact is an edited png at the size M, the same as loop 2.
   :: related
   RFD66606-1143, RFD66606-1144 and RFD66606-1146 are the other three loops. RFD66606-1122 is
   the goal that the four serve.
+  """
+
+  prose ~S"""
+  :: details The problem
+  Loop 3 is loop 2 with a style transfer in front of it: CycleGAN
+  proposes a restyled image, OmniGen2 edits it, EditScore scores the
+  result and OmniGen2 repairs. The artifact is an edited png at the size M, the same as loop 2.
   """
 end

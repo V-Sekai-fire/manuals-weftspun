@@ -19,9 +19,6 @@ rfd 2355, "Consumers cache Bao reads in memory", :discussion do
   :: decision
   Consumers cache what they can. A bearer held for a few minutes puts Bao in the critical
   path only at cache expiry.
-  :: problem
-  RFD66606-2146 moved every routine credential read onto Bao, so every consumer now depends on
-  Bao being up.
   :: related
   RFD66606-2145, RFD66606-2146.
   Split from the old RFD66606-2147: RFD66606-2353 (replicas), 2354 (unseal), 2356 (no CDN proxy).
@@ -44,5 +41,8 @@ rfd 2355, "Consumers cache Bao reads in memory", :discussion do
   should live in the CONSUMER's memory, not on disk, and it should
   refresh on a Bao error by simply retrying rather than by holding the
   stale value.
+  :: details The problem
+  RFD66606-2146 moved every routine credential read onto Bao, so every consumer now depends on
+  Bao being up.
   """
 end

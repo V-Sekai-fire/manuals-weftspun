@@ -24,9 +24,6 @@ rfd 2420, "the rung's guests are C++ built at double and tested with Lean", :dis
   - Every property the tests check is paired with a control that plants the defect and must be
     found.
   - Every guest is built against the double-precision addon.
-  :: problem
-  A guest's `Variant` is 24 bytes at single precision and 40 at double, so a single-precision
-  guest misreads every value the engine hands it.
   :: related
   - RFD66606-2287, where this rule lived before the split.
   """
@@ -38,5 +35,8 @@ rfd 2420, "the rung's guests are C++ built at double and tested with Lean", :dis
   The vendored sandbox-api in contract-guest-runtime, fabric-zone and voice does not pass
   `DOUBLE_PRECISION` to its own library, and its `node2d.cpp` and `vector.cpp` fail to compile at
   double. `fit.elf`, `usd.elf` and `mujoco.elf` are single precision.
+  :: details The problem
+  A guest's `Variant` is 24 bytes at single precision and 40 at double, so a single-precision
+  guest misreads every value the engine hands it.
   """
 end

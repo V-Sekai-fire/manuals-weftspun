@@ -26,9 +26,6 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
     dimension, packed mixed-radix, the shape residual FSQ stacks its stages in.
   - A code the codebook does not hold, a variable the domain does not declare, and a goal
     the domain cannot reach are refused by name.
-  :: problem
-  A persona cannot answer
-  a question that is not a goal.
   :: related
   - RFD66606-2292, the organization domain this workspace's own RFDs render into.
   - RFD66606-2232, the renderer that turns an RFD into a planning problem.
@@ -78,5 +75,8 @@ rfd 2339, "a persona answers from a planning domain", :discussion do
     domain answers today through the planner's Elixir consumer.
   - The temporal reading of a domain that declares no reads and no writes: the plan order
     is exact, and the timeline parallelizes what the domain leaves undeclared.
+  :: details The problem
+  A persona cannot answer
+  a question that is not a goal.
   """
 end

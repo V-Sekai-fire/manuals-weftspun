@@ -18,12 +18,6 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
   :: decision
   Drop the `allosaurus-rus` phone-inventory control; the panel drops from 8 tracks to 7, keeping
   `universal` as the language-inventory-free default and `eng` as the English control.
-  :: problem
-  RFD66606-2164 (Rung 1 corpus) shipped allosaurus at three inventories: `universal`, `eng`,
-  `rus`. The `rus` inventory was picked as a plausible L1 transfer partner for the first
-  SpeakingFaces subject (Kazakh L2 English speaker); RFD66606-2170 (allosaurus language set) then
-  generalised the set. The panel's implementation still carries `rus` as a per-clip inventory and
-  runs it on every clip regardless of the speaker's L1.
   :: related
   Extends RFD66606-2179 (Whisper drop) and RFD66606-2180 (gemma-auto drop). Amends the panel row
   in RFD66606-2170 (allosaurus language set)'s decision that named `universal + eng + rus`.
@@ -43,5 +37,11 @@ rfd 2181, "Drop the allosaurus-rus phone-inventory control", :published do
   Follow-ups: `emit_10track_panel.py` and `add_allosaurus_control.py` drop the `rus` inventory;
   downstream RFDs lose their `rus` mentions; `CITATION.cff` unaffected (allosaurus itself
   stays).
+  :: details The problem
+  RFD66606-2164 (Rung 1 corpus) shipped allosaurus at three inventories: `universal`, `eng`,
+  `rus`. The `rus` inventory was picked as a plausible L1 transfer partner for the first
+  SpeakingFaces subject (Kazakh L2 English speaker); RFD66606-2170 (allosaurus language set) then
+  generalised the set. The panel's implementation still carries `rus` as a per-clip inventory and
+  runs it on every clip regardless of the speaker's L1.
   """
 end

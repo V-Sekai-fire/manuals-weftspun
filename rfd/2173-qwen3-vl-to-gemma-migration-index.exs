@@ -18,10 +18,6 @@ rfd 2173, "Qwen3-VL to Gemma-4-12B migration index", :committed do
   :: decision
   This RFD is the citable index for the Qwen3-VL to Gemma-4-12B swap; ten open RFDs still name
   Qwen3-VL, and each migrates its mention as follow-on when next touched.
-  :: problem
-  RFD66606-2169 (studio-core abandonment) named Gemma-4-12B (QAT Q4_0) as the reasoning core the
-  workspace actually runs. RFD66606-1173 (edit-reward corpus, PR #179) followed with the substrate
-  table swap.
   :: section Details
   Per-RFD annotations sit in [DETAILS.md](DETAILS.md); each RFD retains its current text until
   otherwise edited. This RFD provides the citable pointer so a reader hitting a stale Qwen3-VL
@@ -110,5 +106,9 @@ rfd 2173, "Qwen3-VL to Gemma-4-12B migration index", :committed do
   family llama-cpp-npu-vision accelerates, and its rewrite against
   Gemma's projector shape unblocks the deployed-EditScore swap for the
   whole chain.
+  :: details The problem
+  RFD66606-2169 (studio-core abandonment) named Gemma-4-12B (QAT Q4_0) as the reasoning core the
+  workspace actually runs. RFD66606-1173 (edit-reward corpus, PR #179) followed with the substrate
+  table swap.
   """
 end

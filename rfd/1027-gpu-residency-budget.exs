@@ -28,11 +28,6 @@ rfd 1027, "GPU tier per model", :committed do
   upstream ships one (Gemma-4-12B QAT Q4_0 is the canonical example
   and reasoning core per RFD66606-2169). Models without a QAFT release run
   at published precision (bf16) with staged loading.
-  :: problem
-  That question came from hardware this project does not have. CLAUDE.md
-  now names the local desktop GPU as the only compute; each model runs
-  in its own container per RFD66606-1036, so two never compete for one
-  device. The old finding was an artifact.
   :: related
   RFD66606-1025 gives the arithmetic and the memory per model.
   RFD66606-1036 gives the packaging that sets the tier.
@@ -152,5 +147,10 @@ rfd 1027, "GPU tier per model", :committed do
     the same, and bf16 carries the wider exponent range.
   - Add the activation peak for the resolution and the batch size of
     each job. The tiers above count weights only.
+  :: details The problem
+  That question came from hardware this project does not have. CLAUDE.md
+  now names the local desktop GPU as the only compute; each model runs
+  in its own container per RFD66606-1036, so two never compete for one
+  device. The old finding was an artifact.
   """
 end

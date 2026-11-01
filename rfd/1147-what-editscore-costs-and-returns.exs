@@ -29,9 +29,6 @@ rfd 1147, "What EditScore costs and returns", :published do
   nonsense instruction returns 0.0 overall. A scorer that returns a
   middling figure for nonsense has not discriminated, and its score for a
   real edit would mean nothing.
-  :: problem
-  EditScore is the `score` stage of every loop in `fourloops-plan.usda`.
-  Loops 1 through 4 each name it, and loop 1 pairs it with the Referee.
   :: related
   RFD66606-1143 through RFD66606-1146 are the four loops that score with it.
   RFD66606-1122 is the goal they serve.
@@ -90,5 +87,8 @@ rfd 1147, "What EditScore costs and returns", :published do
   exercising the scorer and so its numbers were the plan's. That reasoning holds
   for OmniGen2, which loops 2 and 3 use and loops 1 and 4 do not. It does not hold
   for a stage all four share.
+  :: details The problem
+  EditScore is the `score` stage of every loop in `fourloops-plan.usda`.
+  Loops 1 through 4 each name it, and loop 1 pairs it with the Referee.
   """
 end

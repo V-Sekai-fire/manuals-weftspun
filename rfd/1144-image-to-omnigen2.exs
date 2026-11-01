@@ -29,11 +29,6 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   `fourloops-etnf.usda` both name that file as a source, so a quantity in
   either layer is checked against a measurement rather than against a
   recollection.
-  :: problem
-  Loop 2 is the smallest complete loop: OmniGen2 proposes an edited png,
-  EditScore scores it, OmniGen2 repairs. One propose stage, one scorer,
-  one repair arm, size M, and it runs second because the harness is the
-  only thing it waits on.
   :: related
   RFD66606-1143, RFD66606-1145 and RFD66606-1146 are the other three loops. RFD66606-1128
   records four-bit tolerance for another model on the same card.
@@ -79,5 +74,10 @@ rfd 1144, "The image-to-OmniGen2 loop", :published do
   propose with OmniGen2, so the scorer's figures belong to the plan rather than to
   this loop. `editscoreMatchingOverall`, `editscoreNonsenseOverall`,
   `editscorePeakGib512` and `editscorePeakGib1024` all resolve there.
+  :: details The problem
+  Loop 2 is the smallest complete loop: OmniGen2 proposes an edited png,
+  EditScore scores it, OmniGen2 repairs. One propose stage, one scorer,
+  one repair arm, size M, and it runs second because the harness is the
+  only thing it waits on.
   """
 end

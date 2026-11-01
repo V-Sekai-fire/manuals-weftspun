@@ -27,10 +27,6 @@ rfd 1139, "Scale, up, forward and handedness are measured", :discussion do
   Handedness takes three witnesses. The `.R` against `.L` split cannot
   catch a mirror alone, since `right` comes from the chest and the chest
   mirrors with the body. Signed mesh volume and basis determinants do.
-  :: problem
-  None raised anything. A left-right swap is worse: it reprojects onto the
-  same pixels, reports the same residual and passes the referee, because
-  both measure reprojection.
   :: related
   RFD66606-1134 records the fits these were written against. RFD66606-1137 encodes
   the render order they guard.
@@ -46,5 +42,9 @@ rfd 1139, "Scale, up, forward and handedness are measured", :discussion do
   0.434 where 1.660 belonged. The camera grid placed cameras at world
   azimuth while its phrases claim a subject's front, so 96 frames labelled
   "front view" were profiles.
+  :: details The problem
+  None raised anything. A left-right swap is worse: it reprojects onto the
+  same pixels, reports the same residual and passes the referee, because
+  both measure reprojection.
   """
 end

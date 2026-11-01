@@ -16,9 +16,6 @@ rfd 1025, "Model memory arithmetic", :published do
   :: decision
   Compute the memory from the parameter count. Apply the rule to each catalog model, and
   treat the estimated rows as an upper bound for planning.
-  :: problem
-  A reader cannot size a machine from the inventory alone. The backend must decide which
-  models stay resident, and that decision needs a number per model.
   :: section The rule
   bf16 holds one parameter in 2 bytes. The weight bytes are therefore
   the parameter count multiplied by 2.
@@ -95,5 +92,8 @@ rfd 1025, "Model memory arithmetic", :published do
   The blocklisted Hunyuan models add 9.2 GB. The shape model holds
   3.3 B parameters, which is 6.6 GB. The paint model holds 1.3 B
   parameters, which is 2.6 GB.
+  :: details The problem
+  A reader cannot size a machine from the inventory alone. The backend must decide which
+  models stay resident, and that decision needs a number per model.
   """
 end
