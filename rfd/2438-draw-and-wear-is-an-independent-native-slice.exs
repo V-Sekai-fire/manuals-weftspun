@@ -57,6 +57,31 @@ rfd 2438, "draw and wear is an independent native slice", :discussion do
   The pen's gates fit a body and make a garment on a GPU. They run on a GPU desk. On a CPU only
   unit gates and their controls run, and the end-to-end run waits for a GPU desk.
 
+  :: details Frontier learning picks the runs
+  The slice's gates run as levels in RFD66606-2309's sense, scheduled the way RFD66606-2323
+  schedules the store's attacks.
+  A level is an input family with fixed attributes: the stroke file's length, the body shape, the
+  garment kind, and the handover delay. A problem is one recorded stroke file worn once, with a
+  drawn seed and body.
+
+  | Level | Planted defect | Found when |
+  | --- | --- | --- |
+  | handover | a handover that never completes | no ghost in the zone |
+  | ghost shape | the ghost built from another stroke file | the ghost differs from the garment |
+  | second viewer | the zone sends the garment to one viewer | the other person sees no outfit |
+  | stroke order | two strokes swapped | a garment that differs from the recorded one |
+  | sibling input | a sibling's message planted | the program accepts it |
+
+  Each level runs on the slice as it is and on the slice with that level's defect planted. On the
+  planted target, success is the defect found. Regret `1[s ≥ 1] − s/n` over the last eight runs is
+  high when a level finds its defect only some of the time. Mutation moves one attribute and is
+  kept only when the planted find rate rises.
+  A clean run counts only after its level found the planted defect in each of its last eight runs.
+  A finding on the real slice is never averaged into a rate: it stops the lane and becomes a level
+  that runs every time.
+  The runs are guest ELF runs on the CPU guest, which is the parity oracle, so no gate here needs
+  a GPU.
+
   :: details Where the code lands
   Each slice is a repository of its own in our organization, named for what it does with no game
   name, and pinned through the repo manifest. It arrives as an ordinary pull request. V-Sekai

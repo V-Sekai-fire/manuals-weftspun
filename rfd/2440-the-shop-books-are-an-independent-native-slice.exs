@@ -51,6 +51,31 @@ rfd 2440, "the shop books are an independent native slice", :discussion do
   - Alone: the program passes its gate with every sibling slice absent. Control: a sibling's
     message planted in the input.
 
+  :: details Frontier learning picks the runs
+  The slice's gates run as levels in RFD66606-2309's sense, scheduled the way RFD66606-2323
+  schedules the store's attacks.
+  A level is an input family with fixed attributes: the number of conversations, the number of
+  repeated goals, the goal kind, and the write pattern of the store. A problem is one scripted
+  conversation with a drawn seed and a drawn order of requests.
+
+  | Level | Planted defect | Found when |
+  | --- | --- | --- |
+  | forgetful store | a store that forgets every write | the second plan is not empty |
+  | crossed books | two conversations share books | a goal met in one is met in both |
+  | late write | the write acknowledged before it lands | a second request that sees no write |
+  | wrong goal | an empty plan for an unmet goal | a goal reported reached that was not |
+  | sibling input | a sibling's message planted | the program accepts it |
+
+  Each level runs on the slice as it is and on the slice with that level's defect planted. On the
+  planted target, success is the defect found. Regret `1[s ≥ 1] − s/n` over the last eight runs is
+  high when a level finds its defect only some of the time. Mutation moves one attribute and is
+  kept only when the planted find rate rises.
+  A clean run counts only after its level found the planted defect in each of its last eight runs.
+  A finding on the real slice is never averaged into a rate: it stops the lane and becomes a level
+  that runs every time.
+  The runs are guest ELF runs on the CPU guest, which is the parity oracle, so no gate here needs
+  a GPU.
+
   :: details Where the code lands
   Each slice is a repository of its own in our organization, named for what it does with no game
   name, and pinned through the repo manifest. It arrives as an ordinary pull request. V-Sekai

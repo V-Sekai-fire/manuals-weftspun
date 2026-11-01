@@ -51,6 +51,31 @@ rfd 2436, "presence is an independent native slice", :discussion do
   - Alone: the program starts and passes its sight gate with every sibling slice absent. Control:
     a sibling's message planted in the input, which the program must refuse by name.
 
+  :: details Frontier learning picks the runs
+  The slice's gates run as levels in RFD66606-2309's sense, scheduled the way RFD66606-2323
+  schedules the store's attacks.
+  A level is an input family with fixed attributes: the number of people in the zone, the pose
+  rate, the client side (stream or desktop), and the loss pattern in the recorded pose stream. A
+  problem is one 5 minute replay of a pose stream with a drawn seed and offset.
+
+  | Level | Planted defect | Found when |
+  | --- | --- | --- |
+  | pose drop | the zone drops one client's poses | a client's view misses the other avatar |
+  | pose order | the zone swaps two poses | an avatar seen at an older pose than the replay |
+  | self echo | the zone lists a person to themselves | a view that lists its own avatar |
+  | late join | the zone skips the list for a late client | a late client sees nobody |
+  | sibling input | a sibling's message planted | the program accepts it |
+
+  Each level runs on the slice as it is and on the slice with that level's defect planted. On the
+  planted target, success is the defect found. Regret `1[s ≥ 1] − s/n` over the last eight runs is
+  high when a level finds its defect only some of the time. Mutation moves one attribute and is
+  kept only when the planted find rate rises.
+  A clean run counts only after its level found the planted defect in each of its last eight runs.
+  A finding on the real slice is never averaged into a rate: it stops the lane and becomes a level
+  that runs every time.
+  The runs are guest ELF runs on the CPU guest, which is the parity oracle, so no gate here needs
+  a GPU.
+
   :: details Where the code lands
   Each slice is a repository of its own in our organization, named for what it does with no game
   name, and pinned through the repo manifest. It arrives as an ordinary pull request. V-Sekai
