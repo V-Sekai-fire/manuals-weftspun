@@ -12,15 +12,15 @@ rfd 2436, "presence is an independent native slice", :discussion do
   Can two people see each other from a program that needs nothing else in the beta?
   :: intrigue
   The beta lists seeing each other first, and nothing built yet carries it alone. A slice that
-  needs voice, the pen and the party to run depends on all three.
+  needs voice, the pen and the adventure party to run depends on all three.
   :: exit
   Run the sight gate against a recorded pose stream. A zone that drops one side's poses must fail
   it.
   :: decision
   - Presence ships as one native program with no editor or browser. It owns the
     zone's list of people and their avatar poses (operator, 2026-11-01).
-  - The slice runs with no voice, pen, party or shop present. Its inputs are recorded pose streams
-    in place of those parts (operator, 2026-11-01).
+  - The slice runs with no voice, pen, adventure party or shop present. Its inputs are recorded
+    pose streams in place of those parts (operator, 2026-11-01).
   - Native means a riscv64 guest ELF for the sandbox, run binary-translated (operator,
     2026-11-01). Its gates run on the CPU guest as the parity oracle (RFD66606-2374,
     RFD66606-2390).
