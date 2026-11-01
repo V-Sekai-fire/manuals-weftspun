@@ -234,6 +234,7 @@ defmodule Serials.VSekaiFabric do
       serial 2436, "presence-is-an-independent-native-slice", flight_level: :l1
       serial 2437, "voice-is-an-independent-native-slice", flight_level: :l1
       serial 2438, "draw-and-wear-is-an-independent-native-slice", flight_level: :l1
+      serial 2439, "party-seats-are-an-independent-native-slice", flight_level: :l1
     end
 
     deleted do
