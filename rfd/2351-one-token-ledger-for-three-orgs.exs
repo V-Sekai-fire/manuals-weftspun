@@ -3,31 +3,36 @@
 use RFD.DSL
 
 rfd 2351, "one token ledger for three orgs", :discussion do
-  feature "the innovation tokens count what the code runs on, so two tokens cover the
-app and both upstream orgs"
+  feature "a token is what the stack cannot run without, so seven tokens cover the app and
+both upstream orgs"
   scope "the token ledger in the private working agreements and the private plan, the
 private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
 
   prose ~S"""
   :: hook
-  Two innovation tokens cover the app and both upstream orgs.
+  How many innovation tokens does the app and both upstream orgs spend?
   :: intrigue
   The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
   :: exit
-  Check a new technology against the rule: a token is a substrate, and when it fails the app
-  fails with it.
+  Check a new technology against the rule: a token is a substrate, and the tech stack
+  crashes without it.
   :: decision
-  A token is a substrate: when it fails, the app fails with it. The
-  ledger has two. Token 1 is guest ELFs on the pinned double engine. The
+  A token is a substrate: delete it and the tech stack crashes (operator, 2026-11-01). The
+  ledger has seven. Token 1 is guest ELFs on the pinned double engine. The
   meshing pen and `zone.elf` both run there, so they share it, with the
   ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
   Token 2 is one store, SQLite on FoundationDB pages. CockroachDB is
-  retired (operator, 2026-10-18). The BEAM spends no token. Elixir is
-  boring technology whose failure modes are known, its failure takes down
+  retired (operator, 2026-10-18). Token 3 is Bao, and token 4 is Fly, which hosts the store,
+  Bao and the KMS key that unseals Bao. Token 5 is Tailscale, because the game cannot be
+  updated without it, so transactions are affected (operator, 2026-11-01). Token 6 is FEX and
+  token 7 is Proton, which run the campus beta's
+  win64 build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The BEAM spends no
+  token. Elixir is boring technology whose failure modes are known, its failure takes down
   a tool or a gate rather than the app, and it ships nothing into the
   app. The guest BEAM is unship (operator, 2026-10-29). The count was
-  three and is two. The ledger changes between rungs, not in an open one,
-  and the operator moved the two documents on 2026-10-30 rather than
+  three, then two, and is seven with Bao, Fly, Tailscale, FEX and Proton. The ledger changes
+  between
+  rungs, not in an open one, and the operator moved the two documents on 2026-10-30 rather than
   wait for a rung to claim them.
   """
 
@@ -75,21 +80,26 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     Go each sit alone. Each is a candidate to retire or park.
   - The tagging reads metadata, not code. Two third-party engine
     scripting tags landed in the guest token on a loose keyword. The
-    moves were written by the agent; the measurement only checked them
+    moves were written by the agent. The measurement only checked them
     against shared repos.
 
   :: details The parts added on 2026-11-01, classified
-  The operator asked for the ledger to name these parts. Each class below follows from the
-  rule, and the operator has not yet ruled on the classes.
-  - Bao rides token 2. Its data lives in the FoundationDB cluster that token 2 names, so Bao
-    goes down when that store fails.
-  - Fly rides token 2. One Fly machine runs the store and Bao, and Fly KMS holds the key that
-    unseals Bao at boot, so both share the store's failure.
-  - GitHub's identity-token login rides token 2, because it is a login to Bao.
-  - Tailscale spends no token. When it fails, desks and jobs lose Bao, and players never reach
-    Bao, so the app keeps running.
+  The operator asked for the ledger to name these parts and ruled that Bao, Fly and Tailscale
+  are tokens (operator, 2026-11-01). FEX and Proton follow from the same test. The other classes
+  follow from the rule and await a ruling.
+  - Bao is token 3. The zone talks to the store directly, and reaches Bao rarely, to get or
+    renew the credential it presents to the store (operator, 2026-11-01).
+  - Fly is token 4. Delete it and the store, Bao and the KMS key that unseals Bao go with it.
+  - Tailscale is token 5. Delete it and the game cannot be updated, so the transactions of a
+    CRUD update are affected (operator, 2026-11-01).
+  - FEX is token 6 and Proton is token 7. Delete either and the win64 build stops running on the
+    Steam Frame, the Steam Deck or the Mac test, so the campus beta of RFD66606-2360 crashes
+    on those targets.
+  - GitHub's identity-token login rides token 3, because it is a login to Bao.
+  - Not ruled: the PC VR stream runtime that RFD66606-2360 names but no RFD identifies, Windows
+    as the native target, and the engine that answers for a persona.
   - pixi and prek spend no token. When they fail, a build or a gate stops, and nothing ships
-    into the app.
+    into the app. No ruling says whether tools count as part of the tech stack.
   - The Fedora cross-build image with LLVM, llvm-mingw and osxcross spends no token. When it
     fails, a build stops.
 
