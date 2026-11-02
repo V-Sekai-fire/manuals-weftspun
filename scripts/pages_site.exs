@@ -44,6 +44,13 @@ defmodule PagesSite do
     File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root), slugs))
     File.write!(Path.join(out, "page-SERIALS.md"), serials(root, rfds))
     File.write!(Path.join(out, "page-LOGBOOK.md"), logbook_page(logs))
+    File.write!(Path.join(out, "_layouts/spec.html"), spec_layout())
+
+    File.write!(
+      Path.join(out, "single-page.md"),
+      single_page(root, logs, rfds, edition(root), slugs)
+    )
+
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
 
@@ -264,7 +271,8 @@ defmodule PagesSite do
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
         "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html) · " <>
-        "[serials](page-SERIALS.html) · [logbook](page-LOGBOOK.html)",
+        "[serials](page-SERIALS.html) · [logbook](page-LOGBOOK.html) · " <>
+        "[single page](single-page.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
         "also called requests for discussion, design docs or architecture decision records). " <>
         "Search finds every RFD.",
@@ -402,6 +410,246 @@ defmodule PagesSite do
     end)
   end
 
+  defp single_page(root, logs, rfds, ed, slugs) do
+    pages = for f <- @pages -- ["README.md"], File.exists?(Path.join(root, f)), do: f
+
+    parts = [
+      {"2", "Working agreements and reference pages",
+       pages |> Enum.sort() |> Enum.map(&page_part(root, &1, slugs))},
+      {"3", "RFDs", rfds |> Enum.sort_by(& &1.serial) |> Enum.map(&entry_part(&1, slugs))},
+      {"4", "Logbook",
+       logs |> Enum.sort_by(&{&1.date, &1.href}) |> Enum.map(&entry_part(&1, slugs))},
+      {"A", "Serials", [{"page-SERIALS.html", "Serials", serials(root, rfds), "page-SERIALS.md"}]}
+    ]
+
+    numbered = for {n, title, docs} <- parts, do: {n, title, number_docs(n, docs)}
+    ids = for {_, _, docs} <- numbered, d <- docs, into: %{}, do: {d.href, d.id}
+
+    pinned =
+      for e <- rfds, e.serial in @pinned do
+        "> Pinned: [#{short(e.serial)}: #{e.label}](##{ids[e.href]}) #{e.status}\n\n"
+      end
+
+    foreword =
+      "## 1. Foreword {#part-1}\n\n" <>
+        "What the workspace measured (the logbook) and what it decided from that " <>
+        "(the RFDs, also called requests for discussion, design docs or architecture " <>
+        "decision records).\n\n#{tally(rfds)}\n\n" <>
+        Enum.join(pinned) <>
+        "This page holds the whole site: #{length(pages)} reference pages, " <>
+        "#{length(rfds)} RFDs, #{length(logs)} logbook entries and the serial register. " <>
+        "Each entry ends with a link to its own page.\n"
+
+    body =
+      Enum.map_join(numbered, "\n\n", fn {n, title, docs} ->
+        head = if n == "A", do: "Appendix A: #{title}", else: "#{n}. #{title}"
+        "## #{head} {#part-#{n}}\n\n" <> Enum.map_join(docs, "\n\n", &doc_text(&1, ids))
+      end)
+
+    [
+      "---\nlayout: spec\ntitle: manuals-weftspun\nedit_source: scripts/pages_site.exs\n---",
+      "# manuals-weftspun\n{: .title}",
+      "Logbook, RFDs and working agreements, single-page edition. " <>
+        "Edition of #{ed.date}, built from `#{ed.sha}`.\n{: .edition}",
+      "## Table of Contents\n{: #toc-title .no_toc}\n\n* TOC\n{:toc}",
+      foreword,
+      body
+    ]
+    |> Enum.join("\n\n")
+  end
+
+  defp tally(rfds) do
+    for s <- @states, n = Enum.count(rfds, &(&1.group == s)), n > 0 do
+      "#{@emoji[s]} #{n} #{s}"
+    end
+    |> Enum.join(" · ")
+  end
+
+  defp page_part(root, f, slugs) do
+    text = linked(File.read!(Path.join(root, f)), "", slugs, nil)
+    {"page-" <> Path.rootname(f) <> ".html", first_title(text, f), text, f}
+  end
+
+  defp entry_part(%{files: files} = e, slugs) do
+    text =
+      case files do
+        [_, _] -> merged(files)
+        [{from, _}] -> File.read!(from)
+      end
+
+    {e.href, first_title(text, e.label), linked(text, "", slugs, Map.get(e, :serial)), e.source}
+  end
+
+  defp first_title(text, fallback) do
+    text
+    |> String.split("\n")
+    |> Enum.find_value(fallback, &(String.starts_with?(&1, "# ") && plain(&1)))
+  end
+
+  defp number_docs(n, docs) do
+    for {{href, title, text, source}, i} <- Enum.with_index(docs, 1) do
+      label = if n == "A", do: "A", else: "#{n}.#{i}"
+      id = "s" <> String.replace(label, ".", "-")
+      %{href: href, id: id, label: label, title: title, text: text, source: source}
+    end
+  end
+
+  defp doc_text(d, ids) do
+    {items, _} =
+      d.text
+      |> String.split("\n")
+      |> Enum.map_reduce({false, [0, 0, 0], false}, fn line, {fenced, count, seen} ->
+        fence = String.starts_with?(String.trim_leading(line), "```")
+
+        case {fenced or fence, Regex.run(~r/^(\#{1,6})\s+(.*?)\s*\#*$/, line)} do
+          {true, _} -> {{:code, line}, {fenced != fence, count, seen}}
+          {false, [_, marks, text]} -> heading(d, String.length(marks), text, count, seen)
+          {false, nil} -> {{:text, line}, {false, count, seen}}
+        end
+      end)
+
+    anchors = for {:heading, _, text, id} <- items, into: %{}, do: {slug(text), id}
+
+    lines =
+      Enum.flat_map(items, fn
+        {:code, line} -> [line]
+        {:text, line} -> [line |> relink(d, ids, anchors) |> unopened()]
+        {:heading, line, _, _} -> [line]
+        :skip -> []
+      end)
+
+    Enum.join(lines, "\n") <> "\n\n*Source: [#{d.source}](#{d.href})*"
+  end
+
+  defp heading(d, 1, text, count, false) do
+    if d.label == "A",
+      do: {:skip, {false, count, true}},
+      else: {{:heading, "### #{d.label}. #{text} {##{d.id}}", text, d.id}, {false, count, true}}
+  end
+
+  defp heading(d, 1, text, count, true), do: heading(d, 2, text, count, true)
+
+  defp heading(d, level, text, count, seen) when level <= 4 do
+    k = level - 2
+
+    count =
+      count
+      |> Enum.with_index()
+      |> Enum.map(fn {c, i} -> if i < k, do: c, else: if(i == k, do: c + 1, else: 0) end)
+
+    label = d.label <> "." <> (count |> Enum.take(k + 1) |> Enum.join("."))
+    id = "s" <> String.replace(label, ".", "-")
+    hashes = String.duplicate("#", if(d.label == "A", do: level + 1, else: level + 2))
+    {{:heading, "#{hashes} #{label}. #{text} {##{id}}", text, id}, {false, count, seen}}
+  end
+
+  defp heading(_d, level, text, count, seen) do
+    {{:text, String.duplicate("#", min(level + 2, 6)) <> " " <> text}, {false, count, seen}}
+  end
+
+  defp slug(text) do
+    text
+    |> String.replace(~r/!?\[([^\]]*)\]\([^)]*\)/, "\\1")
+    |> String.replace(~r/[`*]/, "")
+    |> String.downcase()
+    |> String.replace(~r/[^\p{L}\p{N}\s_-]/u, "")
+    |> String.replace(~r/\s/u, "-")
+  end
+
+  defp relink(line, d, ids, anchors) do
+    Regex.replace(~r/\]\(([^)\s]+)\)/, line, fn whole, target ->
+      cond do
+        String.starts_with?(target, "#") ->
+          "](##{Map.get(anchors, String.trim_leading(target, "#"), d.id)})"
+
+        Regex.match?(~r{^[a-z][a-z0-9+.-]*:}, target) ->
+          whole
+
+        true ->
+          [path | frag] = String.split(target, "#", parts: 2)
+
+          dir =
+            "/" <>
+              if(String.ends_with?(d.href, "/"),
+                do: String.trim_trailing(d.href, "/"),
+                else: Path.dirname(d.href)
+              )
+
+          at = path |> Path.expand(dir) |> String.trim_leading("/")
+          found = Enum.find_value([at, at <> "/", details_owner(at)], &Map.get(ids, &1))
+          if found, do: "](##{found})", else: "](#{at}#{Enum.map_join(frag, &("#" <> &1))})"
+      end
+    end)
+  end
+
+  @html ~w(a b br code details div em h1 h2 h3 h4 h5 h6 i img kbd li ol p pre span
+           strong sub summary sup table tbody td th thead tr ul)
+
+  # A line opening with an unknown tag (<card>) would make the rest of the page raw HTML.
+  defp unopened(line) do
+    Regex.replace(~r/^(\s*)<([A-Za-z][\w-]*)/, line, fn whole, space, tag ->
+      if String.downcase(tag) in @html, do: whole, else: space <> "\\<" <> tag
+    end)
+  end
+
+  defp details_owner(path) do
+    if Path.basename(path) == "DETAILS.html", do: Path.dirname(path) <> "/"
+  end
+
+  defp spec_layout do
+    ~S"""
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ site.title }}: {{ site.description }}</title>
+        <style>
+          :root { --muted: #666; --accent: #1a5fb4; --line: #ddd; --code: #f5f5f5; }
+          body { margin: 0; font: 16px/1.6 "Noto Serif", Georgia, serif; color: #222; }
+          h2#toc-title + ul { position: fixed; top: 0; left: 0; bottom: 0; width: 22rem;
+            margin: 0;
+            overflow: auto; padding: 3.2rem 1rem 1rem; border-right: 1px solid var(--line);
+            background: #fafafa; font: 13px/1.4 system-ui, sans-serif; list-style: none; }
+          h2#toc-title + ul ul { list-style: none; padding-left: .9rem; }
+          h2#toc-title { position: fixed; top: 0; left: 0; width: 20rem; z-index: 2; margin: 0;
+            padding: .8rem 1rem; background: #fafafa; font: 700 15px system-ui; border: 0; }
+          main { margin-left: 22rem; max-width: 62rem; padding: 2rem 3rem; }
+          main a { color: var(--accent); }
+          h2#toc-title + ul a { text-decoration: none; }
+          h1.title { margin: .2rem 0; font-size: 2.2rem; }
+          .edition { color: var(--muted); font-size: .9rem; }
+          h2 { margin-top: 3rem; padding-top: 1.5rem; font-size: 1.7rem;
+            border-bottom: 2px solid var(--line); }
+          h3 { margin-top: 2.5rem; padding-top: 1rem; font-size: 1.35rem;
+            border-top: 1px solid var(--line); }
+          h4 { font-size: 1.15rem; margin-top: 1.6rem; }
+          h5, h6 { font-size: 1rem; }
+          code, pre { background: var(--code); font: .88em Menlo, monospace; }
+          pre { padding: .8rem; overflow: auto; border: 1px solid var(--line); }
+          table { border-collapse: collapse; display: block; overflow: auto; }
+          th, td { border: 1px solid var(--line); padding: .35rem .6rem; vertical-align: top; }
+          blockquote { margin: 1rem 0; padding: .2rem 1rem; background: #f0f6ff;
+            border-left: 4px solid var(--accent); }
+          @media (max-width: 1000px) {
+            h2#toc-title + ul, h2#toc-title { position: static; width: auto; border: 0; }
+            main { margin: 0; padding: 1rem; }
+          }
+          @media print {
+            h2#toc-title + ul, h2#toc-title { position: static; width: auto; }
+            main { margin: 0; }
+          }
+        </style>
+      </head>
+      <body>
+        <main>
+          {{ content }}
+        </main>
+      </body>
+    </html>
+    """
+  end
+
   # The theme's edit link points at the generated copy; this one points at the tracked source.
   defp edit_from(source, permalink \\ nil) do
     at = if permalink, do: "permalink: #{permalink}\n", else: ""
@@ -464,6 +712,8 @@ defmodule PagesSite do
     title: manuals-weftspun
     description: Logbook, RFDs and working agreements
     theme: jekyll-theme-primer
+    kramdown:
+      toc_levels: 2..4
     """
   end
 end
