@@ -720,6 +720,34 @@ defmodule PagesSite do
           .tree .tw-goal { flex-basis: 100%; color: var(--muted); }
           .tree-stage { height: 62vh; min-height: 400px; border: 1px solid var(--line);
             background: #fcfcfd; overflow: hidden; }
+          .tree .tm-goal rect { fill: #f2c94c; stroke: #8a6d00; stroke-width: 2;
+            cursor: pointer; }
+          .tree .tm-goal.focus rect { stroke: #000; stroke-width: 4; }
+          .tree .tm-gt { font-size: 17px; font-weight: 700; fill: #222;
+            pointer-events: none; }
+          .tree .tm-gs { font-size: 12px; fill: #5a4a00; pointer-events: none; }
+          .tree .tm-zone.dim { opacity: .25; }
+          .tree .tm-head { cursor: pointer; }
+          .tree .tm-ht { font-size: 12px; font-weight: 600; fill: #222;
+            pointer-events: none; }
+          .tree .tm-cell { cursor: pointer; }
+          .tree .tm-cell rect { fill: #fff; stroke: #999; stroke-width: 1.5; }
+          .tree .tm-cell.done rect { fill: #1a5fb4; stroke: #1a5fb4; }
+          .tree .tm-cell.done.published rect { fill: #5b8def; stroke: #5b8def; }
+          .tree .tm-cell.ready rect { stroke: #e67e00; stroke-width: 2.5; }
+          .tree .tm-cell.prediscussion rect, .tree .tm-cell.ideation rect {
+            stroke-dasharray: 4 3; }
+          .tree .tm-cell.skip rect { stroke: #c0392b; stroke-width: 3;
+            stroke-dasharray: 6 3; }
+          .tree .tm-cell.dep rect { stroke: #1a8f4a; stroke-width: 4; }
+          .tree .tm-cell.by rect { stroke: #7b2fbf; stroke-width: 4; }
+          .tree .tm-cell.repo rect { stroke: #2e7d32; stroke-width: 4; }
+          .tree .tm-cell.focus rect { stroke: #000; stroke-width: 4; }
+          .tree .tm-cell.dim { opacity: .18; }
+          .tree .tm-cell text { font-size: 11px; fill: #222; pointer-events: none; }
+          .tree .tm-cell.done text { fill: #fff; }
+          .tree .step { fill: #222; }
+          .tree .tm-cell .steptext { font-size: 9px; fill: #fff; pointer-events: none; }
           .tree-svg { width: 100%; height: 100%; cursor: grab; touch-action: none; }
           .tree-panel { height: 62vh; min-height: 400px; overflow: auto; padding: 0 .4rem; }
           .tree-panel h3 { margin: 0; padding: 0; border: 0; font-size: 1.1rem; }
@@ -729,33 +757,7 @@ defmodule PagesSite do
           .tree-panel .link { padding: 0; border: 0; background: none; color: var(--accent);
             font: inherit; text-align: left; cursor: pointer; display: block; }
           .tree-panel .flag { color: #c0392b; }
-          .tree .edge { fill: none; stroke: #9aa; stroke-width: 1.2; opacity: .55; }
-          .tree .edge.skip { stroke: #c0392b; stroke-dasharray: 6 4; stroke-width: 2;
-            opacity: .9; }
           .tree .dim { opacity: .12; }
-          .tree .node .body { fill: #fff; stroke: #888; stroke-width: 2; }
-          .tree .node.done .body { fill: #1a5fb4; stroke: #1a5fb4; }
-          .tree .node.done.published .body { fill: #5b8def; stroke: #5b8def; }
-          .tree .node.ready .body { stroke: #e67e00; stroke-width: 3; }
-          .tree .node.blocked .body { stroke: #999; }
-          .tree .node.prediscussion .body, .tree .node.ideation .body { stroke-dasharray: 4 3; }
-          .tree .ring-track { fill: none; stroke: #e3e6ea; stroke-width: 3; }
-          .tree .ring-fill { fill: none; stroke: #2e9e5b; stroke-width: 3; }
-          .tree .node.goal .body { fill: #f2c94c; stroke: #8a6d00; stroke-width: 3; }
-          .tree .node.repo .body { stroke-width: 5; stroke: #2e7d32; }
-          .tree .node.focus .body { stroke: #000; stroke-width: 4; }
-          .tree .node { cursor: pointer; }
-          .tree .node text { font-size: 10px; fill: #222; pointer-events: none; }
-          .tree .node.done text { fill: #fff; }
-          .tree .hexnode { cursor: pointer; }
-          .tree .hexnode polygon { stroke-width: 3; }
-          .tree .hexnode.open polygon { stroke-dasharray: 5 3; }
-          .tree .hexnode.sel polygon { stroke-width: 5; }
-          .tree .hexnode text { font-size: 9px; pointer-events: none; }
-          .tree .hexnode .count { font-size: 8px; fill: #555; }
-          .tree .edge.sphere { stroke: #444; stroke-width: 1.5; opacity: .5; }
-          .tree .step { fill: #222; }
-          .tree .steptext { font-size: 9px; fill: #fff; pointer-events: none; }
           .tree-panel ol { margin: 0; padding-left: 1.2rem; }
           blockquote { margin: 1rem 0; padding: .2rem 1rem; background: #f0f6ff;
             border-left: 4px solid var(--accent); }

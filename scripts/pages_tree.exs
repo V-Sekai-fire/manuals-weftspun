@@ -307,24 +307,22 @@ defmodule PagesTree do
   end
 
   defp reading(data) do
-    "The goal sits in the middle. A ring is one step further from the goal, and a line joins " <>
-      "a skill to a skill it cites. A skill needs the skills it cites at a deeper ring. " <>
+    "The map is a treemap. The goal is the banner across the top. Each rectangle below it is " <>
+      "a token, an innovation token or a boring one, sized by the skills it holds, and each " <>
+      "cell inside it is a skill, an RFD, placed in the token that most skills share. " <>
       "#{length(data.nodes)} of the #{data.all} skills reachable from the goal are on the " <>
-      "map, " <>
-      "read as of #{data.asof}.\n\n" <>
-      "- A filled node is settled: its RFD is committed or published. An orange outline is " <>
-      "ready: open, with everything it needs settled. A grey outline is blocked by a skill " <>
-      "that is open. The arc around a node is the share of its path that is settled.\n" <>
-      "- A dot on a node is a token it spends: a square for an innovation token, a circle " <>
-      "for a boring one.\n" <>
-      "- A red dashed line is a skill that is settled while a skill it needs is open: " <>
-      "skipped ahead.\n" <>
-      "- A hexagon on the outer ring is a token sphere. Select it to travel down it: the " <>
-      "persona planner, compiled to WebAssembly, orders the skills still to settle and the " <>
-      "map numbers them. A dashed hexagon is a token no RFD title names, and its red lines " <>
-      "run to the skills that spend it.\n" <>
-      "- Selecting a skill shows its logbook evidence, when its RFD last changed and the " <>
-      "route to it.\n\nWithout a script, the tables below carry the same facts."
+      "map, read as of #{data.asof}.\n\n" <>
+      "- A filled cell is settled: its RFD is committed or published. An orange outline is " <>
+      "ready: open, with everything it depends on settled. A grey outline is blocked by a " <>
+      "skill that is open.\n" <>
+      "- A small square in a cell is another innovation token it spends, and a small circle " <>
+      "is another boring token.\n" <>
+      "- A red dashed outline is a skill that is settled while a skill it depends on is open: " <>
+      "skipped ahead. A dashed token border is a token no RFD title names.\n" <>
+      "- Select a skill to outline what it depends on in green and what depends on it in " <>
+      "purple, with its route and logbook evidence beside the map. Select a token header to " <>
+      "travel down it: the persona planner, compiled to WebAssembly, orders the skills still " <>
+      "to settle and numbers them.\n\nWithout a script, the tables below carry the same facts."
   end
 
   defp ledger(data, link) do
