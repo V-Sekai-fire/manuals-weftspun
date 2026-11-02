@@ -41,7 +41,7 @@ defmodule PagesSite do
     File.write!(Path.join(out, "_config.yml"), config())
     File.mkdir_p!(Path.join(out, "_layouts"))
     File.write!(Path.join(out, "_layouts/default.html"), layout())
-    File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root)))
+    File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root), slugs))
     File.write!(Path.join(out, "page-SERIALS.md"), serials(root, rfds))
     File.write!(Path.join(out, "page-LOGBOOK.md"), logbook_page(logs))
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
@@ -247,7 +247,7 @@ defmodule PagesSite do
   end
 
   # Records become groups, and groups become expanders.
-  defp index(logs, rfds, ed) do
+  defp index(logs, rfds, ed, slugs) do
     rfd_groups =
       for s <- @states,
           es = Enum.filter(rfds, &(&1.group == s)),
@@ -256,37 +256,30 @@ defmodule PagesSite do
 
     tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
 
+    takeover = takeover(rfds, slugs)
+
     [
-      "# manuals-weftspun",
+      takeover,
+      "## manuals-weftspun",
       "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
         "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
         "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html) · " <>
         "[serials](page-SERIALS.html) · [logbook](page-LOGBOOK.html)",
       "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
-        "also called requests for discussion, design docs or architecture decision records).",
-      tally,
-      pin_cards(rfds)
+        "also called requests for discussion, design docs or architecture decision records). " <>
+        "Search finds every RFD.",
+      tally
     ]
+    |> Enum.reject(&(&1 == ""))
     |> Enum.join("\n\n")
   end
 
-  defp pin_cards(rfds) do
-    for e <- rfds, e.serial in @pinned, e.hook do
-      esc = fn x -> x |> String.replace("&", "&amp;") |> String.replace("<", "&lt;") end
-      style = "border:1px solid #d0d7de;border-radius:6px;padding:12px 16px;margin:16px 0"
-
-      ~s(<div style="#{style}">
-) <>
-        ~s(<div>📌 Pinned · RFD66606-#{e.serial} · #{e.status}</div>
-) <>
-        ~s(<div><a href="#{e.href}"><strong>#{esc.(e.label)}</strong></a></div>
-) <>
-        ~s(<div>#{esc.(e.hook)}</div>
-</div>)
+  # A pinned RFD is the front page: its whole text leads, and the masthead follows it.
+  defp takeover(rfds, slugs) do
+    for e <- rfds, e.serial in @pinned, length(e.files) == 2 do
+      merged(e.files) |> linked("", slugs, e.serial)
     end
-    |> Enum.join("
-
-")
+    |> Enum.join("\n\n---\n\n")
   end
 
   defp logbook_page(logs) do
