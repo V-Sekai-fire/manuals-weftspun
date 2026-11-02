@@ -385,36 +385,21 @@ defmodule PagesSite do
     numbered = for {n, title, docs} <- parts, do: {n, title, number_docs(n, docs)}
     ids = for {_, _, docs} <- numbered, d <- docs, into: %{}, do: {d.href, d.id}
 
-    pinned =
-      for e <- rfds, e.serial in @pinned do
-        question = e |> pinned_text() |> hook_of()
-
-        "[#{short(e.serial)}: #{e.label}](##{ids[e.href]}) #{e.status} #{question}"
-      end
-
     hero =
-      [
-        "**Which RFD decided it, and what was measured before it did?**\n{: .hook}",
-        "A rule is only as good as the measurement behind it, and some logbook entries " <>
-          "exist only to withdraw an earlier number.\n{: .intrigue}",
-        "Every RFD in serial order with its state, then the logbook entries that carry " <>
-          "the measurements. #{tally(rfds)}\n{: .delivery}",
-        Enum.map_join(pinned, "\n\n", &("Pinned: " <> &1 <> "\n{: .pinned}")),
-        "Search for an RFD number or a word in the box, or read the " <>
-          "[working agreements](#s2-1) first if you are new.\n{: .exit}",
-        "<!--search-->"
-      ]
-      |> Enum.reject(&(&1 == ""))
+      for e <- rfds, e.serial in @pinned do
+        pinned_hero(e, ids, slugs)
+      end
+      |> Enum.concat(["<!--search-->"])
       |> Enum.join("\n\n")
 
     foreword =
       "## 1. Foreword {#part-1}\n\n" <>
         "What the workspace measured (the logbook) and what it decided from that " <>
         "(the RFDs, also called requests for discussion, design docs or architecture " <>
-        "decision records).\n\n" <>
+        "decision records). #{tally(rfds)}\n\n" <>
         "This page holds the whole site: #{length(pages)} reference pages, " <>
         "#{length(rfds)} RFDs, #{length(logs)} logbook entries and the serial register. " <>
-        "Each entry ends with a link to its own page.\n"
+        "Each entry ends with a link to its own page. Search finds every RFD.\n"
 
     body =
       Enum.map_join(numbered, "\n\n", fn {n, title, docs} ->
@@ -434,17 +419,33 @@ defmodule PagesSite do
     |> Enum.join("\n\n")
   end
 
-  defp pinned_text(%{files: [_, _] = files}), do: merged(files)
-  defp pinned_text(%{files: [{from, _}]}), do: File.read!(from)
+  @fold_items 4
 
-  defp hook_of(text) do
+  defp pinned_hero(e, ids, slugs) do
+    id = ids[e.href]
     meta = ~r/^\*\*(State|Feature|Scope):/
+    [head | _] = e |> pinned_text() |> linked("", slugs, e.serial) |> String.split("\n## Related")
+    paras = head |> String.split(~r/\n\s*\n/) |> Enum.map(&String.trim/1)
+    at = Enum.find_index(paras, &(String.starts_with?(&1, "**") and not Regex.match?(meta, &1)))
+    [hook | rest] = Enum.drop(paras, at)
+    [intrigue | rest] = rest
+    exit_text = List.last(rest)
+    [intro | items] = rest |> Enum.drop(-1) |> Enum.join("\n\n") |> String.split(~r/\n(?=- )/)
+    here = %{href: "index.html", id: id}
 
-    text
-    |> String.split("\n")
-    |> Enum.find("", &(String.starts_with?(&1, "**") and not Regex.match?(meta, &1)))
-    |> String.trim("*")
+    [
+      "Pinned: [#{short(e.serial)}: #{e.label}](##{id}) #{e.status}\n{: .pinned}",
+      "#{hook}\n{: .hook}",
+      "#{intrigue}\n{: .intrigue}",
+      "#{intro}\n{: .delivery}",
+      Enum.join(Enum.take(items, @fold_items), "\n") <> "\n{: .features}",
+      "#{exit_text} [Read the whole RFD](##{id}).\n{: .exit}"
+    ]
+    |> Enum.map(&relink(&1, here, ids, %{}))
+    |> Enum.join("\n\n")
   end
+
+  defp pinned_text(%{files: [{readme, _} | _]}), do: File.read!(readme)
 
   defp tally(rfds) do
     for s <- @states, n = Enum.count(rfds, &(&1.group == s)), n > 0 do
@@ -607,11 +608,12 @@ defmodule PagesSite do
           h2#toc-title + ul a { text-decoration: none; }
           h1.title { margin: 0 0 1.2rem; font: 600 .95rem system-ui, sans-serif;
             letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-          p.hook { margin: 0 0 .6rem; font-size: 2.1rem; line-height: 1.2; font-weight: 700; }
-          p.intrigue { margin: 0 0 1rem; font-size: 1.15rem; color: #444; }
-          p.delivery { margin: 0 0 1rem; font-size: 1rem; }
-          p.pinned { margin: 0 0 1rem; padding: .6rem 1rem; background: #f0f6ff;
-            border-left: 4px solid var(--accent); }
+          p.pinned { margin: 0 0 .8rem; padding: 0; font: 600 .85rem system-ui, sans-serif; }
+          p.hook { margin: 0 0 .5rem; font-size: 2.2rem; line-height: 1.2; font-weight: 700; }
+          p.intrigue { margin: 0 0 .8rem; font-size: 1.2rem; color: #444; }
+          p.delivery { margin: 0 0 .4rem; }
+          ul.features { margin: 0 0 .8rem; padding-left: 1.2rem; font-size: .95rem;
+            line-height: 1.45; }
           p.exit { margin: 0 0 1rem; font-weight: 600; }
           .edition { color: var(--muted); font-size: .85rem; }
           h2 { margin-top: 3rem; padding-top: 1.5rem; font-size: 1.7rem;
