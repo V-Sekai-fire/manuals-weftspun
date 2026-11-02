@@ -14,7 +14,7 @@
   const tokenOf = (id) => all.find((t) => t.i === id);
   const byN = new Map(data.nodes.map((n) => [n.n, n]));
   const unlinked = all.filter((t) => t.owners.length === 0);
-  const st = { depth: 2, focus: null, sphere: null, filter: null, skips: true,
+  const st = { depth: 4, focus: null, sphere: null, filter: null, skips: true,
     pos: new Map(), hex: new Map(), route: new Map() };
   const base = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "assets/";
   const planner = { ask: null, error: null };
@@ -27,8 +27,6 @@
       if (planner.onReady) planner.onReady();
     })
     .catch((e) => { planner.error = String(e); draw(); });
-  let vb = { x: 0, y: 0, w: 1000, h: 1000 };
-  let drag = null, moved = false;
 
   const mk = (tag, attrs = {}, parent) => {
     const e = document.createElementNS(NS, tag);
@@ -91,162 +89,52 @@
   const svg = mk("svg", { class: "tree-svg", role: "img", "aria-label": "Progress map" });
   stage.appendChild(svg);
 
-  function reduced(vis) {
-    const kids = new Map(vis.map((n) => [n.n, needs(n.n)]));
-    const reach = new Map();
-    const down = (id) => {
-      if (reach.has(id)) return reach.get(id);
-      const s = new Set();
-      reach.set(id, s);
-      kids.get(id).forEach((c) => { s.add(c); down(c).forEach((x) => s.add(x)); });
-      return s;
+  const W = 1000, H = 660, BAN = 58;
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+
+  function squarify(items, x, y, w, h) {
+    const out = [];
+    const rest = [...items];
+    const total = rest.reduce((s, i) => s + i.v, 0) || 1;
+    const scale = (w * h) / total;
+    const worst = (row, side) => {
+      const s = row.reduce((a, i) => a + i.v * scale, 0);
+      return Math.max(...row.map((i) => Math.max((side * side * i.v * scale) / (s * s), (s * s) / (side * side * i.v * scale))));
     };
-    const edges = [];
-    vis.forEach((n) => {
-      const cs = kids.get(n.n);
-      cs.forEach((c) => {
-        if (!cs.some((o) => o !== c && down(o).has(c))) edges.push([n.n, c]);
-      });
-    });
-    return edges;
-  }
-
-  function crossings(order, links) {
-    let total = 0;
-    for (let l = 0; l + 1 < order.length; l++) {
-      const pos = new Map();
-      order[l + 1].forEach((v, i) => pos.set(v, i));
-      const seg = links.filter((e) => order[l].includes(e[0]) && pos.has(e[1]))
-        .map((e) => [order[l].indexOf(e[0]), pos.get(e[1])]);
-      for (let i = 0; i < seg.length; i++) {
-        for (let k = i + 1; k < seg.length; k++) {
-          if ((seg[i][0] - seg[k][0]) * (seg[i][1] - seg[k][1]) < 0) total++;
-        }
+    while (rest.length) {
+      const side = Math.min(w, h);
+      const row = [rest.shift()];
+      while (rest.length && worst([...row, rest[0]], side) <= worst(row, side)) row.push(rest.shift());
+      const area = row.reduce((a, i) => a + i.v * scale, 0);
+      if (w >= h) {
+        const cw = area / h;
+        let cy = y;
+        row.forEach((i) => { const ch = (i.v * scale) / cw; out.push({ it: i, x, y: cy, w: cw, h: ch }); cy += ch; });
+        x += cw; w -= cw;
+      } else {
+        const ch = area / w;
+        let cx = x;
+        row.forEach((i) => { const cw = (i.v * scale) / ch; out.push({ it: i, x: cx, y, w: cw, h: ch }); cx += cw; });
+        y += ch; h -= ch;
       }
     }
-    return total;
-  }
-
-  function layout() {
-    st.pos.clear();
-    st.hex.clear();
-    st.dummies = new Map();
-    const vis = visible();
-    const edges = reduced(vis);
-    const layer = new Map([[data.goal, 0]]);
-    let grew = true;
-    while (grew) {
-      grew = false;
-      for (const [a, b] of edges) {
-        if (layer.has(a) && (layer.get(b) || -1) < layer.get(a) + 1) { layer.set(b, layer.get(a) + 1); grew = true; }
-      }
-    }
-    const top = Math.max(...layer.values());
-    const links = [];
-    st.paths = [];
-    let dummy = 0;
-    edges.forEach(([a, b]) => {
-      const chain = [a];
-      for (let l = layer.get(a) + 1; l < layer.get(b); l++) { const id = "d" + dummy++; layer.set(id, l); chain.push(id); }
-      chain.push(b);
-      for (let i = 0; i + 1 < chain.length; i++) links.push([chain[i], chain[i + 1]]);
-      st.paths.push({ a, b, chain });
-    });
-    let order = [];
-    for (let l = 0; l <= top; l++) order.push([...layer].filter((e) => e[1] === l).map((e) => e[0]).sort((p, q) => String(p).localeCompare(String(q), undefined, { numeric: true })));
-    const nbr = (id, dir) => links.filter((e) => e[dir ? 0 : 1] === id).map((e) => e[dir ? 1 : 0]);
-    let best = order.map((o) => [...o]);
-    let bestC = crossings(best, links);
-    let seed = 7;
-    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
-    const start = order.map((o) => [...o]);
-    for (let round = 0; round < 24 && bestC > 0; round++) {
-      order = start.map((o) => (round ? [...o].sort(() => rnd() - 0.5) : [...o]));
-      sweepAll();
-      transpose();
-      const c = crossings(order, links);
-      if (c < bestC) { bestC = c; best = order.map((o) => [...o]); }
-    }
-    function transpose() {
-      let better = true;
-      while (better) {
-        better = false;
-        for (let l = 0; l < order.length; l++) {
-          for (let i = 0; i + 1 < order[l].length; i++) {
-            const before = crossings(order, links);
-            [order[l][i], order[l][i + 1]] = [order[l][i + 1], order[l][i]];
-            if (crossings(order, links) < before) better = true;
-            else [order[l][i], order[l][i + 1]] = [order[l][i + 1], order[l][i]];
-          }
-        }
-      }
-    }
-    function sweepAll() {
-     for (let sweep = 0; sweep < 12; sweep++) {
-      const down = sweep % 2 === 0;
-      const ls = down ? [...order.keys()].slice(1) : [...order.keys()].slice(0, -1).reverse();
-      ls.forEach((l) => {
-        const ref = order[down ? l - 1 : l + 1];
-        const bary = new Map(order[l].map((id, i) => {
-          const ns = nbr(id, !down).map((x) => ref.indexOf(x)).filter((x) => x >= 0);
-          return [id, ns.length ? ns.reduce((s, x) => s + x, 0) / ns.length : i];
-        }));
-        order[l] = [...order[l]].sort((p, q) => bary.get(p) - bary.get(q));
-      });
-     }
-    }
-    order = best;
-    st.crossings = bestC;
-    const GAP = 130, ROW = 36;
-    const y = new Map();
-    order.forEach((o) => o.forEach((id, i) => y.set(id, i * ROW)));
-    for (let pass = 0; pass < 8; pass++) {
-      (pass % 2 ? [...order.keys()].reverse() : [...order.keys()]).forEach((l) => {
-        const o = order[l];
-        const want = o.map((id) => {
-          const ns = [...nbr(id, true), ...nbr(id, false)].map((x) => y.get(x));
-          return ns.length ? ns.reduce((s, v) => s + v, 0) / ns.length : y.get(id);
-        });
-        let last = -Infinity;
-        o.forEach((id, i) => { const v = Math.max(want[i], last + ROW); y.set(id, v); last = v; });
-        const shift = want.reduce((s, v, i) => s + v - y.get(o[i]), 0) / o.length;
-        o.forEach((id) => y.set(id, y.get(id) + shift));
-      });
-    }
-    order.forEach((o, l) => o.forEach((id, i) => {
-      const p = { x: y.get(id), y: l * GAP + (o.length > 8 && i % 2 ? 30 : 0) };
-      if (typeof id === "number") st.pos.set(id, p);
-      else st.dummies.set(id, p);
-    }));
-    const ys = [...y.values()];
-    const lo = Math.min(...ys), hi = Math.max(...ys);
-    const mid = (lo + hi) / 2;
-    st.pos.forEach((p) => { p.x -= mid; });
-    st.dummies.forEach((p) => { p.x -= mid; });
-    const half = Math.max((hi - lo) / 2, ((all.length - 1) * 70) / 2);
-    const row = top * GAP + 130;
-    all.forEach((tk, i) => {
-      const x = -half + (i * 2 * half) / Math.max(1, all.length - 1);
-      st.hex.set(tk.i, { x, y: row, users: tk.users.filter((u) => st.pos.has(u)) });
-    });
-    return { x0: -half - 60, x1: half + 60, y0: -70, y1: row + 70 };
+    return out;
   }
 
   function lit() {
+    if (st.focus !== null) return new Set([...path(st.focus), ...closure(st.focus, neededBy)]);
     if (st.sphere !== null) {
-      const tk = tokenOf(st.sphere);
       const set = new Set();
-      tk.users.filter((u) => byN.has(u)).forEach((u) => path(u).forEach((m) => set.add(m)));
+      tokenOf(st.sphere).users.filter((u) => byN.has(u)).forEach((u) => path(u).forEach((m) => set.add(m)));
       return set;
     }
-    if (st.focus !== null) return new Set([...path(st.focus), ...closure(st.focus, neededBy)]);
     if (st.filter === null) return null;
     const hit = new Set();
     for (const n of visible()) {
       const f = st.filter;
       const ok = ["done", "ready", "blocked"].includes(f)
         ? status(n.n) === f
-        : f === "unlinked" ? unlinked.some((t) => n.k.includes(t.i) || n.b.includes(t.i))
+        : f === "unlinked" ? all.some((t) => t.owners.length === 0 && (n.k.includes(t.i) || n.b.includes(t.i)))
         : n.k.includes(f) || n.b.includes(f);
       if (ok) hit.add(n.n);
     }
@@ -254,115 +142,88 @@
   }
 
   function draw() {
-    const outer = layout();
     svg.replaceChildren();
     const on = lit();
+    const vis = visible().filter((n) => n.n !== data.goal);
+    const size = new Map(all.map((tk) => [tk.i, tk.users.filter((u) => vis.some((n) => n.n === u)).length]));
+    const groups = new Map();
+    vis.forEach((n) => {
+      const tags = [...n.k, ...n.b];
+      const g = tags.length ? [...tags].sort((p, q) => size.get(q) - size.get(p))[0] : "none";
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(n);
+    });
     st.route = new Map();
-    const goals = st.sphere !== null
-      ? tokenOf(st.sphere).users.filter((u) => byN.has(u))
+    const goals = st.sphere !== null ? tokenOf(st.sphere).users.filter((u) => byN.has(u))
       : st.focus !== null ? [st.focus] : [];
     st.plan = goals.length ? route(goals) : null;
     if (st.plan && st.plan.order) st.plan.order.forEach((id, i) => st.route.set(id, i + 1));
-    const edges = mk("g", { class: "edges" }, svg);
-    const vis = visible();
-    for (const pth of st.paths) {
-      const skip = skipped(pth.a, pth.b);
-      if (skip && !st.skips) continue;
-      const pts = pth.chain.map((id) => st.pos.get(id) || st.dummies.get(id));
-      let d = "M" + pts[0].x + "," + pts[0].y;
-      for (let i = 1; i < pts.length; i++) {
-        const p = pts[i - 1], q = pts[i], m = (p.x + q.x) / 2;
-        d += " C" + m + "," + p.y + " " + m + "," + q.y + " " + q.x + "," + q.y;
+    const dep = st.focus !== null ? closure(st.focus, needs) : new Set();
+    const by = st.focus !== null ? closure(st.focus, neededBy) : new Set();
+
+    const gn = byN.get(data.goal);
+    const gg = mk("g", { class: "tm-goal " + status(data.goal) + (st.focus === data.goal ? " focus" : ""), tabindex: 0 }, svg);
+    mk("rect", { x: 0, y: 0, width: W, height: BAN - 6, rx: 6 }, gg);
+    mk("text", { x: 14, y: 24, class: "tm-gt" }, gg).textContent = short(data.goal) + "  " + gn.t;
+    mk("text", { x: 14, y: 44, class: "tm-gs" }, gg).textContent =
+      "the goal, " + gn.s + ": settled when every territory below is settled";
+    gg.addEventListener("click", (e) => { e.stopPropagation(); st.sphere = null; st.focus = st.focus === data.goal ? null : data.goal; draw(); });
+
+    const items = [...groups].map(([g, ms]) => ({ g, ms, v: ms.length }))
+      .sort((p, q) => q.v - p.v);
+    squarify(items, 0, BAN, W, H - BAN).forEach((r) => {
+      const { g, ms } = r.it;
+      const tk = g === "none" ? null : tokenOf(g);
+      const c = tk ? color(g) : "#999";
+      const sel = st.sphere === g;
+      const dimT = (st.sphere !== null && !sel) || (st.filter !== null && on && !ms.some((n) => on.has(n.n)));
+      const zone = mk("g", { class: "tm-zone" + (dimT ? " dim" : "") + (sel ? " sel" : "") }, svg);
+      mk("rect", { x: r.x + 1, y: r.y + 1, width: r.w - 2, height: r.h - 2, fill: c, "fill-opacity": 0.1, stroke: c,
+        "stroke-width": sel ? 3 : 1.5, "stroke-dasharray": tk && tk.owners.length === 0 ? "6 4" : "none" }, zone);
+      const ok = ms.filter((n) => done(n)).length;
+      const head = mk("g", { class: "tm-head" }, zone);
+      mk("rect", { x: r.x + 1, y: r.y + 1, width: r.w - 2, height: 20, fill: c, "fill-opacity": 0.28 }, head);
+      mk("text", { x: r.x + 6, y: r.y + 15, class: "tm-ht" }, head).textContent =
+        (tk ? (typeof g === "number" ? g + " " : "") + tk.name : "No token named") + "  " + ok + "/" + ms.length;
+      if (tk) {
+        head.addEventListener("click", (e) => {
+          e.stopPropagation();
+          st.focus = null; st.sphere = sel ? null : g; draw();
+        });
       }
-      const dim = on && !(on.has(pth.a) && on.has(pth.b));
-      mk("path", { d, class: "edge" + (skip ? " skip" : "") + (dim ? " dim" : "") }, edges);
-    }
-    if (st.sphere !== null) {
-      const hx = st.hex.get(st.sphere);
-      for (const u of hx.users) {
-        const p = st.pos.get(u);
-        mk("path", { d: "M" + hx.x + "," + hx.y + " L" + p.x + "," + p.y, class: "edge sphere" }, edges);
-      }
-    }
-    for (const n of vis) node(n, on);
-    for (const t of all) hexagon(t);
-    const cap = 1300;
-    if (outer.x1 - outer.x0 > cap) {
-      const gx = st.pos.get(data.goal).x;
-      outer.x0 = gx - cap / 2;
-      outer.x1 = gx + cap / 2;
-    }
-    const w = outer.x1 - outer.x0, hgt = outer.y1 - outer.y0;
-    vb = { x: outer.x0, y: outer.y0, w, h: hgt };
-    const ratio = svg.clientWidth && svg.clientHeight ? svg.clientWidth / svg.clientHeight : 1.6;
-    if (w / hgt < ratio) { const nw = hgt * ratio; vb.x -= (nw - w) / 2; vb.w = nw; }
-    else { const nh = w / ratio; vb.y -= (nh - hgt) / 2; vb.h = nh; }
-    fit();
+      const inner = squarify([...ms].sort((p, q) => p.d - q.d || p.n - q.n).map((n) => ({ n, v: 1 })),
+        r.x + 4, r.y + 24, r.w - 8, r.h - 28);
+      inner.forEach((cell) => {
+        const n = cell.it.n;
+        const stat = status(n.n);
+        const skip = st.skips && done(n) && needs(n.n).some((m) => !done(byN.get(m)));
+        const dim = on && !on.has(n.n);
+        const cls = ["tm-cell", n.s, stat, skip ? "skip" : "", dim ? "dim" : "",
+          st.focus === n.n ? "focus" : "", dep.has(n.n) && n.n !== st.focus ? "dep" : "",
+          by.has(n.n) && n.n !== st.focus ? "by" : "",
+          data.repos.some((x) => x.n === n.n) ? "repo" : ""].join(" ");
+        const cg = mk("g", { class: cls, tabindex: 0 }, svg);
+        mk("title", {}, cg).textContent = short(n.n) + ": " + n.t + " (" + n.s + ", " + stat + ")";
+        mk("rect", { x: cell.x + 1.5, y: cell.y + 1.5, width: Math.max(2, cell.w - 3), height: Math.max(2, cell.h - 3), rx: 3 }, cg);
+        if (cell.w > 26 && cell.h > 16) {
+          mk("text", { x: cell.x + cell.w / 2, y: cell.y + cell.h / 2, "text-anchor": "middle", dy: "0.35em" }, cg).textContent = String(n.n);
+        }
+        [...n.k, ...n.b].filter((i) => i !== g).slice(0, 6).forEach((i, q) => {
+          const dx = cell.x + cell.w - 7 - q * 7, dy = cell.y + 6;
+          if (typeof i === "number") mk("rect", { x: dx - 3, y: dy - 3, width: 6, height: 6, fill: color(i), class: "dot" }, cg);
+          else mk("circle", { cx: dx, cy: dy, r: 3, fill: color(i), class: "dot" }, cg);
+        });
+        if (st.route.has(n.n)) {
+          mk("circle", { cx: cell.x + 10, cy: cell.y + 10, r: 8, class: "step" }, cg);
+          mk("text", { x: cell.x + 10, y: cell.y + 10, "text-anchor": "middle", dy: "0.35em", class: "steptext" }, cg).textContent = String(st.route.get(n.n));
+        }
+        const pick = () => { st.sphere = null; st.focus = st.focus === n.n ? null : n.n; draw(); };
+        cg.addEventListener("click", (e) => { e.stopPropagation(); pick(); });
+        cg.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
+      });
+    });
     side();
     coins();
-  }
-
-  function dots(g, n, r) {
-    const slots = [...n.k.map((i) => ({ i, sq: true })), ...n.b.map((i) => ({ i, sq: false }))];
-    slots.forEach((s, i) => {
-      const a = -Math.PI / 2 + (i * 2 * Math.PI) / 10;
-      const x = Math.cos(a) * (r + 8), y = Math.sin(a) * (r + 8);
-      if (s.sq) mk("rect", { x: x - 3.5, y: y - 3.5, width: 7, height: 7, fill: color(s.i), class: "dot" }, g);
-      else mk("circle", { cx: x, cy: y, r: 3.5, fill: color(s.i), class: "dot" }, g);
-    });
-  }
-
-  function node(n, on) {
-    const p = st.pos.get(n.n);
-    const goal = n.n === data.goal;
-    const r = goal ? 40 : 20;
-    const stat = status(n.n);
-    const cls = ["node", n.s, stat, goal ? "goal" : "", data.repos.some((x) => x.n === n.n) ? "repo" : "",
-      on && !on.has(n.n) ? "dim" : "", st.focus === n.n ? "focus" : ""].join(" ");
-    const g = mk("g", { class: cls, transform: "translate(" + p.x + "," + p.y + ")", tabindex: 0 }, svg);
-    const pct = Math.round(share(n.n) * 100);
-    mk("title", {}, g).textContent = short(n.n) + ": " + n.t + " (" + n.s + ", " + stat + ", path " + pct + "% settled)";
-    const arc = 2 * Math.PI * (r + 4);
-    mk("circle", { r: r + 4, class: "ring-track" }, g);
-    mk("circle", { r: r + 4, class: "ring-fill", "stroke-dasharray": (arc * pct) / 100 + " " + arc,
-      transform: "rotate(-90)" }, g);
-    mk("circle", { r, class: "body" }, g);
-    mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = String(n.n);
-    dots(g, n, r + 4);
-    if (st.route.has(n.n)) {
-      const bx = r * 0.8, by = -r * 0.8;
-      mk("circle", { cx: bx, cy: by, r: 8, class: "step" }, g);
-      mk("text", { x: bx, y: by, "text-anchor": "middle", dy: "0.35em", class: "steptext" }, g)
-        .textContent = String(st.route.get(n.n));
-    }
-    const pick = () => { st.sphere = null; st.focus = st.focus === n.n ? null : n.n; draw(); };
-    g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
-    g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
-  }
-
-  function hexagon(t) {
-    const hx = st.hex.get(t.i);
-    const open = t.owners.length === 0;
-    const pts = [0, 1, 2, 3, 4, 5].map((k) => {
-      const a = (Math.PI / 3) * k;
-      return Math.cos(a) * 28 + "," + Math.sin(a) * 28;
-    }).join(" ");
-    const sel = st.sphere === t.i;
-    const dim = (st.sphere !== null && !sel) || (st.filter !== null && st.filter !== "unlinked"
-      && st.filter !== t.i) || st.focus !== null;
-    const g = mk("g", { class: "hexnode" + (open ? " open" : "") + (sel ? " sel" : "")
-      + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")", tabindex: 0 }, svg);
-    mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name
-      + (open ? ". No RFD title names it." : "") + " Select it to travel down it.";
-    mk("polygon", { points: pts, stroke: color(t.i), fill: color(t.i) + (sel ? "55" : "18") }, g);
-    mk("text", { "text-anchor": "middle", dy: "-0.1em" }, g).textContent = t.name.length > 8
-      ? t.name.slice(0, 7) + "." : t.name;
-    const us = t.users.filter((u) => byN.has(u));
-    mk("text", { "text-anchor": "middle", dy: "1.2em", class: "count" }, g).textContent =
-      us.filter((u) => done(byN.get(u))).length + "/" + us.length;
-    const pick = () => { st.focus = null; st.sphere = sel ? null : t.i; draw(); };
-    g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
-    g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
   }
 
   function coins() {
@@ -374,8 +235,7 @@
     wallet.appendChild(h("span", { class: "tw-goal" },
       "As of " + data.asof + ", the path to " + short(data.goal) + " is " + pct + "% settled: "
       + count.done + " of " + p.length + " skills done, " + count.ready + " ready, "
-      + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + ". Layout: "
-      + st.crossings + " edge crossings."));
+      + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + "."));
   }
 
   function routeList(goalsText) {
@@ -501,28 +361,9 @@
     bar.appendChild(fb);
   }
 
-  function fit() { svg.setAttribute("viewBox", [vb.x, vb.y, vb.w, vb.h].join(" ")); }
-  svg.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, vb: { ...vb } }; moved = false; });
-  svg.addEventListener("pointermove", (e) => {
-    if (!drag) return;
-    const k = vb.w / svg.clientWidth;
-    const dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k;
-    if (Math.abs(dx) + Math.abs(dy) > 3 * k) moved = true;
-    if (moved) { vb.x = drag.vb.x - dx; vb.y = drag.vb.y - dy; fit(); }
-  });
-  window.addEventListener("pointerup", () => { drag = null; setTimeout(() => { moved = false; }, 0); });
   svg.addEventListener("click", () => {
-    if (!moved && (st.focus !== null || st.sphere !== null)) { st.focus = null; st.sphere = null; draw(); }
+    if (st.focus !== null || st.sphere !== null) { st.focus = null; st.sphere = null; draw(); }
   });
-  svg.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const box = svg.getBoundingClientRect();
-    const f = e.deltaY > 0 ? 1.15 : 1 / 1.15;
-    const mx = vb.x + ((e.clientX - box.left) / box.width) * vb.w;
-    const my = vb.y + ((e.clientY - box.top) / box.height) * vb.h;
-    vb = { x: mx - (mx - vb.x) * f, y: my - (my - vb.y) * f, w: vb.w * f, h: vb.h * f };
-    fit();
-  }, { passive: false });
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") { st.focus = null; st.sphere = null; draw(); } });
 
   function betaPath() {
@@ -653,3 +494,4 @@
   controls();
   draw();
 })();
+
