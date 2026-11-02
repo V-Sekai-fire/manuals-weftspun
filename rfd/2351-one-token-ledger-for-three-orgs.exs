@@ -29,8 +29,8 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   INNOVATION-TOKEN 6 is FEX and INNOVATION-TOKEN 7 is Proton, which run the campus beta's win64
   build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The operator ruled the
   rest on 2026-11-01: INNOVATION-TOKEN 8 is Windows, 9 is pixi, 10 is prek, 11 is GitHub, 12 is
-  the Fedora cross-build image, 13 is LLVM, 14 is llvm-mingw, 15 is osxcross, 16 is the PC VR
-  stream runtime, 17 is Godot Engine and 18 is the taskweft persona engine. The BEAM spends no
+  the Fedora cross-build image, 13 is LLVM, 14 is llvm-mingw, 15 is osxcross, 16 is the SteamVR
+  runtime, 17 is Godot Engine and 18 is the taskweft persona engine. The BEAM spends no
   INNOVATION-TOKEN, and the guest BEAM is unship (operator, 2026-10-29). The count was three,
   then two, and is eighteen. The ledger changes between rungs, not in an open one, and the
   operator moved the two documents on 2026-10-30 rather than wait for a rung to claim them.
@@ -98,13 +98,12 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     tools count as the tech stack.
   - The Fedora cross-build image is INNOVATION-TOKEN 12, LLVM is 13, llvm-mingw is 14 and
     osxcross is 15. Each is its own substrate, so deleting one stops a cross-build.
-  - The PC VR stream runtime is INNOVATION-TOKEN 16, Godot Engine is 17, and the taskweft
+  - The SteamVR runtime is INNOVATION-TOKEN 16 (operator, 2026-11-01), Godot Engine is 17, and the taskweft
     persona engine is 18. Godot Engine and the pinned double engine of INNOVATION-TOKEN 1 are
     separate INNOVATION-TOKENs (operator, 2026-11-01).
   - GitHub's identity-token login rides INNOVATION-TOKEN 3, because it is a login to Bao.
 
   :: details What is not known
-  - Which runtime the PC VR stream uses. RFD66606-2360 names it and no RFD identifies it.
   - Elixir runs every gate and the ledger's own tools. The tool ruling does not mention it.
 
   :: details Related RFDs
