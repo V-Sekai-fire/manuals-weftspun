@@ -30,7 +30,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The operator ruled the
   rest on 2026-11-01: INNOVATION-TOKEN 8 is Windows, 9 is pixi, 10 is prek, 11 is GitHub, 12 is
   the Fedora cross-build image, 13 is LLVM, 14 is llvm-mingw, 15 is osxcross, 16 is the SteamVR
-  runtime, 17 is Godot Engine and 18 is the taskweft persona engine and 19 is Elixir (operator,
+  runtime, 17 is Godot Engine, 18 is the taskweft persona engine and 19 is Elixir (operator,
   2026-11-01). The guest BEAM is unship (operator, 2026-10-29). The count was three, then two,
   and is nineteen. The ledger changes between rungs, not in an open one, and the operator moved
   the two documents on 2026-10-30 rather than wait for a rung to claim them.
