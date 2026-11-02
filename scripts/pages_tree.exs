@@ -3,6 +3,36 @@
 # The prerequisite tree behind one goal RFD: nodes, links, token spends, skipped-ahead links.
 defmodule PagesTree do
   @max_depth 4
+
+  @features [
+    %{
+      name: "See each other",
+      text:
+        "Two people in the campus zone, one in the Steam Frame on a PC VR stream and one on " <>
+          "the desktop, each sees the other's avatar.",
+      slices: [2436]
+    },
+    %{
+      name: "Hear each other",
+      text: "Voice between the two, played at the speaker's avatar.",
+      slices: [2437]
+    },
+    %{
+      name: "Draw and wear",
+      text:
+        "The pen's first rung, RFD66606-2287, in the campus zone. The other person sees the " <>
+          "drawn outfit worn.",
+      slices: [2438]
+    },
+    %{
+      name: "An adventure party and a shopkeeper persona",
+      text:
+        "One player and the three seats, each filled by a friend or a persona, the takeover, " <>
+          "the walk from the shop to a room and back, and the shopkeeper persona with its " <>
+          "saved world.",
+      slices: [2439, 2440]
+    }
+  ]
   @advanced ~w(published committed)
   @unsettled ~w(prediscussion ideation discussion)
 
@@ -68,6 +98,7 @@ defmodule PagesTree do
       tokens: tokens(live, nodes),
       boring: boring(live, nodes),
       repos: repos,
+      features: @features,
       all: depth |> Map.keys() |> length()
     }
   end
@@ -163,14 +194,76 @@ defmodule PagesTree do
     link = fn n -> "[RFD66606-#{n}](##{by[n].id})" end
 
     [
-      "### 1.1. How to read the map {#s1-1}\n\n" <> reading(data),
-      "### 1.2. Innovation tokens and boring technology {#s1-2}\n\n" <> ledger(data, link),
-      "### 1.3. Progress to the goal {#s1-3}\n\n" <> progress(data, by, link),
-      "### 1.4. Skipped ahead {#s1-4}\n\n" <> skipped(data, by, link),
-      "### 1.5. Technologies with no link {#s1-5}\n\n" <> unlinked(data, link),
-      "### 1.6. Repositories on the map {#s1-6}\n\n" <> repos(data, link)
+      "### 1.1. The path to the beta {#s1-1}\n\n" <> beta(data, by, link),
+      "### 1.2. How to read the map {#s1-2}\n\n" <> reading(data),
+      "### 1.3. Innovation tokens and boring technology {#s1-3}\n\n" <> ledger(data, link),
+      "### 1.4. Progress to the goal {#s1-4}\n\n" <> progress(data, by, link),
+      "### 1.5. Skipped ahead {#s1-5}\n\n" <> skipped(data, by, link),
+      "### 1.6. Technologies with no link {#s1-6}\n\n" <> unlinked(data, link),
+      "### 1.7. Repositories on the map {#s1-7}\n\n" <> repos(data, link)
     ]
     |> Enum.join("\n\n")
+  end
+
+  @gates [2436, 2437, 2438, 2439, 2440]
+
+  defp slice_needs(by, n) do
+    if n.n in @gates do
+      for m <- n.c, by[m], m not in @gates, do: by[m]
+    else
+      needs(by, n)
+    end
+  end
+
+  defp reach(by, goal, ids) do
+    walk = fn walk, todo, seen ->
+      case todo do
+        [] ->
+          seen
+
+        [n | rest] ->
+          fresh =
+            for m <- slice_needs(by, by[n]), m.n != goal, not MapSet.member?(seen, m.n), do: m.n
+
+          walk.(walk, rest ++ fresh, Enum.reduce(fresh, seen, &MapSet.put(&2, &1)))
+      end
+    end
+
+    walk.(walk, ids, MapSet.new(ids))
+  end
+
+  defp beta(data, by, link) do
+    gates = for n <- @gates, do: "#{link.(n)} (#{by[n].s})"
+    sets = for f <- data.features, do: reach(by, data.goal, f.slices)
+    common = sets |> Enum.reduce(&MapSet.intersection/2) |> MapSet.difference(MapSet.new(@gates))
+    open = fn ids -> Enum.count(ids, &(not done?(by[&1]))) end
+
+    rows =
+      for {f, set} <- Enum.zip(data.features, sets) do
+        own = set |> MapSet.difference(common) |> MapSet.difference(MapSet.new(@gates))
+        slices = Enum.map_join(f.slices, ", ", &link.(&1))
+
+        own_text =
+          if MapSet.size(own) == 0,
+            do: "none: no RFD names a prerequisite of its own",
+            else: "#{open.(own)} open of #{MapSet.size(own)}"
+
+        "| #{f.name} | #{slices} | #{own_text} |"
+      end
+
+    "A dependency is something that must be in place before a skill can be settled. " <>
+      "A skill is " <>
+      "an RFD, and it depends on the skills it cites and on the tokens its text names.\n\n" <>
+      "RFD66606-#{data.goal} is the beta freeze. It is cut when every gate in " <>
+      "RFD66606-2436 to " <>
+      "RFD66606-2440 passes with its control: #{Enum.join(gates, "; ")}.\n\n" <>
+      "All four features stand on a shared foundation: #{open.(common)} open skills of " <>
+      "#{MapSet.size(common)}, reached through RFD66606-2374 and RFD66606-2390, which every " <>
+      "slice cites. Past that foundation:\n\n" <>
+      "| feature | slice RFDs | skills of its own |\n| --- | --- | --- |\n" <>
+      "#{Enum.join(rows, "\n")}\n\n" <>
+      "A feature with no skills of its own is a slice that cites nothing specific to itself, " <>
+      "so it is skipped ahead without a link to the technology it needs."
   end
 
   defp needs(by, n), do: for(m <- n.c, by[m] && by[m].d > n.d, do: by[m])
