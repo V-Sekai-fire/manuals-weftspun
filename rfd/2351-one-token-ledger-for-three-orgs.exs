@@ -99,11 +99,11 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   - The Fedora cross-build image is INNOVATION-TOKEN 12, LLVM is 13, llvm-mingw is 14 and
     osxcross is 15. Each is its own substrate, so deleting one stops a cross-build.
   - The PC VR stream runtime is INNOVATION-TOKEN 16, Godot Engine is 17, and the taskweft
-    persona engine is 18.
+    persona engine is 18. Godot Engine and the pinned double engine of INNOVATION-TOKEN 1 are
+    separate INNOVATION-TOKENs (operator, 2026-11-01).
   - GitHub's identity-token login rides INNOVATION-TOKEN 3, because it is a login to Bao.
 
   :: details What is not known
-  - Whether Godot Engine and the pinned double engine of INNOVATION-TOKEN 1 are one substrate.
   - Which runtime the PC VR stream uses. RFD66606-2360 names it and no RFD identifies it.
   - Elixir runs every gate and the ledger's own tools. The tool ruling does not mention it.
 
