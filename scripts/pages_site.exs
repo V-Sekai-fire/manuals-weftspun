@@ -390,10 +390,22 @@ defmodule PagesSite do
 
     texts =
       for e <- rfds do
-        %{serial: e.serial, label: e.label, state: e.group, id: ids[e.href], text: full_text(e)}
+        %{
+          serial: e.serial,
+          label: e.label,
+          state: e.group,
+          id: ids[e.href],
+          date: e.date,
+          text: full_text(e)
+        }
       end
 
-    tree = PagesTree.build(texts, hd(@pinned), tree_repos())
+    notes =
+      for l <- logs do
+        %{date: l.date, label: l.label, id: ids[l.href], text: full_text(l)}
+      end
+
+    tree = PagesTree.build(texts, notes, hd(@pinned), tree_repos(), ed.date)
 
     hero =
       for e <- rfds, e.serial in @pinned do
@@ -665,13 +677,10 @@ defmodule PagesSite do
           .tree-wallet { grid-column: 1 / 3; display: flex; flex-wrap: wrap; gap: .35rem;
             align-items: center; margin-bottom: .4rem; }
           .tree .tw-label { margin-left: .4rem; font-weight: 600; }
-          .tree .coin { display: inline-block; width: 1.6rem; height: 1.6rem; border: 3px solid;
-            border-radius: 50%; text-align: center; line-height: 1.3rem; font-weight: 700;
-            color: #222; background: #fff; }
-          .tree .coin.on { color: #fff; }
-          .tree .boring-coin { padding: .1rem .5rem; border: 2px solid #2e7d32;
-            border-radius: .4rem; }
-          .tree .boring-coin.on { background: #2e7d32; color: #fff; }
+          .tree .boring-coin { padding: .1rem .5rem; border: 2px solid; border-radius: .9rem;
+            background: #fff; font: inherit; cursor: pointer; }
+          .tree .boring-coin.on { color: #fff; }
+          .tree .boring-coin.sel { outline: 2px solid #000; }
           .tree .tw-goal { flex-basis: 100%; color: var(--muted); }
           .tree-stage { height: 54vh; min-height: 400px; border: 1px solid var(--line);
             background: #fcfcfd; overflow: hidden; }
@@ -688,17 +697,20 @@ defmodule PagesSite do
           .tree .edge.skip { stroke: #c0392b; stroke-dasharray: 6 4; stroke-width: 2;
             opacity: .9; }
           .tree .dim { opacity: .12; }
+          .tree .node .body { fill: #fff; stroke: #888; stroke-width: 2; }
+          .tree .node.done .body { fill: #1a5fb4; stroke: #1a5fb4; }
+          .tree .node.done.published .body { fill: #5b8def; stroke: #5b8def; }
+          .tree .node.ready .body { stroke: #e67e00; stroke-width: 3; }
+          .tree .node.blocked .body { stroke: #999; }
+          .tree .node.prediscussion .body, .tree .node.ideation .body { stroke-dasharray: 4 3; }
+          .tree .ring-track { fill: none; stroke: #e3e6ea; stroke-width: 3; }
+          .tree .ring-fill { fill: none; stroke: #2e9e5b; stroke-width: 3; }
+          .tree .node.goal .body { fill: #f2c94c; stroke: #8a6d00; stroke-width: 3; }
+          .tree .node.repo .body { stroke-width: 5; stroke: #2e7d32; }
+          .tree .node.focus .body { stroke: #000; stroke-width: 4; }
           .tree .node { cursor: pointer; }
-          .tree .node circle { fill: #fff; stroke: #1a5fb4; stroke-width: 2; }
-          .tree .node.got circle { fill: #1a5fb4; }
-          .tree .node.got.published circle { fill: #5b8def; }
-          .tree .node.prediscussion circle, .tree .node.ideation circle {
-            stroke-dasharray: 4 3; stroke: #888; }
-          .tree .node.goal circle { fill: #f2c94c; stroke: #8a6d00; stroke-width: 3; }
-          .tree .node.repo circle { stroke-width: 5; stroke: #2e7d32; }
-          .tree .node.focus circle { stroke: #000; stroke-width: 4; }
           .tree .node text { font-size: 10px; fill: #222; pointer-events: none; }
-          .tree .node.got text { fill: #fff; }
+          .tree .node.done text { fill: #fff; }
           .tree .hexnode polygon { fill: #fff8e1; stroke-width: 3; stroke-dasharray: 5 3; }
           .tree .hexnode text { font-size: 10px; }
           blockquote { margin: 1rem 0; padding: .2rem 1rem; background: #f0f6ff;
