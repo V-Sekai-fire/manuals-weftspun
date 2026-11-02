@@ -3,6 +3,8 @@
 # Builds the Pages source as one flow: sources -> records -> groups -> sections -> files.
 # A masthead and the newest RFDs lead; the logbook and RFD archives follow, dated from git.
 #   mix run scripts/pages_site.exs <out-dir>
+Code.require_file("pages_tree.exs", __DIR__)
+
 defmodule PagesSite do
   @states ~w(prediscussion ideation discussion published committed abandoned)
   @emoji %{
@@ -37,6 +39,7 @@ defmodule PagesSite do
     File.mkdir_p!(Path.join(out, "assets"))
     File.write!(Path.join(out, "search.json"), JSON.encode!(docs))
     File.cp!(Path.join(__DIR__, "pages_search.js"), Path.join(out, "assets/search.js"))
+    File.cp!(Path.join(__DIR__, "pages_tree.js"), Path.join(out, "assets/tree.js"))
 
     File.write!(Path.join(out, "_config.yml"), config())
     File.mkdir_p!(Path.join(out, "_layouts"))
@@ -385,21 +388,29 @@ defmodule PagesSite do
     numbered = for {n, title, docs} <- parts, do: {n, title, number_docs(n, docs)}
     ids = for {_, _, docs} <- numbered, d <- docs, into: %{}, do: {d.href, d.id}
 
+    texts =
+      for e <- rfds do
+        %{serial: e.serial, label: e.label, state: e.group, id: ids[e.href], text: full_text(e)}
+      end
+
+    tree = PagesTree.build(texts, hd(@pinned), tree_repos())
+
     hero =
       for e <- rfds, e.serial in @pinned do
-        pinned_hero(e, ids, slugs)
+        pinned_hero(e, ids, slugs, map_block(tree))
       end
       |> Enum.concat(["<!--search-->"])
       |> Enum.join("\n\n")
 
     foreword =
-      "## 1. Foreword {#part-1}\n\n" <>
+      "## 1. The tech tree to #{short(hd(@pinned))} {#part-1}\n\n" <>
         "What the workspace measured (the logbook) and what it decided from that " <>
         "(the RFDs, also called requests for discussion, design docs or architecture " <>
         "decision records). #{tally(rfds)}\n\n" <>
         "This page holds the whole site: #{length(pages)} reference pages, " <>
         "#{length(rfds)} RFDs, #{length(logs)} logbook entries and the serial register. " <>
-        "Each entry ends with a link to its own page. Search finds every RFD.\n"
+        "Each entry ends with a link to its own page. Search finds every RFD.\n\n" <>
+        PagesTree.markdown(tree)
 
     body =
       Enum.map_join(numbered, "\n\n", fn {n, title, docs} ->
@@ -419,30 +430,45 @@ defmodule PagesSite do
     |> Enum.join("\n\n")
   end
 
-  @fold_items 4
-
-  defp pinned_hero(e, ids, slugs) do
+  defp pinned_hero(e, ids, slugs, map) do
     id = ids[e.href]
     meta = ~r/^\*\*(State|Feature|Scope):/
     [head | _] = e |> pinned_text() |> linked("", slugs, e.serial) |> String.split("\n## Related")
     paras = head |> String.split(~r/\n\s*\n/) |> Enum.map(&String.trim/1)
     at = Enum.find_index(paras, &(String.starts_with?(&1, "**") and not Regex.match?(meta, &1)))
-    [hook | rest] = Enum.drop(paras, at)
-    [intrigue | rest] = rest
-    exit_text = List.last(rest)
-    [intro | items] = rest |> Enum.drop(-1) |> Enum.join("\n\n") |> String.split(~r/\n(?=- )/)
-    here = %{href: "index.html", id: id}
+    [hook, intrigue | _] = Enum.drop(paras, at)
 
     [
       "Pinned: [#{short(e.serial)}: #{e.label}](##{id}) #{e.status}\n{: .pinned}",
       "#{hook}\n{: .hook}",
       "#{intrigue}\n{: .intrigue}",
-      "#{intro}\n{: .delivery}",
-      Enum.join(Enum.take(items, @fold_items), "\n") <> "\n{: .features}",
-      "#{exit_text} [Read the whole RFD](##{id}).\n{: .exit}"
+      map,
+      "Choose a technology on the map to see what it needs and what needs it. " <>
+        "[Read the whole RFD](##{id}).\n{: .exit}"
     ]
-    |> Enum.map(&relink(&1, here, ids, %{}))
     |> Enum.join("\n\n")
+  end
+
+  defp full_text(%{files: files}),
+    do: Enum.map_join(files, "\n\n", fn {from, _} -> File.read!(from) end)
+
+  defp tree_repos do
+    [
+      %{
+        repo: "V-Sekai-fire/interactor-taskweft-persona",
+        n: 2339,
+        note:
+          "It answers a goal with an exact plan from a planning domain, with no weights. " <>
+            "The guest persona.elf runs on the godot-sandbox extension under libriscv, " <>
+            "and the build runs through pixi."
+      }
+    ]
+  end
+
+  defp map_block(tree) do
+    "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div>\n" <>
+      "<script type=\"application/json\" id=\"tree-data\">#{PagesTree.json(tree)}</script>\n" <>
+      "<noscript>The map needs a script. Section 1 holds the same facts as tables.</noscript>"
   end
 
   defp pinned_text(%{files: [{readme, _} | _]}), do: File.read!(readme)
@@ -626,6 +652,55 @@ defmodule PagesSite do
           pre { padding: .8rem; overflow: auto; border: 1px solid var(--line); }
           table { border-collapse: collapse; display: block; overflow: auto; }
           th, td { border: 1px solid var(--line); padding: .35rem .6rem; vertical-align: top; }
+          .tree { display: grid; grid-template-columns: 1fr 17rem; gap: 0 1rem; margin: 0 0 1rem;
+            font: 13px/1.4 system-ui, sans-serif; }
+          .tree-bar { grid-column: 1 / 3; display: flex; flex-wrap: wrap; gap: .35rem;
+            align-items: center; margin-bottom: .4rem; }
+          .tree .chip { padding: .15rem .55rem; border: 2px solid var(--line);
+            border-radius: 1rem;
+            background: #fff; font: inherit; cursor: pointer; }
+          .tree .chip.on { background: #222; color: #fff; }
+          .tree .chip.boring { border-color: #2e7d32; }
+          .tree .chk { margin-left: .6rem; color: var(--muted); }
+          .tree-wallet { grid-column: 1 / 3; display: flex; flex-wrap: wrap; gap: .35rem;
+            align-items: center; margin-bottom: .4rem; }
+          .tree .tw-label { margin-left: .4rem; font-weight: 600; }
+          .tree .coin { display: inline-block; width: 1.6rem; height: 1.6rem; border: 3px solid;
+            border-radius: 50%; text-align: center; line-height: 1.3rem; font-weight: 700;
+            color: #222; background: #fff; }
+          .tree .coin.on { color: #fff; }
+          .tree .boring-coin { padding: .1rem .5rem; border: 2px solid #2e7d32;
+            border-radius: .4rem; }
+          .tree .boring-coin.on { background: #2e7d32; color: #fff; }
+          .tree .tw-goal { flex-basis: 100%; color: var(--muted); }
+          .tree-stage { height: 54vh; min-height: 400px; border: 1px solid var(--line);
+            background: #fcfcfd; overflow: hidden; }
+          .tree-svg { width: 100%; height: 100%; cursor: grab; touch-action: none; }
+          .tree-panel { height: 54vh; min-height: 400px; overflow: auto; padding: 0 .4rem; }
+          .tree-panel h3 { margin: 0; padding: 0; border: 0; font-size: 1.1rem; }
+          .tree-panel h4 { margin: .8rem 0 .2rem; font-size: .85rem; }
+          .tree-panel ul { margin: 0; padding-left: 0; list-style: none; }
+          .tree-panel li { margin: 0 0 .25rem; }
+          .tree-panel .link { padding: 0; border: 0; background: none; color: var(--accent);
+            font: inherit; text-align: left; cursor: pointer; display: block; }
+          .tree-panel .flag { color: #c0392b; }
+          .tree .edge { stroke: #9aa; stroke-width: 1.2; opacity: .55; }
+          .tree .edge.skip { stroke: #c0392b; stroke-dasharray: 6 4; stroke-width: 2;
+            opacity: .9; }
+          .tree .dim { opacity: .12; }
+          .tree .node { cursor: pointer; }
+          .tree .node circle { fill: #fff; stroke: #1a5fb4; stroke-width: 2; }
+          .tree .node.got circle { fill: #1a5fb4; }
+          .tree .node.got.published circle { fill: #5b8def; }
+          .tree .node.prediscussion circle, .tree .node.ideation circle {
+            stroke-dasharray: 4 3; stroke: #888; }
+          .tree .node.goal circle { fill: #f2c94c; stroke: #8a6d00; stroke-width: 3; }
+          .tree .node.repo circle { stroke-width: 5; stroke: #2e7d32; }
+          .tree .node.focus circle { stroke: #000; stroke-width: 4; }
+          .tree .node text { font-size: 10px; fill: #222; pointer-events: none; }
+          .tree .node.got text { fill: #fff; }
+          .tree .hexnode polygon { fill: #fff8e1; stroke-width: 3; stroke-dasharray: 5 3; }
+          .tree .hexnode text { font-size: 10px; }
           blockquote { margin: 1rem 0; padding: .2rem 1rem; background: #f0f6ff;
             border-left: 4px solid var(--accent); }
           @media (max-width: 1000px) {
@@ -652,6 +727,7 @@ defmodule PagesSite do
           {{ content | replace: "<!--search-->", search }}
         </main>
         <script src="{{ "/assets/search.js" | relative_url }}" defer></script>
+        <script src="{{ "/assets/tree.js" | relative_url }}" defer></script>
       </body>
     </html>
     """
