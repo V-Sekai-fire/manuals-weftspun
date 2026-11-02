@@ -682,10 +682,10 @@ defmodule PagesSite do
           .tree .boring-coin.on { color: #fff; }
           .tree .boring-coin.sel { outline: 2px solid #000; }
           .tree .tw-goal { flex-basis: 100%; color: var(--muted); }
-          .tree-stage { height: 54vh; min-height: 400px; border: 1px solid var(--line);
+          .tree-stage { height: 62vh; min-height: 400px; border: 1px solid var(--line);
             background: #fcfcfd; overflow: hidden; }
           .tree-svg { width: 100%; height: 100%; cursor: grab; touch-action: none; }
-          .tree-panel { height: 54vh; min-height: 400px; overflow: auto; padding: 0 .4rem; }
+          .tree-panel { height: 62vh; min-height: 400px; overflow: auto; padding: 0 .4rem; }
           .tree-panel h3 { margin: 0; padding: 0; border: 0; font-size: 1.1rem; }
           .tree-panel h4 { margin: .8rem 0 .2rem; font-size: .85rem; }
           .tree-panel ul { margin: 0; padding-left: 0; list-style: none; }
@@ -693,7 +693,7 @@ defmodule PagesSite do
           .tree-panel .link { padding: 0; border: 0; background: none; color: var(--accent);
             font: inherit; text-align: left; cursor: pointer; display: block; }
           .tree-panel .flag { color: #c0392b; }
-          .tree .edge { stroke: #9aa; stroke-width: 1.2; opacity: .55; }
+          .tree .edge { fill: none; stroke: #9aa; stroke-width: 1.2; opacity: .55; }
           .tree .edge.skip { stroke: #c0392b; stroke-dasharray: 6 4; stroke-width: 2;
             opacity: .9; }
           .tree .dim { opacity: .12; }
@@ -716,6 +716,7 @@ defmodule PagesSite do
           .tree .hexnode.open polygon { stroke-dasharray: 5 3; }
           .tree .hexnode.sel polygon { stroke-width: 5; }
           .tree .hexnode text { font-size: 9px; pointer-events: none; }
+          .tree .hexnode .count { font-size: 8px; fill: #555; }
           .tree .edge.sphere { stroke: #444; stroke-width: 1.5; opacity: .5; }
           .tree .step { fill: #222; }
           .tree .steptext { font-size: 9px; fill: #fff; pointer-events: none; }
