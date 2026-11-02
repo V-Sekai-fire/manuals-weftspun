@@ -54,6 +54,13 @@ defmodule PagesTree do
     {"B4", "cross-build image", ~r/llvm-mingw|osxcross/, ~r/cross-build|llvm-mingw|osxcross/}
   ]
 
+  defp acquired do
+    case File.read(Path.join(__DIR__, "acquired.json")) do
+      {:ok, text} -> JSON.decode!(text)
+      {:error, _} -> %{}
+    end
+  end
+
   def build(docs, logs, goal, repos, asof) do
     live = Enum.reject(docs, &(&1.state == "abandoned"))
     known = MapSet.new(live, & &1.serial)
@@ -72,6 +79,7 @@ defmodule PagesTree do
           id: doc.id,
           d: d,
           u: doc.date,
+          a: Map.get(acquired(), to_string(serial), ""),
           l: evidence(logs, serial),
           k: for({i, _, re, _} <- @tokens, Regex.match?(re, doc.text), do: i),
           b: for({i, _, re, _} <- @boring, Regex.match?(re, doc.text), do: i),
