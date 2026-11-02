@@ -455,7 +455,7 @@ defmodule PagesSite do
       "#{hook}\n{: .hook}",
       "#{intrigue}\n{: .intrigue}",
       map,
-      "Choose a technology on the map to see what it needs and what needs it. " <>
+      "Select a skill to see what it needs, or a token sphere to travel down it. " <>
         "[Read the whole RFD](##{id}).\n{: .exit}"
     ]
     |> Enum.join("\n\n")
@@ -711,8 +711,15 @@ defmodule PagesSite do
           .tree .node { cursor: pointer; }
           .tree .node text { font-size: 10px; fill: #222; pointer-events: none; }
           .tree .node.done text { fill: #fff; }
-          .tree .hexnode polygon { fill: #fff8e1; stroke-width: 3; stroke-dasharray: 5 3; }
-          .tree .hexnode text { font-size: 10px; }
+          .tree .hexnode { cursor: pointer; }
+          .tree .hexnode polygon { stroke-width: 3; }
+          .tree .hexnode.open polygon { stroke-dasharray: 5 3; }
+          .tree .hexnode.sel polygon { stroke-width: 5; }
+          .tree .hexnode text { font-size: 9px; pointer-events: none; }
+          .tree .edge.sphere { stroke: #444; stroke-width: 1.5; opacity: .5; }
+          .tree .step { fill: #222; }
+          .tree .steptext { font-size: 9px; fill: #fff; pointer-events: none; }
+          .tree-panel ol { margin: 0; padding-left: 1.2rem; }
           blockquote { margin: 1rem 0; padding: .2rem 1rem; background: #f0f6ff;
             border-left: 4px solid var(--accent); }
           @media (max-width: 1000px) {

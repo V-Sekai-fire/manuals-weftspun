@@ -14,7 +14,18 @@
   const tokenOf = (id) => all.find((t) => t.i === id);
   const byN = new Map(data.nodes.map((n) => [n.n, n]));
   const unlinked = all.filter((t) => t.owners.length === 0);
-  const st = { depth: 2, focus: null, filter: null, skips: true, pos: new Map(), hex: new Map() };
+  const st = { depth: 2, focus: null, sphere: null, filter: null, skips: true,
+    pos: new Map(), hex: new Map(), route: new Map() };
+  const base = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "assets/";
+  const planner = { ask: null, error: null };
+  import(base + "persona.mjs")
+    .then((m) => m.default({ locateFile: (f) => base + f }))
+    .then((mod) => {
+      if (mod._persona_init() !== 0) throw new Error("persona_init failed");
+      planner.ask = mod.cwrap("persona_plan", "string", ["string"]);
+      draw();
+    })
+    .catch((e) => { planner.error = String(e); draw(); });
   let vb = { x: 0, y: 0, w: 1000, h: 1000 };
   let drag = null, moved = false;
 
@@ -56,6 +67,21 @@
     return p.filter((m) => done(byN.get(m))).length / p.length;
   };
 
+  const SPHERE_BASE = 900000;
+  const sphereId = (tid) => SPHERE_BASE + all.findIndex((t) => t.i === tid) + 1;
+  function route(goals) {
+    if (!planner.ask || !goals.length) return null;
+    const need = new Set();
+    goals.forEach((g) => path(g).forEach((m) => need.add(m)));
+    const lines = [...need].sort((a, b) => a - b).map((id) =>
+      "skill " + id + " " + (done(byN.get(id)) ? 1 : 0) + " " + needs(id).join(" "));
+    lines.push("skill 999999 0 " + goals.join(" "), "goal 999999");
+    const out = JSON.parse(planner.ask(lines.join("\n")));
+    if (!out.plan) return { error: out.refused };
+    const order = out.plan.map((s) => +s.replace("activate-", "")).filter((n) => n !== 999999);
+    return { order };
+  }
+
   const bar = h("div", { class: "tree-bar" });
   const wallet = h("div", { class: "tree-wallet" });
   const stage = h("div", { class: "tree-stage" });
@@ -90,19 +116,32 @@
       prev = rad;
     }
     const outer = prev + 120;
-    unlinked.forEach((t, i) => {
-      const users = t.users.filter((u) => st.pos.has(u));
+    const spheres = all.map((tk, i) => {
+      const users = tk.users.filter((u) => st.pos.has(u));
       const a = users.length
         ? Math.atan2(
             users.reduce((s, u) => s + Math.sin(st.pos.get(u).a), 0),
             users.reduce((s, u) => s + Math.cos(st.pos.get(u).a), 0))
-        : (i * 2 * Math.PI) / unlinked.length;
-      st.hex.set(t.i, { x: Math.cos(a) * outer, y: Math.sin(a) * outer, users });
+        : (i * 2 * Math.PI) / all.length;
+      return { t: tk, users, a };
+    }).sort((p, q) => p.a - q.a);
+    const gap = Math.min(0.5, (2 * Math.PI) / spheres.length);
+    for (let i = 1; i < spheres.length; i++) {
+      if (spheres[i].a < spheres[i - 1].a + gap) spheres[i].a = spheres[i - 1].a + gap;
+    }
+    spheres.forEach((s) => {
+      st.hex.set(s.t.i, { x: Math.cos(s.a) * outer, y: Math.sin(s.a) * outer, users: s.users });
     });
     return outer;
   }
 
   function lit() {
+    if (st.sphere !== null) {
+      const tk = tokenOf(st.sphere);
+      const set = new Set();
+      tk.users.filter((u) => byN.has(u)).forEach((u) => path(u).forEach((m) => set.add(m)));
+      return set;
+    }
     if (st.focus !== null) return new Set([...path(st.focus), ...closure(st.focus, neededBy)]);
     if (st.filter === null) return null;
     const hit = new Set();
@@ -121,6 +160,12 @@
     const outer = layout();
     svg.replaceChildren();
     const on = lit();
+    st.route = new Map();
+    const goals = st.sphere !== null
+      ? tokenOf(st.sphere).users.filter((u) => byN.has(u))
+      : st.focus !== null ? [st.focus] : [];
+    st.plan = goals.length ? route(goals) : null;
+    if (st.plan && st.plan.order) st.plan.order.forEach((id, i) => st.route.set(id, i + 1));
     const edges = mk("g", { class: "edges" }, svg);
     const vis = visible();
     for (const n of vis) {
@@ -134,16 +179,18 @@
           class: "edge" + (skip ? " skip" : "") + (dim ? " dim" : "") }, edges);
       }
     }
-    for (const t of unlinked) {
+    for (const t of all) {
       const hx = st.hex.get(t.i);
+      const open = t.owners.length === 0;
+      if (!open && st.sphere !== t.i) continue;
       for (const u of hx.users) {
         const p = st.pos.get(u);
         mk("line", { x1: hx.x, y1: hx.y, x2: p.x, y2: p.y,
-          class: "edge skip" + (on && !on.has(u) ? " dim" : "") }, edges);
+          class: "edge " + (open ? "skip" : "sphere") + (on && !on.has(u) ? " dim" : "") }, edges);
       }
     }
     for (const n of vis) node(n, on);
-    for (const t of unlinked) hexagon(t);
+    for (const t of all) hexagon(t);
     const ext = outer + 70;
     vb = { x: -ext, y: -ext, w: ext * 2, h: ext * 2 };
     fit();
@@ -178,22 +225,37 @@
     mk("circle", { r, class: "body" }, g);
     mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = String(n.n);
     dots(g, n, r + 4);
-    const pick = () => { st.focus = st.focus === n.n ? null : n.n; draw(); };
+    if (st.route.has(n.n)) {
+      const bx = r * 0.8, by = -r * 0.8;
+      mk("circle", { cx: bx, cy: by, r: 8, class: "step" }, g);
+      mk("text", { x: bx, y: by, "text-anchor": "middle", dy: "0.35em", class: "steptext" }, g)
+        .textContent = String(st.route.get(n.n));
+    }
+    const pick = () => { st.sphere = null; st.focus = st.focus === n.n ? null : n.n; draw(); };
     g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
     g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
   }
 
   function hexagon(t) {
     const hx = st.hex.get(t.i);
+    const open = t.owners.length === 0;
     const pts = [0, 1, 2, 3, 4, 5].map((k) => {
       const a = (Math.PI / 3) * k;
       return Math.cos(a) * 28 + "," + Math.sin(a) * 28;
     }).join(" ");
-    const dim = st.filter !== null && st.filter !== "unlinked" && st.filter !== t.i;
-    const g = mk("g", { class: "hexnode" + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")" }, svg);
-    mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name + ". No RFD title names it.";
-    mk("polygon", { points: pts, stroke: color(t.i) }, g);
-    mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = t.name;
+    const sel = st.sphere === t.i;
+    const dim = (st.sphere !== null && !sel) || (st.filter !== null && st.filter !== "unlinked"
+      && st.filter !== t.i) || st.focus !== null;
+    const g = mk("g", { class: "hexnode" + (open ? " open" : "") + (sel ? " sel" : "")
+      + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")", tabindex: 0 }, svg);
+    mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name
+      + (open ? ". No RFD title names it." : "") + " Select it to travel down it.";
+    mk("polygon", { points: pts, stroke: color(t.i), fill: color(t.i) + (sel ? "55" : "18") }, g);
+    mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = t.name.length > 9
+      ? t.name.slice(0, 8) + "." : t.name;
+    const pick = () => { st.focus = null; st.sphere = sel ? null : t.i; draw(); };
+    g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
   }
 
   function coins() {
@@ -204,13 +266,12 @@
         const users = t.users.filter((u) => byN.has(u));
         const ok = users.filter((u) => done(byN.get(u))).length;
         const c = h("button", { type: "button",
-          class: "boring-coin" + (ok ? " on" : "") + (st.filter === t.i ? " sel" : ""),
+          class: "boring-coin" + (ok ? " on" : "") + (st.sphere === t.i ? " sel" : ""),
           title: t.name + ": settled in " + ok + " of " + users.length + " skills" },
           (boring ? "" : t.i + " ") + t.name + " " + ok + "/" + users.length);
         c.addEventListener("click", () => {
-          st.filter = st.filter === t.i ? null : t.i;
+          st.sphere = st.sphere === t.i ? null : t.i;
           st.focus = null;
-          controls();
           draw();
         });
         c.style.borderColor = color(t.i);
@@ -230,8 +291,45 @@
       + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + "."));
   }
 
+  function routeList(goalsText) {
+    panel.appendChild(h("h4", {}, "Route " + goalsText));
+    if (planner.error) {
+      panel.appendChild(h("p", { class: "flag" }, "The persona planner did not load: " + planner.error));
+      return;
+    }
+    if (!planner.ask) { panel.appendChild(h("p", {}, "Loading the persona planner...")); return; }
+    const p = st.plan;
+    if (!p || p.error) { panel.appendChild(h("p", {}, "No route: " + (p ? p.error : "nothing to plan"))); return; }
+    panel.appendChild(h("p", {}, p.order.length
+      ? p.order.length + " skills to settle, in this order, planned by the persona planner (wasm)."
+      : "Everything on this route is settled."));
+    const ol = h("ol");
+    p.order.slice(0, 12).forEach((id) => {
+      const li = h("li");
+      const b = h("button", { type: "button", class: "link" }, short(id) + " " + byN.get(id).t);
+      b.addEventListener("click", () => { st.sphere = null; st.focus = id; draw(); });
+      li.appendChild(b);
+      ol.appendChild(li);
+    });
+    panel.appendChild(ol);
+    if (p.order.length > 12) panel.appendChild(h("p", {}, "and " + (p.order.length - 12) + " more"));
+  }
+
+  function sphereSide(tk) {
+    panel.appendChild(h("h3", {}, tk.name));
+    panel.appendChild(h("p", { class: "tp-title" },
+      (typeof tk.i === "number" ? "Innovation token " + tk.i : "Boring token") + ". Travel down it to settle every skill that spends it."));
+    const users = tk.users.filter((u) => byN.has(u));
+    const ok = users.filter((u) => done(byN.get(u))).length;
+    panel.appendChild(h("p", { class: "tp-state" }, ok + " of " + users.length + " skills settled"));
+    panel.appendChild(h("h4", {}, "RFDs whose title names it"));
+    panel.appendChild(h("p", {}, tk.owners.length ? tk.owners.map(short).join(", ") : "none: no link"));
+    routeList("down this sphere");
+  }
+
   function side() {
     panel.replaceChildren();
+    if (st.sphere !== null) { sphereSide(tokenOf(st.sphere)); return; }
     const n = st.focus === null ? byN.get(data.goal) : byN.get(st.focus);
     panel.appendChild(h("h3", {}, short(n.n)));
     panel.appendChild(h("p", { class: "tp-title" }, n.t));
@@ -275,6 +373,7 @@
       });
       panel.appendChild(ul);
     };
+    if (st.focus !== null && !done(n)) routeList("to this skill");
     list("Blocked by", needs(n.n).filter((m) => !done(byN.get(m))), true);
     list("Needs, settled", needs(n.n).filter((m) => done(byN.get(m))), false);
     list("Needed by", neededBy(n.n), false);
@@ -325,7 +424,9 @@
     if (moved) { vb.x = drag.vb.x - dx; vb.y = drag.vb.y - dy; fit(); }
   });
   window.addEventListener("pointerup", () => { drag = null; setTimeout(() => { moved = false; }, 0); });
-  svg.addEventListener("click", () => { if (!moved && st.focus !== null) { st.focus = null; draw(); } });
+  svg.addEventListener("click", () => {
+    if (!moved && (st.focus !== null || st.sphere !== null)) { st.focus = null; st.sphere = null; draw(); }
+  });
   svg.addEventListener("wheel", (e) => {
     e.preventDefault();
     const box = svg.getBoundingClientRect();
@@ -335,7 +436,7 @@
     vb = { x: mx - (mx - vb.x) * f, y: my - (my - vb.y) * f, w: vb.w * f, h: vb.h * f };
     fit();
   }, { passive: false });
-  window.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.focus !== null) { st.focus = null; draw(); } });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") { st.focus = null; st.sphere = null; draw(); } });
 
   controls();
   draw();

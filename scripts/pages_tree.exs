@@ -144,9 +144,12 @@ defmodule PagesTree do
       "for a boring one.\n" <>
       "- A red dashed line is a skill that is settled while a skill it needs is open: " <>
       "skipped ahead.\n" <>
-      "- A dashed hexagon is an innovation token no RFD title names. Its lines run to the " <>
-      "skills that spend it.\n- Selecting a skill shows its logbook evidence and when its " <>
-      "RFD last changed.\n\nWithout a script, the tables below carry the same facts."
+      "- A hexagon on the outer ring is a token sphere. Select it to travel down it: the " <>
+      "persona planner, compiled to WebAssembly, orders the skills still to settle and the " <>
+      "map numbers them. A dashed hexagon is a token no RFD title names, and its red lines " <>
+      "run to the skills that spend it.\n" <>
+      "- Selecting a skill shows its logbook evidence, when its RFD last changed and the " <>
+      "route to it.\n\nWithout a script, the tables below carry the same facts."
   end
 
   defp ledger(data, link) do
