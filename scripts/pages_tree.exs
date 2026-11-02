@@ -109,6 +109,7 @@ defmodule PagesTree do
       end
 
     %{
+      "@context": %{vsk: "urn:oid:1.3.6.1.4.1.66606:", domain: "vsk:planning/domain/"},
       "@type": "domain:Problem",
       name: "campus_beta",
       source: "manuals-weftspun",
