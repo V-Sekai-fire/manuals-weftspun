@@ -492,7 +492,8 @@ defmodule PagesSite do
 
   defp map_block(tree) do
     "<div id=\"journey\" class=\"journey\" markdown=\"0\"></div>\n" <>
-      "<details class=\"explore\" markdown=\"0\"><summary>Explore by feature and by token</summary>\n" <>
+      "<details class=\"explore\" markdown=\"0\">\n" <>
+      "<summary>Explore by feature and by token</summary>\n" <>
       "<div id=\"beta-path\" class=\"beta-path\" markdown=\"0\"></div>\n" <>
       "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div></details>\n" <>
       "<script type=\"application/json\" id=\"tree-data\">#{PagesTree.json(tree)}</script>\n" <>
