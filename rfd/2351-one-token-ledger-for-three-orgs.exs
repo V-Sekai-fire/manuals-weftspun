@@ -3,7 +3,7 @@
 use RFD.DSL
 
 rfd 2351, "one INNOVATION-TOKEN ledger for three orgs", :discussion do
-  feature "an INNOVATION-TOKEN is what the stack cannot run without, so eighteen cover the app and
+  feature "an INNOVATION-TOKEN is what the stack cannot run without, so nineteen cover the app and
 both upstream orgs"
   scope "the INNOVATION-TOKEN ledger in the private working agreements and the private plan, the
 private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
@@ -19,7 +19,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   crashes without it.
   :: decision
   An INNOVATION-TOKEN is a substrate: delete it and the tech stack crashes. The name keeps it
-  apart from a credential (operator, 2026-11-01). The ledger has eighteen. INNOVATION-TOKEN 1 is
+  apart from a credential (operator, 2026-11-01). The ledger has nineteen. INNOVATION-TOKEN 1 is
   guest ELFs on the pinned double engine. The meshing pen and `zone.elf` both run there, so they
   share it, with the ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
   INNOVATION-TOKEN 2 is one store, SQLite on FoundationDB pages. CockroachDB is retired
@@ -30,10 +30,10 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The operator ruled the
   rest on 2026-11-01: INNOVATION-TOKEN 8 is Windows, 9 is pixi, 10 is prek, 11 is GitHub, 12 is
   the Fedora cross-build image, 13 is LLVM, 14 is llvm-mingw, 15 is osxcross, 16 is the SteamVR
-  runtime, 17 is Godot Engine and 18 is the taskweft persona engine. The BEAM spends no
-  INNOVATION-TOKEN, and the guest BEAM is unship (operator, 2026-10-29). The count was three,
-  then two, and is eighteen. The ledger changes between rungs, not in an open one, and the
-  operator moved the two documents on 2026-10-30 rather than wait for a rung to claim them.
+  runtime, 17 is Godot Engine and 18 is the taskweft persona engine and 19 is Elixir (operator,
+  2026-11-01). The guest BEAM is unship (operator, 2026-10-29). The count was three, then two,
+  and is nineteen. The ledger changes between rungs, not in an open one, and the operator moved
+  the two documents on 2026-10-30 rather than wait for a rung to claim them.
   """
 
   details_title "one INNOVATION-TOKEN ledger for three orgs"
@@ -98,13 +98,14 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     tools count as the tech stack.
   - The Fedora cross-build image is INNOVATION-TOKEN 12, LLVM is 13, llvm-mingw is 14 and
     osxcross is 15. Each is its own substrate, so deleting one stops a cross-build.
-  - The SteamVR runtime is INNOVATION-TOKEN 16 (operator, 2026-11-01), Godot Engine is 17, and the taskweft
-    persona engine is 18. Godot Engine and the pinned double engine of INNOVATION-TOKEN 1 are
+  - The SteamVR runtime is INNOVATION-TOKEN 16, Godot Engine is 17, and the taskweft persona
+    engine is 18. Godot Engine and the pinned double engine of INNOVATION-TOKEN 1 are
     separate INNOVATION-TOKENs (operator, 2026-11-01).
+  - Elixir is INNOVATION-TOKEN 19 (operator, 2026-11-01). It runs every gate and the ledger's
+    own tools, and its failure stops them, so it counts under the tool ruling.
   - GitHub's identity-token login rides INNOVATION-TOKEN 3, because it is a login to Bao.
 
   :: details What is not known
-  - Elixir runs every gate and the ledger's own tools. The tool ruling does not mention it.
 
   :: details Related RFDs
   - RFD66606-2341, dev.next, where this waits; RFD66606-2309, frontier learning.
@@ -149,6 +150,6 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     waiting for one to claim them, and RFD66606-2341's item left
     dev.next.
   :: details The problem
-  Elixir runs every tool and spends no INNOVATION-TOKEN.
+  Elixir runs every tool and is INNOVATION-TOKEN 19.
   """
 end
