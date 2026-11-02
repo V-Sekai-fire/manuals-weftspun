@@ -14,7 +14,18 @@
   const tokenOf = (id) => all.find((t) => t.i === id);
   const byN = new Map(data.nodes.map((n) => [n.n, n]));
   const unlinked = all.filter((t) => t.owners.length === 0);
-  const st = { depth: 2, focus: null, filter: null, skips: true, pos: new Map(), hex: new Map() };
+  const st = { depth: 2, focus: null, sphere: null, filter: null, skips: true,
+    pos: new Map(), hex: new Map(), route: new Map() };
+  const base = document.currentScript ? document.currentScript.src.replace(/[^/]*$/, "") : "assets/";
+  const planner = { ask: null, error: null };
+  import(base + "persona.mjs")
+    .then((m) => m.default({ locateFile: (f) => base + f }))
+    .then((mod) => {
+      if (mod._persona_init() !== 0) throw new Error("persona_init failed");
+      planner.ask = mod.cwrap("persona_plan", "string", ["string"]);
+      draw();
+    })
+    .catch((e) => { planner.error = String(e); draw(); });
   let vb = { x: 0, y: 0, w: 1000, h: 1000 };
   let drag = null, moved = false;
 
@@ -56,6 +67,21 @@
     return p.filter((m) => done(byN.get(m))).length / p.length;
   };
 
+  const SPHERE_BASE = 900000;
+  const sphereId = (tid) => SPHERE_BASE + all.findIndex((t) => t.i === tid) + 1;
+  function route(goals) {
+    if (!planner.ask || !goals.length) return null;
+    const need = new Set();
+    goals.forEach((g) => path(g).forEach((m) => need.add(m)));
+    const lines = [...need].sort((a, b) => a - b).map((id) =>
+      "skill " + id + " " + (done(byN.get(id)) ? 1 : 0) + " " + needs(id).join(" "));
+    lines.push("skill 999999 0 " + goals.join(" "), "goal 999999");
+    const out = JSON.parse(planner.ask(lines.join("\n")));
+    if (!out.plan) return { error: out.refused };
+    const order = out.plan.map((s) => +s.replace("activate-", "")).filter((n) => n !== 999999);
+    return { order };
+  }
+
   const bar = h("div", { class: "tree-bar" });
   const wallet = h("div", { class: "tree-wallet" });
   const stage = h("div", { class: "tree-stage" });
@@ -64,45 +90,154 @@
   const svg = mk("svg", { class: "tree-svg", role: "img", "aria-label": "Progress map" });
   stage.appendChild(svg);
 
+  function reduced(vis) {
+    const kids = new Map(vis.map((n) => [n.n, needs(n.n)]));
+    const reach = new Map();
+    const down = (id) => {
+      if (reach.has(id)) return reach.get(id);
+      const s = new Set();
+      reach.set(id, s);
+      kids.get(id).forEach((c) => { s.add(c); down(c).forEach((x) => s.add(x)); });
+      return s;
+    };
+    const edges = [];
+    vis.forEach((n) => {
+      const cs = kids.get(n.n);
+      cs.forEach((c) => {
+        if (!cs.some((o) => o !== c && down(o).has(c))) edges.push([n.n, c]);
+      });
+    });
+    return edges;
+  }
+
+  function crossings(order, links) {
+    let total = 0;
+    for (let l = 0; l + 1 < order.length; l++) {
+      const pos = new Map();
+      order[l + 1].forEach((v, i) => pos.set(v, i));
+      const seg = links.filter((e) => order[l].includes(e[0]) && pos.has(e[1]))
+        .map((e) => [order[l].indexOf(e[0]), pos.get(e[1])]);
+      for (let i = 0; i < seg.length; i++) {
+        for (let k = i + 1; k < seg.length; k++) {
+          if ((seg[i][0] - seg[k][0]) * (seg[i][1] - seg[k][1]) < 0) total++;
+        }
+      }
+    }
+    return total;
+  }
+
   function layout() {
     st.pos.clear();
     st.hex.clear();
+    st.dummies = new Map();
     const vis = visible();
-    st.pos.set(data.goal, { x: 0, y: 0, a: 0 });
-    let prev = 0;
-    for (let d = 1; d <= st.depth; d++) {
-      const ring = vis.filter((n) => n.d === d);
-      if (!ring.length) continue;
-      const rad = Math.max(prev + 135, (ring.length * 72) / (2 * Math.PI));
-      const want = ring.map((n) => {
-        const kin = vis.filter((m) => m.d === d - 1 && m.c.includes(n.n)).map((m) => st.pos.get(m.n));
-        const use = kin.length ? kin : vis.filter((m) => m.c.includes(n.n) && st.pos.has(m.n)).map((m) => st.pos.get(m.n));
-        const sx = use.reduce((s, p) => s + Math.cos(p.a), 0);
-        const sy = use.reduce((s, p) => s + Math.sin(p.a), 0);
-        return { n, a: use.length ? Math.atan2(sy, sx) : n.n };
-      });
-      want.sort((p, q) => p.a - q.a || p.n.n - q.n.n);
-      const base = d === 1 ? -Math.PI / 2 : want[0].a;
-      want.forEach((w, i) => {
-        const a = base + (i * 2 * Math.PI) / want.length;
-        st.pos.set(w.n.n, { x: Math.cos(a) * rad, y: Math.sin(a) * rad, a });
-      });
-      prev = rad;
+    const edges = reduced(vis);
+    const layer = new Map([[data.goal, 0]]);
+    let grew = true;
+    while (grew) {
+      grew = false;
+      for (const [a, b] of edges) {
+        if (layer.has(a) && (layer.get(b) || -1) < layer.get(a) + 1) { layer.set(b, layer.get(a) + 1); grew = true; }
+      }
     }
-    const outer = prev + 120;
-    unlinked.forEach((t, i) => {
-      const users = t.users.filter((u) => st.pos.has(u));
-      const a = users.length
-        ? Math.atan2(
-            users.reduce((s, u) => s + Math.sin(st.pos.get(u).a), 0),
-            users.reduce((s, u) => s + Math.cos(st.pos.get(u).a), 0))
-        : (i * 2 * Math.PI) / unlinked.length;
-      st.hex.set(t.i, { x: Math.cos(a) * outer, y: Math.sin(a) * outer, users });
+    const top = Math.max(...layer.values());
+    const links = [];
+    st.paths = [];
+    let dummy = 0;
+    edges.forEach(([a, b]) => {
+      const chain = [a];
+      for (let l = layer.get(a) + 1; l < layer.get(b); l++) { const id = "d" + dummy++; layer.set(id, l); chain.push(id); }
+      chain.push(b);
+      for (let i = 0; i + 1 < chain.length; i++) links.push([chain[i], chain[i + 1]]);
+      st.paths.push({ a, b, chain });
     });
-    return outer;
+    let order = [];
+    for (let l = 0; l <= top; l++) order.push([...layer].filter((e) => e[1] === l).map((e) => e[0]).sort((p, q) => String(p).localeCompare(String(q), undefined, { numeric: true })));
+    const nbr = (id, dir) => links.filter((e) => e[dir ? 0 : 1] === id).map((e) => e[dir ? 1 : 0]);
+    let best = order.map((o) => [...o]);
+    let bestC = crossings(best, links);
+    let seed = 7;
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    const start = order.map((o) => [...o]);
+    for (let round = 0; round < 24 && bestC > 0; round++) {
+      order = start.map((o) => (round ? [...o].sort(() => rnd() - 0.5) : [...o]));
+      sweepAll();
+      transpose();
+      const c = crossings(order, links);
+      if (c < bestC) { bestC = c; best = order.map((o) => [...o]); }
+    }
+    function transpose() {
+      let better = true;
+      while (better) {
+        better = false;
+        for (let l = 0; l < order.length; l++) {
+          for (let i = 0; i + 1 < order[l].length; i++) {
+            const before = crossings(order, links);
+            [order[l][i], order[l][i + 1]] = [order[l][i + 1], order[l][i]];
+            if (crossings(order, links) < before) better = true;
+            else [order[l][i], order[l][i + 1]] = [order[l][i + 1], order[l][i]];
+          }
+        }
+      }
+    }
+    function sweepAll() {
+     for (let sweep = 0; sweep < 12; sweep++) {
+      const down = sweep % 2 === 0;
+      const ls = down ? [...order.keys()].slice(1) : [...order.keys()].slice(0, -1).reverse();
+      ls.forEach((l) => {
+        const ref = order[down ? l - 1 : l + 1];
+        const bary = new Map(order[l].map((id, i) => {
+          const ns = nbr(id, !down).map((x) => ref.indexOf(x)).filter((x) => x >= 0);
+          return [id, ns.length ? ns.reduce((s, x) => s + x, 0) / ns.length : i];
+        }));
+        order[l] = [...order[l]].sort((p, q) => bary.get(p) - bary.get(q));
+      });
+     }
+    }
+    order = best;
+    st.crossings = bestC;
+    const GAP = 130, ROW = 36;
+    const y = new Map();
+    order.forEach((o) => o.forEach((id, i) => y.set(id, i * ROW)));
+    for (let pass = 0; pass < 8; pass++) {
+      (pass % 2 ? [...order.keys()].reverse() : [...order.keys()]).forEach((l) => {
+        const o = order[l];
+        const want = o.map((id) => {
+          const ns = [...nbr(id, true), ...nbr(id, false)].map((x) => y.get(x));
+          return ns.length ? ns.reduce((s, v) => s + v, 0) / ns.length : y.get(id);
+        });
+        let last = -Infinity;
+        o.forEach((id, i) => { const v = Math.max(want[i], last + ROW); y.set(id, v); last = v; });
+        const shift = want.reduce((s, v, i) => s + v - y.get(o[i]), 0) / o.length;
+        o.forEach((id) => y.set(id, y.get(id) + shift));
+      });
+    }
+    order.forEach((o, l) => o.forEach((id, i) => {
+      const p = { x: y.get(id), y: l * GAP + (o.length > 8 && i % 2 ? 30 : 0) };
+      if (typeof id === "number") st.pos.set(id, p);
+      else st.dummies.set(id, p);
+    }));
+    const ys = [...y.values()];
+    const lo = Math.min(...ys), hi = Math.max(...ys);
+    const mid = (lo + hi) / 2;
+    st.pos.forEach((p) => { p.x -= mid; });
+    st.dummies.forEach((p) => { p.x -= mid; });
+    const half = Math.max((hi - lo) / 2, ((all.length - 1) * 70) / 2);
+    const row = top * GAP + 130;
+    all.forEach((tk, i) => {
+      const x = -half + (i * 2 * half) / Math.max(1, all.length - 1);
+      st.hex.set(tk.i, { x, y: row, users: tk.users.filter((u) => st.pos.has(u)) });
+    });
+    return { x0: -half - 60, x1: half + 60, y0: -70, y1: row + 70 };
   }
 
   function lit() {
+    if (st.sphere !== null) {
+      const tk = tokenOf(st.sphere);
+      const set = new Set();
+      tk.users.filter((u) => byN.has(u)).forEach((u) => path(u).forEach((m) => set.add(m)));
+      return set;
+    }
     if (st.focus !== null) return new Set([...path(st.focus), ...closure(st.focus, neededBy)]);
     if (st.filter === null) return null;
     const hit = new Set();
@@ -121,31 +256,46 @@
     const outer = layout();
     svg.replaceChildren();
     const on = lit();
+    st.route = new Map();
+    const goals = st.sphere !== null
+      ? tokenOf(st.sphere).users.filter((u) => byN.has(u))
+      : st.focus !== null ? [st.focus] : [];
+    st.plan = goals.length ? route(goals) : null;
+    if (st.plan && st.plan.order) st.plan.order.forEach((id, i) => st.route.set(id, i + 1));
     const edges = mk("g", { class: "edges" }, svg);
     const vis = visible();
-    for (const n of vis) {
-      for (const m of n.c) {
-        if (!st.pos.has(m)) continue;
-        const skip = byN.get(m).d > n.d && skipped(n.n, m);
-        if (skip && !st.skips) continue;
-        const p = st.pos.get(n.n), q = st.pos.get(m);
-        const dim = on && !(on.has(n.n) && on.has(m));
-        mk("line", { x1: p.x, y1: p.y, x2: q.x, y2: q.y,
-          class: "edge" + (skip ? " skip" : "") + (dim ? " dim" : "") }, edges);
+    for (const pth of st.paths) {
+      const skip = skipped(pth.a, pth.b);
+      if (skip && !st.skips) continue;
+      const pts = pth.chain.map((id) => st.pos.get(id) || st.dummies.get(id));
+      let d = "M" + pts[0].x + "," + pts[0].y;
+      for (let i = 1; i < pts.length; i++) {
+        const p = pts[i - 1], q = pts[i], m = (p.x + q.x) / 2;
+        d += " C" + m + "," + p.y + " " + m + "," + q.y + " " + q.x + "," + q.y;
       }
+      const dim = on && !(on.has(pth.a) && on.has(pth.b));
+      mk("path", { d, class: "edge" + (skip ? " skip" : "") + (dim ? " dim" : "") }, edges);
     }
-    for (const t of unlinked) {
-      const hx = st.hex.get(t.i);
+    if (st.sphere !== null) {
+      const hx = st.hex.get(st.sphere);
       for (const u of hx.users) {
         const p = st.pos.get(u);
-        mk("line", { x1: hx.x, y1: hx.y, x2: p.x, y2: p.y,
-          class: "edge skip" + (on && !on.has(u) ? " dim" : "") }, edges);
+        mk("path", { d: "M" + hx.x + "," + hx.y + " L" + p.x + "," + p.y, class: "edge sphere" }, edges);
       }
     }
     for (const n of vis) node(n, on);
-    for (const t of unlinked) hexagon(t);
-    const ext = outer + 70;
-    vb = { x: -ext, y: -ext, w: ext * 2, h: ext * 2 };
+    for (const t of all) hexagon(t);
+    const cap = 1300;
+    if (outer.x1 - outer.x0 > cap) {
+      const gx = st.pos.get(data.goal).x;
+      outer.x0 = gx - cap / 2;
+      outer.x1 = gx + cap / 2;
+    }
+    const w = outer.x1 - outer.x0, hgt = outer.y1 - outer.y0;
+    vb = { x: outer.x0, y: outer.y0, w, h: hgt };
+    const ratio = svg.clientWidth && svg.clientHeight ? svg.clientWidth / svg.clientHeight : 1.6;
+    if (w / hgt < ratio) { const nw = hgt * ratio; vb.x -= (nw - w) / 2; vb.w = nw; }
+    else { const nh = w / ratio; vb.y -= (nh - hgt) / 2; vb.h = nh; }
     fit();
     side();
     coins();
@@ -178,48 +328,44 @@
     mk("circle", { r, class: "body" }, g);
     mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = String(n.n);
     dots(g, n, r + 4);
-    const pick = () => { st.focus = st.focus === n.n ? null : n.n; draw(); };
+    if (st.route.has(n.n)) {
+      const bx = r * 0.8, by = -r * 0.8;
+      mk("circle", { cx: bx, cy: by, r: 8, class: "step" }, g);
+      mk("text", { x: bx, y: by, "text-anchor": "middle", dy: "0.35em", class: "steptext" }, g)
+        .textContent = String(st.route.get(n.n));
+    }
+    const pick = () => { st.sphere = null; st.focus = st.focus === n.n ? null : n.n; draw(); };
     g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
     g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
   }
 
   function hexagon(t) {
     const hx = st.hex.get(t.i);
+    const open = t.owners.length === 0;
     const pts = [0, 1, 2, 3, 4, 5].map((k) => {
       const a = (Math.PI / 3) * k;
       return Math.cos(a) * 28 + "," + Math.sin(a) * 28;
     }).join(" ");
-    const dim = st.filter !== null && st.filter !== "unlinked" && st.filter !== t.i;
-    const g = mk("g", { class: "hexnode" + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")" }, svg);
-    mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name + ". No RFD title names it.";
-    mk("polygon", { points: pts, stroke: color(t.i) }, g);
-    mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = t.name;
+    const sel = st.sphere === t.i;
+    const dim = (st.sphere !== null && !sel) || (st.filter !== null && st.filter !== "unlinked"
+      && st.filter !== t.i) || st.focus !== null;
+    const g = mk("g", { class: "hexnode" + (open ? " open" : "") + (sel ? " sel" : "")
+      + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")", tabindex: 0 }, svg);
+    mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name
+      + (open ? ". No RFD title names it." : "") + " Select it to travel down it.";
+    mk("polygon", { points: pts, stroke: color(t.i), fill: color(t.i) + (sel ? "55" : "18") }, g);
+    mk("text", { "text-anchor": "middle", dy: "-0.1em" }, g).textContent = t.name.length > 8
+      ? t.name.slice(0, 7) + "." : t.name;
+    const us = t.users.filter((u) => byN.has(u));
+    mk("text", { "text-anchor": "middle", dy: "1.2em", class: "count" }, g).textContent =
+      us.filter((u) => done(byN.get(u))).length + "/" + us.length;
+    const pick = () => { st.focus = null; st.sphere = sel ? null : t.i; draw(); };
+    g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
+    g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
   }
 
   function coins() {
     wallet.replaceChildren();
-    const row = (label, list, boring) => {
-      wallet.appendChild(h("span", { class: "tw-label" }, label));
-      list.forEach((t) => {
-        const users = t.users.filter((u) => byN.has(u));
-        const ok = users.filter((u) => done(byN.get(u))).length;
-        const c = h("button", { type: "button",
-          class: "boring-coin" + (ok ? " on" : "") + (st.filter === t.i ? " sel" : ""),
-          title: t.name + ": settled in " + ok + " of " + users.length + " skills" },
-          (boring ? "" : t.i + " ") + t.name + " " + ok + "/" + users.length);
-        c.addEventListener("click", () => {
-          st.filter = st.filter === t.i ? null : t.i;
-          st.focus = null;
-          controls();
-          draw();
-        });
-        c.style.borderColor = color(t.i);
-        if (ok) c.style.background = color(t.i);
-        wallet.appendChild(c);
-      });
-    };
-    row("Innovation tokens", data.tokens, false);
-    row("Boring tokens", data.boring, true);
     const p = [...path(data.goal)];
     const count = { done: 0, ready: 0, blocked: 0 };
     p.forEach((id) => { count[status(id)]++; });
@@ -227,11 +373,49 @@
     wallet.appendChild(h("span", { class: "tw-goal" },
       "As of " + data.asof + ", the path to " + short(data.goal) + " is " + pct + "% settled: "
       + count.done + " of " + p.length + " skills done, " + count.ready + " ready, "
-      + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + "."));
+      + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + ". Layout: "
+      + st.crossings + " edge crossings."));
+  }
+
+  function routeList(goalsText) {
+    panel.appendChild(h("h4", {}, "Route " + goalsText));
+    if (planner.error) {
+      panel.appendChild(h("p", { class: "flag" }, "The persona planner did not load: " + planner.error));
+      return;
+    }
+    if (!planner.ask) { panel.appendChild(h("p", {}, "Loading the persona planner...")); return; }
+    const p = st.plan;
+    if (!p || p.error) { panel.appendChild(h("p", {}, "No route: " + (p ? p.error : "nothing to plan"))); return; }
+    panel.appendChild(h("p", {}, p.order.length
+      ? p.order.length + " skills to settle, in this order, planned by the persona planner (wasm)."
+      : "Everything on this route is settled."));
+    const ol = h("ol");
+    p.order.slice(0, 12).forEach((id) => {
+      const li = h("li");
+      const b = h("button", { type: "button", class: "link" }, short(id) + " " + byN.get(id).t);
+      b.addEventListener("click", () => { st.sphere = null; st.focus = id; draw(); });
+      li.appendChild(b);
+      ol.appendChild(li);
+    });
+    panel.appendChild(ol);
+    if (p.order.length > 12) panel.appendChild(h("p", {}, "and " + (p.order.length - 12) + " more"));
+  }
+
+  function sphereSide(tk) {
+    panel.appendChild(h("h3", {}, tk.name));
+    panel.appendChild(h("p", { class: "tp-title" },
+      (typeof tk.i === "number" ? "Innovation token " + tk.i : "Boring token") + ". Travel down it to settle every skill that spends it."));
+    const users = tk.users.filter((u) => byN.has(u));
+    const ok = users.filter((u) => done(byN.get(u))).length;
+    panel.appendChild(h("p", { class: "tp-state" }, ok + " of " + users.length + " skills settled"));
+    panel.appendChild(h("h4", {}, "RFDs whose title names it"));
+    panel.appendChild(h("p", {}, tk.owners.length ? tk.owners.map(short).join(", ") : "none: no link"));
+    routeList("down this sphere");
   }
 
   function side() {
     panel.replaceChildren();
+    if (st.sphere !== null) { sphereSide(tokenOf(st.sphere)); return; }
     const n = st.focus === null ? byN.get(data.goal) : byN.get(st.focus);
     panel.appendChild(h("h3", {}, short(n.n)));
     panel.appendChild(h("p", { class: "tp-title" }, n.t));
@@ -275,6 +459,7 @@
       });
       panel.appendChild(ul);
     };
+    if (st.focus !== null && !done(n)) routeList("to this skill");
     list("Blocked by", needs(n.n).filter((m) => !done(byN.get(m))), true);
     list("Needs, settled", needs(n.n).filter((m) => done(byN.get(m))), false);
     list("Needed by", neededBy(n.n), false);
@@ -325,7 +510,9 @@
     if (moved) { vb.x = drag.vb.x - dx; vb.y = drag.vb.y - dy; fit(); }
   });
   window.addEventListener("pointerup", () => { drag = null; setTimeout(() => { moved = false; }, 0); });
-  svg.addEventListener("click", () => { if (!moved && st.focus !== null) { st.focus = null; draw(); } });
+  svg.addEventListener("click", () => {
+    if (!moved && (st.focus !== null || st.sphere !== null)) { st.focus = null; st.sphere = null; draw(); }
+  });
   svg.addEventListener("wheel", (e) => {
     e.preventDefault();
     const box = svg.getBoundingClientRect();
@@ -335,7 +522,7 @@
     vb = { x: mx - (mx - vb.x) * f, y: my - (my - vb.y) * f, w: vb.w * f, h: vb.h * f };
     fit();
   }, { passive: false });
-  window.addEventListener("keydown", (e) => { if (e.key === "Escape" && st.focus !== null) { st.focus = null; draw(); } });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") { st.focus = null; st.sphere = null; draw(); } });
 
   controls();
   draw();
