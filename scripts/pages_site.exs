@@ -387,18 +387,34 @@ defmodule PagesSite do
 
     pinned =
       for e <- rfds, e.serial in @pinned do
-        "> Pinned: [#{short(e.serial)}: #{e.label}](##{ids[e.href]}) #{e.status}\n\n"
+        question = e |> pinned_text() |> hook_of()
+
+        "[#{short(e.serial)}: #{e.label}](##{ids[e.href]}) #{e.status} #{question}"
       end
+
+    hero =
+      [
+        "**Which RFD decided it, and what was measured before it did?**\n{: .hook}",
+        "A rule is only as good as the measurement behind it, and some logbook entries " <>
+          "exist only to withdraw an earlier number.\n{: .intrigue}",
+        "Every RFD in serial order with its state, then the logbook entries that carry " <>
+          "the measurements. #{tally(rfds)}\n{: .delivery}",
+        Enum.map_join(pinned, "\n\n", &("Pinned: " <> &1 <> "\n{: .pinned}")),
+        "Search for an RFD number or a word in the box, or read the " <>
+          "[working agreements](#s2-1) first if you are new.\n{: .exit}",
+        "<!--search-->"
+      ]
+      |> Enum.reject(&(&1 == ""))
+      |> Enum.join("\n\n")
 
     foreword =
       "## 1. Foreword {#part-1}\n\n" <>
         "What the workspace measured (the logbook) and what it decided from that " <>
         "(the RFDs, also called requests for discussion, design docs or architecture " <>
-        "decision records).\n\n#{tally(rfds)}\n\n" <>
-        Enum.join(pinned) <>
+        "decision records).\n\n" <>
         "This page holds the whole site: #{length(pages)} reference pages, " <>
         "#{length(rfds)} RFDs, #{length(logs)} logbook entries and the serial register. " <>
-        "Each entry ends with a link to its own page. Search finds every RFD.\n"
+        "Each entry ends with a link to its own page.\n"
 
     body =
       Enum.map_join(numbered, "\n\n", fn {n, title, docs} ->
@@ -409,13 +425,25 @@ defmodule PagesSite do
     [
       "---\nlayout: spec\ntitle: manuals-weftspun\nedit_source: scripts/pages_site.exs\n---",
       "# manuals-weftspun\n{: .title}",
-      "Logbook, RFDs and working agreements. " <>
-        "Edition of #{ed.date}, built from `#{ed.sha}`.\n{: .edition}",
+      hero,
+      "Edition of #{ed.date}, built from `#{ed.sha}`.\n{: .edition}",
       "## Table of Contents\n{: #toc-title .no_toc}\n\n* TOC\n{:toc}",
       foreword,
       body
     ]
     |> Enum.join("\n\n")
+  end
+
+  defp pinned_text(%{files: [_, _] = files}), do: merged(files)
+  defp pinned_text(%{files: [{from, _}]}), do: File.read!(from)
+
+  defp hook_of(text) do
+    meta = ~r/^\*\*(State|Feature|Scope):/
+
+    text
+    |> String.split("\n")
+    |> Enum.find("", &(String.starts_with?(&1, "**") and not Regex.match?(meta, &1)))
+    |> String.trim("*")
   end
 
   defp tally(rfds) do
@@ -577,8 +605,15 @@ defmodule PagesSite do
           main { margin-left: 22rem; max-width: 62rem; padding: 2rem 3rem; }
           main a { color: var(--accent); }
           h2#toc-title + ul a { text-decoration: none; }
-          h1.title { margin: .2rem 0; font-size: 2.2rem; }
-          .edition { color: var(--muted); font-size: .9rem; }
+          h1.title { margin: 0 0 1.2rem; font: 600 .95rem system-ui, sans-serif;
+            letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+          p.hook { margin: 0 0 .6rem; font-size: 2.1rem; line-height: 1.2; font-weight: 700; }
+          p.intrigue { margin: 0 0 1rem; font-size: 1.15rem; color: #444; }
+          p.delivery { margin: 0 0 1rem; font-size: 1rem; }
+          p.pinned { margin: 0 0 1rem; padding: .6rem 1rem; background: #f0f6ff;
+            border-left: 4px solid var(--accent); }
+          p.exit { margin: 0 0 1rem; font-weight: 600; }
+          .edition { color: var(--muted); font-size: .85rem; }
           h2 { margin-top: 3rem; padding-top: 1.5rem; font-size: 1.7rem;
             border-bottom: 2px solid var(--line); }
           h3 { margin-top: 2.5rem; padding-top: 1rem; font-size: 1.35rem;
@@ -603,6 +638,7 @@ defmodule PagesSite do
       </head>
       <body>
         <main>
+          {% capture search %}
           <div id="site-search" role="search" data-base="{{ "/" | relative_url }}">
             <input type="search"
               placeholder="Search RFDs, the logbook and the agreements (press /)"
@@ -610,7 +646,8 @@ defmodule PagesSite do
             <p hidden></p>
             <ol hidden></ol>
           </div>
-          {{ content }}
+          {% endcapture %}
+          {{ content | replace: "<!--search-->", search }}
         </main>
         <script src="{{ "/assets/search.js" | relative_url }}" defer></script>
       </body>
