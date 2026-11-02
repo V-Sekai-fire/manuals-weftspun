@@ -24,6 +24,7 @@
       if (mod._persona_init() !== 0) throw new Error("persona_init failed");
       planner.ask = mod.cwrap("persona_plan", "string", ["string"]);
       draw();
+      if (planner.onReady) planner.onReady();
     })
     .catch((e) => { planner.error = String(e); draw(); });
   let vb = { x: 0, y: 0, w: 1000, h: 1000 };
@@ -524,6 +525,131 @@
   }, { passive: false });
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") { st.focus = null; st.sphere = null; draw(); } });
 
+  function betaPath() {
+    const host = document.getElementById("beta-path");
+    if (!host || !data.features) return;
+    const dn = (id) => byN.get(id);
+    const gates = [2436, 2437, 2438, 2439, 2440];
+    const below = (id) => gates.includes(id)
+      ? dn(id).c.filter((m) => dn(m) && m !== data.goal && !gates.includes(m))
+      : dn(id).c.filter((m) => dn(m) && dn(m).d > dn(id).d);
+    const reach = (ids) => {
+      const seen = new Set(ids);
+      const queue = [...ids];
+      while (queue.length) below(queue.shift()).forEach((m) => { if (!seen.has(m)) { seen.add(m); queue.push(m); } });
+      return seen;
+    };
+    const full = data.features.map((f) => reach(f.slices));
+    const common = new Set([...full[0]].filter((n) => full.every((s) => s.has(n)) && !gates.includes(n)));
+    const order = (ids) => {
+      if (!planner.ask) return null;
+      const nodes = [...reach(ids)].sort((a, b) => a - b);
+      const lines = nodes.map((id) => "skill " + id + " " + (done(dn(id)) ? 1 : 0) + " " + below(id).join(" "));
+      lines.push("skill 999999 0 " + ids.join(" "), "goal 999999");
+      const out = JSON.parse(planner.ask(lines.join("\n")));
+      return out.plan ? out.plan.map((s) => +s.replace("activate-", "")).filter((n) => n !== 999999) : [];
+    };
+    const spheresOf = (id) => [...dn(id).k, ...dn(id).b].map((i) => tokenOf(i));
+    const steps = (list) => {
+      const ol = h("ol");
+      list.forEach((id) => {
+        const li = h("li");
+        li.appendChild(h("a", { href: "#" + dn(id).id }, short(id)));
+        const sp = spheresOf(id).map((x) => x.name).join(", ");
+        li.appendChild(document.createTextNode(" " + dn(id).t));
+        const dep = below(id).filter((m) => !gates.includes(m));
+        const bits = [];
+        if (dep.length) bits.push("after " + dep.slice(0, 3).map((m) => m).join(", ") + (dep.length > 3 ? " and " + (dep.length - 3) + " more" : ""));
+        if (sp) bits.push("needs " + sp);
+        if (bits.length) li.appendChild(h("span", { class: "bp-dep" }, " (" + bits.join("; ") + ")"));
+        ol.appendChild(li);
+      });
+      return ol;
+    };
+    const chipsFor = (nodes) => {
+      const sph = new Map();
+      nodes.forEach((n) => spheresOf(n).forEach((tk) => sph.set(tk.i, (sph.get(tk.i) || 0) + 1)));
+      const p = h("p", { class: "bp-chips" });
+      [...sph].sort((a, b) => b[1] - a[1]).forEach(([i, n]) => {
+        const c = h("button", { type: "button", class: "chip" }, tokenOf(i).name + " " + n);
+        c.style.borderColor = color(i);
+        c.addEventListener("click", () => {
+          st.sphere = i; st.focus = null; controls(); draw();
+          document.getElementById("tree").scrollIntoView();
+        });
+        p.appendChild(c);
+      });
+      if (!sph.size) p.textContent = "No token named.";
+      return p;
+    };
+    const depLine = (ids) => {
+      const direct = [...new Set(ids.flatMap((g) => below(g)))];
+      const toks = [...new Set(ids.flatMap((g) => spheresOf(g).map((x) => x.name)))];
+      const p = h("p", { class: "bp-sub" });
+      p.textContent = "Depends on: "
+        + (direct.length ? direct.map((m) => short(m) + " " + dn(m).t).join("; ") : "no skill")
+        + (toks.length ? ". Tokens its text names: " + toks.join(", ") + "." : ". No token its text names.");
+      return p;
+    };
+    host.replaceChildren();
+    host.appendChild(h("p", { class: "bp-def" },
+      "A dependency is something that must be in place before a skill can be settled. A skill is an RFD. "
+      + "It depends on the skills it cites, and on the tokens, the technologies, its text names: "
+      + "an innovation token is a substrate the stack crashes without, and a boring token is one whose failure stops only a tool or a gate. "
+      + "Follow a feature down through its dependencies to the foundation."));
+    const top = h("div", { class: "bp-top" });
+    top.appendChild(h("h3", {}, short(data.goal) + " " + dn(data.goal).t));
+    top.appendChild(h("p", {}, "The beta freeze is cut when every slice gate passes with its control. "
+      + gates.filter((g) => done(dn(g))).length + " of " + gates.length + " slices are settled."));
+    const gl = h("p", { class: "bp-gates" });
+    gates.forEach((g) => gl.appendChild(h("span", { class: "gate " + (done(dn(g)) ? "ok" : "open") },
+      g + " " + dn(g).s)));
+    top.appendChild(gl);
+    host.appendChild(top);
+
+    const base = [...common];
+    const baseOpen = base.filter((n) => !done(dn(n)));
+    const found = h("section", { class: "bp-card bp-base" });
+    found.appendChild(h("h4", {}, "Shared foundation under all four features"));
+    found.appendChild(h("p", { class: "bp-text" },
+      "Every slice cites RFD66606-2374 and RFD66606-2390, so these skills sit under every feature. "
+      + baseOpen.length + " of " + base.length + " are still open."));
+    found.appendChild(chipsFor(baseOpen));
+    found.appendChild(depLine([2374, 2390].filter((g) => dn(g))));
+    const fo = order(base.length ? data.features.flatMap((f) => f.slices) : []);
+    const fdet = h("details", {});
+    fdet.appendChild(h("summary", {}, "Foundation route, in order"));
+    if (fo) fdet.appendChild(steps(fo.filter((n) => common.has(n))));
+    found.appendChild(fdet);
+    host.appendChild(found);
+
+    const grid = h("div", { class: "bp-grid" });
+    data.features.forEach((f, k) => {
+      const own = [...full[k]].filter((n) => !common.has(n) && !gates.includes(n));
+      const ownOpen = own.filter((n) => !done(dn(n)));
+      const card = h("section", { class: "bp-card" });
+      card.appendChild(h("h4", {}, f.name));
+      card.appendChild(h("p", { class: "bp-text" }, f.text));
+      card.appendChild(h("p", { class: "bp-slices" }, "Slice: " + f.slices.map((g) => short(g) + " (" + dn(g).s + ")").join(", ")));
+      card.appendChild(depLine(f.slices));
+      if (!own.length) {
+        card.appendChild(h("p", { class: "flag" },
+          "No RFD names a prerequisite of its own for this feature. It stands only on the shared foundation, so its slice is skipped ahead without a link."));
+      } else {
+        card.appendChild(h("p", { class: "bp-sub" }, ownOpen.length + " of " + own.length + " skills of its own are still open."));
+        card.appendChild(chipsFor(ownOpen));
+        const o = order(f.slices);
+        const det = h("details", {});
+        det.appendChild(h("summary", {}, "Its own route, in order"));
+        if (o) det.appendChild(steps(o.filter((n) => !common.has(n) && !gates.includes(n))));
+        card.appendChild(det);
+      }
+      grid.appendChild(card);
+    });
+    host.appendChild(grid);
+  }
+  planner.onReady = betaPath;
+  betaPath();
   controls();
   draw();
 })();

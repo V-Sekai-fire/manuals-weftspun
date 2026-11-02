@@ -491,7 +491,8 @@ defmodule PagesSite do
   end
 
   defp map_block(tree) do
-    "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div>\n" <>
+    "<div id=\"beta-path\" class=\"beta-path\" markdown=\"0\"></div>\n" <>
+      "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div>\n" <>
       "<script type=\"application/json\" id=\"tree-data\">#{PagesTree.json(tree)}</script>\n" <>
       "<noscript>The map needs a script. Section 1 holds the same facts as tables.</noscript>"
   end
@@ -677,6 +678,28 @@ defmodule PagesSite do
           pre { padding: .8rem; overflow: auto; border: 1px solid var(--line); }
           table { border-collapse: collapse; display: block; overflow: auto; }
           th, td { border: 1px solid var(--line); padding: .35rem .6rem; vertical-align: top; }
+          .beta-path { margin: 0 0 1rem; font: 14px/1.45 system-ui, sans-serif; }
+          .beta-path h3 { margin: 0 0 .2rem; border: 0; padding: 0; font-size: 1.15rem; }
+          .beta-path p { margin: .2rem 0; }
+          .bp-gates .gate { display: inline-block; margin: 0 .3rem .2rem 0; padding: .1rem .5rem;
+            border-radius: .8rem; border: 2px solid #888; font-size: 12px; }
+          .bp-gates .gate.ok { background: #1a5fb4; border-color: #1a5fb4; color: #fff; }
+          .bp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+            gap: .7rem; margin-top: .6rem; }
+          .bp-card { border: 1px solid var(--line); border-top: 4px solid #f2c94c;
+            padding: .5rem .7rem; background: #fcfcfd; }
+          .bp-base { border-top-color: #1a5fb4; margin-top: .6rem; }
+          .bp-card h4 { margin: 0 0 .2rem; font-size: 1rem; }
+          .bp-text { color: #444; }
+          .bp-def { padding: .5rem .8rem; background: #f0f6ff;
+            border-left: 4px solid var(--accent); }
+          .bp-dep { color: var(--muted); font-size: 12px; }
+          .bp-slices, .bp-sub { color: var(--muted); font-size: 12.5px; }
+          .bp-chips .chip { margin: 0 .25rem .25rem 0; padding: .1rem .5rem;
+            border: 2px solid var(--line); border-radius: 1rem; background: #fff;
+            font: inherit; font-size: 12px; cursor: pointer; }
+          .bp-card details { margin-top: .3rem; }
+          .bp-card ol { margin: .3rem 0 0; padding-left: 1.3rem; font-size: 12.5px; }
           .tree { display: grid; grid-template-columns: 1fr 17rem; gap: 0 1rem; margin: 0 0 1rem;
             font: 13px/1.4 system-ui, sans-serif; }
           .tree-bar { grid-column: 1 / 3; display: flex; flex-wrap: wrap; gap: .35rem;
