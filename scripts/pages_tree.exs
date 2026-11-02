@@ -72,6 +72,63 @@ defmodule PagesTree do
     }
   end
 
+  def domain(data) do
+    ids = MapSet.new(data.nodes, & &1.n)
+    open = Enum.reject(data.nodes, &(&1.s in @advanced))
+    tokens = for t <- data.tokens ++ data.boring, do: to_string(t.i)
+    need = fn n -> for m <- n.c, m in ids, Enum.find(data.nodes, &(&1.n == m)).d > n.d, do: m end
+    ge = fn p -> %{eval: %{type: "pointer/ge", pointer: p, value: 1}} end
+    set = fn p -> %{"pointer/set": p, value: 1} end
+
+    settle =
+      for n <- open, into: %{} do
+        holds =
+          Enum.map(need.(n), &ge.("/rfd/#{&1}")) ++ Enum.map(n.k ++ n.b, &ge.("/token/#{&1}"))
+
+        {"settle-#{n.n}", %{params: [], body: holds ++ [set.("/rfd/#{n.n}")]}}
+      end
+
+    acquire =
+      for t <- tokens, into: %{} do
+        {"acquire-token-#{t}", %{params: [], body: [set.("/token/#{t}")]}}
+      end
+
+    methods =
+      for n <- open, into: %{} do
+        steps =
+          Enum.map(need.(n), &["goal", "/rfd/#{&1}"]) ++
+            Enum.map(n.k ++ n.b, &["goal", "/token/#{&1}"])
+
+        {"/rfd/#{n.n}",
+         %{alternatives: [%{name: "settle", subtasks: steps ++ [["settle-#{n.n}"]]}]}}
+      end
+
+    tmethods =
+      for t <- tokens, into: %{} do
+        {"/token/#{t}", %{alternatives: [%{name: "acquire", subtasks: [["acquire-token-#{t}"]]}]}}
+      end
+
+    %{
+      "@type": "domain:Problem",
+      name: "campus_beta",
+      source: "manuals-weftspun",
+      version: "0.1.0",
+      description:
+        "Skills and tokens assembled into RFD66606-#{data.goal}: a skill is settled once the skills it needs are settled and the tokens it spends are acquired.",
+      variables: [
+        %{
+          name: "rfd",
+          type: "int",
+          init: Map.new(data.nodes, &{to_string(&1.n), if(&1.s in @advanced, do: 1, else: 0)})
+        },
+        %{name: "token", type: "int", init: Map.new(tokens, &{&1, 0})}
+      ],
+      actions: Map.merge(settle, acquire),
+      methods: Map.merge(methods, tmethods),
+      todo_list: [%{goal: [%{pointer: "/rfd/#{data.goal}", eq: 1}]}]
+    }
+  end
+
   def json(data) do
     data |> JSON.encode!() |> String.replace("</", "<\\/")
   end

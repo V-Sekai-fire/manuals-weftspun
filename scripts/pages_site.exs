@@ -48,7 +48,10 @@ defmodule PagesSite do
     File.write!(Path.join(out, "page-LOGBOOK.md"), logbook_page(logs))
     File.write!(Path.join(out, "_layouts/spec.html"), spec_layout())
 
-    File.write!(Path.join(out, "index.md"), single_page(root, logs, rfds, edition(root), slugs))
+    File.write!(
+      Path.join(out, "index.md"),
+      single_page(root, logs, rfds, edition(root), slugs, out)
+    )
 
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
@@ -373,7 +376,7 @@ defmodule PagesSite do
     end)
   end
 
-  defp single_page(root, logs, rfds, ed, slugs) do
+  defp single_page(root, logs, rfds, ed, slugs, out) do
     pages = for f <- @pages -- ["README.md"], File.exists?(Path.join(root, f)), do: f
 
     parts = [
@@ -406,6 +409,7 @@ defmodule PagesSite do
       end
 
     tree = PagesTree.build(texts, notes, hd(@pinned), tree_repos(), ed.date)
+    File.write!(Path.join(out, "assets/campus.jsonld"), JSON.encode!(PagesTree.domain(tree)))
 
     hero =
       for e <- rfds, e.serial in @pinned do
