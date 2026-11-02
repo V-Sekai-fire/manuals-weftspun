@@ -121,14 +121,14 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
     taskweft MMOG agent and the residual FSQ recommender (both tested in
     CI on a real FoundationDB), and the multiplayer fabric hosting
     service (compose only, never run: no desk runs containers).
-  - Also moved, merged 2026-10-18: weftspun-character-taxonomy (its
-    image no longer starts a CockroachDB node; CI finds its test
-    database's keys in FoundationDB). The smoke-test scripts in the
+  - Also moved, merged 2026-10-18: weftspun-character-taxonomy. Its
+    image no longer starts a CockroachDB node, and CI finds its test
+    database's keys in FoundationDB. The smoke-test scripts in the
     multiplayer fabric meta repo wait for a merge with no CI.
   - Archived: the fabric's CockroachDB service, the Dokku CockroachDB
     service, the vertex interactor, the fabric's container service, the
     fabric gateway transport and the fabric infra service (the Terraform
-    for the Fly app; its daily backup found no started machine on
+    for the Fly app, whose daily backup found no started machine on
     2026-10-18).
   - The pinned taskweft dependency still pulls postgrex.
   - The analysis script was Python in a scratch directory. It is not kept
