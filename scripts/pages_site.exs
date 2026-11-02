@@ -491,8 +491,10 @@ defmodule PagesSite do
   end
 
   defp map_block(tree) do
-    "<div id=\"beta-path\" class=\"beta-path\" markdown=\"0\"></div>\n" <>
-      "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div>\n" <>
+    "<div id=\"journey\" class=\"journey\" markdown=\"0\"></div>\n" <>
+      "<details class=\"explore\" markdown=\"0\"><summary>Explore by feature and by token</summary>\n" <>
+      "<div id=\"beta-path\" class=\"beta-path\" markdown=\"0\"></div>\n" <>
+      "<div id=\"tree\" class=\"tree\" markdown=\"0\"></div></details>\n" <>
       "<script type=\"application/json\" id=\"tree-data\">#{PagesTree.json(tree)}</script>\n" <>
       "<noscript>The map needs a script. Section 1 holds the same facts as tables.</noscript>"
   end
@@ -678,6 +680,25 @@ defmodule PagesSite do
           pre { padding: .8rem; overflow: auto; border: 1px solid var(--line); }
           table { border-collapse: collapse; display: block; overflow: auto; }
           th, td { border: 1px solid var(--line); padding: .35rem .6rem; vertical-align: top; }
+          .journey { margin: 0 0 1rem; font: 14px/1.4 system-ui, sans-serif; }
+          .jr-track { display: flex; gap: .6rem; overflow-x: auto; align-items: flex-start;
+            max-height: 58vh; padding-bottom: .4rem; }
+          .jr-col { flex: 0 0 15rem; border: 1px solid var(--line); border-top: 4px solid #888;
+            padding: .4rem .5rem; background: #fcfcfd; max-height: 56vh; overflow-y: auto; }
+          .jr-col h4 { margin: 0; font-size: .95rem; }
+          .jr-sub { margin: .1rem 0 .4rem; color: var(--muted); font-size: 12px; }
+          .jr-done { border-top-color: #1a5fb4; }
+          .jr-now { border-top-color: #e67e00; background: #fff8ee; }
+          .jr-end { border-top-color: #f2c94c; background: #fffbea; }
+          .jr-chip { display: block; margin: 0 0 .25rem; padding: .15rem .4rem; font-size: 12px;
+            border: 1px solid var(--line); border-left: 5px solid #bbb; background: #fff;
+            color: #222; text-decoration: none; overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; }
+          .jr-chip.done { background: #e8f0fb; }
+          .jr-chip.ready { border-color: #e67e00; }
+          .jr-chip.early { border-style: dashed; border-color: #c0392b; }
+          .explore { margin: .8rem 0; }
+          .explore > summary { cursor: pointer; font-weight: 600; }
           .beta-path { margin: 0 0 1rem; font: 14px/1.45 system-ui, sans-serif; }
           .beta-path h3 { margin: 0 0 .2rem; border: 0; padding: 0; font-size: 1.15rem; }
           .beta-path p { margin: .2rem 0; }

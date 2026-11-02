@@ -489,7 +489,67 @@
     });
     host.appendChild(grid);
   }
-  planner.onReady = betaPath;
+  function journey() {
+    const host = document.getElementById("journey");
+    if (!host) return;
+    const dn = (id) => byN.get(id);
+    const gates = [2436, 2437, 2438, 2439, 2440];
+    const nodes = [...closure(data.goal, needs)].filter((n) => n !== data.goal);
+    const open = nodes.filter((n) => !done(dn(n)));
+    const wave = new Map();
+    const level = (id) => {
+      if (wave.has(id)) return wave.get(id);
+      wave.set(id, 1);
+      const w = 1 + Math.max(0, ...needs(id).filter((m) => !done(dn(m))).map(level));
+      wave.set(id, w);
+      return w;
+    };
+    open.forEach(level);
+    const top = Math.max(1, ...open.map((n) => wave.get(n)));
+    const doneIds = nodes.filter((n) => done(dn(n))).sort((a, b) => a - b);
+    const early = doneIds.filter((n) => needs(n).some((m) => !done(dn(m))));
+    const seen = new Set();
+    host.replaceChildren();
+    host.appendChild(h("p", { class: "bp-def" }, "The journey to " + short(data.goal) + ", " + dn(data.goal).t
+      + ". An RFD that is committed counts as complete, whatever order it landed in. Each step right needs the steps before it. "
+      + doneIds.length + " of " + nodes.length + " skills are committed, " + open.length + " remain."));
+    const track = h("div", { class: "jr-track" });
+    const col = (title, sub, cls) => {
+      const c = h("section", { class: "jr-col " + cls });
+      c.appendChild(h("h4", {}, title));
+      c.appendChild(h("p", { class: "jr-sub" }, sub));
+      track.appendChild(c);
+      return c;
+    };
+    const chip = (id, c) => {
+      const n = dn(id);
+      const a = h("a", { class: "jr-chip " + (done(n) ? "done" : status(id)), href: "#" + n.id,
+        title: short(id) + ": " + n.t + " (" + n.s + ")" }, id + " " + n.t);
+      const first = [...n.k, ...n.b][0];
+      if (first !== undefined) a.style.borderLeftColor = color(first);
+      c.appendChild(a);
+    };
+    const dc = col("Committed", doneIds.length + " done" + (early.length ? ", " + early.length + " landed before something they need" : ""), "jr-done");
+    doneIds.forEach((id) => {
+      chip(id, dc);
+      if (early.includes(id)) dc.lastChild.classList.add("early");
+    });
+    for (let w = 1; w <= top; w++) {
+      const ids = open.filter((n) => wave.get(n) === w).sort((a, b) => a - b);
+      const fresh = new Set();
+      ids.forEach((id) => [...dn(id).k, ...dn(id).b].forEach((i) => { if (!seen.has(i)) { seen.add(i); fresh.add(i); } }));
+      const sub = ids.length + " skills" + (fresh.size ? ", opens " + [...fresh].map((i) => tokenOf(i).name).join(", ") : "");
+      const c = col(w === 1 ? "Next: ready now" : "Then, step " + w, sub, w === 1 ? "jr-now" : "");
+      ids.forEach((id) => chip(id, c));
+    }
+    const end = col(short(data.goal), "beta freeze: " + gates.filter((g) => done(dn(g))).length + " of " + gates.length + " slice gates committed", "jr-end");
+    gates.forEach((g) => chip(g, end));
+    host.appendChild(track);
+  }
+  planner.onReady = () => { betaPath(); };
+  journey();
+  const _bp = betaPath;
+
   betaPath();
   controls();
   draw();
