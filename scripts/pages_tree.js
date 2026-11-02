@@ -1,21 +1,22 @@
 // Copyright (c) 2026 K. S. Ernest (iFire) Lee
 // SPDX-License-Identifier: Apache-2.0 OR MIT
-// The interactive prerequisite map: radial rings around the goal, token filters, skipped-ahead links.
+// The interactive progress map: radial rings around the goal, token ledger, settled and ready skills.
 (() => {
   const root = document.getElementById("tree");
   const raw = document.getElementById("tree-data");
   if (!root || !raw) return;
   const data = JSON.parse(raw.textContent);
   const NS = "http://www.w3.org/2000/svg";
-  const COLORS = ["#e6194b", "#f58231", "#b8860b", "#00a5cf", "#4363d8", "#911eb4", "#008080"];
-  const GREEN = "#2e7d32";
+  const INNOV = ["#e6194b", "#f58231", "#b8860b", "#00a5cf", "#4363d8", "#911eb4", "#008080"];
+  const BORE = ["#2e7d32", "#689f38", "#00897b", "#827717"];
+  const all = [...data.tokens, ...data.boring];
+  const color = (id) => (typeof id === "number" ? INNOV[id - 1] : BORE[+id.slice(1) - 1]);
+  const tokenOf = (id) => all.find((t) => t.i === id);
   const byN = new Map(data.nodes.map((n) => [n.n, n]));
-  const unlinked = data.tokens.filter((t) => t.owners.length === 0);
-  const settled = (n) => n.s === "published" || n.s === "committed";
-  const st = { depth: 2, focus: null, filter: null, skips: true, pos: new Map(), hex: new Map(),
-    got: new Set(data.nodes.filter(settled).map((n) => n.n)) };
-  const skipped = (a, b) => st.got.has(a) && !st.got.has(b);
+  const unlinked = all.filter((t) => t.owners.length === 0);
+  const st = { depth: 2, focus: null, filter: null, skips: true, pos: new Map(), hex: new Map() };
   let vb = { x: 0, y: 0, w: 1000, h: 1000 };
+  let drag = null, moved = false;
 
   const mk = (tag, attrs = {}, parent) => {
     const e = document.createElementNS(NS, tag);
@@ -30,27 +31,49 @@
     return e;
   };
   const short = (n) => "RFD66606-" + n;
+  const done = (n) => n.s === "published" || n.s === "committed";
+  const visible = () => data.nodes.filter((n) => n.d <= st.depth);
+  const needs = (id) => {
+    const n = byN.get(id);
+    return n ? n.c.filter((m) => byN.has(m) && byN.get(m).d > n.d && byN.get(m).d <= st.depth) : [];
+  };
+  const neededBy = (id) => visible().filter((m) => needs(m.n).includes(id)).map((m) => m.n);
+  const skipped = (a, b) => done(byN.get(a)) && !done(byN.get(b));
+
+  function closure(start, next) {
+    const seen = new Set([start]);
+    const queue = [start];
+    while (queue.length) for (const m of next(queue.shift())) if (!seen.has(m)) { seen.add(m); queue.push(m); }
+    return seen;
+  }
+  const path = (id) => closure(id, needs);
+  const status = (id) => {
+    if (done(byN.get(id))) return "done";
+    return needs(id).every((m) => done(byN.get(m))) ? "ready" : "blocked";
+  };
+  const share = (id) => {
+    const p = [...path(id)];
+    return p.filter((m) => done(byN.get(m))).length / p.length;
+  };
 
   const bar = h("div", { class: "tree-bar" });
+  const wallet = h("div", { class: "tree-wallet" });
   const stage = h("div", { class: "tree-stage" });
   const panel = h("aside", { class: "tree-panel" });
-  const wallet = h("div", { class: "tree-wallet" });
   root.append(bar, wallet, stage, panel);
-  const svg = mk("svg", { class: "tree-svg", role: "img", "aria-label": "Prerequisite map" });
+  const svg = mk("svg", { class: "tree-svg", role: "img", "aria-label": "Progress map" });
   stage.appendChild(svg);
-
-  function visible() { return data.nodes.filter((n) => n.d <= st.depth); }
 
   function layout() {
     st.pos.clear();
     st.hex.clear();
     const vis = visible();
-    st.pos.set(data.goal, { x: 0, y: 0, a: 0, r: 0 });
+    st.pos.set(data.goal, { x: 0, y: 0, a: 0 });
     let prev = 0;
     for (let d = 1; d <= st.depth; d++) {
       const ring = vis.filter((n) => n.d === d);
       if (!ring.length) continue;
-      const rad = Math.max(prev + 135, (ring.length * 70) / (2 * Math.PI));
+      const rad = Math.max(prev + 135, (ring.length * 72) / (2 * Math.PI));
       const want = ring.map((n) => {
         const kin = vis.filter((m) => m.d === d - 1 && m.c.includes(n.n)).map((m) => st.pos.get(m.n));
         const use = kin.length ? kin : vis.filter((m) => m.c.includes(n.n) && st.pos.has(m.n)).map((m) => st.pos.get(m.n));
@@ -62,7 +85,7 @@
       const base = d === 1 ? -Math.PI / 2 : want[0].a;
       want.forEach((w, i) => {
         const a = base + (i * 2 * Math.PI) / want.length;
-        st.pos.set(w.n.n, { x: Math.cos(a) * rad, y: Math.sin(a) * rad, a, r: rad });
+        st.pos.set(w.n.n, { x: Math.cos(a) * rad, y: Math.sin(a) * rad, a });
       });
       prev = rad;
     }
@@ -79,26 +102,17 @@
     return outer;
   }
 
-  function closure(start, next) {
-    const seen = new Set([start]);
-    const queue = [start];
-    while (queue.length) for (const m of next(queue.shift())) if (!seen.has(m)) { seen.add(m); queue.push(m); }
-    return seen;
-  }
-  const needs = (n) => (byN.get(n) ? byN.get(n).c.filter((m) => st.pos.has(m)) : []);
-  const neededBy = (n) => visible().filter((m) => m.c.includes(n) && st.pos.has(m.n)).map((m) => m.n);
-
   function lit() {
-    if (st.focus !== null) {
-      const up = closure(st.focus, needs);
-      const down = closure(st.focus, neededBy);
-      return new Set([...up, ...down]);
-    }
+    if (st.focus !== null) return new Set([...path(st.focus), ...closure(st.focus, neededBy)]);
     if (st.filter === null) return null;
     const hit = new Set();
     for (const n of visible()) {
-      if (st.filter === "boring" ? n.b.length : st.filter === "unlinked"
-          ? unlinked.some((t) => n.k.includes(t.i)) : n.k.includes(st.filter)) hit.add(n.n);
+      const f = st.filter;
+      const ok = ["done", "ready", "blocked"].includes(f)
+        ? status(n.n) === f
+        : f === "unlinked" ? unlinked.some((t) => n.k.includes(t.i) || n.b.includes(t.i))
+        : n.k.includes(f) || n.b.includes(f);
+      if (ok) hit.add(n.n);
     }
     return hit;
   }
@@ -112,7 +126,7 @@
     for (const n of vis) {
       for (const m of n.c) {
         if (!st.pos.has(m)) continue;
-        const skip = skipped(n.n, m);
+        const skip = byN.get(m).d > n.d && skipped(n.n, m);
         if (skip && !st.skips) continue;
         const p = st.pos.get(n.n), q = st.pos.get(m);
         const dim = on && !(on.has(n.n) && on.has(m));
@@ -124,56 +138,26 @@
       const hx = st.hex.get(t.i);
       for (const u of hx.users) {
         const p = st.pos.get(u);
-        const dim = on && !on.has(u);
-        mk("line", { x1: hx.x, y1: hx.y, x2: p.x, y2: p.y, class: "edge skip" + (dim ? " dim" : "") }, edges);
+        mk("line", { x1: hx.x, y1: hx.y, x2: p.x, y2: p.y,
+          class: "edge skip" + (on && !on.has(u) ? " dim" : "") }, edges);
       }
     }
     for (const n of vis) node(n, on);
     for (const t of unlinked) hexagon(t);
-    const pad = 70, ext = outer + pad;
+    const ext = outer + 70;
     vb = { x: -ext, y: -ext, w: ext * 2, h: ext * 2 };
     fit();
     side();
     coins();
   }
 
-  function cost(ids) {
-    const k = new Set(), b = new Set();
-    for (const id of ids) { byN.get(id).k.forEach((i) => k.add(i)); byN.get(id).b.forEach((x) => b.add(x)); }
-    return { k, b };
-  }
-
-  function coins() {
-    wallet.replaceChildren();
-    const spent = cost([...st.got].filter((n) => byN.has(n)));
-    const path = closure(data.goal, (n) => byN.get(n).c.filter((m) => byN.has(m)));
-    const need = cost([...path]);
-    const missing = [...path].filter((n) => !st.got.has(n));
-    wallet.appendChild(h("span", { class: "tw-label" }, "Innovation tokens"));
-    data.tokens.forEach((t) => {
-      const on = spent.k.has(t.i);
-      const c = h("span", { class: "coin" + (on ? " on" : ""), title: t.name }, String(t.i));
-      c.style.borderColor = COLORS[t.i - 1];
-      if (on) c.style.background = COLORS[t.i - 1];
-      wallet.appendChild(c);
-    });
-    wallet.appendChild(h("span", { class: "tw-label" }, "Boring"));
-    data.boring.forEach((name) => {
-      wallet.appendChild(h("span", { class: "boring-coin" + (spent.b.has(name) ? " on" : "") }, name));
-    });
-    wallet.appendChild(h("span", { class: "tw-goal" },
-      "Goal " + short(data.goal) + ": " + missing.length + " of " + path.size
-      + " skills on its path not acquired; its path spends " + need.k.size + " of "
-      + data.tokens.length + " innovation tokens and " + need.b.size + " boring."));
-  }
-
   function dots(g, n, r) {
-    const slots = [...n.k.map((i) => ({ c: COLORS[i - 1], tok: true })), ...n.b.map(() => ({ c: GREEN, tok: false }))];
+    const slots = [...n.k.map((i) => ({ i, sq: true })), ...n.b.map((i) => ({ i, sq: false }))];
     slots.forEach((s, i) => {
-      const a = -Math.PI / 2 + (i * 2 * Math.PI) / 8;
-      mk(s.tok ? "rect" : "circle", s.tok
-        ? { x: Math.cos(a) * (r + 7) - 3.5, y: Math.sin(a) * (r + 7) - 3.5, width: 7, height: 7, fill: s.c, class: "dot" }
-        : { cx: Math.cos(a) * (r + 7), cy: Math.sin(a) * (r + 7), r: 3.5, fill: s.c, class: "dot" }, g);
+      const a = -Math.PI / 2 + (i * 2 * Math.PI) / 10;
+      const x = Math.cos(a) * (r + 8), y = Math.sin(a) * (r + 8);
+      if (s.sq) mk("rect", { x: x - 3.5, y: y - 3.5, width: 7, height: 7, fill: color(s.i), class: "dot" }, g);
+      else mk("circle", { cx: x, cy: y, r: 3.5, fill: color(s.i), class: "dot" }, g);
     });
   }
 
@@ -181,16 +165,19 @@
     const p = st.pos.get(n.n);
     const goal = n.n === data.goal;
     const r = goal ? 40 : 20;
-    const repo = data.repos.some((x) => x.n === n.n);
-    const cls = ["node", n.s, st.got.has(n.n) ? "got" : "", goal ? "goal" : "", repo ? "repo" : "",
-      on && !on.has(n.n) ? "dim" : "",
-      st.focus === n.n ? "focus" : ""].join(" ");
+    const stat = status(n.n);
+    const cls = ["node", n.s, stat, goal ? "goal" : "", data.repos.some((x) => x.n === n.n) ? "repo" : "",
+      on && !on.has(n.n) ? "dim" : "", st.focus === n.n ? "focus" : ""].join(" ");
     const g = mk("g", { class: cls, transform: "translate(" + p.x + "," + p.y + ")", tabindex: 0 }, svg);
-    mk("title", {}, g).textContent = short(n.n) + ": " + n.t + " (" + n.s + ")";
-    mk("circle", { r }, g);
-    const t = mk("text", { "text-anchor": "middle", dy: "0.35em" }, g);
-    t.textContent = goal ? "2360" : String(n.n);
-    dots(g, n, r);
+    const pct = Math.round(share(n.n) * 100);
+    mk("title", {}, g).textContent = short(n.n) + ": " + n.t + " (" + n.s + ", " + stat + ", path " + pct + "% settled)";
+    const arc = 2 * Math.PI * (r + 4);
+    mk("circle", { r: r + 4, class: "ring-track" }, g);
+    mk("circle", { r: r + 4, class: "ring-fill", "stroke-dasharray": (arc * pct) / 100 + " " + arc,
+      transform: "rotate(-90)" }, g);
+    mk("circle", { r, class: "body" }, g);
+    mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = String(n.n);
+    dots(g, n, r + 4);
     const pick = () => { st.focus = st.focus === n.n ? null : n.n; draw(); };
     g.addEventListener("click", (e) => { if (!moved) { e.stopPropagation(); pick(); } });
     g.addEventListener("keydown", (e) => { if (e.key === "Enter") pick(); });
@@ -200,13 +187,47 @@
     const hx = st.hex.get(t.i);
     const pts = [0, 1, 2, 3, 4, 5].map((k) => {
       const a = (Math.PI / 3) * k;
-      return Math.cos(a) * 26 + "," + Math.sin(a) * 26;
+      return Math.cos(a) * 28 + "," + Math.sin(a) * 28;
     }).join(" ");
     const dim = st.filter !== null && st.filter !== "unlinked" && st.filter !== t.i;
     const g = mk("g", { class: "hexnode" + (dim ? " dim" : ""), transform: "translate(" + hx.x + "," + hx.y + ")" }, svg);
     mk("title", {}, g).textContent = "Token " + t.i + ": " + t.name + ". No RFD title names it.";
-    mk("polygon", { points: pts, stroke: COLORS[t.i - 1] }, g);
+    mk("polygon", { points: pts, stroke: color(t.i) }, g);
     mk("text", { "text-anchor": "middle", dy: "0.35em" }, g).textContent = t.name;
+  }
+
+  function coins() {
+    wallet.replaceChildren();
+    const row = (label, list, boring) => {
+      wallet.appendChild(h("span", { class: "tw-label" }, label));
+      list.forEach((t) => {
+        const users = t.users.filter((u) => byN.has(u));
+        const ok = users.filter((u) => done(byN.get(u))).length;
+        const c = h("button", { type: "button",
+          class: "boring-coin" + (ok ? " on" : "") + (st.filter === t.i ? " sel" : ""),
+          title: t.name + ": settled in " + ok + " of " + users.length + " skills" },
+          (boring ? "" : t.i + " ") + t.name + " " + ok + "/" + users.length);
+        c.addEventListener("click", () => {
+          st.filter = st.filter === t.i ? null : t.i;
+          st.focus = null;
+          controls();
+          draw();
+        });
+        c.style.borderColor = color(t.i);
+        if (ok) c.style.background = color(t.i);
+        wallet.appendChild(c);
+      });
+    };
+    row("Innovation tokens", data.tokens, false);
+    row("Boring tokens", data.boring, true);
+    const p = [...path(data.goal)];
+    const count = { done: 0, ready: 0, blocked: 0 };
+    p.forEach((id) => { count[status(id)]++; });
+    const pct = Math.round((count.done / p.length) * 100);
+    wallet.appendChild(h("span", { class: "tw-goal" },
+      "As of " + data.asof + ", the path to " + short(data.goal) + " is " + pct + "% settled: "
+      + count.done + " of " + p.length + " skills done, " + count.ready + " ready, "
+      + count.blocked + " blocked. The goal is " + byN.get(data.goal).s + "."));
   }
 
   function side() {
@@ -214,71 +235,68 @@
     const n = st.focus === null ? byN.get(data.goal) : byN.get(st.focus);
     panel.appendChild(h("h3", {}, short(n.n)));
     panel.appendChild(h("p", { class: "tp-title" }, n.t));
-    panel.appendChild(h("p", { class: "tp-state " + n.s }, n.s + (n.d ? ", ring " + n.d : ", the goal")));
+    const stat = status(n.n);
+    panel.appendChild(h("p", { class: "tp-state " + stat },
+      n.s + ", " + stat + ", " + Math.round(share(n.n) * 100) + "% of its path settled"));
+    panel.appendChild(h("h4", {}, "Spends"));
     const tags = h("p", { class: "tp-tags" });
-    n.k.forEach((i) => {
-      const t = data.tokens.find((x) => x.i === i);
-      tags.appendChild(h("span", { class: "chip", style: "border-color:" + COLORS[i - 1] }, i + " " + t.name));
+    [...n.k, ...n.b].forEach((i) => {
+      const c = h("span", { class: "chip" }, tokenOf(i).name);
+      c.style.borderColor = color(i);
+      tags.appendChild(c);
     });
-    n.b.forEach((b) => tags.appendChild(h("span", { class: "chip boring" }, b)));
-    if (!n.k.length && !n.b.length) tags.textContent = "No technology on the ledger named.";
+    if (!n.k.length && !n.b.length) tags.textContent = "No token on the ledger named.";
     panel.appendChild(tags);
-    panel.appendChild(h("h4", {}, "Cost"));
-    const own = cost([n.n]);
-    panel.appendChild(h("p", {}, (own.k.size ? own.k.size + " innovation, " : "no innovation, ")
-      + (own.b.size ? own.b.size + " boring" : "no boring")));
-    const acq = h("button", { type: "button", class: "chip" + (st.got.has(n.n) ? " on" : "") },
-      st.got.has(n.n) ? "Acquired. Release it" : "Acquire this skill");
-    acq.addEventListener("click", () => { toggle(n.n, false); });
-    panel.appendChild(acq);
-    if (!st.got.has(n.n)) {
-      const all = h("button", { type: "button", class: "chip" }, "Acquire its whole path");
-      all.addEventListener("click", () => { toggle(n.n, true); });
-      panel.appendChild(all);
+    panel.appendChild(h("h4", {}, "Last changed"));
+    panel.appendChild(h("p", {}, n.u || "unknown"));
+    panel.appendChild(h("h4", {}, "Logbook evidence (" + n.l.total + ")"));
+    if (!n.l.total) panel.appendChild(h("p", {}, "No logbook entry cites it."));
+    else {
+      const ul = h("ul");
+      n.l.latest.forEach(([date, label, id]) => {
+        const li = h("li");
+        li.appendChild(h("a", { href: "#" + id }, date + " " + label));
+        ul.appendChild(li);
+      });
+      panel.appendChild(ul);
     }
-    const list = (label, ids) => {
+    const list = (label, ids, flag) => {
       if (!ids.length) return;
       panel.appendChild(h("h4", {}, label));
       const ul = h("ul");
       ids.forEach((m) => {
-        const b = h("button", { type: "button", class: "link" }, short(m) + " " + byN.get(m).t);
+        const b = h("button", { type: "button", class: "link" },
+          short(m) + " " + byN.get(m).t + " (" + byN.get(m).s + ")");
         b.addEventListener("click", () => { st.focus = m; draw(); });
         const li = h("li");
         li.appendChild(b);
-        if (skipped(n.n, m)) li.appendChild(h("span", { class: "flag" }, " skipped ahead"));
+        if (flag && skipped(n.n, m)) li.appendChild(h("span", { class: "flag" }, " skipped ahead"));
         ul.appendChild(li);
       });
       panel.appendChild(ul);
     };
-    list("Needs", needs(n.n));
-    list("Needed by", neededBy(n.n));
-    const rp = data.repos.filter((r) => r.n === n.n);
-    rp.forEach((r) => {
+    list("Blocked by", needs(n.n).filter((m) => !done(byN.get(m))), true);
+    list("Needs, settled", needs(n.n).filter((m) => done(byN.get(m))), false);
+    list("Needed by", neededBy(n.n), false);
+    data.repos.filter((r) => r.n === n.n).forEach((r) => {
       panel.appendChild(h("h4", {}, "Repository"));
-      const a = h("a", { href: "https://github.com/" + r.repo }, r.repo);
-      panel.appendChild(a);
+      panel.appendChild(h("a", { href: "https://github.com/" + r.repo }, r.repo));
       panel.appendChild(h("p", {}, r.note));
     });
-    panel.appendChild(h("p", {}, "")).appendChild(h("a", { href: "#" + n.id, class: "open" }, "Open the RFD"));
-  }
-
-  function toggle(id, path) {
-    if (path) closure(id, needs).forEach((m) => st.got.add(m));
-    else if (st.got.has(id)) st.got.delete(id);
-    else st.got.add(id);
-    draw();
+    panel.appendChild(h("p", {})).appendChild(h("a", { href: "#" + n.id, class: "open" }, "Open the RFD"));
   }
 
   function controls() {
     bar.replaceChildren();
-    const chip = (label, key, color) => {
+    const chip = (label, key, c) => {
       const b = h("button", { type: "button", class: "chip" + (st.filter === key ? " on" : "") }, label);
-      if (color) b.style.borderColor = color;
+      if (c) b.style.borderColor = c;
       b.addEventListener("click", () => { st.filter = st.filter === key ? null : key; st.focus = null; controls(); draw(); });
       bar.appendChild(b);
     };
-    data.tokens.forEach((t) => chip(String(t.i) + " " + t.name, t.i, COLORS[t.i - 1]));
-    chip("boring", "boring", GREEN);
+    chip("done", "done", "#1a5fb4");
+    chip("ready", "ready", "#e67e00");
+    chip("blocked", "blocked", "#888");
     chip("no link", "unlinked", "#c0392b");
     const sk = h("label", { class: "chk" });
     const cb = h("input", { type: "checkbox" });
@@ -295,16 +313,9 @@
     const fb = h("button", { type: "button", class: "chip" }, "fit");
     fb.addEventListener("click", draw);
     bar.appendChild(fb);
-    const rb = h("button", { type: "button", class: "chip" }, "reset skills");
-    rb.addEventListener("click", () => {
-      st.got = new Set(data.nodes.filter(settled).map((n) => n.n));
-      draw();
-    });
-    bar.appendChild(rb);
   }
 
   function fit() { svg.setAttribute("viewBox", [vb.x, vb.y, vb.w, vb.h].join(" ")); }
-  let drag = null, moved = false;
   svg.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, vb: { ...vb } }; moved = false; });
   svg.addEventListener("pointermove", (e) => {
     if (!drag) return;
