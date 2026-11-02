@@ -2,57 +2,56 @@
 # SPDX-License-Identifier: MIT
 use RFD.DSL
 
-rfd 2351, "one token ledger for three orgs", :discussion do
-  feature "a token is what the stack cannot run without, so seven tokens cover the app and
+rfd 2351, "one INNOVATION-TOKEN ledger for three orgs", :discussion do
+  feature "an INNOVATION-TOKEN is what the stack cannot run without, so seven cover the app and
 both upstream orgs"
-  scope "the token ledger in the private working agreements and the private plan, the
+  scope "the INNOVATION-TOKEN ledger in the private working agreements and the private plan, the
 private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the private org"
 
   prose ~S"""
   :: hook
-  How many innovation tokens does the app and both upstream orgs spend?
+  How many INNOVATION-TOKENS does the app and both upstream orgs spend?
   :: intrigue
-  The ledger counts features. The pen and `zone.elf` take two tokens and run on one substrate.
+  The ledger counts features. The pen and `zone.elf` take two INNOVATION-TOKENS and run on one
+  substrate.
   :: exit
-  Check a new technology against the rule: a token is a substrate, and the tech stack
+  Check a new technology against the rule: an INNOVATION-TOKEN is a substrate, and the tech stack
   crashes without it.
   :: decision
-  A token is a substrate: delete it and the tech stack crashes (operator, 2026-11-01). The
-  ledger has seven. Token 1 is guest ELFs on the pinned double engine. The
-  meshing pen and `zone.elf` both run there, so they share it, with the
-  ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
-  Token 2 is one store, SQLite on FoundationDB pages. CockroachDB is
-  retired (operator, 2026-10-18). Token 3 is Bao, and token 4 is Fly, which hosts the store,
-  Bao and the KMS key that unseals Bao. Token 5 is Tailscale, because the game cannot be
-  updated without it, so transactions are affected (operator, 2026-11-01). Token 6 is FEX and
-  token 7 is Proton, which run the campus beta's
-  win64 build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The BEAM spends no
-  token. Elixir is boring technology whose failure modes are known, its failure takes down
-  a tool or a gate rather than the app, and it ships nothing into the
-  app. The guest BEAM is unship (operator, 2026-10-29). The count was
-  three, then two, and is seven with Bao, Fly, Tailscale, FEX and Proton. The ledger changes
-  between
-  rungs, not in an open one, and the operator moved the two documents on 2026-10-30 rather than
-  wait for a rung to claim them.
+  An INNOVATION-TOKEN is a substrate: delete it and the tech stack crashes. The name keeps it
+  apart from a credential (operator, 2026-11-01). The ledger has seven. INNOVATION-TOKEN 1 is
+  guest ELFs on the pinned double engine. The meshing pen and `zone.elf` both run there, so they
+  share it, with the ggml-rd models, `slug.elf`, voice, the USD guest and the Lean tests.
+  INNOVATION-TOKEN 2 is one store, SQLite on FoundationDB pages. CockroachDB is retired
+  (operator, 2026-10-18). INNOVATION-TOKEN 3 is Bao, and INNOVATION-TOKEN 4 is Fly, which hosts
+  the store, Bao and the KMS key that unseals Bao. INNOVATION-TOKEN 5 is Tailscale, because the
+  game cannot be updated without it, so transactions are affected (operator, 2026-11-01).
+  INNOVATION-TOKEN 6 is FEX and INNOVATION-TOKEN 7 is Proton, which run the campus beta's win64
+  build on the Steam Frame, the Steam Deck and a Mac (RFD66606-2360). The BEAM spends no
+  INNOVATION-TOKEN. Elixir is boring technology whose failure modes are known, its failure takes
+  down a tool or a gate rather than the app, and it ships nothing into the app. The guest BEAM
+  is unship (operator, 2026-10-29). The count was three, then two, and is seven with Bao, Fly,
+  Tailscale, FEX and Proton. The ledger changes between rungs, not in an open one, and the
+  operator moved the two documents on 2026-10-30 rather than wait for a rung to claim them.
   """
 
-  details_title "one token ledger for three orgs"
+  details_title "one INNOVATION-TOKEN ledger for three orgs"
 
   prose ~S"""
   :: details The measured gap
   The upstream orgs ran a second database. Of 312 repos that use a non-boring
-  technology, 182 fit inside one token when each technology is its own.
+  technology, 182 fit inside one INNOVATION-TOKEN when each technology is its own.
   :: details How the ledger was found
   The operator requested it on 2026-10-18: study the three orgs and
-  consolidate the tokens with frontier learning, with no limit on the
+  consolidate the INNOVATION-TOKENS with frontier learning, with no limit on the
   count. Each org is a level. Each repo that uses a non-boring technology
   is a problem: 298 in V-Sekai-fire, 10 in the private org (the local
   checkouts, because the token cannot list the org) and 4 in
   chibifire-stages. A problem passes when every technology it uses is in
-  one token. Repos were tagged against 33 technologies from their names,
+  one INNOVATION-TOKEN. Repos were tagged against 33 technologies from their names,
   descriptions, topics and languages.
 
-  A step tries one move, "technology X rides on token Y". The level with
+  A step tries one move, "technology X rides on INNOVATION-TOKEN Y". The level with
   the most regret picks it. The move is kept only when total passes rise
   and at least two repos use both. Two planted moves with no relation
   (Ink onto OpenBao, Janet onto CockroachDB) were controls, and both were
@@ -62,7 +61,7 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   - Passes rose from 182 to 263 of 312 (58% to 84%): 23 moves kept, 11 rejected.
   - Per level at the end: V-Sekai-fire 251 of 298, the private org 8 of
     10, chibifire-stages 4 of 4.
-  - Kept onto the guest token: the pen, `zone.elf`, ggml-rd (and the
+  - Kept onto the guest INNOVATION-TOKEN: the pen, `zone.elf`, ggml-rd (and the
     Python reference models and Slang kernels behind it), MuJoCo,
     OpenUSD, voice, Rust guests, `slug.elf`, the double engine with
     xr-pilot and CineForm, and Lean as tests.
@@ -74,33 +73,40 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   :: details What is still split
   - Elixir and guest code meet in 29 repos (taskweft compiled to a
     guest, the Godot build service, the MCP guest, the private org's
-    double-engine repository). That boundary decides two big tokens or
+    double-engine repository). That boundary decides two big INNOVATION-TOKENS or
     one.
   - Terraform, Ink, Janet, TLA+, gaussian splats, hypercore and
     Go each sit alone. Each is a candidate to retire or park.
   - The tagging reads metadata, not code. Two third-party engine
-    scripting tags landed in the guest token on a loose keyword. The
+    scripting tags landed in the guest INNOVATION-TOKEN on a loose keyword. The
     moves were written by the agent. The measurement only checked them
     against shared repos.
 
   :: details The parts added on 2026-11-01, classified
   The operator asked for the ledger to name these parts and ruled that Bao, Fly and Tailscale
-  are tokens (operator, 2026-11-01). FEX and Proton follow from the same test. The other classes
+  are INNOVATION-TOKENS (operator, 2026-11-01). FEX and Proton follow from the same test. The
+  other classes
   follow from the rule and await a ruling.
-  - Bao is token 3. The zone talks to the store directly, and reaches Bao rarely, to get or
+  - Bao is INNOVATION-TOKEN 3. The zone talks to the store directly, and reaches Bao rarely, to
+    get or
     renew the credential it presents to the store (operator, 2026-11-01).
-  - Fly is token 4. Delete it and the store, Bao and the KMS key that unseals Bao go with it.
-  - Tailscale is token 5. Delete it and the game cannot be updated, so the transactions of a
+  - Fly is INNOVATION-TOKEN 4. Delete it and the store, Bao and the KMS key that unseals Bao go
+    with it.
+  - Tailscale is INNOVATION-TOKEN 5. Delete it and the game cannot be updated, so the transactions
+    of a
     CRUD update are affected (operator, 2026-11-01).
-  - FEX is token 6 and Proton is token 7. Delete either and the win64 build stops running on the
+  - FEX is INNOVATION-TOKEN 6 and Proton is INNOVATION-TOKEN 7. Delete either and the win64 build
+    stops running on the
     Steam Frame, the Steam Deck or the Mac test, so the campus beta of RFD66606-2360 crashes
     on those targets.
-  - GitHub's identity-token login rides token 3, because it is a login to Bao.
+  - GitHub's identity-token login rides INNOVATION-TOKEN 3, because it is a login to Bao.
   - Not ruled: the PC VR stream runtime that RFD66606-2360 names but no RFD identifies, Windows
     as the native target, and the engine that answers for a persona.
-  - pixi and prek spend no token. When they fail, a build or a gate stops, and nothing ships
+  - pixi and prek spend no INNOVATION-TOKEN. When they fail, a build or a gate stops, and nothing
+    ships
     into the app. No ruling says whether tools count as part of the tech stack.
-  - The Fedora cross-build image with LLVM, llvm-mingw and osxcross spends no token. When it
+  - The Fedora cross-build image with LLVM, llvm-mingw and osxcross spends no INNOVATION-TOKEN.
+    When it
     fails, a build stops.
 
   :: details Related RFDs
@@ -132,20 +138,20 @@ private blocklist, and the repos of V-Sekai-fire, chibifire-stages and the priva
   :: details The BEAM row, unship (operator, 2026-10-29)
   No guest runs BEAM bytecode, and no `beam.elf` exists in the tree. The
   only novel piece of the row is RFD66606-2330's static riscv64 BEAM, and
-  that is the piece to unship. Counting the BEAM as a token spent the slot
+  that is the piece to unship. Counting the BEAM as an INNOVATION-TOKEN spent the slot
   that merging the pen and the shared world freed.
 
   :: details The two rows, moved (operator, 2026-10-30)
   - The private plan: "The three innovation tokens" is two. The ledger
     table's pen row and zones row are one guest row, which absorbs the
-    "already paid" RISC-V row, and the store row is token 2.
+    "already paid" RISC-V row, and the store row is INNOVATION-TOKEN 2.
   - The private working agreements: "There are three, and all three are
     spent" is two, naming guest ELFs on the pinned double engine as the
-    token the pen and `zone.elf` share.
+    INNOVATION-TOKEN the pen and `zone.elf` share.
   - The operator moved both on 2026-10-30, outside a rung, rather than
     waiting for one to claim them, and RFD66606-2341's item left
     dev.next.
   :: details The problem
-  Elixir runs every tool and spends no token.
+  Elixir runs every tool and spends no INNOVATION-TOKEN.
   """
 end
