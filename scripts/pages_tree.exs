@@ -33,7 +33,7 @@ defmodule PagesTree do
       slices: [2439, 2440]
     }
   ]
-  @advanced ~w(published committed)
+  @advanced ~w(committed)
   @unsettled ~w(prediscussion ideation discussion)
 
   @tokens [
