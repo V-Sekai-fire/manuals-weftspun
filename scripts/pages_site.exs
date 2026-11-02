@@ -409,7 +409,16 @@ defmodule PagesSite do
       end
 
     tree = PagesTree.build(texts, notes, hd(@pinned), tree_repos(), ed.date)
-    File.write!(Path.join(out, "assets/campus.jsonld"), JSON.encode!(PagesTree.domain(tree)))
+
+    File.write!(
+      Path.join(out, "assets/campus.domain.jsonld"),
+      JSON.encode!(PagesTree.domain(tree))
+    )
+
+    File.write!(
+      Path.join(out, "assets/campus.problem.jsonld"),
+      JSON.encode!(PagesTree.problem(tree))
+    )
 
     hero =
       for e <- rfds, e.serial in @pinned do

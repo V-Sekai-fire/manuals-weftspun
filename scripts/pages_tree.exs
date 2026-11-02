@@ -72,13 +72,18 @@ defmodule PagesTree do
     }
   end
 
+  @context %{VSEKAI: "https://v-sekai.org/", domain: "VSEKAI:planning/domain/"}
+
   def domain(data) do
-    ids = MapSet.new(data.nodes, & &1.n)
     open = Enum.reject(data.nodes, &(&1.s in @advanced))
     tokens = for t <- data.tokens ++ data.boring, do: to_string(t.i)
-    need = fn n -> for m <- n.c, m in ids, Enum.find(data.nodes, &(&1.n == m)).d > n.d, do: m end
+    ids = MapSet.new(data.nodes, & &1.n)
     ge = fn p -> %{eval: %{type: "pointer/ge", pointer: p, value: 1}} end
     set = fn p -> %{"pointer/set": p, value: 1} end
+
+    need = fn n ->
+      for m <- n.c, m in ids, Enum.find(data.nodes, &(&1.n == m)).d > n.d, do: m
+    end
 
     settle =
       for n <- open, into: %{} do
@@ -109,23 +114,42 @@ defmodule PagesTree do
       end
 
     %{
-      "@context": %{vsk: "urn:oid:1.3.6.1.4.1.66606:", domain: "vsk:planning/domain/"},
-      "@type": "domain:Problem",
+      "@context": @context,
+      "@type": "domain:Definition",
       name: "campus_beta",
       source: "manuals-weftspun",
       version: "0.1.0",
       description:
-        "Skills and tokens assembled into RFD66606-#{data.goal}: a skill is settled once the skills it needs are settled and the tokens it spends are acquired.",
+        "Skills and tokens assembled into a goal: a skill is settled once the skills it needs " <>
+          "are settled and the tokens it spends are acquired.",
       variables: [
-        %{
-          name: "rfd",
-          type: "int",
-          init: Map.new(data.nodes, &{to_string(&1.n), if(&1.s in @advanced, do: 1, else: 0)})
-        },
-        %{name: "token", type: "int", init: Map.new(tokens, &{&1, 0})}
+        %{name: "rfd", type: "int", init: %{}},
+        %{name: "token", type: "int", init: %{}}
       ],
       actions: Map.merge(settle, acquire),
-      methods: Map.merge(methods, tmethods),
+      methods: Map.merge(methods, tmethods)
+    }
+  end
+
+  def problem(data) do
+    tokens = for t <- data.tokens ++ data.boring, do: to_string(t.i)
+    rfd = Map.new(data.nodes, &{to_string(&1.n), if(&1.s in @advanced, do: 1, else: 0)})
+
+    %{
+      "@context": @context,
+      "@type": "domain:Problem",
+      name: "campus_beta_rfd#{data.goal}",
+      domain: "campus_beta",
+      source: "manuals-weftspun",
+      version: "0.1.0",
+      description:
+        "As of #{data.asof}: the RFDs that are committed or published are settled, no token " <>
+          "is held, and the goal is RFD66606-#{data.goal}.",
+      variables: [
+        %{name: "rfd", type: "int", init: rfd},
+        %{name: "token", type: "int", init: Map.new(tokens, &{&1, 0})}
+      ],
+      capabilities: %{entities: %{}, graph: %{edges: []}},
       todo_list: [%{goal: [%{pointer: "/rfd/#{data.goal}", eq: 1}]}]
     }
   end
