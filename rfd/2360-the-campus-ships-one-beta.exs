@@ -22,7 +22,7 @@ rfd 2360, "The campus as a beta", :discussion do
   - Hear each other: voice between the two, played at the speaker's avatar.
   - Draw and wear: the pen's first rung, RFD66606-2287, in the campus zone. The other person
     sees the drawn outfit worn.
-  - An adventure party and a shop: one player and the three seats, each filled by a friend or a
+  - An adventure party and a shopkeeper persona: one player and the three seats, each filled by a friend or a
     persona, the takeover, the walk from the shop to a room and back, and the shopkeeper persona
     with its saved world.
   - The beta is a feature-complete freeze after dev. It is cut when every gate in
