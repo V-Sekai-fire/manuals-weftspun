@@ -41,15 +41,11 @@ defmodule PagesSite do
     File.write!(Path.join(out, "_config.yml"), config())
     File.mkdir_p!(Path.join(out, "_layouts"))
     File.write!(Path.join(out, "_layouts/default.html"), layout())
-    File.write!(Path.join(out, "index.md"), index(logs, rfds, edition(root), slugs))
     File.write!(Path.join(out, "page-SERIALS.md"), serials(root, rfds))
     File.write!(Path.join(out, "page-LOGBOOK.md"), logbook_page(logs))
     File.write!(Path.join(out, "_layouts/spec.html"), spec_layout())
 
-    File.write!(
-      Path.join(out, "single-page.md"),
-      single_page(root, logs, rfds, edition(root), slugs)
-    )
+    File.write!(Path.join(out, "index.md"), single_page(root, logs, rfds, edition(root), slugs))
 
     IO.puts("pages: #{length(logs)} logbook entries, #{length(rfds)} RFDs, #{length(docs)} found")
   end
@@ -253,42 +249,6 @@ defmodule PagesSite do
     |> String.trim()
   end
 
-  # Records become groups, and groups become expanders.
-  defp index(logs, rfds, ed, slugs) do
-    rfd_groups =
-      for s <- @states,
-          es = Enum.filter(rfds, &(&1.group == s)),
-          es != [],
-          do: {s, Enum.sort_by(es, & &1.serial)}
-
-    tally = Enum.map_join(rfd_groups, " · ", fn {s, es} -> "#{@emoji[s]} #{length(es)} #{s}" end)
-
-    takeover = takeover(rfds, slugs)
-
-    [
-      takeover,
-      "## manuals-weftspun",
-      "**Edition of #{ed.date}** · built from `#{ed.sha}` · " <>
-        "#{length(logs)} logbook entries · #{length(rfds)} RFDs · " <>
-        "[working agreements](page-AGENTS.html) · [blocklist](page-BLOCKLIST.html) · " <>
-        "[serials](page-SERIALS.html) · [logbook](page-LOGBOOK.html) · " <>
-        "[single page](single-page.html)",
-      "What the workspace measured (the logbook) and what it decided from that (the RFDs, " <>
-        "also called requests for discussion, design docs or architecture decision records). " <>
-        "Search finds every RFD.",
-      tally
-    ]
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.join("\n\n")
-  end
-
-  defp takeover(rfds, slugs) do
-    for e <- rfds, e.serial in @pinned, length(e.files) == 2 do
-      merged(e.files) |> linked("", slugs, e.serial)
-    end
-    |> Enum.join("\n\n---\n\n")
-  end
-
   defp logbook_page(logs) do
     {topics, single} =
       logs |> Enum.group_by(& &1.group) |> Enum.split_with(fn {_, es} -> length(es) > 1 end)
@@ -438,7 +398,7 @@ defmodule PagesSite do
         Enum.join(pinned) <>
         "This page holds the whole site: #{length(pages)} reference pages, " <>
         "#{length(rfds)} RFDs, #{length(logs)} logbook entries and the serial register. " <>
-        "Each entry ends with a link to its own page.\n"
+        "Each entry ends with a link to its own page. Search finds every RFD.\n"
 
     body =
       Enum.map_join(numbered, "\n\n", fn {n, title, docs} ->
@@ -449,7 +409,7 @@ defmodule PagesSite do
     [
       "---\nlayout: spec\ntitle: manuals-weftspun\nedit_source: scripts/pages_site.exs\n---",
       "# manuals-weftspun\n{: .title}",
-      "Logbook, RFDs and working agreements, single-page edition. " <>
+      "Logbook, RFDs and working agreements. " <>
         "Edition of #{ed.date}, built from `#{ed.sha}`.\n{: .edition}",
       "## Table of Contents\n{: #toc-title .no_toc}\n\n* TOC\n{:toc}",
       foreword,
@@ -643,8 +603,16 @@ defmodule PagesSite do
       </head>
       <body>
         <main>
+          <div id="site-search" role="search" data-base="{{ "/" | relative_url }}">
+            <input type="search"
+              placeholder="Search RFDs, the logbook and the agreements (press /)"
+              aria-label="Search the site" autocomplete="off" spellcheck="false">
+            <p hidden></p>
+            <ol hidden></ol>
+          </div>
           {{ content }}
         </main>
+        <script src="{{ "/assets/search.js" | relative_url }}" defer></script>
       </body>
     </html>
     """
