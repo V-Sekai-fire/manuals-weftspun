@@ -274,7 +274,6 @@ defmodule PagesSite do
     |> Enum.join("\n\n")
   end
 
-  # A pinned RFD is the front page: its whole text leads, and the masthead follows it.
   defp takeover(rfds, slugs) do
     for e <- rfds, e.serial in @pinned, length(e.files) == 2 do
       merged(e.files) |> linked("", slugs, e.serial)
